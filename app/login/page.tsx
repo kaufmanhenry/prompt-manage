@@ -1,7 +1,8 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { LoginForm } from '@/components/LoginForm'
 
-export default async function Home() {
+export default async function LoginPage() {
   const supabase = await createClient()
   const { data: { session } } = await supabase.auth.getSession()
 
@@ -9,5 +10,9 @@ export default async function Home() {
     redirect('/dashboard')
   }
 
-  redirect('/login')
-}
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <LoginForm />
+    </div>
+  )
+} 

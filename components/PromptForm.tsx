@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { promptSchema, type Prompt, type Model } from '@/lib/schemas/prompt'
@@ -73,6 +73,18 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       user_id: prompt?.user_id || session?.user?.id || '',
     },
   })
+
+  // Reset form values when prompt changes (for editing)
+  useEffect(() => {
+    form.reset({
+      name: prompt?.name || '',
+      prompt_text: prompt?.prompt_text || '',
+      model: prompt?.model || 'gpt-4',
+      tags: prompt?.tags || [],
+      user_id: prompt?.user_id || session?.user?.id || '',
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prompt, session?.user?.id])
 
   const onSubmit = async (values: Prompt) => {
     if (!session?.user?.id) {

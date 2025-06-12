@@ -187,24 +187,65 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
             <FormField
               control={form.control}
               name="tags"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tags</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      value={field.value?.join(', ') || ''}
-                      onChange={(e) =>
-                        field.onChange(
-                          e.target.value.split(',').map((tag) => tag.trim())
-                        )
-                      }
-                      placeholder="Enter tags separated by commas"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const [inputValue, setInputValue] = useState('')
+                return (
+                  <FormItem>
+                    <FormLabel>Tags</FormLabel>
+                    <FormControl>
+                      <Input
+                        value={inputValue}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ',') {
+                            e.preventDefault()
+                            const value = inputValue.trim()
+                            if (value && !field.value?.includes(value)) {
+                              const newTags = [...(field.value || []), value]
+                              field.onChange(newTags)
+                              setInputValue('')
+                            }
+                          }
+                        }}
+                        onChange={(e) => {
+                          const value = e.target.value
+                          if (value.endsWith(',')) {
+                            const tag = value.slice(0, -1).trim()
+                            if (tag && !field.value?.includes(tag)) {
+                              const newTags = [...(field.value || []), tag]
+                              field.onChange(newTags)
+                              setInputValue('')
+                            }
+                          } else {
+                            setInputValue(value)
+                          }
+                        }}
+                        placeholder="Type a tag and press Enter or comma"
+                      />
+                    </FormControl>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {field.value?.map((tag, index) => (
+                        <span
+                          key={index}
+                          className="bg-primary/10 text-primary px-2 py-1 rounded-full text-sm flex items-center gap-1"
+                        >
+                          {tag}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newTags = field.value?.filter((_, i) => i !== index)
+                              field.onChange(newTags)
+                            }}
+                            className="hover:text-destructive"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
             />
             <div className="flex justify-end gap-2">
               <Button

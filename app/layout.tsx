@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Providers } from "@/components/providers";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/components/Providers";
+import { Layout } from "@/components/Layout";
+import { PromptProvider } from "@/components/PromptContext";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Prompt Manage",
-  description: "Manage your AI prompts with ease",
+  description: "Manage and organize your AI prompts",
 };
 
 export default function RootLayout({
@@ -14,8 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        <Providers>{children}</Providers>
+      <body className={inter.className}>
+        <Providers>
+          <PromptProvider>
+            <Layout>{children}</Layout>
+          </PromptProvider>
+        </Providers>
       </body>
     </html>
   );

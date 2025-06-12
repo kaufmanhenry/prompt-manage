@@ -17,7 +17,10 @@ export function Header() {
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
-      const { data: { session }, error } = await createClient().auth.getSession()
+      const {
+        data: { session },
+        error,
+      } = await createClient().auth.getSession()
       if (error) throw error
       return session
     },
@@ -47,7 +50,9 @@ export function Header() {
             <Link
               href="/settings"
               className={`text-sm ${
-                pathname === '/settings' ? 'text-primary' : 'text-muted-foreground'
+                pathname === '/settings'
+                  ? 'text-primary'
+                  : 'text-muted-foreground'
               } hover:text-primary transition-colors`}
             >
               Settings
@@ -58,11 +63,12 @@ export function Header() {
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Button
+                  variant="ghost"
+                  className="relative h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center"
+                >
                   <span className="sr-only">Open user menu</span>
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    {session.user.email?.[0].toUpperCase()}
-                  </div>
+                  {session.user.email?.[0].toUpperCase()}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -83,4 +89,4 @@ export function Header() {
       </div>
     </header>
   )
-} 
+}

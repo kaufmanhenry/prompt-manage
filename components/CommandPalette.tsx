@@ -41,7 +41,7 @@ export function CommandPalette() {
                 router.push(`/dashboard?prompt=${prompt.id}`)
               }}
             >
-              {prompt.title}
+              {prompt.name}
             </CommandItem>
           ))}
         </CommandGroup>

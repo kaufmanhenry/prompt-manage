@@ -20,11 +20,7 @@ export function PromptsTable({ prompts = [], filters, isLoading, setFilters }: {
   const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null)
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null)
   const [showHistory, setShowHistory] = useState(false)
-  const [historyPrompt, setHistoryPrompt] = useState<any>(null)
   const queryClient = useQueryClient()
-
-  // Demo: store prompt history in local state (in real app, fetch from backend)
-  const [promptHistories, setPromptHistories] = useState<{ [id: string]: any[] }>({})
 
   // Filtering logic
   const filteredPrompts = prompts.filter((prompt: Prompt) => {
@@ -56,24 +52,6 @@ export function PromptsTable({ prompts = [], filters, isLoading, setFilters }: {
       return lines.slice(0, 3).join('\n') + '\n...'
     }
     return text
-  }
-
-  // Save to history on edit
-  function handleEditPrompt(p: Prompt) {
-    setEditingPrompt(p)
-    if (p.id) {
-      const pid = String(p.id);
-      setPromptHistories(prev => ({
-        ...prev,
-        [pid]: [
-          ...(prev[pid] || []),
-          {
-            ...p,
-            savedAt: new Date().toISOString(),
-          },
-        ],
-      }))
-    }
   }
 
   if (isLoading) {
@@ -115,7 +93,9 @@ export function PromptsTable({ prompts = [], filters, isLoading, setFilters }: {
                     index={i}
                     onClick={e => {
                       e.stopPropagation();
-                      setFilters && setFilters({ ...filters, selectedTags: [tag] });
+                      if (setFilters) {
+                        setFilters({ ...filters, selectedTags: [tag] });
+                      }
                     }}
                   />
                 ))}
@@ -173,38 +153,12 @@ export function PromptsTable({ prompts = [], filters, isLoading, setFilters }: {
                 History
               </button>
             </div>
-            {showHistory && (() => {
-              const promptId = selectedPrompt.id ? String(selectedPrompt.id) : '';
-              const historyList = promptHistories[promptId] || [];
-              return (
-                <div className="mb-4 border rounded bg-gray-50 dark:bg-gray-800 p-2 max-h-48 overflow-y-auto">
-                  <div className="font-semibold mb-2 text-sm">Prompt History</div>
-                  {historyList.length === 0 && (
-                    <div className="text-xs text-muted-foreground">No history yet.</div>
-                  )}
-                  <ul className="space-y-2">
-                    {historyList.map((ver, idx) => (
-                      <li key={idx} className="border rounded p-2 bg-white dark:bg-gray-900 cursor-pointer hover:bg-primary/10"
-                        onClick={() => setHistoryPrompt(ver)}
-                      >
-                        <div className="text-xs text-muted-foreground mb-1">{ver.savedAt ? new Date(ver.savedAt).toLocaleString() : '—'}</div>
-                        <div className="font-semibold text-sm">{ver.name}</div>
-                        <div className="text-xs line-clamp-1">{ver.prompt_text}</div>
-                      </li>
-                    ))}
-                  </ul>
-                  {historyPrompt && (
-                    <div className="mt-4 border-t pt-2">
-                      <div className="font-semibold text-sm mb-1">Selected Version</div>
-                      <div className="text-xs text-muted-foreground mb-1">{historyPrompt.savedAt ? new Date(historyPrompt.savedAt).toLocaleString() : '—'}</div>
-                      <div className="font-bold mb-1">{historyPrompt.name}</div>
-                      <div className="bg-gray-100 dark:bg-gray-800 rounded p-2 text-sm font-mono whitespace-pre-line mb-2">{historyPrompt.prompt_text}</div>
-                      <Button size="sm" onClick={() => setHistoryPrompt(null)}>Back to History</Button>
-                    </div>
-                  )}
-                </div>
-              );
-            })()}
+            {showHistory && (
+              <div className="mb-4 border rounded bg-gray-50 dark:bg-gray-800 p-2 max-h-48 overflow-y-auto">
+                <div className="font-semibold mb-2 text-sm">Prompt History</div>
+                <div className="text-xs text-muted-foreground">No history available.</div>
+              </div>
+            )}
             <div className="relative mb-4">
               <div className="bg-gray-100 dark:bg-gray-800 rounded p-2 text-sm font-mono whitespace-pre-line">
                 {selectedPrompt.prompt_text}
@@ -219,7 +173,9 @@ export function PromptsTable({ prompts = [], filters, isLoading, setFilters }: {
                   index={i}
                   onClick={e => {
                     e.stopPropagation();
-                    setFilters && setFilters({ ...filters, selectedTags: [tag] });
+                    if (setFilters) {
+                      setFilters({ ...filters, selectedTags: [tag] });
+                    }
                     setSelectedPrompt(null);
                   }}
                 />
@@ -239,9 +195,6 @@ export function PromptsTable({ prompts = [], filters, isLoading, setFilters }: {
         open={!!editingPrompt}
         onOpenChange={(open: boolean) => {
           if (!open) {
-            if (editingPrompt) {
-              handleEditPrompt(editingPrompt);
-            }
             setEditingPrompt(null);
           }
         }}

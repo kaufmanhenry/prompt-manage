@@ -52,6 +52,7 @@ const models: Model[] = [
 
 export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const [loading, setLoading] = useState(false)
+  const [tagInputValue, setTagInputValue] = useState('')
   const queryClient = useQueryClient()
 
   const { data: session } = useQuery({
@@ -83,8 +84,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       tags: prompt?.tags || [],
       user_id: prompt?.user_id || session?.user?.id || '',
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prompt, session?.user?.id])
+  }, [prompt, session?.user?.id, form])
 
   const onSubmit = async (values: Prompt) => {
     if (!session?.user?.id) {
@@ -187,65 +187,62 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
             <FormField
               control={form.control}
               name="tags"
-              render={({ field }) => {
-                const [inputValue, setInputValue] = useState('')
-                return (
-                  <FormItem>
-                    <FormLabel>Tags</FormLabel>
-                    <FormControl>
-                      <Input
-                        value={inputValue}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ',') {
-                            e.preventDefault()
-                            const value = inputValue.trim()
-                            if (value && !field.value?.includes(value)) {
-                              const newTags = [...(field.value || []), value]
-                              field.onChange(newTags)
-                              setInputValue('')
-                            }
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <Input
+                      value={tagInputValue}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ',') {
+                          e.preventDefault()
+                          const value = tagInputValue.trim()
+                          if (value && !field.value?.includes(value)) {
+                            const newTags = [...(field.value || []), value]
+                            field.onChange(newTags)
+                            setTagInputValue('')
                           }
-                        }}
-                        onChange={(e) => {
-                          const value = e.target.value
-                          if (value.endsWith(',')) {
-                            const tag = value.slice(0, -1).trim()
-                            if (tag && !field.value?.includes(tag)) {
-                              const newTags = [...(field.value || []), tag]
-                              field.onChange(newTags)
-                              setInputValue('')
-                            }
-                          } else {
-                            setInputValue(value)
+                        }
+                      }}
+                      onChange={(e) => {
+                        const value = e.target.value
+                        if (value.endsWith(',')) {
+                          const tag = value.slice(0, -1).trim()
+                          if (tag && !field.value?.includes(tag)) {
+                            const newTags = [...(field.value || []), tag]
+                            field.onChange(newTags)
+                            setTagInputValue('')
                           }
-                        }}
-                        placeholder="Type a tag and press Enter or comma"
-                      />
-                    </FormControl>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {field.value?.map((tag, index) => (
-                        <span
-                          key={index}
-                          className="bg-primary/10 text-primary px-2 py-1 rounded-full text-sm flex items-center gap-1"
+                        } else {
+                          setTagInputValue(value)
+                        }
+                      }}
+                      placeholder="Type a tag and press Enter or comma"
+                    />
+                  </FormControl>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {field.value?.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="bg-primary/10 text-primary px-2 py-1 rounded-full text-sm flex items-center gap-1"
+                      >
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newTags = field.value?.filter((_, i) => i !== index)
+                            field.onChange(newTags)
+                          }}
+                          className="hover:text-destructive"
                         >
-                          {tag}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const newTags = field.value?.filter((_, i) => i !== index)
-                              field.onChange(newTags)
-                            }}
-                            className="hover:text-destructive"
-                          >
-                            ×
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
             <div className="flex justify-end gap-2">
               <Button

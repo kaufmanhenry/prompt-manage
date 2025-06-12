@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function CopyButton({ text, className = '' }) {
+export default function CopyButton({ text, className = '' }: { text: string; className?: string }) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {

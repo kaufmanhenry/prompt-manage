@@ -48,7 +48,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:text-primary transition-colors"
             >
-              X&nbsp;/&nbsp;@promptmanage
+              @promptmanage
             </a>
             {mounted && (
               <Button

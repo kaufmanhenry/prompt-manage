@@ -11,56 +11,35 @@ export function Footer() {
   useEffect(() => setMounted(true), [])
 
   return (
-    <footer className="border-t py-6 md:py-0">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center h-16">
-          <div className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Prompt Manage. All rights reserved.
+    <footer className="border-t py-8 bg-white dark:bg-gray-950">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
+        <div className="flex flex-col md:flex-row gap-12 w-full">
+          <div>
+            <h3 className="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-200 uppercase tracking-wider">Company</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/about" className="hover:underline text-gray-600 dark:text-gray-300">About</Link></li>
+              <li><Link href="/security" className="hover:underline text-gray-600 dark:text-gray-300">Security</Link></li>
+              <li><Link href="/terms" className="hover:underline text-gray-600 dark:text-gray-300">Terms</Link></li>
+              <li><Link href="/privacy" className="hover:underline text-gray-600 dark:text-gray-300">Privacy</Link></li>
+            </ul>
           </div>
-          <nav className="flex items-center gap-6 mt-4 md:mt-0">
-            <Link
-              href="/about"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              About
-            </Link>
-            <Link
-              href="/privacy"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              href="/contact"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              Contact
-            </Link>
-            <a
-              href="https://x.com/promptmanage"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              @promptmanage
-            </a>
-            {mounted && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="ml-2"
-              >
-                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-              </Button>
-            )}
-          </nav>
+          <div>
+            <h3 className="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-200 uppercase tracking-wider">Resources</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/blog" className="hover:underline text-gray-600 dark:text-gray-300">Blog</Link></li>
+              <li><Link href="/contact" className="hover:underline text-gray-600 dark:text-gray-300">Contact Us</Link></li>
+              <li><Link href="/customers" className="hover:underline text-gray-600 dark:text-gray-300">Customers</Link></li>
+              <li><Link href="/events" className="hover:underline text-gray-600 dark:text-gray-300">Events</Link></li>
+              <li><Link href="/datasets" className="hover:underline text-gray-600 dark:text-gray-300">Open Datasets</Link></li>
+              <li><Link href="/docs" className="hover:underline text-gray-600 dark:text-gray-300">Documentation</Link></li>
+              <li><Link href="/guides" className="hover:underline text-gray-600 dark:text-gray-300">Guides</Link></li>
+              <li><Link href="/community" className="hover:underline text-gray-600 dark:text-gray-300">Community</Link></li>
+              <li><Link href="/research" className="hover:underline text-gray-600 dark:text-gray-300">Research</Link></li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-8 md:mt-0 text-xs text-gray-500 dark:text-gray-400 w-full md:w-auto text-center md:text-right">
+          Copyright © 2025 Prompt Manage LLC. All rights reserved.
         </div>
       </div>
     </footer>

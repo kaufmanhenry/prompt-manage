@@ -1,20 +1,36 @@
 import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
-const tagColors = [
-  'bg-blue-100 text-blue-700',
-  'bg-green-100 text-green-700',
-  'bg-yellow-100 text-yellow-700',
-  'bg-pink-100 text-pink-700',
-  'bg-purple-100 text-purple-700',
-  'bg-orange-100 text-orange-700',
-];
+const tagVariants = {
+  blue: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100',
+  green: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100',
+  yellow: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-100',
+  pink: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-100',
+  purple: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-100',
+  orange: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-100',
+} as const;
 
-export default function Tag({ tag, onClick, index }: { tag: string, onClick?: (e: any) => void, index: number }) {
+type TagVariant = keyof typeof tagVariants;
+
+export default function Tag({ 
+  tag, 
+  onClick, 
+  variant = 'blue'
+}: { 
+  tag: string, 
+  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void, 
+  variant?: TagVariant 
+}) {
   const [show, setShow] = useState(false);
-  const color = tagColors[index % tagColors.length];
+  const color = tagVariants[variant];
+
   return (
     <span
-      className={`relative cursor-pointer px-2 py-0.5 rounded-full text-xs font-medium ${color} hover:shadow`}
+      className={cn(
+        "relative cursor-pointer px-2 py-0.5 rounded-full text-xs font-medium transition-shadow",
+        color,
+        "hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+      )}
       onClick={onClick}
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
@@ -22,7 +38,7 @@ export default function Tag({ tag, onClick, index }: { tag: string, onClick?: (e
     >
       {tag}
       {show && (
-        <span className="absolute z-10 left-1/2 -translate-x-1/2 top-full mt-1 px-2 py-1 bg-black text-white text-xs rounded shadow">
+        <span className="absolute z-10 left-1/2 -translate-x-1/2 top-full mt-1 px-2 py-1 bg-popover text-popover-foreground text-xs rounded-md shadow-md">
           {tag}
         </span>
       )}

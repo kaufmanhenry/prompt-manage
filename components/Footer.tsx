@@ -1,18 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button'
 
 export function Footer() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
-
   return (
     <footer className="border-t py-8 bg-white dark:bg-gray-950">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
+      <div className="mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
         <div className="flex flex-col md:flex-row gap-12 w-full">
           <div>
             <h3 className="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-200 uppercase tracking-wider">Company</h3>

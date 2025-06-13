@@ -3,7 +3,6 @@ import path from 'path';
 import matter from 'gray-matter';
 import { notFound } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { TypographyH1, TypographyP } from '@/components/ui/typography';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
@@ -43,8 +42,8 @@ export default async function LegalDocPage({ params }: { params: { slug: string 
         </ScrollArea>
       </aside>
       <main className="flex-1 min-w-0">
-        <TypographyH1 className="mb-4 text-2xl font-bold">{params.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</TypographyH1>
-        {lastUpdated && <TypographyP className="mb-2 text-xs text-gray-500">Last updated: {lastUpdated}</TypographyP>}
+        <h1 className="mb-4 text-2xl font-bold">{params.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</h1>
+        {lastUpdated && <p className="mb-2 text-xs text-gray-500">Last updated: {lastUpdated}</p>}
         <article className="prose prose-blue dark:prose-invert max-w-none">
           <MDXRemote source={content} />
         </article>
@@ -53,5 +52,5 @@ export default async function LegalDocPage({ params }: { params: { slug: string 
         </div>
       </main>
     </div>
-  );
-} 
+  )
+}

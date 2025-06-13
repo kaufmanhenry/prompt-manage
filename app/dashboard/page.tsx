@@ -15,7 +15,7 @@ export default function DashboardPage() {
     selectedModels: [] as string[],
   })
 
-  const { data: prompts = [], isLoading } = useQuery({
+  const { data: prompts = [] } = useQuery({
     queryKey: ['prompts'],
     queryFn: async () => {
       const { data, error } = await createClient()
@@ -28,7 +28,7 @@ export default function DashboardPage() {
   })
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-gray-100">
       <Sidebar
         prompts={prompts}
         filters={filters}
@@ -39,7 +39,7 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-bold">Prompts</h1>
           <CommandPalette />
         </div>
-        <PromptsTable prompts={prompts} filters={filters} isLoading={isLoading} />
+        <PromptsTable prompts={prompts} filters={filters} />
       </div>
     </div>
   )

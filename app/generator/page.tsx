@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+'use client'
+import React, { useState } from 'react'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export default function GeneratorPage() {
-  const [title, setTitle] = useState('');
-  const [prompt, setPrompt] = useState('');
-  const [model, setModel] = useState('gpt-4');
-  const [tone, setTone] = useState('neutral');
+  const [title, setTitle] = useState('')
+  const [prompt, setPrompt] = useState('')
+  const [model, setModel] = useState('gpt-4')
+  const [tone, setTone] = useState('neutral')
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-4 space-y-8">
@@ -17,13 +24,13 @@ export default function GeneratorPage() {
         <Input
           placeholder="Prompt Title"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           className="text-lg font-semibold mb-2"
         />
         <Textarea
           placeholder="Write your prompt here..."
           value={prompt}
-          onChange={e => setPrompt(e.target.value)}
+          onChange={(e) => setPrompt(e.target.value)}
           className="h-40 text-base mb-2"
         />
         <div className="flex flex-wrap gap-4 items-center">
@@ -61,13 +68,19 @@ export default function GeneratorPage() {
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
           <h2 className="text-lg font-semibold mb-2">Preset Templates</h2>
-          <div className="text-sm text-gray-700 dark:text-gray-300">(Coming soon: Choose from a library of prompt templates.)</div>
+          <div className="text-sm text-gray-700 dark:text-gray-300">
+            (Coming soon: Choose from a library of prompt templates.)
+          </div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold mb-2">Prompt Ideas & Suggestions</h2>
-          <div className="text-sm text-gray-700 dark:text-gray-300">(Coming soon: Get AI-powered suggestions and inspiration.)</div>
+          <h2 className="text-lg font-semibold mb-2">
+            Prompt Ideas & Suggestions
+          </h2>
+          <div className="text-sm text-gray-700 dark:text-gray-300">
+            (Coming soon: Get AI-powered suggestions and inspiration.)
+          </div>
         </div>
       </div>
     </div>
-  );
-} 
+  )
+}

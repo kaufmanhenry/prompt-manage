@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog'
 import {
   Form,
@@ -18,6 +19,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -31,6 +33,7 @@ import {
 import { createClient } from '@/utils/supabase/client'
 import { useQueryClient } from '@tanstack/react-query'
 import { useQuery } from '@tanstack/react-query'
+import { X } from 'lucide-react'
 
 interface PromptFormProps {
   prompt?: Prompt | null
@@ -125,12 +128,15 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>{prompt ? 'Edit Prompt' : 'New Prompt'}</DialogTitle>
+          <DialogDescription>
+            {prompt ? 'Update your existing prompt.' : 'Create a new prompt to use with your AI models.'}
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="name"
@@ -138,7 +144,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input placeholder="Enter a name for your prompt" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -167,6 +173,9 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormDescription>
+                    Choose the AI model that will use this prompt.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -178,8 +187,15 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 <FormItem>
                   <FormLabel>Prompt Text</FormLabel>
                   <FormControl>
-                    <Textarea {...field} />
+                    <Textarea 
+                      placeholder="Enter your prompt text here..."
+                      className="min-h-[200px] font-mono"
+                      {...field} 
+                    />
                   </FormControl>
+                  <FormDescription>
+                    The actual prompt that will be sent to the AI model.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -220,11 +236,14 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       placeholder="Type a tag and press Enter or comma"
                     />
                   </FormControl>
+                  <FormDescription>
+                    Add tags to help organize and find your prompts.
+                  </FormDescription>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {field.value?.map((tag, index) => (
                       <span
                         key={index}
-                        className="bg-primary/10 text-primary px-2 py-1 rounded-full text-sm flex items-center gap-1"
+                        className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-1 text-sm text-primary"
                       >
                         {tag}
                         <button
@@ -233,9 +252,9 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                             const newTags = field.value?.filter((_, i) => i !== index)
                             field.onChange(newTags)
                           }}
-                          className="hover:text-destructive"
+                          className="rounded-full p-0.5 hover:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-primary"
                         >
-                          ×
+                          <X className="size-3" />
                         </button>
                       </span>
                     ))}
@@ -244,7 +263,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 </FormItem>
               )}
             />
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 pt-4">
               <Button
                 type="button"
                 variant="outline"

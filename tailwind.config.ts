@@ -1,18 +1,27 @@
 import type { Config } from 'tailwindcss'
 
-export default {
+const config = {
   darkMode: ['class'],
   content: [
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
+  prefix: '',
   theme: {
+    container: {
+      center: true,
+      padding: '2rem',
+      screens: {
+        '2xl': '1400px',
+      },
+    },
     extend: {
       colors: {
         brand: {
           DEFAULT: 'hsl(var(--brand))',
-          light: 'hsl(var(--brand-light))',
-          dark: 'hsl(var(--brand-dark))',
+          foreground: 'hsl(var(--brand-foreground))',
         },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -84,5 +93,7 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate') as any],
 } satisfies Config
+
+export default config

@@ -33,7 +33,7 @@ export function Header() {
 
   return (
     <header className="border-b">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="font-semibold text-xl">
             Prompt Manage

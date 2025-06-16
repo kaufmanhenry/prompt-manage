@@ -15,9 +15,24 @@ import {
 import { useRouter } from 'next/navigation'
 import { PlusIcon } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { useEffect, useState } from 'react'
 
 export function CommandPalette() {
   const router = useRouter()
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setOpen((open) => !open)
+      }
+    }
+
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
+  }, [])
+
   const { data: prompts = [] } = useQuery({
     queryKey: ['prompts'],
     queryFn: async () => {
@@ -32,7 +47,7 @@ export function CommandPalette() {
   })
 
   return (
-    <CommandDialog>
+    <CommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput 
         placeholder="Search prompts..." 
         className="border-none focus:ring-0"
@@ -47,6 +62,7 @@ export function CommandPalette() {
               key={prompt.id}
               onSelect={() => {
                 router.push(`/dashboard?prompt=${prompt.id}`)
+                setOpen(false)
               }}
               className="flex items-center gap-2"
             >
@@ -71,6 +87,7 @@ export function CommandPalette() {
           <CommandItem
             onSelect={() => {
               router.push('/dashboard?new=true')
+              setOpen(false)
             }}
             className="flex items-center gap-2"
           >

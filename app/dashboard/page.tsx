@@ -28,13 +28,13 @@ export default function DashboardPage() {
   })
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
       <Sidebar
         prompts={prompts}
         filters={filters}
         onFilterChange={setFilters}
       />
-      <div className="flex-1 space-y-6 p-8">
+      <div className="flex-1 space-y-6 p-8 text-gray-900 dark:text-gray-100">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Prompts</h1>
           <CommandPalette />

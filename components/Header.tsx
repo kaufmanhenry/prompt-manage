@@ -40,12 +40,20 @@ export function Header() {
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link
-              href="/"
+              href="/dashboard"
               className={`text-sm ${
-                pathname === '/' ? 'text-primary' : 'text-muted-foreground'
+                pathname === '/dashboard' ? 'text-primary' : 'text-muted-foreground'
               } hover:text-primary transition-colors`}
             >
-              Prompts
+              My Prompts
+            </Link>
+            <Link
+              href="/public"
+              className={`text-sm ${
+                pathname.startsWith('/public') ? 'text-primary' : 'text-muted-foreground'
+              } hover:text-primary transition-colors`}
+            >
+              Public Directory
             </Link>
             <Link
               href="/settings"

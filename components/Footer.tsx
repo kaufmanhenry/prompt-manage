@@ -11,6 +11,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-200 uppercase tracking-wider">Company</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/about" className="hover:underline text-gray-600 dark:text-gray-300">About</Link></li>
+              <li><Link href="/pricing" className="hover:underline text-gray-600 dark:text-gray-300">Pricing</Link></li>
               <li><Link href="/security" className="hover:underline text-gray-600 dark:text-gray-300">Security</Link></li>
               <li><Link href="/terms" className="hover:underline text-gray-600 dark:text-gray-300">Terms</Link></li>
               <li><Link href="/privacy" className="hover:underline text-gray-600 dark:text-gray-300">Privacy</Link></li>

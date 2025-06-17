@@ -97,9 +97,15 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
 
     setLoading(true)
     try {
+      // Only save the fields that exist in the current database schema
       const promptData = {
-        ...values,
+        name: values.name,
+        prompt_text: values.prompt_text,
+        model: values.model,
+        tags: values.tags,
         user_id: session.user.id,
+        // Note: description, is_public, slug, view_count are not included
+        // until the database migration is run
       }
 
       if (prompt?.id) {
@@ -150,6 +156,24 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 </FormItem>
               )}
             />
+            {/* Description field - uncomment after running database migration
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description (Optional)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Brief description of what this prompt does" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    A short description to help you remember what this prompt is for.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            */}
             <FormField
               control={form.control}
               name="model"

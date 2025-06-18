@@ -20,13 +20,9 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-200 uppercase tracking-wider">Resources</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/blog" className="hover:underline text-gray-600 dark:text-gray-300">Blog</Link></li>
               <li><Link href="/contact" className="hover:underline text-gray-600 dark:text-gray-300">Contact Us</Link></li>
               <li><Link href="/customers" className="hover:underline text-gray-600 dark:text-gray-300">Customers</Link></li>
-              <li><Link href="/events" className="hover:underline text-gray-600 dark:text-gray-300">Events</Link></li>
-              <li><Link href="/datasets" className="hover:underline text-gray-600 dark:text-gray-300">Open Datasets</Link></li>
               <li><Link href="/docs" className="hover:underline text-gray-600 dark:text-gray-300">Documentation</Link></li>
-              <li><Link href="/guides" className="hover:underline text-gray-600 dark:text-gray-300">Guides</Link></li>
               <li><Link href="/community" className="hover:underline text-gray-600 dark:text-gray-300">Community</Link></li>
               <li><Link href="/research" className="hover:underline text-gray-600 dark:text-gray-300">Research</Link></li>
             </ul>

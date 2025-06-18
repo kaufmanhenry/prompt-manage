@@ -6,6 +6,59 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { ArrowLeft, Mail, MessageSquare, Clock, CheckCircle } from 'lucide-react'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Contact Us - Prompt Manage | Get in Touch',
+  description: 'Get in touch with the Prompt Manage team. We\'re here to help with support, feedback, partnerships, or any questions about our AI prompt management platform.',
+  keywords: 'contact Prompt Manage, support, feedback, AI prompt management help, customer service',
+  authors: [{ name: 'Prompt Manage' }],
+  creator: 'Prompt Manage',
+  publisher: 'Prompt Manage',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://promptmanage.com'),
+  alternates: {
+    canonical: '/contact',
+  },
+  openGraph: {
+    title: 'Contact Us - Prompt Manage | Get in Touch',
+    description: 'Get in touch with the Prompt Manage team. We\'re here to help with support, feedback, partnerships, or any questions.',
+    url: 'https://promptmanage.com/contact',
+    siteName: 'Prompt Manage',
+    images: [
+      {
+        url: 'https://promptmanage.com/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Contact Prompt Manage',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact Us - Prompt Manage | Get in Touch',
+    description: 'Get in touch with the Prompt Manage team. We\'re here to help with support, feedback, partnerships, or any questions.',
+    images: ['https://promptmanage.com/og-image.svg'],
+    creator: '@promptmanage',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -63,7 +116,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
-        <div className="mb-12">
+        <div className="text-center mb-12">
           <Link href="/">
             <Button variant="ghost" className="mb-6">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -74,7 +127,7 @@ export default function ContactPage() {
             Get in Touch
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
-            Have questions, feedback, or need support? We'd love to hear from you.
+            We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </p>
         </div>
 

@@ -1,0 +1,11 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#1F2937"/>
+  <rect x="100" y="100" width="1000" height="430" rx="20" fill="#374151"/>
+  <text x="600" y="280" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="bold">Prompt Manage</text>
+  <text x="600" y="340" text-anchor="middle" fill="#9CA3AF" font-family="system-ui, -apple-system, sans-serif" font-size="24">Organize, Share, and Discover AI Prompts</text>
+  <circle cx="600" cy="420" r="8" fill="#3B82F6"/>
+  <circle cx="620" cy="420" r="8" fill="#10B981"/>
+  <circle cx="640" cy="420" r="8" fill="#8B5CF6"/>
+  <circle cx="580" cy="420" r="8" fill="#F59E0B"/>
+  <circle cx="560" cy="420" r="8" fill="#EF4444"/>
+</svg> 

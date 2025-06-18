@@ -1,39 +1,45 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
-import { Mail, Lock, Github } from 'lucide-react'
+import { Mail, Lock, User, Github } from 'lucide-react'
 
-export function LoginForm() {
+export function SignupForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [displayName, setDisplayName] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [isOAuthLoading, setIsOAuthLoading] = useState(false)
-  const searchParams = useSearchParams()
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setMessage('')
 
     try {
-      const { error } = await createClient().auth.signInWithPassword({
+      const { data, error } = await createClient().auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            display_name: displayName,
+          },
+        },
       })
 
       if (error) {
         setMessage(error.message)
+      } else if (data.user && !data.session) {
+        setMessage('Check your email for the confirmation link!')
       } else {
-        const redirectTo = searchParams.get('redirect') || '/dashboard'
-        window.location.href = redirectTo
+        // User is automatically signed in
+        window.location.href = '/dashboard'
       }
     } catch (error) {
       setMessage('An error occurred. Please try again.')
@@ -42,14 +48,13 @@ export function LoginForm() {
     }
   }
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleSignup = async () => {
     setIsOAuthLoading(true)
     try {
-      const redirectTo = searchParams.get('redirect') || '/dashboard'
       const { error } = await createClient().auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirectTo)}`,
+          redirectTo: `${window.location.origin}/auth/callback`,
         },
       })
       if (error) {
@@ -62,45 +67,19 @@ export function LoginForm() {
     }
   }
 
-  const handlePasswordReset = async () => {
-    if (!email) {
-      setMessage('Please enter your email address first.')
-      return
-    }
-
-    setLoading(true)
-    setMessage('')
-
-    try {
-      const { error } = await createClient().auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
-      })
-
-      if (error) {
-        setMessage(error.message)
-      } else {
-        setMessage('Check your email for the password reset link!')
-      }
-    } catch (error) {
-      setMessage('An error occurred. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
+        <CardTitle className="text-2xl text-center">Create an account</CardTitle>
         <CardDescription className="text-center">
-          Sign in to your Prompt Manage account
+          Enter your information to get started with Prompt Manage
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Button
           variant="outline"
           className="w-full"
-          onClick={handleGoogleLogin}
+          onClick={handleGoogleSignup}
           disabled={isOAuthLoading}
         >
           <Github className="mr-2 h-4 w-4" />
@@ -118,7 +97,23 @@ export function LoginForm() {
           </div>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={handleSignup} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="displayName">Display Name</Label>
+            <div className="relative">
+              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="displayName"
+                type="text"
+                placeholder="Enter your display name"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                className="pl-10"
+                required
+              />
+            </div>
+          </div>
+          
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
@@ -142,17 +137,18 @@ export function LoginForm() {
               <Input
                 id="password"
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Create a password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10"
                 required
+                minLength={6}
               />
             </div>
           </div>
           
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign in'}
+            {loading ? 'Creating account...' : 'Create account'}
           </Button>
           
           {message && (
@@ -160,21 +156,11 @@ export function LoginForm() {
           )}
         </form>
         
-        <div className="space-y-2 text-center">
-          <button
-            type="button"
-            onClick={handlePasswordReset}
-            className="text-sm text-muted-foreground hover:text-primary hover:underline"
-          >
-            Forgot your password?
-          </button>
-          
-          <div className="text-sm">
-            Don't have an account?{' '}
-            <Link href="/signup" className="text-primary hover:underline">
-              Sign up
-            </Link>
-          </div>
+        <div className="text-center text-sm">
+          Already have an account?{' '}
+          <Link href="/login" className="text-primary hover:underline">
+            Sign in
+          </Link>
         </div>
       </CardContent>
     </Card>

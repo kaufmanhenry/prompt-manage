@@ -1,13 +1,62 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Check, Star } from 'lucide-react'
+import { Metadata } from 'next'
+import { PricingToggle } from '@/components/PricingToggle'
+
+export const metadata: Metadata = {
+  title: 'Pricing - Prompt Manage | Simple, Transparent Plans',
+  description: 'Choose the plan that\'s right for you. Start free with 50 prompts, or upgrade to Pro for unlimited prompts and advanced features. 30-day money-back guarantee.',
+  keywords: 'prompt management pricing, AI prompts cost, ChatGPT prompts pricing, prompt tools pricing',
+  authors: [{ name: 'Prompt Manage' }],
+  creator: 'Prompt Manage',
+  publisher: 'Prompt Manage',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://promptmanage.com'),
+  alternates: {
+    canonical: '/pricing',
+  },
+  openGraph: {
+    title: 'Pricing - Prompt Manage | Simple, Transparent Plans',
+    description: 'Choose the plan that\'s right for you. Start free with 50 prompts, or upgrade to Pro for unlimited prompts and advanced features.',
+    url: 'https://promptmanage.com/pricing',
+    siteName: 'Prompt Manage',
+    images: [
+      {
+        url: 'https://promptmanage.com/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Prompt Manage Pricing Plans',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Pricing - Prompt Manage | Simple, Transparent Plans',
+    description: 'Choose the plan that\'s right for you. Start free with 50 prompts, or upgrade to Pro for unlimited prompts and advanced features.',
+    images: ['https://promptmanage.com/og-image.svg'],
+    creator: '@promptmanage',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
 
 export default function PricingPage() {
-  const [isAnnual, setIsAnnual] = useState(false)
-
   const plans = [
     {
       name: 'Free',
@@ -63,32 +112,8 @@ export default function PricingPage() {
             Choose the plan that's right for you. Start free, upgrade when you need more.
           </p>
 
-          {/* Billing Toggle */}
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <span className={`text-sm ${!isAnnual ? 'text-gray-900 dark:text-white' : 'text-gray-500'}`}>
-              Monthly
-            </span>
-            <button
-              onClick={() => setIsAnnual(!isAnnual)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                isAnnual ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
-              }`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  isAnnual ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
-            </button>
-            <span className={`text-sm ${isAnnual ? 'text-gray-900 dark:text-white' : 'text-gray-500'}`}>
-              Annual
-            </span>
-            {isAnnual && (
-              <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full">
-                Save 17%
-              </span>
-            )}
-          </div>
+          {/* Billing Toggle - Client Component */}
+          <PricingToggle onToggle={() => {}} />
         </div>
 
         {/* Pricing Cards */}
@@ -120,11 +145,11 @@ export default function PricingPage() {
                 </p>
                 <div className="mb-6">
                   <span className="text-4xl font-bold text-gray-900 dark:text-white">
-                    ${isAnnual ? plan.price.annual : plan.price.monthly}
+                    ${plan.price.monthly}
                   </span>
                   {plan.price.monthly > 0 && (
                     <span className="text-gray-600 dark:text-gray-400">
-                      /{isAnnual ? 'year' : 'month'}
+                      /month
                     </span>
                   )}
                 </div>

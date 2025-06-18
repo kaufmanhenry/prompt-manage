@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://promptmanage.com/sitemap.xml
+
+# Crawl-delay (optional, be respectful to servers)
+Crawl-delay: 1 

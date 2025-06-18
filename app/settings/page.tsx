@@ -1,238 +1,477 @@
 'use client'
 
-import { useTheme } from 'next-themes'
 import { useState, useEffect } from 'react'
+import { createClient } from '@/utils/supabase/client'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
+import { useToast } from '@/components/ui/use-toast'
+import { User, Mail, Lock, Globe, MapPin, Save, Trash2, Eye, EyeOff } from 'lucide-react'
 
-const models = [
-  'gpt-4',
-  'gpt-3.5-turbo',
-  'claude-3-opus',
-  'claude-3-sonnet',
-  'claude-3-haiku',
-  'gemini-pro',
-  'mistral-large',
-  'mistral-medium',
-  'mistral-small',
-]
+interface UserProfile {
+  id: string
+  display_name: string | null
+  bio: string | null
+  avatar_url: string | null
+  website: string | null
+  location: string | null
+  created_at: string
+  updated_at: string
+}
 
 export default function SettingsPage() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
+  const { toast } = useToast()
+  const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  
+  // Profile form state
+  const [displayName, setDisplayName] = useState('')
+  const [bio, setBio] = useState('')
+  const [website, setWebsite] = useState('')
+  const [location, setLocation] = useState('')
+  
+  // Password change state
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [showPasswords, setShowPasswords] = useState(false)
+  const [changingPassword, setChangingPassword] = useState(false)
+  
+  // Settings state
+  const [emailNotifications, setEmailNotifications] = useState(true)
+  const [darkMode, setDarkMode] = useState(false)
 
-  // Account Preferences
-  const [email, setEmail] = useState('user@email.com')
-  const [password, setPassword] = useState('')
-  const [twoFactor, setTwoFactor] = useState(false)
+  useEffect(() => {
+    loadUserData()
+  }, [])
 
-  // Prompt Management Defaults
-  const [defaultModel, setDefaultModel] = useState(models[0])
-  const [defaultFormat, setDefaultFormat] = useState('inline')
-  const [autoSaveDrafts, setAutoSaveDrafts] = useState(true)
+  const loadUserData = async () => {
+    try {
+      const supabase = createClient()
+      
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        window.location.href = '/login'
+        return
+      }
+      setUser(user)
 
-  // Notifications
-  const [notifPromptUpdates, setNotifPromptUpdates] = useState(true)
-  const [notifWeekly, setNotifWeekly] = useState(false)
-  const [notifProduct, setNotifProduct] = useState(true)
+      // Get user profile
+      const { data: profile, error } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single()
 
-  // Interface Customization
-  const [fontSize, setFontSize] = useState('medium')
-  const [collapseSidebar, setCollapseSidebar] = useState(false)
-  const [showTooltips, setShowTooltips] = useState(true)
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error loading profile:', error)
+      }
 
-  // Data & Privacy
-  const [exporting, setExporting] = useState(false)
-  const [deleteConfirm, setDeleteConfirm] = useState(false)
+      if (profile) {
+        setProfile(profile)
+        setDisplayName(profile.display_name || '')
+        setBio(profile.bio || '')
+        setWebsite(profile.website || '')
+        setLocation(profile.location || '')
+      } else {
+        // Create profile if it doesn't exist
+        const { data: newProfile, error: createError } = await supabase
+          .from('user_profiles')
+          .insert({
+            id: user.id,
+            display_name: user.user_metadata?.display_name || user.email?.split('@')[0] || 'User',
+          })
+          .select()
+          .single()
 
-  // Integrations
-  const [googleDrive, setGoogleDrive] = useState(false)
-  const [notion, setNotion] = useState(false)
-  const [webhook, setWebhook] = useState(false)
+        if (createError) {
+          console.error('Error creating profile:', createError)
+        } else if (newProfile) {
+          setProfile(newProfile)
+          setDisplayName(newProfile.display_name || '')
+        }
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
-  // Dummy usage stats
-  const usageStats = {
-    prompts: 42,
-    tags: 12,
-    lastExport: '2024-06-12',
+  const handleSaveProfile = async () => {
+    if (!user) return
+
+    setSaving(true)
+    try {
+      const supabase = createClient()
+      const { error } = await supabase
+        .from('user_profiles')
+        .upsert({
+          id: user.id,
+          display_name: displayName,
+          bio: bio,
+          website: website,
+          location: location,
+        })
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "Success",
+          description: "Profile updated successfully!",
+        })
+        await loadUserData() // Reload to get updated data
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An error occurred while saving your profile.",
+        variant: "destructive",
+      })
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      toast({
+        title: "Error",
+        description: "New passwords do not match.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (newPassword.length < 6) {
+      toast({
+        title: "Error",
+        description: "Password must be at least 6 characters long.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setChangingPassword(true)
+    try {
+      const supabase = createClient()
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      })
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "Success",
+          description: "Password updated successfully!",
+        })
+        setCurrentPassword('')
+        setNewPassword('')
+        setConfirmPassword('')
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An error occurred while changing your password.",
+        variant: "destructive",
+      })
+    } finally {
+      setChangingPassword(false)
+    }
+  }
+
+  const handleDeleteAccount = async () => {
+    if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      return
+    }
+
+    try {
+      const supabase = createClient()
+      const { error } = await supabase.auth.admin.deleteUser(user.id)
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "Account Deleted",
+          description: "Your account has been deleted successfully.",
+        })
+        window.location.href = '/'
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An error occurred while deleting your account.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-8"></div>
+            <div className="space-y-6">
+              <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
+              <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="max-w-2xl mx-auto py-12 space-y-10">
-      <h1 className="text-3xl font-bold mb-6">Settings</h1>
-
-      {/* Account Preferences */}
-      <section className="space-y-4 border-b pb-8">
-        <h2 className="text-xl font-semibold mb-2">Account Preferences</h2>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Email</label>
-            <input
-              className="border rounded px-3 py-2 w-64"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              disabled
-            />
-            <Button size="sm" disabled>Change (coming soon)</Button>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Password</label>
-            <input
-              className="border rounded px-3 py-2 w-64"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="••••••••"
-              disabled
-            />
-            <Button size="sm" disabled>Change (coming soon)</Button>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Two-Factor Authentication</label>
-            <Switch checked={twoFactor} onCheckedChange={setTwoFactor} disabled />
-            <span className="text-xs text-muted-foreground">Coming soon</span>
-          </div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Account Settings</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            Manage your profile, security, and preferences
+          </p>
         </div>
-      </section>
 
-      {/* Prompt Management Defaults */}
-      <section className="space-y-4 border-b pb-8">
-        <h2 className="text-xl font-semibold mb-2">Prompt Management Defaults</h2>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Default AI Model</label>
-            <select
-              className="border rounded px-3 py-2 w-64"
-              value={defaultModel}
-              onChange={e => setDefaultModel(e.target.value)}
-            >
-              {models.map(model => (
-                <option key={model} value={model}>{model}</option>
-              ))}
-            </select>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Default Formatting</label>
-            <select
-              className="border rounded px-3 py-2 w-64"
-              value={defaultFormat}
-              onChange={e => setDefaultFormat(e.target.value)}
-            >
-              <option value="inline">Inline</option>
-              <option value="markdown">Markdown</option>
-            </select>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Auto-save Drafts</label>
-            <Switch checked={autoSaveDrafts} onCheckedChange={setAutoSaveDrafts} />
-          </div>
-        </div>
-      </section>
-
-      {/* Notifications */}
-      <section className="space-y-4 border-b pb-8">
-        <h2 className="text-xl font-semibold mb-2">Notifications</h2>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Prompt Updates</label>
-            <Switch checked={notifPromptUpdates} onCheckedChange={setNotifPromptUpdates} />
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Weekly Summary</label>
-            <Switch checked={notifWeekly} onCheckedChange={setNotifWeekly} />
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Product Updates</label>
-            <Switch checked={notifProduct} onCheckedChange={setNotifProduct} />
-          </div>
-        </div>
-      </section>
-
-      {/* Interface Customization */}
-      <section className="space-y-4 border-b pb-8">
-        <h2 className="text-xl font-semibold mb-2">Interface Customization</h2>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Font Size</label>
-            <select
-              className="border rounded px-3 py-2 w-64"
-              value={fontSize}
-              onChange={e => setFontSize(e.target.value)}
-            >
-              <option value="small">Small</option>
-              <option value="medium">Medium</option>
-              <option value="large">Large</option>
-            </select>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Collapse Sidebar</label>
-            <Switch checked={collapseSidebar} onCheckedChange={setCollapseSidebar} />
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Show Tooltips</label>
-            <Switch checked={showTooltips} onCheckedChange={setShowTooltips} />
-          </div>
-        </div>
-      </section>
-
-      {/* Data & Privacy */}
-      <section className="space-y-4 border-b pb-8">
-        <h2 className="text-xl font-semibold mb-2">Data & Privacy</h2>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Export Prompts</label>
-            <div className="flex gap-2">
-              <Button size="sm" onClick={() => setExporting(true)} disabled={exporting}>Export as .json</Button>
-              <Button size="sm" onClick={() => setExporting(true)} disabled={exporting}>Export as .txt</Button>
-            </div>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Delete Account</label>
-            {!deleteConfirm ? (
-              <Button variant="destructive" size="sm" onClick={() => setDeleteConfirm(true)}>
-                Delete Account
-              </Button>
-            ) : (
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => setDeleteConfirm(false)}>Cancel</Button>
-                <Button variant="destructive" size="sm" disabled>Confirm Delete (coming soon)</Button>
+        <div className="space-y-8">
+          {/* Profile Information */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <User className="h-5 w-5" />
+                Profile Information
+              </CardTitle>
+              <CardDescription>
+                Update your public profile information
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="displayName">Display Name</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="displayName"
+                      value={displayName}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      className="pl-10"
+                      placeholder="Enter your display name"
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="email"
+                      value={user?.email || ''}
+                      disabled
+                      className="pl-10 bg-gray-50 dark:bg-gray-800"
+                    />
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Usage Stats</label>
-            <div className="text-xs text-muted-foreground">
-              <div>Prompts: {usageStats.prompts}</div>
-              <div>Tags: {usageStats.tags}</div>
-              <div>Last Export: {usageStats.lastExport}</div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Integrations */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold mb-2">Integrations</h2>
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Google Drive</label>
-            <Switch checked={googleDrive} onCheckedChange={setGoogleDrive} disabled />
-            <span className="text-xs text-muted-foreground">Coming soon</span>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Notion</label>
-            <Switch checked={notion} onCheckedChange={setNotion} disabled />
-            <span className="text-xs text-muted-foreground">Coming soon</span>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <label className="font-medium">Webhook</label>
-            <Switch checked={webhook} onCheckedChange={setWebhook} disabled />
-            <span className="text-xs text-muted-foreground">Coming soon</span>
-          </div>
+              <div className="space-y-2">
+                <Label htmlFor="bio">Bio</Label>
+                <Textarea
+                  id="bio"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  placeholder="Tell us about yourself..."
+                  rows={3}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="website">Website</Label>
+                  <div className="relative">
+                    <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="website"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                      className="pl-10"
+                      placeholder="https://yourwebsite.com"
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="location">Location</Label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="location"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      className="pl-10"
+                      placeholder="City, Country"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <Button onClick={handleSaveProfile} disabled={saving} className="w-full md:w-auto">
+                <Save className="mr-2 h-4 w-4" />
+                {saving ? 'Saving...' : 'Save Profile'}
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Security */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Lock className="h-5 w-5" />
+                Security
+              </CardTitle>
+              <CardDescription>
+                Update your password and security settings
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="newPassword">New Password</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="newPassword"
+                      type={showPasswords ? "text" : "password"}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="pl-10 pr-10"
+                      placeholder="Enter new password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPasswords(!showPasswords)}
+                      className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPasswords ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="confirmPassword"
+                      type={showPasswords ? "text" : "password"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="pl-10"
+                      placeholder="Confirm new password"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <Button 
+                onClick={handleChangePassword} 
+                disabled={changingPassword || !newPassword || !confirmPassword}
+                className="w-full md:w-auto"
+              >
+                {changingPassword ? 'Changing Password...' : 'Change Password'}
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Preferences */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Preferences</CardTitle>
+              <CardDescription>
+                Customize your experience
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Email Notifications</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Receive email updates about your account
+                  </p>
+                </div>
+                <Switch
+                  checked={emailNotifications}
+                  onCheckedChange={setEmailNotifications}
+                />
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Dark Mode</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Use dark theme for the interface
+                  </p>
+                </div>
+                <Switch
+                  checked={darkMode}
+                  onCheckedChange={setDarkMode}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Danger Zone */}
+          <Card className="border-red-200 dark:border-red-800">
+            <CardHeader>
+              <CardTitle className="text-red-600">Danger Zone</CardTitle>
+              <CardDescription>
+                Irreversible and destructive actions
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="text-red-600">Delete Account</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Permanently delete your account and all associated data
+                  </p>
+                </div>
+                <Button
+                  variant="destructive"
+                  onClick={handleDeleteAccount}
+                  className="flex items-center gap-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  Delete Account
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </section>
+      </div>
     </div>
   )
 } 

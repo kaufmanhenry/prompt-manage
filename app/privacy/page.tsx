@@ -1,6 +1,59 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Shield, Eye, Lock, Users, Settings } from 'lucide-react'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy - Prompt Manage | Data Protection and Privacy',
+  description: 'Read Prompt Manage\'s privacy policy to understand how we collect, use, and protect your personal information and data when using our AI prompt management platform.',
+  keywords: 'privacy policy, data protection, Prompt Manage privacy, user data, GDPR, CCPA, personal information',
+  authors: [{ name: 'Prompt Manage' }],
+  creator: 'Prompt Manage',
+  publisher: 'Prompt Manage',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://promptmanage.com'),
+  alternates: {
+    canonical: '/privacy',
+  },
+  openGraph: {
+    title: 'Privacy Policy - Prompt Manage | Data Protection and Privacy',
+    description: 'Read Prompt Manage\'s privacy policy to understand how we collect, use, and protect your personal information and data.',
+    url: 'https://promptmanage.com/privacy',
+    siteName: 'Prompt Manage',
+    images: [
+      {
+        url: 'https://promptmanage.com/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Prompt Manage Privacy Policy',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy - Prompt Manage | Data Protection and Privacy',
+    description: 'Read Prompt Manage\'s privacy policy to understand how we collect, use, and protect your personal information and data.',
+    images: ['https://promptmanage.com/og-image.svg'],
+    creator: '@promptmanage',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
 
 export default function PrivacyPage() {
   return (

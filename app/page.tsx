@@ -3,6 +3,59 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Globe, Lock, Search, Users } from 'lucide-react'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Prompt Manage - Organize, Share, and Discover AI Prompts',
+  description: 'Create and manage your AI prompts privately, or share them with the community. Discover powerful prompts from other users in our public directory.',
+  keywords: 'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt sharing',
+  authors: [{ name: 'Prompt Manage' }],
+  creator: 'Prompt Manage',
+  publisher: 'Prompt Manage',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://promptmanage.com'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Prompt Manage - Organize, Share, and Discover AI Prompts',
+    description: 'Create and manage your AI prompts privately, or share them with the community. Discover powerful prompts from other users in our public directory.',
+    url: 'https://promptmanage.com',
+    siteName: 'Prompt Manage',
+    images: [
+      {
+        url: 'https://promptmanage.com/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Prompt Manage - AI Prompt Management Platform',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Prompt Manage - Organize, Share, and Discover AI Prompts',
+    description: 'Create and manage your AI prompts privately, or share them with the community.',
+    images: ['https://promptmanage.com/og-image.svg'],
+    creator: '@promptmanage',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
 
 export default async function Home() {
   const supabase = await createClient()
@@ -45,7 +98,10 @@ export default async function Home() {
                 </Button>
               </Link>
               <Link href="/login">
-                <Button>Sign In</Button>
+                <Button variant="ghost">Sign In</Button>
+              </Link>
+              <Link href="/signup">
+                <Button>Sign Up</Button>
               </Link>
             </div>
           </div>
@@ -61,7 +117,7 @@ export default async function Home() {
             Discover powerful prompts from other users in our public directory.
           </p>
           <div className="flex items-center justify-center gap-4">
-            <Link href="/login">
+            <Link href="/signup">
               <Button size="lg">
                 Get Started
               </Button>
@@ -130,11 +186,18 @@ export default async function Home() {
           <p className="text-gray-600 dark:text-gray-400 mb-8">
             Join thousands of users managing their AI prompts
           </p>
-          <Link href="/login">
-            <Button size="lg">
-              Create Your Account
-            </Button>
-          </Link>
+          <div className="flex items-center justify-center gap-4">
+            <Link href="/signup">
+              <Button size="lg">
+                Create Your Account
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button variant="outline" size="lg">
+                Sign In
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -7,10 +7,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { createClient } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
+import { User, Settings, LogOut } from 'lucide-react'
 
 export function Header() {
   const pathname = usePathname()
@@ -79,19 +81,44 @@ export function Header() {
                   {session.user.email?.[0].toUpperCase()}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem className="text-sm">
-                  {session.user.email}
+              <DropdownMenuContent align="end" className="w-56">
+                <div className="flex items-center justify-start gap-2 p-2">
+                  <div className="flex flex-col space-y-1 leading-none">
+                    <p className="font-medium">{session.user.email}</p>
+                    <p className="w-[200px] truncate text-sm text-muted-foreground">
+                      {session.user.user_metadata?.display_name || 'User'}
+                    </p>
+                  </div>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href={`/profile/${session.user.id}`} className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    View Profile
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSignOut}>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings" className="flex items-center">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="flex items-center">
+                  <LogOut className="mr-2 h-4 w-4" />
                   Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button asChild>
-              <Link href="/login">Sign in</Link>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" asChild>
+                <Link href="/login">Sign in</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/signup">Sign up</Link>
+              </Button>
+            </div>
           )}
         </div>
       </div>

@@ -39,7 +39,7 @@ export function SEO({
 
   // Generate JSON-LD structured data
   const generateStructuredData = () => {
-    const baseStructuredData: any = {
+    const baseStructuredData: Record<string, unknown> = {
       '@context': 'https://schema.org',
       '@graph': [
         // Organization
@@ -87,7 +87,7 @@ export function SEO({
 
     // Add Article schema for prompt pages
     if (type === 'article' && publishedTime) {
-      baseStructuredData['@graph'].push({
+      (baseStructuredData['@graph'] as object[]).push({
         '@type': 'Article',
         '@id': `${fullUrl}#article`,
         isPartOf: {
@@ -114,7 +114,7 @@ export function SEO({
 
     // Add Person schema for profile pages
     if (type === 'profile' && author) {
-      baseStructuredData['@graph'].push({
+      (baseStructuredData['@graph'] as object[]).push({
         '@type': 'Person',
         '@id': `${fullUrl}#person`,
         name: author,

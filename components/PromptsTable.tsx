@@ -50,16 +50,14 @@ export function PromptsTable({
     const checkMigration = async () => {
       try {
         // Try to query the is_public field
-        const { data, error } = await createClient()
+        const { error } = await createClient()
           .from('prompts')
           .select('is_public, slug, view_count')
           .limit(1)
         
         if (!error) {
-          console.log('✅ Migration check successful - sharing features enabled')
           setMigrationComplete(true)
         } else {
-          console.log('❌ Migration check failed:', error.message)
           setMigrationComplete(false)
           
           // Show helpful error message
@@ -71,8 +69,8 @@ export function PromptsTable({
             })
           }
         }
-      } catch (err) {
-        console.log('❌ Migration check error:', err)
+      } catch (error) {
+        console.error('Migration check error:', error)
         // Migration not complete yet
         setMigrationComplete(false)
       }
@@ -112,8 +110,6 @@ export function PromptsTable({
         throw new Error(errorData.error || 'Failed to update prompt')
       }
 
-      const updatedPrompt = await response.json()
-
       // Invalidate and refetch to get the updated data including the generated slug
       await queryClient.invalidateQueries({ queryKey: ['prompts'] })
 
@@ -127,8 +123,6 @@ export function PromptsTable({
       setShowShareDialog(false)
       setPromptToShare(null)
     } catch (error) {
-      console.error('Error updating prompt:', error)
-      
       // Check if it's a migration issue
       if (error instanceof Error && error.message.includes('column "is_public" does not exist')) {
         toast({
@@ -168,6 +162,7 @@ export function PromptsTable({
         description: "Public link copied to clipboard.",
       })
     } catch (error) {
+      console.error('Copy link error:', error)
       toast({
         title: "Error",
         description: "Failed to copy link. Please try again.",
@@ -208,7 +203,7 @@ export function PromptsTable({
         setSelectedPrompt(null)
       }
     } catch (error) {
-      console.error('Error deleting prompt:', error)
+      console.error('Delete prompt error:', error)
       toast({
         title: "Error",
         description: "Failed to delete prompt. Please try again.",
@@ -661,7 +656,7 @@ export function PromptsTable({
           <DialogHeader>
             <DialogTitle>Delete Prompt</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete "{promptToDelete?.name}"? This action cannot be undone.
+              Are you sure you want to delete &quot;{promptToDelete?.name}&quot;? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">

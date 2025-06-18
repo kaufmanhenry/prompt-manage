@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { createClient } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
-import { User, Settings, LogOut } from 'lucide-react'
+import { Settings, LogOut } from 'lucide-react'
 
 export function Header() {
   const pathname = usePathname()
@@ -34,40 +34,43 @@ export function Header() {
   }
 
   return (
-    <header className="border-b">
+    <header className="border-b sticky top-0 z-50 bg-background">
       <div className="mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="font-semibold text-xl">
             Prompt Manage
           </Link>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href="/dashboard"
-              className={`text-sm ${
-                pathname === '/dashboard' ? 'text-primary' : 'text-muted-foreground'
-              } hover:text-primary transition-colors`}
-            >
-              My Prompts
-            </Link>
-            <Link
-              href="/public"
-              className={`text-sm ${
-                pathname.startsWith('/public') ? 'text-primary' : 'text-muted-foreground'
-              } hover:text-primary transition-colors`}
-            >
-              Public Directory
-            </Link>
-            <Link
-              href="/settings"
-              className={`text-sm ${
-                pathname === '/settings'
-                  ? 'text-primary'
-                  : 'text-muted-foreground'
-              } hover:text-primary transition-colors`}
-            >
-              Settings
-            </Link>
-          </nav>
+          {/* Only show navigation links when user is logged in */}
+          {session && (
+            <nav className="hidden md:flex items-center gap-6">
+              <Link
+                href="/dashboard"
+                className={`text-sm ${
+                  pathname === '/dashboard' ? 'text-primary' : 'text-muted-foreground'
+                } hover:text-primary transition-colors`}
+              >
+                My Prompts
+              </Link>
+              <Link
+                href="/public"
+                className={`text-sm ${
+                  pathname.startsWith('/public') ? 'text-primary' : 'text-muted-foreground'
+                } hover:text-primary transition-colors`}
+              >
+                Public Directory
+              </Link>
+              <Link
+                href="/settings"
+                className={`text-sm ${
+                  pathname === '/settings'
+                    ? 'text-primary'
+                    : 'text-muted-foreground'
+                } hover:text-primary transition-colors`}
+              >
+                Settings
+              </Link>
+            </nav>
+          )}
         </div>
         <div className="flex items-center gap-4">
           {session ? (
@@ -91,12 +94,6 @@ export function Header() {
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href={`/profile/${session.user.id}`} className="flex items-center">
-                    <User className="mr-2 h-4 w-4" />
-                    View Profile
-                  </Link>
-                </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/settings" className="flex items-center">
                     <Settings className="mr-2 h-4 w-4" />

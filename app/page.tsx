@@ -7,8 +7,10 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Prompt Manage - Organize, Share, and Discover AI Prompts',
-  description: 'Create and manage your AI prompts privately, or share them with the community. Discover powerful prompts from other users in our public directory.',
-  keywords: 'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt sharing',
+  description:
+    'Create and manage your AI prompts privately, or share them with the community. Discover powerful prompts from other users in our public directory.',
+  keywords:
+    'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt sharing',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
   publisher: 'Prompt Manage',
@@ -23,7 +25,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Prompt Manage - Organize, Share, and Discover AI Prompts',
-    description: 'Create and manage your AI prompts privately, or share them with the community. Discover powerful prompts from other users in our public directory.',
+    description:
+      'Create and manage your AI prompts privately, or share them with the community. Discover powerful prompts from other users in our public directory.',
     url: 'https://promptmanage.com',
     siteName: 'Prompt Manage',
     images: [
@@ -40,7 +43,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Prompt Manage - Organize, Share, and Discover AI Prompts',
-    description: 'Create and manage your AI prompts privately, or share them with the community.',
+    description:
+      'Create and manage your AI prompts privately, or share them with the community.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -59,7 +63,9 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const supabase = await createClient()
-  const { data: { session } } = await supabase.auth.getSession()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
   if (session) {
     redirect('/dashboard')
@@ -68,64 +74,19 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <header className="py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Prompt Manage
-              </h1>
-            </div>
-            <div className="hidden md:flex items-center gap-6">
-              <Link href="/about" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                About
-              </Link>
-              <Link href="/pricing" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                Pricing
-              </Link>
-              <Link href="/docs" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                Docs
-              </Link>
-              <Link href="/contact" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                Contact
-              </Link>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link href="/public">
-                <Button variant="outline" className="hidden sm:inline-flex">
-                  <Globe className="mr-2 h-4 w-4" />
-                  Browse Public Prompts
-                </Button>
-              </Link>
-              <Link href="/login">
-                <Button variant="ghost">Sign In</Button>
-              </Link>
-              <Link href="/signup">
-                <Button>Sign Up</Button>
-              </Link>
-            </div>
-          </div>
-        </header>
-
         {/* Hero Section */}
         <div className="py-20 text-center">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
             Organize, Share, and Discover AI Prompts
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto">
-            Create and manage your AI prompts privately, or share them with the community. 
-            Discover powerful prompts from other users in our public directory.
+            Create and manage your AI prompts privately, or share them with the
+            community. Discover powerful prompts from other users in our public
+            directory.
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/signup">
-              <Button size="lg">
-                Get Started
-              </Button>
-            </Link>
-            <Link href="/pricing">
-              <Button variant="outline" size="lg">
-                View Pricing
-              </Button>
+              <Button size="lg">Get Started</Button>
             </Link>
             <Link href="/public">
               <Button variant="outline" size="lg">
@@ -147,8 +108,8 @@ export default async function Home() {
                 Private by Default
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                All your prompts are private until you choose to share them. 
-                You have complete control over what's public.
+                All your prompts are private until you choose to share them. You
+                have complete control over what's public.
               </p>
             </div>
             <div className="text-center">
@@ -159,7 +120,7 @@ export default async function Home() {
                 Notion-like Sharing
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Share individual prompts with unique URLs, just like Notion. 
+                Share individual prompts with unique URLs, just like Notion.
                 Each prompt gets its own public page when shared.
               </p>
             </div>
@@ -171,8 +132,8 @@ export default async function Home() {
                 Community Directory
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Discover and use prompts shared by the community. 
-                Search, filter, and find the perfect prompt for your needs.
+                Discover and use prompts shared by the community. Search,
+                filter, and find the perfect prompt for your needs.
               </p>
             </div>
           </div>
@@ -188,9 +149,7 @@ export default async function Home() {
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/signup">
-              <Button size="lg">
-                Create Your Account
-              </Button>
+              <Button size="lg">Create Your Account</Button>
             </Link>
             <Link href="/login">
               <Button variant="outline" size="lg">

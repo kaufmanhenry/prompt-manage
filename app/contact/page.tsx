@@ -230,11 +230,6 @@ export default function ContactPage() {
                 Check out our frequently asked questions or browse our documentation.
               </p>
               <div className="space-y-2">
-                <Link href="/pricing">
-                  <Button variant="outline" size="sm" className="w-full">
-                    View Pricing
-                  </Button>
-                </Link>
                 <Link href="/about">
                   <Button variant="outline" size="sm" className="w-full">
                     About Us

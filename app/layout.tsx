@@ -5,6 +5,7 @@ import { Providers } from "@/components/providers";
 import { Layout } from "@/components/Layout";
 import { PromptProvider } from "@/components/PromptContext";
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeHtmlScript } from "@/components/ThemeHtmlScript";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ThemeHtmlScript />
         <Providers>
           <PromptProvider>
             <Layout>{children}</Layout>

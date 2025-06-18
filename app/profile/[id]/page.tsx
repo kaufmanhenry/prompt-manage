@@ -30,18 +30,19 @@ interface Prompt {
 }
 
 interface UserProfilePageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 // Generate metadata for the user profile page
 export async function generateMetadata({ params }: UserProfilePageProps): Promise<Metadata> {
+  const { id } = await params
   const supabase = await createClient()
   
   try {
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
 
     if (!profile) {
@@ -113,7 +114,7 @@ export async function generateMetadata({ params }: UserProfilePageProps): Promis
         },
       },
     }
-  } catch (error) {
+  } catch {
     return {
       title: 'User Not Found - Prompt Manage',
       description: 'This user profile could not be found.',
@@ -128,15 +129,16 @@ export async function generateMetadata({ params }: UserProfilePageProps): Promis
 export default async function UserProfilePage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
+  const { id } = await params
   const supabase = await createClient()
 
   // Get user profile
   const { data: profile, error: profileError } = await supabase
     .from('user_profiles')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .single()
 
   if (profileError || !profile) {
@@ -147,7 +149,7 @@ export default async function UserProfilePage({
   const { data: prompts, error: promptsError } = await supabase
     .from('prompts')
     .select('*')
-    .eq('user_id', params.id)
+    .eq('user_id', id)
     .eq('is_public', true)
     .order('created_at', { ascending: false })
 
@@ -229,7 +231,7 @@ export default async function UserProfilePage({
             <Card>
               <CardContent className="p-8 text-center">
                 <p className="text-gray-500 dark:text-gray-400">
-                  This user hasn't shared any prompts yet.
+                  This user hasn&apos;t shared any prompts yet.
                 </p>
               </CardContent>
             </Card>

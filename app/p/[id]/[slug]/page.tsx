@@ -10,28 +10,32 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 interface PublicPromptPageProps {
-  params: {
+  params: Promise<{
     id: string
     slug: string
-  }
+  }>
 }
 
 // Generate metadata for the prompt page
-export async function generateMetadata({ params }: PublicPromptPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PublicPromptPageProps): Promise<Metadata> {
+  const resolvedParams = await params
   const supabase = await createClient()
-  
+
   try {
     const { data: prompt } = await supabase
       .from('prompts')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', resolvedParams.id)
       .eq('is_public', true)
       .single()
 
     if (!prompt) {
       return {
         title: 'Prompt Not Found - Prompt Manage',
-        description: 'This prompt may have been deleted or is not publicly available.',
+        description:
+          'This prompt may have been deleted or is not publicly available.',
         robots: {
           index: false,
           follow: false,
@@ -40,9 +44,13 @@ export async function generateMetadata({ params }: PublicPromptPageProps): Promi
     }
 
     const promptData = prompt as Prompt
-    const description = promptData.description || 
-      `AI prompt for ${promptData.model}: ${promptData.prompt_text.substring(0, 150)}...`
-    
+    const description =
+      promptData.description ||
+      `AI prompt for ${promptData.model}: ${promptData.prompt_text.substring(
+        0,
+        150
+      )}...`
+
     const tags = promptData.tags || []
     const keywords = ['AI prompt', promptData.model, ...tags].join(', ')
 
@@ -105,7 +113,7 @@ export async function generateMetadata({ params }: PublicPromptPageProps): Promi
         'article:section': 'AI Prompts',
         'article:tag': tags,
       }
-      
+
       if (promptData.inserted_at) {
         metadata.other['article:published_time'] = promptData.inserted_at
       }
@@ -116,9 +124,11 @@ export async function generateMetadata({ params }: PublicPromptPageProps): Promi
 
     return metadata
   } catch (error) {
+    console.error('Metadata generation error:', error)
     return {
       title: 'Prompt Not Found - Prompt Manage',
-      description: 'This prompt may have been deleted or is not publicly available.',
+      description:
+        'This prompt may have been deleted or is not publicly available.',
       robots: {
         index: false,
         follow: false,
@@ -127,14 +137,17 @@ export async function generateMetadata({ params }: PublicPromptPageProps): Promi
   }
 }
 
-export default async function PublicPromptPage({ params }: PublicPromptPageProps) {
+export default async function PublicPromptPage({
+  params,
+}: PublicPromptPageProps) {
+  const resolvedParams = await params
   const supabase = await createClient()
-  
+
   try {
     const { data: prompt, error } = await supabase
       .from('prompts')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', resolvedParams.id)
       .eq('is_public', true)
       .single()
 
@@ -145,7 +158,9 @@ export default async function PublicPromptPage({ params }: PublicPromptPageProps
     const promptData = prompt as Prompt
 
     // Increment view count
-    await supabase.rpc('increment_prompt_views', { prompt_id: params.id })
+    await supabase.rpc('increment_prompt_views', {
+      prompt_id: resolvedParams.id,
+    })
 
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -158,7 +173,7 @@ export default async function PublicPromptPage({ params }: PublicPromptPageProps
                 Back to Home
               </Button>
             </Link>
-            
+
             <div className="flex items-start justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -172,12 +187,15 @@ export default async function PublicPromptPage({ params }: PublicPromptPageProps
                   {promptData.updated_at && (
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
-                      <span>Updated {new Date(promptData.updated_at).toLocaleDateString()}</span>
+                      <span>
+                        Updated{' '}
+                        {new Date(promptData.updated_at).toLocaleDateString()}
+                      </span>
                     </div>
                   )}
                 </div>
               </div>
-              
+
               <Button variant="outline">
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Share
@@ -244,12 +262,16 @@ export default async function PublicPromptPage({ params }: PublicPromptPageProps
                 <CardContent className="space-y-3">
                   <div className="text-sm text-gray-600 dark:text-gray-400">
                     <p className="mb-2">1. Copy the prompt text above</p>
-                    <p className="mb-2">2. Paste it into your AI model of choice</p>
+                    <p className="mb-2">
+                      2. Paste it into your AI model of choice
+                    </p>
                     <p>3. Customize the variables as needed</p>
                   </div>
-                  
+
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    <p>💡 Tip: This prompt is designed for {promptData.model}</p>
+                    <p>
+                      💡 Tip: This prompt is designed for {promptData.model}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -273,6 +295,7 @@ export default async function PublicPromptPage({ params }: PublicPromptPageProps
       </div>
     )
   } catch (error) {
+    console.error('Prompt page error:', error)
     notFound()
   }
-} 
+}

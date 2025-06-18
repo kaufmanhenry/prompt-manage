@@ -94,6 +94,7 @@ export default function PublicDirectoryPage() {
         description: "Prompt copied to clipboard.",
       })
     } catch (error) {
+      console.error('Copy prompt error:', error)
       toast({
         title: "Error",
         description: "Failed to copy prompt.",

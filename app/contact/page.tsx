@@ -6,59 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { ArrowLeft, Mail, MessageSquare, Clock, CheckCircle } from 'lucide-react'
-import { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Contact Us - Prompt Manage | Get in Touch',
-  description: 'Get in touch with the Prompt Manage team. We\'re here to help with support, feedback, partnerships, or any questions about our AI prompt management platform.',
-  keywords: 'contact Prompt Manage, support, feedback, AI prompt management help, customer service',
-  authors: [{ name: 'Prompt Manage' }],
-  creator: 'Prompt Manage',
-  publisher: 'Prompt Manage',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL('https://promptmanage.com'),
-  alternates: {
-    canonical: '/contact',
-  },
-  openGraph: {
-    title: 'Contact Us - Prompt Manage | Get in Touch',
-    description: 'Get in touch with the Prompt Manage team. We\'re here to help with support, feedback, partnerships, or any questions.',
-    url: 'https://promptmanage.com/contact',
-    siteName: 'Prompt Manage',
-    images: [
-      {
-        url: 'https://promptmanage.com/og-image.svg',
-        width: 1200,
-        height: 630,
-        alt: 'Contact Prompt Manage',
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Contact Us - Prompt Manage | Get in Touch',
-    description: 'Get in touch with the Prompt Manage team. We\'re here to help with support, feedback, partnerships, or any questions.',
-    images: ['https://promptmanage.com/og-image.svg'],
-    creator: '@promptmanage',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-}
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -101,7 +48,7 @@ export default function ContactPage() {
               Message Sent!
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Thank you for reaching out. We'll get back to you within 1-2 business days.
+              Thank you for reaching out. We&apos;ll get back to you within 1-2 business days.
             </p>
             <Link href="/">
               <Button>Back to Home</Button>
@@ -127,7 +74,7 @@ export default function ContactPage() {
             Get in Touch
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
-            We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
           </p>
         </div>
 
@@ -267,7 +214,7 @@ export default function ContactPage() {
                       Response Time
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      We typically respond within 1-2 business days. For urgent issues, please include "URGENT" in your subject line.
+                      We typically respond within 1-2 business days. For urgent issues, please include &quot;URGENT&quot; in your subject line.
                     </p>
                   </div>
                 </div>

@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { PublicPrompt } from '@/lib/schemas/prompt'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import CopyButton from '@/components/CopyButton'
-import { ArrowLeft, ExternalLink, Calendar, User, TrendingUp, Eye } from 'lucide-react'
+import { ArrowLeft, ExternalLink, Calendar, User, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
 
@@ -23,11 +23,7 @@ export default function PublicPromptPage({ params }: PublicPromptPageProps) {
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
 
-  useEffect(() => {
-    fetchPrompt()
-  }, [params.slug])
-
-  const fetchPrompt = async () => {
+  const fetchPrompt = useCallback(async () => {
     try {
       const { data, error } = await createClient()
         .from('prompts')
@@ -57,14 +53,19 @@ export default function PublicPromptPage({ params }: PublicPromptPageProps) {
       try {
         await createClient().rpc('increment_prompt_views', { prompt_id: data.id })
       } catch (viewError) {
-        console.log('View count increment not available yet')
+        console.error('View count increment error:', viewError)
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Prompt fetch error:', error)
       setError('Failed to load prompt')
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.slug])
+
+  useEffect(() => {
+    fetchPrompt()
+  }, [params.slug, fetchPrompt])
 
   const handleCopyLink = async () => {
     try {
@@ -74,6 +75,7 @@ export default function PublicPromptPage({ params }: PublicPromptPageProps) {
         description: "Public link copied to clipboard.",
       })
     } catch (error) {
+      console.error('Copy link error:', error)
       toast({
         title: "Error",
         description: "Failed to copy link. Please try again.",

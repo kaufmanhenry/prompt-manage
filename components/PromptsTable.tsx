@@ -25,13 +25,17 @@ interface PromptHistory {
   prompt_text: string
 }
 
-export function PromptsTable({ 
-  prompts = [], 
-  filters
-}: { 
+interface PromptsTableProps {
   prompts: Prompt[]
   filters: Filters
-}) {
+  onEditPrompt?: (prompt: Prompt) => void
+}
+
+export function PromptsTable({ 
+  prompts = [], 
+  filters,
+  onEditPrompt
+}: PromptsTableProps) {
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null)
   const [showHistory, setShowHistory] = useState(false)
   const [promptHistories] = useState<Record<string, PromptHistory[]>>({})
@@ -482,7 +486,7 @@ export function PromptsTable({
                           Copy Link
                         </DropdownMenuItem>
                       )}
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onEditPrompt?.(prompt)}>
                         <Edit className="mr-2 size-4" />
                         Edit
                       </DropdownMenuItem>

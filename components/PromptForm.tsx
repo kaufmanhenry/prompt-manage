@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import MultipleSelector, { Option } from '@/components/ui/multi-select'
+import { useToast } from '@/components/ui/use-toast'
 
 interface PromptFormProps {
   prompt?: Prompt | null
@@ -46,6 +47,7 @@ const models = modelSchema.options
 export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const [loading, setLoading] = useState(false)
   const queryClient = useQueryClient()
+  const { toast } = useToast()
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -81,7 +83,11 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
 
   const onSubmit = async (values: Prompt) => {
     if (!session?.user?.id) {
-      console.error('No user session found')
+      toast({
+        title: "Authentication Error",
+        description: "Please log in to save prompts.",
+        variant: "destructive",
+      })
       return
     }
 
@@ -100,24 +106,43 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       }
 
       if (prompt?.id) {
+        // Update existing prompt
         const { error } = await createClient()
           .from('prompts')
           .update(promptData)
           .eq('id', prompt.id)
 
         if (error) throw error
+
+        toast({
+          title: "Prompt Updated",
+          description: `"${values.name}" has been successfully updated.`,
+        })
       } else {
+        // Create new prompt
         const { error } = await createClient()
           .from('prompts')
           .insert(promptData)
 
         if (error) throw error
+
+        toast({
+          title: "Prompt Created",
+          description: `"${values.name}" has been successfully created.`,
+        })
       }
 
       queryClient.invalidateQueries({ queryKey: ['prompts'] })
       onOpenChange(false)
     } catch (error) {
       console.error('Error saving prompt:', error)
+      toast({
+        title: "Error",
+        description: prompt?.id 
+          ? "Failed to update prompt. Please try again."
+          : "Failed to create prompt. Please try again.",
+        variant: "destructive",
+      })
     } finally {
       setLoading(false)
     }
@@ -267,7 +292,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 Cancel
               </Button>
               <Button type="submit" disabled={loading || !session?.user?.id}>
-                {loading ? 'Saving...' : 'Save'}
+                {loading ? 'Saving...' : (prompt ? 'Update Prompt' : 'Create Prompt')}
               </Button>
             </div>
           </form>

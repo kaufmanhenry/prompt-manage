@@ -19,6 +19,7 @@ export default function DashboardPage() {
     selectedModels: [] as string[],
   })
   const [showNewPromptForm, setShowNewPromptForm] = useState(false)
+  const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null)
 
   const { data: prompts = [] } = useQuery({
     queryKey: ['prompts'],
@@ -45,6 +46,14 @@ export default function DashboardPage() {
 
   const privatePrompts = prompts.filter(p => !p.is_public)
   const publicPrompts = prompts.filter(p => p.is_public)
+
+  const handleEditPrompt = (prompt: Prompt) => {
+    setEditingPrompt(prompt)
+  }
+
+  const handleCloseEditForm = () => {
+    setEditingPrompt(null)
+  }
 
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -103,12 +112,24 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <PromptsTable prompts={prompts} filters={filters} />
+        <PromptsTable 
+          prompts={prompts} 
+          filters={filters} 
+          onEditPrompt={handleEditPrompt}
+        />
       </div>
       
+      {/* New Prompt Form */}
       <PromptForm
         open={showNewPromptForm}
         onOpenChange={setShowNewPromptForm}
+      />
+
+      {/* Edit Prompt Form */}
+      <PromptForm
+        prompt={editingPrompt}
+        open={!!editingPrompt}
+        onOpenChange={handleCloseEditForm}
       />
     </div>
   )

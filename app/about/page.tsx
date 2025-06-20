@@ -186,7 +186,7 @@ export default function AboutPage() {
                 Create Your Account
               </Button>
             </Link>
-            <Link href="/public">
+            <Link href="/directory">
               <Button variant="outline" size="lg">
                 Browse Public Prompts
               </Button>

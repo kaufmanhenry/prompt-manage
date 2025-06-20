@@ -10,24 +10,22 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 interface PublicPromptPageProps {
-  params: Promise<{
-    id: string
+  params: {
     slug: string
-  }>
+  }
 }
 
 // Generate metadata for the prompt page
 export async function generateMetadata({
   params,
 }: PublicPromptPageProps): Promise<Metadata> {
-  const resolvedParams = await params
   const supabase = await createClient()
 
   try {
     const { data: prompt } = await supabase
       .from('prompts')
       .select('*')
-      .eq('id', resolvedParams.id)
+      .eq('slug', params.slug)
       .eq('is_public', true)
       .single()
 
@@ -68,12 +66,12 @@ export async function generateMetadata({
       },
       metadataBase: new URL('https://promptmanage.com'),
       alternates: {
-        canonical: `/p/${promptData.id}/${promptData.slug}`,
+        canonical: `/p/${promptData.slug}`,
       },
       openGraph: {
         title: `${promptData.name} - AI Prompt`,
         description: description,
-        url: `https://promptmanage.com/p/${promptData.id}/${promptData.slug}`,
+        url: `https://promptmanage.com/p/${promptData.slug}`,
         siteName: 'Prompt Manage',
         images: [
           {
@@ -140,14 +138,13 @@ export async function generateMetadata({
 export default async function PublicPromptPage({
   params,
 }: PublicPromptPageProps) {
-  const resolvedParams = await params
   const supabase = await createClient()
 
   try {
     const { data: prompt, error } = await supabase
       .from('prompts')
-      .select('*')
-      .eq('id', resolvedParams.id)
+      .select('*, user_profiles (id, display_name)')
+      .eq('slug', params.slug)
       .eq('is_public', true)
       .single()
 
@@ -158,19 +155,21 @@ export default async function PublicPromptPage({
     const promptData = prompt as Prompt
 
     // Increment view count
-    await supabase.rpc('increment_prompt_views', {
-      prompt_id: resolvedParams.id,
-    })
+    if (promptData.id) {
+        await supabase.rpc('increment_prompt_views', {
+            prompt_id: promptData.id,
+        })
+    }
 
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="max-w-4xl mx-auto p-6">
           {/* Header */}
           <div className="mb-8">
-            <Link href="/">
+            <Link href="/directory">
               <Button variant="ghost" className="mb-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Home
+                Back to Directory
               </Button>
             </Link>
 
@@ -182,7 +181,12 @@ export default async function PublicPromptPage({
                 <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                   <div className="flex items-center gap-1">
                     <User className="h-4 w-4" />
-                    <span>Shared by User</span>
+                    <Link
+                      href={`/u/${prompt.user_profiles?.id}`}
+                      className="hover:underline"
+                    >
+                      {prompt.user_profiles?.display_name || 'Anonymous User'}
+                    </Link>
                   </div>
                   {promptData.updated_at && (
                     <div className="flex items-center gap-1">
@@ -253,49 +257,26 @@ export default async function PublicPromptPage({
                   </CardContent>
                 </Card>
               )}
-
-              {/* Usage Instructions */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>How to Use</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    <p className="mb-2">1. Copy the prompt text above</p>
-                    <p className="mb-2">
-                      2. Paste it into your AI model of choice
-                    </p>
-                    <p>3. Customize the variables as needed</p>
-                  </div>
-
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    <p>
-                      💡 Tip: This prompt is designed for {promptData.model}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Description */}
-              {promptData.description && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Description</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {promptData.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              )}
             </div>
           </div>
         </div>
       </div>
     )
   } catch (error) {
-    console.error('Prompt page error:', error)
-    notFound()
+    // Check if the error is a PostgrestError with code 'PGRST116' (query returned no rows)
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'PGRST116') {
+      notFound()
+    }
+
+    // For other errors, you might want to log them and show a generic error page
+    console.error('Error fetching public prompt:', error)
+    return (
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+            <div className="text-center">
+                <h1 className="text-2xl font-bold text-red-500">Something went wrong</h1>
+                <p className="text-gray-600 dark:text-gray-400">We couldn't load the prompt. Please try again later.</p>
+            </div>
+        </div>
+    )
   }
-}
+} 

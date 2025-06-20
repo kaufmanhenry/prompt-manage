@@ -49,12 +49,12 @@ export function Header() {
                   pathname === '/dashboard' ? 'text-primary' : 'text-muted-foreground'
                 } hover:text-primary transition-colors`}
               >
-                My Prompts
+                Dashboard
               </Link>
               <Link
-                href="/public"
+                href="/directory"
                 className={`text-sm ${
-                  pathname.startsWith('/public') ? 'text-primary' : 'text-muted-foreground'
+                  pathname.startsWith('/directory') ? 'text-primary' : 'text-muted-foreground'
                 } hover:text-primary transition-colors`}
               >
                 Public Directory

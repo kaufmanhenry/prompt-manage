@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { PublicPrompt } from '@/lib/schemas/prompt'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -187,66 +187,48 @@ export default function PublicDirectoryPage() {
         </div>
 
         {/* Prompts Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPrompts.map((prompt) => (
-            <Card key={prompt.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-start justify-between">
-                  <span className="line-clamp-2">{prompt.name}</span>
-                  <CopyButton text={prompt.prompt_text} />
-                </CardTitle>
+            <Card
+              key={prompt.id}
+              className="p-4 hover:shadow-lg transition-shadow cursor-pointer flex flex-col h-full"
+              onClick={() => window.open(`/p/${prompt.slug}`, '_blank')}
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-lg font-semibold line-clamp-1 flex-1 pr-2">
+                  {prompt.name}
+                </h3>
+                <Badge variant="secondary">{prompt.model}</Badge>
+              </div>
+              <div className="flex-grow space-y-2">
                 {prompt.description && (
                   <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
                     {prompt.description}
                   </p>
                 )}
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">{prompt.model}</Badge>
-                  {prompt.tags?.slice(0, 3).map((tag) => (
-                    <Badge key={tag} variant="outline">{tag}</Badge>
-                  ))}
-                  {prompt.tags && prompt.tags.length > 3 && (
-                    <Badge variant="outline">+{prompt.tags.length - 3}</Badge>
-                  )}
-                </div>
-                
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
-                  <pre className="text-sm font-mono text-gray-900 dark:text-gray-100 line-clamp-3 whitespace-pre-wrap">
+                <div className="relative">
+                  <pre className="text-sm text-muted-foreground line-clamp-3 bg-gray-50 dark:bg-gray-800/50 rounded-md py-3 pl-3 pr-10">
                     {prompt.prompt_text}
                   </pre>
-                </div>
-
-                <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      <span>{new Date(prompt.updated_at || '').toLocaleDateString()}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <TrendingUp className="h-4 w-4" />
-                      <span>{prompt.view_count} views</span>
-                    </div>
+                  <div
+                    className="absolute top-2 right-2"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      navigator.clipboard.writeText(prompt.prompt_text)
+                      toast({ title: 'Copied!', description: 'Prompt copied to clipboard.' })
+                    }}
+                  >
+                    <CopyButton text={prompt.prompt_text} />
                   </div>
                 </div>
-
-                <div className="flex gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="flex-1"
-                    onClick={() => handleCopyPrompt(prompt)}
-                  >
-                    Copy Prompt
-                  </Button>
-                  <Link href={`/public/${prompt.slug}`}>
-                    <Button variant="ghost" size="sm">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {prompt.tags?.map((tag) => (
+                  <Badge key={tag} variant="outline">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
             </Card>
           ))}
         </div>

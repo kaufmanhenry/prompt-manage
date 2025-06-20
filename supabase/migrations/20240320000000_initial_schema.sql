@@ -75,7 +75,7 @@ create or replace function generate_prompt_slug()
 returns trigger as $$
 begin
   if new.is_public = true and (new.slug is null or new.slug = '') then
-    new.slug := generate_slug(new.name) || '-' || substr(new.id::text, 1, 8);
+    new.slug := generate_slug(new.name) || '-' || substr(replace(gen_random_uuid()::text, '-', ''), 1, 12);
   end if;
   return new;
 end;

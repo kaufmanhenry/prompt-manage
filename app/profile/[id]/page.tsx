@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
-import { ArrowLeft, ExternalLink, MapPin, Globe } from 'lucide-react'
+import { ArrowLeft, ExternalLink, MapPin, Globe, Compass } from 'lucide-react'
 import { Metadata } from 'next'
 
 interface UserProfile {
@@ -165,7 +165,7 @@ export default async function UserProfilePage({
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/public">
+          <Link href="/directory">
             <Button variant="ghost" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Public Directory

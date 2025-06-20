@@ -11,6 +11,9 @@ import { createClient } from '@/utils/supabase/client'
 import { Prompt } from '@/lib/schemas/prompt'
 import { Plus, Globe, Lock } from 'lucide-react'
 import Link from 'next/link'
+import { CardContent, CardFooter } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { CollectionsTable } from '@/components/CollectionsTable'
 
 export default function DashboardPage() {
   const [filters, setFilters] = useState({
@@ -62,10 +65,10 @@ export default function DashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/public">
+            <Link href="/directory">
               <Button variant="outline" className="flex items-center gap-2">
                 <Globe className="h-4 w-4" />
-                Browse Public
+                Browse Directory
               </Button>
             </Link>
             <Button 
@@ -103,7 +106,18 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <PromptsTable prompts={prompts} filters={filters} />
+        <Tabs defaultValue="prompts" className="space-y-4">
+          <TabsList>
+            <TabsTrigger value="prompts">Prompts</TabsTrigger>
+            <TabsTrigger value="collections">Collections</TabsTrigger>
+          </TabsList>
+          <TabsContent value="prompts">
+            <PromptsTable prompts={prompts} filters={filters} />
+          </TabsContent>
+          <TabsContent value="collections">
+            <CollectionsTable />
+          </TabsContent>
+        </Tabs>
       </div>
       
       <PromptForm

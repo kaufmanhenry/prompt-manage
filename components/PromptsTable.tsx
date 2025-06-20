@@ -13,6 +13,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { createClient } from '@/utils/supabase/client'
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
+import { Input } from '@/components/ui/input'
 
 interface Filters {
   search: string
@@ -115,9 +116,14 @@ export function PromptsTable({
 
       toast({
         title: prompt.is_public ? "Prompt Made Private" : "Prompt Published!",
-        description: prompt.is_public 
+        description: prompt.is_public
           ? "Your prompt is now private and no longer accessible publicly."
-          : "Your prompt has been published and is now publicly accessible.",
+          : "Your prompt is now available in the public directory.",
+        action: prompt.is_public ? undefined : (
+          <Link href="/directory">
+            <Button variant="outline">View Directory</Button>
+          </Link>
+        )
       })
 
       setShowShareDialog(false)
@@ -154,7 +160,7 @@ export function PromptsTable({
     }
 
     try {
-      const publicUrl = `${window.location.origin}/public/${prompt.slug}`
+      const publicUrl = `${window.location.origin}/p/${prompt.slug}`
       await navigator.clipboard.writeText(publicUrl)
       
       toast({
@@ -368,7 +374,7 @@ export function PromptsTable({
                     Public Link Available
                   </h4>
                   <p className="text-sm text-green-600 dark:text-green-300 mt-1">
-                    {`${window.location.origin}/public/${selectedPrompt.slug}`}
+                    {`${window.location.origin}/p/${selectedPrompt.slug}`}
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -380,7 +386,7 @@ export function PromptsTable({
                     <ExternalLink className="mr-2 h-4 w-4" />
                     Copy
                   </Button>
-                  <Link href={`/public/${selectedPrompt.slug}`}>
+                  <Link href={`/p/${selectedPrompt.slug}`}>
                     <Button variant="outline" size="sm">
                       <Eye className="h-4 w-4" />
                     </Button>
@@ -435,114 +441,63 @@ export function PromptsTable({
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredPrompts.map((prompt) => (
-            <Card key={prompt.id} className="p-4 hover:shadow-lg transition-shadow">
-              <div className="mb-4">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-semibold line-clamp-1 flex-1">{prompt.name}</h3>
-                  {migrationComplete && (
-                    prompt.is_public ? (
-                      <Badge variant="default" className="bg-green-100 text-green-800 border-green-200 ml-2">
-                        <Globe className="mr-1 h-3 w-3" />
-                        Public
-                      </Badge>
-                    ) : (
-                      <Badge variant="secondary" className="ml-2">
-                        <Lock className="mr-1 h-3 w-3" />
-                        Private
-                      </Badge>
-                    )
-                  )}
-                </div>
+            <Card
+              key={prompt.id}
+              className="p-4 hover:shadow-lg transition-shadow cursor-pointer flex flex-col h-full"
+              onClick={() => setSelectedPrompt(prompt)}
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-lg font-semibold line-clamp-1 flex-1 pr-2">
+                  {prompt.name}
+                </h3>
+                {migrationComplete &&
+                  (prompt.is_public ? (
+                    <Badge
+                      variant="default"
+                      className="bg-green-100 text-green-800 border-green-200"
+                    >
+                      <Globe className="mr-1 h-3 w-3" />
+                      Public
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary">
+                      <Lock className="mr-1 h-3 w-3" />
+                      Private
+                    </Badge>
+                  ))}
+              </div>
+              <div className="flex-grow space-y-2">
                 {prompt.description && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
                     {prompt.description}
                   </p>
                 )}
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">{prompt.model}</Badge>
-                  {prompt.tags?.slice(0, 2).map((tag) => (
-                    <Badge key={tag} variant="outline">{tag}</Badge>
-                  ))}
-                  {prompt.tags && prompt.tags.length > 2 && (
-                    <Badge variant="outline">+{prompt.tags.length - 2}</Badge>
-                  )}
-                </div>
-              </div>
-              <div className="mb-4">
-                <pre className="text-sm text-muted-foreground line-clamp-3">
-                  {prompt.prompt_text}
-                </pre>
-              </div>
-              
-              {/* Stats for public prompts */}
-              {migrationComplete && prompt.is_public && (
-                <div className="mb-4 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <TrendingUp className="h-3 w-3" />
-                    <span>{prompt.view_count} views</span>
+                <div className="relative">
+                  <pre className="text-sm text-muted-foreground line-clamp-3 bg-gray-50 dark:bg-gray-800/50 rounded-md py-3 pl-3 pr-10">
+                    {prompt.prompt_text}
+                  </pre>
+                  <div
+                    className="absolute top-2 right-2"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      navigator.clipboard.writeText(prompt.prompt_text)
+                      toast({ title: 'Copied!', description: 'Prompt copied to clipboard.' })
+                    }}
+                  >
+                    <CopyButton text={prompt.prompt_text} />
                   </div>
-                  {prompt.slug && (
-                    <Link href={`/public/${prompt.slug}`} className="text-blue-600 hover:underline">
-                      View Public Page
-                    </Link>
-                  )}
                 </div>
-              )}
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSelectedPrompt(prompt)}
-                  >
-                    <Eye className="mr-2 size-4" />
-                    View
-                  </Button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm">
-                        <Share2 className="size-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      {migrationComplete && (
-                        <DropdownMenuItem onClick={() => handleSharePrompt(prompt)}>
-                          <Share2 className="mr-2 size-4" />
-                          {prompt.is_public ? 'Manage Sharing' : 'Share'}
-                        </DropdownMenuItem>
-                      )}
-                      {migrationComplete && prompt.is_public && (
-                        <DropdownMenuItem onClick={() => handleCopyLink(prompt)}>
-                          <ExternalLink className="mr-2 size-4" />
-                          Copy Link
-                        </DropdownMenuItem>
-                      )}
-                      <DropdownMenuItem>
-                        <Edit className="mr-2 size-4" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem 
-                        className="text-red-600"
-                        onClick={() => handleDeletePrompt(prompt)}
-                      >
-                        <Trash2 className="mr-2 size-4" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CopyButton text={prompt.prompt_text} />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDeletePrompt(prompt)}
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                  >
-                    <Trash2 className="size-4" />
-                  </Button>
-                </div>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Badge variant="secondary">{prompt.model}</Badge>
+                {prompt.tags?.slice(0, 3).map((tag) => (
+                  <Badge key={tag} variant="outline">
+                    {tag}
+                  </Badge>
+                ))}
+                {prompt.tags && prompt.tags.length > 3 && (
+                  <Badge variant="outline">+{prompt.tags.length - 3}</Badge>
+                )}
               </div>
             </Card>
           ))}
@@ -551,78 +506,79 @@ export function PromptsTable({
 
       {/* Share Dialog */}
       <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>
-              {promptToShare?.is_public ? 'Manage Prompt Sharing' : 'Share Prompt'}
-            </DialogTitle>
+            <DialogTitle>Share Prompt</DialogTitle>
             <DialogDescription>
-              {promptToShare?.is_public 
-                ? `"${promptToShare?.name}" is currently public`
-                : `Make "${promptToShare?.name}" publicly accessible`
-              }
+              Choose how you want to share this prompt.
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="pt-4">
             {promptToShare?.is_public ? (
               <div className="space-y-4">
-                <div className="rounded-lg border p-4 bg-green-50 dark:bg-green-950">
-                  <h4 className="font-medium mb-2 flex items-center gap-2">
-                    <Globe className="h-4 w-4 text-green-600" />
-                    Public Link Available
+                <div className="rounded-lg border bg-green-50 dark:bg-green-900/20 p-4">
+                  <h4 className="font-medium text-green-800 dark:text-green-200 mb-2">
+                    This prompt is public!
                   </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    Anyone with this link can view your prompt
+                  <p className="text-sm text-green-700 dark:text-green-300 mb-3">
+                    Anyone with the link can view it.
                   </p>
-                  <div className="flex gap-2">
-                    <Button 
-                      onClick={() => promptToShare && handleCopyLink(promptToShare)}
-                      className="flex-1"
+                  <div className="flex items-center gap-2">
+                    <Input
+                      readOnly
+                      value={`${window.location.origin}/p/${promptToShare.slug}`}
+                      className="flex-1 bg-white dark:bg-gray-800"
+                    />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleCopyLink(promptToShare)}
                     >
-                      <ExternalLink className="mr-2 size-4" />
                       Copy Link
                     </Button>
-                    {promptToShare?.slug && (
-                      <Link href={`/public/${promptToShare.slug}`}>
-                        <Button variant="outline">
-                          <Eye className="size-4" />
-                        </Button>
-                      </Link>
-                    )}
+                  </div>
+                  <div className="mt-3">
+                    <Link
+                      href={`/p/${promptToShare.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-green-600 hover:underline"
+                    >
+                      <ExternalLink className="inline-block mr-1 h-4 w-4" />
+                      View Public Page
+                    </Link>
                   </div>
                 </div>
-                
-                <div className="rounded-lg border p-4">
-                  <h4 className="font-medium mb-2">Make Private</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    Remove this prompt from public access
-                  </p>
-                  <Button 
-                    variant="outline"
-                    onClick={() => promptToShare && handleTogglePublic(promptToShare)}
-                    disabled={sharing}
-                    className="w-full"
-                  >
-                    {sharing ? 'Updating...' : 'Make Private'}
-                  </Button>
-                </div>
+
+                <Button
+                  variant="destructive"
+                  onClick={() =>
+                    promptToShare && handleTogglePublic(promptToShare)
+                  }
+                  disabled={sharing}
+                  className="w-full"
+                >
+                  {sharing ? 'Making Private...' : 'Make Private'}
+                </Button>
               </div>
             ) : (
               <div className="space-y-4">
                 <div className="rounded-lg border p-4">
                   <h4 className="font-medium mb-2">Publish to Public Directory</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    Make this prompt publicly accessible and discoverable
+                    Make this prompt publicly accessible and discoverable.
                   </p>
-                  <Button 
-                    onClick={() => promptToShare && handleTogglePublic(promptToShare)}
+                  <Button
+                    onClick={() =>
+                      promptToShare && handleTogglePublic(promptToShare)
+                    }
                     disabled={sharing}
                     className="w-full"
                   >
                     {sharing ? 'Publishing...' : 'Publish Prompt'}
                   </Button>
                 </div>
-                
+
                 <div className="rounded-lg border p-4">
                   <h4 className="font-medium mb-2">Direct Copy</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">

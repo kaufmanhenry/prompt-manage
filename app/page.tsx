@@ -84,14 +84,14 @@ export default async function Home() {
             community. Discover powerful prompts from other users in our public
             directory.
           </p>
-          <div className="flex items-center justify-center gap-4">
-            <Link href="/auth/signup">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <Link href="/signup">
               <Button size="lg">Get Started</Button>
             </Link>
-            <Link href="/public">
-              <Button variant="outline" size="lg">
-                <Search className="mr-2 h-4 w-4" />
-                Explore Prompts
+            <Link href="/directory">
+              <Button size="lg" variant="outline">
+                <Search className="mr-2 h-5 w-5" />
+                Browse Prompts
               </Button>
             </Link>
           </div>

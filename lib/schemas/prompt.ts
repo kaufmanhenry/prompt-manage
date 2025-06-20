@@ -19,6 +19,7 @@ export const promptSchema = z.object({
   prompt_text: z.string().min(1, 'Prompt text is required'),
   model: modelSchema,
   tags: z.array(z.string()).default([]),
+  collection_ids: z.array(z.string()).default([]),
   is_public: z.boolean().default(false),
   slug: z.string().optional(),
   view_count: z.number().default(0),

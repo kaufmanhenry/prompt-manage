@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import CopyButton from '@/components/CopyButton'
+import { RelatedPrompts } from '@/components/RelatedPrompts'
 import { ArrowLeft, ExternalLink, Calendar, User, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
@@ -266,6 +267,11 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
               </CardContent>
             </Card>
           </div>
+        </div>
+
+        {/* Related Prompts */}
+        <div className="mt-12">
+          <RelatedPrompts currentPrompt={prompt} />
         </div>
       </div>
     </div>

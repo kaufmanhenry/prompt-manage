@@ -30,10 +30,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import { toast } from '@/components/ui/use-toast'
 import { createClient } from '@/utils/supabase/client'
 import { useQueryClient } from '@tanstack/react-query'
 import { useQuery } from '@tanstack/react-query'
 import { X } from 'lucide-react'
+import MultipleSelector, { Option } from '@/components/ui/multi-select'
+import { Controller } from 'react-hook-form'
 
 interface PromptFormProps {
   prompt?: Prompt | null
@@ -67,6 +71,18 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
     },
   })
 
+  const { data: collections = [] } = useQuery({
+    queryKey: ['collections'],
+    queryFn: async () => {
+      const { data, error } = await createClient()
+        .from('collections')
+        .select('id, name')
+        .order('name', { ascending: true })
+      if (error) throw error
+      return data.map(c => ({ label: c.name, value: c.id }))
+    },
+  })
+
   const form = useForm<Prompt>({
     resolver: zodResolver(promptSchema),
     defaultValues: {
@@ -75,6 +91,8 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       model: prompt?.model || 'gpt-4',
       tags: prompt?.tags || [],
       user_id: prompt?.user_id || session?.user?.id || '',
+      collection_ids: prompt?.collection_ids || [],
+      is_public: prompt?.is_public || false,
     },
   })
 
@@ -86,6 +104,8 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       model: prompt?.model || 'gpt-4',
       tags: prompt?.tags || [],
       user_id: prompt?.user_id || session?.user?.id || '',
+      collection_ids: prompt?.collection_ids || [],
+      is_public: prompt?.is_public || false,
     })
   }, [prompt, session?.user?.id, form])
 
@@ -104,7 +124,9 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         model: values.model,
         tags: values.tags,
         user_id: session.user.id,
-        // Note: description, is_public, slug, view_count are not included
+        collection_ids: values.collection_ids,
+        is_public: values.is_public,
+        // Note: description, slug, view_count are not included
         // until the database migration is run
       }
 
@@ -230,59 +252,66 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
+                  <Controller
+                    control={form.control}
+                    name="tags"
+                    render={({ field }) => (
+                      <MultipleSelector
+                        value={field.value.map(v => ({ label: v, value: v }))}
+                        onChange={(options) => field.onChange(options.map(o => o.value))}
+                        placeholder="Select tags..."
+                        creatable
+                        emptyIndicator={
+                          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                            no tags found.
+                          </p>
+                        }
+                      />
+                    )}
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="collection_ids"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Collections</FormLabel>
+                  <Controller
+                    control={form.control}
+                    name="collection_ids"
+                    render={({ field }) => (
+                      <MultipleSelector
+                        value={collections.filter((c: Option) => field.value.includes(c.value))}
+                        onChange={(options) => field.onChange(options.map(o => o.value))}
+                        defaultOptions={collections}
+                        placeholder="Select collections..."
+                        emptyIndicator={
+                          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                            no collections found.
+                          </p>
+                        }
+                      />
+                    )}
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="is_public"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Public</FormLabel>
                   <FormControl>
-                    <Input
-                      value={tagInputValue}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ',') {
-                          e.preventDefault()
-                          const value = tagInputValue.trim()
-                          if (value && !field.value?.includes(value)) {
-                            const newTags = [...(field.value || []), value]
-                            field.onChange(newTags)
-                            setTagInputValue('')
-                          }
-                        }
-                      }}
-                      onChange={(e) => {
-                        const value = e.target.value
-                        if (value.endsWith(',')) {
-                          const tag = value.slice(0, -1).trim()
-                          if (tag && !field.value?.includes(tag)) {
-                            const newTags = [...(field.value || []), tag]
-                            field.onChange(newTags)
-                            setTagInputValue('')
-                          }
-                        } else {
-                          setTagInputValue(value)
-                        }
-                      }}
-                      placeholder="Type a tag and press Enter or comma"
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <FormDescription>
-                    Add tags to help organize and find your prompts.
-                  </FormDescription>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {field.value?.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-1 text-sm text-primary"
-                      >
-                        {tag}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const newTags = field.value?.filter((_, i) => i !== index)
-                            field.onChange(newTags)
-                          }}
-                          className="rounded-full p-0.5 hover:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-primary"
-                        >
-                          <X className="size-3" />
-                        </button>
-                      </span>
-                    ))}
-                  </div>
                   <FormMessage />
                 </FormItem>
               )}

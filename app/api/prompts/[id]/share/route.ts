@@ -1,12 +1,13 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function PATCH(request: NextRequest) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const supabase = await createClient()
-
-    const requestUrl = new URL(request.url)
-    const id = requestUrl.searchParams.get('id')
+    const { id } = params
 
     // Check authentication
     const {

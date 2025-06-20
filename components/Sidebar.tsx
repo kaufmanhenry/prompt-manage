@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Badge } from '@/components/ui/badge'
 import { Prompt } from '@/lib/schemas/prompt'
 import { SearchIcon } from 'lucide-react'
 import {
@@ -72,7 +71,7 @@ export function Sidebar({ prompts = [], filters, onFilterChange }: SidebarProps)
   }
 
   return (
-    <div className="w-64 border-r bg-muted/50 p-4">
+    <div className="w-64 border-r bg-muted/50 p-4 shrink-0">
       <div className="mb-6">
         <div className="relative">
           <SearchIcon className="absolute left-2 top-2.5 size-4 text-muted-foreground" />
@@ -91,20 +90,23 @@ export function Sidebar({ prompts = [], filters, onFilterChange }: SidebarProps)
               Models
             </AccordionTrigger>
             <AccordionContent>
-              <div className="mt-2 space-y-1">
+              <div className="mt-2 flex flex-wrap gap-2 px-1">
                 {allModels.map((model) => (
                   <Button
                     key={model}
-                    variant={filters.selectedModels.includes(model) ? 'secondary' : 'ghost'}
-                    className="w-full justify-start px-2"
+                    variant={
+                      filters.selectedModels.includes(model)
+                        ? 'secondary'
+                        : 'outline'
+                    }
+                    className={`h-auto rounded-full px-3 py-1 text-sm ${
+                      filters.selectedModels.includes(model)
+                        ? 'border border-primary'
+                        : ''
+                    }`}
                     onClick={() => handleModelClick(model)}
                   >
-                    <Badge
-                      variant={filters.selectedModels.includes(model) ? 'default' : 'outline'}
-                      className="w-full justify-start"
-                    >
-                      {model}
-                    </Badge>
+                    {model}
                   </Button>
                 ))}
               </div>
@@ -119,8 +121,14 @@ export function Sidebar({ prompts = [], filters, onFilterChange }: SidebarProps)
                 {allTags.map((tag) => (
                   <Button
                     key={tag}
-                    variant={filters.selectedTags.includes(tag) ? 'secondary' : 'ghost'}
-                    className="h-auto rounded-full px-3 py-1 text-sm"
+                    variant={
+                      filters.selectedTags.includes(tag) ? 'secondary' : 'outline'
+                    }
+                    className={`h-auto rounded-full px-3 py-1 text-sm ${
+                      filters.selectedTags.includes(tag)
+                        ? 'border border-primary'
+                        : ''
+                    }`}
                     onClick={() => handleTagClick(tag)}
                   >
                     {tag}

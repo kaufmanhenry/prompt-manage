@@ -53,7 +53,7 @@ export default function DashboardPage() {
         filters={filters}
         onFilterChange={setFilters}
       />
-      <div className="flex-1 space-y-6 p-8 text-gray-900 dark:text-gray-100">
+      <div className="space-y-6 p-8 text-gray-900 dark:text-gray-100 w-full">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold">My Prompts</h1>

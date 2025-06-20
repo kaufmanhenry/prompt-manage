@@ -6,7 +6,7 @@ import { Prompt } from '@/lib/schemas/prompt'
 import CopyButton from './CopyButton'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Clock, Eye, Share2, ExternalLink, Edit, Trash2, Lock, Globe, TrendingUp } from 'lucide-react'
+import { Clock, Eye, Share2, ExternalLink, Edit, Trash2, Lock, Globe, TrendingUp, X } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -275,7 +275,7 @@ export function PromptsTable({
                   </Badge>
                 )}
               </div>
-              <div className="mt-1 flex items-center gap-2">
+              <div className="mt-1 flex items-center gap-2 flex-wrap">
                 <Badge variant="secondary">{selectedPrompt.model}</Badge>
                 {selectedPrompt.tags?.map((tag) => (
                   <Badge key={tag} variant="outline">{tag}</Badge>
@@ -283,29 +283,6 @@ export function PromptsTable({
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {/* Share/Unshare Button - only show if migration is complete */}
-              {migrationComplete && (
-                <Button
-                  variant={selectedPrompt.is_public ? "outline" : "default"}
-                  size="sm"
-                  onClick={() => handleTogglePublic(selectedPrompt)}
-                  disabled={sharing}
-                >
-                  {sharing ? (
-                    "Updating..."
-                  ) : selectedPrompt.is_public ? (
-                    <>
-                      <Lock className="mr-2 h-4 w-4" />
-                      Make Private
-                    </>
-                  ) : (
-                    <>
-                      <Globe className="mr-2 h-4 w-4" />
-                      Share
-                    </>
-                  )}
-                </Button>
-              )}
               
               {/* Manage Sharing Button - opens full share dialog */}
               {migrationComplete && (
@@ -319,18 +296,6 @@ export function PromptsTable({
                 </Button>
               )}
               
-              {/* Copy Link Button (only for public prompts) */}
-              {migrationComplete && selectedPrompt.is_public && selectedPrompt.slug && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleCopyLink(selectedPrompt)}
-                >
-                  <ExternalLink className="mr-2 h-4 w-4" />
-                  Copy Link
-                </Button>
-              )}
-              
               <Button
                 variant="outline"
                 size="sm"
@@ -339,13 +304,7 @@ export function PromptsTable({
                 <Clock className="mr-2 size-4" />
                 {showHistory ? 'Hide History' : 'Show History'}
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSelectedPrompt(null)}
-              >
-                Close
-              </Button>
+              
               <Button
                 variant="outline"
                 size="sm"
@@ -354,6 +313,13 @@ export function PromptsTable({
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Delete
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSelectedPrompt(null)}
+              >
+                <X className="h-4 w-4" />
               </Button>
             </div>
           </div>

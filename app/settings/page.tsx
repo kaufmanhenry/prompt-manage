@@ -8,10 +8,10 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/use-toast'
+import { User as AuthUser } from '@supabase/supabase-js'
 import { User, Mail, Lock, Globe, MapPin, Save, Trash2, Eye, EyeOff } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 interface UserProfile {
   id: string
@@ -29,7 +29,7 @@ export default function SettingsPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<AuthUser | null>(null)
   
   // Profile form state
   const [displayName, setDisplayName] = useState('')
@@ -47,10 +47,18 @@ export default function SettingsPage() {
   // Settings state
   const [emailNotifications, setEmailNotifications] = useState(true)
   const [darkMode, setDarkMode] = useState(false)
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     loadUserData()
   }, [])
+
+  useEffect(() => {
+    console.log('theme', theme)
+    if (theme) {
+      setDarkMode(theme === 'dark')
+    }
+  }, [theme])
 
   const loadUserData = async () => {
     try {
@@ -99,8 +107,8 @@ export default function SettingsPage() {
           setDisplayName(newProfile.display_name || '')
         }
       }
-    } catch (error) {
-      console.error('Error loading user data:', error)
+    } catch {
+      console.error('Error loading user data:')
     } finally {
       setLoading(false)
     }
@@ -135,7 +143,7 @@ export default function SettingsPage() {
         })
         await loadUserData() // Reload to get updated data
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "An error occurred while saving your profile.",
@@ -187,7 +195,7 @@ export default function SettingsPage() {
         setNewPassword('')
         setConfirmPassword('')
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "An error occurred while changing your password.",
@@ -199,13 +207,13 @@ export default function SettingsPage() {
   }
 
   const handleDeleteAccount = async () => {
-    if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+    if (!user || !confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       return
     }
 
     try {
       const supabase = createClient()
-      const { error } = await supabase.auth.admin.deleteUser(user.id)
+      const { error } = await supabase.rpc('delete_user')
 
       if (error) {
         toast({
@@ -220,7 +228,7 @@ export default function SettingsPage() {
         })
         window.location.href = '/auth/login'
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "An error occurred while deleting your account.",
@@ -229,7 +237,7 @@ export default function SettingsPage() {
     }
   }
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -289,7 +297,7 @@ export default function SettingsPage() {
                     <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="email"
-                      value={user?.email || ''}
+                      value={user.email || ''}
                       disabled
                       className="pl-10 bg-gray-50 dark:bg-gray-800"
                     />
@@ -437,7 +445,10 @@ export default function SettingsPage() {
                 </div>
                 <Switch
                   checked={darkMode}
-                  onCheckedChange={setDarkMode}
+                  onCheckedChange={(checked) => {
+                    setDarkMode(checked)
+                    setTheme(checked ? 'dark' : 'light')
+                  }}
                 />
               </div>
             </CardContent>

@@ -435,70 +435,68 @@ export function PromptsTable({
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredPrompts.map((prompt) => (
-            <Card key={prompt.id} className="p-4 hover:shadow-lg transition-shadow">
-              <div className="mb-4">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-semibold line-clamp-1 flex-1">{prompt.name}</h3>
-                  {migrationComplete && (
-                    prompt.is_public ? (
-                      <Badge variant="default" className="bg-green-100 text-green-800 border-green-200 ml-2">
-                        <Globe className="mr-1 h-3 w-3" />
-                        Public
-                      </Badge>
-                    ) : (
-                      <Badge variant="secondary" className="ml-2">
-                        <Lock className="mr-1 h-3 w-3" />
-                        Private
-                      </Badge>
-                    )
-                  )}
-                </div>
-                {prompt.description && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
-                    {prompt.description}
-                  </p>
-                )}
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">{prompt.model}</Badge>
-                  {prompt.tags?.slice(0, 2).map((tag) => (
-                    <Badge key={tag} variant="outline">{tag}</Badge>
-                  ))}
-                  {prompt.tags && prompt.tags.length > 2 && (
-                    <Badge variant="outline">+{prompt.tags.length - 2}</Badge>
-                  )}
-                </div>
-              </div>
-              <div className="mb-4">
-                <pre className="text-sm text-muted-foreground line-clamp-3">
-                  {prompt.prompt_text}
-                </pre>
-              </div>
-              
-              {/* Stats for public prompts */}
-              {migrationComplete && prompt.is_public && (
-                <div className="mb-4 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <TrendingUp className="h-3 w-3" />
-                    <span>{prompt.view_count} views</span>
+            <Card 
+              key={prompt.id} 
+              className="p-4 hover:shadow-lg transition-shadow cursor-pointer flex flex-col h-full"
+              onClick={() => setSelectedPrompt(prompt)}
+            >
+              <div className="flex-grow">
+                <div className="mb-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-lg font-semibold line-clamp-1 flex-1">{prompt.name}</h3>
+                    {migrationComplete && (
+                      prompt.is_public ? (
+                        <Badge variant="default" className="bg-green-100 text-green-800 border-green-200 ml-2">
+                          <Globe className="mr-1 h-3 w-3" />
+                          Public
+                        </Badge>
+                      ) : (
+                        <Badge variant="secondary" className="ml-2">
+                          <Lock className="mr-1 h-3 w-3" />
+                          Private
+                        </Badge>
+                      )
+                    )}
                   </div>
-                  {prompt.slug && (
-                    <Link href={`/p/${prompt.slug}`} className="text-blue-600 hover:underline">
-                      View Public Page
-                    </Link>
+                  {prompt.description && (
+                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
+                      {prompt.description}
+                    </p>
                   )}
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary">{prompt.model}</Badge>
+                    {prompt.tags?.slice(0, 2).map((tag) => (
+                      <Badge key={tag} variant="outline">{tag}</Badge>
+                    ))}
+                    {prompt.tags && prompt.tags.length > 2 && (
+                      <Badge variant="outline">+{prompt.tags.length - 2}</Badge>
+                    )}
+                  </div>
                 </div>
-              )}
+                <div className="mb-4">
+                  <pre className="text-sm text-muted-foreground line-clamp-3">
+                    {prompt.prompt_text}
+                  </pre>
+                </div>
+                
+                {/* Stats for public prompts */}
+                {migrationComplete && prompt.is_public && (
+                  <div className="mb-4 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-3 w-3" />
+                      <span>{prompt.view_count} views</span>
+                    </div>
+                    {prompt.slug && (
+                      <Link href={`/p/${prompt.slug}`} className="text-blue-600 hover:underline" onClick={(e) => e.stopPropagation()}>
+                        View Public Page
+                      </Link>
+                    )}
+                  </div>
+                )}
+              </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mt-auto pt-4" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSelectedPrompt(prompt)}
-                  >
-                    <Eye className="mr-2 size-4" />
-                    View
-                  </Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="sm">
@@ -534,14 +532,6 @@ export function PromptsTable({
                 </div>
                 <div className="flex items-center gap-2">
                   <CopyButton text={prompt.prompt_text} />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDeletePrompt(prompt)}
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                  >
-                    <Trash2 className="size-4" />
-                  </Button>
                 </div>
               </div>
             </Card>

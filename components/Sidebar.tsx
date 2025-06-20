@@ -115,20 +115,15 @@ export function Sidebar({ prompts = [], filters, onFilterChange }: SidebarProps)
               Tags
             </AccordionTrigger>
             <AccordionContent>
-              <div className="mt-2 space-y-1">
+              <div className="mt-2 flex flex-wrap gap-2 px-1">
                 {allTags.map((tag) => (
                   <Button
                     key={tag}
                     variant={filters.selectedTags.includes(tag) ? 'secondary' : 'ghost'}
-                    className="w-full justify-start px-2"
+                    className="h-auto rounded-full px-3 py-1 text-sm"
                     onClick={() => handleTagClick(tag)}
                   >
-                    <Badge
-                      variant={filters.selectedTags.includes(tag) ? 'default' : 'outline'}
-                      className="w-full justify-start"
-                    >
-                      {tag}
-                    </Badge>
+                    {tag}
                   </Button>
                 ))}
               </div>

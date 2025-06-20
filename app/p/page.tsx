@@ -1,19 +1,19 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { PublicPrompt } from '@/lib/schemas/prompt'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import CopyButton from '@/components/CopyButton'
-import { Search, Eye } from 'lucide-react'
-import Link from 'next/link'
+import { Search, TrendingUp } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 
 export default function PublicDirectoryPage() {
+  const router = useRouter()
   const [prompts, setPrompts] = useState<PublicPrompt[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -22,10 +22,6 @@ export default function PublicDirectoryPage() {
   const [sortBy, setSortBy] = useState<'recent' | 'popular'>('recent')
   const [availableTags, setAvailableTags] = useState<string[]>([])
   const { toast } = useToast()
-
-  useEffect(() => {
-    fetchPublicPrompts()
-  }, [sortBy])
 
   const fetchPublicPrompts = async () => {
     try {
@@ -73,6 +69,10 @@ export default function PublicDirectoryPage() {
     }
   }
 
+  useEffect(() => {
+    fetchPublicPrompts()
+  }, [sortBy, fetchPublicPrompts])
+
   const filteredPrompts = prompts.filter(prompt => {
     const matchesSearch = 
       prompt.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -85,23 +85,6 @@ export default function PublicDirectoryPage() {
 
     return matchesSearch && matchesModel && matchesTag
   })
-
-  const handleCopyPrompt = async (prompt: PublicPrompt) => {
-    try {
-      await navigator.clipboard.writeText(prompt.prompt_text)
-      toast({
-        title: "Copied!",
-        description: "Prompt copied to clipboard.",
-      })
-    } catch (error) {
-      console.error('Copy prompt error:', error)
-      toast({
-        title: "Error",
-        description: "Failed to copy prompt.",
-        variant: "destructive",
-      })
-    }
-  }
 
   if (loading) {
     return (
@@ -192,57 +175,45 @@ export default function PublicDirectoryPage() {
             <Card
               key={prompt.id}
               className="p-4 hover:shadow-lg transition-shadow cursor-pointer flex flex-col h-full"
-              onClick={() => window.open(`/p/${prompt.slug}`, '_blank')}
+              onClick={() => router.push(`/p/${prompt.slug}`)}
             >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-lg font-semibold line-clamp-1 flex-1 pr-2">
-                  {prompt.name}
-                </h3>
-                <Badge variant="secondary">{prompt.model}</Badge>
-              </div>
-              <div className="flex-grow space-y-2">
-                {prompt.description && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                    {prompt.description}
-                  </p>
-                )}
-                <div className="relative">
-                  <pre className="text-sm text-muted-foreground line-clamp-3 bg-gray-50 dark:bg-gray-800/50 rounded-md py-3 pl-3 pr-10">
-                    {prompt.prompt_text}
-                  </pre>
-                  <div
-                    className="absolute top-2 right-2"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      navigator.clipboard.writeText(prompt.prompt_text)
-                      toast({ title: 'Copied!', description: 'Prompt copied to clipboard.' })
-                    }}
-                  >
-                    <CopyButton text={prompt.prompt_text} />
+              <div className="flex-grow">
+                <div className="mb-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-lg font-semibold line-clamp-1 flex-1">{prompt.name}</h3>
+                    <Badge variant="secondary" className="ml-2">{prompt.model}</Badge>
+                  </div>
+                  {prompt.description && (
+                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
+                      {prompt.description}
+                    </p>
+                  )}
+                  <div className="flex flex-wrap gap-2">
+                    {prompt.tags?.slice(0, 2).map((tag) => (
+                      <Badge key={tag} variant="outline">{tag}</Badge>
+                    ))}
+                    {prompt.tags && prompt.tags.length > 2 && (
+                      <Badge variant="outline">+{prompt.tags.length - 2}</Badge>
+                    )}
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="flex-1"
-                    onClick={() => handleCopyPrompt(prompt)}
-                  >
-                    Copy Prompt
-                  </Button>
-                  <Link href={`/p/${prompt.slug}`}>
-                    <Button variant="ghost" size="sm">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </Link>
+                <div className="mb-4">
+                  <pre className="text-sm text-muted-foreground line-clamp-3">
+                    {prompt.prompt_text}
+                  </pre>
                 </div>
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {prompt.tags?.map((tag) => (
-                  <Badge key={tag} variant="outline">
-                    {tag}
-                  </Badge>
-                ))}
+                
+                {/* Stats for public prompts */}
+                <div className="mb-4 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3" />
+                    <span>{prompt.view_count} views</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-end mt-auto pt-4" onClick={(e) => e.stopPropagation()}>
+                  <CopyButton text={prompt.prompt_text} />
+                </div>
               </div>
             </Card>
           ))}

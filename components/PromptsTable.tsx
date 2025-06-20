@@ -6,7 +6,7 @@ import { Prompt } from '@/lib/schemas/prompt'
 import CopyButton from './CopyButton'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Clock, Eye, Share2, ExternalLink, Edit, Trash2, Lock, Globe, TrendingUp, X } from 'lucide-react'
+import { Clock, Eye, Share2, ExternalLink, Edit, Trash2, Lock, Globe, TrendingUp, X, FileText, SearchIcon, Plus } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -29,12 +29,14 @@ interface PromptsTableProps {
   prompts: Prompt[]
   filters: Filters
   onEditPrompt?: (prompt: Prompt) => void
+  isLoading?: boolean
 }
 
 export function PromptsTable({ 
   prompts = [], 
   filters,
-  onEditPrompt
+  onEditPrompt,
+  isLoading = false
 }: PromptsTableProps) {
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null)
   const [showHistory, setShowHistory] = useState(false)
@@ -218,16 +220,91 @@ export function PromptsTable({
     }
   }
 
+  // Filter prompts based on search and filters
   const filteredPrompts = prompts.filter((prompt) => {
-    const matchesSearch = prompt.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-      prompt.description?.toLowerCase().includes(filters.search.toLowerCase()) ||
+    const matchesSearch = !filters.search || 
+      prompt.name.toLowerCase().includes(filters.search.toLowerCase()) ||
       prompt.prompt_text.toLowerCase().includes(filters.search.toLowerCase())
-    const matchesTags = filters.selectedTags.length === 0 ||
+    
+    const matchesTags = filters.selectedTags.length === 0 || 
       filters.selectedTags.some(tag => prompt.tags?.includes(tag))
-    const matchesModels = filters.selectedModels.length === 0 ||
+    
+    const matchesModels = filters.selectedModels.length === 0 || 
       filters.selectedModels.includes(prompt.model)
+    
     return matchesSearch && matchesTags && matchesModels
   })
+
+  // Show loading skeleton if data is loading
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <Card key={i} className="p-6">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 animate-pulse" />
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-16 animate-pulse" />
+              </div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 animate-pulse" />
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 animate-pulse" />
+            </div>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
+  // Show empty state if no prompts
+  if (prompts.length === 0) {
+    return (
+      <Card className="p-12 text-center">
+        <div className="mx-auto max-w-md">
+          <div className="mx-auto h-12 w-12 text-gray-400 mb-4">
+            <FileText className="h-12 w-12" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+            No prompts yet
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            Get started by creating your first prompt. You can create prompts for different AI models and organize them with tags.
+          </p>
+          <Button onClick={() => window.dispatchEvent(new CustomEvent('openNewPromptForm'))}>
+            <Plus className="mr-2 h-4 w-4" />
+            Create Your First Prompt
+          </Button>
+        </div>
+      </Card>
+    )
+  }
+
+  // Show no results state if filters return no results
+  if (filteredPrompts.length === 0 && (filters.search || filters.selectedTags.length > 0 || filters.selectedModels.length > 0)) {
+    return (
+      <Card className="p-12 text-center">
+        <div className="mx-auto max-w-md">
+          <div className="mx-auto h-12 w-12 text-gray-400 mb-4">
+            <SearchIcon className="h-12 w-12" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+            No prompts found
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            Try adjusting your search terms or filters to find what you&apos;re looking for.
+          </p>
+          <Button 
+            variant="outline" 
+            onClick={() => {
+              // Clear all filters
+              window.dispatchEvent(new CustomEvent('clearAllFilters'))
+            }}
+          >
+            Clear Filters
+          </Button>
+        </div>
+      </Card>
+    )
+  }
 
   return (
     <div className="space-y-6">

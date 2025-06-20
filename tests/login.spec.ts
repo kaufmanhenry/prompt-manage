@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test'
 
 test('login page', async ({ page }: { page: Page }) => {
-  await page.goto('/login')
+  await page.goto('/auth/login')
 
   // Check if the login form is visible
   await expect(page.getByRole('heading', { name: 'Welcome to Prompt Manage' })).toBeVisible()

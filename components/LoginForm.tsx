@@ -160,7 +160,7 @@ export function LoginForm() {
 
           <div className="text-sm">
             Don't have an account?{' '}
-            <Link href="/signup" className="text-primary hover:underline">
+            <Link href="/auth/signup" className="text-primary hover:underline">
               Sign up
             </Link>
           </div>

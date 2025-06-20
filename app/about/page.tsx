@@ -181,7 +181,7 @@ export default function AboutPage() {
             Join thousands of users managing their AI prompts
           </p>
           <div className="flex items-center justify-center gap-4">
-            <Link href="/signup">
+            <Link href="/auth/signup">
               <Button size="lg">
                 Create Your Account
               </Button>

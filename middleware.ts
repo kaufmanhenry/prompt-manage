@@ -57,14 +57,14 @@ export async function middleware(request: NextRequest) {
   )
 
   // Auth routes that should redirect if already authenticated
-  const authRoutes = ['/login', '/signup']
+  const authRoutes = ['/auth/login', '/auth/signup']
   const isAuthRoute = authRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
 
   if (isProtectedRoute && !session) {
     // Redirect to login if accessing protected route without session
-    const redirectUrl = new URL('/login', request.url)
+    const redirectUrl = new URL('/auth/login', request.url)
     redirectUrl.searchParams.set('redirect', request.nextUrl.pathname)
     return NextResponse.redirect(redirectUrl)
   }

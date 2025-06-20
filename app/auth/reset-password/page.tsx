@@ -76,7 +76,7 @@ export default function ResetPasswordPage() {
           </CardHeader>
           <CardContent>
             <Button 
-              onClick={() => router.push('/login')} 
+              onClick={() => router.push('/auth/login')} 
               className="w-full"
             >
               Back to Login

@@ -85,7 +85,7 @@ export default async function Home() {
             directory.
           </p>
           <div className="flex items-center justify-center gap-4">
-            <Link href="/signup">
+            <Link href="/auth/signup">
               <Button size="lg">Get Started</Button>
             </Link>
             <Link href="/public">
@@ -148,10 +148,10 @@ export default async function Home() {
             Join thousands of users managing their AI prompts
           </p>
           <div className="flex items-center justify-center gap-4">
-            <Link href="/signup">
+            <Link href="/auth/signup">
               <Button size="lg">Create Your Account</Button>
             </Link>
-            <Link href="/login">
+            <Link href="/auth/login">
               <Button variant="outline" size="lg">
                 Sign In
               </Button>

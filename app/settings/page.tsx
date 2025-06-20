@@ -59,7 +59,7 @@ export default function SettingsPage() {
       // Get current user
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
-        window.location.href = '/login'
+        window.location.href = '/auth/login'
         return
       }
       setUser(user)
@@ -218,7 +218,7 @@ export default function SettingsPage() {
           title: "Account Deleted",
           description: "Your account has been deleted successfully.",
         })
-        window.location.href = '/'
+        window.location.href = '/auth/login'
       }
     } catch (error) {
       toast({

@@ -6,14 +6,6 @@ import Link from 'next/link'
 import { Globe, ArrowLeft, User as UserIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-interface UserProfile {
-  id: string
-  display_name?: string
-  bio?: string
-  avatar_url?: string
-  website?: string
-}
-
 interface PublicPrompt {
   id: string
   name: string
@@ -24,28 +16,29 @@ interface PublicPrompt {
 }
 
 interface PublicProfilePageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function PublicProfilePage({ params }: PublicProfilePageProps) {
   const supabase = await createClient()
+  const { id } = await params
 
   const { data: profile, error: profileError } = await supabase
     .from('user_profiles')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .single()
 
   if (profileError || !profile) {
     notFound()
   }
 
-  const { data: prompts, error: promptsError } = await supabase
+  const { data: prompts } = await supabase
     .from('prompts')
     .select('id, name, description, model, tags, slug')
-    .eq('user_id', params.id)
+    .eq('user_id', id)
     .eq('is_public', true)
 
   return (

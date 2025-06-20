@@ -1,28 +1,31 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { promptSchema, type Prompt, type Model } from '@/lib/schemas/prompt'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { createClient } from '@/utils/supabase/client'
+import { promptSchema, Prompt, modelSchema } from '@/lib/schemas/prompt'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Switch } from '@/components/ui/switch'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from '@/components/ui/dialog'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import {
   Select,
   SelectContent,
@@ -30,14 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
-import { toast } from '@/components/ui/use-toast'
-import { createClient } from '@/utils/supabase/client'
-import { useQueryClient } from '@tanstack/react-query'
-import { useQuery } from '@tanstack/react-query'
-import { X } from 'lucide-react'
 import MultipleSelector, { Option } from '@/components/ui/multi-select'
-import { Controller } from 'react-hook-form'
 
 interface PromptFormProps {
   prompt?: Prompt | null
@@ -45,41 +41,17 @@ interface PromptFormProps {
   onOpenChange: (open: boolean) => void
 }
 
-const models: Model[] = [
-  'gpt-4',
-  'gpt-3.5-turbo',
-  'claude-3-opus',
-  'claude-3-sonnet',
-  'claude-3-haiku',
-  'gemini-pro',
-  'mistral-large',
-  'mistral-medium',
-  'mistral-small',
-]
+const models = modelSchema.options
 
 export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const [loading, setLoading] = useState(false)
-  const [tagInputValue, setTagInputValue] = useState('')
   const queryClient = useQueryClient()
 
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
-      const { data: { session }, error } = await createClient().auth.getSession()
-      if (error) throw error
+      const { data: { session } } = await createClient().auth.getSession()
       return session
-    },
-  })
-
-  const { data: collections = [] } = useQuery({
-    queryKey: ['collections'],
-    queryFn: async () => {
-      const { data, error } = await createClient()
-        .from('collections')
-        .select('id, name')
-        .order('name', { ascending: true })
-      if (error) throw error
-      return data.map(c => ({ label: c.name, value: c.id }))
     },
   })
 
@@ -91,7 +63,6 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       model: prompt?.model || 'gpt-4',
       tags: prompt?.tags || [],
       user_id: prompt?.user_id || session?.user?.id || '',
-      collection_ids: prompt?.collection_ids || [],
       is_public: prompt?.is_public || false,
     },
   })
@@ -104,7 +75,6 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       model: prompt?.model || 'gpt-4',
       tags: prompt?.tags || [],
       user_id: prompt?.user_id || session?.user?.id || '',
-      collection_ids: prompt?.collection_ids || [],
       is_public: prompt?.is_public || false,
     })
   }, [prompt, session?.user?.id, form])
@@ -124,7 +94,6 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         model: values.model,
         tags: values.tags,
         user_id: session.user.id,
-        collection_ids: values.collection_ids,
         is_public: values.is_public,
         // Note: description, slug, view_count are not included
         // until the database migration is run
@@ -249,7 +218,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
             <FormField
               control={form.control}
               name="tags"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
                   <Controller
@@ -258,39 +227,12 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                     render={({ field }) => (
                       <MultipleSelector
                         value={field.value.map(v => ({ label: v, value: v }))}
-                        onChange={(options) => field.onChange(options.map(o => o.value))}
+                        onChange={(options: Option[]) => field.onChange(options.map(o => o.value))}
                         placeholder="Select tags..."
                         creatable
                         emptyIndicator={
                           <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
                             no tags found.
-                          </p>
-                        }
-                      />
-                    )}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="collection_ids"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Collections</FormLabel>
-                  <Controller
-                    control={form.control}
-                    name="collection_ids"
-                    render={({ field }) => (
-                      <MultipleSelector
-                        value={collections.filter((c: Option) => field.value.includes(c.value))}
-                        onChange={(options) => field.onChange(options.map(o => o.value))}
-                        defaultOptions={collections}
-                        placeholder="Select collections..."
-                        emptyIndicator={
-                          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                            no collections found.
                           </p>
                         }
                       />

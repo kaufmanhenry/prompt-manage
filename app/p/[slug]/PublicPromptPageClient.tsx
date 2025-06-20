@@ -105,11 +105,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             This prompt may have been deleted or is not publicly available.
           </p>
-<<<<<<<< HEAD:app/p/[slug]/PublicPromptPageClient.tsx
           <Link href="/p">
-========
-          <Link href="/directory">
->>>>>>>> mike:app/directory/[slug]/PublicPromptPageClient.tsx
             <Button>
               <ArrowLeft className="mr-2 h-4 w-4" />
               Browse Public Prompts
@@ -125,11 +121,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
       <div className="max-w-4xl mx-auto p-6">
         {/* Header */}
         <div className="mb-8">
-<<<<<<<< HEAD:app/p/[slug]/PublicPromptPageClient.tsx
           <Link href="/p">
-========
-          <Link href="/directory">
->>>>>>>> mike:app/directory/[slug]/PublicPromptPageClient.tsx
             <Button variant="ghost" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Directory

@@ -14,20 +14,12 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL('https://promptmanage.com'),
   alternates: {
-<<<<<<<< HEAD:app/p/layout.tsx
     canonical: '/p',
-========
-    canonical: '/directory',
->>>>>>>> mike:app/directory/layout.tsx
   },
   openGraph: {
     title: 'Public Prompts Directory - Discover AI Prompts',
     description: 'Browse and discover thousands of AI prompts shared by the community. Find prompts for ChatGPT, Claude, Gemini, and more.',
-<<<<<<<< HEAD:app/p/layout.tsx
     url: 'https://promptmanage.com/p',
-========
-    url: 'https://promptmanage.com/directory',
->>>>>>>> mike:app/directory/layout.tsx
     siteName: 'Prompt Manage',
     images: [
       {

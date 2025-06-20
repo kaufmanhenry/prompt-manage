@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { PublicPrompt } from '@/lib/schemas/prompt'
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import CopyButton from '@/components/CopyButton'
-import { Search, Eye, Calendar, TrendingUp } from 'lucide-react'
+import { Search, Eye } from 'lucide-react'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
 
@@ -221,8 +221,6 @@ export default function PublicDirectoryPage() {
                     <CopyButton text={prompt.prompt_text} />
                   </div>
                 </div>
-<<<<<<<< HEAD:app/p/page.tsx
-
                 <div className="flex gap-2">
                   <Button 
                     variant="outline" 
@@ -238,8 +236,6 @@ export default function PublicDirectoryPage() {
                     </Button>
                   </Link>
                 </div>
-              </CardContent>
-========
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 {prompt.tags?.map((tag) => (
@@ -248,7 +244,6 @@ export default function PublicDirectoryPage() {
                   </Badge>
                 ))}
               </div>
->>>>>>>> mike:app/directory/page.tsx
             </Card>
           ))}
         </div>

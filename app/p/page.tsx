@@ -240,7 +240,7 @@ export default function PublicDirectoryPage() {
                   >
                     Copy Prompt
                   </Button>
-                  <Link href={`/public/${prompt.slug}`}>
+                  <Link href={`/p/${prompt.slug}`}>
                     <Button variant="ghost" size="sm">
                       <Eye className="h-4 w-4" />
                     </Button>

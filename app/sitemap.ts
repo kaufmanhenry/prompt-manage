@@ -45,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/public`,
+      url: `${baseUrl}/p`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.9,
@@ -66,16 +66,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Generate legal pages from markdown files
   const legalDir = path.join(process.cwd(), 'legal')
-  const legalFiles = fs.readdirSync(legalDir).filter(f => f.endsWith('.md'))
-  const legalPages = legalFiles.map(file => {
-    const slug = file.replace(/\.md$/, '')
-    return {
-      url: `${baseUrl}/legal/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
-      priority: 0.2,
-    }
-  })
+  let legalPages: MetadataRoute.Sitemap = []
+  
+  if (fs.existsSync(legalDir)) {
+    const legalFiles = fs.readdirSync(legalDir).filter(f => f.endsWith('.md'))
+    legalPages = legalFiles.map(file => {
+      const slug = file.replace(/\.md$/, '')
+      return {
+        url: `${baseUrl}/legal/${slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'yearly' as const,
+        priority: 0.2,
+      }
+    })
+  }
 
   try {
     // Get public prompts using server-side client
@@ -88,7 +92,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .limit(1000) // Limit to prevent sitemap from getting too large
 
     const promptPages = (publicPrompts || []).map((prompt) => ({
-      url: `${baseUrl}/p/${prompt.id}/${prompt.slug}`,
+      url: `${baseUrl}/p/${prompt.slug}`,
       lastModified: new Date(prompt.updated_at),
       changeFrequency: 'weekly' as const,
       priority: 0.6,

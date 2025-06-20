@@ -165,7 +165,7 @@ export default async function UserProfilePage({
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/public">
+          <Link href="/p">
             <Button variant="ghost" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Public Directory
@@ -243,7 +243,7 @@ export default async function UserProfilePage({
                     <div className="flex items-start justify-between">
                       <CardTitle className="text-lg line-clamp-2">
                         <Link
-                          href={`/p/${prompt.id}/${prompt.slug}`}
+                          href={`/p/${prompt.slug}`}
                           className="hover:text-primary transition-colors"
                         >
                           {prompt.name}

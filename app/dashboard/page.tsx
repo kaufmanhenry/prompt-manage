@@ -62,7 +62,7 @@ export default function DashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/public">
+            <Link href="/p">
               <Button variant="outline" className="flex items-center gap-2">
                 <Globe className="h-4 w-4" />
                 Browse Public

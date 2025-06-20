@@ -52,9 +52,9 @@ export function Header() {
                 My Prompts
               </Link>
               <Link
-                href="/public"
+                href="/p"
                 className={`text-sm ${
-                  pathname.startsWith('/public') ? 'text-primary' : 'text-muted-foreground'
+                  pathname.startsWith('/p') ? 'text-primary' : 'text-muted-foreground'
                 } hover:text-primary transition-colors`}
               >
                 Public Directory

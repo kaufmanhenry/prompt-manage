@@ -164,10 +164,10 @@ export default function AboutPage() {
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
             Prompt Manage was created by a team of developers and AI enthusiasts 
-            who understand the challenges of managing AI prompts in today's fast-paced world.
+            who understand the challenges of managing AI prompts in today&apos;s fast-paced world.
           </p>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            We're committed to building the best platform for prompt management, 
+            We&apos;re committed to building the best platform for prompt management, 
             with a focus on privacy, usability, and community.
           </p>
         </div>
@@ -186,7 +186,7 @@ export default function AboutPage() {
                 Create Your Account
               </Button>
             </Link>
-            <Link href="/public">
+            <Link href="/p">
               <Button variant="outline" size="lg">
                 Browse Public Prompts
               </Button>

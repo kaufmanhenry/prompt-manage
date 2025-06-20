@@ -154,7 +154,7 @@ export function PromptsTable({
     }
 
     try {
-      const publicUrl = `${window.location.origin}/public/${prompt.slug}`
+      const publicUrl = `${window.location.origin}/p/${prompt.slug}`
       await navigator.clipboard.writeText(publicUrl)
       
       toast({
@@ -368,7 +368,7 @@ export function PromptsTable({
                     Public Link Available
                   </h4>
                   <p className="text-sm text-green-600 dark:text-green-300 mt-1">
-                    {`${window.location.origin}/public/${selectedPrompt.slug}`}
+                    {`${window.location.origin}/p/${selectedPrompt.slug}`}
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -380,7 +380,7 @@ export function PromptsTable({
                     <ExternalLink className="mr-2 h-4 w-4" />
                     Copy
                   </Button>
-                  <Link href={`/public/${selectedPrompt.slug}`}>
+                  <Link href={`/p/${selectedPrompt.slug}`}>
                     <Button variant="outline" size="sm">
                       <Eye className="h-4 w-4" />
                     </Button>
@@ -482,7 +482,7 @@ export function PromptsTable({
                     <span>{prompt.view_count} views</span>
                   </div>
                   {prompt.slug && (
-                    <Link href={`/public/${prompt.slug}`} className="text-blue-600 hover:underline">
+                    <Link href={`/p/${prompt.slug}`} className="text-blue-600 hover:underline">
                       View Public Page
                     </Link>
                   )}
@@ -583,7 +583,7 @@ export function PromptsTable({
                       Copy Link
                     </Button>
                     {promptToShare?.slug && (
-                      <Link href={`/public/${promptToShare.slug}`}>
+                      <Link href={`/p/${promptToShare.slug}`}>
                         <Button variant="outline">
                           <Eye className="size-4" />
                         </Button>

@@ -88,7 +88,7 @@ export default async function Home() {
             <Link href="/auth/signup">
               <Button size="lg">Get Started</Button>
             </Link>
-            <Link href="/public">
+            <Link href="/p">
               <Button variant="outline" size="lg">
                 <Search className="mr-2 h-4 w-4" />
                 Explore Prompts
@@ -109,7 +109,7 @@ export default async function Home() {
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
                 All your prompts are private until you choose to share them. You
-                have complete control over what's public.
+                have complete control over what&apos;s public.
               </p>
             </div>
             <div className="text-center">

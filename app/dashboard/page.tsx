@@ -137,6 +137,14 @@ export default function DashboardPage() {
     router.push('/dashboard')
   }
 
+  const handleClearFilters = () => {
+    setFilters({
+      search: '',
+      selectedTags: [],
+      selectedModels: [],
+    })
+  }
+
   return (
     <div className="flex bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <Sidebar
@@ -314,6 +322,8 @@ export default function DashboardPage() {
               prompts={paginatedPrompts} 
               filters={filters} 
               onEditPrompt={handleEditPrompt}
+              onNewPrompt={handleNewPrompt}
+              onClearFilters={handleClearFilters}
               isLoading={isPromptsLoading}
             />
           </div>

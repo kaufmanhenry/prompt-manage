@@ -28,7 +28,18 @@ export default function DashboardPage() {
   const [page, setPage] = useState(1)
   const promptsPerPage = 21
 
-  const { data: prompts = [], isLoading } = useQuery({
+  // Fetch session (user)
+  const { data: session, isLoading: isSessionLoading } = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const { data: { session }, error } = await createClient().auth.getSession()
+      if (error) throw error
+      return session
+    },
+  })
+
+  // Fetch prompts
+  const { data: prompts = [], isLoading: isPromptsLoading } = useQuery({
     queryKey: ['prompts'],
     queryFn: async () => {
       const { data, error } = await createClient()
@@ -36,8 +47,6 @@ export default function DashboardPage() {
         .select('*')
         .order('updated_at', { ascending: false })
       if (error) throw error
-      
-      // Transform data to match the new schema with fallbacks
       const transformedData = (data || []).map(prompt => ({
         ...prompt,
         description: prompt.description || null,
@@ -46,19 +55,22 @@ export default function DashboardPage() {
         view_count: prompt.view_count || 0,
         inserted_at: prompt.inserted_at || prompt.created_at || null,
       }))
-      
       return transformedData as Prompt[]
     },
   })
 
-  // Handle URL parameters
+  // Only show prompts created by the current user
+  const userPrompts = session?.user?.id
+    ? prompts.filter(p => p.user_id === session.user.id)
+    : []
+
+  // Handle URL parameters (move above early returns)
   useEffect(() => {
     const promptParam = searchParams.get('prompt')
     const newParam = searchParams.get('new')
-    
     if (promptParam) {
       // Find the prompt by slug or ID
-      const prompt = prompts.find(p => 
+      const prompt = userPrompts.find(p => 
         p.slug === promptParam || 
         p.id === promptParam ||
         p.name.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 24) === promptParam
@@ -69,13 +81,26 @@ export default function DashboardPage() {
     } else if (newParam === 'true') {
       setShowNewPromptForm(true)
     }
-  }, [searchParams, prompts])
+  }, [searchParams, userPrompts])
 
-  const privatePrompts = prompts.filter(p => !p.is_public)
-  const publicPrompts = prompts.filter(p => p.is_public)
+  // Loading state for session or prompts
+  if (isSessionLoading || isPromptsLoading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>
+  }
+
+  // If not logged in, redirect or show message
+  if (!session?.user?.id) {
+    if (typeof window !== 'undefined') {
+      window.location.href = '/auth/login'
+    }
+    return <div className="flex items-center justify-center h-screen">Please log in to view your prompts.</div>
+  }
+
+  const privatePrompts = userPrompts.filter(p => !p.is_public)
+  const publicPrompts = userPrompts.filter(p => p.is_public)
   const totalViews = publicPrompts.reduce((sum, p) => sum + (p.view_count || 0), 0)
 
-  const filteredPrompts = prompts.filter((prompt) => {
+  const filteredPrompts = userPrompts.filter((prompt) => {
     const matchesSearch = !filters.search || 
       prompt.name.toLowerCase().includes(filters.search.toLowerCase()) ||
       prompt.prompt_text.toLowerCase().includes(filters.search.toLowerCase());
@@ -115,7 +140,7 @@ export default function DashboardPage() {
   return (
     <div className="flex bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <Sidebar
-        prompts={prompts}
+        prompts={userPrompts}
         filters={filters}
         onFilterChange={setFilters}
       />
@@ -171,10 +196,10 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {isLoading ? (
+                    {isPromptsLoading ? (
                       <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                     ) : (
-                      prompts.length
+                      userPrompts.length
                     )}
                   </div>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -192,7 +217,7 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {isLoading ? (
+                    {isPromptsLoading ? (
                       <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                     ) : (
                       privatePrompts.length
@@ -213,7 +238,7 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {isLoading ? (
+                    {isPromptsLoading ? (
                       <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                     ) : (
                       publicPrompts.length
@@ -234,7 +259,7 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {isLoading ? (
+                    {isPromptsLoading ? (
                       <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                     ) : (
                       totalViews.toLocaleString()
@@ -255,11 +280,11 @@ export default function DashboardPage() {
                     Your Prompts
                   </h2>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {isLoading ? 'Loading...' : `${filteredPrompts.length} prompt${filteredPrompts.length !== 1 ? 's' : ''} found`}
+                    {isPromptsLoading ? 'Loading...' : `${filteredPrompts.length} prompt${filteredPrompts.length !== 1 ? 's' : ''} found`}
                   </p>
                 </div>
                 
-                {prompts.length > 0 && (
+                {userPrompts.length > 0 && (
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <span>Filtered by:</span>
                     {filters.search && (
@@ -289,7 +314,7 @@ export default function DashboardPage() {
               prompts={paginatedPrompts} 
               filters={filters} 
               onEditPrompt={handleEditPrompt}
-              isLoading={isLoading}
+              isLoading={isPromptsLoading}
             />
           </div>
           

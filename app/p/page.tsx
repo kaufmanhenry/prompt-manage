@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { PublicPrompt } from '@/lib/schemas/prompt'
 import { Card } from '@/components/ui/card'
@@ -14,14 +14,21 @@ import { useToast } from '@/components/ui/use-toast'
 
 export default function PublicDirectoryPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
   const [prompts, setPrompts] = useState<PublicPrompt[]>([])
   const [loading, setLoading] = useState(true)
-  const [search, setSearch] = useState('')
-  const [selectedModel, setSelectedModel] = useState<string>('all')
-  const [selectedTag, setSelectedTag] = useState<string>('all')
-  const [sortBy, setSortBy] = useState<'recent' | 'popular'>('recent')
+  const [search, setSearch] = useState(searchParams.get('search') || '')
+  const [selectedModel, setSelectedModel] = useState<string>(searchParams.get('model') || 'all')
+  const [selectedTag, setSelectedTag] = useState<string>(searchParams.get('tag') || 'all')
+  const [sortBy, setSortBy] = useState<'recent' | 'popular'>(
+    (searchParams.get('sortBy') as 'recent' | 'popular') || 'recent'
+  )
   const [availableTags, setAvailableTags] = useState<string[]>([])
   const { toast } = useToast()
+  const initialPage = Number(searchParams.get('page')) || 1
+  const [page, setPage] = useState(initialPage)
+  const promptsPerPage = 21
 
   const fetchPublicPrompts = async () => {
     try {
@@ -73,6 +80,22 @@ export default function PublicDirectoryPage() {
     fetchPublicPrompts()
   }, [sortBy, fetchPublicPrompts])
 
+  // Sync filters/page with URL
+  useEffect(() => {
+    const params = new URLSearchParams()
+    if (search) params.set('search', search)
+    if (selectedModel !== 'all') params.set('model', selectedModel)
+    if (selectedTag !== 'all') params.set('tag', selectedTag)
+    if (sortBy !== 'recent') params.set('sortBy', sortBy)
+    if (page > 1) params.set('page', String(page))
+    router.replace(`${pathname}?${params.toString()}`)
+  }, [search, selectedModel, selectedTag, sortBy, page, pathname, router])
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setPage(1)
+  }, [search, selectedModel, selectedTag, sortBy])
+
   const filteredPrompts = prompts.filter(prompt => {
     const matchesSearch = 
       prompt.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -85,6 +108,9 @@ export default function PublicDirectoryPage() {
 
     return matchesSearch && matchesModel && matchesTag
   })
+
+  const totalPages = Math.ceil(filteredPrompts.length / promptsPerPage)
+  const paginatedPrompts = filteredPrompts.slice((page - 1) * promptsPerPage, page * promptsPerPage)
 
   if (loading) {
     return (
@@ -171,7 +197,7 @@ export default function PublicDirectoryPage() {
 
         {/* Prompts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPrompts.map((prompt) => (
+          {paginatedPrompts.map((prompt) => (
             <Card
               key={prompt.id}
               className="p-4 hover:shadow-lg transition-shadow cursor-pointer flex flex-col h-full"
@@ -224,6 +250,27 @@ export default function PublicDirectoryPage() {
             <p className="text-gray-600 dark:text-gray-400">
               No prompts found matching your criteria.
             </p>
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 py-8">
+            <button
+              className="px-3 py-1 rounded border bg-white dark:bg-gray-800 disabled:opacity-50"
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+            >
+              Previous
+            </button>
+            <span>Page {page} of {totalPages}</span>
+            <button
+              className="px-3 py-1 rounded border bg-white dark:bg-gray-800 disabled:opacity-50"
+              onClick={() => setPage(page + 1)}
+              disabled={page === totalPages}
+            >
+              Next
+            </button>
           </div>
         )}
       </div>

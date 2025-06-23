@@ -130,6 +130,15 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
           title: "Prompt Created",
           description: `"${values.name}" has been successfully created.`,
         })
+        // Reset form after successful creation
+        form.reset({
+          name: '',
+          prompt_text: '',
+          model: 'gpt-4',
+          tags: [],
+          user_id: session.user.id,
+          is_public: false,
+        });
       }
 
       queryClient.invalidateQueries({ queryKey: ['prompts'] })

@@ -85,6 +85,21 @@ export function Sidebar({ prompts = [], filters, onFilterChange }: SidebarProps)
   return (
     <div className="w-80 border-r bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-6 shrink-0">
       <div className="space-y-6">
+        {/* My Prompts Button */}
+        <Button
+          variant="ghost"
+          className="w-full justify-start mb-2"
+          onClick={() => {
+            if (window.location.pathname === '/dashboard') {
+              window.location.reload();
+            } else {
+              window.location.href = '/dashboard';
+            }
+          }}
+        >
+          My Prompts
+        </Button>
+
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

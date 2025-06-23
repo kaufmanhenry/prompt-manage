@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { PromptsTable } from '@/components/PromptsTable'
 import { CommandPalette } from '@/components/CommandPalette'
 import { Sidebar } from '@/components/Sidebar'
@@ -15,6 +16,8 @@ import { Plus, Globe, Lock, FileText, TrendingUp, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 
 export default function DashboardPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [filters, setFilters] = useState({
     search: '',
     selectedTags: [] as string[],
@@ -22,6 +25,8 @@ export default function DashboardPage() {
   })
   const [showNewPromptForm, setShowNewPromptForm] = useState(false)
   const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null)
+  const [page, setPage] = useState(1)
+  const promptsPerPage = 21
 
   const { data: prompts = [], isLoading } = useQuery({
     queryKey: ['prompts'],
@@ -46,26 +51,74 @@ export default function DashboardPage() {
     },
   })
 
+  // Handle URL parameters
+  useEffect(() => {
+    const promptParam = searchParams.get('prompt')
+    const newParam = searchParams.get('new')
+    
+    if (promptParam) {
+      // Find the prompt by slug or ID
+      const prompt = prompts.find(p => 
+        p.slug === promptParam || 
+        p.id === promptParam ||
+        p.name.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 24) === promptParam
+      )
+      if (prompt) {
+        setEditingPrompt(prompt)
+      }
+    } else if (newParam === 'true') {
+      setShowNewPromptForm(true)
+    }
+  }, [searchParams, prompts])
+
   const privatePrompts = prompts.filter(p => !p.is_public)
   const publicPrompts = prompts.filter(p => p.is_public)
   const totalViews = publicPrompts.reduce((sum, p) => sum + (p.view_count || 0), 0)
 
+  const filteredPrompts = prompts.filter((prompt) => {
+    const matchesSearch = !filters.search || 
+      prompt.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+      prompt.prompt_text.toLowerCase().includes(filters.search.toLowerCase());
+    const matchesTags = filters.selectedTags.length === 0 || 
+      filters.selectedTags.some(tag => prompt.tags?.includes(tag));
+    const matchesModels = filters.selectedModels.length === 0 || 
+      filters.selectedModels.includes(prompt.model);
+    return matchesSearch && matchesTags && matchesModels;
+  });
+
+  const totalPages = Math.ceil(filteredPrompts.length / promptsPerPage);
+  const paginatedPrompts = filteredPrompts.slice((page - 1) * promptsPerPage, page * promptsPerPage);
+
   const handleEditPrompt = (prompt: Prompt) => {
     setEditingPrompt(prompt)
+    // Update URL with prompt parameter
+    const promptSlug = prompt.slug || prompt.name.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 24)
+    router.push(`/dashboard?prompt=${promptSlug}`)
   }
 
   const handleCloseEditForm = () => {
     setEditingPrompt(null)
+    // Clear URL parameter
+    router.push('/dashboard')
+  }
+
+  const handleNewPrompt = () => {
+    setShowNewPromptForm(true)
+    router.push('/dashboard?new=true')
+  }
+
+  const handleCloseNewForm = () => {
+    setShowNewPromptForm(false)
+    router.push('/dashboard')
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="flex bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <Sidebar
         prompts={prompts}
         filters={filters}
         onFilterChange={setFilters}
       />
-      
       <div className="flex-1 flex flex-col overflow-hidden">
         <main className="flex-1 flex flex-col overflow-hidden">
           {/* Static Header */}
@@ -96,7 +149,7 @@ export default function DashboardPage() {
                   </Button>
                 </Link>
                 <Button 
-                  onClick={() => setShowNewPromptForm(true)}
+                  onClick={handleNewPrompt}
                   className="flex items-center gap-2 shadow-sm"
                 >
                   <Plus className="h-4 w-4" />
@@ -202,7 +255,7 @@ export default function DashboardPage() {
                     Your Prompts
                   </h2>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {isLoading ? 'Loading...' : `${prompts.length} prompt${prompts.length !== 1 ? 's' : ''}`}
+                    {isLoading ? 'Loading...' : `${filteredPrompts.length} prompt${filteredPrompts.length !== 1 ? 's' : ''} found`}
                   </p>
                 </div>
                 
@@ -233,24 +286,47 @@ export default function DashboardPage() {
           {/* Scrollable Prompts Table */}
           <div className="flex-1 overflow-y-auto px-6 pb-6 pt-4">
             <PromptsTable 
-              prompts={prompts} 
+              prompts={paginatedPrompts} 
               filters={filters} 
               onEditPrompt={handleEditPrompt}
               isLoading={isLoading}
             />
           </div>
+          
+          {/* Pagination Controls - Only show when not editing a prompt */}
+          {!editingPrompt && totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 py-6">
+              <button
+                className="px-3 py-1 rounded border bg-white dark:bg-gray-800 disabled:opacity-50"
+                onClick={() => setPage(page - 1)}
+                disabled={page === 1}
+              >
+                Previous
+              </button>
+              <span>Page {page} of {totalPages}</span>
+              <button
+                className="px-3 py-1 rounded border bg-white dark:bg-gray-800 disabled:opacity-50"
+                onClick={() => setPage(page + 1)}
+                disabled={page === totalPages}
+              >
+                Next
+              </button>
+            </div>
+          )}
         </main>
       </div>
       
       {/* Forms */}
       <PromptForm
         open={showNewPromptForm}
-        onOpenChange={setShowNewPromptForm}
+        onOpenChange={handleCloseNewForm}
       />
       <PromptForm
         prompt={editingPrompt}
         open={!!editingPrompt}
-        onOpenChange={handleCloseEditForm}
+        onOpenChange={(open) => {
+          if (!open) handleCloseEditForm();
+        }}
       />
     </div>
   )

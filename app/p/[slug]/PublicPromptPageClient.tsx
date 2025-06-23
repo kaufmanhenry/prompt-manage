@@ -8,9 +8,10 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import CopyButton from '@/components/CopyButton'
 import { RelatedPrompts } from '@/components/RelatedPrompts'
-import { ArrowLeft, ExternalLink, Calendar, User, TrendingUp } from 'lucide-react'
+import { ArrowLeft, ExternalLink, Calendar, User, TrendingUp, Share2, Linkedin, Twitter, Facebook } from 'lucide-react'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 interface PublicPromptPageClientProps {
   params: {
@@ -23,6 +24,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const { toast } = useToast()
+  const [showShareDialog, setShowShareDialog] = useState(false)
 
   const fetchPrompt = useCallback(async () => {
     try {
@@ -83,6 +85,29 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
         variant: "destructive",
       })
     }
+  }
+
+  const handleShareToX = () => {
+    const url = encodeURIComponent(window.location.href)
+    const text = encodeURIComponent(prompt?.name || 'Check out this prompt!')
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
+  }
+
+  const handleShareToLinkedIn = () => {
+    const url = encodeURIComponent(window.location.href)
+    const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
+    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`, '_blank')
+  }
+
+  const handleShareToFacebook = () => {
+    const url = encodeURIComponent(window.location.href)
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank')
+  }
+
+  const handleShareToReddit = () => {
+    const url = encodeURIComponent(window.location.href)
+    const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
+    window.open(`https://www.reddit.com/submit?url=${url}&title=${title}`, '_blank')
   }
 
   if (loading) {
@@ -157,7 +182,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
               </div>
             </div>
             
-            <Button onClick={handleCopyLink} variant="outline">
+            <Button onClick={() => setShowShareDialog(true)} variant="outline">
               <ExternalLink className="mr-2 h-4 w-4" />
               Share
             </Button>
@@ -273,6 +298,32 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
         <div className="mt-12">
           <RelatedPrompts currentPrompt={prompt} />
         </div>
+
+        {/* Share Modal */}
+        <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Share this Prompt</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <Button onClick={handleCopyLink} className="w-full flex items-center gap-2">
+                <Share2 className="h-4 w-4" /> Copy Link
+              </Button>
+              <Button onClick={handleShareToX} className="w-full flex items-center gap-2" variant="outline">
+                <Twitter className="h-4 w-4 text-blue-500" /> Share to X
+              </Button>
+              <Button onClick={handleShareToLinkedIn} className="w-full flex items-center gap-2" variant="outline">
+                <Linkedin className="h-4 w-4 text-blue-700" /> Share to LinkedIn
+              </Button>
+              <Button onClick={handleShareToFacebook} className="w-full flex items-center gap-2" variant="outline">
+                <Facebook className="h-4 w-4 text-blue-600" /> Share to Facebook
+              </Button>
+              <Button onClick={handleShareToReddit} className="w-full flex items-center gap-2" variant="outline">
+                <Share2 className="h-4 w-4 text-orange-500" /> Share to Reddit
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   )

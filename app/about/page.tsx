@@ -118,11 +118,10 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Notion-like Sharing
+                  Publicly Share Prompts!
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Share individual prompts with unique URLs, just like Notion. 
-                  Each prompt gets its own public page when shared.
+                  Share individual prompts with friends and colleagues when you publish on Prompt Manage. Each prompt gets its own public page when shared. SOON: Collections
                 </p>
               </div>
             </div>

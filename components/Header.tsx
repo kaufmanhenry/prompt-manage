@@ -1,4 +1,4 @@
-'use client'
+Th'use client'
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -48,6 +48,12 @@ export function Header() {
                 className={`text-sm ${
                   pathname === '/dashboard' ? 'text-primary' : 'text-muted-foreground'
                 } hover:text-primary transition-colors`}
+                onClick={e => {
+                  if (pathname === '/dashboard') {
+                    e.preventDefault();
+                    window.location.reload();
+                  }
+                }}
               >
                 My Prompts
               </Link>

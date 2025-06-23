@@ -120,17 +120,20 @@ export default function SettingsPage() {
     setSaving(true)
     try {
       const supabase = createClient()
-      const { error } = await supabase
+      const payload = {
+        id: user.id,
+        display_name: displayName,
+        bio: bio,
+        website: website,
+        location: location,
+      }
+      console.log('Saving profile with payload:', payload)
+      const { error, data } = await supabase
         .from('user_profiles')
-        .upsert({
-          id: user.id,
-          display_name: displayName,
-          bio: bio,
-          website: website,
-          location: location,
-        })
+        .upsert(payload)
 
       if (error) {
+        console.error('Error saving profile:', error)
         toast({
           title: "Error",
           description: error.message,
@@ -143,7 +146,8 @@ export default function SettingsPage() {
         })
         await loadUserData() // Reload to get updated data
       }
-    } catch {
+    } catch (err) {
+      console.error('Exception saving profile:', err)
       toast({
         title: "Error",
         description: "An error occurred while saving your profile.",

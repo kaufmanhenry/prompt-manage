@@ -13,20 +13,8 @@ import { User as AuthUser } from '@supabase/supabase-js'
 import { User, Mail, Lock, Globe, MapPin, Save, Trash2, Eye, EyeOff } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
-interface UserProfile {
-  id: string
-  display_name: string | null
-  bio: string | null
-  avatar_url: string | null
-  website: string | null
-  location: string | null
-  created_at: string
-  updated_at: string
-}
-
 export default function SettingsPage() {
   const { toast } = useToast()
-  const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -38,7 +26,6 @@ export default function SettingsPage() {
   const [location, setLocation] = useState('')
   
   // Password change state
-  const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPasswords, setShowPasswords] = useState(false)
@@ -47,6 +34,7 @@ export default function SettingsPage() {
   // Settings state
   const [emailNotifications, setEmailNotifications] = useState(true)
   const [darkMode, setDarkMode] = useState(false)
+  const [themePreference, setThemePreference] = useState('system')
   const { theme, setTheme } = useTheme()
 
   useEffect(() => {
@@ -54,9 +42,9 @@ export default function SettingsPage() {
   }, [])
 
   useEffect(() => {
-    console.log('theme', theme)
     if (theme) {
       setDarkMode(theme === 'dark')
+      setThemePreference(theme)
     }
   }, [theme])
 
@@ -84,11 +72,18 @@ export default function SettingsPage() {
       }
 
       if (profile) {
-        setProfile(profile)
         setDisplayName(profile.display_name || '')
         setBio(profile.bio || '')
         setWebsite(profile.website || '')
         setLocation(profile.location || '')
+        setEmailNotifications(profile.email_notifications ?? true)
+        setDarkMode(profile.dark_mode ?? false)
+        setThemePreference(profile.theme_preference || 'system')
+        
+        // Apply theme preference
+        if (profile.theme_preference && profile.theme_preference !== 'system') {
+          setTheme(profile.theme_preference)
+        }
       } else {
         // Create profile if it doesn't exist
         const { data: newProfile, error: createError } = await supabase
@@ -96,6 +91,9 @@ export default function SettingsPage() {
           .insert({
             id: user.id,
             display_name: user.user_metadata?.display_name || user.email?.split('@')[0] || 'User',
+            email_notifications: true,
+            dark_mode: false,
+            theme_preference: 'system',
           })
           .select()
           .single()
@@ -103,8 +101,10 @@ export default function SettingsPage() {
         if (createError) {
           console.error('Error creating profile:', createError)
         } else if (newProfile) {
-          setProfile(newProfile)
           setDisplayName(newProfile.display_name || '')
+          setEmailNotifications(newProfile.email_notifications ?? true)
+          setDarkMode(newProfile.dark_mode ?? false)
+          setThemePreference(newProfile.theme_preference || 'system')
         }
       }
     } catch {
@@ -126,9 +126,12 @@ export default function SettingsPage() {
         bio: bio,
         website: website,
         location: location,
+        email_notifications: emailNotifications,
+        dark_mode: darkMode,
+        theme_preference: themePreference,
       }
       console.log('Saving profile with payload:', payload)
-      const { error, data } = await supabase
+      const { error } = await supabase
         .from('user_profiles')
         .upsert(payload)
 
@@ -195,7 +198,6 @@ export default function SettingsPage() {
           title: "Success",
           description: "Password updated successfully!",
         })
-        setCurrentPassword('')
         setNewPassword('')
         setConfirmPassword('')
       }
@@ -239,6 +241,17 @@ export default function SettingsPage() {
         variant: "destructive",
       })
     }
+  }
+
+  const handleThemeChange = (checked: boolean) => {
+    setDarkMode(checked)
+    const newTheme = checked ? 'dark' : 'light'
+    setThemePreference(newTheme)
+    setTheme(newTheme)
+  }
+
+  const handleEmailNotificationsChange = (checked: boolean) => {
+    setEmailNotifications(checked)
   }
 
   if (loading || !user) {
@@ -436,7 +449,7 @@ export default function SettingsPage() {
                 </div>
                 <Switch
                   checked={emailNotifications}
-                  onCheckedChange={setEmailNotifications}
+                  onCheckedChange={handleEmailNotificationsChange}
                 />
               </div>
               
@@ -449,10 +462,7 @@ export default function SettingsPage() {
                 </div>
                 <Switch
                   checked={darkMode}
-                  onCheckedChange={(checked) => {
-                    setDarkMode(checked)
-                    setTheme(checked ? 'dark' : 'light')
-                  }}
+                  onCheckedChange={handleThemeChange}
                 />
               </div>
             </CardContent>

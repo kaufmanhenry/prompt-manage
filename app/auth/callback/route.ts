@@ -12,7 +12,7 @@ export async function GET(request: Request) {
     
     if (session && !error) {
       // Check if user profile exists, create if it doesn't
-      const { data: profile, error: profileError } = await supabase
+      const { error: profileError } = await supabase
         .from('user_profiles')
         .select('id')
         .eq('id', session.user.id)
@@ -29,6 +29,9 @@ export async function GET(request: Request) {
           .insert({
             id: session.user.id,
             display_name: displayName,
+            email_notifications: true,
+            dark_mode: false,
+            theme_preference: 'system',
           })
       }
     }

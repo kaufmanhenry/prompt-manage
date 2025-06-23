@@ -114,52 +114,48 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
   }, [currentPrompt, maxResults])
 
   const PromptCard = ({ prompt }: { prompt: PublicPrompt }) => (
-    <div className="border rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-      <div className="flex items-start justify-between">
-        <div className="flex-1 min-w-0">
-          <Link href={`/p/${prompt.slug}`}>
-            <h4 className="font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors truncate">
-              {prompt.name}
-            </h4>
-          </Link>
-          
-          {prompt.description && (
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
-              {prompt.description}
-            </p>
-          )}
-          
-          <div className="flex items-center gap-2 mt-2">
-            <Badge variant="secondary" className="text-xs">
-              {prompt.model}
+    <div className="border rounded-lg p-6 flex flex-row items-center justify-between gap-8 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+      <div className="flex-1 min-w-0 flex flex-col gap-2">
+        <Link href={`/p/${prompt.slug}`}>
+          <h4 className="font-medium text-lg text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors truncate">
+            {prompt.name}
+          </h4>
+        </Link>
+        {prompt.description && (
+          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+            {prompt.description}
+          </p>
+        )}
+        <div className="flex flex-row flex-wrap items-center gap-3 mt-1">
+          <Badge variant="secondary" className="text-xs">
+            {prompt.model}
+          </Badge>
+          {prompt.tags?.slice(0, 3).map((tag) => (
+            <Badge key={tag} variant="outline" className="text-xs">
+              {tag}
             </Badge>
-            {prompt.tags?.slice(0, 2).map((tag) => (
-              <Badge key={tag} variant="outline" className="text-xs">
-                {tag}
-              </Badge>
-            ))}
-            {prompt.tags && prompt.tags.length > 2 && (
-              <Badge variant="outline" className="text-xs">
-                +{prompt.tags.length - 2} more
-              </Badge>
-            )}
-          </div>
-          
-          <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
-            <div className="flex items-center gap-1">
-              <TrendingUp className="h-3 w-3" />
-              <span>{prompt.view_count} views</span>
-            </div>
-            {prompt.updated_at && (
-              <div className="flex items-center gap-1">
-                <Clock className="h-3 w-3" />
-                <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
-              </div>
-            )}
-          </div>
+          ))}
+          {prompt.tags && prompt.tags.length > 3 && (
+            <Badge variant="outline" className="text-xs">
+              +{prompt.tags.length - 3} more
+            </Badge>
+          )}
         </div>
-        
-        <div className="flex items-center gap-2 ml-4">
+      </div>
+      <div className="flex flex-col items-end gap-3 min-w-fit ml-8">
+        <div className="flex flex-row items-center gap-6 text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-1">
+            <TrendingUp className="h-3 w-3" />
+            <span>{prompt.view_count} views</span>
+          </div>
+          {prompt.updated_at && (
+            <div className="flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
+            </div>
+          )}
+        </div>
+        <div className="flex flex-row items-center gap-2">
           <CopyButton text={prompt.prompt_text} />
           <Link href={`/p/${prompt.slug}`}>
             <Button variant="ghost" size="sm">
@@ -247,7 +243,7 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
           </TabsList>
           <TabsContent value="tags" className="mt-4">
             {relatedData.tagMatches.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-6">
                 {relatedData.tagMatches.map((prompt) => (
                   <PromptCard key={prompt.id} prompt={prompt} />
                 ))}
@@ -258,7 +254,7 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
           </TabsContent>
           <TabsContent value="model" className="mt-4">
             {relatedData.modelMatches.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-6">
                 {relatedData.modelMatches.map((prompt) => (
                   <PromptCard key={prompt.id} prompt={prompt} />
                 ))}
@@ -269,7 +265,7 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
           </TabsContent>
           <TabsContent value="popular" className="mt-4">
             {relatedData.popularPrompts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-6">
                 {relatedData.popularPrompts.map((prompt) => (
                   <PromptCard key={prompt.id} prompt={prompt} />
                 ))}

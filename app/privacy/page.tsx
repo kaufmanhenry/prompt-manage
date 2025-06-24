@@ -83,7 +83,7 @@ export default function PrivacyPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
           <div className="prose prose-gray dark:prose-invert max-w-none">
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-              This Privacy Policy describes how Prompt Manage ("Company", "we", "us", or "our") collects, uses, discloses, and protects your information when you use our website and services. By accessing or using our services, you agree to the terms of this Privacy Policy.
+              This Privacy Policy describes how Prompt Manage (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) collects, uses, discloses, and protects your information when you use our website and services. By accessing or using our services, you agree to the terms of this Privacy Policy.
             </p>
 
             <section className="mb-8">

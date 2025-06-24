@@ -6,6 +6,7 @@ import { Prompt } from '@/lib/schemas/prompt'
 import CopyButton from './CopyButton'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { PromptRunHistory } from './PromptRunHistory'
 import {
   Clock,
   Eye,
@@ -48,11 +49,6 @@ interface Filters {
   selectedModels: string[]
 }
 
-interface PromptHistory {
-  timestamp: string
-  prompt_text: string
-}
-
 interface PromptsTableProps {
   prompts: Prompt[]
   filters: Filters
@@ -71,8 +67,7 @@ export function PromptsTable({
   isLoading = false,
 }: PromptsTableProps) {
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null)
-  const [showHistory, setShowHistory] = useState(false)
-  const [promptHistories] = useState<Record<string, PromptHistory[]>>({})
+  const [showRunHistory, setShowRunHistory] = useState(false)
   const [showShareDialog, setShowShareDialog] = useState(false)
   const [promptToShare, setPromptToShare] = useState<Prompt | null>(null)
   const [sharing, setSharing] = useState(false)
@@ -123,15 +118,6 @@ export function PromptsTable({
 
     checkMigration()
   }, [toast])
-
-  const handleRestoreHistory = (history: PromptHistory) => {
-    if (selectedPrompt) {
-      setSelectedPrompt({
-        ...selectedPrompt,
-        prompt_text: history.prompt_text,
-      })
-    }
-  }
 
   const handleSharePrompt = (prompt: Prompt) => {
     setPromptToShare(prompt)
@@ -514,10 +500,10 @@ export function PromptsTable({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setShowHistory(!showHistory)}
+                onClick={() => setShowRunHistory(!showRunHistory)}
               >
                 <Clock className="mr-2 size-4" />
-                {showHistory ? 'Hide History' : 'Show History'}
+                {showRunHistory ? 'Hide Run History' : 'Show Run History'}
               </Button>
 
               <Button
@@ -581,46 +567,12 @@ export function PromptsTable({
                 </div>
               </div>
             )}
-          {showHistory && (
-            <div className="mb-6 rounded-lg border bg-muted/50 p-4">
-              <div className="mb-3 text-sm font-medium">Prompt History</div>
-              {promptHistories[String(selectedPrompt.id)] &&
-              promptHistories[String(selectedPrompt.id)].length > 0 ? (
-                <ul className="space-y-3">
-                  {promptHistories[String(selectedPrompt.id)].map(
-                    (hist, idx) => (
-                      <li
-                        key={idx}
-                        className="flex flex-col gap-2 border-b pb-3 last:border-b-0 last:pb-0"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-muted-foreground">
-                            {hist.timestamp
-                              ? new Date(hist.timestamp).toLocaleString()
-                              : ''}
-                          </span>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleRestoreHistory(hist)}
-                          >
-                            Restore
-                          </Button>
-                        </div>
-                        <div className="rounded-md bg-background p-2">
-                          <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap break-words">
-                            {hist.prompt_text}
-                          </pre>
-                        </div>
-                      </li>
-                    )
-                  )}
-                </ul>
-              ) : (
-                <div className="text-sm text-muted-foreground">
-                  No history available.
-                </div>
-              )}
+          {showRunHistory && selectedPrompt && (
+            <div className="mb-6">
+              <PromptRunHistory 
+                promptId={selectedPrompt.id as string}
+                onClose={() => setShowRunHistory(false)}
+              />
             </div>
           )}
           <div className="relative">

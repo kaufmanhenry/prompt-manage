@@ -57,6 +57,24 @@ export default function TermsPage() {
             <li><strong>Misrepresentation:</strong> Impersonating or attempting to impersonate Prompt Manage, a Prompt Manage employee, another user, or any other person or entity.</li>
           </ul>
 
+          {/* AI Processing and Account Types Section */}
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">AI Processing and Account Types</h2>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Prompt Manage uses OpenAI's services to process user-submitted content ("Input"). If you use a <strong>free account</strong>, you agree that some Input may be designated for sharing with OpenAI and used to improve OpenAI's models and services. OpenAI will act as an <strong>independent data controller</strong> for such Designated Content.
+          </p>
+          <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
+            <li>Confidential or proprietary data,</li>
+            <li>Protected Health Information (HIPAA),</li>
+            <li>Personal data of children under 13,</li>
+            <li>Any content you do not have the legal right to submit.</li>
+          </ul>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            If you upgrade to a <strong>paid account</strong>, your Input will not be shared with OpenAI for model training or improvement purposes. Enhanced data privacy and confidentiality protections apply to paid accounts.
+          </p>
+          <p className="mb-6 text-gray-700 dark:text-gray-300">
+            Prompt Manage is intended for users aged <strong>18 and older</strong> only.
+          </p>
+
           <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">4. Content on the Platform</h2>
           <p className="mb-4 text-gray-700 dark:text-gray-300">
             <strong>User-Generated Content:</strong> You retain all rights in, and are solely responsible for, the Prompts and other content you create, submit, post, display, or otherwise make available on the Platform ("User Content"). By making User Content available on or through the Platform, you grant to Prompt Manage a worldwide, non-exclusive, royalty-free, transferable license to use, reproduce, distribute, prepare derivative works of, display, and perform the User Content in connection with the Platform and Prompt Manage's (and its successors' and affiliates') business, including without limitation for promoting and redistributing part or all of the Platform (and derivative works thereof) in any media formats and through any media channels.

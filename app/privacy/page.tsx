@@ -141,6 +141,32 @@ export default function PrivacyPage() {
               </ul>
             </section>
 
+            {/* AI and Third-Party Services Section */}
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+                Use of AI Services (Free vs. Paid Accounts)
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                Prompt Manage integrates with third-party artificial intelligence services provided by OpenAI, L.L.C. ("OpenAI"). For <strong>free account users</strong>, some content you submit (referred to as "Input") may be shared with OpenAI as "Designated Content" and used for research, evaluation, model training, and improvement of OpenAI's services. OpenAI processes this content as an <strong>independent data controller</strong>, and it is <strong>not subject to the same protections as paid account content</strong>.
+              </p>
+              <div className="bg-yellow-50 dark:bg-yellow-900 rounded-lg p-4 mb-4">
+                <p className="text-yellow-800 dark:text-yellow-200 text-sm">
+                  <strong>⚠️ Do not submit confidential, proprietary, or sensitive content</strong> through a free account. This includes:
+                </p>
+                <ul className="list-disc pl-6 text-yellow-800 dark:text-yellow-200 text-sm mt-2">
+                  <li>Protected Health Information (as defined by HIPAA),</li>
+                  <li>Information related to children under 13 years old,</li>
+                  <li>Any content you do not have the legal right to submit.</li>
+                </ul>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                For <strong>paid accounts</strong>, Input is not shared with OpenAI for model training or development. Enhanced privacy protections and data control apply under our commercial agreements with OpenAI.
+              </p>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                By using Prompt Manage, you confirm that you are at least 18 years of age. If you have questions, contact <a href="mailto:support@promptmanage.com" className="text-blue-600 dark:text-blue-400 hover:underline">support@promptmanage.com</a>.
+              </p>
+            </section>
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                 <Users className="h-6 w-6 text-purple-600" />

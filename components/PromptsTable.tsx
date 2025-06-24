@@ -21,6 +21,8 @@ import {
   SearchIcon,
   Plus,
   MoreVertical,
+  Play,
+  Loader2,
 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import {
@@ -78,6 +80,12 @@ export function PromptsTable({
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [promptToDelete, setPromptToDelete] = useState<Prompt | null>(null)
   const [deleting, setDeleting] = useState(false)
+  
+  // New state for running prompts
+  const [runningPrompts, setRunningPrompts] = useState<Record<string, boolean>>({})
+  const [promptResponses, setPromptResponses] = useState<Record<string, string>>({})
+  const [showResponses, setShowResponses] = useState<Record<string, boolean>>({})
+  
   const { toast } = useToast()
   const queryClient = useQueryClient()
 
@@ -226,10 +234,12 @@ export function PromptsTable({
         .from('prompts')
         .delete()
         .eq('id', promptToDelete.id)
+        .eq('user_id', promptToDelete.user_id)
 
       if (error) throw error
 
-      queryClient.invalidateQueries({ queryKey: ['prompts'] })
+      // Invalidate and refetch
+      await queryClient.invalidateQueries({ queryKey: ['prompts'] })
 
       toast({
         title: 'Prompt Deleted',
@@ -252,6 +262,50 @@ export function PromptsTable({
       })
     } finally {
       setDeleting(false)
+    }
+  }
+
+  // Handle running a prompt
+  const handleRunPrompt = async (prompt: Prompt) => {
+    const promptId = prompt.id as string
+    setRunningPrompts(prev => ({ ...prev, [promptId]: true }))
+    setShowResponses(prev => ({ ...prev, [promptId]: true }))
+    
+    try {
+      const response = await fetch('/api/prompt/run', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ promptId }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to run prompt')
+      }
+
+      const data = await response.json()
+      setPromptResponses(prev => ({ ...prev, [promptId]: data.response }))
+      
+      toast({
+        title: 'Prompt Executed',
+        description: 'Your prompt has been successfully executed.',
+      })
+    } catch (error) {
+      console.error('Run prompt error:', error)
+      setPromptResponses(prev => ({ 
+        ...prev, 
+        [promptId]: error instanceof Error ? error.message : 'Failed to run prompt' 
+      }))
+      
+      toast({
+        title: 'Error',
+        description: 'Failed to run prompt. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      setRunningPrompts(prev => ({ ...prev, [promptId]: false }))
     }
   }
 
@@ -430,6 +484,21 @@ export function PromptsTable({
               </div>
             </div>
             <div className="flex items-center gap-2">
+              {/* Run Prompt Button */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleRunPrompt(selectedPrompt)}
+                disabled={runningPrompts[selectedPrompt.id as string]}
+              >
+                {runningPrompts[selectedPrompt.id as string] ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Play className="mr-2 h-4 w-4" />
+                )}
+                {runningPrompts[selectedPrompt.id as string] ? 'Running...' : 'Run Prompt'}
+              </Button>
+
               {/* Manage Sharing Button - opens full share dialog */}
               {migrationComplete && (
                 <Button
@@ -564,6 +633,40 @@ export function PromptsTable({
               <CopyButton text={selectedPrompt.prompt_text} />
             </div>
           </div>
+
+          {/* Response Display for Detailed View */}
+          {showResponses[selectedPrompt.id as string] && (
+            <div className="mt-6">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  AI Response
+                </h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowResponses(prev => ({ ...prev, [selectedPrompt.id as string]: false }))}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="rounded-lg border bg-muted/50 p-4">
+                {runningPrompts[selectedPrompt.id as string] ? (
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Generating response...
+                  </div>
+                ) : promptResponses[selectedPrompt.id as string] ? (
+                  <div className="text-sm whitespace-pre-wrap">
+                    {promptResponses[selectedPrompt.id as string]}
+                  </div>
+                ) : (
+                  <div className="text-muted-foreground">
+                    No response yet. Click &quot;Run Prompt&quot; to generate one.
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </Card>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -572,6 +675,7 @@ export function PromptsTable({
               key={prompt.id}
               className="p-4 hover:shadow-lg transition-shadow cursor-pointer flex flex-col h-full"
               onClick={() => setSelectedPrompt(prompt)}
+              data-testid="prompt-card"
             >
               <div className="flex-grow">
                 <div className="mb-4">
@@ -644,6 +748,19 @@ export function PromptsTable({
               >
                 <div className="flex items-center gap-2">
                   <CopyButton text={prompt.prompt_text} />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleRunPrompt(prompt)}
+                    disabled={runningPrompts[prompt.id as string]}
+                  >
+                    {runningPrompts[prompt.id as string] ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Play className="mr-2 h-4 w-4" />
+                    )}
+                    {runningPrompts[prompt.id as string] ? 'Running...' : 'Run Prompt'}
+                  </Button>
                 </div>
                 <div className="flex items-center gap-2">
                   <DropdownMenu>
@@ -684,6 +801,40 @@ export function PromptsTable({
                   </DropdownMenu>
                 </div>
               </div>
+
+              {/* Response Display */}
+              {showResponses[prompt.id as string] && (
+                <div className="mt-4 pt-4 border-t">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      AI Response
+                    </h4>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowResponses(prev => ({ ...prev, [prompt.id as string]: false }))}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="rounded-lg border bg-muted/50 p-3">
+                    {runningPrompts[prompt.id as string] ? (
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Generating response...
+                      </div>
+                    ) : promptResponses[prompt.id as string] ? (
+                      <div className="text-sm whitespace-pre-wrap">
+                        {promptResponses[prompt.id as string]}
+                      </div>
+                    ) : (
+                      <div className="text-sm text-muted-foreground">
+                        No response yet. Click &quot;Run Prompt&quot; to generate one.
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </Card>
           ))}
         </div>

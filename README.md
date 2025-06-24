@@ -39,6 +39,24 @@ For comprehensive documentation, visit our **[Documentation Hub](./docs/README.m
    # Add your Supabase credentials to .env.local
    ```
 
+3. **Set up environment variables**:
+   ```bash
+   # Create a .env.local file in the root directory
+   touch .env.local
+   ```
+
+   Fill in your environment variables in `.env.local`:
+   ```env
+   # OpenAI API Key - Get from https://platform.openai.com/api-keys
+   OPENAI_API_KEY=your_openai_api_key_here
+
+   # Supabase Configuration - Get from your Supabase project settings
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+   **Important**: Replace `your_openai_api_key_here` with your actual OpenAI API key. You can get one from [OpenAI's platform](https://platform.openai.com/api-keys).
+
 3. **Start development**:
    ```bash
    npm run dev
@@ -57,6 +75,11 @@ For detailed setup instructions, see our **[Development Setup Guide](./docs/gett
 - ✅ Prompt sharing and public access
 - ✅ Related prompts discovery
 - ✅ Responsive design
+- **Prompt Management**: Create, edit, and organize your AI prompts
+- **Public Sharing**: Share prompts publicly with a unique URL
+- **Tagging System**: Organize prompts with custom tags
+- **Model Support**: Support for multiple AI models (GPT-4, GPT-3.5-turbo, Claude, etc.)
+- **Run Prompts**: Execute stored prompts using OpenAI's GPT-3.5-turbo model directly from the dashboard
 
 ## Development
 
@@ -186,3 +209,119 @@ MIT
 ---
 
 *For questions and support, check our documentation or open an issue on GitHub.*
+
+## Run Prompt Feature
+
+The dashboard now includes a "Run Prompt" feature that allows logged-in users to execute their stored prompts using OpenAI's GPT-3.5-turbo model.
+
+### How to Use
+
+1. **Navigate to Dashboard**: Go to your dashboard where all your prompts are listed
+2. **Run a Prompt**: Click the "Run Prompt" button on any prompt card
+3. **View Response**: The AI response will appear below the prompt content
+4. **Toggle Response**: You can hide/show the response using the close button
+
+### Features
+
+- **Real-time Execution**: Prompts are executed immediately when you click the button
+- **Loading States**: Visual feedback during prompt execution
+- **Error Handling**: Graceful error handling with user-friendly messages
+- **Response Display**: Clean, formatted display of AI responses
+- **Secure Access**: Only authenticated users can run their own prompts
+
+### Technical Details
+
+- **API Endpoint**: `POST /api/prompt/run`
+- **Model**: GPT-3.5-turbo (configurable for future expansion)
+- **Authentication**: Requires valid user session
+- **Rate Limiting**: Standard OpenAI API limits apply
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
+- OpenAI API key
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd prompt-manage
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
+
+Fill in your environment variables:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+OPENAI_API_KEY=your_openai_api_key
+```
+
+4. Run the development server:
+```bash
+npm run dev
+```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Database Setup
+
+Run the database migration in your Supabase SQL editor:
+
+```sql
+-- Copy the contents of database-migration.sql
+-- This will create the necessary tables and enable sharing features
+```
+
+## API Routes
+
+### POST /api/prompt/run
+
+Executes a stored prompt using OpenAI's GPT-3.5-turbo model.
+
+**Request Body:**
+```json
+{
+  "promptId": "string"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "response": "AI generated response",
+  "prompt": {
+    "id": "string",
+    "name": "string",
+    "prompt_text": "string"
+  }
+}
+```
+
+**Authentication:** Required (valid user session)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.

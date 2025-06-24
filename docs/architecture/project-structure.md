@@ -27,7 +27,7 @@ app/
 │   ├── callback/          # OAuth callback
 │   ├── login/            # Login page
 │   ├── signup/           # Signup page
-│   └── reset-password/   # Password reset
+│   └── confirm/          # Magic link confirmation
 ├── api/                   # API routes
 │   └── prompts/          # Prompt-related APIs
 ├── dashboard/            # Dashboard pages

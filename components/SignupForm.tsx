@@ -13,26 +13,25 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import { Mail, Lock, User, Github } from 'lucide-react'
+import { Mail, User } from 'lucide-react'
+import { useToast } from '@/components/ui/use-toast'
 
 export function SignupForm() {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const [isOAuthLoading, setIsOAuthLoading] = useState(false)
+  const { toast } = useToast()
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setMessage('')
 
     try {
-      const { data, error } = await createClient().auth.signUp({
+      const { error } = await createClient().auth.signInWithOtp({
         email,
-        password,
         options: {
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback`,
+          shouldCreateUser: true,
           data: {
             display_name: displayName,
           },
@@ -40,53 +39,41 @@ export function SignupForm() {
       })
 
       if (error) {
-        setMessage(error.message)
-      } else if (data.user && !data.session) {
-        setMessage('Check your email for the confirmation link!')
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        })
       } else {
-        // User is automatically signed in
-        window.location.href = '/dashboard'
+        toast({
+          title: "Magic link sent!",
+          description: `We&apos;ve sent a secure sign-in link to ${email}. Check your inbox.`,
+        })
       }
     } catch (error) {
-      setMessage('An error occurred. Please try again.')
+      console.error('Signup error:', error)
+      toast({
+        title: "Error",
+        description: "An error occurred. Please try again.",
+        variant: "destructive",
+      })
     } finally {
       setLoading(false)
-    }
-  }
-
-  const handleGoogleSignup = async () => {
-    setIsOAuthLoading(true)
-    try {
-      const { error } = await createClient().auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
-      if (error) {
-        setMessage(error.message)
-      }
-    } catch (error) {
-      setMessage('An error occurred. Please try again.')
-    } finally {
-      setIsOAuthLoading(false)
     }
   }
 
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-center">
-          Create an account
-        </CardTitle>
+        <CardTitle className="text-2xl text-center">Create an account</CardTitle>
         <CardDescription className="text-center">
-          Enter your information to get started with Prompt Manage
+          Enter your email to get started with Prompt Manage
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <form onSubmit={handleSignup} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="displayName">Display Name</Label>
+            <Label htmlFor="displayName">Display Name (Optional)</Label>
             <div className="relative">
               <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
@@ -96,7 +83,6 @@ export function SignupForm() {
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 className="pl-10"
-                required
               />
             </div>
           </div>
@@ -117,32 +103,9 @@ export function SignupForm() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="password"
-                type="password"
-                placeholder="Create a password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="pl-10"
-                required
-                minLength={6}
-              />
-            </div>
-          </div>
-
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Creating account...' : 'Create account'}
+            {loading ? 'Sending magic link...' : 'Send magic link'}
           </Button>
-
-          {message && (
-            <p className="text-sm text-muted-foreground text-center">
-              {message}
-            </p>
-          )}
         </form>
 
         <div className="text-center text-sm">

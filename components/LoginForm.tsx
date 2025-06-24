@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,84 +13,46 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
-import { Mail, Lock, Github } from 'lucide-react'
+import { Mail } from 'lucide-react'
+import { useToast } from '@/components/ui/use-toast'
 
 export function LoginForm() {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const [isOAuthLoading, setIsOAuthLoading] = useState(false)
-  const searchParams = useSearchParams()
+  const { toast } = useToast()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setMessage('')
 
     try {
-      const { error } = await createClient().auth.signInWithPassword({
+      const { error } = await createClient().auth.signInWithOtp({
         email,
-        password,
-      })
-
-      if (error) {
-        setMessage(error.message)
-      } else {
-        const redirectTo = searchParams.get('redirect') || '/dashboard'
-        window.location.href = redirectTo
-      }
-    } catch (error) {
-      setMessage('An error occurred. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleGoogleLogin = async () => {
-    setIsOAuthLoading(true)
-    try {
-      const redirectTo = searchParams.get('redirect') || '/dashboard'
-      const { error } = await createClient().auth.signInWithOAuth({
-        provider: 'google',
         options: {
-          redirectTo: `${
-            window.location.origin
-          }/auth/callback?redirect=${encodeURIComponent(redirectTo)}`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback`,
+          shouldCreateUser: true,
         },
       })
-      if (error) {
-        setMessage(error.message)
-      }
-    } catch (error) {
-      setMessage('An error occurred. Please try again.')
-    } finally {
-      setIsOAuthLoading(false)
-    }
-  }
-
-  const handlePasswordReset = async () => {
-    if (!email) {
-      setMessage('Please enter your email address first.')
-      return
-    }
-
-    setLoading(true)
-    setMessage('')
-
-    try {
-      const { error } = await createClient().auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
-      })
 
       if (error) {
-        setMessage(error.message)
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        })
       } else {
-        setMessage('Check your email for the password reset link!')
+        toast({
+          title: "Magic link sent!",
+          description: `We&apos;ve sent a secure sign-in link to ${email}. Check your inbox.`,
+        })
       }
     } catch (error) {
-      setMessage('An error occurred. Please try again.')
+      console.error('Login error:', error)
+      toast({
+        title: "Error",
+        description: "An error occurred. Please try again.",
+        variant: "destructive",
+      })
     } finally {
       setLoading(false)
     }
@@ -122,44 +84,14 @@ export function LoginForm() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="pl-10"
-                required
-              />
-            </div>
-          </div>
-
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign in'}
+            {loading ? 'Sending magic link...' : 'Send magic link'}
           </Button>
-
-          {message && (
-            <p className="text-sm text-muted-foreground text-center">
-              {message}
-            </p>
-          )}
         </form>
 
         <div className="space-y-2 text-center">
-          <button
-            type="button"
-            onClick={handlePasswordReset}
-            className="text-sm text-muted-foreground hover:text-primary hover:underline"
-          >
-            Forgot your password?
-          </button>
-
           <div className="text-sm">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/auth/signup" className="text-primary hover:underline">
               Sign up
             </Link>

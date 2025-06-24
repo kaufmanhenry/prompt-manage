@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/components/ui/use-toast'
 import { User as AuthUser } from '@supabase/supabase-js'
-import { User, Mail, Lock, Globe, MapPin, Save, Trash2, Eye, EyeOff } from 'lucide-react'
+import { User, Mail, Globe, MapPin, Save, Trash2 } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 export default function SettingsPage() {
@@ -24,12 +24,6 @@ export default function SettingsPage() {
   const [bio, setBio] = useState('')
   const [website, setWebsite] = useState('')
   const [location, setLocation] = useState('')
-  
-  // Password change state
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [showPasswords, setShowPasswords] = useState(false)
-  const [changingPassword, setChangingPassword] = useState(false)
   
   // Settings state
   const [emailNotifications, setEmailNotifications] = useState(true)
@@ -161,57 +155,6 @@ export default function SettingsPage() {
     }
   }
 
-  const handleChangePassword = async () => {
-    if (newPassword !== confirmPassword) {
-      toast({
-        title: "Error",
-        description: "New passwords do not match.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    if (newPassword.length < 6) {
-      toast({
-        title: "Error",
-        description: "Password must be at least 6 characters long.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    setChangingPassword(true)
-    try {
-      const supabase = createClient()
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword
-      })
-
-      if (error) {
-        toast({
-          title: "Error",
-          description: error.message,
-          variant: "destructive",
-        })
-      } else {
-        toast({
-          title: "Success",
-          description: "Password updated successfully!",
-        })
-        setNewPassword('')
-        setConfirmPassword('')
-      }
-    } catch {
-      toast({
-        title: "Error",
-        description: "An error occurred while changing your password.",
-        variant: "destructive",
-      })
-    } finally {
-      setChangingPassword(false)
-    }
-  }
-
   const handleDeleteAccount = async () => {
     if (!user || !confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       return
@@ -276,7 +219,7 @@ export default function SettingsPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Account Settings</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Manage your profile, security, and preferences
+            Manage your profile and preferences
           </p>
         </div>
 
@@ -366,67 +309,6 @@ export default function SettingsPage() {
               <Button onClick={handleSaveProfile} disabled={saving} className="w-full md:w-auto">
                 <Save className="mr-2 h-4 w-4" />
                 {saving ? 'Saving...' : 'Save Profile'}
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Security */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Lock className="h-5 w-5" />
-                Security
-              </CardTitle>
-              <CardDescription>
-                Update your password and security settings
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="newPassword">New Password</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="newPassword"
-                      type={showPasswords ? "text" : "password"}
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      className="pl-10 pr-10"
-                      placeholder="Enter new password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPasswords(!showPasswords)}
-                      className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
-                    >
-                      {showPasswords ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="confirmPassword"
-                      type={showPasswords ? "text" : "password"}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="pl-10"
-                      placeholder="Confirm new password"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <Button 
-                onClick={handleChangePassword} 
-                disabled={changingPassword || !newPassword || !confirmPassword}
-                className="w-full md:w-auto"
-              >
-                {changingPassword ? 'Changing Password...' : 'Change Password'}
               </Button>
             </CardContent>
           </Card>

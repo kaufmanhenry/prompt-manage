@@ -1009,7 +1009,7 @@ export function PromptDetails({
   }
 
   return (
-    <Card className="p-6 mx-auto m-6 gap-2">
+    <Card className="p-6 mx-auto m-2 gap-2 rounded-lg">
       <div className="flex items-center gap-2">
         <h2 className="text-2xl font-semibold">{prompt.name}</h2>
         <div className="flex gap-2 flex-wrap flex-1">
@@ -1021,7 +1021,7 @@ export function PromptDetails({
               <Globe className="mr-1 h-3 w-3" /> Public
             </Badge>
           ) : (
-            <Badge variant="secondary">
+            <Badge variant="outline">
               <Lock className="mr-1 h-3 w-3" /> Private
             </Badge>
           )}
@@ -1042,11 +1042,10 @@ export function PromptDetails({
             disabled={running}
           >
             {running ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="size-4 animate-spin" />
             ) : (
-              <Play className="mr-2 h-4 w-4" />
+              <Play className="size-4" />
             )}
-            {running ? 'Running...' : 'Run Prompt'}
           </Button>
           
           {/* Manage Sharing Button */}
@@ -1055,8 +1054,7 @@ export function PromptDetails({
             size="sm"
             onClick={handleSharePrompt}
           >
-            <Share2 className="mr-2 h-4 w-4" />
-            Manage Sharing
+            <Share2 className="size-4" /> 
           </Button>
 
           {/* Run History Button */}
@@ -1065,12 +1063,11 @@ export function PromptDetails({
             size="sm"
             onClick={() => setShowRunHistory(!showRunHistory)}
           >
-            <Clock className="mr-2 size-4" />
-            {showRunHistory ? 'Hide Run History' : 'Show Run History'}
+            <Clock className="size-4" />
           </Button>
 
           <Button variant="outline" size="sm" onClick={() => onEdit?.(prompt)}>
-            <Edit className="mr-2 h-4 w-4" /> Edit
+            <Edit className="size-4" />
           </Button>
           <Button
             variant="outline"
@@ -1078,7 +1075,7 @@ export function PromptDetails({
             onClick={() => onDelete?.(prompt)}
             className="text-red-600 hover:text-red-700 hover:bg-red-50"
           >
-            <Trash2 className="mr-2 h-4 w-4" /> Delete
+            <Trash2 className="size-4" />
           </Button>
         </div>
       </div>
@@ -1086,8 +1083,8 @@ export function PromptDetails({
         <div className="mb-2 text-muted-foreground">{prompt.description}</div>
       )}
       <div className="flex gap-2 flex-wrap"></div>
-      <div className="relative mb-4">
-        <div className="rounded-lg border bg-muted/50 p-4">
+      <div className="relative mb-4 flex-1">
+        <div className="rounded-lg border bg-accent/50 p-4 h-[400px] overflow-y-scroll scrollbar-thin scrollbar-thumb-accent/50 scrollbar-track-accent/10">
           <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
             {prompt.prompt_text}
           </pre>

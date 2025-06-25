@@ -79,7 +79,7 @@ export default function DashboardPage() {
         selectedPromptId={selectedPromptId}
         onSelectPrompt={handleSelectPrompt}
       />
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto bg-accent/50">
         <PromptDetails 
           prompt={selectedPrompt}
           onEdit={handleEditPrompt}

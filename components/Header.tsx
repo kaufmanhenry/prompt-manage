@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { createClient } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
-import { Settings, LogOut, Sparkles, FileText, Globe } from 'lucide-react'
+import { Settings, LogOut, Sparkles, FileLock, Globe } from 'lucide-react'
 
 export function Header() {
   const pathname = usePathname()
@@ -53,7 +53,7 @@ export function Header() {
                 href="/dashboard"
                 className={`text-sm ${
                   pathname === '/dashboard'
-                    ? 'text-primary bg-primary/10'
+                    ? 'text-primary bg-accent'
                     : 'text-muted-foreground hover:text-primary'
                 } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
                 onClick={(e) => {
@@ -63,30 +63,19 @@ export function Header() {
                   }
                 }}
               >
-                <FileText className="w-4 h-4" />
-                <span className="text-sm font-medium">My Prompts</span>
+                <FileLock className="w-4 h-4" />
+                <span className="text-sm font-medium">Personal</span>
               </Link>
               <Link
                 href="/p"
                 className={`text-sm ${
                   pathname.startsWith('/p')
-                    ? 'text-primary bg-primary/10'
+                    ? 'text-primary bg-accent'
                     : 'text-muted-foreground'
                 } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
               >
                 <Globe className="w-4 h-4" />
-                <span className="text-sm font-medium">Public Directory</span>
-              </Link>
-              <Link
-                href="/settings"
-                className={`text-sm ${
-                  pathname === '/settings'
-                    ? 'text-primary bg-primary/10'
-                    : 'text-muted-foreground'
-                } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
-              >
-                <Settings className="w-4 h-4" />
-                Settings
+                <span className="text-sm font-medium">Public</span>
               </Link>
             </nav>
           )}

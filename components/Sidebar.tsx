@@ -97,7 +97,6 @@ export function Sidebar({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <div className="font-medium mb-2">Filter by Model</div>
             <div className="flex flex-col gap-2">
               {uniqueModels.length === 0 ? (
                 <div className="text-sm text-muted-foreground">
@@ -140,7 +139,6 @@ export function Sidebar({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <div className="font-medium mb-2">Filter by Tag</div>
             <div className="flex flex-col gap-2 max-h-48 overflow-y-auto">
               {uniqueTags.length === 0 ? (
                 <div className="text-sm text-muted-foreground">

@@ -43,7 +43,7 @@ export function LoginForm() {
       } else {
         toast({
           title: "Magic link sent!",
-          description: `We&apos;ve sent a secure sign-in link to ${email}. Check your inbox.`,
+          description: `We've sent a secure sign-in link to ${email}. Check your inbox.`,
         })
       }
     } catch (error) {

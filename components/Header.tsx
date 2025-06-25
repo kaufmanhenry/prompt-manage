@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { createClient } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
-import { Settings, LogOut, Sparkles, FileLock, Globe } from 'lucide-react'
+import { Settings, LogOut, Sparkles, Globe, User2 } from 'lucide-react'
 
 export function Header() {
   const pathname = usePathname()
@@ -63,7 +63,7 @@ export function Header() {
                   }
                 }}
               >
-                <FileLock className="w-4 h-4" />
+                <User2 className="w-4 h-4" />
                 <span className="text-sm font-medium">Personal</span>
               </Link>
               <Link
@@ -86,7 +86,7 @@ export function Header() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="relative h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center"
+                  className="relative h-8 w-8 rounded-full bg-input  flex items-center justify-center"
                 >
                   <span className="sr-only">Open user menu</span>
                   {session.user.email?.[0].toUpperCase()}

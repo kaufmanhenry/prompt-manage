@@ -7,7 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import CopyButton from '@/components/CopyButton'
+import { CopyPromptButton } from '@/components/CopyPromptButton'
 import { RelatedPrompts } from '@/components/RelatedPrompts'
+import { DerivativePrompts } from '@/components/DerivativePrompts'
 import { ArrowLeft, ExternalLink, Calendar, User, TrendingUp, Share2, Linkedin, Twitter, Facebook } from 'lucide-react'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
@@ -210,6 +212,25 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
           </div>
 
           <div className="space-y-6">
+            {/* Copy to My Prompts Button */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Add to My Prompts</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {prompt.id && (
+                  <CopyPromptButton 
+                    promptId={prompt.id} 
+                    promptName={prompt.name}
+                    className="w-full"
+                  />
+                )}
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                  Copy this prompt to your personal collection for easy access and customization.
+                </p>
+              </CardContent>
+            </Card>
+
             {/* Model Info */}
             <Card>
               <CardHeader>
@@ -291,6 +312,9 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
                 </div>
               </CardContent>
             </Card>
+
+            {/* Derivative Prompts */}
+            {prompt.id && <DerivativePrompts promptId={prompt.id} />}
           </div>
         </div>
 

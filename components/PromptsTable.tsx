@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Prompt } from '@/lib/schemas/prompt'
 import CopyButton from './CopyButton'
@@ -25,6 +25,7 @@ import {
   Play,
   Loader2,
   Sparkles,
+  Link as LinkIcon,
 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import {
@@ -83,6 +84,9 @@ export function PromptsTable({
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [promptToDelete, setPromptToDelete] = useState<Prompt | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(
+    null
+  )
 
   // New state for running prompts
   const [runningPrompts, setRunningPrompts] = useState<Record<string, boolean>>(
@@ -97,6 +101,31 @@ export function PromptsTable({
 
   const { toast } = useToast()
   const queryClient = useQueryClient()
+
+  // Fetch original prompt slug when viewing a derivative prompt
+  useEffect(() => {
+    const fetchOriginalPromptSlug = async () => {
+      if (selectedPrompt?.parent_prompt_id) {
+        try {
+          const { data, error } = await createClient()
+            .from('prompts')
+            .select('slug')
+            .eq('id', selectedPrompt.parent_prompt_id)
+            .single()
+
+          if (!error && data?.slug) {
+            setOriginalPromptSlug(data.slug)
+          }
+        } catch (err) {
+          console.error('Error fetching original prompt slug:', err)
+        }
+      } else {
+        setOriginalPromptSlug(null)
+      }
+    }
+
+    fetchOriginalPromptSlug()
+  }, [selectedPrompt?.parent_prompt_id])
 
   const handleSharePrompt = (prompt: Prompt) => {
     setPromptToShare(prompt)
@@ -474,37 +503,70 @@ export function PromptsTable({
           </div>
 
           {/* Public Link Display */}
-          {selectedPrompt.is_public &&
-            selectedPrompt.slug && (
-              <div className="mb-6 rounded-lg border bg-green-50 dark:bg-green-950 p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium text-green-800 dark:text-green-200 flex items-center gap-2">
-                      <Globe className="h-4 w-4" />
-                      Public Link Available
-                    </h4>
-                    <p className="text-sm text-green-600 dark:text-green-300 mt-1">
-                      {`${window.location.origin}/p/${selectedPrompt.slug}`}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleCopyLink(selectedPrompt)}
-                    >
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Copy
+          {selectedPrompt.is_public && selectedPrompt.slug && (
+            <div className="mb-6 rounded-lg border bg-green-50 dark:bg-green-950 p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-medium text-green-800 dark:text-green-200 flex items-center gap-2">
+                    <Globe className="h-4 w-4" />
+                    Public Link Available
+                  </h4>
+                  <p className="text-sm text-green-600 dark:text-green-300 mt-1">
+                    {`${window.location.origin}/p/${selectedPrompt.slug}`}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleCopyLink(selectedPrompt)}
+                  >
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    Copy
+                  </Button>
+                  <Link href={`/p/${selectedPrompt.slug}`}>
+                    <Button variant="outline" size="sm">
+                      <Eye className="h-4 w-4" />
                     </Button>
-                    <Link href={`/p/${selectedPrompt.slug}`}>
-                      <Button variant="outline" size="sm">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                    </Link>
-                  </div>
+                  </Link>
                 </div>
               </div>
-            )}
+            </div>
+          )}
+
+          {/* Derivative Prompt Information */}
+          {selectedPrompt.parent_prompt_id && (
+            <div className="mb-6 rounded-lg border bg-blue-50 dark:bg-blue-950 p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <LinkIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                    <h4 className="font-medium text-blue-800 dark:text-blue-200">
+                      Derivative Prompt
+                    </h4>
+                  </div>
+                  <p className="text-sm text-blue-600 dark:text-blue-300 mt-1">
+                    This prompt was copied from a public prompt and can be
+                    customized for your needs.
+                  </p>
+                </div>
+                {originalPromptSlug && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      // Navigate to the original public prompt
+                      window.open(`/p/${originalPromptSlug}`, '_blank')
+                    }}
+                  >
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    View Original
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
+
           {showRunHistory && selectedPrompt && (
             <div className="mb-6">
               <PromptRunHistory
@@ -633,6 +695,14 @@ export function PromptsTable({
                         View Public Page
                       </Link>
                     )}
+                  </div>
+                )}
+
+                {/* Derivative prompt indicator */}
+                {prompt.parent_prompt_id && (
+                  <div className="mb-4 flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400">
+                    <LinkIcon className="h-3 w-3" />
+                    <span>Derivative of public prompt</span>
                   </div>
                 )}
               </div>
@@ -919,7 +989,7 @@ export function PromptDetails({
 
   const handleTogglePublic = async () => {
     if (!prompt) return
-    
+
     setSharing(true)
     try {
       // Use the API route for better error handling
@@ -1010,29 +1080,31 @@ export function PromptDetails({
 
   return (
     <Card className="p-6 mx-auto m-2 gap-2 rounded-lg">
-      <div className="flex items-center gap-2">
-        <h2 className="text-2xl font-semibold">{prompt.name}</h2>
-        <div className="flex gap-2 flex-wrap flex-1">
-          {prompt.is_public ? (
-            <Badge
-              variant="default"
-              className="bg-green-100 text-green-800 border-green-200"
-            >
-              <Globe className="mr-1 h-3 w-3" /> Public
+      <div className="flex flex-col md:flex-row items-center gap-2">
+        <div className="flex-1">
+          <h2 className="text-2xl font-semibold mb-2">{prompt.name}</h2>
+          <div className="flex gap-2 flex-wrap">
+            {prompt.is_public ? (
+              <Badge
+                variant="secondary"
+                className="bg-green-100 text-green-800 border-green-200"
+              >
+                <Globe className="mr-1 h-3 w-3" /> Public
+              </Badge>
+            ) : (
+              <Badge variant="secondary">
+                <Lock className="mr-1 h-3 w-3" /> Private
+              </Badge>
+            )}
+            <Badge variant="secondary">
+              <Sparkles className="mr-1 h-3 w-3" /> {prompt.model}
             </Badge>
-          ) : (
-            <Badge variant="outline">
-              <Lock className="mr-1 h-3 w-3" /> Private
-            </Badge>
-          )}
-          <Badge variant="secondary">
-            <Sparkles className="mr-1 h-3 w-3" /> {prompt.model}
-          </Badge>
-          {prompt.tags?.map((tag) => (
-            <Badge key={tag} variant="outline">
-              {tag}
-            </Badge>
-          ))}
+            {prompt.tags?.map((tag) => (
+              <Badge key={tag} variant="outline">
+                {tag}
+              </Badge>
+            ))}
+          </div>
         </div>
         <div className="flex gap-2">
           <Button
@@ -1047,14 +1119,10 @@ export function PromptDetails({
               <Play className="size-4" />
             )}
           </Button>
-          
+
           {/* Manage Sharing Button */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleSharePrompt}
-          >
-            <Share2 className="size-4" /> 
+          <Button variant="outline" size="sm" onClick={handleSharePrompt}>
+            <Share2 className="size-4" />
           </Button>
 
           {/* Run History Button */}
@@ -1108,11 +1176,7 @@ export function PromptDetails({
               </p>
             </div>
             <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCopyLink}
-              >
+              <Button variant="outline" size="sm" onClick={handleCopyLink}>
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Copy
               </Button>
@@ -1141,9 +1205,7 @@ export function PromptDetails({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {prompt.is_public
-                ? 'Manage Prompt Sharing'
-                : 'Share Prompt'}
+              {prompt.is_public ? 'Manage Prompt Sharing' : 'Share Prompt'}
             </DialogTitle>
             <DialogDescription>
               {prompt.is_public
@@ -1163,10 +1225,7 @@ export function PromptDetails({
                     Anyone with this link can view your prompt
                   </p>
                   <div className="flex gap-2">
-                    <Button
-                      onClick={handleCopyLink}
-                      className="flex-1"
-                    >
+                    <Button onClick={handleCopyLink} className="flex-1">
                       <ExternalLink className="mr-2 size-4" />
                       Copy Link
                     </Button>

@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { Sidebar } from '@/components/Sidebar'
 import { PromptDetails } from '@/components/PromptsTable'
 import { PromptForm } from '@/components/PromptForm'
@@ -9,6 +10,9 @@ import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/utils/supabase/client'
 
 export default function DashboardPage() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
@@ -37,14 +41,26 @@ export default function DashboardPage() {
     },
   })
 
+  // Handle URL parameter for selected prompt
+  useEffect(() => {
+    const promptIdFromUrl = searchParams.get('prompt')
+    if (promptIdFromUrl && promptIdFromUrl !== 'new') {
+      setSelectedPromptId(promptIdFromUrl)
+    }
+  }, [searchParams])
+
   const selectedPrompt = prompts.find((p) => p.id === selectedPromptId) || null
 
   const handleSelectPrompt = (promptId: string) => {
     if (promptId === 'new') {
       setShowCreateForm(true)
       setSelectedPromptId(null)
+      // Update URL to remove prompt parameter
+      router.replace('/dashboard')
     } else {
       setSelectedPromptId(promptId)
+      // Update URL to include the selected prompt
+      router.replace(`/dashboard?prompt=${promptId}`)
     }
   }
 

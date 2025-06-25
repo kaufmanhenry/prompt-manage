@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Prompt } from '@/lib/schemas/prompt'
 import CopyButton from './CopyButton'
@@ -24,6 +24,7 @@ import {
   MoreVertical,
   Play,
   Loader2,
+  Sparkles,
 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import {
@@ -39,9 +40,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { createClient } from '@/utils/supabase/client'
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
+import { createClient } from '@/utils/supabase/client'
 
 interface Filters {
   search: string
@@ -58,6 +59,14 @@ interface PromptsTableProps {
   isLoading?: boolean
 }
 
+interface PromptDetailsProps {
+  prompt: Prompt | null
+  onEdit?: (prompt: Prompt) => void
+  onDelete?: (prompt: Prompt) => void
+  onRun?: (prompt: Prompt) => void
+  running?: boolean
+}
+
 export function PromptsTable({
   prompts = [],
   filters,
@@ -71,53 +80,23 @@ export function PromptsTable({
   const [showShareDialog, setShowShareDialog] = useState(false)
   const [promptToShare, setPromptToShare] = useState<Prompt | null>(null)
   const [sharing, setSharing] = useState(false)
-  const [migrationComplete, setMigrationComplete] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [promptToDelete, setPromptToDelete] = useState<Prompt | null>(null)
   const [deleting, setDeleting] = useState(false)
-  
+
   // New state for running prompts
-  const [runningPrompts, setRunningPrompts] = useState<Record<string, boolean>>({})
-  const [promptResponses, setPromptResponses] = useState<Record<string, string>>({})
-  const [showResponses, setShowResponses] = useState<Record<string, boolean>>({})
-  
+  const [runningPrompts, setRunningPrompts] = useState<Record<string, boolean>>(
+    {}
+  )
+  const [promptResponses, setPromptResponses] = useState<
+    Record<string, string>
+  >({})
+  const [showResponses, setShowResponses] = useState<Record<string, boolean>>(
+    {}
+  )
+
   const { toast } = useToast()
   const queryClient = useQueryClient()
-
-  // Check if migration is complete by testing if is_public field exists
-  useEffect(() => {
-    const checkMigration = async () => {
-      try {
-        // Try to query the is_public field
-        const { error } = await createClient()
-          .from('prompts')
-          .select('is_public, slug, view_count')
-          .limit(1)
-
-        if (!error) {
-          setMigrationComplete(true)
-        } else {
-          setMigrationComplete(false)
-
-          // Show helpful error message
-          if (error.message.includes('column "is_public" does not exist')) {
-            toast({
-              title: 'Database Migration Required',
-              description:
-                'Please run the migration script in Supabase to enable sharing features.',
-              variant: 'destructive',
-            })
-          }
-        }
-      } catch (error) {
-        console.error('Migration check error:', error)
-        // Migration not complete yet
-        setMigrationComplete(false)
-      }
-    }
-
-    checkMigration()
-  }, [toast])
 
   const handleSharePrompt = (prompt: Prompt) => {
     setPromptToShare(prompt)
@@ -254,9 +233,9 @@ export function PromptsTable({
   // Handle running a prompt
   const handleRunPrompt = async (prompt: Prompt) => {
     const promptId = prompt.id as string
-    setRunningPrompts(prev => ({ ...prev, [promptId]: true }))
-    setShowResponses(prev => ({ ...prev, [promptId]: true }))
-    
+    setRunningPrompts((prev) => ({ ...prev, [promptId]: true }))
+    setShowResponses((prev) => ({ ...prev, [promptId]: true }))
+
     try {
       const response = await fetch('/api/prompt/run', {
         method: 'POST',
@@ -272,26 +251,27 @@ export function PromptsTable({
       }
 
       const data = await response.json()
-      setPromptResponses(prev => ({ ...prev, [promptId]: data.response }))
-      
+      setPromptResponses((prev) => ({ ...prev, [promptId]: data.response }))
+
       toast({
         title: 'Prompt Executed',
         description: 'Your prompt has been successfully executed.',
       })
     } catch (error) {
       console.error('Run prompt error:', error)
-      setPromptResponses(prev => ({ 
-        ...prev, 
-        [promptId]: error instanceof Error ? error.message : 'Failed to run prompt' 
+      setPromptResponses((prev) => ({
+        ...prev,
+        [promptId]:
+          error instanceof Error ? error.message : 'Failed to run prompt',
       }))
-      
+
       toast({
         title: 'Error',
         description: 'Failed to run prompt. Please try again.',
         variant: 'destructive',
       })
     } finally {
-      setRunningPrompts(prev => ({ ...prev, [promptId]: false }))
+      setRunningPrompts((prev) => ({ ...prev, [promptId]: false }))
     }
   }
 
@@ -394,48 +374,7 @@ export function PromptsTable({
   return (
     <div className="space-y-6">
       {/* Debug Panel - only show if migration is not complete */}
-      {!migrationComplete && (
-        <div className="rounded-lg border border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950 p-4">
-          <div className="flex items-start gap-3">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-5 w-5 text-yellow-600 dark:text-yellow-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                Sharing Features Not Available
-              </h3>
-              <div className="mt-2 text-sm text-yellow-700 dark:text-yellow-300">
-                <p className="mb-2">
-                  To enable prompt sharing, you need to run the database
-                  migration in Supabase:
-                </p>
-                <ol className="list-decimal list-inside space-y-1 ml-2">
-                  <li>Go to your Supabase dashboard</li>
-                  <li>Navigate to the SQL Editor</li>
-                  <li>
-                    Copy and paste the contents of{' '}
-                    <code className="bg-yellow-100 dark:bg-yellow-900 px-1 rounded">
-                      database-migration.sql
-                    </code>
-                  </li>
-                  <li>Run the script</li>
-                  <li>Refresh this page</li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Removed migration warning panel - sharing functionality is now enabled by default */}
 
       {selectedPrompt ? (
         <Card className="p-6">
@@ -482,20 +421,20 @@ export function PromptsTable({
                 ) : (
                   <Play className="mr-2 h-4 w-4" />
                 )}
-                {runningPrompts[selectedPrompt.id as string] ? 'Running...' : 'Run Prompt'}
+                {runningPrompts[selectedPrompt.id as string]
+                  ? 'Running...'
+                  : 'Run Prompt'}
               </Button>
 
               {/* Manage Sharing Button - opens full share dialog */}
-              {migrationComplete && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleSharePrompt(selectedPrompt)}
-                >
-                  <Share2 className="mr-2 h-4 w-4" />
-                  Manage Sharing
-                </Button>
-              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleSharePrompt(selectedPrompt)}
+              >
+                <Share2 className="mr-2 h-4 w-4" />
+                Manage Sharing
+              </Button>
 
               <Button
                 variant="outline"
@@ -535,8 +474,7 @@ export function PromptsTable({
           </div>
 
           {/* Public Link Display */}
-          {migrationComplete &&
-            selectedPrompt.is_public &&
+          {selectedPrompt.is_public &&
             selectedPrompt.slug && (
               <div className="mb-6 rounded-lg border bg-green-50 dark:bg-green-950 p-4">
                 <div className="flex items-center justify-between">
@@ -569,7 +507,7 @@ export function PromptsTable({
             )}
           {showRunHistory && selectedPrompt && (
             <div className="mb-6">
-              <PromptRunHistory 
+              <PromptRunHistory
                 promptId={selectedPrompt.id as string}
                 onClose={() => setShowRunHistory(false)}
               />
@@ -596,7 +534,12 @@ export function PromptsTable({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setShowResponses(prev => ({ ...prev, [selectedPrompt.id as string]: false }))}
+                  onClick={() =>
+                    setShowResponses((prev) => ({
+                      ...prev,
+                      [selectedPrompt.id as string]: false,
+                    }))
+                  }
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -613,7 +556,8 @@ export function PromptsTable({
                   </div>
                 ) : (
                   <div className="text-muted-foreground">
-                    No response yet. Click &quot;Run Prompt&quot; to generate one.
+                    No response yet. Click &quot;Run Prompt&quot; to generate
+                    one.
                   </div>
                 )}
               </div>
@@ -635,21 +579,20 @@ export function PromptsTable({
                     <h3 className="text-lg font-semibold line-clamp-1 flex-1">
                       {prompt.name}
                     </h3>
-                    {migrationComplete &&
-                      (prompt.is_public ? (
-                        <Badge
-                          variant="default"
-                          className="bg-green-100 text-green-800 border-green-200 ml-2"
-                        >
-                          <Globe className="mr-1 h-3 w-3" />
-                          Public
-                        </Badge>
-                      ) : (
-                        <Badge variant="secondary" className="ml-2">
-                          <Lock className="mr-1 h-3 w-3" />
-                          Private
-                        </Badge>
-                      ))}
+                    {prompt.is_public ? (
+                      <Badge
+                        variant="default"
+                        className="bg-green-100 text-green-800 border-green-200 ml-2"
+                      >
+                        <Globe className="mr-1 h-3 w-3" />
+                        Public
+                      </Badge>
+                    ) : (
+                      <Badge variant="secondary" className="ml-2">
+                        <Lock className="mr-1 h-3 w-3" />
+                        Private
+                      </Badge>
+                    )}
                   </div>
                   {prompt.description && (
                     <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
@@ -675,7 +618,7 @@ export function PromptsTable({
                 </div>
 
                 {/* Stats for public prompts */}
-                {migrationComplete && prompt.is_public && (
+                {prompt.is_public && (
                   <div className="mb-4 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
                     <div className="flex items-center gap-1">
                       <TrendingUp className="h-3 w-3" />
@@ -711,7 +654,9 @@ export function PromptsTable({
                     ) : (
                       <Play className="mr-2 h-4 w-4" />
                     )}
-                    {runningPrompts[prompt.id as string] ? 'Running...' : 'Run Prompt'}
+                    {runningPrompts[prompt.id as string]
+                      ? 'Running...'
+                      : 'Run Prompt'}
                   </Button>
                 </div>
                 <div className="flex items-center gap-2">
@@ -722,15 +667,13 @@ export function PromptsTable({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      {migrationComplete && (
-                        <DropdownMenuItem
-                          onClick={() => handleSharePrompt(prompt)}
-                        >
-                          <Share2 className="mr-2 size-4" />
-                          {prompt.is_public ? 'Manage Sharing' : 'Share'}
-                        </DropdownMenuItem>
-                      )}
-                      {migrationComplete && prompt.is_public && (
+                      <DropdownMenuItem
+                        onClick={() => handleSharePrompt(prompt)}
+                      >
+                        <Share2 className="mr-2 size-4" />
+                        {prompt.is_public ? 'Manage Sharing' : 'Share'}
+                      </DropdownMenuItem>
+                      {prompt.is_public && (
                         <DropdownMenuItem
                           onClick={() => handleCopyLink(prompt)}
                         >
@@ -764,7 +707,12 @@ export function PromptsTable({
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => setShowResponses(prev => ({ ...prev, [prompt.id as string]: false }))}
+                      onClick={() =>
+                        setShowResponses((prev) => ({
+                          ...prev,
+                          [prompt.id as string]: false,
+                        }))
+                      }
                     >
                       <X className="h-4 w-4" />
                     </Button>
@@ -781,7 +729,8 @@ export function PromptsTable({
                       </div>
                     ) : (
                       <div className="text-sm text-muted-foreground">
-                        No response yet. Click &quot;Run Prompt&quot; to generate one.
+                        No response yet. Click &quot;Run Prompt&quot; to
+                        generate one.
                       </div>
                     )}
                   </div>
@@ -948,5 +897,349 @@ export function PromptsTable({
         </DialogContent>
       </Dialog>
     </div>
+  )
+}
+
+export function PromptDetails({
+  prompt,
+  onEdit,
+  onDelete,
+  onRun,
+  running,
+}: PromptDetailsProps) {
+  const [showRunHistory, setShowRunHistory] = useState(false)
+  const [showShareDialog, setShowShareDialog] = useState(false)
+  const [sharing, setSharing] = useState(false)
+  const { toast } = useToast()
+  const queryClient = useQueryClient()
+
+  const handleSharePrompt = () => {
+    setShowShareDialog(true)
+  }
+
+  const handleTogglePublic = async () => {
+    if (!prompt) return
+    
+    setSharing(true)
+    try {
+      // Use the API route for better error handling
+      const response = await fetch(`/api/prompts/${prompt.id}/share`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ is_public: !prompt.is_public }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update prompt')
+      }
+
+      // Invalidate and refetch to get the updated data including the generated slug
+      await queryClient.invalidateQueries({ queryKey: ['prompts'] })
+
+      toast({
+        title: prompt.is_public ? 'Prompt Made Private' : 'Prompt Published!',
+        description: prompt.is_public
+          ? 'Your prompt is now private and no longer accessible publicly.'
+          : 'Your prompt has been published and is now publicly accessible.',
+      })
+
+      setShowShareDialog(false)
+    } catch (error) {
+      // Check if it's a migration issue
+      if (
+        error instanceof Error &&
+        error.message.includes('column "is_public" does not exist')
+      ) {
+        toast({
+          title: 'Database Migration Required',
+          description:
+            'Please run the database migration to enable sharing functionality.',
+          variant: 'destructive',
+        })
+        return
+      }
+
+      toast({
+        title: 'Error',
+        description: 'Failed to update prompt visibility. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      setSharing(false)
+    }
+  }
+
+  const handleCopyLink = async () => {
+    if (!prompt || !prompt.is_public || !prompt.slug) {
+      toast({
+        title: 'Not Available',
+        description: 'This prompt is not publicly shared.',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    try {
+      const publicUrl = `${window.location.origin}/p/${prompt.slug}`
+      await navigator.clipboard.writeText(publicUrl)
+
+      toast({
+        title: 'Link Copied!',
+        description: 'Public link copied to clipboard.',
+      })
+    } catch (error) {
+      console.error('Copy link error:', error)
+      toast({
+        title: 'Error',
+        description: 'Failed to copy link. Please try again.',
+        variant: 'destructive',
+      })
+    }
+  }
+
+  if (!prompt) {
+    return (
+      <div className="flex items-center justify-center h-full text-muted-foreground">
+        Select a prompt to view its details.
+      </div>
+    )
+  }
+
+  return (
+    <Card className="p-6 mx-auto m-6 gap-2">
+      <div className="flex items-center gap-2">
+        <h2 className="text-2xl font-semibold">{prompt.name}</h2>
+        <div className="flex gap-2 flex-wrap flex-1">
+          {prompt.is_public ? (
+            <Badge
+              variant="default"
+              className="bg-green-100 text-green-800 border-green-200"
+            >
+              <Globe className="mr-1 h-3 w-3" /> Public
+            </Badge>
+          ) : (
+            <Badge variant="secondary">
+              <Lock className="mr-1 h-3 w-3" /> Private
+            </Badge>
+          )}
+          <Badge variant="secondary">
+            <Sparkles className="mr-1 h-3 w-3" /> {prompt.model}
+          </Badge>
+          {prompt.tags?.map((tag) => (
+            <Badge key={tag} variant="outline">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onRun?.(prompt)}
+            disabled={running}
+          >
+            {running ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Play className="mr-2 h-4 w-4" />
+            )}
+            {running ? 'Running...' : 'Run Prompt'}
+          </Button>
+          
+          {/* Manage Sharing Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleSharePrompt}
+          >
+            <Share2 className="mr-2 h-4 w-4" />
+            Manage Sharing
+          </Button>
+
+          {/* Run History Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowRunHistory(!showRunHistory)}
+          >
+            <Clock className="mr-2 size-4" />
+            {showRunHistory ? 'Hide Run History' : 'Show Run History'}
+          </Button>
+
+          <Button variant="outline" size="sm" onClick={() => onEdit?.(prompt)}>
+            <Edit className="mr-2 h-4 w-4" /> Edit
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onDelete?.(prompt)}
+            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            <Trash2 className="mr-2 h-4 w-4" /> Delete
+          </Button>
+        </div>
+      </div>
+      {prompt.description && (
+        <div className="mb-2 text-muted-foreground">{prompt.description}</div>
+      )}
+      <div className="flex gap-2 flex-wrap"></div>
+      <div className="relative mb-4">
+        <div className="rounded-lg border bg-muted/50 p-4">
+          <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
+            {prompt.prompt_text}
+          </pre>
+        </div>
+        <div className="absolute top-2 right-2">
+          <CopyButton text={prompt.prompt_text} />
+        </div>
+      </div>
+
+      {/* Public Link Display */}
+      {prompt.is_public && prompt.slug && (
+        <div className="mb-6 rounded-lg border bg-green-50 dark:bg-green-950 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className="font-medium text-green-800 dark:text-green-200 flex items-center gap-2">
+                <Globe className="h-4 w-4" />
+                Public Link Available
+              </h4>
+              <p className="text-sm text-green-600 dark:text-green-300 mt-1">
+                {`${window.location.origin}/p/${prompt.slug}`}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCopyLink}
+              >
+                <ExternalLink className="mr-2 h-4 w-4" />
+                Copy
+              </Button>
+              <Link href={`/p/${prompt.slug}`}>
+                <Button variant="outline" size="sm">
+                  <Eye className="h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Run History */}
+      {showRunHistory && (
+        <div className="mb-6">
+          <PromptRunHistory
+            promptId={prompt.id as string}
+            onClose={() => setShowRunHistory(false)}
+          />
+        </div>
+      )}
+
+      {/* Share Dialog */}
+      <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {prompt.is_public
+                ? 'Manage Prompt Sharing'
+                : 'Share Prompt'}
+            </DialogTitle>
+            <DialogDescription>
+              {prompt.is_public
+                ? `"${prompt.name}" is currently public`
+                : `Make "${prompt.name}" publicly accessible`}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            {prompt.is_public ? (
+              <div className="space-y-4">
+                <div className="rounded-lg border p-4 bg-green-50 dark:bg-green-950">
+                  <h4 className="font-medium mb-2 flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-green-600" />
+                    Public Link Available
+                  </h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Anyone with this link can view your prompt
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={handleCopyLink}
+                      className="flex-1"
+                    >
+                      <ExternalLink className="mr-2 size-4" />
+                      Copy Link
+                    </Button>
+                    {prompt.slug && (
+                      <Link href={`/p/${prompt.slug}`}>
+                        <Button variant="outline">
+                          <Eye className="size-4" />
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+
+                <div className="rounded-lg border p-4">
+                  <h4 className="font-medium mb-2">Make Private</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Remove this prompt from public access
+                  </p>
+                  <Button
+                    variant="outline"
+                    onClick={handleTogglePublic}
+                    disabled={sharing}
+                    className="w-full"
+                  >
+                    {sharing ? 'Updating...' : 'Make Private'}
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="rounded-lg border p-4">
+                  <h4 className="font-medium mb-2">
+                    Publish to Public Directory
+                  </h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Make this prompt publicly accessible and discoverable
+                  </p>
+                  <Button
+                    onClick={handleTogglePublic}
+                    disabled={sharing}
+                    className="w-full"
+                  >
+                    {sharing ? 'Publishing...' : 'Publish Prompt'}
+                  </Button>
+                </div>
+
+                <div className="rounded-lg border p-4">
+                  <h4 className="font-medium mb-2">Direct Copy</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Copy the prompt text directly
+                  </p>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      navigator.clipboard.writeText(prompt.prompt_text)
+                      toast({
+                        title: 'Copied!',
+                        description: 'Prompt text copied to clipboard.',
+                      })
+                    }}
+                    className="w-full"
+                  >
+                    Copy Prompt Text
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+    </Card>
   )
 }

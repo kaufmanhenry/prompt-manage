@@ -5,12 +5,18 @@ import { createClient } from '@/utils/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/components/ui/use-toast'
 import { User as AuthUser } from '@supabase/supabase-js'
-import { User, Mail, Globe, MapPin, Save, Trash2 } from 'lucide-react'
+import { User, Mail, Globe, MapPin, Save, Trash2, Settings } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 export default function SettingsPage() {
@@ -18,13 +24,13 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [user, setUser] = useState<AuthUser | null>(null)
-  
+
   // Profile form state
   const [displayName, setDisplayName] = useState('')
   const [bio, setBio] = useState('')
   const [website, setWebsite] = useState('')
   const [location, setLocation] = useState('')
-  
+
   // Settings state
   const [emailNotifications, setEmailNotifications] = useState(true)
   const [darkMode, setDarkMode] = useState(false)
@@ -45,9 +51,11 @@ export default function SettingsPage() {
   const loadUserData = async () => {
     try {
       const supabase = createClient()
-      
+
       // Get current user
-      const { data: { user } } = await supabase.auth.getUser()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
       if (!user) {
         window.location.href = '/auth/login'
         return
@@ -73,7 +81,7 @@ export default function SettingsPage() {
         setEmailNotifications(profile.email_notifications ?? true)
         setDarkMode(profile.dark_mode ?? false)
         setThemePreference(profile.theme_preference || 'system')
-        
+
         // Apply theme preference
         if (profile.theme_preference && profile.theme_preference !== 'system') {
           setTheme(profile.theme_preference)
@@ -84,7 +92,10 @@ export default function SettingsPage() {
           .from('user_profiles')
           .insert({
             id: user.id,
-            display_name: user.user_metadata?.display_name || user.email?.split('@')[0] || 'User',
+            display_name:
+              user.user_metadata?.display_name ||
+              user.email?.split('@')[0] ||
+              'User',
             email_notifications: true,
             dark_mode: false,
             theme_preference: 'system',
@@ -125,30 +136,28 @@ export default function SettingsPage() {
         theme_preference: themePreference,
       }
       console.log('Saving profile with payload:', payload)
-      const { error } = await supabase
-        .from('user_profiles')
-        .upsert(payload)
+      const { error } = await supabase.from('user_profiles').upsert(payload)
 
       if (error) {
         console.error('Error saving profile:', error)
         toast({
-          title: "Error",
+          title: 'Error',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         })
       } else {
         toast({
-          title: "Success",
-          description: "Profile updated successfully!",
+          title: 'Success',
+          description: 'Profile updated successfully!',
         })
         await loadUserData() // Reload to get updated data
       }
     } catch (err) {
       console.error('Exception saving profile:', err)
       toast({
-        title: "Error",
-        description: "An error occurred while saving your profile.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'An error occurred while saving your profile.',
+        variant: 'destructive',
       })
     } finally {
       setSaving(false)
@@ -156,7 +165,12 @@ export default function SettingsPage() {
   }
 
   const handleDeleteAccount = async () => {
-    if (!user || !confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+    if (
+      !user ||
+      !confirm(
+        'Are you sure you want to delete your account? This action cannot be undone.'
+      )
+    ) {
       return
     }
 
@@ -166,22 +180,22 @@ export default function SettingsPage() {
 
       if (error) {
         toast({
-          title: "Error",
+          title: 'Error',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         })
       } else {
         toast({
-          title: "Account Deleted",
-          description: "Your account has been deleted successfully.",
+          title: 'Account Deleted',
+          description: 'Your account has been deleted successfully.',
         })
         window.location.href = '/auth/login'
       }
     } catch {
       toast({
-        title: "Error",
-        description: "An error occurred while deleting your account.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'An error occurred while deleting your account.',
+        variant: 'destructive',
       })
     }
   }
@@ -215,25 +229,25 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Account Settings</h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Manage your profile and preferences
-          </p>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="mb-4">
+          <h1 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+            Account Settings
+          </h1>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-4">
           {/* Profile Information */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="h-5 w-5" />
-                Profile Information
+              <CardTitle className="flex items-center gap-2 text-base font-medium">
+                <div className="flex items-center justify-center bg-input rounded-lg h-6 w-6">
+                  <User className="size-4 text-muted-foreground" />
+                </div>
+                <span className="text-base font-medium">
+                  Profile Information
+                </span>
               </CardTitle>
-              <CardDescription>
-                Update your public profile information
-              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -250,7 +264,7 @@ export default function SettingsPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <div className="relative">
@@ -290,7 +304,7 @@ export default function SettingsPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="location">Location</Label>
                   <div className="relative">
@@ -306,9 +320,13 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <Button onClick={handleSaveProfile} disabled={saving} className="w-full md:w-auto">
-                <Save className="mr-2 h-4 w-4" />
-                {saving ? 'Saving...' : 'Save Profile'}
+              <Button
+                onClick={handleSaveProfile}
+                disabled={saving}
+                className="w-full md:w-auto"
+              >
+                <Save className="size-4" />
+                {saving ? 'Saving...' : 'Save'}
               </Button>
             </CardContent>
           </Card>
@@ -316,10 +334,12 @@ export default function SettingsPage() {
           {/* Preferences */}
           <Card>
             <CardHeader>
-              <CardTitle>Preferences</CardTitle>
-              <CardDescription>
-                Customize your experience
-              </CardDescription>
+              <CardTitle className="flex items-center gap-2 text-base font-medium">
+                <div className="flex items-center justify-center bg-input rounded-lg h-6 w-6">
+                  <Settings className="size-4 text-muted-foreground" />
+                </div>
+                <span className="text-base font-medium">Preferences</span>
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
@@ -334,7 +354,7 @@ export default function SettingsPage() {
                   onCheckedChange={handleEmailNotificationsChange}
                 />
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Dark Mode</Label>
@@ -353,15 +373,17 @@ export default function SettingsPage() {
           {/* Danger Zone */}
           <Card className="border-red-200 dark:border-red-800">
             <CardHeader>
-              <CardTitle className="text-red-600">Danger Zone</CardTitle>
-              <CardDescription>
-                Irreversible and destructive actions
-              </CardDescription>
+              <CardTitle className="flex items-center gap-2 text-base font-medium">
+                <div className="flex items-center justify-center bg-input rounded-lg h-6 w-6">
+                  <Trash2 className="size-4 text-muted-foreground" />
+                </div>
+                <span className="text-base font-medium">Danger Zone</span>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label className="text-red-600">Delete Account</Label>
+                  <Label>Delete Account</Label>
                   <p className="text-sm text-muted-foreground">
                     Permanently delete your account and all associated data
                   </p>
@@ -381,4 +403,4 @@ export default function SettingsPage() {
       </div>
     </div>
   )
-} 
+}

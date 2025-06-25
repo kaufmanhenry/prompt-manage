@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { createClient } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
-import { Settings, LogOut } from 'lucide-react'
+import { Settings, LogOut, Sparkles, FileText, Globe } from 'lucide-react'
 
 export function Header() {
   const pathname = usePathname()
@@ -37,42 +37,55 @@ export function Header() {
     <header className="border-b sticky top-0 z-50 bg-background">
       <div className="mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/" className="font-semibold text-xl">
-            Prompt Manage
+          <Link
+            href="/"
+            className="font-semibold text-base tracking-tight flex items-center"
+          >
+            <div className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg h-6 w-6 mr-2">
+              <Sparkles className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-base font-medium">Prompt Manage</span>
           </Link>
           {/* Only show navigation links when user is logged in */}
           {session && (
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-2">
               <Link
                 href="/dashboard"
                 className={`text-sm ${
-                  pathname === '/dashboard' ? 'text-primary' : 'text-muted-foreground'
-                } hover:text-primary transition-colors`}
-                onClick={e => {
+                  pathname === '/dashboard'
+                    ? 'text-primary bg-primary/10'
+                    : 'text-muted-foreground hover:text-primary'
+                } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
+                onClick={(e) => {
                   if (pathname === '/dashboard') {
-                    e.preventDefault();
-                    window.location.reload();
+                    e.preventDefault()
+                    window.location.reload()
                   }
                 }}
               >
-                My Prompts
+                <FileText className="w-4 h-4" />
+                <span className="text-sm font-medium">My Prompts</span>
               </Link>
               <Link
                 href="/p"
                 className={`text-sm ${
-                  pathname.startsWith('/p') ? 'text-primary' : 'text-muted-foreground'
-                } hover:text-primary transition-colors`}
+                  pathname.startsWith('/p')
+                    ? 'text-primary bg-primary/10'
+                    : 'text-muted-foreground'
+                } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
               >
-                Public Directory
+                <Globe className="w-4 h-4" />
+                <span className="text-sm font-medium">Public Directory</span>
               </Link>
               <Link
                 href="/settings"
                 className={`text-sm ${
                   pathname === '/settings'
-                    ? 'text-primary'
+                    ? 'text-primary bg-primary/10'
                     : 'text-muted-foreground'
-                } hover:text-primary transition-colors`}
+                } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
               >
+                <Settings className="w-4 h-4" />
                 Settings
               </Link>
             </nav>
@@ -107,7 +120,10 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut} className="flex items-center">
+                <DropdownMenuItem
+                  onClick={handleSignOut}
+                  className="flex items-center"
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign out
                 </DropdownMenuItem>

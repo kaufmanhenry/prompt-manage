@@ -13,17 +13,20 @@ import {
   DropdownMenuCheckboxItem,
 } from './ui/dropdown-menu'
 import { XIcon, FilterIcon, Tag as TagIcon } from 'lucide-react'
+import { Skeleton } from './ui/skeleton'
 
 interface SidebarProps {
   prompts?: Prompt[]
   selectedPromptId?: string | null
   onSelectPrompt: (promptId: string) => void
+  isLoading?: boolean
 }
 
 export function Sidebar({
   prompts = [],
   selectedPromptId,
   onSelectPrompt,
+  isLoading = false,
 }: SidebarProps) {
   // Local state for model and tag filters and search
   const [modelFilters, setModelFilters] = useState<string[]>([])
@@ -72,6 +75,7 @@ export function Sidebar({
           variant="outline"
           className="px-2 py-1"
           onClick={() => onSelectPrompt('new')}
+          data-testid="create-prompt"
         >
           + Add
         </Button>
@@ -226,7 +230,17 @@ export function Sidebar({
       )}
       <ScrollArea className="flex-1">
         <div className="flex flex-col gap-1">
-          {filteredPrompts.length === 0 ? (
+          {isLoading ? (
+            <div className="space-y-2">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="space-y-2 p-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-1/4" />
+                </div>
+              ))}
+            </div>
+          ) : filteredPrompts.length === 0 ? (
             <div className="text-sm text-muted-foreground p-4">
               No prompts found.
             </div>
@@ -235,7 +249,7 @@ export function Sidebar({
               <Button
                 key={prompt.id}
                 variant={prompt.id === selectedPromptId ? 'secondary' : 'ghost'}
-                className="justify-start w-full text-left rounded-md px-3 py-2 flex-wrap h-auto"
+                className="justify-start w-full text-left rounded-md px-2 py-2 flex-wrap h-auto"
                 onClick={() => onSelectPrompt(prompt.id as string)}
               >
                 <div className="font-medium truncate w-full whitespace-normal line-clamp-3">

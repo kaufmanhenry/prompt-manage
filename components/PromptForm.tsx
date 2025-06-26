@@ -52,10 +52,48 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
-      const { data: { session } } = await createClient().auth.getSession()
+      const {
+        data: { session },
+      } = await createClient().auth.getSession()
       return session
     },
   })
+
+  // Fetch all tags from user's existing prompts
+  const { data: userTags = [] } = useQuery({
+    queryKey: ['user-tags', session?.user?.id],
+    queryFn: async () => {
+      if (!session?.user?.id) return []
+      
+      const { data, error } = await createClient()
+        .from('prompts')
+        .select('tags')
+        .eq('user_id', session.user.id)
+        .not('tags', 'is', null)
+
+      if (error) {
+        console.error('Error fetching user tags:', error)
+        return []
+      }
+
+      // Extract all unique tags from user's prompts
+      const allTags = new Set<string>()
+      data?.forEach(prompt => {
+        if (prompt.tags && Array.isArray(prompt.tags)) {
+          prompt.tags.forEach(tag => allTags.add(tag))
+        }
+      })
+
+      return Array.from(allTags).sort()
+    },
+    enabled: !!session?.user?.id,
+  })
+
+  // Convert tags to Option format for MultipleSelector
+  const tagOptions: Option[] = userTags.map(tag => ({
+    label: tag,
+    value: tag,
+  }))
 
   const form = useForm<Prompt>({
     resolver: zodResolver(promptSchema),
@@ -84,9 +122,9 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const onSubmit = async (values: Prompt) => {
     if (!session?.user?.id) {
       toast({
-        title: "Authentication Error",
-        description: "Please log in to save prompts.",
-        variant: "destructive",
+        title: 'Authentication Error',
+        description: 'Please log in to save prompts.',
+        variant: 'destructive',
       })
       return
     }
@@ -115,7 +153,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         if (error) throw error
 
         toast({
-          title: "Prompt Updated",
+          title: 'Prompt Updated',
           description: `"${values.name}" has been successfully updated.`,
         })
       } else {
@@ -127,7 +165,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         if (error) throw error
 
         toast({
-          title: "Prompt Created",
+          title: 'Prompt Created',
           description: `"${values.name}" has been successfully created.`,
         })
         // Reset form after successful creation
@@ -138,19 +176,20 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
           tags: [],
           user_id: session.user.id,
           is_public: false,
-        });
+        })
       }
 
       queryClient.invalidateQueries({ queryKey: ['prompts'] })
+      queryClient.invalidateQueries({ queryKey: ['user-tags'] })
       onOpenChange(false)
     } catch (error) {
       console.error('Error saving prompt:', error)
       toast({
-        title: "Error",
-        description: prompt?.id 
-          ? "Failed to update prompt. Please try again."
-          : "Failed to create prompt. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: prompt?.id
+          ? 'Failed to update prompt. Please try again.'
+          : 'Failed to create prompt. Please try again.',
+        variant: 'destructive',
       })
     } finally {
       setLoading(false)
@@ -159,11 +198,13 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{prompt ? 'Edit Prompt' : 'New Prompt'}</DialogTitle>
           <DialogDescription>
-            {prompt ? 'Update your existing prompt.' : 'Create a new prompt to use with your AI models.'}
+            {prompt
+              ? 'Update your existing prompt.'
+              : 'Create a new prompt to use with your AI models.'}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -175,7 +216,11 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter a name for your prompt" {...field} />
+                    <Input
+                      placeholder="Enter a name for your prompt"
+                      data-testid="prompt-name"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -208,6 +253,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    data-testid="prompt-model"
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -236,10 +282,11 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 <FormItem>
                   <FormLabel>Prompt Text</FormLabel>
                   <FormControl>
-                    <Textarea 
+                    <Textarea
                       placeholder="Enter your prompt text here..."
                       className="min-h-[200px] font-mono"
-                      {...field} 
+                      data-testid="prompt-text"
+                      {...field}
                     />
                   </FormControl>
                   <FormDescription>
@@ -260,19 +307,26 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                     name="tags"
                     render={({ field }) => (
                       <MultipleSelector
-                        value={field.value.map(v => ({ label: v, value: v }))}
-                        onChange={(options: Option[]) => field.onChange(options.map(o => o.value))}
+                        value={field.value.map((v) => ({ label: v, value: v }))}
+                        onChange={(options: Option[]) =>
+                          field.onChange(options.map((o) => o.value))
+                        }
                         placeholder="Select tags..."
                         creatable
                         emptyIndicator={
-                          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                          <p className="text-center text-sm font-medium text-muted-foreground">
                             no tags found.
                           </p>
                         }
+                        defaultOptions={tagOptions}
+                        data-testid="prompt-tags"
                       />
                     )}
                   />
                   <FormMessage />
+                  <FormDescription>
+                    Select from your existing tags or create new ones. Tags help organize and find your prompts.
+                  </FormDescription>
                 </FormItem>
               )}
             />
@@ -292,7 +346,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 </FormItem>
               )}
             />
-            <div className="flex justify-end gap-2 pt-4">
+            <div className="sticky bottom-0 bg-white z-10 border-t flex justify-end gap-2 pt-4">
               <Button
                 type="button"
                 variant="outline"
@@ -300,8 +354,12 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading || !session?.user?.id}>
-                {loading ? 'Saving...' : (prompt ? 'Update Prompt' : 'Create Prompt')}
+              <Button type="submit" disabled={loading || !session?.user?.id} data-testid="submit-prompt">
+                {loading
+                  ? 'Saving...'
+                  : prompt
+                  ? 'Update Prompt'
+                  : 'Create Prompt'}
               </Button>
             </div>
           </form>
@@ -309,4 +367,4 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       </DialogContent>
     </Dialog>
   )
-} 
+}

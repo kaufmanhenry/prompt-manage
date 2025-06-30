@@ -147,7 +147,7 @@ export default function PrivacyPage() {
                 Use of AI Services (Free vs. Paid Accounts)
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Prompt Manage integrates with third-party artificial intelligence services provided by OpenAI, L.L.C. ("OpenAI"). For <strong>free account users</strong>, some content you submit (referred to as "Input") may be shared with OpenAI as "Designated Content" and used for research, evaluation, model training, and improvement of OpenAI's services. OpenAI processes this content as an <strong>independent data controller</strong>, and it is <strong>not subject to the same protections as paid account content</strong>.
+                Prompt Manage integrates with third-party artificial intelligence services provided by OpenAI, L.L.C. (&quot;OpenAI&quot;). For <strong>free account users</strong>, some content you submit (referred to as &quot;Input&quot;) may be shared with OpenAI as &quot;Designated Content&quot; and used for research, evaluation, model training, and improvement of OpenAI&apos;s services. OpenAI processes this content as an <strong>independent data controller</strong>, and it is <strong>not subject to the same protections as paid account content</strong>.
               </p>
               <div className="bg-yellow-50 dark:bg-yellow-900 rounded-lg p-4 mb-4">
                 <p className="text-yellow-800 dark:text-yellow-200 text-sm">
@@ -277,7 +277,7 @@ export default function PrivacyPage() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                8. Children's Privacy
+                8. Children&apos;s Privacy
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
                 Our services are not intended for children under 18. We do not knowingly collect personal information from children under 18. If you believe we have collected information from a child under 18, please contact us immediately.
@@ -289,7 +289,7 @@ export default function PrivacyPage() {
                 9. Changes to This Policy
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
-                We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new policy on this page and updating the "Last updated" date. Your continued use of our services after any changes constitutes acceptance of the updated policy.
+                We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new policy on this page and updating the &quot;Last updated&quot; date. Your continued use of our services after any changes constitutes acceptance of the updated policy.
               </p>
             </section>
 

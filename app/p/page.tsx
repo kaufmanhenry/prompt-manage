@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, useCallback } from 'react'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { PublicPrompt } from '@/lib/schemas/prompt'
@@ -31,7 +31,7 @@ function PublicDirectoryContent() {
   const [page, setPage] = useState(initialPage)
   const promptsPerPage = 21
 
-  const fetchPublicPrompts = async () => {
+  const fetchPublicPrompts = useCallback(async () => {
     try {
       let query = createClient()
         .from('prompts')
@@ -75,7 +75,7 @@ function PublicDirectoryContent() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [sortBy, toast])
 
   useEffect(() => {
     fetchPublicPrompts()

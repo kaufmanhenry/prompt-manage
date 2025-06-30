@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, BookOpen, Plus, Search, Share2, Users, Zap } from 'lucide-react'
+import { ArrowLeft, BookOpen, Plus, Search, Share2, Users } from 'lucide-react'
 
 export default function DocsPage() {
   return (
@@ -207,7 +207,7 @@ export default function DocsPage() {
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Sharing Responsibly</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  Only share prompts that you're comfortable making public. Remember that shared prompts can be viewed by anyone with the link.
+                  Only share prompts that you&apos;re comfortable making public. Remember that shared prompts can be viewed by anyone with the link.
                 </p>
               </div>
             </div>

@@ -1,6 +1,3 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { ArrowLeft } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -19,7 +16,7 @@ export default function TermsPage() {
         
         <div className="prose prose-gray dark:prose-invert max-w-none">
           <p className="mb-6 text-gray-700 dark:text-gray-300">
-            Welcome to Prompt Manage, LLC, a company registered in Boston, Massachusetts, USA ("Prompt Manage", "we", "us", or "our"). These Terms of Service ("Terms") govern your access to and use of the Prompt Manage website, applications, and services (collectively, the "Platform").
+            Welcome to Prompt Manage, LLC, a company registered in Boston, Massachusetts, USA (&quot;Prompt Manage&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;). These Terms of Service (&quot;Terms&quot;) govern your access to and use of the Prompt Manage website, applications, and services (collectively, the &quot;Platform&quot;).
           </p>
           
           <p className="mb-6 text-gray-700 dark:text-gray-300">
@@ -48,8 +45,8 @@ export default function TermsPage() {
           </p>
           <ul className="list-disc pl-6 mb-6 text-gray-700 dark:text-gray-300 space-y-2">
             <li><strong>Fraudulent or Illegal Activity:</strong> Any activity that is fraudulent, illegal, or promotes illegal activities.</li>
-            <li><strong>Spamming:</strong> Sending unsolicited or unauthorized advertisements, promotional materials, "junk mail," "spam," "chain letters," "pyramid schemes," or any other form of solicitation.</li>
-            <li><strong>Harmful Conduct:</strong> Engaging in any activity that is harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, libelous, invasive of another's privacy, hateful, or racially, ethnically, or otherwise objectionable.</li>
+            <li><strong>Spamming:</strong> Sending unsolicited or unauthorized advertisements, promotional materials, &quot;junk mail,&quot; &quot;spam,&quot; &quot;chain letters,&quot; &quot;pyramid schemes,&quot; or any other form of solicitation.</li>
+            <li><strong>Harmful Conduct:</strong> Engaging in any activity that is harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, libelous, invasive of another&apos;s privacy, hateful, or racially, ethnically, or otherwise objectionable.</li>
             <li><strong>Intellectual Property Infringement:</strong> Uploading, posting, or transmitting any content that infringes upon the intellectual property rights of others.</li>
             <li><strong>Malicious Software:</strong> Introducing any viruses, Trojan horses, worms, logic bombs, or other material that is malicious or technologically harmful.</li>
             <li><strong>System Interference:</strong> Attempting to gain unauthorized access to, interfere with, damage, or disrupt any parts of the Platform, the server on which the Platform is stored, or any server, computer, or database connected to the Platform.</li>
@@ -60,7 +57,7 @@ export default function TermsPage() {
           {/* AI Processing and Account Types Section */}
           <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">AI Processing and Account Types</h2>
           <p className="mb-4 text-gray-700 dark:text-gray-300">
-            Prompt Manage uses OpenAI's services to process user-submitted content ("Input"). If you use a <strong>free account</strong>, you agree that some Input may be designated for sharing with OpenAI and used to improve OpenAI's models and services. OpenAI will act as an <strong>independent data controller</strong> for such Designated Content.
+            Prompt Manage uses OpenAI&apos;s services to process user-submitted content (&quot;Input&quot;). If you use a <strong>free account</strong>, you agree that some Input may be designated for sharing with OpenAI and used to improve OpenAI&apos;s models and services. OpenAI will act as an <strong>independent data controller</strong> for such Designated Content.
           </p>
           <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
             <li>Confidential or proprietary data,</li>
@@ -77,7 +74,7 @@ export default function TermsPage() {
 
           <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">4. Content on the Platform</h2>
           <p className="mb-4 text-gray-700 dark:text-gray-300">
-            <strong>User-Generated Content:</strong> You retain all rights in, and are solely responsible for, the Prompts and other content you create, submit, post, display, or otherwise make available on the Platform ("User Content"). By making User Content available on or through the Platform, you grant to Prompt Manage a worldwide, non-exclusive, royalty-free, transferable license to use, reproduce, distribute, prepare derivative works of, display, and perform the User Content in connection with the Platform and Prompt Manage's (and its successors' and affiliates') business, including without limitation for promoting and redistributing part or all of the Platform (and derivative works thereof) in any media formats and through any media channels.
+            <strong>User-Generated Content:</strong> You retain all rights in, and are solely responsible for, the Prompts and other content you create, submit, post, display, or otherwise make available on the Platform (&quot;User Content&quot;). By making User Content available on or through the Platform, you grant to Prompt Manage a worldwide, non-exclusive, royalty-free, transferable license to use, reproduce, distribute, prepare derivative works of, display, and perform the User Content in connection with the Platform and Prompt Manage&apos;s (and its successors&apos; and affiliates&apos;) business, including without limitation for promoting and redistributing part or all of the Platform (and derivative works thereof) in any media formats and through any media channels.
           </p>
           <p className="mb-6 text-gray-700 dark:text-gray-300">
             <strong>Our Content:</strong> All other content available on the Platform, including text, graphics, images, software, trademarks, service marks, and logos, is owned by or licensed to Prompt Manage and is protected by copyright, trademark, and other intellectual property laws. You may not use, reproduce, distribute, or create derivative works from our content without our express written permission.
@@ -90,7 +87,7 @@ export default function TermsPage() {
 
           <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">6. Disclaimer of Warranties</h2>
           <p className="mb-4 text-gray-700 dark:text-gray-300">
-            The Platform is provided on an "AS IS" and "AS AVAILABLE" basis. Prompt Manage makes no representations or warranties of any kind, express or implied, as to the operation of the Platform or the information, content, materials, or products included on the Platform. You expressly agree that your use of the Platform is at your sole risk.
+            The Platform is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis. Prompt Manage makes no representations or warranties of any kind, express or implied, as to the operation of the Platform or the information, content, materials, or products included on the Platform. You expressly agree that your use of the Platform is at your sole risk.
           </p>
           <p className="mb-6 text-gray-700 dark:text-gray-300">
             To the full extent permissible by applicable law, Prompt Manage disclaims all warranties, express or implied, including, but not limited to, implied warranties of merchantability and fitness for a particular purpose. Prompt Manage does not warrant that the Platform, its servers, or e-mail sent from Prompt Manage are free of viruses or other harmful components.
@@ -103,7 +100,7 @@ export default function TermsPage() {
 
           <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">8. Indemnification</h2>
           <p className="mb-6 text-gray-700 dark:text-gray-300">
-            You agree to defend, indemnify, and hold harmless Prompt Manage, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms or your use of the Platform, including, but not limited to, your User Content, any use of the Platform's content, services, and products other than as expressly authorized in these Terms, or your use of any information obtained from the Platform.
+            You agree to defend, indemnify, and hold harmless Prompt Manage, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys&apos; fees) arising out of or relating to your violation of these Terms or your use of the Platform, including, but not limited to, your User Content, any use of the Platform&apos;s content, services, and products other than as expressly authorized in these Terms, or your use of any information obtained from the Platform.
           </p>
 
           <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">9. Privacy Policy</h2>
@@ -123,7 +120,7 @@ export default function TermsPage() {
 
           <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">12. Changes to These Terms</h2>
           <p className="mb-6 text-gray-700 dark:text-gray-300">
-            We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion. By continuing to access or use our Platform after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Platform.
+            We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days&apos; notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion. By continuing to access or use our Platform after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Platform.
           </p>
 
           <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">13. Severability</h2>

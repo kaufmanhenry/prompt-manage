@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -37,18 +37,7 @@ export default function SettingsPage() {
   const [themePreference, setThemePreference] = useState('system')
   const { theme, setTheme } = useTheme()
 
-  useEffect(() => {
-    loadUserData()
-  }, [])
-
-  useEffect(() => {
-    if (theme) {
-      setDarkMode(theme === 'dark')
-      setThemePreference(theme)
-    }
-  }, [theme])
-
-  const loadUserData = async () => {
+  const loadUserData = useCallback(async () => {
     try {
       const supabase = createClient()
 
@@ -117,7 +106,18 @@ export default function SettingsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [setTheme])
+
+  useEffect(() => {
+    loadUserData()
+  }, [loadUserData])
+
+  useEffect(() => {
+    if (theme) {
+      setDarkMode(theme === 'dark')
+      setThemePreference(theme)
+    }
+  }, [theme])
 
   const handleSaveProfile = async () => {
     if (!user) return

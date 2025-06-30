@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { Globe, ArrowLeft, User as UserIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 
 interface PublicPrompt {
   id: string
@@ -54,7 +55,13 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
         <div className="flex items-center space-x-6 mb-8">
           <div className="h-24 w-24 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
             {profile.avatar_url ? (
-              <img src={profile.avatar_url} alt={profile.display_name || 'User'} className="h-full w-full rounded-full object-cover" />
+              <Image 
+                src={profile.avatar_url} 
+                alt={profile.display_name || 'User'} 
+                width={96}
+                height={96}
+                className="h-full w-full rounded-full object-cover" 
+              />
             ) : (
               <UserIcon className="h-12 w-12 text-gray-500" />
             )}

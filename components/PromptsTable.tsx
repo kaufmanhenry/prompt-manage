@@ -481,21 +481,22 @@ export function PromptsTable({
               >
                 <div className="flex items-center gap-2">
                   <CopyButton text={prompt.prompt_text} />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      console.log('Grid run prompt button clicked for:', prompt.id)
-                      console.log('Current runningPrompts state:', runningPrompts)
-                      console.log('Button disabled state:', runningPrompts[prompt.id as string])
-                      alert('Grid button clicked! Testing basic functionality.')
-                      // TODO: Implement run prompt functionality for grid view
-                    }}
-                    disabled={false} // Temporarily disable the disabled state for testing
-                  >
-                    <Play className="mr-2 h-4 w-4" />
-                    Run Prompt
-                  </Button>
+                  <Tooltip content="Run Prompt">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        console.log('Grid run prompt button clicked for:', prompt.id)
+                        console.log('Current runningPrompts state:', runningPrompts)
+                        console.log('Button disabled state:', runningPrompts[prompt.id as string])
+                        alert('Grid button clicked! Testing basic functionality.')
+                        // TODO: Implement run prompt functionality for grid view
+                      }}
+                      disabled={false} // Temporarily disable the disabled state for testing
+                    >
+                      <Play className="h-5 w-5" />
+                    </Button>
+                  </Tooltip>
                 </div>
                 <div className="flex items-center gap-2">
                   <DropdownMenu>
@@ -908,7 +909,7 @@ export function PromptDetails({
   }
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 m-2 rounded-lg">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 mb-2">
@@ -940,67 +941,73 @@ export function PromptDetails({
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {/* Run Prompt Button */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              console.log('Run prompt button clicked for:', prompt.id)
-              console.log('Current runningPrompts state:', runningPrompts)
-              console.log('Button disabled state:', runningPrompts[prompt.id as string])
-              alert('Button clicked! Testing basic functionality.')
-              handleRunPrompt(prompt)
-            }}
-            disabled={false} // Temporarily disable the disabled state for testing
-          >
-            <Play className="mr-2 h-4 w-4" />
-            Run Prompt
-          </Button>
+          {/* Run Prompt Icon Button */}
+          <Tooltip content="Run Prompt">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => handleRunPrompt(prompt)}
+              disabled={false}
+            >
+              <Play className="h-5 w-5" />
+            </Button>
+          </Tooltip>
 
-          {/* Manage Sharing Button - opens full share dialog */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => handleSharePrompt()}
-          >
-            <Share2 className="mr-2 h-4 w-4" />
-            Manage Sharing
-          </Button>
+          {/* Manage Sharing Icon Button */}
+          <Tooltip content="Manage Sharing">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => handleSharePrompt()}
+            >
+              <Share2 className="h-5 w-5" />
+            </Button>
+          </Tooltip>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowRunHistory(!showRunHistory)}
-          >
-            <Clock className="mr-2 size-4" />
-            {showRunHistory ? 'Hide Run History' : 'Show Run History'}
-          </Button>
+          {/* Show Run History Icon Button */}
+          <Tooltip content={showRunHistory ? 'Hide Run History' : 'Show Run History'}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setShowRunHistory(!showRunHistory)}
+            >
+              <Clock className="h-5 w-5" />
+            </Button>
+          </Tooltip>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onEdit?.(prompt)}
-          >
-            <Edit className="mr-2 size-4" />
-            Edit
-          </Button>
+          {/* Edit Icon Button */}
+          <Tooltip content="Edit">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => onEdit?.(prompt)}
+            >
+              <Edit className="h-5 w-5" />
+            </Button>
+          </Tooltip>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onDelete?.(prompt)}
-            className="text-red-600 hover:text-red-700 hover:bg-red-50"
-          >
-            <Trash2 className="mr-2 h-4 w-4" />
-            Delete
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-          </Button>
+          {/* Delete Icon Button */}
+          <Tooltip content="Delete">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => onDelete?.(prompt)}
+              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+            >
+              <Trash2 className="h-5 w-5" />
+            </Button>
+          </Tooltip>
+
+          {/* Close Icon Button */}
+          <Tooltip content="Close">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </Tooltip>
         </div>
       </div>
 

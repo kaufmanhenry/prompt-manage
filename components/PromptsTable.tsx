@@ -23,9 +23,8 @@ import {
   Plus,
   MoreVertical,
   Play,
-  Loader2,
-  Sparkles,
   Link as LinkIcon,
+  MessageSquare,
 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import {
@@ -44,6 +43,11 @@ import {
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/client'
+import { Spinner } from '@/components/ui/loading'
+import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Tooltip,
+} from '@/components/ui/tooltip'
 
 interface Filters {
   search: string
@@ -64,8 +68,16 @@ interface PromptDetailsProps {
   prompt: Prompt | null
   onEdit?: (prompt: Prompt) => void
   onDelete?: (prompt: Prompt) => void
-  onRun?: (prompt: Prompt) => void
-  running?: boolean
+  runningPrompts: Record<string, boolean>
+  setRunningPrompts: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+  promptResponses: Record<string, string>
+  setPromptResponses: React.Dispatch<React.SetStateAction<Record<string, string>>>
+  showResponses: Record<string, boolean>
+  setShowResponses: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+  showRunHistory: boolean
+  setShowRunHistory: React.Dispatch<React.SetStateAction<boolean>>
+  originalPromptSlug: string | null
+  onClose: () => void
 }
 
 export function PromptsTable({
@@ -101,6 +113,12 @@ export function PromptsTable({
 
   const { toast } = useToast()
   const queryClient = useQueryClient()
+
+  // Debug selectedPrompt changes
+  useEffect(() => {
+    console.log('selectedPrompt changed:', selectedPrompt?.id)
+    console.log('runningPrompts state:', runningPrompts)
+  }, [selectedPrompt, runningPrompts])
 
   // Fetch original prompt slug when viewing a derivative prompt
   useEffect(() => {
@@ -259,51 +277,6 @@ export function PromptsTable({
     }
   }
 
-  // Handle running a prompt
-  const handleRunPrompt = async (prompt: Prompt) => {
-    const promptId = prompt.id as string
-    setRunningPrompts((prev) => ({ ...prev, [promptId]: true }))
-    setShowResponses((prev) => ({ ...prev, [promptId]: true }))
-
-    try {
-      const response = await fetch('/api/prompt/run', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ promptId }),
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to run prompt')
-      }
-
-      const data = await response.json()
-      setPromptResponses((prev) => ({ ...prev, [promptId]: data.response }))
-
-      toast({
-        title: 'Prompt Executed',
-        description: 'Your prompt has been successfully executed.',
-      })
-    } catch (error) {
-      console.error('Run prompt error:', error)
-      setPromptResponses((prev) => ({
-        ...prev,
-        [promptId]:
-          error instanceof Error ? error.message : 'Failed to run prompt',
-      }))
-
-      toast({
-        title: 'Error',
-        description: 'Failed to run prompt. Please try again.',
-        variant: 'destructive',
-      })
-    } finally {
-      setRunningPrompts((prev) => ({ ...prev, [promptId]: false }))
-    }
-  }
-
   // Filter prompts based on search and filters
   const filteredPrompts = prompts.filter((prompt) => {
     const matchesSearch =
@@ -330,11 +303,11 @@ export function PromptsTable({
           <Card key={i} className="p-6">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 animate-pulse" />
-                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-16 animate-pulse" />
+                <Skeleton className="h-6 w-1/3" />
+                <Skeleton className="h-4 w-16" />
               </div>
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 animate-pulse" />
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 animate-pulse" />
+              <Skeleton className="h-4 w-1/2" />
+              <Skeleton className="h-4 w-2/3" />
             </div>
           </Card>
         ))}
@@ -406,226 +379,21 @@ export function PromptsTable({
       {/* Removed migration warning panel - sharing functionality is now enabled by default */}
 
       {selectedPrompt ? (
-        <Card className="p-6">
-          <div className="mb-6 flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <h2 className="text-2xl font-semibold">
-                  {selectedPrompt.name}
-                </h2>
-                {selectedPrompt.is_public ? (
-                  <Badge
-                    variant="default"
-                    className="bg-green-100 text-green-800 border-green-200"
-                  >
-                    <Globe className="mr-1 h-3 w-3" />
-                    Public
-                  </Badge>
-                ) : (
-                  <Badge variant="secondary">
-                    <Lock className="mr-1 h-3 w-3" />
-                    Private
-                  </Badge>
-                )}
-              </div>
-              <div className="mt-1 flex items-center gap-2 flex-wrap">
-                <Badge variant="secondary">{selectedPrompt.model}</Badge>
-                {selectedPrompt.tags?.map((tag) => (
-                  <Badge key={tag} variant="outline">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {/* Run Prompt Button */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleRunPrompt(selectedPrompt)}
-                disabled={runningPrompts[selectedPrompt.id as string]}
-              >
-                {runningPrompts[selectedPrompt.id as string] ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Play className="mr-2 h-4 w-4" />
-                )}
-                {runningPrompts[selectedPrompt.id as string]
-                  ? 'Running...'
-                  : 'Run Prompt'}
-              </Button>
-
-              {/* Manage Sharing Button - opens full share dialog */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleSharePrompt(selectedPrompt)}
-              >
-                <Share2 className="mr-2 h-4 w-4" />
-                Manage Sharing
-              </Button>
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowRunHistory(!showRunHistory)}
-              >
-                <Clock className="mr-2 size-4" />
-                {showRunHistory ? 'Hide Run History' : 'Show Run History'}
-              </Button>
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onEditPrompt?.(selectedPrompt)}
-              >
-                <Edit className="mr-2 size-4" />
-                Edit
-              </Button>
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleDeletePrompt(selectedPrompt)}
-                className="text-red-600 hover:text-red-700 hover:bg-red-50"
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setSelectedPrompt(null)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Public Link Display */}
-          {selectedPrompt.is_public && selectedPrompt.slug && (
-            <div className="mb-6 rounded-lg border bg-green-50 dark:bg-green-950 p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium text-green-800 dark:text-green-200 flex items-center gap-2">
-                    <Globe className="h-4 w-4" />
-                    Public Link Available
-                  </h4>
-                  <p className="text-sm text-green-600 dark:text-green-300 mt-1">
-                    {`${window.location.origin}/p/${selectedPrompt.slug}`}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleCopyLink(selectedPrompt)}
-                  >
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    Copy
-                  </Button>
-                  <Link href={`/p/${selectedPrompt.slug}`}>
-                    <Button variant="outline" size="sm">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Derivative Prompt Information */}
-          {selectedPrompt.parent_prompt_id && (
-            <div className="mb-6 rounded-lg border bg-blue-50 dark:bg-blue-950 p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <LinkIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                    <h4 className="font-medium text-blue-800 dark:text-blue-200">
-                      Derivative Prompt
-                    </h4>
-                  </div>
-                  <p className="text-sm text-blue-600 dark:text-blue-300 mt-1">
-                    This prompt was copied from a public prompt and can be
-                    customized for your needs.
-                  </p>
-                </div>
-                {originalPromptSlug && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      // Navigate to the original public prompt
-                      window.open(`/p/${originalPromptSlug}`, '_blank')
-                    }}
-                  >
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    View Original
-                  </Button>
-                )}
-              </div>
-            </div>
-          )}
-
-          {showRunHistory && selectedPrompt && (
-            <div className="mb-6">
-              <PromptRunHistory
-                promptId={selectedPrompt.id as string}
-                onClose={() => setShowRunHistory(false)}
-              />
-            </div>
-          )}
-          <div className="relative">
-            <div className="rounded-lg border bg-muted/50 p-4">
-              <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
-                {selectedPrompt.prompt_text}
-              </pre>
-            </div>
-            <div className="absolute top-2 right-2">
-              <CopyButton text={selectedPrompt.prompt_text} />
-            </div>
-          </div>
-
-          {/* Response Display for Detailed View */}
-          {showResponses[selectedPrompt.id as string] && (
-            <div className="mt-6">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  AI Response
-                </h3>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() =>
-                    setShowResponses((prev) => ({
-                      ...prev,
-                      [selectedPrompt.id as string]: false,
-                    }))
-                  }
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="rounded-lg border bg-muted/50 p-4">
-                {runningPrompts[selectedPrompt.id as string] ? (
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Generating response...
-                  </div>
-                ) : promptResponses[selectedPrompt.id as string] ? (
-                  <div className="text-sm whitespace-pre-wrap">
-                    {promptResponses[selectedPrompt.id as string]}
-                  </div>
-                ) : (
-                  <div className="text-muted-foreground">
-                    No response yet. Click &quot;Run Prompt&quot; to generate
-                    one.
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </Card>
+        <PromptDetails
+          prompt={selectedPrompt}
+          onEdit={onEditPrompt}
+          onDelete={handleDeletePrompt}
+          runningPrompts={runningPrompts}
+          setRunningPrompts={setRunningPrompts}
+          promptResponses={promptResponses}
+          setPromptResponses={setPromptResponses}
+          showResponses={showResponses}
+          setShowResponses={setShowResponses}
+          showRunHistory={showRunHistory}
+          setShowRunHistory={setShowRunHistory}
+          originalPromptSlug={originalPromptSlug}
+          onClose={() => setSelectedPrompt(null)}
+        />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredPrompts.map((prompt) => (
@@ -716,17 +484,17 @@ export function PromptsTable({
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleRunPrompt(prompt)}
-                    disabled={runningPrompts[prompt.id as string]}
+                    onClick={() => {
+                      console.log('Grid run prompt button clicked for:', prompt.id)
+                      console.log('Current runningPrompts state:', runningPrompts)
+                      console.log('Button disabled state:', runningPrompts[prompt.id as string])
+                      alert('Grid button clicked! Testing basic functionality.')
+                      // TODO: Implement run prompt functionality for grid view
+                    }}
+                    disabled={false} // Temporarily disable the disabled state for testing
                   >
-                    {runningPrompts[prompt.id as string] ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                      <Play className="mr-2 h-4 w-4" />
-                    )}
-                    {runningPrompts[prompt.id as string]
-                      ? 'Running...'
-                      : 'Run Prompt'}
+                    <Play className="mr-2 h-4 w-4" />
+                    Run Prompt
                   </Button>
                 </div>
                 <div className="flex items-center gap-2">
@@ -768,12 +536,14 @@ export function PromptsTable({
               </div>
 
               {/* Response Display */}
-              {showResponses[prompt.id as string] && (
-                <div className="mt-4 pt-4 border-t">
+              {showResponses && showResponses[prompt.id as string] && (
+                <div className="mt-4 pt-4">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      AI Response
-                    </h4>
+                    <div className="flex items-center gap-2">
+                      <Tooltip content="AI Response">
+                        <MessageSquare className="h-4 w-4 text-blue-600" />
+                      </Tooltip>
+                    </div>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -783,14 +553,15 @@ export function PromptsTable({
                           [prompt.id as string]: false,
                         }))
                       }
+                      className="p-1 h-7 w-7"
                     >
                       <X className="h-4 w-4" />
                     </Button>
                   </div>
-                  <div className="rounded-lg border bg-muted/50 p-3">
+                  <div className="rounded-lg border bg-muted/50 p-4">
                     {runningPrompts[prompt.id as string] ? (
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <Spinner size="sm" />
                         Generating response...
                       </div>
                     ) : promptResponses[prompt.id as string] ? (
@@ -974,14 +745,72 @@ export function PromptDetails({
   prompt,
   onEdit,
   onDelete,
-  onRun,
-  running,
+  runningPrompts,
+  setRunningPrompts,
+  promptResponses,
+  setPromptResponses,
+  showResponses,
+  setShowResponses,
+  showRunHistory,
+  setShowRunHistory,
+  originalPromptSlug,
+  onClose,
 }: PromptDetailsProps) {
-  const [showRunHistory, setShowRunHistory] = useState(false)
   const [showShareDialog, setShowShareDialog] = useState(false)
   const [sharing, setSharing] = useState(false)
   const { toast } = useToast()
   const queryClient = useQueryClient()
+
+  const handleRunPrompt = async (prompt: Prompt) => {
+    console.log('handleRunPrompt called with prompt:', prompt.id)
+    const promptId = prompt.id as string
+    console.log('Setting running state for promptId:', promptId)
+    setRunningPrompts((prev) => ({ ...prev, [promptId]: true }))
+    setShowResponses((prev) => ({ ...prev, [promptId]: true }))
+
+    try {
+      console.log('Making API request to /api/prompt/run')
+      const response = await fetch('/api/prompt/run', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ promptId }),
+      })
+
+      console.log('API response status:', response.status)
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error('API error:', errorData)
+        throw new Error(errorData.error || 'Failed to run prompt')
+      }
+
+      const data = await response.json()
+      console.log('API response data:', data)
+      setPromptResponses((prev) => ({ ...prev, [promptId]: data.response }))
+
+      toast({
+        title: 'Prompt Executed',
+        description: 'Your prompt has been successfully executed.',
+      })
+    } catch (error) {
+      console.error('Run prompt error:', error)
+      setPromptResponses((prev) => ({
+        ...prev,
+        [promptId]:
+          error instanceof Error ? error.message : 'Failed to run prompt',
+      }))
+
+      toast({
+        title: 'Error',
+        description: 'Failed to run prompt. Please try again.',
+        variant: 'destructive',
+      })
+    } finally {
+      console.log('Clearing running state for promptId:', promptId)
+      setRunningPrompts((prev) => ({ ...prev, [promptId]: false }))
+    }
+  }
 
   const handleSharePrompt = () => {
     setShowShareDialog(true)
@@ -1079,26 +908,30 @@ export function PromptDetails({
   }
 
   return (
-    <Card className="p-6 mx-auto m-2 gap-2 rounded-lg">
-      <div className="flex flex-col md:flex-row items-center gap-2">
-        <div className="flex-1">
-          <h2 className="text-2xl font-semibold mb-2">{prompt.name}</h2>
-          <div className="flex gap-2 flex-wrap">
+    <Card className="p-6">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <h2 className="text-2xl font-semibold">
+              {prompt.name}
+            </h2>
             {prompt.is_public ? (
               <Badge
-                variant="secondary"
+                variant="default"
                 className="bg-green-100 text-green-800 border-green-200"
               >
-                <Globe className="mr-1 h-3 w-3" /> Public
+                <Globe className="mr-1 h-3 w-3" />
+                Public
               </Badge>
             ) : (
               <Badge variant="secondary">
-                <Lock className="mr-1 h-3 w-3" /> Private
+                <Lock className="mr-1 h-3 w-3" />
+                Private
               </Badge>
             )}
-            <Badge variant="secondary">
-              <Sparkles className="mr-1 h-3 w-3" /> {prompt.model}
-            </Badge>
+          </div>
+          <div className="mt-1 flex items-center gap-2 flex-wrap">
+            <Badge variant="secondary">{prompt.model}</Badge>
             {prompt.tags?.map((tag) => (
               <Badge key={tag} variant="outline">
                 {tag}
@@ -1106,59 +939,68 @@ export function PromptDetails({
             ))}
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          {/* Run Prompt Button */}
           <Button
             variant="outline"
             size="sm"
-            onClick={() => onRun?.(prompt)}
-            disabled={running}
+            onClick={() => {
+              console.log('Run prompt button clicked for:', prompt.id)
+              console.log('Current runningPrompts state:', runningPrompts)
+              console.log('Button disabled state:', runningPrompts[prompt.id as string])
+              alert('Button clicked! Testing basic functionality.')
+              handleRunPrompt(prompt)
+            }}
+            disabled={false} // Temporarily disable the disabled state for testing
           >
-            {running ? (
-              <Loader2 className="size-4 animate-spin" />
-            ) : (
-              <Play className="size-4" />
-            )}
+            <Play className="mr-2 h-4 w-4" />
+            Run Prompt
           </Button>
 
-          {/* Manage Sharing Button */}
-          <Button variant="outline" size="sm" onClick={handleSharePrompt}>
-            <Share2 className="size-4" />
+          {/* Manage Sharing Button - opens full share dialog */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleSharePrompt()}
+          >
+            <Share2 className="mr-2 h-4 w-4" />
+            Manage Sharing
           </Button>
 
-          {/* Run History Button */}
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowRunHistory(!showRunHistory)}
           >
-            <Clock className="size-4" />
+            <Clock className="mr-2 size-4" />
+            {showRunHistory ? 'Hide Run History' : 'Show Run History'}
           </Button>
 
-          <Button variant="outline" size="sm" onClick={() => onEdit?.(prompt)}>
-            <Edit className="size-4" />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onEdit?.(prompt)}
+          >
+            <Edit className="mr-2 size-4" />
+            Edit
           </Button>
+
           <Button
             variant="outline"
             size="sm"
             onClick={() => onDelete?.(prompt)}
             className="text-red-600 hover:text-red-700 hover:bg-red-50"
           >
-            <Trash2 className="size-4" />
+            <Trash2 className="mr-2 h-4 w-4" />
+            Delete
           </Button>
-        </div>
-      </div>
-      {prompt.description && (
-        <div className="mb-2 text-muted-foreground">{prompt.description}</div>
-      )}
-      <div className="flex gap-2 flex-wrap"></div>
-      <div className="relative mb-4 flex-1">
-        <div className="rounded-lg border bg-accent/50 p-4 h-[400px] overflow-y-scroll scrollbar-thin scrollbar-thumb-accent/50 scrollbar-track-accent/10">
-          <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
-            {prompt.prompt_text}
-          </pre>
-        </div>
-        <div className="absolute top-2 right-2">
-          <CopyButton text={prompt.prompt_text} />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+          >
+            <X className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
@@ -1176,7 +1018,11 @@ export function PromptDetails({
               </p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleCopyLink}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleCopyLink()}
+              >
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Copy
               </Button>
@@ -1190,13 +1036,98 @@ export function PromptDetails({
         </div>
       )}
 
-      {/* Run History */}
-      {showRunHistory && (
+      {/* Derivative Prompt Information */}
+      {prompt.parent_prompt_id && (
+        <div className="mb-6 rounded-lg border bg-blue-50 dark:bg-blue-950 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2">
+                <LinkIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <h4 className="font-medium text-blue-800 dark:text-blue-200">
+                  Derivative Prompt
+                </h4>
+              </div>
+              <p className="text-sm text-blue-600 dark:text-blue-300 mt-1">
+                This prompt was copied from a public prompt and can be
+                customized for your needs.
+              </p>
+            </div>
+            {originalPromptSlug && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  // Navigate to the original public prompt
+                  window.open(`/p/${originalPromptSlug}`, '_blank')
+                }}
+              >
+                <ExternalLink className="mr-2 h-4 w-4" />
+                View Original
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {showRunHistory && prompt && (
         <div className="mb-6">
           <PromptRunHistory
             promptId={prompt.id as string}
             onClose={() => setShowRunHistory(false)}
           />
+        </div>
+      )}
+      <div className="relative">
+        <div className="rounded-lg border bg-muted/50 p-4">
+          <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
+            {prompt.prompt_text}
+          </pre>
+        </div>
+        <div className="absolute top-2 right-2">
+          <CopyButton text={prompt.prompt_text} />
+        </div>
+      </div>
+
+      {/* Response Display for Detailed View */}
+      {showResponses && showResponses[prompt.id as string] && (
+        <div className="mt-6">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Tooltip content="AI Response">
+                <MessageSquare className="h-5 w-5 text-blue-600" />
+              </Tooltip>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() =>
+                setShowResponses((prev) => ({
+                  ...prev,
+                  [prompt.id as string]: false,
+                }))
+              }
+              className="p-1 h-7 w-7"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="rounded-lg border bg-muted/50 p-4">
+            {runningPrompts[prompt.id as string] ? (
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Spinner size="sm" />
+                Generating response...
+              </div>
+            ) : promptResponses[prompt.id as string] ? (
+              <div className="text-sm whitespace-pre-wrap">
+                {promptResponses[prompt.id as string]}
+              </div>
+            ) : (
+              <div className="text-muted-foreground">
+                No response yet. Click &quot;Run Prompt&quot; to generate
+                one.
+              </div>
+            )}
+          </div>
         </div>
       )}
 

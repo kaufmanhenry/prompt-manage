@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import CopyButton from '@/components/CopyButton'
 import { Search, TrendingUp } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
+import { FullPageLoading } from '@/components/ui/loading'
 
 function PublicDirectoryContent() {
   const router = useRouter()
@@ -113,14 +114,7 @@ function PublicDirectoryContent() {
   const paginatedPrompts = filteredPrompts.slice((page - 1) * promptsPerPage, page * promptsPerPage)
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-white mx-auto"></div>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Loading public prompts...</p>
-        </div>
-      </div>
-    )
+    return <FullPageLoading text="Loading public prompts..." />
   }
 
   return (
@@ -280,14 +274,7 @@ function PublicDirectoryContent() {
 
 export default function PublicDirectoryPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-white mx-auto"></div>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Loading public prompts...</p>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<FullPageLoading text="Loading public prompts..." />}>
       <PublicDirectoryContent />
     </Suspense>
   )

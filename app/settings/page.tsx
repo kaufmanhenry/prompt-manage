@@ -8,7 +8,6 @@ import { Textarea } from '@/components/ui/textarea'
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -18,6 +17,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { User as AuthUser } from '@supabase/supabase-js'
 import { User, Mail, Globe, MapPin, Save, Trash2, Settings } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function SettingsPage() {
   const { toast } = useToast()
@@ -215,12 +215,10 @@ export default function SettingsPage() {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-8"></div>
-            <div className="space-y-6">
-              <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
-              <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
-            </div>
+          <div className="space-y-6">
+            <Skeleton className="h-8 w-1/4 mb-8" />
+            <Skeleton className="h-64" />
+            <Skeleton className="h-64" />
           </div>
         </div>
       </div>

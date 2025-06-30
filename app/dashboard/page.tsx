@@ -139,11 +139,6 @@ export default function DashboardPage() {
     }
   }
 
-  const handleRunPrompt = (prompt: Prompt) => {
-    // Handle run functionality if needed
-    console.log('Run prompt:', prompt)
-  }
-
   return (
     <div className="flex h-[calc(100vh-64px)]">
       <Sidebar
@@ -157,7 +152,6 @@ export default function DashboardPage() {
           prompt={selectedPrompt}
           onEdit={handleEditPrompt}
           onDelete={handleDeletePrompt}
-          onRun={handleRunPrompt}
         />
       </main>
       

@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ArrowRight, TrendingUp, Clock, Sparkles, Tag, Zap } from 'lucide-react'
 import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface RelatedPromptsProps {
   currentPrompt: PublicPrompt
@@ -171,11 +172,11 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
     <div className="space-y-4">
       {Array.from({ length: 3 }).map((_, i) => (
         <div key={i} className="space-y-2">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-3/4"></div>
-          <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-1/2"></div>
+          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-3 w-1/2" />
           <div className="flex gap-2">
-            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-16"></div>
-            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-20"></div>
+            <Skeleton className="h-6 w-16" />
+            <Skeleton className="h-6 w-20" />
           </div>
         </div>
       ))}

@@ -7,17 +7,18 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { useToast } from '@/components/ui/use-toast'
 import { 
   Clock, 
-  CheckCircle, 
+  RefreshCw, 
   XCircle, 
+  CheckCircle, 
   AlertCircle, 
-  Copy,
-  RefreshCw,
+  MessageSquare,
   Zap,
-  MessageSquare
+  Copy
 } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
+import { CardLoading } from '@/components/ui/loading'
 import type { PromptRunHistory } from '@/lib/schemas/prompt-run-history'
 
 interface PromptRunHistoryProps {
@@ -117,10 +118,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-center py-8">
-            <RefreshCw className="h-6 w-6 animate-spin" />
-            <span className="ml-2">Loading history...</span>
-          </div>
+          <CardLoading text="Loading history..." />
         </CardContent>
       </Card>
     )

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { Copy, Check } from 'lucide-react'
 import { usePromptRouting } from '@/hooks/usePromptRouting'
+import { Spinner } from '@/components/ui/loading'
 
 interface CopyPromptButtonProps {
   promptId: string
@@ -78,7 +79,7 @@ export function CopyPromptButton({
       variant={copied ? "default" : "outline"}
     >
       {loading ? (
-        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2" />
+        <Spinner size="sm" className="mr-2" />
       ) : copied ? (
         <Check className="mr-2 h-4 w-4" />
       ) : (

@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { LinkIcon, Users } from 'lucide-react'
+import { LoadingText } from '@/components/ui/loading'
 
 interface DerivativePromptsProps {
   promptId: string
@@ -56,10 +57,7 @@ export function DerivativePrompts({ promptId }: DerivativePromptsProps) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-500"></div>
-            Loading...
-          </div>
+          <LoadingText text="Loading..." />
         </CardContent>
       </Card>
     )

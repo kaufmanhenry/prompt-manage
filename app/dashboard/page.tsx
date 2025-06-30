@@ -43,6 +43,13 @@ export default function DashboardPage() {
   const [promptToDelete, setPromptToDelete] = useState<Prompt | null>(null)
   const [deleting, setDeleting] = useState(false)
   
+  // State for PromptDetails component
+  const [runningPrompts, setRunningPrompts] = useState<Record<string, boolean>>({})
+  const [promptResponses, setPromptResponses] = useState<Record<string, string>>({})
+  const [showResponses, setShowResponses] = useState<Record<string, boolean>>({})
+  const [showRunHistory, setShowRunHistory] = useState(false)
+  const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(null)
+  
   const { data: prompts = [], isLoading } = useQuery({
     queryKey: ['prompts'],
     queryFn: async () => {
@@ -65,6 +72,31 @@ export default function DashboardPage() {
   }, [searchParams])
 
   const selectedPrompt = prompts.find((p) => p.id === selectedPromptId) || null
+
+  // Fetch original prompt slug when viewing a derivative prompt
+  useEffect(() => {
+    const fetchOriginalPromptSlug = async () => {
+      if (selectedPrompt?.parent_prompt_id) {
+        try {
+          const { data, error } = await createClient()
+            .from('prompts')
+            .select('slug')
+            .eq('id', selectedPrompt.parent_prompt_id)
+            .single()
+
+          if (!error && data?.slug) {
+            setOriginalPromptSlug(data.slug)
+          }
+        } catch (err) {
+          console.error('Error fetching original prompt slug:', err)
+        }
+      } else {
+        setOriginalPromptSlug(null)
+      }
+    }
+
+    fetchOriginalPromptSlug()
+  }, [selectedPrompt?.parent_prompt_id])
 
   const handleSelectPrompt = (promptId: string) => {
     if (promptId === 'new') {
@@ -96,6 +128,11 @@ export default function DashboardPage() {
   const handleDeletePrompt = (prompt: Prompt) => {
     setPromptToDelete(prompt)
     setShowDeleteDialog(true)
+  }
+
+  const handleClosePromptDetails = () => {
+    setSelectedPromptId(null)
+    router.replace('/dashboard')
   }
 
   const confirmDelete = async () => {
@@ -152,6 +189,16 @@ export default function DashboardPage() {
           prompt={selectedPrompt}
           onEdit={handleEditPrompt}
           onDelete={handleDeletePrompt}
+          runningPrompts={runningPrompts}
+          setRunningPrompts={setRunningPrompts}
+          promptResponses={promptResponses}
+          setPromptResponses={setPromptResponses}
+          showResponses={showResponses}
+          setShowResponses={setShowResponses}
+          showRunHistory={showRunHistory}
+          setShowRunHistory={setShowRunHistory}
+          originalPromptSlug={originalPromptSlug}
+          onClose={handleClosePromptDetails}
         />
       </main>
       

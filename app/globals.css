@@ -44,64 +44,82 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Brand ramp (light) */
+    --brand-50: 210 100% 96.9%;
+    --brand-100: 208.5 100% 92.2%;
+    --brand-300: 207.3 100% 73.7%;
+    --brand-500: 211.8 100% 57.1%;
+    --brand-700: 214.5 100% 42.9%;
+    --brand-900: 213.1 100% 23.1%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
- 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
- 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
- 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
- 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Accent hues */
+    --accent-teal-500:   168 75.9% 43.9%;
+    --accent-violet-500: 249.9 100% 69%;
+    --accent-coral-500:  0 100% 71%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Neutral ramp */
+    --gray-50:  240 20% 99%;
+    --gray-100: 210 22.2% 96.5%;
+    --gray-300: 215 18.2% 91.1%;
+    --gray-500: 219 8.5% 46.3%;
+    --gray-700: 218.6 10.4% 26.3%;
+    --gray-900: 217.5 14.3% 11%;
+
+    --background: var(--gray-50);
+    --foreground: var(--gray-900);
+
+    --card: var(--gray-50);
+    --card-foreground: var(--gray-900);
+ 
+    --popover: var(--gray-50);
+    --popover-foreground: var(--gray-900);
+ 
+    --primary: var(--brand-500);
+    --primary-foreground: var(--gray-50);
+ 
+    --secondary: var(--gray-100);
+    --secondary-foreground: var(--gray-900);
+ 
+    --muted: var(--gray-100);
+    --muted-foreground: var(--gray-700);
+ 
+    --accent: var(--gray-100);
+    --accent-foreground: var(--gray-700);
+ 
+    --destructive: var(--accent-coral-500);
+    --destructive-foreground: var(--gray-50);
+
+    --border: var(--gray-300);
+    --input: var(--gray-300);
+    --ring: var(--brand-500);
  
     --radius: 0.5rem;
   }
  
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: var(--gray-900);
+    --foreground: var(--gray-50);
  
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: var(--gray-900);
+    --card-foreground: var(--gray-50);
  
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: var(--gray-900);
+    --popover-foreground: var(--gray-50);
  
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: var(--brand-500);
+    --primary-foreground: var(--gray-900);
  
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: var(--gray-800);
+    --secondary-foreground: var(--gray-50);
  
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: var(--gray-800);
+    --muted-foreground: var(--gray-400);
  
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: var(--gray-800);
+    --accent-foreground: var(--gray-50);
  
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --destructive: var(--accent-coral-500);
+    --destructive-foreground: var
     --ring: 212.7 26.8% 83.9%;
   }
 

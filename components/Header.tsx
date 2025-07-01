@@ -53,7 +53,7 @@ export function Header() {
                 href="/dashboard"
                 className={`text-sm ${
                   pathname === '/dashboard'
-                    ? 'text-primary bg-accent'
+                    ? 'text-primary bg-primary/10'
                     : 'text-muted-foreground hover:text-primary'
                 } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
                 onClick={(e) => {
@@ -70,7 +70,7 @@ export function Header() {
                 href="/p"
                 className={`text-sm ${
                   pathname.startsWith('/p')
-                    ? 'text-primary bg-accent'
+                    ? 'text-primary bg-primary/10'
                     : 'text-muted-foreground'
                 } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
               >

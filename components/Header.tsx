@@ -13,6 +13,7 @@ import {
 import { createClient } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
 import { Settings, LogOut, Sparkles, Globe, User2 } from 'lucide-react'
+import Image from 'next/image'
 
 export function Header() {
   const pathname = usePathname()
@@ -41,10 +42,13 @@ export function Header() {
             href="/"
             className="font-semibold text-base tracking-tight flex items-center"
           >
-            <div className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg h-6 w-6 mr-2">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-base font-medium">Prompt Manage</span>
+            <Image
+              src="/logo.svg"
+              alt="Prompt Manage"
+              width={32}
+              height={32}
+              className="h-6 w-6"
+            />
           </Link>
           {/* Only show navigation links when user is logged in */}
           {session && (

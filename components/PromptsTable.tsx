@@ -1224,19 +1224,7 @@ export function PromptDetails({
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                     Copy the prompt text directly
                   </p>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      navigator.clipboard.writeText(prompt.prompt_text)
-                      toast({
-                        title: 'Copied!',
-                        description: 'Prompt text copied to clipboard.',
-                      })
-                    }}
-                    className="w-full"
-                  >
-                    Copy Prompt Text
-                  </Button>
+                  <CopyButton text={prompt.prompt_text} label="Copy Prompt Text" />
                 </div>
               </div>
             )}

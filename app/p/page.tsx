@@ -7,7 +7,13 @@ import { PublicPrompt } from '@/lib/schemas/prompt'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import CopyButton from '@/components/CopyButton'
 import { Search, TrendingUp } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
@@ -21,8 +27,12 @@ function PublicDirectoryContent() {
   const [prompts, setPrompts] = useState<PublicPrompt[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState(searchParams.get('search') || '')
-  const [selectedModel, setSelectedModel] = useState<string>(searchParams.get('model') || 'all')
-  const [selectedTag, setSelectedTag] = useState<string>(searchParams.get('tag') || 'all')
+  const [selectedModel, setSelectedModel] = useState<string>(
+    searchParams.get('model') || 'all'
+  )
+  const [selectedTag, setSelectedTag] = useState<string>(
+    searchParams.get('tag') || 'all'
+  )
   const [sortBy, setSortBy] = useState<'recent' | 'popular'>(
     (searchParams.get('sortBy') as 'recent' | 'popular') || 'recent'
   )
@@ -49,7 +59,7 @@ function PublicDirectoryContent() {
       if (error) throw error
 
       // Transform data to match the new schema with fallbacks
-      const transformedData = (data || []).map(prompt => ({
+      const transformedData = (data || []).map((prompt) => ({
         ...prompt,
         description: prompt.description || null,
         is_public: prompt.is_public || false,
@@ -59,19 +69,19 @@ function PublicDirectoryContent() {
       }))
 
       setPrompts(transformedData as PublicPrompt[])
-      
+
       // Extract unique tags
       const tags = new Set<string>()
-      transformedData?.forEach(prompt => {
+      transformedData?.forEach((prompt) => {
         prompt.tags?.forEach((tag: string) => tags.add(tag))
       })
       setAvailableTags(Array.from(tags))
     } catch (error) {
       console.error('Error fetching public prompts:', error)
       toast({
-        title: "Error",
-        description: "Failed to load public prompts.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to load public prompts.',
+        variant: 'destructive',
       })
     } finally {
       setLoading(false)
@@ -98,41 +108,48 @@ function PublicDirectoryContent() {
     setPage(1)
   }, [search, selectedModel, selectedTag, sortBy])
 
-  const filteredPrompts = prompts.filter(prompt => {
-    const matchesSearch = 
+  const filteredPrompts = prompts.filter((prompt) => {
+    const matchesSearch =
       prompt.name.toLowerCase().includes(search.toLowerCase()) ||
       prompt.description?.toLowerCase().includes(search.toLowerCase()) ||
       prompt.prompt_text.toLowerCase().includes(search.toLowerCase()) ||
-      prompt.tags?.some(tag => tag.toLowerCase().includes(search.toLowerCase()))
+      prompt.tags?.some((tag) =>
+        tag.toLowerCase().includes(search.toLowerCase())
+      )
 
-    const matchesModel = selectedModel === 'all' || prompt.model === selectedModel
-    const matchesTag = selectedTag === 'all' || prompt.tags?.includes(selectedTag)
+    const matchesModel =
+      selectedModel === 'all' || prompt.model === selectedModel
+    const matchesTag =
+      selectedTag === 'all' || prompt.tags?.includes(selectedTag)
 
     return matchesSearch && matchesModel && matchesTag
   })
 
   const totalPages = Math.ceil(filteredPrompts.length / promptsPerPage)
-  const paginatedPrompts = filteredPrompts.slice((page - 1) * promptsPerPage, page * promptsPerPage)
+  const paginatedPrompts = filteredPrompts.slice(
+    (page - 1) * promptsPerPage,
+    page * promptsPerPage
+  )
 
   if (loading) {
     return <FullPageLoading text="Loading public prompts..." />
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-accent/50">
       <div className="max-w-7xl mx-auto p-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-foreground tracking-tight mb-2">
             Public Prompt Directory
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-muted-foreground">
             Discover and use prompts shared by the community
           </p>
         </div>
 
         {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
+        <div className="mb-4 space-y-4">
           <div className="flex gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -162,12 +179,17 @@ function PublicDirectoryContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Tags</SelectItem>
-                {availableTags.map(tag => (
-                  <SelectItem key={tag} value={tag}>{tag}</SelectItem>
+                {availableTags.map((tag) => (
+                  <SelectItem key={tag} value={tag}>
+                    {tag}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            <Select value={sortBy} onValueChange={(value: 'recent' | 'popular') => setSortBy(value)}>
+            <Select
+              value={sortBy}
+              onValueChange={(value: 'recent' | 'popular') => setSortBy(value)}
+            >
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
@@ -180,25 +202,27 @@ function PublicDirectoryContent() {
         </div>
 
         {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-gray-600 dark:text-gray-400">
-            {filteredPrompts.length} prompt{filteredPrompts.length !== 1 ? 's' : ''} found
+        <div className="mb-4">
+          <p className="text-muted-foreground text-sm font-medium">
+            {filteredPrompts.length} prompt
+            {filteredPrompts.length !== 1 ? 's' : ''} found
           </p>
         </div>
 
         {/* Prompts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {paginatedPrompts.map((prompt) => (
             <Card
               key={prompt.id}
-              className="p-4 hover:shadow-lg transition-shadow cursor-pointer flex flex-col h-full"
+              className="p-4 hover:shadow-sm transition-shadow cursor-pointer flex flex-col h-full"
               onClick={() => router.push(`/p/${prompt.slug}`)}
             >
               <div className="flex-grow">
                 <div className="mb-4">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-lg font-semibold line-clamp-1 flex-1">{prompt.name}</h3>
-                    <Badge variant="secondary" className="ml-2">{prompt.model}</Badge>
+                    <h3 className="text-lg font-semibold line-clamp-1 flex-1">
+                      {prompt.name}
+                    </h3>
                   </div>
                   {prompt.description && (
                     <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
@@ -206,8 +230,13 @@ function PublicDirectoryContent() {
                     </p>
                   )}
                   <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="ml-2">
+                      {prompt.model}
+                    </Badge>
                     {prompt.tags?.slice(0, 2).map((tag) => (
-                      <Badge key={tag} variant="outline">{tag}</Badge>
+                      <Badge key={tag} variant="outline">
+                        {tag}
+                      </Badge>
                     ))}
                     {prompt.tags && prompt.tags.length > 2 && (
                       <Badge variant="outline">+{prompt.tags.length - 2}</Badge>
@@ -215,21 +244,20 @@ function PublicDirectoryContent() {
                   </div>
                 </div>
                 <div className="mb-4">
-                  <pre className="text-sm text-muted-foreground line-clamp-3">
+                  <pre className="text-xs font-medium text-muted-foreground line-clamp-3 bg-accent text-wrap p-2 rounded-lg">
                     {prompt.prompt_text}
                   </pre>
                 </div>
-                
+
                 {/* Stats for public prompts */}
-                <div className="mb-4 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1">
+                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-lg">
                     <TrendingUp className="h-3 w-3" />
                     <span>{prompt.view_count} views</span>
                   </div>
-                </div>
-
-                <div className="flex items-center justify-end mt-auto pt-4" onClick={(e) => e.stopPropagation()}>
-                  <CopyButton text={prompt.prompt_text} />
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <CopyButton text={prompt.prompt_text} />
+                  </div>
                 </div>
               </div>
             </Card>
@@ -254,7 +282,9 @@ function PublicDirectoryContent() {
             >
               Previous
             </button>
-            <span>Page {page} of {totalPages}</span>
+            <span>
+              Page {page} of {totalPages}
+            </span>
             <button
               className="px-3 py-1 rounded border bg-white dark:bg-gray-800 disabled:opacity-50"
               onClick={() => setPage(page + 1)}
@@ -275,4 +305,4 @@ export default function PublicDirectoryPage() {
       <PublicDirectoryContent />
     </Suspense>
   )
-} 
+}

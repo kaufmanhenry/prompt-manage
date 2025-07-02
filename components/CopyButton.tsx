@@ -29,7 +29,8 @@ export default function CopyButton({ text, label }: CopyButtonProps) {
       size="icon"
       className={cn(
         'hover:bg-muted',
-        label && 'flex items-center gap-2 w-full bg-accent px-2 py-1 rounded-lg',
+        label &&
+          'flex items-center gap-2 w-full bg-accent px-2 py-1 rounded-lg',
         !label && 'h-8 w-8'
       )}
       onClick={handleCopy}
@@ -39,7 +40,11 @@ export default function CopyButton({ text, label }: CopyButtonProps) {
       ) : (
         <Copy className="size-4" />
       )}
-      {label && <span className="text-sm font-medium">{copied ? 'Copied!' : label}</span>}
+      {label && (
+        <span className="text-sm font-medium">
+          {copied ? 'Copied!' : label}
+        </span>
+      )}
       <span className="sr-only">Copy to clipboard</span>
     </Button>
   )

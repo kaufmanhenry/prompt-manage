@@ -16,7 +16,13 @@ import Link from 'next/link'
 import { Mail, User } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 
-export function SignupForm() {
+interface SignupFormProps {
+  promptId?: string
+  promptName?: string
+  redirectUrl?: string
+}
+
+export function SignupForm({ promptId, promptName, redirectUrl }: SignupFormProps) {
   const [email, setEmail] = useState('')
   const [displayName, setDisplayName] = useState('')
   const [loading, setLoading] = useState(false)
@@ -27,6 +33,15 @@ export function SignupForm() {
     setLoading(true)
 
     try {
+      // Store the redirect info in localStorage for after signup
+      if (promptId && promptName && redirectUrl) {
+        localStorage.setItem('pendingPromptCopy', JSON.stringify({
+          promptId,
+          promptName,
+          redirectUrl
+        }))
+      }
+
       const { error } = await createClient().auth.signInWithOtp({
         email,
         options: {
@@ -45,9 +60,13 @@ export function SignupForm() {
           variant: "destructive",
         })
       } else {
+        const message = promptId 
+          ? `We've sent a secure sign-in link to ${email}. After signing in, "${promptName}" will be added to your prompts.`
+          : `We've sent a secure sign-in link to ${email}. Check your inbox.`
+        
         toast({
           title: "Magic link sent!",
-          description: `We've sent a secure sign-in link to ${email}. Check your inbox.`,
+          description: message,
         })
       }
     } catch (error) {
@@ -65,9 +84,14 @@ export function SignupForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-center">Create an account</CardTitle>
+        <CardTitle className="text-2xl text-center">
+          {promptId ? 'Save this prompt to your library' : 'Create an account'}
+        </CardTitle>
         <CardDescription className="text-center">
-          Enter your email to get started with Prompt Manage
+          {promptId 
+            ? `Sign up to save "${promptName}" to your personal prompt library`
+            : 'Enter your email to get started with Prompt Manage'
+          }
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

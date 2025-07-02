@@ -6,6 +6,9 @@ import { useToast } from '@/components/ui/use-toast'
 import { Copy, Check } from 'lucide-react'
 import { usePromptRouting } from '@/hooks/usePromptRouting'
 import { Spinner } from '@/components/ui/loading'
+import { createClient } from '@/utils/supabase/client'
+import { useQuery } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 
 interface CopyPromptButtonProps {
   promptId: string
@@ -24,8 +27,29 @@ export function CopyPromptButton({
   const [copied, setCopied] = useState(false)
   const { toast } = useToast()
   const { navigateToPrompt } = usePromptRouting()
+  const router = useRouter()
+  
+  const { data: session } = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const {
+        data: { session },
+        error,
+      } = await createClient().auth.getSession()
+      if (error) throw error
+      return session
+    },
+  })
 
   const handleCopy = async () => {
+    // Check if user is authenticated
+    if (!session) {
+      // Redirect to signup with the prompt info
+      const redirectUrl = `/auth/signup?promptId=${promptId}&promptName=${encodeURIComponent(promptName)}&redirect=${encodeURIComponent(window.location.href)}`
+      router.push(redirectUrl)
+      return
+    }
+
     setLoading(true)
     try {
       const response = await fetch('/api/prompts/copy', {

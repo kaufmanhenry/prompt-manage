@@ -63,6 +63,16 @@ export default function DashboardPage() {
     },
   })
 
+  // Redirect to /auth/copy-prompt if there's a pending prompt copy
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const pendingCopy = localStorage.getItem('pendingPromptCopy')
+      if (pendingCopy) {
+        router.replace('/auth/copy-prompt')
+      }
+    }
+  }, [router])
+
   // Handle URL parameter for selected prompt
   useEffect(() => {
     const promptIdFromUrl = searchParams.get('prompt')

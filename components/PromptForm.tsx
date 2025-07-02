@@ -346,7 +346,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 </FormItem>
               )}
             />
-            <div className="sticky bottom-0 bg-white z-10 border-t flex justify-end gap-2 pt-4">
+            <div className="sticky -bottom-6 bg-background z-10 border-t flex justify-end gap-2 py-4">
               <Button
                 type="button"
                 variant="outline"

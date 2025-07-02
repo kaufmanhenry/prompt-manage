@@ -25,6 +25,7 @@ import {
   Play,
   Link as LinkIcon,
   MessageSquare,
+  Copy,
 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import {
@@ -45,9 +46,8 @@ import Link from 'next/link'
 import { createClient } from '@/utils/supabase/client'
 import { Spinner } from '@/components/ui/loading'
 import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Tooltip,
-} from '@/components/ui/tooltip'
+import { Tooltip } from '@/components/ui/tooltip'
+import { ArrowUpRight } from 'lucide-react'
 
 interface Filters {
   search: string
@@ -69,11 +69,17 @@ interface PromptDetailsProps {
   onEdit?: (prompt: Prompt) => void
   onDelete?: (prompt: Prompt) => void
   runningPrompts: Record<string, boolean>
-  setRunningPrompts: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+  setRunningPrompts: React.Dispatch<
+    React.SetStateAction<Record<string, boolean>>
+  >
   promptResponses: Record<string, string>
-  setPromptResponses: React.Dispatch<React.SetStateAction<Record<string, string>>>
+  setPromptResponses: React.Dispatch<
+    React.SetStateAction<Record<string, string>>
+  >
   showResponses: Record<string, boolean>
-  setShowResponses: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+  setShowResponses: React.Dispatch<
+    React.SetStateAction<Record<string, boolean>>
+  >
   showRunHistory: boolean
   setShowRunHistory: React.Dispatch<React.SetStateAction<boolean>>
   originalPromptSlug: string | null
@@ -486,10 +492,21 @@ export function PromptsTable({
                       variant="outline"
                       size="icon"
                       onClick={() => {
-                        console.log('Grid run prompt button clicked for:', prompt.id)
-                        console.log('Current runningPrompts state:', runningPrompts)
-                        console.log('Button disabled state:', runningPrompts[prompt.id as string])
-                        alert('Grid button clicked! Testing basic functionality.')
+                        console.log(
+                          'Grid run prompt button clicked for:',
+                          prompt.id
+                        )
+                        console.log(
+                          'Current runningPrompts state:',
+                          runningPrompts
+                        )
+                        console.log(
+                          'Button disabled state:',
+                          runningPrompts[prompt.id as string]
+                        )
+                        alert(
+                          'Grid button clicked! Testing basic functionality.'
+                        )
                         // TODO: Implement run prompt functionality for grid view
                       }}
                       disabled={false} // Temporarily disable the disabled state for testing
@@ -909,22 +926,12 @@ export function PromptDetails({
   }
 
   return (
-    <Card className="p-6 m-2 rounded-lg">
-      <div className="mb-6 flex items-center justify-between">
+    <Card className="p-6 m-2 rounded-lg gap-4">
+      <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <h2 className="text-2xl font-semibold">
-              {prompt.name}
-            </h2>
-            {prompt.is_public ? (
-              <Badge
-                variant="default"
-                className="bg-green-100 text-green-800 border-green-200"
-              >
-                <Globe className="mr-1 h-3 w-3" />
-                Public
-              </Badge>
-            ) : (
+            <h2 className="text-2xl font-semibold">{prompt.name}</h2>
+            {!prompt.is_public && (
               <Badge variant="secondary">
                 <Lock className="mr-1 h-3 w-3" />
                 Private
@@ -965,7 +972,9 @@ export function PromptDetails({
           </Tooltip>
 
           {/* Show Run History Icon Button */}
-          <Tooltip content={showRunHistory ? 'Hide Run History' : 'Show Run History'}>
+          <Tooltip
+            content={showRunHistory ? 'Hide Run History' : 'Show Run History'}
+          >
             <Button
               variant="outline"
               size="icon"
@@ -1000,11 +1009,7 @@ export function PromptDetails({
 
           {/* Close Icon Button */}
           <Tooltip content="Close">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-            >
+            <Button variant="ghost" size="icon" onClick={onClose}>
               <X className="h-5 w-5" />
             </Button>
           </Tooltip>
@@ -1013,31 +1018,34 @@ export function PromptDetails({
 
       {/* Public Link Display */}
       {prompt.is_public && prompt.slug && (
-        <div className="mb-6 rounded-lg border bg-green-50 dark:bg-green-950 p-4">
+        <div className="rounded-lg bg-green-50 dark:bg-green-950 px-2 py-1">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-medium text-green-800 dark:text-green-200 flex items-center gap-2">
+              <h4 className="font-medium text-green-800 dark:text-green-200 flex items-center gap-1 text-sm">
                 <Globe className="h-4 w-4" />
                 Public Link Available
               </h4>
-              <p className="text-sm text-green-600 dark:text-green-300 mt-1">
-                {`${window.location.origin}/p/${prompt.slug}`}
-              </p>
             </div>
             <div className="flex gap-2">
+              <p className="text-sm text-green-600 dark:text-green-300 mt-1">
+                <a
+                  href={`${window.location.origin}/p/${prompt.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-600 dark:text-green-300 hover:underline flex items-center gap-1"
+                >
+                  {`${window.location.origin}/p/${prompt.slug}`}{' '}
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </p>
               <Button
-                variant="outline"
+                variant="ghost"
+                className="bg-green-100 text-green-600 dark:bg-green-950 hover:bg-green-200 dark:hover:bg-green-800"
                 size="sm"
                 onClick={() => handleCopyLink()}
               >
-                <ExternalLink className="mr-2 h-4 w-4" />
-                Copy
+                <Copy className="h-4 w-4" />
               </Button>
-              <Link href={`/p/${prompt.slug}`}>
-                <Button variant="outline" size="sm">
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </Link>
             </div>
           </div>
         </div>
@@ -1045,16 +1053,16 @@ export function PromptDetails({
 
       {/* Derivative Prompt Information */}
       {prompt.parent_prompt_id && (
-        <div className="mb-6 rounded-lg border bg-blue-50 dark:bg-blue-950 p-4">
+        <div className="rounded-lg bg-blue-50 dark:bg-blue-950 p-2">
           <div className="flex items-center justify-between">
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <LinkIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                <h4 className="font-medium text-blue-800 dark:text-blue-200">
+                <h4 className="font-medium text-blue-800 dark:text-blue-200 text-sm">
                   Derivative Prompt
                 </h4>
               </div>
-              <p className="text-sm text-blue-600 dark:text-blue-300 mt-1">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
                 This prompt was copied from a public prompt and can be
                 customized for your needs.
               </p>
@@ -1130,8 +1138,7 @@ export function PromptDetails({
               </div>
             ) : (
               <div className="text-muted-foreground">
-                No response yet. Click &quot;Run Prompt&quot; to generate
-                one.
+                No response yet. Click &quot;Run Prompt&quot; to generate one.
               </div>
             )}
           </div>

@@ -208,7 +208,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                 {history.map((run) => (
                   <div
                     key={run.id}
-                    className={`cursor-pointer transition-colors h-fit p-2 rounded-md ${
+                    className={`cursor-pointer transition-colors h-fit p-2 rounded-lg ${
                       selectedRun?.id === run.id ? 'bg-accent' : ''
                     }`}
                     onClick={() =>

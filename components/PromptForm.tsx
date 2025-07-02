@@ -335,7 +335,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
               control={form.control}
               name="is_public"
               render={({ field }) => (
-                <FormItem className="bg-accent p-3 rounded-md">
+                <FormItem className="bg-accent p-3 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-1">
                       <FormLabel>Public</FormLabel>

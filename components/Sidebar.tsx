@@ -249,7 +249,7 @@ export function Sidebar({
               <Button
                 key={prompt.id}
                 variant={prompt.id === selectedPromptId ? 'secondary' : 'ghost'}
-                className="justify-start w-full text-left rounded-md px-2 py-2 flex-wrap h-auto"
+                className="justify-start w-full text-left rounded-lg px-2 py-2 flex-wrap h-auto"
                 onClick={() => onSelectPrompt(prompt.id as string)}
               >
                 <div className="font-medium truncate w-full whitespace-normal line-clamp-3">

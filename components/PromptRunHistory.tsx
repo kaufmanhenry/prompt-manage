@@ -125,14 +125,14 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
 
   if (isLoading) {
     return (
-      <Card className="p-4 gap-4">
-        <CardHeader>
+      <Card className="p-4 gap-4 space-y-0">
+        <CardHeader className="p-0">
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5" />
             Run History
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <CardLoading text="Loading history..." />
         </CardContent>
       </Card>
@@ -141,14 +141,14 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
 
   if (error) {
     return (
-      <Card>
-        <CardHeader>
+      <Card className="p-4 gap-4 space-y-0">
+        <CardHeader className="p-0">
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5" />
             Run History
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <div className="text-center py-8">
             <XCircle className="h-8 w-8 text-red-500 mx-auto mb-2" />
             <p className="text-red-600">Failed to load history</p>

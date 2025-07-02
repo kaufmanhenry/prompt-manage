@@ -1,15 +1,16 @@
 'use client'
 
-import { Sparkles, Linkedin } from 'lucide-react'
+import { Linkedin } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 
 export function Footer() {
   return (
     <footer className="border-t py-3 bg-white dark:bg-gray-950">
       <div className="mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
         <div className="flex gap-4 w-full items-center">
-          <Image src="/logo.svg" alt="Prompt Manage" width={24} height={24} />
+          <h3 className="text-sm font-semibold tracking-tight">
+            Prompt Manage
+          </h3>
           <ul className="text-sm flex items-center gap-2">
             <li>
               <Link

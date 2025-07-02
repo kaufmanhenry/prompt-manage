@@ -43,6 +43,14 @@ export function Footer() {
             </li>
             <li>
               <Link
+                href="/p"
+                className="hover:underline text-gray-600 dark:text-gray-300"
+              >
+                Prompt Directory
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/models"
                 className="hover:underline text-gray-600 dark:text-gray-300"
               >

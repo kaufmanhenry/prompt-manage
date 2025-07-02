@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import { Mail, User } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 
 interface SignupFormProps {
@@ -24,7 +24,6 @@ interface SignupFormProps {
 
 export function SignupForm({ promptId, promptName, redirectUrl }: SignupFormProps) {
   const [email, setEmail] = useState('')
-  const [displayName, setDisplayName] = useState('')
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 
@@ -47,9 +46,6 @@ export function SignupForm({ promptId, promptName, redirectUrl }: SignupFormProp
         options: {
           emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback`,
           shouldCreateUser: true,
-          data: {
-            display_name: displayName,
-          },
         },
       })
 
@@ -89,28 +85,13 @@ export function SignupForm({ promptId, promptName, redirectUrl }: SignupFormProp
         </CardTitle>
         <CardDescription className="text-center">
           {promptId 
-            ? `Sign up to save "${promptName}" to your personal prompt library`
+            ? `Create a free account to save "${promptName}" to your library.`
             : 'Enter your email to get started with Prompt Manage'
           }
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <form onSubmit={handleSignup} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="displayName">Display Name (Optional)</Label>
-            <div className="relative">
-              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="displayName"
-                type="text"
-                placeholder="Enter your display name"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </div>
-
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">

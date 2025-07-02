@@ -64,7 +64,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
     queryKey: ['user-tags', session?.user?.id],
     queryFn: async () => {
       if (!session?.user?.id) return []
-      
+
       const { data, error } = await createClient()
         .from('prompts')
         .select('tags')
@@ -78,9 +78,9 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
 
       // Extract all unique tags from user's prompts
       const allTags = new Set<string>()
-      data?.forEach(prompt => {
+      data?.forEach((prompt) => {
         if (prompt.tags && Array.isArray(prompt.tags)) {
-          prompt.tags.forEach(tag => allTags.add(tag))
+          prompt.tags.forEach((tag) => allTags.add(tag))
         }
       })
 
@@ -90,7 +90,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   })
 
   // Convert tags to Option format for MultipleSelector
-  const tagOptions: Option[] = userTags.map(tag => ({
+  const tagOptions: Option[] = userTags.map((tag) => ({
     label: tag,
     value: tag,
   }))
@@ -325,7 +325,8 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                   />
                   <FormMessage />
                   <FormDescription>
-                    Select from your existing tags or create new ones. Tags help organize and find your prompts.
+                    Select from your existing tags or create new ones. Tags help
+                    organize and find your prompts.
                   </FormDescription>
                 </FormItem>
               )}
@@ -334,19 +335,26 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
               control={form.control}
               name="is_public"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Public</FormLabel>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
+                <FormItem className="bg-accent p-3 rounded-md">
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-1">
+                      <FormLabel>Public</FormLabel>
+                      <FormDescription>
+                        Make this prompt public so others can use it.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
-            <div className="sticky -bottom-6 bg-background z-10 border-t flex justify-end gap-2 py-4">
+            <div className="sticky -bottom-6 bg-background z-5 border-t flex justify-end gap-2 py-4">
               <Button
                 type="button"
                 variant="outline"
@@ -354,7 +362,11 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading || !session?.user?.id} data-testid="submit-prompt">
+              <Button
+                type="submit"
+                disabled={loading || !session?.user?.id}
+                data-testid="submit-prompt"
+              >
                 {loading
                   ? 'Saving...'
                   : prompt

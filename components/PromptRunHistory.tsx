@@ -128,7 +128,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
       <Card className="p-4 gap-4 space-y-0">
         <CardHeader className="p-0">
           <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
+            <Clock className="h-4 w-4" />
             Run History
           </CardTitle>
         </CardHeader>
@@ -144,7 +144,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
       <Card className="p-4 gap-4 space-y-0">
         <CardHeader className="p-0">
           <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
+            <Clock className="h-4 w-4" />
             Run History
           </CardTitle>
         </CardHeader>
@@ -173,7 +173,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
       <CardHeader className="p-0">
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
+            <Clock className="h-4 w-4" />
             Run History
             <Badge variant="outline">{history.length}</Badge>
           </div>
@@ -188,13 +188,17 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
       </CardHeader>
       <CardContent className="p-0">
         {history.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="text-center py-8 text-muted-foreground space-y-2">
             <MessageSquare className="h-8 w-8 mx-auto mb-2" />
-            <p>No run history yet</p>
-            <p className="text-sm">Run this prompt to see its history here</p>
+            <p className="font-medium text-foreground">
+              No run history yet
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Run this prompt to see its history here
+            </p>
             <Button variant="outline" size="sm" onClick={() => refetch()}>
               <RefreshCw className="h-4 w-4" />
-              Update History
+              Refresh History
             </Button>
           </div>
         ) : (
@@ -247,7 +251,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                   </div>
                 ))}
                 <Button variant="outline" size="sm" onClick={() => refetch()}>
-                  <RefreshCw className="h-4 w-4" /> Update History
+                  <RefreshCw className="h-4 w-4" /> Refresh History
                 </Button>
               </div>
 

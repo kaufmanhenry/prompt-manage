@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Prompt } from '@/lib/schemas/prompt'
+import type { PromptRunHistory } from '@/lib/schemas/prompt-run-history'
 import CopyButton from './CopyButton'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { PromptRunHistory } from './PromptRunHistory'
 import {
   Clock,
   Eye,
@@ -27,6 +27,12 @@ import {
   MessageSquare,
   Copy,
   PackageOpen,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  Zap,
+  Sparkles,
+  RefreshCw,
 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import {
@@ -42,13 +48,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQueryClient, useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/client'
 import { Spinner } from '@/components/ui/loading'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip } from '@/components/ui/tooltip'
 import { ArrowUpRight } from 'lucide-react'
+import {
+  Accordion,
+  AccordionTrigger,
+  AccordionContent,
+  AccordionItem,
+} from '@/components/ui/accordion'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface Filters {
   search: string
@@ -73,16 +86,6 @@ interface PromptDetailsProps {
   setRunningPrompts: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >
-  promptResponses: Record<string, string>
-  setPromptResponses: React.Dispatch<
-    React.SetStateAction<Record<string, string>>
-  >
-  showResponses: Record<string, boolean>
-  setShowResponses: React.Dispatch<
-    React.SetStateAction<Record<string, boolean>>
-  >
-  showRunHistory: boolean
-  setShowRunHistory: React.Dispatch<React.SetStateAction<boolean>>
   originalPromptSlug: string | null
   onClose: () => void
 }
@@ -96,7 +99,7 @@ export function PromptsTable({
   isLoading = false,
 }: PromptsTableProps) {
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null)
-  const [showRunHistory, setShowRunHistory] = useState(false)
+
   const [showShareDialog, setShowShareDialog] = useState(false)
   const [promptToShare, setPromptToShare] = useState<Prompt | null>(null)
   const [sharing, setSharing] = useState(false)
@@ -392,12 +395,6 @@ export function PromptsTable({
           onDelete={handleDeletePrompt}
           runningPrompts={runningPrompts}
           setRunningPrompts={setRunningPrompts}
-          promptResponses={promptResponses}
-          setPromptResponses={setPromptResponses}
-          showResponses={showResponses}
-          setShowResponses={setShowResponses}
-          showRunHistory={showRunHistory}
-          setShowRunHistory={setShowRunHistory}
           originalPromptSlug={originalPromptSlug}
           onClose={() => setSelectedPrompt(null)}
         />
@@ -766,19 +763,39 @@ export function PromptDetails({
   onDelete,
   runningPrompts,
   setRunningPrompts,
-  promptResponses,
-  setPromptResponses,
-  showResponses,
-  setShowResponses,
-  showRunHistory,
-  setShowRunHistory,
   originalPromptSlug,
   onClose,
 }: PromptDetailsProps) {
   const [showShareDialog, setShowShareDialog] = useState(false)
   const [sharing, setSharing] = useState(false)
+  const [selectedRun, setSelectedRun] = useState<PromptRunHistory | null>(null)
+  const [promptResponses, setPromptResponses] = useState<
+    Record<string, string>
+  >({})
+  const [showResponses, setShowResponses] = useState<Record<string, boolean>>(
+    {}
+  )
   const { toast } = useToast()
   const queryClient = useQueryClient()
+
+  // Query for prompt run history
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    error: historyError,
+    refetch: refetchHistory,
+  } = useQuery({
+    queryKey: ['prompt-run-history', prompt?.id],
+    queryFn: async () => {
+      if (!prompt?.id) return { success: false, history: [] }
+      const response = await fetch(`/api/prompts/${prompt.id}/history?limit=50`)
+      if (!response.ok) {
+        throw new Error('Failed to fetch history')
+      }
+      return response.json()
+    },
+    enabled: !!prompt?.id,
+  })
 
   const handleRunPrompt = async (prompt: Prompt) => {
     console.log('handleRunPrompt called with prompt:', prompt.id)
@@ -807,6 +824,9 @@ export function PromptDetails({
       const data = await response.json()
       console.log('API response data:', data)
       setPromptResponses((prev) => ({ ...prev, [promptId]: data.response }))
+
+      // Refetch history to show the new run
+      refetchHistory()
 
       toast({
         title: 'Prompt Executed',
@@ -918,6 +938,66 @@ export function PromptDetails({
     }
   }
 
+  const handleCopyResponse = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      toast({
+        title: 'Copied to clipboard',
+        description: 'Response copied to clipboard',
+      })
+    } catch {
+      toast({
+        title: 'Failed to copy',
+        description: 'Could not copy to clipboard',
+        variant: 'destructive',
+      })
+    }
+  }
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'success':
+        return <CheckCircle className="h-4 w-4 text-green-500" />
+      case 'error':
+        return <XCircle className="h-4 w-4 text-red-500" />
+      case 'timeout':
+        return <AlertCircle className="h-4 w-4 text-yellow-500" />
+      default:
+        return <AlertCircle className="h-4 w-4 text-gray-500" />
+    }
+  }
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'success':
+        return (
+          <Badge variant="default" className="bg-green-100 text-green-800">
+            Success
+          </Badge>
+        )
+      case 'error':
+        return <Badge variant="destructive">Error</Badge>
+      case 'timeout':
+        return (
+          <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+            Timeout
+          </Badge>
+        )
+      default:
+        return <Badge variant="outline">{status}</Badge>
+    }
+  }
+
+  const formatDuration = (ms: number | null) => {
+    if (!ms) return 'N/A'
+    if (ms < 1000) return `${ms}ms`
+    return `${(ms / 1000).toFixed(2)}s`
+  }
+
+  const formatTimestamp = (timestamp: string) => {
+    return new Date(timestamp).toLocaleString()
+  }
+
   if (!prompt) {
     return (
       <div className="flex flex-col gap-2 items-center justify-center h-full text-muted-foreground text-sm font-medium">
@@ -926,6 +1006,8 @@ export function PromptDetails({
       </div>
     )
   }
+
+  const history = historyData?.history || []
 
   return (
     <Card className="p-6 m-2 rounded-lg gap-4">
@@ -956,9 +1038,13 @@ export function PromptDetails({
               variant="outline"
               size="icon"
               onClick={() => handleRunPrompt(prompt)}
-              disabled={false}
+              disabled={runningPrompts[prompt.id as string]}
             >
-              <Play className="h-5 w-5" />
+              {runningPrompts[prompt.id as string] ? (
+                <Spinner size="sm" />
+              ) : (
+                <Play className="h-5 w-5" />
+              )}
             </Button>
           </Tooltip>
 
@@ -970,19 +1056,6 @@ export function PromptDetails({
               onClick={() => handleSharePrompt()}
             >
               <Share2 className="h-5 w-5" />
-            </Button>
-          </Tooltip>
-
-          {/* Show Run History Icon Button */}
-          <Tooltip
-            content={showRunHistory ? 'Hide Run History' : 'Show Run History'}
-          >
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setShowRunHistory(!showRunHistory)}
-            >
-              <Clock className="h-5 w-5" />
             </Button>
           </Tooltip>
 
@@ -1087,12 +1160,7 @@ export function PromptDetails({
         </div>
       )}
 
-      {showRunHistory && prompt && (
-        <PromptRunHistory
-          promptId={prompt.id as string}
-          onClose={() => setShowRunHistory(false)}
-        />
-      )}
+      {/* Prompt Text Display */}
       <div className="relative">
         <div className="rounded-lg border bg-muted/50 p-4">
           <p className="text-xs font-medium text-muted-foreground mb-2">
@@ -1107,50 +1175,165 @@ export function PromptDetails({
         </div>
       </div>
 
-      {/* Response Display for Detailed View */}
-      {showResponses && showResponses[prompt.id as string] && (
-        <div>
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-1">
-              <MessageSquare className="h-4 w-4 text-primary" />
-              <p className="text-sm font-medium">Result</p>
-            </div>
+      {/* Integrated Run History and Response Display */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            <h3 className="text-lg font-semibold">Run History</h3>
+            <Badge variant="outline">{history.length}</Badge>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetchHistory()}
+            disabled={historyLoading}
+          >
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Refresh
+          </Button>
+        </div>
+
+        {historyLoading ? (
+          <div className="text-center py-8">
+            <Spinner size="lg" />
+            <p className="text-sm text-muted-foreground mt-2">
+              Loading history...
+            </p>
+          </div>
+        ) : historyError ? (
+          <div className="text-center py-8">
+            <XCircle className="h-8 w-8 text-red-500 mx-auto mb-2" />
+            <p className="text-red-600">Failed to load history</p>
             <Button
-              variant="ghost"
-              size="sm"
-              onClick={() =>
-                setShowResponses((prev) => ({
-                  ...prev,
-                  [prompt.id as string]: false,
-                }))
-              }
-              className="p-1 h-7 w-7"
+              variant="outline"
+              onClick={() => refetchHistory()}
+              className="mt-2"
             >
-              <X className="h-4 w-4" />
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Retry
             </Button>
           </div>
-          <div className="rounded-lg bg-accent p-3">
-            {runningPrompts[prompt.id as string] ? (
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Spinner size="sm" />
-                Generating response...
-              </div>
-            ) : promptResponses[prompt.id as string] ? (
-              <div className="text-sm whitespace-pre-wrap">
-                <CopyButton
-                  text={promptResponses[prompt.id as string]}
-                  label="Copy Result"
-                />
-                {promptResponses[prompt.id as string]}
-              </div>
-            ) : (
-              <div className="text-muted-foreground">
-                No response yet. Click &quot;Run Prompt&quot; to generate one.
-              </div>
-            )}
+        ) : history.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground space-y-2">
+            <MessageSquare className="h-8 w-8 mx-auto mb-2" />
+            <p className="font-medium text-foreground">No run history yet</p>
+            <p className="text-sm text-muted-foreground">
+              Run this prompt to see its history here
+            </p>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* History List */}
+            <div className="space-y-2">
+              <h4 className="text-sm font-medium text-muted-foreground">
+                Previous Runs
+              </h4>
+              <ScrollArea className="h-[400px]">
+                <div className="space-y-2">
+                  {history.map((run: PromptRunHistory) => (
+                    <div
+                      key={run.id}
+                      className={`cursor-pointer transition-colors p-3 rounded-lg border ${
+                        selectedRun?.id === run.id
+                          ? 'bg-accent border-primary'
+                          : 'hover:bg-accent/50'
+                      }`}
+                      onClick={() =>
+                        setSelectedRun(selectedRun?.id === run.id ? null : run)
+                      }
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          {getStatusIcon(run.status)}
+                          {getStatusBadge(run.status)}
+                          <span className="text-sm text-muted-foreground">
+                            {formatTimestamp(run.created_at)}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          {run.execution_time_ms && (
+                            <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-md">
+                              <Zap className="h-3 w-3" />
+                              {formatDuration(run.execution_time_ms)}
+                            </div>
+                          )}
+                          {run.tokens_used && (
+                            <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-md">
+                              <Sparkles className="h-3 w-3" />
+                              {run.tokens_used} tokens
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="text-sm text-muted-foreground mb-2">
+                        Model: {run.model}
+                      </div>
+
+                      {run.error_message && (
+                        <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded text-sm text-red-700">
+                          Error: {run.error_message}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+
+            {/* Selected Run Details */}
+            <div className="space-y-0">
+              <h4 className="text-sm font-medium text-muted-foreground">
+                Run Details
+              </h4>
+              {selectedRun ? (
+                <div className="space-y-4">
+                  <div>
+                    <Accordion type="single" collapsible>
+                      <AccordionItem value="prompt">
+                        <AccordionTrigger className="text-sm font-medium">
+                          Prompt Used
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div className="bg-muted p-3 rounded-lg text-sm font-mono whitespace-pre-wrap">
+                            {selectedRun.prompt_text}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="text-sm font-medium">Response:</h4>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleCopyResponse(selectedRun.response)
+                        }}
+                      >
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </Button>
+                    </div>
+                    <div className="bg-muted p-3 rounded-lg text-sm whitespace-pre-wrap max-h-72 overflow-y-auto">
+                      {selectedRun.response}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center text-sm text-muted-foreground bg-accent p-4 py-8 rounded-md">
+                  <MessageSquare className="h-4 w-4 mx-auto mb-2" />
+                  <p>Select a run to view details</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Share Dialog */}
       <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>

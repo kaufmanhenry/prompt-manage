@@ -26,6 +26,7 @@ import {
   Link as LinkIcon,
   MessageSquare,
   Copy,
+  PackageOpen,
 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import {
@@ -919,8 +920,9 @@ export function PromptDetails({
 
   if (!prompt) {
     return (
-      <div className="flex items-center justify-center h-full text-muted-foreground">
-        Select a prompt to view its details.
+      <div className="flex flex-col gap-2 items-center justify-center h-full text-muted-foreground text-sm font-medium">
+        <PackageOpen className="h-6 w-6" />
+        <p>Select a prompt to view its details.</p>
       </div>
     )
   }

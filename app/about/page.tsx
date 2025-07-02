@@ -4,8 +4,8 @@ import { ArrowLeft, Globe, Lock, Users, Zap } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one central HQ.',
-  description: 'Learn about Prompt Manage, the #1 tool for teams managing prompt libraries. Create, manage, and run AI prompts all in one central HQ.',
+  title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
+  description: 'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
   keywords: 'about Prompt Manage, AI prompt management, prompt sharing platform, ChatGPT prompts, Claude prompts',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     canonical: '/about',
   },
       openGraph: {
-      title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one central HQ.',
-      description: 'Learn about Prompt Manage, the #1 tool for teams managing prompt libraries.',
+      title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
+      description: 'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
     url: 'https://promptmanage.com/about',
     siteName: 'Prompt Manage',
     images: [
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
   },
       twitter: {
       card: 'summary_large_image',
-      title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one central HQ.',
-      description: 'Learn about Prompt Manage, the #1 tool for teams managing prompt libraries.',
+      title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
+      description: 'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -71,7 +71,8 @@ export default function AboutPage() {
             About Prompt Manage
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
-            Create, manage, and run AI prompts. All in one central HQ.
+            Create, manage, and run AI prompts.<br />
+            All in one place.
           </p>
         </div>
 

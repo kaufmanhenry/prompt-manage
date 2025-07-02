@@ -6,9 +6,9 @@ import { Globe, Lock, Search, Users } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Prompt Manage - Create, manage, and run AI prompts. All in one central HQ.',
+  title: 'Prompt Manage - Create, manage, and run AI prompts. All in one place.',
   description:
-    'Create, manage, and run AI prompts. All in one central HQ. The #1 tool for teams managing prompt libraries.',
+    'Create, manage, and run AI prompts. All in one place.',
   keywords:
     'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt sharing',
   authors: [{ name: 'Prompt Manage' }],
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
       openGraph: {
-      title: 'Prompt Manage - Create, manage, and run AI prompts. All in one central HQ.',
+      title: 'Prompt Manage - Create, manage, and run AI prompts. All in one place.',
       description:
-        'Create, manage, and run AI prompts. All in one central HQ. The #1 tool for teams managing prompt libraries.',
+        'Create, manage, and run AI prompts. All in one place.',
     url: 'https://promptmanage.com',
     siteName: 'Prompt Manage',
     images: [
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   },
       twitter: {
       card: 'summary_large_image',
-      title: 'Prompt Manage - Create, manage, and run AI prompts. All in one central HQ.',
+      title: 'Prompt Manage - Create, manage, and run AI prompts. All in one place.',
       description:
-        'Create, manage, and run AI prompts. All in one central HQ. The #1 tool for teams managing prompt libraries.',
+        'Create, manage, and run AI prompts. All in one place.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -77,11 +77,9 @@ export default async function Home() {
         {/* Hero Section */}
         <div className="py-20 text-center">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-            Create, manage, and run AI prompts. All in one central HQ.
+            Create, manage, and run AI prompts.<br />
+            All in one place.
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto">
-            The #1 tool for teams managing prompt libraries.
-          </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">
               <Button size="lg">Get Started</Button>

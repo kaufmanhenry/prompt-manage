@@ -140,6 +140,14 @@ export default function TermsPage() {
           <p className="mb-6 text-gray-700 dark:text-gray-300">
             By email: <a href="mailto:support@promptmanage.com" className="text-blue-600 dark:text-blue-400 hover:underline">support@promptmanage.com</a>
           </p>
+          <hr className="my-8" />
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Related Policies</h3>
+            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-1">
+              <li><a href="/privacy" className="text-blue-600 dark:text-blue-400 underline">Privacy Policy</a></li>
+              <li><a href="/dmca" className="text-blue-600 dark:text-blue-400 underline">DMCA Policy</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

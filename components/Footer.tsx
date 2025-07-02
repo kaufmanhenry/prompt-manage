@@ -7,9 +7,15 @@ export function Footer() {
     <footer className="border-t py-10 bg-white dark:bg-gray-950">
       <div className="mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
         <div className="flex md:flex-row flex-col md:gap-8 gap-4 w-full">
-          <h3 className="text-sm font-semibold tracking-tight">
-            Prompt Manage
-          </h3>
+          <div className="flex flex-col gap-2">
+            <h3 className="text-sm font-semibold tracking-tight">
+              Prompt Manage
+            </h3>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Create, manage, and run AI prompts.<br />
+              All in one place.
+            </p>
+          </div>
           <ul className="text-sm items-center space-y-2">
             <li className="font-medium text-xs text-muted-foreground">
               Company
@@ -20,6 +26,14 @@ export function Footer() {
                 className="hover:underline text-gray-600 dark:text-gray-300"
               >
                 About
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/contact"
+                className="hover:underline text-gray-600 dark:text-gray-300"
+              >
+                Contact
               </Link>
             </li>
           </ul>
@@ -60,6 +74,14 @@ export function Footer() {
                 className="hover:underline text-gray-600 dark:text-gray-300"
               >
                 Privacy
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/dmca"
+                className="hover:underline text-gray-600 dark:text-gray-300"
+              >
+                DMCA
               </Link>
             </li>
           </ul>

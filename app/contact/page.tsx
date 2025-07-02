@@ -5,13 +5,14 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { ArrowLeft, Mail, MessageSquare, Clock, CheckCircle } from 'lucide-react'
+import { ArrowLeft, Mail, CheckCircle } from 'lucide-react'
+import { Metadata } from 'next'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
+    company: '',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -28,7 +29,7 @@ export default function ContactPage() {
     setIsSubmitted(true)
     
     // Reset form
-    setFormData({ name: '', email: '', subject: '', message: '' })
+    setFormData({ name: '', email: '', company: '', message: '' })
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -40,202 +41,122 @@ export default function ContactPage() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center px-4">
         <div className="max-w-md mx-auto text-center">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
-            <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Message Sent!
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Thank you for reaching out. We&apos;ll get back to you within 1-2 business days.
-            </p>
-            <Link href="/">
-              <Button>Back to Home</Button>
-            </Link>
-          </div>
+          <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+            Message sent
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            We'll get back to you within 24 hours.
+          </p>
+          <Link href="/">
+            <Button variant="outline">Back to home</Button>
+          </Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
+      <div className="max-w-2xl mx-auto px-4 py-16">
         {/* Header */}
-        <div className="text-center mb-12">
-          <Link href="/">
-            <Button variant="ghost" className="mb-6">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
-            </Button>
+        <div className="mb-12">
+          <Link href="/" className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-8">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
           </Link>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Get in Touch
+          <h1 className="text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+            Contact us
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
+          <p className="text-gray-600 dark:text-gray-400">
+            Get in touch for enterprise inquiries, partnerships, or support.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-              Send us a message
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Name
-                  </label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Email
-                  </label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
-              
+        {/* Contact Form */}
+        <div className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Subject
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Name
                 </label>
                 <Input
-                  id="subject"
-                  name="subject"
+                  id="name"
+                  name="name"
                   type="text"
                   required
-                  value={formData.subject}
+                  value={formData.name}
                   onChange={handleChange}
-                  placeholder="What's this about?"
+                  className="border-gray-300 dark:border-gray-600"
                 />
               </div>
-              
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Message
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Email
                 </label>
-                <Textarea
-                  id="message"
-                  name="message"
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
                   required
-                  rows={6}
-                  value={formData.message}
+                  value={formData.email}
                   onChange={handleChange}
-                  placeholder="Tell us more..."
+                  className="border-gray-300 dark:border-gray-600"
                 />
-              </div>
-              
-              <Button 
-                type="submit" 
-                size="lg" 
-                className="w-full"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-              </Button>
-            </form>
-          </div>
-
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-                Other ways to reach us
-              </h2>
-              
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-blue-100 dark:bg-blue-900 rounded-lg p-3">
-                    <Mail className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                      Email Support
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-2">
-                      For technical support and account issues
-                    </p>
-                    <a 
-                      href="mailto:support@promptmanage.com" 
-                      className="text-blue-600 dark:text-blue-400 hover:underline"
-                    >
-                      support@promptmanage.com
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="bg-green-100 dark:bg-green-900 rounded-lg p-3">
-                    <MessageSquare className="h-6 w-6 text-green-600 dark:text-green-400" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                      General Inquiries
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-2">
-                      For partnerships, press, and general questions
-                    </p>
-                    <a 
-                      href="mailto:hello@promptmanage.com" 
-                      className="text-green-600 dark:text-green-400 hover:underline"
-                    >
-                      hello@promptmanage.com
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="bg-purple-100 dark:bg-purple-900 rounded-lg p-3">
-                    <Clock className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                      Response Time
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      We typically respond within 1-2 business days. For urgent issues, please include &quot;URGENT&quot; in your subject line.
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
+            
+            <div>
+              <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Company
+              </label>
+              <Input
+                id="company"
+                name="company"
+                type="text"
+                value={formData.company}
+                onChange={handleChange}
+                className="border-gray-300 dark:border-gray-600"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Message
+              </label>
+              <Textarea
+                id="message"
+                name="message"
+                required
+                rows={4}
+                value={formData.message}
+                onChange={handleChange}
+                className="border-gray-300 dark:border-gray-600"
+              />
+            </div>
+            
+            <Button 
+              type="submit" 
+              className="w-full"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Sending...' : 'Send message'}
+            </Button>
+          </form>
 
-            {/* FAQ Link */}
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                Looking for quick answers?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Check out our frequently asked questions or browse our documentation.
-              </p>
-              <div className="space-y-2">
-                <Link href="/about">
-                  <Button variant="outline" size="sm" className="w-full">
-                    About Us
-                  </Button>
-                </Link>
-              </div>
+          {/* Contact Info */}
+          <div className="pt-8 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+              <Mail className="h-4 w-4" />
+              <a 
+                href="mailto:hello@promptmanage.com" 
+                className="hover:text-gray-900 dark:hover:text-white"
+              >
+                hello@promptmanage.com
+              </a>
             </div>
           </div>
         </div>

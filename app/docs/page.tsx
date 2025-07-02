@@ -22,6 +22,27 @@ export default function DocsPage() {
           </p>
         </div>
 
+        {/* Docs Navigation Section */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Documentation Pages</h2>
+          <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
+            <li><Link href="/docs/best-practices" className="text-blue-600 dark:text-blue-400 underline">Prompt Management Best Practices</Link></li>
+            <li><Link href="/docs/account-settings" className="text-blue-600 dark:text-blue-400 underline">Editing Account Settings</Link></li>
+            <li><Link href="/docs/change-password" className="text-blue-600 dark:text-blue-400 underline">Changing Your Password</Link></li>
+            <li><Link href="/docs/signup-help" className="text-blue-600 dark:text-blue-400 underline">Signing Up</Link></li>
+          </ul>
+        </div>
+
+        {/* Get Help Section */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Get Help</h2>
+          <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2">
+            <li><Link href="/docs/account-settings" className="text-blue-600 dark:text-blue-400 underline">Editing Account Settings</Link></li>
+            <li><Link href="/docs/change-password" className="text-blue-600 dark:text-blue-400 underline">Changing Your Password</Link></li>
+            <li><Link href="/docs/signup-help" className="text-blue-600 dark:text-blue-400 underline">Signing Up</Link></li>
+          </ul>
+        </div>
+
         {/* Quick Start */}
         <div className="mb-16">
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
@@ -227,6 +248,47 @@ export default function DocsPage() {
               Start Using Prompt Manage
             </Button>
           </Link>
+        </div>
+
+        {/* Editing Account Settings */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Editing Account Settings <Link href="/docs/account-settings" className="text-blue-600 dark:text-blue-400 underline text-base ml-2">(Full Help)</Link></h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+            <ol className="list-decimal pl-6 text-gray-600 dark:text-gray-400 space-y-2">
+              <li>Go to your profile or dashboard and click on <strong>Settings</strong> in the navigation menu.</li>
+              <li>Update your display name, email address, or other available fields as needed.</li>
+              <li>Click <strong>Save</strong> to apply your changes.</li>
+            </ol>
+            <p className="text-sm text-gray-500 mt-4">Note: Some fields (such as email) may require verification or additional security steps.</p>
+          </div>
+        </div>
+
+        {/* Changing Your Password */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Changing Your Password <Link href="/docs/change-password" className="text-blue-600 dark:text-blue-400 underline text-base ml-2">(Full Help)</Link></h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+            <ol className="list-decimal pl-6 text-gray-600 dark:text-gray-400 space-y-2">
+              <li>Navigate to <strong>Settings</strong> from your profile or dashboard.</li>
+              <li>Find the <strong>Password</strong> section.</li>
+              <li>Enter your current password, then your new password twice to confirm.</li>
+              <li>Click <strong>Change Password</strong> to update your password.</li>
+            </ol>
+            <p className="text-sm text-gray-500 mt-4">If you forget your password, use the <strong>Forgot Password</strong> link on the sign-in page to reset it via email.</p>
+          </div>
+        </div>
+
+        {/* Signing Up */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Signing Up <Link href="/docs/signup-help" className="text-blue-600 dark:text-blue-400 underline text-base ml-2">(Full Help)</Link></h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+            <ol className="list-decimal pl-6 text-gray-600 dark:text-gray-400 space-y-2">
+              <li>Go to the <strong>Sign Up</strong> page from the main navigation or homepage.</li>
+              <li>Enter your email address, create a password, and fill in any required fields.</li>
+              <li>Click <strong>Sign Up</strong> to create your account.</li>
+              <li>Check your email for a verification link and follow the instructions to verify your account.</li>
+            </ol>
+            <p className="text-sm text-gray-500 mt-4">If you do not receive a verification email, check your spam folder or request a new one from the sign-up page.</p>
+          </div>
         </div>
       </div>
     </div>

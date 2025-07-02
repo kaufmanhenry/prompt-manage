@@ -6,9 +6,9 @@ import { Globe, Lock, Search, Users } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Prompt Manage - The native platform for organizing, testing, and sharing AI prompt libraries with teams',
+  title: 'Prompt Manage - Create, manage, and run AI prompts. All in one central HQ.',
   description:
-    'The native platform for organizing, testing, and sharing AI prompt libraries with teams. Centralize your prompt libraries, collaborate seamlessly with your team, and accelerate prompt engineering workflows.',
+    'Create, manage, and run AI prompts. All in one central HQ. The #1 tool for teams managing prompt libraries.',
   keywords:
     'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt sharing',
   authors: [{ name: 'Prompt Manage' }],
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
       openGraph: {
-      title: 'Prompt Manage - The native platform for organizing, testing, and sharing AI prompt libraries with teams',
+      title: 'Prompt Manage - Create, manage, and run AI prompts. All in one central HQ.',
       description:
-        'The native platform for organizing, testing, and sharing AI prompt libraries with teams. Centralize your prompt libraries, collaborate seamlessly with your team, and accelerate prompt engineering workflows.',
+        'Create, manage, and run AI prompts. All in one central HQ. The #1 tool for teams managing prompt libraries.',
     url: 'https://promptmanage.com',
     siteName: 'Prompt Manage',
     images: [
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   },
       twitter: {
       card: 'summary_large_image',
-      title: 'Prompt Manage - The native platform for organizing, testing, and sharing AI prompt libraries with teams',
+      title: 'Prompt Manage - Create, manage, and run AI prompts. All in one central HQ.',
       description:
-        'The native platform for organizing, testing, and sharing AI prompt libraries with teams. Centralize your prompt libraries, collaborate seamlessly with your team, and accelerate prompt engineering workflows.',
+        'Create, manage, and run AI prompts. All in one central HQ. The #1 tool for teams managing prompt libraries.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -77,10 +77,10 @@ export default async function Home() {
         {/* Hero Section */}
         <div className="py-20 text-center">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-            The native platform for organizing, testing, and sharing AI prompt libraries with teams
+            Create, manage, and run AI prompts. All in one central HQ.
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto">
-            Centralize your prompt libraries, collaborate seamlessly with your team, and accelerate prompt engineering workflows.
+            The #1 tool for teams managing prompt libraries.
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">

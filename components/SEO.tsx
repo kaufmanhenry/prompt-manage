@@ -54,7 +54,7 @@ export function SEO({
           },
           sameAs: [
             'https://twitter.com/promptmanage',
-            'https://linkedin.com/company/promptmanage',
+            'https://www.linkedin.com/company/prompt-manage/',
           ],
         },
         // Website

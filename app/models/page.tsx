@@ -292,7 +292,7 @@ export default function ModelsPage() {
             Ready to elevate your prompt engineering?
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Create your account and start organizing, testing, and sharing prompt libraries for all supported AI models
+            Create your account and start creating, managing, and running AI prompts for all supported models
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">

@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { supportedModels } from '@/lib/models'
 
 export default function GeneratorPage() {
   const [title, setTitle] = useState('')
@@ -41,10 +42,11 @@ export default function GeneratorPage() {
                 <SelectValue placeholder="Select a model" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="gpt-4">GPT-4</SelectItem>
-                <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
-                <SelectItem value="claude-3-opus">Claude 3 Opus</SelectItem>
-                <SelectItem value="gemini-pro">Gemini Pro</SelectItem>
+                {supportedModels.map((model) => (
+                  <SelectItem key={model.id} value={model.id}>
+                    {model.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

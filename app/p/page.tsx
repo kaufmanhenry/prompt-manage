@@ -12,6 +12,7 @@ import CopyButton from '@/components/CopyButton'
 import { Search, TrendingUp } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import { FullPageLoading } from '@/components/ui/loading'
+import { supportedModels } from '@/lib/models'
 
 function PublicDirectoryContent() {
   const router = useRouter()
@@ -148,15 +149,11 @@ function PublicDirectoryContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Models</SelectItem>
-                <SelectItem value="gpt-4">GPT-4</SelectItem>
-                <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
-                <SelectItem value="claude-3-opus">Claude 3 Opus</SelectItem>
-                <SelectItem value="claude-3-sonnet">Claude 3 Sonnet</SelectItem>
-                <SelectItem value="claude-3-haiku">Claude 3 Haiku</SelectItem>
-                <SelectItem value="gemini-pro">Gemini Pro</SelectItem>
-                <SelectItem value="mistral-large">Mistral Large</SelectItem>
-                <SelectItem value="mistral-medium">Mistral Medium</SelectItem>
-                <SelectItem value="mistral-small">Mistral Small</SelectItem>
+                {supportedModels.map((model) => (
+                  <SelectItem key={model.id} value={model.id}>
+                    {model.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <Select value={selectedTag} onValueChange={setSelectedTag}>

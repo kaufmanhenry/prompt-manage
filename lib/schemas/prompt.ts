@@ -1,6 +1,18 @@
 import { z } from 'zod'
 
 export const modelSchema = z.enum([
+  // New models from models page
+  'gpt-4o',
+  'gemini-2-5-pro',
+  'claude-4-opus',
+  'llama-4-series',
+  'deepseek-r1-v3',
+  'mistral-large-mixtral',
+  'gpt-4-5',
+  'claude-3-5-sonnet',
+  'gemma-3-27b',
+  'grok-3-beta',
+  // Legacy models for backward compatibility
   'gpt-4',
   'gpt-3.5-turbo',
   'claude-3-opus',

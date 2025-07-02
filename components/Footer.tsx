@@ -35,6 +35,14 @@ export function Footer() {
                 Privacy
               </Link>
             </li>
+            <li>
+              <Link
+                href="/models"
+                className="hover:underline text-gray-600 dark:text-gray-300"
+              >
+                Models
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="flex items-center gap-4">

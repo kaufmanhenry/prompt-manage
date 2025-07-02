@@ -234,6 +234,11 @@ export default function AboutPage() {
                 Browse Public Prompts
               </Button>
             </Link>
+            <Link href="/models">
+              <Button variant="outline" size="lg">
+                View Supported Models
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

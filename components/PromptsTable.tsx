@@ -577,9 +577,9 @@ export function PromptsTable({
                       <X className="h-4 w-4" />
                     </Button>
                   </div>
-                  <div className="rounded-lg border bg-muted/50 p-4">
+                  <div className="rounded-lg bg-accent p-4">
                     {runningPrompts[prompt.id as string] ? (
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
                         <Spinner size="sm" />
                         Generating response...
                       </div>
@@ -588,7 +588,7 @@ export function PromptsTable({
                         {promptResponses[prompt.id as string]}
                       </div>
                     ) : (
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-muted-foreground font-medium">
                         No response yet. Click &quot;Run Prompt&quot; to
                         generate one.
                       </div>
@@ -1095,7 +1095,9 @@ export function PromptDetails({
       )}
       <div className="relative">
         <div className="rounded-lg border bg-muted/50 p-4">
-          <p className="text-xs font-medium text-muted-foreground mb-2">Prompt</p>
+          <p className="text-xs font-medium text-muted-foreground mb-2">
+            Prompt
+          </p>
           <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
             {prompt.prompt_text}
           </pre>
@@ -1107,12 +1109,11 @@ export function PromptDetails({
 
       {/* Response Display for Detailed View */}
       {showResponses && showResponses[prompt.id as string] && (
-        <div className="mt-6">
+        <div>
           <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Tooltip content="AI Response">
-                <MessageSquare className="h-5 w-5 text-blue-600" />
-              </Tooltip>
+            <div className="flex items-center gap-1">
+              <MessageSquare className="h-4 w-4 text-primary" />
+              <p className="text-sm font-medium">Result</p>
             </div>
             <Button
               variant="ghost"
@@ -1128,7 +1129,7 @@ export function PromptDetails({
               <X className="h-4 w-4" />
             </Button>
           </div>
-          <div className="rounded-lg border bg-muted/50 p-4">
+          <div className="rounded-lg bg-accent p-3">
             {runningPrompts[prompt.id as string] ? (
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Spinner size="sm" />
@@ -1136,6 +1137,10 @@ export function PromptDetails({
               </div>
             ) : promptResponses[prompt.id as string] ? (
               <div className="text-sm whitespace-pre-wrap">
+                <CopyButton
+                  text={promptResponses[prompt.id as string]}
+                  label="Copy Result"
+                />
                 {promptResponses[prompt.id as string]}
               </div>
             ) : (
@@ -1224,7 +1229,10 @@ export function PromptDetails({
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                     Copy the prompt text directly
                   </p>
-                  <CopyButton text={prompt.prompt_text} label="Copy Prompt Text" />
+                  <CopyButton
+                    text={prompt.prompt_text}
+                    label="Copy Prompt Text"
+                  />
                 </div>
               </div>
             )}

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { PublicPrompt } from '@/lib/schemas/prompt'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -38,11 +37,14 @@ interface DatabasePrompt {
   updated_at?: string | null
 }
 
-export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPromptsProps) {
+export function RelatedPrompts({
+  currentPrompt,
+  maxResults = 8,
+}: RelatedPromptsProps) {
   const [relatedData, setRelatedData] = useState<RelatedPromptsData>({
     tagMatches: [],
     modelMatches: [],
-    popularPrompts: []
+    popularPrompts: [],
   })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -66,7 +68,7 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
                 .order('view_count', { ascending: false })
                 .limit(maxResults)
             : Promise.resolve({ data: [] }),
-          
+
           // Model matches
           supabase
             .from('prompts')
@@ -76,7 +78,7 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
             .neq('id', currentPrompt.id)
             .order('view_count', { ascending: false })
             .limit(maxResults),
-          
+
           // Popular prompts
           supabase
             .from('prompts')
@@ -84,11 +86,13 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
             .eq('is_public', true)
             .neq('id', currentPrompt.id)
             .order('view_count', { ascending: false })
-            .limit(maxResults)
+            .limit(maxResults),
         ])
 
-        const transformPrompts = (data: DatabasePrompt[] | null): PublicPrompt[] => {
-          return (data || []).map(prompt => ({
+        const transformPrompts = (
+          data: DatabasePrompt[] | null
+        ): PublicPrompt[] => {
+          return (data || []).map((prompt) => ({
             ...prompt,
             description: prompt.description || null,
             is_public: prompt.is_public || false,
@@ -101,7 +105,7 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
         setRelatedData({
           tagMatches: transformPrompts(tagMatches.data || []),
           modelMatches: transformPrompts(modelMatches.data || []),
-          popularPrompts: transformPrompts(popularPrompts.data || [])
+          popularPrompts: transformPrompts(popularPrompts.data || []),
         })
       } catch (err) {
         console.error('Error fetching related prompts:', err)
@@ -115,48 +119,21 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
   }, [currentPrompt, maxResults])
 
   const PromptCard = ({ prompt }: { prompt: PublicPrompt }) => (
-    <div className="border rounded-lg p-6 flex flex-row items-center justify-between gap-8 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-      <div className="flex-1 min-w-0 flex flex-col gap-2">
-        <Link href={`/p/${prompt.slug}`}>
-          <h4 className="font-medium text-lg text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors truncate">
-            {prompt.name}
-          </h4>
-        </Link>
-        {prompt.description && (
-          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-            {prompt.description}
-          </p>
-        )}
-        <div className="flex flex-row flex-wrap items-center gap-3 mt-1">
-          <Badge variant="secondary" className="text-xs">
-            {prompt.model}
-          </Badge>
-          {prompt.tags?.slice(0, 3).map((tag) => (
-            <Badge key={tag} variant="outline" className="text-xs">
-              {tag}
-            </Badge>
-          ))}
-          {prompt.tags && prompt.tags.length > 3 && (
-            <Badge variant="outline" className="text-xs">
-              +{prompt.tags.length - 3} more
-            </Badge>
+    <div className="border rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-background shadow-sm">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1 min-w-0">
+          <Link href={`/p/${prompt.slug}`}>
+            <h4 className="font-medium text-lg text-foreground truncate hover:text-primary transition-colors">
+              {prompt.name}
+            </h4>
+          </Link>
+          {prompt.description && (
+            <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+              {prompt.description}
+            </p>
           )}
         </div>
-      </div>
-      <div className="flex flex-col items-end gap-3 min-w-fit ml-8">
-        <div className="flex flex-row items-center gap-6 text-xs text-gray-500 dark:text-gray-400">
-          <div className="flex items-center gap-1">
-            <TrendingUp className="h-3 w-3" />
-            <span>{prompt.view_count} views</span>
-          </div>
-          {prompt.updated_at && (
-            <div className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
-            </div>
-          )}
-        </div>
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex items-center gap-2 ml-4">
           <CopyButton text={prompt.prompt_text} />
           <Link href={`/p/${prompt.slug}`}>
             <Button variant="ghost" size="sm">
@@ -164,6 +141,35 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
             </Button>
           </Link>
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2 mb-3">
+        <Badge variant="secondary" className="text-xs">
+          {prompt.model}
+        </Badge>
+        {prompt.tags?.slice(0, 3).map((tag) => (
+          <Badge key={tag} variant="outline" className="text-xs">
+            {tag}
+          </Badge>
+        ))}
+        {prompt.tags && prompt.tags.length > 3 && (
+          <Badge variant="outline" className="text-xs">
+            +{prompt.tags.length - 3} more
+          </Badge>
+        )}
+      </div>
+
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-lg">
+          <TrendingUp className="h-3 w-3" />
+          <span>{prompt.view_count} views</span>
+        </div>
+        {prompt.updated_at && (
+          <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-lg">
+            <Clock className="h-3 w-3" />
+            <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -191,100 +197,89 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
   )
 
   if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5" />
-            Related Prompts
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <LoadingSkeleton />
-        </CardContent>
-      </Card>
-    )
+    return <LoadingSkeleton />
   }
 
   if (error) {
     return null
   }
 
-  const hasAnyRelatedPrompts = relatedData.tagMatches.length > 0 || 
-                               relatedData.modelMatches.length > 0 || 
-                               relatedData.popularPrompts.length > 0
+  const hasAnyRelatedPrompts =
+    relatedData.tagMatches.length > 0 ||
+    relatedData.modelMatches.length > 0 ||
+    relatedData.popularPrompts.length > 0
 
   if (!hasAnyRelatedPrompts) {
     return null
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <div>
+      <Tabs defaultValue="tags">
+        <div className="flex items-center gap-2 mb-4">
           <Zap className="h-5 w-5 text-gray-800 dark:text-white" />
-          <span>Related Prompts</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="tags">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="tags">
-              <Tag className="mr-2 h-4 w-4" />
-              Tags
-            </TabsTrigger>
-            <TabsTrigger value="model">
-              <Sparkles className="mr-2 h-4 w-4" />
-              Model
-            </TabsTrigger>
-            <TabsTrigger value="popular">
-              <TrendingUp className="mr-2 h-4 w-4" />
-              Popular
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="tags" className="mt-4">
-            {relatedData.tagMatches.length > 0 ? (
-              <div className="flex flex-col gap-6">
-                {relatedData.tagMatches.map((prompt) => (
-                  <PromptCard key={prompt.id} prompt={prompt} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="No prompts with similar tags found." />
-            )}
-          </TabsContent>
-          <TabsContent value="model" className="mt-4">
-            {relatedData.modelMatches.length > 0 ? (
-              <div className="flex flex-col gap-6">
-                {relatedData.modelMatches.map((prompt) => (
-                  <PromptCard key={prompt.id} prompt={prompt} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="No prompts with the same model found." />
-            )}
-          </TabsContent>
-          <TabsContent value="popular" className="mt-4">
-            {relatedData.popularPrompts.length > 0 ? (
-              <div className="flex flex-col gap-6">
-                {relatedData.popularPrompts.map((prompt) => (
-                  <PromptCard key={prompt.id} prompt={prompt} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="No other popular prompts found." />
-            )}
-          </TabsContent>
-        </Tabs>
-        <div className="mt-6 text-center">
-          <Link href="/p">
-            <Button variant="outline">
-              Browse All Public Prompts
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+          <h3 className="text-lg font-medium">Related Prompts</h3>
+          <div className="flex-1 flex justify-end">
+            <TabsList className="">
+              <TabsTrigger value="tags">
+                <Tag className="mr-2 h-4 w-4" />
+                Tags
+              </TabsTrigger>
+              <TabsTrigger value="model">
+                <Sparkles className="mr-2 h-4 w-4" />
+                Model
+              </TabsTrigger>
+              <TabsTrigger value="popular">
+                <TrendingUp className="mr-2 h-4 w-4" />
+                Popular
+              </TabsTrigger>
+            </TabsList>
+          </div>
         </div>
-      </CardContent>
-    </Card>
+
+        <TabsContent value="tags" className="mt-4">
+          {relatedData.tagMatches.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {relatedData.tagMatches.map((prompt) => (
+                <PromptCard key={prompt.id} prompt={prompt} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState message="No prompts with similar tags found." />
+          )}
+        </TabsContent>
+        <TabsContent value="model" className="mt-4">
+          {relatedData.modelMatches.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {relatedData.modelMatches.map((prompt) => (
+                <PromptCard key={prompt.id} prompt={prompt} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState message="No prompts with the same model found." />
+          )}
+        </TabsContent>
+        <TabsContent value="popular" className="mt-4">
+          {relatedData.popularPrompts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {relatedData.popularPrompts.map((prompt) => (
+                <PromptCard key={prompt.id} prompt={prompt} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState message="No other popular prompts found." />
+          )}
+        </TabsContent>
+      </Tabs>
+
+      <div className="mt-6 text-center">
+        <Link href="/p">
+          <Button variant="outline">
+            Browse All Public Prompts
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
+      </div>
+    </div>
   )
-} 
+}

@@ -10,10 +10,25 @@ import CopyButton from '@/components/CopyButton'
 import { CopyPromptButton } from '@/components/CopyPromptButton'
 import { RelatedPrompts } from '@/components/RelatedPrompts'
 import { DerivativePrompts } from '@/components/DerivativePrompts'
-import { ArrowLeft, ExternalLink, Calendar, User, TrendingUp, Share2, Linkedin, Twitter, Facebook } from 'lucide-react'
+import {
+  ArrowLeft,
+  ExternalLink,
+  Calendar,
+  User,
+  TrendingUp,
+  Share2,
+  Linkedin,
+  Twitter,
+  Facebook,
+} from 'lucide-react'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { FullPageLoading } from '@/components/ui/loading'
 
 interface PublicPromptPageClientProps {
@@ -22,7 +37,9 @@ interface PublicPromptPageClientProps {
   }
 }
 
-export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) {
+export function PublicPromptPageClient({
+  params,
+}: PublicPromptPageClientProps) {
   const [prompt, setPrompt] = useState<PublicPrompt | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -54,10 +71,12 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
       }
 
       setPrompt(transformedPrompt as PublicPrompt)
-      
+
       // Increment view count (only if the function exists)
       try {
-        await createClient().rpc('increment_prompt_views', { prompt_id: data.id })
+        await createClient().rpc('increment_prompt_views', {
+          prompt_id: data.id,
+        })
       } catch (viewError) {
         console.error('View count increment error:', viewError)
       }
@@ -77,15 +96,15 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
     try {
       await navigator.clipboard.writeText(window.location.href)
       toast({
-        title: "Link Copied!",
-        description: "Public link copied to clipboard.",
+        title: 'Link Copied!',
+        description: 'Public link copied to clipboard.',
       })
     } catch (error) {
       console.error('Copy link error:', error)
       toast({
-        title: "Error",
-        description: "Failed to copy link. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to copy link. Please try again.',
+        variant: 'destructive',
       })
     }
   }
@@ -93,13 +112,19 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
   const handleShareToX = () => {
     const url = encodeURIComponent(window.location.href)
     const text = encodeURIComponent(prompt?.name || 'Check out this prompt!')
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
+    window.open(
+      `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+      '_blank'
+    )
   }
 
   const handleShareToLinkedIn = () => {
     const url = encodeURIComponent(window.location.href)
     const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
-    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`, '_blank')
+    window.open(
+      `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`,
+      '_blank'
+    )
   }
 
   const handleShareToFacebook = () => {
@@ -110,7 +135,10 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
   const handleShareToReddit = () => {
     const url = encodeURIComponent(window.location.href)
     const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
-    window.open(`https://www.reddit.com/submit?url=${url}&title=${title}`, '_blank')
+    window.open(
+      `https://www.reddit.com/submit?url=${url}&title=${title}`,
+      '_blank'
+    )
   }
 
   if (loading) {
@@ -149,7 +177,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
               Back to Directory
             </Button>
           </Link>
-          
+
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -160,35 +188,48 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
                   {prompt.description}
                 </p>
               )}
-              <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-                <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-1 bg-input/70 px-2 py-1 rounded-lg">
                   <User className="h-4 w-4" />
                   <span>Shared by Community</span>
                 </div>
                 {prompt.updated_at && (
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 bg-input/70 px-2 py-1 rounded-lg">
                     <Calendar className="h-4 w-4" />
-                    <span>Updated {new Date(prompt.updated_at).toLocaleDateString()}</span>
+                    <span>
+                      Updated {new Date(prompt.updated_at).toLocaleDateString()}
+                    </span>
                   </div>
                 )}
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 bg-input/70 px-2 py-1 rounded-lg">
                   <TrendingUp className="h-4 w-4" />
                   <span>{prompt.view_count} views</span>
                 </div>
               </div>
             </div>
-            
-            <Button onClick={() => setShowShareDialog(true)} variant="outline">
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Share
-            </Button>
+
+            <div className="flex items-center gap-2">
+              {prompt.id && (
+                <CopyPromptButton
+                  promptId={prompt.id}
+                  promptName={prompt.name}
+                />
+              )}
+              <Button
+                onClick={() => setShowShareDialog(true)}
+                variant="outline"
+              >
+                <ExternalLink className="mr-2 h-4 w-4" />
+                Share
+              </Button>
+            </div>
           </div>
         </div>
 
         {/* Prompt Content */}
         <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 min-w-0">
-            <Card>
+          <div className="lg:col-span-3 min-w-0">
+            <Card className="space-y-0 gap-2">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Prompt</span>
@@ -196,8 +237,8 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                  <pre className="text-sm font-mono text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words">
+                <div className="bg-accent p-4 rounded-lg">
+                  <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
                     {prompt.prompt_text}
                   </pre>
                 </div>
@@ -205,111 +246,71 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
             </Card>
           </div>
 
-          <div className="space-y-6">
-            {/* Copy to My Prompts Button */}
-            <Card>
+          {/* Model Info */}
+          <Card className="space-y-0 gap-2">
+            <CardHeader>
+              <CardTitle>Model</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Badge variant="secondary">
+                {prompt.model}
+              </Badge>
+            </CardContent>
+          </Card>
+
+          {/* Tags */}
+          {prompt.tags && prompt.tags.length > 0 && (
+            <Card className="space-y-0 gap-2">
               <CardHeader>
-                <CardTitle>Add to My Prompts</CardTitle>
+                <CardTitle>Tags</CardTitle>
               </CardHeader>
               <CardContent>
-                {prompt.id && (
-                  <CopyPromptButton 
-                    promptId={prompt.id} 
-                    promptName={prompt.name}
-                    className="w-full"
-                  />
-                )}
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  Copy this prompt to your personal collection for easy access and customization.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Model Info */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Model</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Badge variant="secondary" className="text-sm">
-                  {prompt.model}
-                </Badge>
-              </CardContent>
-            </Card>
-
-            {/* Tags */}
-            {prompt.tags && prompt.tags.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Tags</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {prompt.tags.map((tag) => (
-                      <Badge key={tag} variant="outline">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Usage Instructions */}
-            <Card>
-              <CardHeader>
-                <CardTitle>How to Use</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  <p className="mb-2">1. Copy the prompt text above</p>
-                  <p className="mb-2">2. Paste it into your AI model of choice</p>
-                  <p>3. Customize the variables as needed</p>
-                </div>
-                
-                <Button 
-                  onClick={() => {
-                    navigator.clipboard.writeText(prompt.prompt_text)
-                    toast({
-                      title: "Copied!",
-                      description: "Prompt copied to clipboard.",
-                    })
-                  }}
-                  className="w-full"
-                >
-                  Copy Prompt
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Stats */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Stats</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400">Views</span>
-                  <span className="font-medium">{prompt.view_count}</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400">Created</span>
-                  <span className="font-medium">
-                    {prompt.inserted_at ? new Date(prompt.inserted_at).toLocaleDateString() : '—'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400">Last Updated</span>
-                  <span className="font-medium">
-                    {prompt.updated_at ? new Date(prompt.updated_at).toLocaleDateString() : '—'}
-                  </span>
+                <div className="flex flex-wrap gap-2">
+                  {prompt.tags.map((tag) => (
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
+                  ))}
                 </div>
               </CardContent>
             </Card>
+          )}
 
-            {/* Derivative Prompts */}
-            {prompt.id && <DerivativePrompts promptId={prompt.id} />}
-          </div>
+          {/* Stats */}
+          <Card className="space-y-0 gap-2">
+            <CardHeader>
+              <CardTitle>Stats</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600 dark:text-gray-400">Views</span>
+                <span className="font-medium">{prompt.view_count}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600 dark:text-gray-400">
+                  Created
+                </span>
+                <span className="font-medium">
+                  {prompt.inserted_at
+                    ? new Date(prompt.inserted_at).toLocaleDateString()
+                    : '—'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600 dark:text-gray-400">
+                  Last Updated
+                </span>
+                <span className="font-medium">
+                  {prompt.updated_at
+                    ? new Date(prompt.updated_at).toLocaleDateString()
+                    : '—'}
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Derivative Prompts */}
+          {prompt.id && <DerivativePrompts promptId={prompt.id} />}
         </div>
 
         {/* Related Prompts */}
@@ -324,19 +325,38 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
               <DialogTitle>Share this Prompt</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
-              <Button onClick={handleCopyLink} className="w-full flex items-center gap-2">
+              <Button
+                onClick={handleCopyLink}
+                className="w-full flex items-center gap-2"
+              >
                 <Share2 className="h-4 w-4" /> Copy Link
               </Button>
-              <Button onClick={handleShareToX} className="w-full flex items-center gap-2" variant="outline">
+              <Button
+                onClick={handleShareToX}
+                className="w-full flex items-center gap-2"
+                variant="outline"
+              >
                 <Twitter className="h-4 w-4 text-blue-500" /> Share to X
               </Button>
-              <Button onClick={handleShareToLinkedIn} className="w-full flex items-center gap-2" variant="outline">
+              <Button
+                onClick={handleShareToLinkedIn}
+                className="w-full flex items-center gap-2"
+                variant="outline"
+              >
                 <Linkedin className="h-4 w-4 text-blue-700" /> Share to LinkedIn
               </Button>
-              <Button onClick={handleShareToFacebook} className="w-full flex items-center gap-2" variant="outline">
+              <Button
+                onClick={handleShareToFacebook}
+                className="w-full flex items-center gap-2"
+                variant="outline"
+              >
                 <Facebook className="h-4 w-4 text-blue-600" /> Share to Facebook
               </Button>
-              <Button onClick={handleShareToReddit} className="w-full flex items-center gap-2" variant="outline">
+              <Button
+                onClick={handleShareToReddit}
+                className="w-full flex items-center gap-2"
+                variant="outline"
+              >
                 <Share2 className="h-4 w-4 text-orange-500" /> Share to Reddit
               </Button>
             </div>
@@ -345,4 +365,4 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
       </div>
     </div>
   )
-} 
+}

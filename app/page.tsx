@@ -6,9 +6,9 @@ import { Globe, Lock, Search, Users } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Prompt Manage - The platform for organizing, testing, and discovering AI prompts',
+  title: 'Prompt Manage - The native platform for organizing, testing, and sharing AI prompt libraries with teams',
   description:
-    'The platform for organizing, testing, and discovering AI prompts. Create and manage your AI prompts privately, or share them with the community.',
+    'The native platform for organizing, testing, and sharing AI prompt libraries with teams. Centralize your prompt libraries, collaborate seamlessly with your team, and accelerate prompt engineering workflows.',
   keywords:
     'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt sharing',
   authors: [{ name: 'Prompt Manage' }],
@@ -23,10 +23,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
-  openGraph: {
-    title: 'Prompt Manage - The platform for organizing, testing, and discovering AI prompts',
-    description:
-      'The platform for organizing, testing, and discovering AI prompts. Create and manage your AI prompts privately, or share them with the community.',
+      openGraph: {
+      title: 'Prompt Manage - The native platform for organizing, testing, and sharing AI prompt libraries with teams',
+      description:
+        'The native platform for organizing, testing, and sharing AI prompt libraries with teams. Centralize your prompt libraries, collaborate seamlessly with your team, and accelerate prompt engineering workflows.',
     url: 'https://promptmanage.com',
     siteName: 'Prompt Manage',
     images: [
@@ -40,11 +40,11 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Prompt Manage - The platform for organizing, testing, and discovering AI prompts',
-    description:
-      'The platform for organizing, testing, and discovering AI prompts. Create and manage your AI prompts privately, or share them with the community.',
+      twitter: {
+      card: 'summary_large_image',
+      title: 'Prompt Manage - The native platform for organizing, testing, and sharing AI prompt libraries with teams',
+      description:
+        'The native platform for organizing, testing, and sharing AI prompt libraries with teams. Centralize your prompt libraries, collaborate seamlessly with your team, and accelerate prompt engineering workflows.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -77,12 +77,10 @@ export default async function Home() {
         {/* Hero Section */}
         <div className="py-20 text-center">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-            The platform for organizing, testing, and discovering AI prompts
+            The native platform for organizing, testing, and sharing AI prompt libraries with teams
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto">
-            Create and manage your AI prompts privately, or share them with the
-            community. Discover powerful prompts from other users in our public
-            directory.
+            Centralize your prompt libraries, collaborate seamlessly with your team, and accelerate prompt engineering workflows.
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">
@@ -105,11 +103,10 @@ export default async function Home() {
                 <Lock className="h-8 w-8 text-blue-600 dark:text-blue-400" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Private by Default
+                Enterprise-Grade Privacy & Security
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                All your prompts are private until you choose to share them. You
-                have complete control over what&apos;s public.
+                All your prompt libraries are private by default. You maintain granular control over access permissions and what content is shared, ensuring data governance and compliance.
               </p>
             </div>
             <div className="text-center">
@@ -117,10 +114,10 @@ export default async function Home() {
                 <Globe className="h-8 w-8 text-green-600 dark:text-green-400" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Publicly Share Prompts!
+                Collaborative Prompt Sharing
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Share individual prompts with friends and colleagues when you publish on Prompt Manage. Each prompt gets its own public page when shared. SOON: Collections
+                Publish and share individual prompts or entire prompt collections with colleagues, departments, or external partners. Each prompt gets its own dedicated page for easy access and version control. COMING SOON: Comprehensive Prompt Collection Management.
               </p>
             </div>
             <div className="text-center">
@@ -128,11 +125,10 @@ export default async function Home() {
                 <Users className="h-8 w-8 text-purple-600 dark:text-purple-400" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Community Directory
+                Best Practice Sharing
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Discover and use prompts shared by the community. Search,
-                filter, and find the perfect prompt for your needs.
+                Discover and leverage best-in-class prompts shared by our network of AI professionals. Our curated directory is continually expanding with optimized prompt engineering examples.
               </p>
             </div>
           </div>
@@ -144,7 +140,7 @@ export default async function Home() {
             Ready to get started?
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            Join hundreds of users managing their AI prompts
+            Join leading enterprises in streamlining their AI prompt management
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">

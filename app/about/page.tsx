@@ -5,7 +5,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'About - Prompt Manage | AI Prompt Management Platform',
-  description: 'Learn about Prompt Manage, the platform for organizing, testing, and discovering AI prompts. Built for privacy-first prompt management with Notion-like sharing.',
+  description: 'Learn about Prompt Manage, the native platform for organizing, testing, and sharing AI prompt libraries with teams. Built for enterprise-grade prompt management with team collaboration.',
   keywords: 'about Prompt Manage, AI prompt management, prompt sharing platform, ChatGPT prompts, Claude prompts',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
       openGraph: {
       title: 'About - Prompt Manage | AI Prompt Management Platform',
-      description: 'Learn about Prompt Manage, the platform for organizing, testing, and discovering AI prompts.',
+      description: 'Learn about Prompt Manage, the native platform for organizing, testing, and sharing AI prompt libraries with teams.',
     url: 'https://promptmanage.com/about',
     siteName: 'Prompt Manage',
     images: [
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
       twitter: {
       card: 'summary_large_image',
       title: 'About - Prompt Manage | AI Prompt Management Platform',
-      description: 'Learn about Prompt Manage, the platform for organizing, testing, and discovering AI prompts.',
+      description: 'Learn about Prompt Manage, the native platform for organizing, testing, and sharing AI prompt libraries with teams.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -71,7 +71,7 @@ export default function AboutPage() {
             About Prompt Manage
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
-            The platform for organizing, testing, and discovering AI prompts
+            The native platform for organizing, testing, and sharing AI prompt libraries with teams
           </p>
         </div>
 
@@ -81,14 +81,11 @@ export default function AboutPage() {
             Our Mission
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-            We believe that AI prompts are the new programming language of the future. 
-            As AI becomes more integrated into our daily workflows, having a reliable 
-            way to organize, share, and discover prompts is essential.
+            We believe that AI prompts are the new programming language of the future, and effective prompt engineering is critical for leveraging AI at scale. 
+            As AI becomes more integrated into enterprise workflows, having a reliable platform to manage, share, and discover high-quality prompts is essential.
           </p>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            Prompt Manage was built to solve this problem. We provide a platform where 
-            you can safely store your prompts, share them when you want to, and discover 
-            amazing prompts from the community.
+            Prompt Manage was built to solve this challenge. We provide a secure platform where you can centralize your prompt libraries, collaborate seamlessly with your team, and accelerate prompt engineering workflows.
           </p>
         </div>
 
@@ -104,11 +101,10 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Privacy First
+                  Enterprise-Grade Privacy & Security
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  All your prompts are private by default. You have complete control 
-                  over what you share and what stays private.
+                  All your prompt libraries are private by default. You maintain granular control over access permissions and what content is shared, ensuring data governance and compliance.
                 </p>
               </div>
             </div>
@@ -118,10 +114,10 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Publicly Share Prompts!
+                  Collaborative Prompt Sharing
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Share individual prompts with friends and colleagues when you publish on Prompt Manage. Each prompt gets its own public page when shared. SOON: Collections
+                  Publish and share individual prompts or entire prompt collections with colleagues, departments, or external partners. Each prompt gets its own dedicated page for easy access and version control. COMING SOON: Comprehensive Prompt Collection Management.
                 </p>
               </div>
             </div>
@@ -131,11 +127,10 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Community Driven
+                  Best Practice Sharing
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Discover and use prompts shared by the community. Our public 
-                  directory is growing every day with amazing prompts.
+                  Discover and leverage best-in-class prompts shared by our network of AI professionals. Our curated directory is continually expanding with optimized prompt engineering examples.
                 </p>
               </div>
             </div>
@@ -145,11 +140,10 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Built for Productivity
+                  Built for Prompt Engineering Productivity
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Organize prompts with tags, search functionality, and easy 
-                  copy-paste. Everything is designed for speed and efficiency.
+                  Organize prompts with advanced tagging, full-text search, and one-click copy functionality. Every feature is engineered for speed, efficiency, and seamless integration into your prompt development lifecycle.
                 </p>
               </div>
             </div>
@@ -159,15 +153,15 @@ export default function AboutPage() {
         {/* Team */}
         <div className="mb-16">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
-            Built by AI Enthusiasts
+            Developed by AI Engineering Experts
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-            Prompt Manage was created by a team of developers and AI enthusiasts 
-            who understand the challenges of managing AI prompts in today&apos;s fast-paced world.
+            Prompt Manage was created by a team of developers and AI engineers 
+            who deeply understand the complexities of managing AI prompts and prompt libraries in today&apos;s rapidly evolving technological landscape.
           </p>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            We&apos;re committed to building the best platform for prompt management, 
-            with a focus on privacy, usability, and community.
+            We are committed to building the leading platform for prompt management, 
+            with a focus on security, scalability, and enhanced team collaboration.
           </p>
         </div>
 
@@ -177,7 +171,7 @@ export default function AboutPage() {
             Connect With Us
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-            Follow us for updates, tips, and the latest in AI prompt management
+            Follow us for updates, prompt engineering best practices, and the latest in AI prompt management solutions
           </p>
           <div className="flex items-center justify-center gap-6">
             <Link
@@ -221,7 +215,7 @@ export default function AboutPage() {
             Ready to get started?
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Join hundreds of users managing their AI prompts
+            Join leading enterprises in streamlining their AI prompt management
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">
@@ -231,7 +225,7 @@ export default function AboutPage() {
             </Link>
             <Link href="/p">
               <Button variant="outline" size="lg">
-                Browse Public Prompts
+                Explore Sample Prompts
               </Button>
             </Link>
             <Link href="/models">

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Zap, Shield, Globe, Code, Brain, Eye, Mic, Video, Sparkles } from 'lucide-react'
+import { ArrowLeft, Zap, Shield, Globe, Code, Brain, Eye, Mic, Video, Sparkles, Settings } from 'lucide-react'
 import { Metadata } from 'next'
 import { supportedModels } from '@/lib/models'
 
@@ -76,7 +76,7 @@ export default function ModelsPage() {
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Discover the comprehensive range of AI models supported on Prompt Manage. 
             From cutting-edge proprietary models to powerful open-source alternatives, 
-            we support the most important LLMs for your prompt management needs.
+            we integrate with the most important LLMs to streamline your prompt management needs and prompt engineering workflows.
           </p>
         </div>
 
@@ -99,6 +99,9 @@ export default function ModelsPage() {
                 High-performance models from leading AI companies with advanced capabilities, 
                 extensive training, and enterprise-grade reliability.
               </p>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                Key Benefits for Enterprise:
+              </h4>
               <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <li>• Advanced multimodal capabilities</li>
                 <li>• Extensive safety measures</li>
@@ -119,6 +122,9 @@ export default function ModelsPage() {
                 Community-driven models offering transparency, customizability, and 
                 the freedom to modify and deploy according to your specific needs.
               </p>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                Key Benefits for Enterprise:
+              </h4>
               <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <li>• Full transparency and control</li>
                 <li>• Customizable and deployable</li>
@@ -132,7 +138,7 @@ export default function ModelsPage() {
         {/* Models Grid */}
         <div className="mb-16">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-            Featured Models
+            Integrated AI Models
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {supportedModels.map((model, index) => (
@@ -177,18 +183,28 @@ export default function ModelsPage() {
                     ))}
                   </div>
                 </div>
-                <div>
+                <div className="mb-4">
                   <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
-                    Features:
+                    Key Use Cases:
                   </h4>
                   <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
-                    {model.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start gap-2">
-                        <span className="text-blue-500 mt-1">•</span>
-                        {feature}
+                    {model.useCases.map((useCase, useCaseIndex) => (
+                      <li key={useCaseIndex} className="flex items-start gap-2">
+                        <span className="text-green-500 mt-1">•</span>
+                        {useCase}
                       </li>
                     ))}
                   </ul>
+                </div>
+                <div>
+                  <a
+                    href={model.companyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                  >
+                    Visit {model.company} →
+                  </a>
                 </div>
               </div>
             ))}
@@ -200,7 +216,7 @@ export default function ModelsPage() {
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
             Model Capabilities Overview
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="bg-blue-100 dark:bg-blue-900 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <Eye className="h-8 w-8 text-blue-600 dark:text-blue-400" />
@@ -245,16 +261,38 @@ export default function ModelsPage() {
                 High-speed processing with large context windows
               </p>
             </div>
+            <div className="text-center">
+              <div className="bg-indigo-100 dark:bg-indigo-900 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Settings className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Customization
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                Fine-tune and adapt models to specific enterprise requirements
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="bg-red-100 dark:bg-red-900 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Shield className="h-8 w-8 text-red-600 dark:text-red-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Security & Compliance
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                Enterprise-grade security with compliance and governance features
+              </p>
+            </div>
           </div>
         </div>
 
         {/* CTA */}
         <div className="text-center bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Ready to start managing prompts for these models?
+            Ready to elevate your prompt engineering?
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Create your account and start organizing prompts for all supported AI models
+            Create your account and start organizing, testing, and sharing prompt libraries for all supported AI models
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">

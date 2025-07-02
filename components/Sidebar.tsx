@@ -3,7 +3,7 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 import { Prompt } from '@/lib/schemas/prompt'
-import { EyeIcon } from 'lucide-react'
+import { EyeIcon, GlobeIcon } from 'lucide-react'
 import { Badge } from './ui/badge'
 import { useState } from 'react'
 import {
@@ -252,8 +252,15 @@ export function Sidebar({
                 className="justify-start w-full text-left rounded-lg px-2 py-2 flex-wrap h-auto"
                 onClick={() => onSelectPrompt(prompt.id as string)}
               >
-                <div className="font-medium truncate w-full whitespace-normal line-clamp-3">
-                  {prompt.name}
+                <div className="flex justify-between w-full">
+                  <div className="font-medium truncate whitespace-normal line-clamp-3">
+                    {prompt.name}
+                  </div>
+                  {prompt.is_public && (
+                    <div className="text-right ml-auto">
+                      <GlobeIcon className="w-4 h-4" />
+                    </div>
+                  )}
                 </div>
                 {prompt.description && (
                   <div className="text-xs text-muted-foreground truncate">
@@ -268,11 +275,6 @@ export function Sidebar({
                 {prompt.tags.length > 0 && (
                   <div className="text-xs text-muted-foreground truncate w-full whitespace-normal line-clamp-2">
                     {prompt.tags.join(', ')}
-                  </div>
-                )}
-                {prompt.is_public && (
-                  <div className="text-xs text-muted-foreground truncate">
-                    <EyeIcon className="w-4 h-4" />
                   </div>
                 )}
               </Button>

@@ -1071,8 +1071,9 @@ export function PromptDetails({
             </div>
             {originalPromptSlug && (
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-950 hover:bg-blue-100 dark:hover:bg-blue-800"
                 onClick={() => {
                   // Navigate to the original public prompt
                   window.open(`/p/${originalPromptSlug}`, '_blank')

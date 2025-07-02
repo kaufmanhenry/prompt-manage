@@ -1,16 +1,14 @@
 'use client'
 
-import { Sparkles } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function Footer() {
   return (
     <footer className="border-t py-3 bg-white dark:bg-gray-950">
       <div className="mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
-        <div className="flex gap-2 w-full items-center">
-          <div className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg h-6 w-6 mr-2">
-            <Sparkles className="w-4 h-4 text-white" />
-          </div>
+        <div className="flex gap-4 w-full items-center">
+          <Image src="/logo.svg" alt="Prompt Manage" width={24} height={24} />
           <ul className="text-sm flex items-center gap-2">
             <li>
               <Link

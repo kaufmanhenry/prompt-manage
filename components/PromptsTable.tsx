@@ -1088,15 +1088,14 @@ export function PromptDetails({
       )}
 
       {showRunHistory && prompt && (
-        <div className="mb-6">
-          <PromptRunHistory
-            promptId={prompt.id as string}
-            onClose={() => setShowRunHistory(false)}
-          />
-        </div>
+        <PromptRunHistory
+          promptId={prompt.id as string}
+          onClose={() => setShowRunHistory(false)}
+        />
       )}
       <div className="relative">
         <div className="rounded-lg border bg-muted/50 p-4">
+          <p className="text-xs font-medium text-muted-foreground mb-2">Prompt</p>
           <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
             {prompt.prompt_text}
           </pre>

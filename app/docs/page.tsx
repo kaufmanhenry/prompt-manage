@@ -123,7 +123,7 @@ export default function DocsPage() {
                     Browse prompts shared by the community in our public directory. Discover new techniques, find inspiration, and learn from others. The directory is searchable and filterable by model, tags, and popularity.
                   </p>
                   <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                    <li>• Browse thousands of shared prompts</li>
+                    <li>• Browse hundreds of shared prompts</li>
                     <li>• Search by model, tags, or keywords</li>
                     <li>• Filter by popularity and recency</li>
                     <li>• Copy prompts directly to your library</li>

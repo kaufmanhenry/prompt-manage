@@ -6,9 +6,9 @@ import { Globe, Lock, Search, Users } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Prompt Manage - Organize, Share, and Discover AI Prompts',
+  title: 'Prompt Manage - The platform for organizing, testing, and discovering AI prompts',
   description:
-    'Create and manage your AI prompts privately, or share them with the community. Discover powerful prompts from other users in our public directory.',
+    'The platform for organizing, testing, and discovering AI prompts. Create and manage your AI prompts privately, or share them with the community.',
   keywords:
     'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt sharing',
   authors: [{ name: 'Prompt Manage' }],
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Prompt Manage - Organize, Share, and Discover AI Prompts',
+    title: 'Prompt Manage - The platform for organizing, testing, and discovering AI prompts',
     description:
-      'Create and manage your AI prompts privately, or share them with the community. Discover powerful prompts from other users in our public directory.',
+      'The platform for organizing, testing, and discovering AI prompts. Create and manage your AI prompts privately, or share them with the community.',
     url: 'https://promptmanage.com',
     siteName: 'Prompt Manage',
     images: [
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Prompt Manage - Organize, Share, and Discover AI Prompts',
+    title: 'Prompt Manage - The platform for organizing, testing, and discovering AI prompts',
     description:
-      'Create and manage your AI prompts privately, or share them with the community.',
+      'The platform for organizing, testing, and discovering AI prompts. Create and manage your AI prompts privately, or share them with the community.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -77,7 +77,7 @@ export default async function Home() {
         {/* Hero Section */}
         <div className="py-20 text-center">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-            Organize, Share, and Discover AI Prompts
+            The platform for organizing, testing, and discovering AI prompts
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto">
             Create and manage your AI prompts privately, or share them with the
@@ -144,7 +144,7 @@ export default async function Home() {
             Ready to get started?
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            Join thousands of users managing their AI prompts
+            Join hundreds of users managing their AI prompts
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">

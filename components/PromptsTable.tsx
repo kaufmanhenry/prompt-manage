@@ -50,6 +50,12 @@ import { Spinner } from '@/components/ui/loading'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip } from '@/components/ui/tooltip'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from './ui/accordion'
 
 interface Filters {
   search: string
@@ -932,6 +938,18 @@ export function PromptDetails({
                       </span>
                     </div>
                   </div>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="prompt" className="border-none">
+                      <AccordionTrigger className="text-sm font-medium">
+                        Prompt
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <pre className="text-xs font-mono text-card-foreground whitespace-pre-wrap break-words bg-accent p-3 rounded-lg">
+                          {selectedRun.prompt_text}
+                        </pre>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                   <div className="rounded-lg border bg-muted/50 p-4 relative max-h-[400px] overflow-y-auto">
                     <p className="text-xs font-medium text-muted-foreground mb-2">
                       Response

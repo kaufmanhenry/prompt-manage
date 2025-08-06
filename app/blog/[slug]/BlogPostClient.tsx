@@ -4,10 +4,11 @@ import { useEffect } from 'react'
 
 interface BlogPost {
   title: string
-  content: string
+  html: string
   slug: string
   date: string
   category: string
+  tags: string[]
   excerpt?: string
   author?: string
 }

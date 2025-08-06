@@ -43,11 +43,6 @@ export default function DashboardPage() {
   const [promptToDelete, setPromptToDelete] = useState<Prompt | null>(null)
   const [deleting, setDeleting] = useState(false)
   
-  // State for PromptDetails component
-  const [runningPrompts, setRunningPrompts] = useState<Record<string, boolean>>({})
-  const [promptResponses, setPromptResponses] = useState<Record<string, string>>({})
-  const [showResponses, setShowResponses] = useState<Record<string, boolean>>({})
-  const [showRunHistory, setShowRunHistory] = useState(false)
   const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(null)
   
   const { data: prompts = [], isLoading } = useQuery({
@@ -199,14 +194,6 @@ export default function DashboardPage() {
           prompt={selectedPrompt}
           onEdit={handleEditPrompt}
           onDelete={handleDeletePrompt}
-          runningPrompts={runningPrompts}
-          setRunningPrompts={setRunningPrompts}
-          promptResponses={promptResponses}
-          setPromptResponses={setPromptResponses}
-          showResponses={showResponses}
-          setShowResponses={setShowResponses}
-          showRunHistory={showRunHistory}
-          setShowRunHistory={setShowRunHistory}
           originalPromptSlug={originalPromptSlug}
           onClose={handleClosePromptDetails}
         />

@@ -94,9 +94,9 @@ export default function StatsPage() {
           <Icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
         </div>
         {trend && (
-          <span className="text-sm font-medium text-green-600 dark:text-green-400 flex items-center">
+          <span className={`text-sm font-medium flex items-center ${trend.isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
             <TrendingUp className="w-4 h-4 mr-1" />
-            {trend}
+            {trend.isPositive ? '+' : ''}{trend.value}%
           </span>
         )}
       </div>
@@ -313,28 +313,28 @@ export default function StatsPage() {
             value={stats.totalPrompts}
             icon={BarChart3}
             description="Across all categories and teams"
-            trend="+12% this month"
+            trend={{ value: 12, isPositive: true }}
           />
           <StatCard
             title="Active Users"
             value={stats.totalUsers}
             icon={Users}
             description="From {stats.totalCountries} countries"
-            trend="+8% this month"
+            trend={{ value: 8, isPositive: true }}
           />
           <StatCard
             title="Total Prompt Runs"
             value={stats.totalRuns}
             icon={Zap}
             description="AI interactions powered"
-            trend="+15% this month"
+            trend={{ value: 15, isPositive: true }}
           />
           <StatCard
             title="Average Rating"
             value={stats.averageRating}
             icon={Heart}
             description="User satisfaction score"
-            trend="+0.2 this month"
+            trend={{ value: 0.2, isPositive: true }}
           />
         </div>
 

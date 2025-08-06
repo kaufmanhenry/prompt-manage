@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Check, X, GitBranch, Users, BarChart3, Shield, Zap, ArrowRight } from 'lucide-react'
+import { Check, X, GitBranch, Users, BarChart3, Shield, ArrowRight } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function ComparisonPage() {
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             Why Notion & Spreadsheets<br />
-            <span className="text-blue-600 dark:text-blue-400">Aren't Enough</span>
+            <span className="text-blue-600 dark:text-blue-400">Aren&rsquo;t Enough</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
             See why teams are moving from DIY solutions to dedicated prompt management platforms to scale their AI operations effectively.
@@ -166,7 +166,7 @@ export default function ComparisonPage() {
                 The Notion Nightmare
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Sarah's marketing team stored their prompts in Notion. When they needed to A/B test different approaches, they had to manually copy prompts, run tests in separate tools, and manually track results. The process took hours and results were inconsistent.
+                Sarah&rsquo;s marketing team stored their prompts in Notion. When they needed to A/B test different approaches, they had to manually copy prompts, run tests in separate tools, and manually track results. The process took hours and results were inconsistent.
               </p>
               <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
                 <p className="text-red-800 dark:text-red-200 text-sm">
@@ -179,7 +179,7 @@ export default function ComparisonPage() {
                 The Spreadsheet Chaos
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Mike's support team used a shared Google Sheet for prompts. When someone updated a prompt, others didn't know. When they needed to find the best performing prompt, they had to manually search through hundreds of rows with no performance data.
+                Mike&rsquo;s support team used a shared Google Sheet for prompts. When someone updated a prompt, others didn&rsquo;t know. When they needed to find the best performing prompt, they had to manually search through hundreds of rows with no performance data.
               </p>
               <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
                 <p className="text-red-800 dark:text-red-200 text-sm">
@@ -204,7 +204,7 @@ export default function ComparisonPage() {
                 Version Control
               </h3>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Track every change, rollback when needed, and maintain a clear history of what works and what doesn't.
+                Track every change, rollback when needed, and maintain a clear history of what works and what doesn&rsquo;t.
               </p>
             </div>
             <div className="text-center">
@@ -306,7 +306,7 @@ export default function ComparisonPage() {
             Ready to move beyond DIY solutions?
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-            Join teams who've already solved their prompt chaos with Prompt Manage
+            Join teams who&rsquo;ve already solved their prompt chaos with Prompt Manage
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/auth/signup">

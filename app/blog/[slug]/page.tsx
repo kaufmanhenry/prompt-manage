@@ -4,8 +4,9 @@ import BlogPostClient from './BlogPostClient'
 import { Metadata } from 'next'
 
 // Dynamic metadata for SEO
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = blogPosts.find(p => p.slug === params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const post = blogPosts.find(p => p.slug === slug)
   if (!post) return { title: 'Blog Post Not Found - Prompt Manage' }
   return {
     title: `${post.title} - Prompt Manage Blog`,
@@ -19,8 +20,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = blogPosts.find(p => p.slug === params.slug)
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const post = blogPosts.find(p => p.slug === slug)
   if (!post) return notFound()
   return <BlogPostClient post={post} />
 } 

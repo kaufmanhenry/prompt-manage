@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Code, GitBranch, Shield, Users, Zap, CheckCircle, BarChart3, Database, Terminal } from 'lucide-react'
+import { Code, GitBranch, Shield, Zap, CheckCircle, BarChart3, Database, Terminal } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -88,8 +88,8 @@ export default function AIEngineersPage() {
                 </div>
               </div>
               <p className="text-gray-700 dark:text-gray-300 italic text-center">
-                "Prompt Manage gives us the infrastructure we need to manage 500+ system prompts across our AI platform. 
-                The version control and testing features are game-changers for our engineering team."
+                &ldquo;Prompt Manage gives us the infrastructure we need to manage 500+ system prompts across our AI platform. 
+                The version control and testing features are game-changers for our engineering team.&rdquo;
               </p>
             </div>
           </div>
@@ -255,7 +255,7 @@ export default function AIEngineersPage() {
             Ready to scale your prompt infrastructure?
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-            Join engineering teams who've already streamlined their AI prompt management
+            Join engineering teams who&rsquo;ve already streamlined their AI prompt management
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/auth/signup">

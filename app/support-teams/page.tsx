@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { MessageSquare, Shield, TrendingDown, Users, Zap, CheckCircle, ArrowRight } from 'lucide-react'
+import { MessageSquare, Shield, TrendingDown, Users, Zap, CheckCircle } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -78,9 +78,9 @@ export default function SupportTeamsPage() {
             </div>
             <div className="mt-12 p-6 bg-gray-50 dark:bg-gray-700 rounded-xl">
               <p className="text-gray-700 dark:text-gray-300 italic">
-                "Prompt Manage helped us centralize our chatbot prompts across 15 different support channels. 
+                &ldquo;Prompt Manage helped us centralize our chatbot prompts across 15 different support channels. 
                 We can now update responses instantly, ensure compliance, and track performance. 
-                Our support team is more efficient than ever."
+                Our support team is more efficient than ever.&rdquo;
               </p>
               <div className="mt-4 flex items-center">
                 <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
@@ -210,7 +210,7 @@ export default function SupportTeamsPage() {
             Ready to transform your support experience?
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-            Join leading support teams who've already reduced escalations and improved customer satisfaction
+            Join leading support teams who&rsquo;ve already reduced escalations and improved customer satisfaction
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/auth/signup">

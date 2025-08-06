@@ -85,7 +85,7 @@ export function SignupForm({ promptId, promptName, redirectUrl }: SignupFormProp
         </CardTitle>
         <CardDescription className="text-center">
           {promptId 
-            ? <>Create a free account to save <span className="font-bold">"{promptName}"</span> to your library.</>
+            ? <>Create a free account to save <span className="font-bold">&ldquo;{promptName}&rdquo;</span> to your library.</>
             : 'Enter your email to get started with Prompt Manage'
           }
         </CardDescription>

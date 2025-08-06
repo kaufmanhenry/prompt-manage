@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Megaphone, TrendingUp, Users, Zap, CheckCircle, BarChart3, Share2, Download } from 'lucide-react'
+import { Megaphone, TrendingUp, Users, CheckCircle, BarChart3, Share2, Download } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -88,8 +88,8 @@ export default function MarketingTeamsPage() {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl">
                 <p className="text-gray-700 dark:text-gray-300 italic mb-4">
-                  "Prompt Manage transformed how we create content. We can now A/B test different approaches, 
-                  track what works, and scale our best-performing prompts across all campaigns."
+                  &ldquo;Prompt Manage transformed how we create content. We can now A/B test different approaches, 
+                  track what works, and scale our best-performing prompts across all campaigns.&rdquo;
                 </p>
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-semibold">
@@ -103,8 +103,8 @@ export default function MarketingTeamsPage() {
               </div>
               <div className="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl">
                 <p className="text-gray-700 dark:text-gray-300 italic mb-4">
-                  "Our content team is 3x more productive. We have a library of proven prompts that we can 
-                  customize for different campaigns, and the collaboration features keep everyone aligned."
+                  &ldquo;Our content team is 3x more productive. We have a library of proven prompts that we can 
+                  customize for different campaigns, and the collaboration features keep everyone aligned.&rdquo;
                 </p>
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
@@ -272,7 +272,7 @@ export default function MarketingTeamsPage() {
             Ready to scale your content creation?
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-            Join marketing teams who've already increased their content output by 3x
+            Join marketing teams who&rsquo;ve already increased their content output by 3x
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/auth/signup">

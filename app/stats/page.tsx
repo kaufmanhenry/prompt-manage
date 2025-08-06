@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BarChart3, Users, Globe, Download, Share2, Heart, GitBranch, TrendingUp, Zap, Clock, MapPin, Activity } from 'lucide-react'
 
 
@@ -76,7 +76,18 @@ export default function StatsPage() {
     return num.toLocaleString()
   }
 
-  const StatCard = ({ title, value, icon: Icon, description, trend }: any) => (
+  interface StatCardProps {
+    title: string
+    value: string | number
+    icon: React.ComponentType<{ className?: string }>
+    description: string
+    trend?: {
+      value: number
+      isPositive: boolean
+    }
+  }
+
+  const StatCard = ({ title, value, icon: Icon, description, trend }: StatCardProps) => (
     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
       <div className="flex items-center justify-between mb-4">
         <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
@@ -285,7 +296,7 @@ export default function StatsPage() {
             Prompt Manage Stats
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            Real-time statistics and insights from the world's leading AI prompt management platform
+            Real-time statistics and insights from the world&rsquo;s leading AI prompt management platform
           </p>
           <div className="flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
             <Clock className="w-4 h-4" />

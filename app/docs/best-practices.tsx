@@ -10,9 +10,9 @@ export default function BestPractices() {
         </p>
         <h2 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">Naming Your Prompts</h2>
         <ul className="list-disc pl-6 mb-6 text-gray-700 dark:text-gray-300 space-y-2">
-          <li>Use clear, descriptive names that indicate the prompt's purpose (e.g., <strong>Summarize Meeting Notes</strong> or <strong>Generate Blog Outline</strong>).</li>
+          <li>Use clear, descriptive names that indicate the prompt&rsquo;s purpose (e.g., <strong>Summarize Meeting Notes</strong> or <strong>Generate Blog Outline</strong>).</li>
           <li>Include the target model or use case in the name if relevant (e.g., <strong>GPT-4: Email Draft</strong>).</li>
-          <li>Keep names concise but specific—avoid generic titles like "Prompt 1."</li>
+          <li>Keep names concise but specific—avoid generic titles like &ldquo;Prompt 1.&rdquo;</li>
         </ul>
         <h2 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">Using Tags Effectively</h2>
         <ul className="list-disc pl-6 mb-6 text-gray-700 dark:text-gray-300 space-y-2">
@@ -30,7 +30,7 @@ export default function BestPractices() {
         <ul className="list-disc pl-6 mb-6 text-gray-700 dark:text-gray-300 space-y-2">
           <li>Share best practices with new team members and encourage consistent naming/tagging.</li>
           <li>Use the <Link href="/docs/account-settings" className="text-blue-600 dark:text-blue-400 underline">Account Settings</Link> page to update your profile and help others recognize your contributions.</li>
-          <li>If you're unsure how to organize a new prompt, ask your team or check existing examples in your library.</li>
+          <li>If you&rsquo;re unsure how to organize a new prompt, ask your team or check existing examples in your library.</li>
         </ul>
         <p className="text-gray-700 dark:text-gray-300 mt-8">Have your own best practices to share? <a href="mailto:support@promptmanage.com" className="text-blue-600 dark:text-blue-400 underline">Let us know</a> and help improve the Prompt Manage community!</p>
       </div>

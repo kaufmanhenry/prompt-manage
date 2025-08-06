@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Zap, Shield, Globe, Code, Brain, Eye, Mic, Video, Sparkles, Settings } from 'lucide-react'
+import { ArrowLeft, Zap, Shield, Globe, Code, Brain, Eye, Settings } from 'lucide-react'
 import { Metadata } from 'next'
 import { supportedModels } from '@/lib/models'
 

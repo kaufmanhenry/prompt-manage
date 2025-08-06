@@ -3,7 +3,7 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 import { Prompt } from '@/lib/schemas/prompt'
-import { EyeIcon, GlobeIcon } from 'lucide-react'
+import { GlobeIcon } from 'lucide-react'
 import { Badge } from './ui/badge'
 import { useState } from 'react'
 import {

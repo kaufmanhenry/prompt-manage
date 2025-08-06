@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { ArrowLeft, Mail, CheckCircle } from 'lucide-react'
-import { Metadata } from 'next'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -48,7 +47,7 @@ export default function ContactPage() {
             Message sent
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            We'll get back to you within 24 hours.
+            We&rsquo;ll get back to you within 24 hours.
           </p>
           <Link href="/">
             <Button variant="outline">Back to home</Button>

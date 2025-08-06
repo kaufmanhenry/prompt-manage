@@ -209,7 +209,7 @@ export default function DemoPage() {
                 Save 40% Time
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Stop searching for prompts and start building on each other's work
+                Stop searching for prompts and start building on each other&rsquo;s work
               </p>
             </div>
             <div className="text-center">
@@ -243,7 +243,7 @@ export default function DemoPage() {
             Ready to see it in action?
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-            Join thousands of teams who've already streamlined their AI prompt management
+            Join thousands of teams who&rsquo;ve already streamlined their AI prompt management
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/auth/signup">

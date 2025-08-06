@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Shield, Eye, Lock, Users, Settings } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -77,7 +77,7 @@ export default function PrivacyPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
           <div className="prose prose-gray dark:prose-invert max-w-none">
             <p className="mb-6 text-gray-700 dark:text-gray-300">
-              This Privacy Policy describes how Prompt Manage ("Company", "we", "us", or "our") collects, uses, discloses, and protects your information when you use our website and services. By accessing or using our services, you agree to the terms of this Privacy Policy.
+              This Privacy Policy describes how Prompt Manage (&ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, discloses, and protects your information when you use our website and services. By accessing or using our services, you agree to the terms of this Privacy Policy.
             </p>
 
             <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">1. Information We Collect</h2>
@@ -110,7 +110,7 @@ export default function PrivacyPage() {
             </ul>
 
             <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-white">3. Use of AI Services (Free vs. Paid Accounts)</h2>
-            <p className="mb-4 text-gray-700 dark:text-gray-300">Prompt Manage integrates with third-party artificial intelligence services provided by OpenAI, L.L.C. ("OpenAI"). For <strong>free account users</strong>, some content you submit (referred to as "Input") may be shared with OpenAI as "Designated Content" and used for research, evaluation, model training, and improvement of OpenAI's services. OpenAI processes this content as an <strong>independent data controller</strong>, and it is <strong>not subject to the same protections as paid account content</strong>.</p>
+            <p className="mb-4 text-gray-700 dark:text-gray-300">Prompt Manage integrates with third-party artificial intelligence services provided by OpenAI, L.L.C. (&ldquo;OpenAI&rdquo;). For <strong>free account users</strong>, some content you submit (referred to as &ldquo;Input&rdquo;) may be shared with OpenAI as &ldquo;Designated Content&rdquo; and used for research, evaluation, model training, and improvement of OpenAI&rsquo;s services. OpenAI processes this content as an <strong>independent data controller</strong>, and it is <strong>not subject to the same protections as paid account content</strong>.</p>
             <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300 text-sm">
               <li>Do not submit confidential, proprietary, or sensitive content through a free account. This includes:</li>
               <li>Protected Health Information (as defined by HIPAA)</li>

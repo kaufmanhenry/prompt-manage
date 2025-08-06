@@ -1,4 +1,4 @@
-'use client'
+  'use client'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
-import { Check, Copy, ArrowRight } from 'lucide-react'
+import { Check, ArrowRight } from 'lucide-react'
 import { FullPageLoading } from '@/components/ui/loading'
 
 interface PendingPromptCopy {
@@ -18,7 +18,7 @@ interface PendingPromptCopy {
 
 export default function CopyPromptPage() {
   const [loading, setLoading] = useState(true)
-  const [copied, setCopied] = useState(false)
+  const [, setCopied] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const { toast } = useToast()

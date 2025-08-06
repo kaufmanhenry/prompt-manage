@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Globe, Lock, Search, Users, Zap, Shield, GitBranch } from 'lucide-react'
+import { Lock, Search, Users, Zap, Shield, GitBranch } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -205,7 +205,7 @@ export default async function Home() {
             Ready to solve prompt chaos?
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-            Join 10,000+ teams who've already streamlined their AI prompt management
+            Join 10,000+ teams who&rsquo;ve already streamlined their AI prompt management
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/auth/signup">

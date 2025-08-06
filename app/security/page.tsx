@@ -116,7 +116,7 @@ export default function SecurityPage() {
 
         {/* Security Features Grid */}
         <div className="grid md:grid-cols-2 gap-6 mb-16">
-          {securityFeatures.map((feature, i) => (
+          {securityFeatures.map((feature) => (
             <div
               key={feature.title}
               className={`rounded-lg border bg-white dark:bg-gray-800 p-6 shadow-sm flex flex-col justify-between ${feature.title.includes('SOC 2') ? 'border-yellow-400' : 'border-gray-200 dark:border-gray-700'}`}

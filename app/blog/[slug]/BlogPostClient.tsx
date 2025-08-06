@@ -2,7 +2,27 @@
 import Link from 'next/link'
 import { useEffect } from 'react'
 
-export default function BlogPostClient({ post }: { post: any }) {
+interface BlogPost {
+  title: string
+  content: string
+  slug: string
+  date: string
+  category: string
+  excerpt?: string
+  author?: string
+}
+
+declare global {
+  interface Window {
+    twttr?: {
+      widgets: {
+        load: () => void
+      }
+    }
+  }
+}
+
+export default function BlogPostClient({ post }: { post: BlogPost }) {
   useEffect(() => {
     // Load Twitter widgets script
     if (!document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')) {
@@ -11,8 +31,8 @@ export default function BlogPostClient({ post }: { post: any }) {
       script.async = true
       script.charset = 'utf-8'
       document.head.appendChild(script)
-    } else if ((window as any).twttr && (window as any).twttr.widgets) {
-      (window as any).twttr.widgets.load()
+    } else if (window.twttr && window.twttr.widgets) {
+      window.twttr.widgets.load()
     }
   }, [])
 

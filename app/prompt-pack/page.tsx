@@ -125,7 +125,7 @@ export default function PromptPackPage() {
                   Download Complete!
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Check your email for the download link. You'll also receive tips on how to use these prompts effectively.
+                  Check your email for the download link. You&rsquo;ll also receive tips on how to use these prompts effectively.
                 </p>
                 <Link href="/auth/signup">
                   <Button className="text-lg py-3">
@@ -139,7 +139,7 @@ export default function PromptPackPage() {
           {/* Prompt Previews */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              What's Inside the Pack
+              What&rsquo;s Inside the Pack
             </h2>
             
             {promptPreviews.map((prompt, index) => (
@@ -217,7 +217,7 @@ export default function PromptPackPage() {
         {/* What's Included */}
         <div className="mt-16">
           <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8">
-            What's Included in Your Free Pack
+            What&rsquo;s Included in Your Free Pack
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">

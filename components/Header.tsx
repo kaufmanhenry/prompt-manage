@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { createClient } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
-import { Settings, LogOut, Sparkles, Globe, User2 } from 'lucide-react'
+import { Settings, LogOut, Globe, User2 } from 'lucide-react'
 import Image from 'next/image'
 
 export function Header() {

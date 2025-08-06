@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Lock, Search, Users, Zap, Shield, GitBranch } from 'lucide-react'
+import { Lock, Search, Users, Zap, GitBranch } from 'lucide-react'
 import { Metadata } from 'next'
 import { Separator } from '@/components/ui/separator'
 

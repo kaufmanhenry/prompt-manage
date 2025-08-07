@@ -6,8 +6,8 @@ import { supportedModels } from '@/lib/models'
 
 export const metadata: Metadata = {
   title: 'Supported AI Models - Prompt Manage',
-  description: 'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
-  keywords: 'AI models, GPT-4o, Claude 4, Gemini 2.5, Llama 4, DeepSeek, Mistral, prompt management',
+  description: 'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
+  keywords: 'AI models, GPT-5, GPT-4o, Claude 4, Gemini 2.5, Llama 4, DeepSeek, Mistral, prompt management',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
   publisher: 'Prompt Manage',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Supported AI Models - Prompt Manage',
-    description: 'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
+    description: 'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
     url: 'https://promptmanage.com/models',
     siteName: 'Prompt Manage',
     images: [

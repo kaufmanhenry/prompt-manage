@@ -1,12 +1,14 @@
 import { z } from 'zod'
 
 export const modelSchema = z.enum([
-  // New models from models page
+  // Top models
+  'gpt-5',
   'gpt-4o',
   'gemini-2-5-pro',
   'claude-4-opus',
-  'llama-4-series',
   'deepseek-r1-v3',
+  // Others
+  'llama-4-series',
   'mistral-large-mixtral',
   'gpt-4-5',
   'claude-3-5-sonnet',

@@ -12,12 +12,20 @@ export default function PromptPackPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'prompt-pack' }),
+      })
+      if (!res.ok) throw new Error('Failed to send')
+      setIsSubmitted(true)
+    } catch (err) {
+      console.error('Lead submit error:', err)
+      alert('There was an error. Please email support@promptmanage.com and we will send the pack manually.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const promptPreviews = [

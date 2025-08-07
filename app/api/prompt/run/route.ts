@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
     // Call OpenAI API with the prompt content
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: prompt.model,
       messages: [
         {
           role: 'user',

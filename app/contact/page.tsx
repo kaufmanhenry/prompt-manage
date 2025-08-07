@@ -20,15 +20,21 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    
-    // Reset form
-    setFormData({ name: '', email: '', company: '', message: '' })
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, source: 'contact' }),
+      })
+      if (!res.ok) throw new Error('Failed to send')
+      setIsSubmitted(true)
+      setFormData({ name: '', email: '', company: '', message: '' })
+    } catch (err) {
+      console.error('Contact submit error:', err)
+      alert('There was an error sending your message. Please email support@promptmanage.com directly.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -151,10 +157,10 @@ export default function ContactPage() {
             <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
               <Mail className="h-4 w-4" />
               <a 
-                href="mailto:hello@promptmanage.com" 
+                href="mailto:support@promptmanage.com" 
                 className="hover:text-gray-900 dark:hover:text-white"
               >
-                hello@promptmanage.com
+                support@promptmanage.com
               </a>
             </div>
           </div>

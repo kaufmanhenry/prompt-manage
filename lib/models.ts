@@ -15,6 +15,30 @@ export interface Model {
 
 export const supportedModels: Model[] = [
   {
+    id: 'gpt-5',
+    name: 'GPT-5',
+    company: 'OpenAI',
+    type: 'Proprietary',
+    description: 'OpenAI\'s latest and most advanced model with enhanced capabilities across all domains.',
+    capabilities: ['Advanced Reasoning', 'Multimodal Processing', 'Enhanced Performance'],
+    icon: '🚀',
+    color: 'bg-emerald-100 dark:bg-emerald-900',
+    textColor: 'text-emerald-600 dark:text-emerald-400',
+    features: [
+      'Enhanced reasoning and problem-solving',
+      'Improved multimodal capabilities',
+      'Advanced code generation',
+      'Superior performance across tasks',
+      'Latest AI technology'
+    ],
+    useCases: [
+      'Advanced AI applications',
+      'Complex problem solving',
+      'Cutting-edge development'
+    ],
+    companyUrl: 'https://openai.com/gpt-5'
+  },
+  {
     id: 'gpt-4o',
     name: 'GPT-4o',
     company: 'OpenAI',
@@ -87,30 +111,6 @@ export const supportedModels: Model[] = [
     companyUrl: 'https://www.anthropic.com/claude'
   },
   {
-    id: 'llama-4-series',
-    name: 'Llama 4 Series',
-    company: 'Meta AI',
-    type: 'Open Source',
-    description: 'Leading edge open-source LLMs with groundbreaking context windows and strong performance.',
-    capabilities: ['Massive Context', 'Customizable', 'Research-ready'],
-    icon: '🦙',
-    color: 'bg-orange-100 dark:bg-orange-900',
-    textColor: 'text-orange-600 dark:text-orange-400',
-    features: [
-      'Up to 10M token context window (Scout)',
-      'Fully open-source and customizable',
-      'Strong performance across tasks',
-      'Research and development friendly',
-      'Multiple model sizes available'
-    ],
-    useCases: [
-      'Custom enterprise AI applications',
-      'Research and development projects',
-      'Cost-effective AI deployment'
-    ],
-    companyUrl: 'https://ai.meta.com/llama/'
-  },
-  {
     id: 'deepseek-r1-v3',
     name: 'DeepSeek R1/V3',
     company: 'DeepSeek',
@@ -133,6 +133,30 @@ export const supportedModels: Model[] = [
       'Technical documentation generation'
     ],
     companyUrl: 'https://www.deepseek.com/'
+  },
+  {
+    id: 'llama-4-series',
+    name: 'Llama 4 Series',
+    company: 'Meta AI',
+    type: 'Open Source',
+    description: 'Leading edge open-source LLMs with groundbreaking context windows and strong performance.',
+    capabilities: ['Massive Context', 'Customizable', 'Research-ready'],
+    icon: '🦙',
+    color: 'bg-orange-100 dark:bg-orange-900',
+    textColor: 'text-orange-600 dark:text-orange-400',
+    features: [
+      'Up to 10M token context window (Scout)',
+      'Fully open-source and customizable',
+      'Strong performance across tasks',
+      'Research and development friendly',
+      'Multiple model sizes available'
+    ],
+    useCases: [
+      'Custom enterprise AI applications',
+      'Research and development projects',
+      'Cost-effective AI deployment'
+    ],
+    companyUrl: 'https://ai.meta.com/llama/'
   },
   {
     id: 'mistral-large-mixtral',

@@ -1,6 +1,8 @@
 "use client"
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/utils/supabase/client'
+import { PromptCard } from '@/components/PromptCard'
 
 interface BlogPost {
   title: string
@@ -24,6 +26,7 @@ declare global {
 }
 
 export default function BlogPostClient({ post }: { post: BlogPost }) {
+  const [latestPrompts, setLatestPrompts] = useState<{ name: string; slug: string }[]>([])
   useEffect(() => {
     // Load Twitter widgets script
     if (!document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')) {
@@ -36,6 +39,26 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
       window.twttr.widgets.load()
     }
   }, [])
+
+  useEffect(() => {
+    async function fetchLatestPrompts() {
+      try {
+        const supabase = createClient()
+        const { data } = await supabase
+          .from('prompts')
+          .select('name, slug')
+          .eq('is_public', true)
+          .order('inserted_at', { ascending: false })
+          .limit(10)
+        setLatestPrompts((data || []).filter(p => p.slug))
+      } catch (e) {
+        // no-op
+      }
+    }
+    if (post.slug === 'top-gpt5-prompts-for-marketers') {
+      fetchLatestPrompts()
+    }
+  }, [post.slug])
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
@@ -71,11 +94,38 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
             prose-ul:my-6 prose-ol:my-6
             prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-li:mb-2
             prose-strong:text-gray-900 dark:prose-strong:text-white prose-strong:font-semibold
-            prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:font-medium prose-a:underline hover:prose-a:no-underline
+            prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:font-medium prose-a:underline prose-a:underline-offset-2 prose-a:decoration-2 focus:prose-a:outline-none focus:prose-a:ring-2 focus:prose-a:ring-blue-500
             prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400
             [&_.twitter-tweet]:mx-auto [&_.twitter-tweet]:my-8"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
+
+        {post.slug === 'top-gpt5-prompts-for-marketers' && (
+          <div className="mt-8">
+            {latestPrompts.map((p) => (
+              <div key={p.slug} className="mb-10">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{p.name}</h3>
+                <div className="mb-3 not-prose">
+                  <PromptCard slug={p.slug} />
+                </div>
+                <Link href={`/p/${p.slug}`} className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm">View full prompt →</Link>
+              </div>
+            ))}
+
+            <hr className="my-10 border-gray-200 dark:border-gray-700" />
+            <div className="space-y-4">
+              <p className="text-gray-700 dark:text-gray-300">Looking to create and manage your own GPT-5 prompts?</p>
+              <p className="text-gray-700 dark:text-gray-300">
+                Try <Link href="/" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm">Prompt Manage</Link> — the easiest way to organize, run, and share prompts with your team. No more messy docs or copy-paste chaos.
+              </p>
+              <p className="text-gray-700 dark:text-gray-300">
+                Explore all public prompts → <Link href="/p" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm">Prompt Directory</Link>
+                <br />
+                Build your first custom workflow → <Link href="/dashboard" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm">Create a Prompt</Link>
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

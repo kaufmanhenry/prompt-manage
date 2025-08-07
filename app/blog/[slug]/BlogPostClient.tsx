@@ -52,7 +52,7 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
           .limit(10)
         setLatestPrompts((data || []).filter(p => p.slug))
       } catch (e) {
-        // no-op
+        console.error(e)
       }
     }
     if (post.slug === 'top-gpt5-prompts-for-marketers') {

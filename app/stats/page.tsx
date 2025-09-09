@@ -664,12 +664,7 @@ export default function StatsPage() {
             >
               Start Free Trial
             </a>
-            <a
-              href="/demo"
-              className="inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-            >
-              Watch Demo
-            </a>
+            
           </div>
         </div>
       </div>

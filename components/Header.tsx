@@ -50,39 +50,60 @@ export function Header() {
               className="h-6 w-6"
             />
           </Link>
-          {/* Only show navigation links when user is logged in */}
-          {session && (
-            <nav className="hidden md:flex items-center gap-2">
-              <Link
-                href="/dashboard"
-                className={`text-sm ${
-                  pathname === '/dashboard'
-                    ? 'text-primary bg-primary/10'
-                    : 'text-muted-foreground hover:text-primary'
-                } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
-                onClick={(e) => {
-                  if (pathname === '/dashboard') {
-                    e.preventDefault()
-                    window.location.reload()
-                  }
-                }}
-              >
-                <User2 className="w-4 h-4" />
-                <span className="text-sm font-medium">Personal</span>
-              </Link>
-              <Link
-                href="/p"
-                className={`text-sm ${
-                  pathname.startsWith('/p')
-                    ? 'text-primary bg-primary/10'
-                    : 'text-muted-foreground'
-                } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
-              >
-                <Globe className="w-4 h-4" />
-                <span className="text-sm font-medium">Public</span>
-              </Link>
-            </nav>
-          )}
+          <nav className="hidden md:flex items-center gap-2">
+            {session && (
+              <>
+                <Link
+                  href="/dashboard"
+                  className={`text-sm ${
+                    pathname === '/dashboard'
+                      ? 'text-primary bg-primary/10'
+                      : 'text-muted-foreground hover:text-primary'
+                  } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
+                  onClick={(e) => {
+                    if (pathname === '/dashboard') {
+                      e.preventDefault()
+                      window.location.reload()
+                    }
+                  }}
+                >
+                  <User2 className="w-4 h-4" />
+                  <span className="text-sm font-medium">Prompts</span>
+                </Link>
+              </>
+            )}
+            <Link
+              href="/p"
+              className={`text-sm ${
+                pathname.startsWith('/p')
+                  ? 'text-primary bg-primary/10'
+                  : 'text-muted-foreground'
+              } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
+            >
+              <Globe className="w-4 h-4" />
+              <span className="text-sm font-medium">Public</span>
+            </Link>
+            <Link
+              href="/pricing"
+              className={`text-sm ${
+                pathname.startsWith('/pricing')
+                  ? 'text-primary bg-primary/10'
+                  : 'text-muted-foreground'
+              } hover:text-primary transition-colors font-medium rounded-lg px-2 py-1`}
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/docs"
+              className={`text-sm ${
+                pathname.startsWith('/docs')
+                  ? 'text-primary bg-primary/10'
+                  : 'text-muted-foreground'
+              } hover:text-primary transition-colors font-medium rounded-lg px-2 py-1`}
+            >
+              Docs
+            </Link>
+          </nav>
         </div>
         <div className="flex items-center gap-4">
           {session ? (

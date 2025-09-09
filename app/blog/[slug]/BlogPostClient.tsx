@@ -51,8 +51,12 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
           .order('inserted_at', { ascending: false })
           .limit(10)
         setLatestPrompts((data || []).filter(p => p.slug))
-      } catch {
+      } catch (e) {
+<<<<<<< HEAD
+        console.error(e)
+=======
         // no-op
+>>>>>>> e6fbb06 (Revert "Enhance middleware authentication and update project dependencies")
       }
     }
     if (post.slug === 'top-gpt5-prompts-for-marketers') {

@@ -22,18 +22,10 @@ export function Footer() {
             </li>
             <li>
               <Link
-                href="/about"
+                href="/"
                 className="hover:underline text-gray-600 dark:text-gray-300"
               >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                Contact
+                Home
               </Link>
             </li>
             <li>
@@ -51,14 +43,6 @@ export function Footer() {
             </li>
             <li>
               <Link
-                href="/blog"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                Blog
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="/p"
                 className="hover:underline text-gray-600 dark:text-gray-300"
               >
@@ -67,42 +51,10 @@ export function Footer() {
             </li>
             <li>
               <Link
-                href="/models"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                Models
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="/docs"
                 className="hover:underline text-gray-600 dark:text-gray-300"
               >
                 Docs
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/demo"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                Demo
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/prompt-pack"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                Free Prompt Pack
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/stats"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                Live Stats
               </Link>
             </li>
           </ul>
@@ -133,52 +85,8 @@ export function Footer() {
               </Link>
             </li>
           </ul>
-          <ul className="text-sm items-center space-y-2">
-            <li className="font-medium text-xs text-muted-foreground">Use Cases</li>
-            <li>
-              <Link
-                href="/support-teams"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                Support Teams
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/marketing-teams"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                Marketing Teams
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/ai-engineers"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                AI Engineers
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/comparison"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                vs Notion & Spreadsheets
-              </Link>
-            </li>
-          </ul>
-          <ul className="text-sm items-center space-y-2">
-            <li className="font-medium text-xs text-muted-foreground">Safety</li>
-            <li>
-              <Link
-                href="/security"
-                className="hover:underline text-gray-600 dark:text-gray-300"
-              >
-                Security
-              </Link>
-            </li>
-          </ul>
+          
+          
           <div className="md:ml-auto space-y-2 flex flex-col justify-between">
             <div className="flex items-center gap-2 justify-start md:justify-end">
               <Link

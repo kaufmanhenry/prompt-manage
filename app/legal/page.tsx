@@ -10,7 +10,6 @@ export default function LegalPage() {
       </p>
       <ul className="list-disc ml-6 text-lg text-blue-700 dark:text-blue-300 space-y-2">
         <li><Link href="/about" className="underline">About</Link></li>
-        <li><Link href="/security" className="underline">Security</Link></li>
         <li><Link href="/terms" className="underline">Terms of Service</Link></li>
         <li><Link href="/privacy" className="underline">Privacy Policy</Link></li>
       </ul>

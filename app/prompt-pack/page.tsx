@@ -282,12 +282,12 @@ export default function PromptPackPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/auth/signup">
               <Button size="lg" className="text-lg px-8 py-4">
-                Start Free Trial
+                Get Started Free
               </Button>
             </Link>
-            <Link href="/demo">
+            <Link href="/pricing">
               <Button variant="outline" size="lg" className="text-lg px-8 py-4">
-                Watch Demo
+                See Pricing
               </Button>
             </Link>
           </div>

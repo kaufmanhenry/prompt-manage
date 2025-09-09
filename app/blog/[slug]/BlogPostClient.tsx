@@ -51,8 +51,8 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
           .order('inserted_at', { ascending: false })
           .limit(10)
         setLatestPrompts((data || []).filter(p => p.slug))
-      } catch (e) {
-        console.error(e)
+      } catch {
+        // no-op
       }
     }
     if (post.slug === 'top-gpt5-prompts-for-marketers') {

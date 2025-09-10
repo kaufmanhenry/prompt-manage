@@ -84,16 +84,6 @@ export function Header() {
               <span className="text-sm font-medium">Public</span>
             </Link>
             <Link
-              href="/pricing"
-              className={`text-sm ${
-                pathname.startsWith('/pricing')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-muted-foreground'
-              } hover:text-primary transition-colors font-medium rounded-lg px-2 py-1`}
-            >
-              Pricing
-            </Link>
-            <Link
               href="/docs"
               className={`text-sm ${
                 pathname.startsWith('/docs')

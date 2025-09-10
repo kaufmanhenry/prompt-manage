@@ -38,12 +38,12 @@ export default function PricingPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Choose your plan</h1>
           <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
-            Start free. Upgrade once to unlock everything forever — no subscriptions.
+            Start free. Choose Pro (lifetime) or Team ($5/user/month).
           </p>
         </div>
 
         {/* Pricing Grid */}
-        <div className="grid md:grid-cols-2 gap-6 items-stretch">
+        <div className="grid md:grid-cols-3 gap-6 items-stretch">
           {/* Free Plan */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 flex flex-col">
             {/* Title and Price */}
@@ -66,6 +66,31 @@ export default function PricingPage() {
                 <Button size="lg" className="w-full">Get Started Free</Button>
               </Link>
               <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">No credit card required</p>
+            </div>
+          </div>
+
+          {/* Team Plan */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 flex flex-col">
+            {/* Title and Price */}
+            <div className="mb-4">
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Team</h3>
+              <div className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">$5<span className="text-base font-medium text-gray-600 dark:text-gray-300">/mo per user</span></div>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                Best for teams who need collaboration and shared libraries.
+              </p>
+            </div>
+            {/* Features */}
+            <ul className="mt-4 space-y-3 text-sm text-gray-700 dark:text-gray-300 flex-1">
+              <li className="flex items-start"><Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" /> Unlimited prompts and runs</li>
+              <li className="flex items-start"><Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" /> Shared libraries and collaboration</li>
+              <li className="flex items-start"><Check className="w-4 h-4 text-green-500 mr-2 mt-0.5" /> Role-based access and permissions</li>
+            </ul>
+            {/* CTA */}
+            <div className="mt-6">
+              <Link href="/auth/signup?plan=team">
+                <Button size="lg" className="w-full">Start Team</Button>
+              </Link>
+              <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">Billed monthly per active user</p>
             </div>
           </div>
 

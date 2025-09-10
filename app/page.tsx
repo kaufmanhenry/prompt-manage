@@ -1,6 +1,8 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import InteractivePromptLab from '@/components/InteractivePromptLab'
 import { Search, Users, Rocket, Megaphone, ShieldCheck, Folder, CheckCircle2 } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Metadata } from 'next'
@@ -109,73 +111,26 @@ export default async function Home() {
                 </Link>
               </div>
             )}
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <span className="text-xs text-gray-500 dark:text-gray-400">Popular models:</span>
+              {[
+                'gpt-4',
+                'gpt-4o',
+                'Claude 4 Opus',
+                'Gemini 2.5 Pro',
+                'Llama 4 Series',
+                'Mistral Large',
+              ].map((m) => (
+                <Badge key={m} variant="outline" className="text-[10px] px-2 py-0.5">{m}</Badge>
+              ))}
+              <Link href="/models" className="text-xs text-emerald-700 dark:text-emerald-300 hover:underline ml-1">Models →</Link>
+            </div>
           </div>
 
-          {/* Right: Abstract UI preview - Prompt Workspace */}
+          {/* Right: Team Prompt Workspace (broader across personas) */}
           <div className="relative">
             <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-emerald-200/40 to-transparent dark:from-emerald-500/10 blur-3xl rounded-3xl" />
-            <div className="mx-auto max-w-md rounded-2xl border border-emerald-200/50 dark:border-emerald-900/40 bg-white dark:bg-gray-900 p-5 shadow-sm ring-1 ring-emerald-500/10">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                  <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">Prompt Workspace</span>
-                </div>
-                <span className="text-xs text-gray-500 dark:text-gray-400">Acme Marketing</span>
-              </div>
-              <Tabs defaultValue="editor">
-                <TabsList className="mb-3">
-                  <TabsTrigger value="editor">Editor</TabsTrigger>
-                  <TabsTrigger value="variables">Variables</TabsTrigger>
-                  <TabsTrigger value="results">Results</TabsTrigger>
-                </TabsList>
-                <TabsContent value="editor">
-                  <div className="rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 p-3">
-                    <pre className="text-[11px] leading-5 text-gray-800 dark:text-gray-200 overflow-x-auto">
-{`Goal: Generate 10 Google Ads headlines (≤ 30 chars)
-Audience: {audience}
-Product: {product}
-Benefit: {benefit}
-Tone: {tone}
-
-Instructions:
-- Use direct response style
-- Include one curiosity angle
-- Avoid clickbait`}
-                    </pre>
-                  </div>
-                </TabsContent>
-                <TabsContent value="variables">
-                  <div className="grid grid-cols-2 gap-3 text-[11px]">
-                    {[
-                      ['{product}', 'Prompt Manage'],
-                      ['{audience}', 'Ecommerce marketers'],
-                      ['{benefit}', 'Higher ROAS from better copy'],
-                      ['{tone}', 'Confident, helpful'],
-                    ].map(([k, v]) => (
-                      <div key={k} className="rounded-md border border-gray-200 dark:border-gray-800 p-2 bg-white dark:bg-gray-950">
-                        <div className="text-[10px] text-gray-500 dark:text-gray-400">{k}</div>
-                        <div className="text-xs text-gray-900 dark:text-gray-100">{v}</div>
-                      </div>
-                    ))}
-                  </div>
-                </TabsContent>
-                <TabsContent value="results">
-                  <div className="space-y-2">
-                    {[
-                      'Ship campaigns 2x faster with consistent copy',
-                      'Turn prompts into on-brand ads in minutes',
-                      'Keep ROAS growing with reusable ad angles',
-                      'Stop hunting docs—use a single prompt library',
-                    ].map((line) => (
-                      <div key={line} className="flex items-start gap-2 text-[12px]">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5" />
-                        <span className="text-gray-800 dark:text-gray-200">{line}</span>
-                      </div>
-                    ))}
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </div>
+            <InteractivePromptLab />
           </div>
         </section>
 
@@ -216,7 +171,7 @@ Instructions:
               ['2x', 'faster campaign turnaround'],
               ['30%', 'lift in CTR from testing'],
               ['100%', 'brand voice consistency'],
-              ['0', 'time lost hunting prompts'],
+              ['100s', 'of hours saved'],
             ].map(([k, v]) => (
               <div key={k} className="text-center border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-white dark:bg-gray-900">
                 <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{k}</div>

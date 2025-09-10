@@ -1,14 +1,14 @@
 // Blog post data structure for Prompt Manage blog
 export type BlogPost = {
-  slug: string
-  title: string
-  summary: string
-  date: string
-  author: string
-  tags: string[]
-  category: string
-  html: string // Rendered HTML from markdown
-}
+  slug: string;
+  title: string;
+  summary: string;
+  date: string;
+  author: string;
+  tags: string[];
+  category: string;
+  html: string; // Rendered HTML from markdown
+};
 
 export const blogPosts: BlogPost[] = [
   {
@@ -31,7 +31,8 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'gpt-5-for-marketers',
     title: 'GPT-5 Is Here — How Marketers Can Use It to Gain a Competitive Edge',
-    summary: 'Explore how GPT-5 unlocks new potential for marketers, including use cases, strategies, and a powerful prompt example.',
+    summary:
+      'Explore how GPT-5 unlocks new potential for marketers, including use cases, strategies, and a powerful prompt example.',
     date: '2025-08-07',
     author: 'Prompt Manage Team',
     tags: ['GPT-5', 'Marketing', 'AI', 'Prompts', 'Prompt Manage'],
@@ -162,15 +163,22 @@ export const blogPosts: BlogPost[] = [
       <p>The key is to start experimenting now, develop your expertise with the new capabilities, and build processes that integrate GPT-5 into your marketing workflow. The marketers who do this effectively will be the ones who thrive in the increasingly AI-driven marketing landscape.</p>
       
       <p>Ready to get started with GPT-5 in your marketing efforts? <a href="/dashboard">Create your first GPT-5 prompt</a> and see how this powerful new technology can transform your marketing strategy.</p>
-    `
+    `,
   },
   {
     slug: 'prompt-chaos-is-real',
-    title: 'Prompt Chaos Is Real — Here\'s How Teams Are Fixing It',
-    summary: 'Discover why managing AI prompts across multiple tools leads to lost time, inconsistent performance, and internal confusion, and how leading teams are solving this problem.',
+    title: "Prompt Chaos Is Real — Here's How Teams Are Fixing It",
+    summary:
+      'Discover why managing AI prompts across multiple tools leads to lost time, inconsistent performance, and internal confusion, and how leading teams are solving this problem.',
     date: '2025-01-15',
     author: 'Prompt Manage Team',
-    tags: ['prompt management', 'team collaboration', 'AI workflows', 'productivity', 'best practices'],
+    tags: [
+      'prompt management',
+      'team collaboration',
+      'AI workflows',
+      'productivity',
+      'best practices',
+    ],
     category: 'AI Best Practices',
     html: `
       <h2>Prompt Chaos Is Real — Here's How Teams Are Fixing It</h2>
@@ -317,12 +325,13 @@ export const blogPosts: BlogPost[] = [
       <p><strong>Start your free trial today</strong> and see how much time and frustration you can save. Your team will thank you, and your AI initiatives will finally reach their full potential.</p>
       
       <p>What's your experience with Prompt Chaos? We'd love to hear your stories and help you find solutions that work for your team.</p>
-    `
+    `,
   },
   {
     slug: 'understanding-context-engineering',
     title: 'Understanding Context Engineering: The Next Evolution of Prompt Engineering',
-    summary: 'Discover why context engineering is the next big leap in prompt engineering, and how it can unlock the full power of AI.',
+    summary:
+      'Discover why context engineering is the next big leap in prompt engineering, and how it can unlock the full power of AI.',
     date: '2025-06-24',
     author: 'Prompt Manage Team',
     tags: ['context engineering', 'prompt engineering', 'AI', 'best practices'],
@@ -404,6 +413,6 @@ export const blogPosts: BlogPost[] = [
         <p>As AI continues its exponential evolution, the ability to effectively engineer context will cease to be merely a skill and will become the cornerstone competency for anyone seeking to harness these powerful models. It is no longer sufficient to simply ask the right question; we must, with precision and foresight, cultivate the right, rich, and dynamic environment for our AI to not just function, but to thrive, innovate, and make incredible breakthroughs.</p>
         
         <p><strong>What are your thoughts on this profound shift towards context engineering? How are you leveraging this paradigm to drive work, productivity, research, and scientific advances within your domain? Share your insights and visions in the comments below – the conversation at this frontier is just beginning!</strong></p>
-    `
-  }
-] 
+    `,
+  },
+];

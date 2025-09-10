@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { cn } from '@/lib/utils';
 
 const tagVariants = {
@@ -12,14 +13,14 @@ const tagVariants = {
 
 type TagVariant = keyof typeof tagVariants;
 
-export default function Tag({ 
-  tag, 
-  onClick, 
-  variant = 'blue'
-}: { 
-  tag: string, 
-  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void, 
-  variant?: TagVariant 
+export default function Tag({
+  tag,
+  onClick,
+  variant = 'blue',
+}: {
+  tag: string;
+  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
+  variant?: TagVariant;
 }) {
   const [show, setShow] = useState(false);
   const color = tagVariants[variant];
@@ -27,9 +28,9 @@ export default function Tag({
   return (
     <span
       className={cn(
-        "relative cursor-pointer px-2 py-0.5 rounded-full text-xs font-medium transition-shadow",
+        'relative cursor-pointer px-2 py-0.5 rounded-full text-xs font-medium transition-shadow',
         color,
-        "hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+        'hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary'
       )}
       onClick={onClick}
       onMouseEnter={() => setShow(true)}
@@ -44,4 +45,4 @@ export default function Tag({
       )}
     </span>
   );
-} 
+}

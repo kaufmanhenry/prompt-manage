@@ -1,8 +1,11 @@
-'use client'
+'use client';
 
-import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/utils/supabase/client'
-import { Prompt } from '@/lib/schemas/prompt'
+import { useQuery } from '@tanstack/react-query';
+import { PlusIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { Badge } from '@/components/ui/badge';
 import {
   CommandDialog,
   CommandEmpty,
@@ -11,27 +14,25 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/components/ui/command'
-import { useRouter } from 'next/navigation'
-import { PlusIcon } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
-import { useEffect, useState } from 'react'
+} from '@/components/ui/command';
+import type { Prompt } from '@/lib/schemas/prompt';
+import { createClient } from '@/utils/supabase/client';
 
 export function CommandPalette() {
-  const router = useRouter()
-  const [open, setOpen] = useState(false)
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((open) => !open)
+        e.preventDefault();
+        setOpen((open) => !open);
       }
-    }
+    };
 
-    document.addEventListener('keydown', down)
-    return () => document.removeEventListener('keydown', down)
-  }, [])
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
 
   const { data: prompts = [] } = useQuery({
     queryKey: ['prompts'],
@@ -39,19 +40,16 @@ export function CommandPalette() {
       const { data, error } = await createClient()
         .from('prompts')
         .select('*')
-        .order('updated_at', { ascending: false })
+        .order('updated_at', { ascending: false });
 
-      if (error) throw error
-      return data as Prompt[]
+      if (error) throw error;
+      return data as Prompt[];
     },
-  })
+  });
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput 
-        placeholder="Search prompts..." 
-        className="border-none focus:ring-0"
-      />
+      <CommandInput placeholder="Search prompts..." className="border-none focus:ring-0" />
       <CommandList>
         <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
           No prompts found.
@@ -61,8 +59,8 @@ export function CommandPalette() {
             <CommandItem
               key={prompt.id}
               onSelect={() => {
-                router.push(`/dashboard?prompt=${prompt.id}`)
-                setOpen(false)
+                router.push(`/dashboard?prompt=${prompt.id}`);
+                setOpen(false);
               }}
               className="flex items-center gap-2"
             >
@@ -86,8 +84,8 @@ export function CommandPalette() {
         <CommandGroup heading="Actions">
           <CommandItem
             onSelect={() => {
-              router.push('/dashboard?new=true')
-              setOpen(false)
+              router.push('/dashboard?new=true');
+              setOpen(false);
             }}
             className="flex items-center gap-2"
           >
@@ -97,5 +95,5 @@ export function CommandPalette() {
         </CommandGroup>
       </CommandList>
     </CommandDialog>
-  )
-} 
+  );
+}

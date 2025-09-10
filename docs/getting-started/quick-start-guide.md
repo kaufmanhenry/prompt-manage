@@ -5,6 +5,7 @@ This guide provides a quick reference for using the multi-agent methodology to d
 ## 🚀 Getting Started
 
 ### 1. Setup Your Environment
+
 ```bash
 # Ensure you have the required tools
 node --version  # Should be 18+
@@ -23,15 +24,15 @@ cp .env.example .env.local
 
 Based on the task you're working on, select the appropriate agent:
 
-| Task Type | Agent to Use | Key Files |
-|-----------|--------------|-----------|
-| **Project Planning** | Project Manager | `AGENT_METHODOLOGY.md`, `package.json` |
-| **UI Components** | Frontend Development | `app/`, `components/` |
-| **API Development** | Backend Development | `app/api/`, `utils/supabase/` |
-| **Database Changes** | Database & Schema | `supabase/migrations/`, `lib/schemas/` |
-| **Authentication** | Authentication & Security | `app/auth/`, `middleware.ts` |
-| **Testing** | Testing & Quality Assurance | `tests/`, `playwright.config.ts` |
-| **UI/UX Polish** | UI/UX Enhancement | `components/ui/`, `app/globals.css` |
+| Task Type            | Agent to Use                | Key Files                              |
+| -------------------- | --------------------------- | -------------------------------------- |
+| **Project Planning** | Project Manager             | `AGENT_METHODOLOGY.md`, `package.json` |
+| **UI Components**    | Frontend Development        | `app/`, `components/`                  |
+| **API Development**  | Backend Development         | `app/api/`, `utils/supabase/`          |
+| **Database Changes** | Database & Schema           | `supabase/migrations/`, `lib/schemas/` |
+| **Authentication**   | Authentication & Security   | `app/auth/`, `middleware.ts`           |
+| **Testing**          | Testing & Quality Assurance | `tests/`, `playwright.config.ts`       |
+| **UI/UX Polish**     | UI/UX Enhancement           | `components/ui/`, `app/globals.css`    |
 
 ### 3. Use Agent Prompts
 
@@ -45,30 +46,35 @@ Based on the task you're working on, select the appropriate agent:
 ### Adding a New Feature
 
 1. **Start with Project Manager Agent**
+
    ```
    Copy: Project Manager Agent prompt
    Task: Define feature requirements and scope
    ```
 
 2. **Database changes needed?**
+
    ```
    Copy: Database & Schema Agent prompt
    Task: Create migration and update schema
    ```
 
 3. **Backend API needed?**
+
    ```
    Copy: Backend Development Agent prompt
    Task: Create API endpoints
    ```
 
 4. **Frontend UI needed?**
+
    ```
    Copy: Frontend Development Agent prompt
    Task: Create React components
    ```
 
 5. **Testing required?**
+
    ```
    Copy: Testing & Quality Assurance Agent prompt
    Task: Write tests and validate functionality
@@ -126,23 +132,27 @@ supabase db diff    # Generate migration
 ## 📁 Key File Locations
 
 ### Frontend Development
+
 - **Pages**: `app/` directory
 - **Components**: `components/` directory
 - **UI Library**: `components/ui/`
 - **Styles**: `app/globals.css`, `tailwind.config.ts`
 
 ### Backend Development
+
 - **API Routes**: `app/api/` directory
 - **Database Client**: `utils/supabase/`
 - **Validation**: `lib/schemas/`
 - **Middleware**: `middleware.ts`
 
 ### Database & Schema
+
 - **Migrations**: `supabase/migrations/`
 - **Config**: `supabase/config.toml`
 - **Schemas**: `lib/schemas/`
 
 ### Testing
+
 - **E2E Tests**: `tests/` directory
 - **Config**: `playwright.config.ts`
 - **Linting**: `eslint.config.mjs`
@@ -152,19 +162,22 @@ supabase db diff    # Generate migration
 ### Example 1: Adding User Profiles
 
 **Project Manager Agent**:
+
 - Define profile requirements (display name, bio, avatar)
 - Coordinate with Database Agent for schema changes
 
 **Database & Schema Agent**:
+
 ```sql
 -- Migration: add_user_profiles.sql
-ALTER TABLE public.user_profiles 
+ALTER TABLE public.user_profiles
 ADD COLUMN IF NOT EXISTS display_name text,
 ADD COLUMN IF NOT EXISTS bio text,
 ADD COLUMN IF NOT EXISTS avatar_url text;
 ```
 
 **Backend Development Agent**:
+
 ```typescript
 // app/api/profile/route.ts
 export async function PUT(request: NextRequest) {
@@ -173,6 +186,7 @@ export async function PUT(request: NextRequest) {
 ```
 
 **Frontend Development Agent**:
+
 ```typescript
 // components/ProfileForm.tsx
 export function ProfileForm() {
@@ -183,20 +197,23 @@ export function ProfileForm() {
 ### Example 2: Adding Search Filters
 
 **Project Manager Agent**:
+
 - Define filter requirements (tags, models, date range)
 
 **Backend Development Agent**:
+
 ```typescript
 // app/api/prompts/search/route.ts
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
-  const tags = searchParams.get('tags')?.split(',')
-  const model = searchParams.get('model')
+  const { searchParams } = new URL(request.url);
+  const tags = searchParams.get('tags')?.split(',');
+  const model = searchParams.get('model');
   // Search logic with filters
 }
 ```
 
 **Frontend Development Agent**:
+
 ```typescript
 // components/SearchFilters.tsx
 export function SearchFilters() {
@@ -207,24 +224,28 @@ export function SearchFilters() {
 ## 🎯 Best Practices
 
 ### 1. Agent Communication
+
 - **Document your changes** with clear comments
 - **Update related files** when making changes
 - **Notify other agents** when your work affects theirs
 - **Follow naming conventions** consistently
 
 ### 2. Code Quality
+
 - **Use TypeScript** for all new code
 - **Follow existing patterns** in the codebase
 - **Handle errors gracefully** with proper error boundaries
 - **Write tests** for new functionality
 
 ### 3. Performance
+
 - **Optimize database queries** with proper indexes
 - **Use proper caching** with TanStack Query
 - **Implement pagination** for large datasets
 - **Optimize bundle size** with code splitting
 
 ### 4. Security
+
 - **Validate all inputs** with Zod schemas
 - **Use RLS policies** for database security
 - **Implement proper authentication** checks
@@ -279,4 +300,4 @@ Track your progress with these metrics:
 4. **Follow the collaboration workflow** when needed
 5. **Document your progress** and share with the team
 
-This methodology ensures efficient, high-quality development while maintaining consistency across the Prompt Manage MVP. Happy coding! 🚀 
+This methodology ensures efficient, high-quality development while maintaining consistency across the Prompt Manage MVP. Happy coding! 🚀

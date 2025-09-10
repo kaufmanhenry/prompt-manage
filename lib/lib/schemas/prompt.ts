@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const promptSchema = z.object({
   id: z.string().uuid().optional(),
@@ -9,19 +9,19 @@ export const promptSchema = z.object({
   tags: z.array(z.string()).default([]),
   inserted_at: z.string().datetime().optional(),
   updated_at: z.string().datetime().optional(),
-})
+});
 
-export type Prompt = z.infer<typeof promptSchema>
+export type Prompt = z.infer<typeof promptSchema>;
 
 export const createPromptSchema = promptSchema.omit({
   id: true,
   user_id: true,
   inserted_at: true,
   updated_at: true,
-})
+});
 
-export type CreatePrompt = z.infer<typeof createPromptSchema>
+export type CreatePrompt = z.infer<typeof createPromptSchema>;
 
-export const updatePromptSchema = createPromptSchema.partial()
+export const updatePromptSchema = createPromptSchema.partial();
 
-export type UpdatePrompt = z.infer<typeof updatePromptSchema> 
+export type UpdatePrompt = z.infer<typeof updatePromptSchema>;

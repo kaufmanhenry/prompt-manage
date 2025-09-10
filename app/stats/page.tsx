@@ -1,90 +1,102 @@
-"use client"
-import React, { useState, useEffect } from 'react'
-import { BarChart3, Users, Globe, Download, Share2, Heart, GitBranch, TrendingUp, Zap, Clock, MapPin, Activity } from 'lucide-react'
-
+'use client';
+import {
+  Activity,
+  BarChart3,
+  Clock,
+  Download,
+  GitBranch,
+  Globe,
+  Heart,
+  MapPin,
+  Share2,
+  TrendingUp,
+  Users,
+  Zap,
+} from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 interface Stats {
-  totalPrompts: number
-  publicPrompts: number
-  totalUsers: number
-  totalCountries: number
-  totalRuns: number
-  totalViews: number
-  totalSaves: number
-  totalRemixes: number
-  totalCopies: number
-  totalLikes: number
-  totalShares: number
-  averageRating: number
-  activeToday: number
-  promptsThisWeek: number
-  topCountries: Array<{ country: string; users: number; percentage: number }>
-  topCategories: Array<{ category: string; prompts: number; percentage: number }>
+  totalPrompts: number;
+  publicPrompts: number;
+  totalUsers: number;
+  totalCountries: number;
+  totalRuns: number;
+  totalViews: number;
+  totalSaves: number;
+  totalRemixes: number;
+  totalCopies: number;
+  totalLikes: number;
+  totalShares: number;
+  averageRating: number;
+  activeToday: number;
+  promptsThisWeek: number;
+  topCountries: Array<{ country: string; users: number; percentage: number }>;
+  topCategories: Array<{ category: string; prompts: number; percentage: number }>;
   growthMetrics: {
-    promptsThisMonth: number
-    usersThisMonth: number
-    runsThisMonth: number
-    growthRate: number
-  }
+    promptsThisMonth: number;
+    usersThisMonth: number;
+    runsThisMonth: number;
+    growthRate: number;
+  };
   realTimeStats: {
-    promptsCreatedToday: number
-    usersActiveNow: number
-    runsInLastHour: number
-    newSignupsToday: number
-  }
-  dailyPrompts?: Array<{ date: string; count: number }>
+    promptsCreatedToday: number;
+    usersActiveNow: number;
+    runsInLastHour: number;
+    newSignupsToday: number;
+  };
+  dailyPrompts?: Array<{ date: string; count: number }>;
 }
 
 export default function StatsPage() {
-  const [currentTime, setCurrentTime] = useState(new Date())
-  const [isLoading, setIsLoading] = useState(true)
-  const [stats, setStats] = useState<Stats | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isLoading, setIsLoading] = useState(true);
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Fetch real stats from API
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('/api/stats')
+        const response = await fetch('/api/stats');
         if (!response.ok) {
-          throw new Error('Failed to fetch statistics')
+          throw new Error('Failed to fetch statistics');
         }
-        const data = await response.json()
-        setStats(data)
+        const data = await response.json();
+        setStats(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load statistics')
+        setError(err instanceof Error ? err.message : 'Failed to load statistics');
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchStats()
-  }, [])
+    fetchStats();
+  }, []);
 
   // Update time every second
   useEffect(() => {
-    const interval = setInterval(() => setCurrentTime(new Date()), 1000)
-    return () => clearInterval(interval)
-  }, [])
+    const interval = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + 'M'
+      return (num / 1000000).toFixed(1) + 'M';
     } else if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'K'
+      return (num / 1000).toFixed(1) + 'K';
     }
-    return num.toLocaleString()
-  }
+    return num.toLocaleString();
+  };
 
   interface StatCardProps {
-    title: string
-    value: string | number
-    icon: React.ComponentType<{ className?: string }>
-    description: string
+    title: string;
+    value: string | number;
+    icon: React.ComponentType<{ className?: string }>;
+    description: string;
     trend?: {
-      value: number
-      isPositive: boolean
-    }
+      value: number;
+      isPositive: boolean;
+    };
   }
 
   const StatCard = ({ title, value, icon: Icon, description, trend }: StatCardProps) => (
@@ -94,9 +106,12 @@ export default function StatsPage() {
           <Icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
         </div>
         {trend && (
-          <span className={`text-sm font-medium flex items-center ${trend.isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+          <span
+            className={`text-sm font-medium flex items-center ${trend.isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}
+          >
             <TrendingUp className="w-4 h-4 mr-1" />
-            {trend.isPositive ? '+' : ''}{trend.value}%
+            {trend.isPositive ? '+' : ''}
+            {trend.value}%
           </span>
         )}
       </div>
@@ -108,34 +123,40 @@ export default function StatsPage() {
         <p className="text-gray-500 dark:text-gray-500 text-xs mt-2">{description}</p>
       )}
     </div>
-  )
+  );
 
   const DailyPromptsChart = ({ data }: { data: Array<{ date: string; count: number }> }) => {
-    if (!data || data.length === 0) return null
+    if (!data || data.length === 0) return null;
 
-    const maxCount = Math.max(...data.map(d => d.count))
-    const chartHeight = 200
-    const chartWidth = 800
-    const padding = 40
-    const availableWidth = chartWidth - (padding * 2)
-    const availableHeight = chartHeight - (padding * 2)
-    const pointSpacing = availableWidth / (data.length - 1)
+    const maxCount = Math.max(...data.map((d) => d.count));
+    const chartHeight = 200;
+    const chartWidth = 800;
+    const padding = 40;
+    const availableWidth = chartWidth - padding * 2;
+    const availableHeight = chartHeight - padding * 2;
+    const pointSpacing = availableWidth / (data.length - 1);
 
     const points = data.map((point, index) => {
-      const x = padding + (index * pointSpacing)
-      const y = padding + availableHeight - ((point.count / maxCount) * availableHeight)
-      return { x, y, ...point }
-    })
+      const x = padding + index * pointSpacing;
+      const y = padding + availableHeight - (point.count / maxCount) * availableHeight;
+      return { x, y, ...point };
+    });
 
-    const pathData = points.map((point, index) => {
-      if (index === 0) return `M ${point.x} ${point.y}`
-      return `L ${point.x} ${point.y}`
-    }).join(' ')
+    const pathData = points
+      .map((point, index) => {
+        if (index === 0) return `M ${point.x} ${point.y}`;
+        return `L ${point.x} ${point.y}`;
+      })
+      .join(' ');
 
-    const areaPathData = points.map((point, index) => {
-      if (index === 0) return `M ${point.x} ${point.y}`
-      return `L ${point.x} ${point.y}`
-    }).join(' ') + ` L ${points[points.length - 1].x} ${padding + availableHeight} L ${points[0].x} ${padding + availableHeight} Z`
+    const areaPathData =
+      points
+        .map((point, index) => {
+          if (index === 0) return `M ${point.x} ${point.y}`;
+          return `L ${point.x} ${point.y}`;
+        })
+        .join(' ') +
+      ` L ${points[points.length - 1].x} ${padding + availableHeight} L ${points[0].x} ${padding + availableHeight} Z`;
 
     return (
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
@@ -145,25 +166,25 @@ export default function StatsPage() {
         <div className="overflow-x-auto">
           <svg width={chartWidth} height={chartHeight} className="mx-auto">
             {/* Grid lines */}
-            {[0, 1, 2, 3, 4].map(i => (
+            {[0, 1, 2, 3, 4].map((i) => (
               <line
                 key={i}
                 x1={padding}
-                y1={padding + (i * availableHeight / 4)}
+                y1={padding + (i * availableHeight) / 4}
                 x2={chartWidth - padding}
-                y2={padding + (i * availableHeight / 4)}
+                y2={padding + (i * availableHeight) / 4}
                 stroke="#e5e7eb"
                 strokeWidth="1"
                 className="dark:stroke-gray-700"
               />
             ))}
-            
+
             {/* Y-axis labels */}
-            {[0, 1, 2, 3, 4].map(i => (
+            {[0, 1, 2, 3, 4].map((i) => (
               <text
                 key={i}
                 x={padding - 10}
-                y={padding + (i * availableHeight / 4) + 4}
+                y={padding + (i * availableHeight) / 4 + 4}
                 textAnchor="end"
                 className="text-xs fill-gray-500 dark:fill-gray-400"
               >
@@ -172,11 +193,7 @@ export default function StatsPage() {
             ))}
 
             {/* Area fill */}
-            <path
-              d={areaPathData}
-              fill="url(#gradient)"
-              opacity="0.3"
-            />
+            <path d={areaPathData} fill="url(#gradient)" opacity="0.3" />
 
             {/* Line */}
             <path
@@ -210,9 +227,9 @@ export default function StatsPage() {
             {/* X-axis labels (show every 7th date) */}
             {points.map((point, index) => {
               if (index % 7 === 0 || index === points.length - 1) {
-                const date = new Date(point.date)
-                const month = date.toLocaleDateString('en-US', { month: 'short' })
-                const day = date.getDate()
+                const date = new Date(point.date);
+                const month = date.toLocaleDateString('en-US', { month: 'short' });
+                const day = date.getDate();
                 return (
                   <text
                     key={index}
@@ -223,18 +240,18 @@ export default function StatsPage() {
                   >
                     {month} {day}
                   </text>
-                )
+                );
               }
-              return null
+              return null;
             })}
           </svg>
         </div>
-        
+
         {/* Summary stats */}
         <div className="mt-6 grid grid-cols-3 gap-4 text-center">
           <div>
             <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-              {Math.max(...data.map(d => d.count))}
+              {Math.max(...data.map((d) => d.count))}
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">Peak Day</div>
           </div>
@@ -252,8 +269,8 @@ export default function StatsPage() {
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   if (isLoading) {
     return (
@@ -263,7 +280,7 @@ export default function StatsPage() {
           <p className="text-gray-600 dark:text-gray-400">Loading live stats...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -274,7 +291,7 @@ export default function StatsPage() {
           <p className="text-gray-600 dark:text-gray-400 text-sm">{error}</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (!stats) {
@@ -284,7 +301,7 @@ export default function StatsPage() {
           <p className="text-gray-600 dark:text-gray-400">No statistics available</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -296,7 +313,8 @@ export default function StatsPage() {
             Prompt Manage Stats
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            Real-time statistics and insights from the world&rsquo;s leading AI prompt management platform
+            Real-time statistics and insights from the world&rsquo;s leading AI prompt management
+            platform
           </p>
           <div className="flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
             <Clock className="w-4 h-4" />
@@ -543,36 +561,28 @@ export default function StatsPage() {
               <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                 {Math.floor(stats.totalRuns / 1000)}K+
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                AI conversations powered
-              </p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">AI conversations powered</p>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
                 {Math.floor(stats.totalViews / 1000)}K+
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Public prompt views
-              </p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Public prompt views</p>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                 {Math.floor(stats.totalPrompts / 100)}%
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Growth vs last month
-              </p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Growth vs last month</p>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">
                 {stats.averageRating}/5
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Average user rating
-              </p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Average user rating</p>
             </div>
           </div>
-          
+
           {/* Additional Milestones */}
           <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
@@ -586,7 +596,7 @@ export default function StatsPage() {
                 Average prompt runs in under 2 seconds
               </p>
             </div>
-            
+
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-3">
                 <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
@@ -598,7 +608,7 @@ export default function StatsPage() {
                 {Math.floor(stats.totalUsers * 0.3)}+ teams actively sharing prompts
               </p>
             </div>
-            
+
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-3">
                 <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
@@ -610,7 +620,7 @@ export default function StatsPage() {
                 Used in {stats.totalCountries} countries worldwide
               </p>
             </div>
-            
+
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-3">
                 <div className="p-2 bg-orange-100 dark:bg-orange-900 rounded-lg">
@@ -619,10 +629,12 @@ export default function StatsPage() {
                 <h3 className="font-semibold text-gray-900 dark:text-white">24/7 Activity</h3>
               </div>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Prompts run every {Math.floor(24 * 60 / Math.max(stats.realTimeStats.runsInLastHour, 1))} minutes on average
+                Prompts run every{' '}
+                {Math.floor((24 * 60) / Math.max(stats.realTimeStats.runsInLastHour, 1))} minutes on
+                average
               </p>
             </div>
-            
+
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-3">
                 <div className="p-2 bg-red-100 dark:bg-red-900 rounded-lg">
@@ -634,7 +646,7 @@ export default function StatsPage() {
                 {Math.floor(stats.totalLikes / 1000)}K+ likes on shared prompts
               </p>
             </div>
-            
+
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-3">
                 <div className="p-2 bg-indigo-100 dark:bg-indigo-900 rounded-lg">
@@ -664,10 +676,9 @@ export default function StatsPage() {
             >
               Start Free Trial
             </a>
-            
           </div>
         </div>
       </div>
     </div>
-  )
-} 
+  );
+}

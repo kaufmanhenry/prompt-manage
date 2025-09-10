@@ -1,49 +1,50 @@
-import { createClient } from '@/utils/supabase/server'
-import { notFound } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import Link from 'next/link'
-import { ArrowLeft, ExternalLink, MapPin, Globe } from 'lucide-react'
-import { Metadata } from 'next'
+import { ArrowLeft, ExternalLink, Globe, MapPin } from 'lucide-react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { createClient } from '@/utils/supabase/server';
 
 interface UserProfile {
-  id: string
-  display_name: string | null
-  bio: string | null
-  avatar_url: string | null
-  website: string | null
-  location: string | null
-  created_at: string
+  id: string;
+  display_name: string | null;
+  bio: string | null;
+  avatar_url: string | null;
+  website: string | null;
+  location: string | null;
+  created_at: string;
 }
 
 interface Prompt {
-  id: string
-  name: string
-  description: string | null
-  prompt_text: string
-  model: string
-  tags: string[]
-  view_count: number
-  slug: string
-  created_at: string
+  id: string;
+  name: string;
+  description: string | null;
+  prompt_text: string;
+  model: string;
+  tags: string[];
+  view_count: number;
+  slug: string;
+  created_at: string;
 }
 
 interface UserProfilePageProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }
 
 // Generate metadata for the user profile page
 export async function generateMetadata({ params }: UserProfilePageProps): Promise<Metadata> {
-  const { id } = await params
-  const supabase = await createClient()
-  
+  const { id } = await params;
+  const supabase = await createClient();
+
   try {
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('*')
       .eq('id', id)
-      .single()
+      .single();
 
     if (!profile) {
       return {
@@ -53,15 +54,15 @@ export async function generateMetadata({ params }: UserProfilePageProps): Promis
           index: false,
           follow: false,
         },
-      }
+      };
     }
 
-    const userProfile = profile as UserProfile
-    const displayName = userProfile.display_name || 'Anonymous User'
-    const description = userProfile.bio || 
-      `View ${displayName}'s public AI prompts and profile on Prompt Manage.`
-    
-    const keywords = ['AI prompts', 'prompt sharing', displayName, 'Prompt Manage user'].join(', ')
+    const userProfile = profile as UserProfile;
+    const displayName = userProfile.display_name || 'Anonymous User';
+    const description =
+      userProfile.bio || `View ${displayName}'s public AI prompts and profile on Prompt Manage.`;
+
+    const keywords = ['AI prompts', 'prompt sharing', displayName, 'Prompt Manage user'].join(', ');
 
     return {
       title: `${displayName} - User Profile | Prompt Manage`,
@@ -113,7 +114,7 @@ export async function generateMetadata({ params }: UserProfilePageProps): Promis
           'max-snippet': -1,
         },
       },
-    }
+    };
   } catch {
     return {
       title: 'User Not Found - Prompt Manage',
@@ -122,27 +123,23 @@ export async function generateMetadata({ params }: UserProfilePageProps): Promis
         index: false,
         follow: false,
       },
-    }
+    };
   }
 }
 
-export default async function UserProfilePage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
-  const { id } = await params
-  const supabase = await createClient()
+export default async function UserProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const supabase = await createClient();
 
   // Get user profile
   const { data: profile, error: profileError } = await supabase
     .from('user_profiles')
     .select('*')
     .eq('id', id)
-    .single()
+    .single();
 
   if (profileError || !profile) {
-    notFound()
+    notFound();
   }
 
   // Get user's public prompts
@@ -151,14 +148,14 @@ export default async function UserProfilePage({
     .select('*')
     .eq('user_id', id)
     .eq('is_public', true)
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: false });
 
   if (promptsError) {
-    console.error('Error fetching prompts:', promptsError)
+    console.error('Error fetching prompts:', promptsError);
   }
 
-  const userProfile = profile as UserProfile
-  const userPrompts = (prompts || []) as Prompt[]
+  const userProfile = profile as UserProfile;
+  const userPrompts = (prompts || []) as Prompt[];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -187,9 +184,7 @@ export default async function UserProfilePage({
                   {userProfile.display_name || 'Anonymous User'}
                 </h1>
                 {userProfile.bio && (
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 text-lg">
-                    {userProfile.bio}
-                  </p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 text-lg">{userProfile.bio}</p>
                 )}
                 <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                   {userProfile.location && (
@@ -210,9 +205,7 @@ export default async function UserProfilePage({
                       <ExternalLink className="h-3 w-3" />
                     </a>
                   )}
-                  <div>
-                    Member since {new Date(userProfile.created_at).toLocaleDateString()}
-                  </div>
+                  <div>Member since {new Date(userProfile.created_at).toLocaleDateString()}</div>
                 </div>
               </div>
             </div>
@@ -290,5 +283,5 @@ export default async function UserProfilePage({
         </div>
       </div>
     </div>
-  )
-} 
+  );
+}

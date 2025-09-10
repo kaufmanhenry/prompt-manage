@@ -1,62 +1,56 @@
-'use client'
+'use client';
 
-import { useState, useEffect, Suspense, useCallback } from 'react'
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
-import { PublicPrompt } from '@/lib/schemas/prompt'
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
+import { Search, TrendingUp } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useCallback, useEffect, useState } from 'react';
+
+import CopyButton from '@/components/CopyButton';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { FullPageLoading } from '@/components/ui/loading';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import CopyButton from '@/components/CopyButton'
-import { Search, TrendingUp } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
-import { FullPageLoading } from '@/components/ui/loading'
-import { supportedModels } from '@/lib/models'
+} from '@/components/ui/select';
+import { useToast } from '@/components/ui/use-toast';
+import { supportedModels } from '@/lib/models';
+import type { PublicPrompt } from '@/lib/schemas/prompt';
+import { createClient } from '@/utils/supabase/client';
 
 function PublicDirectoryContent() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const [prompts, setPrompts] = useState<PublicPrompt[]>([])
-  const [loading, setLoading] = useState(true)
-  const [search, setSearch] = useState(searchParams.get('search') || '')
-  const [selectedModel, setSelectedModel] = useState<string>(
-    searchParams.get('model') || 'all'
-  )
-  const [selectedTag, setSelectedTag] = useState<string>(
-    searchParams.get('tag') || 'all'
-  )
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [prompts, setPrompts] = useState<PublicPrompt[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState(searchParams.get('search') || '');
+  const [selectedModel, setSelectedModel] = useState<string>(searchParams.get('model') || 'all');
+  const [selectedTag, setSelectedTag] = useState<string>(searchParams.get('tag') || 'all');
   const [sortBy, setSortBy] = useState<'recent' | 'popular'>(
     (searchParams.get('sortBy') as 'recent' | 'popular') || 'recent'
-  )
-  const [availableTags, setAvailableTags] = useState<string[]>([])
-  const { toast } = useToast()
-  const initialPage = Number(searchParams.get('page')) || 1
-  const [page, setPage] = useState(initialPage)
-  const promptsPerPage = 21
+  );
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
+  const { toast } = useToast();
+  const initialPage = Number(searchParams.get('page')) || 1;
+  const [page, setPage] = useState(initialPage);
+  const promptsPerPage = 21;
 
   const fetchPublicPrompts = useCallback(async () => {
     try {
-      let query = createClient()
-        .from('prompts')
-        .select('*')
-        .eq('is_public', true)
+      let query = createClient().from('prompts').select('*').eq('is_public', true);
 
       if (sortBy === 'recent') {
-        query = query.order('updated_at', { ascending: false })
+        query = query.order('updated_at', { ascending: false });
       } else {
-        query = query.order('view_count', { ascending: false })
+        query = query.order('view_count', { ascending: false });
       }
 
-      const { data, error } = await query
-      if (error) throw error
+      const { data, error } = await query;
+      if (error) throw error;
 
       // Transform data to match the new schema with fallbacks
       const transformedData = (data || []).map((prompt) => ({
@@ -66,73 +60,69 @@ function PublicDirectoryContent() {
         slug: prompt.slug || null,
         view_count: prompt.view_count || 0,
         inserted_at: prompt.inserted_at || prompt.created_at || null,
-      }))
+      }));
 
-      setPrompts(transformedData as PublicPrompt[])
+      setPrompts(transformedData as PublicPrompt[]);
 
       // Extract unique tags
-      const tags = new Set<string>()
+      const tags = new Set<string>();
       transformedData?.forEach((prompt) => {
-        prompt.tags?.forEach((tag: string) => tags.add(tag))
-      })
-      setAvailableTags(Array.from(tags))
+        prompt.tags?.forEach((tag: string) => tags.add(tag));
+      });
+      setAvailableTags(Array.from(tags));
     } catch (error) {
-      console.error('Error fetching public prompts:', error)
+      console.error('Error fetching public prompts:', error);
       toast({
         title: 'Error',
         description: 'Failed to load public prompts.',
         variant: 'destructive',
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [sortBy, toast])
+  }, [sortBy, toast]);
 
   useEffect(() => {
-    fetchPublicPrompts()
-  }, [sortBy, fetchPublicPrompts])
+    fetchPublicPrompts();
+  }, [sortBy, fetchPublicPrompts]);
 
   // Sync filters/page with URL
   useEffect(() => {
-    const params = new URLSearchParams()
-    if (search) params.set('search', search)
-    if (selectedModel !== 'all') params.set('model', selectedModel)
-    if (selectedTag !== 'all') params.set('tag', selectedTag)
-    if (sortBy !== 'recent') params.set('sortBy', sortBy)
-    if (page > 1) params.set('page', String(page))
-    router.replace(`${pathname}?${params.toString()}`)
-  }, [search, selectedModel, selectedTag, sortBy, page, pathname, router])
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (selectedModel !== 'all') params.set('model', selectedModel);
+    if (selectedTag !== 'all') params.set('tag', selectedTag);
+    if (sortBy !== 'recent') params.set('sortBy', sortBy);
+    if (page > 1) params.set('page', String(page));
+    router.replace(`${pathname}?${params.toString()}`);
+  }, [search, selectedModel, selectedTag, sortBy, page, pathname, router]);
 
   // Reset to page 1 when filters change
   useEffect(() => {
-    setPage(1)
-  }, [search, selectedModel, selectedTag, sortBy])
+    setPage(1);
+  }, [search, selectedModel, selectedTag, sortBy]);
 
   const filteredPrompts = prompts.filter((prompt) => {
     const matchesSearch =
       prompt.name.toLowerCase().includes(search.toLowerCase()) ||
       prompt.description?.toLowerCase().includes(search.toLowerCase()) ||
       prompt.prompt_text.toLowerCase().includes(search.toLowerCase()) ||
-      prompt.tags?.some((tag) =>
-        tag.toLowerCase().includes(search.toLowerCase())
-      )
+      prompt.tags?.some((tag) => tag.toLowerCase().includes(search.toLowerCase()));
 
-    const matchesModel =
-      selectedModel === 'all' || prompt.model === selectedModel
-    const matchesTag =
-      selectedTag === 'all' || prompt.tags?.includes(selectedTag)
+    const matchesModel = selectedModel === 'all' || prompt.model === selectedModel;
+    const matchesTag = selectedTag === 'all' || prompt.tags?.includes(selectedTag);
 
-    return matchesSearch && matchesModel && matchesTag
-  })
+    return matchesSearch && matchesModel && matchesTag;
+  });
 
-  const totalPages = Math.ceil(filteredPrompts.length / promptsPerPage)
+  const totalPages = Math.ceil(filteredPrompts.length / promptsPerPage);
   const paginatedPrompts = filteredPrompts.slice(
     (page - 1) * promptsPerPage,
     page * promptsPerPage
-  )
+  );
 
   if (loading) {
-    return <FullPageLoading text="Loading public prompts..." />
+    return <FullPageLoading text="Loading public prompts..." />;
   }
 
   return (
@@ -143,9 +133,7 @@ function PublicDirectoryContent() {
           <h1 className="text-3xl font-bold text-foreground tracking-tight mb-2">
             Public Prompt Directory
           </h1>
-          <p className="text-muted-foreground">
-            Discover and use prompts shared by the community
-          </p>
+          <p className="text-muted-foreground">Discover and use prompts shared by the community</p>
         </div>
 
         {/* Search and Filters */}
@@ -220,9 +208,7 @@ function PublicDirectoryContent() {
               <div className="flex-grow">
                 <div className="mb-4">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-lg font-semibold line-clamp-1 flex-1">
-                      {prompt.name}
-                    </h3>
+                    <h3 className="text-lg font-semibold line-clamp-1 flex-1">{prompt.name}</h3>
                   </div>
                   {prompt.description && (
                     <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
@@ -296,7 +282,7 @@ function PublicDirectoryContent() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 export default function PublicDirectoryPage() {
@@ -304,5 +290,5 @@ export default function PublicDirectoryPage() {
     <Suspense fallback={<FullPageLoading text="Loading public prompts..." />}>
       <PublicDirectoryContent />
     </Suspense>
-  )
+  );
 }

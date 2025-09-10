@@ -1,13 +1,16 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { ArrowLeft, Zap, Shield, Globe, Code, Brain, Eye, Settings } from 'lucide-react'
-import { Metadata } from 'next'
-import { supportedModels } from '@/lib/models'
+import { ArrowLeft, Brain, Code, Eye, Globe, Settings, Shield, Zap } from 'lucide-react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
+import { supportedModels } from '@/lib/models';
 
 export const metadata: Metadata = {
   title: 'Supported AI Models - Prompt Manage',
-  description: 'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
-  keywords: 'AI models, GPT-5, GPT-4o, Claude 4, Gemini 2.5, Llama 4, DeepSeek, Mistral, prompt management',
+  description:
+    'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
+  keywords:
+    'AI models, GPT-5, GPT-4o, Claude 4, Gemini 2.5, Llama 4, DeepSeek, Mistral, prompt management',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
   publisher: 'Prompt Manage',
@@ -22,7 +25,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Supported AI Models - Prompt Manage',
-    description: 'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
+    description:
+      'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
     url: 'https://promptmanage.com/models',
     siteName: 'Prompt Manage',
     images: [
@@ -54,9 +58,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-}
-
-
+};
 
 export default function ModelsPage() {
   return (
@@ -74,9 +76,10 @@ export default function ModelsPage() {
             Supported AI Models
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Discover the comprehensive range of AI models supported on Prompt Manage. 
-            From cutting-edge proprietary models to powerful open-source alternatives, 
-            we integrate with the most important LLMs to streamline your prompt management needs and prompt engineering workflows.
+            Discover the comprehensive range of AI models supported on Prompt Manage. From
+            cutting-edge proprietary models to powerful open-source alternatives, we integrate with
+            the most important LLMs to streamline your prompt management needs and prompt
+            engineering workflows.
           </p>
         </div>
 
@@ -96,7 +99,7 @@ export default function ModelsPage() {
                 </h3>
               </div>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                High-performance models from leading AI companies with advanced capabilities, 
+                High-performance models from leading AI companies with advanced capabilities,
                 extensive training, and enterprise-grade reliability.
               </p>
               <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
@@ -119,8 +122,8 @@ export default function ModelsPage() {
                 </h3>
               </div>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Community-driven models offering transparency, customizability, and 
-                the freedom to modify and deploy according to your specific needs.
+                Community-driven models offering transparency, customizability, and the freedom to
+                modify and deploy according to your specific needs.
               </p>
               <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
                 Key Benefits for Enterprise:
@@ -142,7 +145,10 @@ export default function ModelsPage() {
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {supportedModels.map((model, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div
+                key={index}
+                className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className={`${model.color} rounded-lg p-2`}>
@@ -152,22 +158,20 @@ export default function ModelsPage() {
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         {model.name}
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {model.company}
-                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{model.company}</p>
                     </div>
                   </div>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    model.type === 'Proprietary' 
-                      ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                      : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                  }`}>
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full ${
+                      model.type === 'Proprietary'
+                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                        : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                    }`}
+                  >
                     {model.type}
                   </span>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
-                  {model.description}
-                </p>
+                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">{model.description}</p>
                 <div className="mb-4">
                   <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
                     Key Capabilities:
@@ -292,13 +296,12 @@ export default function ModelsPage() {
             Ready to elevate your prompt engineering?
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Create your account and start creating, managing, and running AI prompts for all supported models
+            Create your account and start creating, managing, and running AI prompts for all
+            supported models
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">
-              <Button size="lg">
-                Get Started
-              </Button>
+              <Button size="lg">Get Started</Button>
             </Link>
             <Link href="/p">
               <Button variant="outline" size="lg">
@@ -309,5 +312,5 @@ export default function ModelsPage() {
         </div>
       </div>
     </div>
-  )
-} 
+  );
+}

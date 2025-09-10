@@ -1,50 +1,44 @@
-'use client'
+'use client';
 
-import { useCallback, useEffect, useState } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { PublicPrompt } from '@/lib/schemas/prompt'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import CopyButton from '@/components/CopyButton'
-import { CopyPromptButton } from '@/components/CopyPromptButton'
-import { RelatedPrompts } from '@/components/RelatedPrompts'
-import { DerivativePrompts } from '@/components/DerivativePrompts'
 import {
   ArrowLeft,
-  ExternalLink,
   Calendar,
-  User,
-  TrendingUp,
-  Share2,
-  Linkedin,
-  Twitter,
+  ExternalLink,
   Facebook,
-} from 'lucide-react'
-import Link from 'next/link'
-import { useToast } from '@/components/ui/use-toast'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { FullPageLoading } from '@/components/ui/loading'
+  Linkedin,
+  Share2,
+  TrendingUp,
+  Twitter,
+  User,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useCallback, useEffect, useState } from 'react';
+
+import CopyButton from '@/components/CopyButton';
+import { CopyPromptButton } from '@/components/CopyPromptButton';
+import { DerivativePrompts } from '@/components/DerivativePrompts';
+import { RelatedPrompts } from '@/components/RelatedPrompts';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { FullPageLoading } from '@/components/ui/loading';
+import { useToast } from '@/components/ui/use-toast';
+import type { PublicPrompt } from '@/lib/schemas/prompt';
+import { createClient } from '@/utils/supabase/client';
 
 interface PublicPromptPageClientProps {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }
 
-export function PublicPromptPageClient({
-  params,
-}: PublicPromptPageClientProps) {
-  const [prompt, setPrompt] = useState<PublicPrompt | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const { toast } = useToast()
-  const [showShareDialog, setShowShareDialog] = useState(false)
+export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) {
+  const [prompt, setPrompt] = useState<PublicPrompt | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
+  const [showShareDialog, setShowShareDialog] = useState(false);
 
   const fetchPrompt = useCallback(async () => {
     try {
@@ -53,11 +47,11 @@ export function PublicPromptPageClient({
         .select('*')
         .eq('slug', params.slug)
         .eq('is_public', true)
-        .single()
+        .single();
 
       if (error) {
-        setError('Prompt not found')
-        return
+        setError('Prompt not found');
+        return;
       }
 
       // Transform data to match the new schema with fallbacks
@@ -68,81 +62,75 @@ export function PublicPromptPageClient({
         slug: data.slug || null,
         view_count: data.view_count || 0,
         inserted_at: data.inserted_at || data.created_at || null,
-      }
+      };
 
-      setPrompt(transformedPrompt as PublicPrompt)
+      setPrompt(transformedPrompt as PublicPrompt);
 
       // Increment view count (only if the function exists)
       try {
         await createClient().rpc('increment_prompt_views', {
           prompt_id: data.id,
-        })
+        });
       } catch (viewError) {
-        console.error('View count increment error:', viewError)
+        console.error('View count increment error:', viewError);
       }
     } catch (error) {
-      console.error('Prompt fetch error:', error)
-      setError('Failed to load prompt')
+      console.error('Prompt fetch error:', error);
+      setError('Failed to load prompt');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [params.slug])
+  }, [params.slug]);
 
   useEffect(() => {
-    fetchPrompt()
-  }, [params.slug, fetchPrompt])
+    fetchPrompt();
+  }, [params.slug, fetchPrompt]);
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href)
+      await navigator.clipboard.writeText(window.location.href);
       toast({
         title: 'Link Copied!',
         description: 'Public link copied to clipboard.',
-      })
+      });
     } catch (error) {
-      console.error('Copy link error:', error)
+      console.error('Copy link error:', error);
       toast({
         title: 'Error',
         description: 'Failed to copy link. Please try again.',
         variant: 'destructive',
-      })
+      });
     }
-  }
+  };
 
   const handleShareToX = () => {
-    const url = encodeURIComponent(window.location.href)
-    const text = encodeURIComponent(prompt?.name || 'Check out this prompt!')
-    window.open(
-      `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
-      '_blank'
-    )
-  }
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(prompt?.name || 'Check out this prompt!');
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+  };
 
   const handleShareToLinkedIn = () => {
-    const url = encodeURIComponent(window.location.href)
-    const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage');
     window.open(
       `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`,
       '_blank'
-    )
-  }
+    );
+  };
 
   const handleShareToFacebook = () => {
-    const url = encodeURIComponent(window.location.href)
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank')
-  }
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+  };
 
   const handleShareToReddit = () => {
-    const url = encodeURIComponent(window.location.href)
-    const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
-    window.open(
-      `https://www.reddit.com/submit?url=${url}&title=${title}`,
-      '_blank'
-    )
-  }
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage');
+    window.open(`https://www.reddit.com/submit?url=${url}&title=${title}`, '_blank');
+  };
 
   if (loading) {
-    return <FullPageLoading text="Loading prompt..." />
+    return <FullPageLoading text="Loading prompt..." />;
   }
 
   if (error || !prompt) {
@@ -163,7 +151,7 @@ export function PublicPromptPageClient({
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -184,9 +172,7 @@ export function PublicPromptPageClient({
                 {prompt.name}
               </h1>
               {prompt.description && (
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  {prompt.description}
-                </p>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">{prompt.description}</p>
               )}
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                 <div className="flex items-center gap-1 bg-input/70 px-2 py-1 rounded-lg">
@@ -196,9 +182,7 @@ export function PublicPromptPageClient({
                 {prompt.updated_at && (
                   <div className="flex items-center gap-1 bg-input/70 px-2 py-1 rounded-lg">
                     <Calendar className="h-4 w-4" />
-                    <span>
-                      Updated {new Date(prompt.updated_at).toLocaleDateString()}
-                    </span>
+                    <span>Updated {new Date(prompt.updated_at).toLocaleDateString()}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-1 bg-input/70 px-2 py-1 rounded-lg">
@@ -209,16 +193,8 @@ export function PublicPromptPageClient({
             </div>
 
             <div className="flex items-center gap-2">
-              {prompt.id && (
-                <CopyPromptButton
-                  promptId={prompt.id}
-                  promptName={prompt.name}
-                />
-              )}
-              <Button
-                onClick={() => setShowShareDialog(true)}
-                variant="outline"
-              >
+              {prompt.id && <CopyPromptButton promptId={prompt.id} promptName={prompt.name} />}
+              <Button onClick={() => setShowShareDialog(true)} variant="outline">
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Share
               </Button>
@@ -252,9 +228,7 @@ export function PublicPromptPageClient({
               <CardTitle>Model</CardTitle>
             </CardHeader>
             <CardContent>
-              <Badge variant="secondary">
-                {prompt.model}
-              </Badge>
+              <Badge variant="secondary">{prompt.model}</Badge>
             </CardContent>
           </Card>
 
@@ -287,23 +261,15 @@ export function PublicPromptPageClient({
                 <span className="font-medium">{prompt.view_count}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">
-                  Created
-                </span>
+                <span className="text-gray-600 dark:text-gray-400">Created</span>
                 <span className="font-medium">
-                  {prompt.inserted_at
-                    ? new Date(prompt.inserted_at).toLocaleDateString()
-                    : '—'}
+                  {prompt.inserted_at ? new Date(prompt.inserted_at).toLocaleDateString() : '—'}
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">
-                  Last Updated
-                </span>
+                <span className="text-gray-600 dark:text-gray-400">Last Updated</span>
                 <span className="font-medium">
-                  {prompt.updated_at
-                    ? new Date(prompt.updated_at).toLocaleDateString()
-                    : '—'}
+                  {prompt.updated_at ? new Date(prompt.updated_at).toLocaleDateString() : '—'}
                 </span>
               </div>
             </CardContent>
@@ -325,10 +291,7 @@ export function PublicPromptPageClient({
               <DialogTitle>Share this Prompt</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
-              <Button
-                onClick={handleCopyLink}
-                className="w-full flex items-center gap-2"
-              >
+              <Button onClick={handleCopyLink} className="w-full flex items-center gap-2">
                 <Share2 className="h-4 w-4" /> Copy Link
               </Button>
               <Button
@@ -364,5 +327,5 @@ export function PublicPromptPageClient({
         </Dialog>
       </div>
     </div>
-  )
+  );
 }

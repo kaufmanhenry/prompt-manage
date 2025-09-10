@@ -1,12 +1,12 @@
-import { createClient } from '@/utils/supabase/server'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import InteractivePromptLab from '@/components/InteractivePromptLab'
-import { Search, Users, Rocket, Megaphone, ShieldCheck, Folder, CheckCircle2 } from 'lucide-react'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-import { Metadata } from 'next'
-import { Separator } from '@/components/ui/separator'
+import { Folder, Megaphone, Rocket, Search, ShieldCheck, Users } from 'lucide-react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+
+import InteractivePromptLab from '@/components/InteractivePromptLab';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { createClient } from '@/utils/supabase/server';
 
 export const metadata: Metadata = {
   title: 'Prompt Manage — Prompt Libraries for Marketing Teams',
@@ -62,13 +62,13 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-}
+};
 
 export default async function Home() {
-  const supabase = await createClient()
+  const supabase = await createClient();
   const {
     data: { session },
-  } = await supabase.auth.getSession()
+  } = await supabase.auth.getSession();
 
   // Allow logged-in users to view the homepage; no redirect to dashboard
 
@@ -85,29 +85,44 @@ export default async function Home() {
               <span className="text-emerald-600 dark:text-emerald-400">for Marketing Teams</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-6 max-w-xl">
-              Store and systemize prompts for ads, emails, landing pages, and socials. Keep brand voice consistent, share with your team, and ship campaigns faster.
+              Store and systemize prompts for ads, emails, landing pages, and socials. Keep brand
+              voice consistent, share with your team, and ship campaigns faster.
             </p>
             <div className="flex flex-wrap items-center gap-3 mb-8">
-              <span className="inline-flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"><Folder className="w-4 h-4" /> Campaign libraries</span>
-              <span className="inline-flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"><ShieldCheck className="w-4 h-4" /> Brand voice guardrails</span>
-              <span className="inline-flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"><Users className="w-4 h-4" /> Team sharing</span>
+              <span className="inline-flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                <Folder className="w-4 h-4" /> Campaign libraries
+              </span>
+              <span className="inline-flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                <ShieldCheck className="w-4 h-4" /> Brand voice guardrails
+              </span>
+              <span className="inline-flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                <Users className="w-4 h-4" /> Team sharing
+              </span>
             </div>
             {session ? (
               <div className="flex flex-col sm:flex-row items-center gap-3">
                 <Link href="/dashboard">
-                  <Button size="lg" className="text-base px-7 py-6">Open your Library</Button>
+                  <Button size="lg" className="text-base px-7 py-6">
+                    Open your Library
+                  </Button>
                 </Link>
                 <Link href="/p">
-                  <Button variant="outline" size="lg" className="text-base px-7 py-6"><Search className="mr-2 h-5 w-5" /> Browse Templates</Button>
+                  <Button variant="outline" size="lg" className="text-base px-7 py-6">
+                    <Search className="mr-2 h-5 w-5" /> Browse Templates
+                  </Button>
                 </Link>
               </div>
             ) : (
               <div className="flex flex-col sm:flex-row items-center gap-3">
                 <Link href="/auth/signup">
-                  <Button size="lg" className="text-base px-7 py-6">Start Free</Button>
+                  <Button size="lg" className="text-base px-7 py-6">
+                    Start Free
+                  </Button>
                 </Link>
                 <Link href="/p">
-                  <Button variant="outline" size="lg" className="text-base px-7 py-6"><Search className="mr-2 h-5 w-5" /> Browse Templates</Button>
+                  <Button variant="outline" size="lg" className="text-base px-7 py-6">
+                    <Search className="mr-2 h-5 w-5" /> Browse Templates
+                  </Button>
                 </Link>
               </div>
             )}
@@ -121,9 +136,16 @@ export default async function Home() {
                 'Llama 4 Series',
                 'Mistral Large',
               ].map((m) => (
-                <Badge key={m} variant="outline" className="text-[10px] px-2 py-0.5">{m}</Badge>
+                <Badge key={m} variant="outline" className="text-[10px] px-2 py-0.5">
+                  {m}
+                </Badge>
               ))}
-              <Link href="/models" className="text-xs text-emerald-700 dark:text-emerald-300 hover:underline ml-1">Models →</Link>
+              <Link
+                href="/models"
+                className="text-xs text-emerald-700 dark:text-emerald-300 hover:underline ml-1"
+              >
+                Models →
+              </Link>
             </div>
           </div>
 
@@ -137,28 +159,42 @@ export default async function Home() {
         {/* Built for marketers and advertisers */}
         <section className="mt-12 md:mt-20">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white text-center mb-10">Built for marketers and advertisers</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white text-center mb-10">
+              Built for marketers and advertisers
+            </h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="text-center">
                 <div className="bg-emerald-100 dark:bg-emerald-900/40 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <Megaphone className="h-8 w-8 text-emerald-700 dark:text-emerald-300" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Campaign-ready libraries</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Group prompts by channel and campaign so the team can reuse what works.</p>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  Campaign-ready libraries
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Group prompts by channel and campaign so the team can reuse what works.
+                </p>
               </div>
               <div className="text-center">
                 <div className="bg-emerald-100 dark:bg-emerald-900/40 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <ShieldCheck className="h-8 w-8 text-emerald-700 dark:text-emerald-300" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Brand voice guardrails</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Lock key instructions and share best-practice templates across the org.</p>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  Brand voice guardrails
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Lock key instructions and share best-practice templates across the org.
+                </p>
               </div>
               <div className="text-center">
                 <div className="bg-emerald-100 dark:bg-emerald-900/40 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <Rocket className="h-8 w-8 text-emerald-700 dark:text-emerald-300" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Test variations, ship faster</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Save variants, compare outcomes, and roll forward what performs.</p>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  Test variations, ship faster
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  Save variants, compare outcomes, and roll forward what performs.
+                </p>
               </div>
             </div>
           </div>
@@ -173,7 +209,10 @@ export default async function Home() {
               ['100%', 'brand voice consistency'],
               ['100s', 'of hours saved'],
             ].map(([k, v]) => (
-              <div key={k} className="text-center border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-white dark:bg-gray-900">
+              <div
+                key={k}
+                className="text-center border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-white dark:bg-gray-900"
+              >
                 <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{k}</div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">{v}</div>
               </div>
@@ -184,22 +223,42 @@ export default async function Home() {
         {/* How it works */}
         <section className="mt-16 md:mt-24">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white text-center mb-8">How it works</h2>
+            <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white text-center mb-8">
+              How it works
+            </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { title: 'Create libraries', desc: 'Set up collections for Ads, Email, Social, and more.' },
-                { title: 'Save prompts & variants', desc: 'Keep winning prompts and test new angles safely.' },
-                { title: 'Share & ship', desc: 'Invite teammates, share links, and ship campaigns faster.' },
+                {
+                  title: 'Create libraries',
+                  desc: 'Set up collections for Ads, Email, Social, and more.',
+                },
+                {
+                  title: 'Save prompts & variants',
+                  desc: 'Keep winning prompts and test new angles safely.',
+                },
+                {
+                  title: 'Share & ship',
+                  desc: 'Invite teammates, share links, and ship campaigns faster.',
+                },
               ].map((s, i) => (
-                <div key={s.title} className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-5">
-                  <div className="h-7 w-7 rounded-md bg-emerald-600 text-white flex items-center justify-center text-sm font-bold mb-3">{i + 1}</div>
-                  <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">{s.title}</h3>
+                <div
+                  key={s.title}
+                  className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-5"
+                >
+                  <div className="h-7 w-7 rounded-md bg-emerald-600 text-white flex items-center justify-center text-sm font-bold mb-3">
+                    {i + 1}
+                  </div>
+                  <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">
+                    {s.title}
+                  </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">{s.desc}</p>
                 </div>
               ))}
             </div>
             <div className="text-center mt-10">
-              <Link href="/pricing"><Button size="lg">See Pricing</Button></Link>
+              <Link href="/pricing">
+                <Button size="lg">See Pricing</Button>
+              </Link>
             </div>
           </div>
         </section>
@@ -208,11 +267,14 @@ export default async function Home() {
         <Separator className="my-12 max-w-xs mx-auto" />
         <div className="max-w-3xl mx-auto text-center pb-16">
           <blockquote className="text-xl md:text-2xl text-gray-900 dark:text-white leading-relaxed">
-            “Prompt Manage turned our scattered prompt docs into a single source of truth. Our team ships campaigns noticeably faster with more consistent copy.”
+            “Prompt Manage turned our scattered prompt docs into a single source of truth. Our team
+            ships campaigns noticeably faster with more consistent copy.”
           </blockquote>
-          <div className="mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300">Mike M., Co-Founder of MCA</div>
+          <div className="mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300">
+            Mike M., Co-Founder of MCA
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

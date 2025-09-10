@@ -1,24 +1,23 @@
-import { createClient } from '@/utils/supabase/server'
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function PATCH(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+import { createClient } from '@/utils/supabase/server';
+
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const supabase = await createClient()
-    const { id } = await context.params
+    const supabase = await createClient();
+    const { id } = await context.params;
 
     // Check authentication
     const {
       data: { user },
       error: authError,
-    } = await supabase.auth.getUser()
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { is_public } = await request.json()
+    const { is_public } = await request.json();
 
     // Verify the prompt belongs to the user
     const { data: prompt, error: fetchError } = await supabase
@@ -26,10 +25,10 @@ export async function PATCH(
       .select('*')
       .eq('id', id)
       .eq('user_id', user.id)
-      .single()
+      .single();
 
     if (fetchError || !prompt) {
-      return NextResponse.json({ error: 'Prompt not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Prompt not found' }, { status: 404 });
     }
 
     // Update the prompt
@@ -39,22 +38,16 @@ export async function PATCH(
       .eq('id', id)
       .eq('user_id', user.id)
       .select()
-      .single()
+      .single();
 
     if (updateError) {
-      console.error('Error updating prompt:', updateError)
-      return NextResponse.json(
-        { error: 'Failed to update prompt' },
-        { status: 500 }
-      )
+      console.error('Error updating prompt:', updateError);
+      return NextResponse.json({ error: 'Failed to update prompt' }, { status: 500 });
     }
 
-    return NextResponse.json(updatedPrompt)
+    return NextResponse.json(updatedPrompt);
   } catch (error) {
-    console.error('Share API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error('Share API error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

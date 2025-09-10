@@ -5,12 +5,14 @@ This guide provides detailed instructions for setting up your development enviro
 ## Prerequisites
 
 ### Required Software
+
 - **Node.js 18+** - [Download here](https://nodejs.org/)
 - **npm 6+** - Usually comes with Node.js
 - **Git** - [Download here](https://git-scm.com/)
 - **Supabase CLI** - Install via npm: `npm install -g supabase`
 
 ### Optional but Recommended
+
 - **Cursor IDE** - For AI-assisted development
 - **PostgreSQL** - For local database development (optional)
 - **Docker** - For containerized development (optional)
@@ -87,6 +89,7 @@ supabase db reset
 ### 3. Verify Database Setup
 
 Check that the following tables exist in your Supabase dashboard:
+
 - `prompts`
 - `user_profiles` (if applicable)
 - `prompt_versions` (if applicable)
@@ -100,6 +103,7 @@ npm run dev
 ```
 
 The application will be available at:
+
 - **Local**: http://localhost:3000
 - **Network**: http://your-ip:3000
 
@@ -274,6 +278,7 @@ npm run build
 ### 3. Environment Variables for Production
 
 Make sure to set these in your production environment:
+
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE`
@@ -297,4 +302,4 @@ If you encounter issues:
 
 ---
 
-*Last updated: December 2024* 
+_Last updated: December 2024_

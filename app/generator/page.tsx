@@ -1,22 +1,23 @@
-'use client'
-import React, { useState } from 'react'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
+'use client';
+import React, { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { supportedModels } from '@/lib/models'
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { supportedModels } from '@/lib/models';
 
 export default function GeneratorPage() {
-  const [title, setTitle] = useState('')
-  const [prompt, setPrompt] = useState('')
-  const [model, setModel] = useState('gpt-4')
-  const [tone, setTone] = useState('neutral')
+  const [title, setTitle] = useState('');
+  const [prompt, setPrompt] = useState('');
+  const [model, setModel] = useState('gpt-4');
+  const [tone, setTone] = useState('neutral');
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-4 space-y-8">
@@ -75,14 +76,12 @@ export default function GeneratorPage() {
           </div>
         </div>
         <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold mb-2">
-            Prompt Ideas & Suggestions
-          </h2>
+          <h2 className="text-lg font-semibold mb-2">Prompt Ideas & Suggestions</h2>
           <div className="text-sm text-gray-700 dark:text-gray-300">
             (Coming soon: Get AI-powered suggestions and inspiration.)
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

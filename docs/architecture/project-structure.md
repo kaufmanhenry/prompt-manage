@@ -218,21 +218,25 @@ public/
 ## File Naming Conventions
 
 ### React Components
+
 - **PascalCase**: `ComponentName.tsx`
 - **Descriptive names**: `PromptForm.tsx`, `RelatedPrompts.tsx`
 - **Feature-specific**: `LoginForm.tsx`, `SignupForm.tsx`
 
 ### API Routes
+
 - **kebab-case**: `[id]/route.ts`
 - **Nested structure**: `prompts/[id]/share/route.ts`
 - **HTTP methods**: GET, POST, PUT, DELETE in same file
 
 ### Database Migrations
+
 - **Timestamp prefix**: `20240320000000_initial_schema.sql`
 - **Descriptive names**: `add_user_profiles.sql`
 - **Versioned**: `v1_0_0_initial.sql`
 
 ### Test Files
+
 - **`.spec.ts` suffix**: `login.spec.ts`
 - **Feature-based**: `prompt-editing.spec.ts`
 - **E2E focused**: End-to-end user flows
@@ -240,48 +244,54 @@ public/
 ## Import Organization
 
 ### Absolute Imports
+
 ```typescript
 // Components
-import { Button } from '@/components/ui/button'
-import { PromptForm } from '@/components/PromptForm'
+import { Button } from '@/components/ui/button';
+import { PromptForm } from '@/components/PromptForm';
 
 // Utilities
-import { createClient } from '@/utils/supabase/client'
-import { promptSchema } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client';
+import { promptSchema } from '@/lib/schemas/prompt';
 
 // Types
-import type { Prompt } from '@/lib/types'
+import type { Prompt } from '@/lib/types';
 ```
 
 ### Relative Imports
+
 ```typescript
 // Same directory
-import { Header } from './Header'
-import { Footer } from './Footer'
+import { Header } from './Header';
+import { Footer } from './Footer';
 
 // Parent directory
-import { Layout } from '../Layout'
+import { Layout } from '../Layout';
 ```
 
 ## Code Organization Principles
 
 ### 1. Separation of Concerns
+
 - **UI Components**: Pure presentation components
 - **Business Logic**: API routes and utilities
 - **Data Layer**: Database operations and schemas
 - **Configuration**: Environment and build configs
 
 ### 2. Feature-Based Organization
+
 - **Related files grouped**: Components, APIs, and tests for features
 - **Clear boundaries**: Each feature is self-contained
 - **Shared utilities**: Common code in utils and lib
 
 ### 3. Scalability
+
 - **Modular structure**: Easy to add new features
 - **Consistent patterns**: Predictable file locations
 - **Clear naming**: Self-documenting file names
 
 ### 4. Maintainability
+
 - **Documentation**: Comprehensive docs for each area
 - **Testing**: Tests alongside implementation
 - **Type safety**: TypeScript throughout the codebase
@@ -289,6 +299,7 @@ import { Layout } from '../Layout'
 ## Development Workflow
 
 ### Adding New Features
+
 1. **Create feature directory** in appropriate location
 2. **Add components** in `components/` or feature-specific location
 3. **Add API routes** in `app/api/` following REST conventions
@@ -297,6 +308,7 @@ import { Layout } from '../Layout'
 6. **Update documentation** in `docs/` directory
 
 ### File Organization Checklist
+
 - [ ] File is in the correct directory
 - [ ] File name follows conventions
 - [ ] Imports are organized properly
@@ -307,24 +319,28 @@ import { Layout } from '../Layout'
 ## Best Practices
 
 ### 1. File Organization
+
 - Keep related files close together
 - Use consistent naming conventions
 - Group by feature when possible
 - Separate concerns clearly
 
 ### 2. Import Management
+
 - Use absolute imports for shared code
 - Use relative imports for closely related files
 - Organize imports by type (React, third-party, local)
 - Avoid deep nesting in import paths
 
 ### 3. Component Structure
+
 - One component per file
 - Export components as default when appropriate
 - Use named exports for utilities and types
 - Keep components focused and single-purpose
 
 ### 4. API Organization
+
 - Group related endpoints together
 - Use RESTful conventions
 - Keep route handlers focused
@@ -332,4 +348,4 @@ import { Layout } from '../Layout'
 
 ---
 
-*Last updated: December 2024* 
+_Last updated: December 2024_

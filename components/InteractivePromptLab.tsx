@@ -1,49 +1,48 @@
-'use client'
+'use client';
 
-import { useMemo, useState } from 'react'
+import {
+  ChevronDown,
+  ChevronRight,
+  Copy,
+  Loader2,
+  Plus,
+  Rocket,
+  Sparkles,
+  Trash2,
+} from 'lucide-react';
+import { useState } from 'react';
 
-import { Textarea } from '@/components/ui/textarea'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { modelSchema } from '@/lib/schemas/prompt'
-import {
-  Rocket,
-  Sparkles,
-  Plus,
-  Loader2,
-  ChevronDown,
-  ChevronRight,
-  Trash2,
-  Copy,
-} from 'lucide-react'
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
-type VariablesRow = Record<string, string>
+type VariablesRow = Record<string, string>;
 
 type RunResponse = {
-  success: boolean
-  variant: string
+  success: boolean;
+  variant: string;
   outputs: Array<{
-    rowIndex: number
-    response: string
-    tokens_used: number
-    execution_time_ms: number
-    cost_usd: number
-  }>
+    rowIndex: number;
+    response: string;
+    tokens_used: number;
+    execution_time_ms: number;
+    cost_usd: number;
+  }>;
   aggregate: {
-    total_tokens: number
-    avg_latency_ms: number
-    total_cost_usd: number
-  }
-}
+    total_tokens: number;
+    avg_latency_ms: number;
+    total_cost_usd: number;
+  };
+};
 
 const DEFAULT_PROMPT = `Goal: Generate 5 Google Ads headlines (<= 30 chars)
 Audience: {audience}
@@ -54,43 +53,45 @@ Tone: {tone}
 Instructions:
 - Use direct response style
 - Include one curiosity angle
-- Avoid clickbait`
+- Avoid clickbait`;
 
 const DEFAULT_CONTEXT = `Company: Prompt Manage helps marketing teams organize, test, and share prompts.
-Voice: Clear, confident, and helpful.`
+Voice: Clear, confident, and helpful.`;
 
-type KeyValue = { key: string; value: string }
+type KeyValue = { key: string; value: string };
 
 export function InteractivePromptLab() {
-  const [prompt, setPrompt] = useState<string>(DEFAULT_PROMPT)
-  const [context, setContext] = useState<string>(DEFAULT_CONTEXT)
-  const [showContext, setShowContext] = useState<boolean>(false)
+  const [prompt, setPrompt] = useState<string>(DEFAULT_PROMPT);
+  const [context, setContext] = useState<string>(DEFAULT_CONTEXT);
+  const [showContext, setShowContext] = useState<boolean>(false);
   const [variables, setVariables] = useState<KeyValue[]>([
     { key: 'product', value: 'Prompt Manage' },
     { key: 'audience', value: 'Ecommerce marketers' },
     { key: 'benefit', value: 'Higher ROAS from better copy' },
     { key: 'tone', value: 'Confident and helpful' },
-  ])
-  const [model, setModel] = useState<string>('gpt-4')
-  const [isRunning, setIsRunning] = useState<boolean>(false)
-  const [runs, setRuns] = useState<Array<{
-    response: string
-    tokens?: number | null
-    latencyMs?: number | null
-    costUsd?: number | null
-    createdAt: string
-  }>>([])
+  ]);
+  const [model, setModel] = useState<string>('gpt-4');
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [runs, setRuns] = useState<
+    Array<{
+      response: string;
+      tokens?: number | null;
+      latencyMs?: number | null;
+      costUsd?: number | null;
+      createdAt: string;
+    }>
+  >([]);
 
   function toVariablesRow(): VariablesRow {
-    const row: VariablesRow = {}
+    const row: VariablesRow = {};
     for (const kv of variables) {
-      if (kv.key.trim()) row[kv.key.trim()] = kv.value
+      if (kv.key.trim()) row[kv.key.trim()] = kv.value;
     }
-    return row
+    return row;
   }
 
   async function runOnce() {
-    setIsRunning(true)
+    setIsRunning(true);
     try {
       const res = await fetch('/api/prompt/run/preview', {
         method: 'POST',
@@ -102,9 +103,9 @@ export function InteractivePromptLab() {
           context,
           variablesRows: [toVariablesRow()],
         }),
-      })
-      const json = (await res.json()) as RunResponse
-      const out = json.outputs?.[0]
+      });
+      const json = (await res.json()) as RunResponse;
+      const out = json.outputs?.[0];
       setRuns((prev) => [
         {
           response: out?.response || 'No response',
@@ -114,20 +115,20 @@ export function InteractivePromptLab() {
           createdAt: new Date().toISOString(),
         },
         ...prev,
-      ])
+      ]);
     } finally {
-      setIsRunning(false)
+      setIsRunning(false);
     }
   }
 
   function addVar() {
-    setVariables((v) => [...v, { key: '', value: '' }])
+    setVariables((v) => [...v, { key: '', value: '' }]);
   }
   function removeVar(index: number) {
-    setVariables((v) => v.filter((_, i) => i !== index))
+    setVariables((v) => v.filter((_, i) => i !== index));
   }
   function updateVar(index: number, field: 'key' | 'value', value: string) {
-    setVariables((v) => v.map((item, i) => (i === index ? { ...item, [field]: value } : item)))
+    setVariables((v) => v.map((item, i) => (i === index ? { ...item, [field]: value } : item)));
   }
 
   return (
@@ -136,7 +137,9 @@ export function InteractivePromptLab() {
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
           <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">Prompt Lab</span>
-          <Badge variant="outline" className="text-[10px]">Preview</Badge>
+          <Badge variant="outline" className="text-[10px]">
+            Preview
+          </Badge>
         </div>
         <Select value={model} onValueChange={setModel}>
           <SelectTrigger className="h-8 text-xs min-w-[160px]">
@@ -144,7 +147,9 @@ export function InteractivePromptLab() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="gpt-4">gpt-4</SelectItem>
-            <SelectItem disabled value="__pro__">All Models Available on PRO</SelectItem>
+            <SelectItem disabled value="__pro__">
+              All Models Available on PRO
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -152,7 +157,11 @@ export function InteractivePromptLab() {
       <div className="rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 p-3 space-y-3">
         <div>
           <label className="text-xs text-gray-600 dark:text-gray-300">Prompt</label>
-          <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} className="min-h-[140px] font-mono text-[12px]" />
+          <Textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            className="min-h-[140px] font-mono text-[12px]"
+          />
         </div>
         <div className="space-y-1">
           <button
@@ -160,17 +169,27 @@ export function InteractivePromptLab() {
             className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-300"
             onClick={() => setShowContext(!showContext)}
           >
-            {showContext ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+            {showContext ? (
+              <ChevronDown className="w-3.5 h-3.5" />
+            ) : (
+              <ChevronRight className="w-3.5 h-3.5" />
+            )}
             Context (optional)
           </button>
           {showContext && (
-            <Textarea value={context} onChange={(e) => setContext(e.target.value)} className="min-h-[80px] font-mono text-[12px]" />
+            <Textarea
+              value={context}
+              onChange={(e) => setContext(e.target.value)}
+              className="min-h-[80px] font-mono text-[12px]"
+            />
           )}
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label className="text-xs text-gray-600 dark:text-gray-300">Variables (optional)</label>
-            <Button size="sm" variant="outline" onClick={addVar}><Plus className="w-3.5 h-3.5" /> Add</Button>
+            <Button size="sm" variant="outline" onClick={addVar}>
+              <Plus className="w-3.5 h-3.5" /> Add
+            </Button>
           </div>
           <div className="space-y-2">
             {variables.map((kv, i) => (
@@ -198,7 +217,12 @@ export function InteractivePromptLab() {
         </div>
         <div className="flex items-center justify-end gap-2 pt-1">
           <Button onClick={runOnce} disabled={isRunning}>
-            {isRunning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />} Run
+            {isRunning ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Rocket className="w-4 h-4" />
+            )}{' '}
+            Run
           </Button>
         </div>
       </div>
@@ -215,21 +239,44 @@ export function InteractivePromptLab() {
         ) : (
           <div className="space-y-3">
             {runs.map((r, idx) => (
-              <div key={idx} className="rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 p-3">
+              <div
+                key={idx}
+                className="rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 p-3"
+              >
                 <div className="flex items-center justify-between mb-2">
-                  <div className="text-[12px] text-gray-600 dark:text-gray-400">{new Date(r.createdAt).toLocaleString()}</div>
+                  <div className="text-[12px] text-gray-600 dark:text-gray-400">
+                    {new Date(r.createdAt).toLocaleString()}
+                  </div>
                   <div className="flex items-center gap-2 text-[11px] text-gray-700 dark:text-gray-300">
-                    {r.tokens != null && <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-900/30">{r.tokens} tokens</span>}
-                    {r.latencyMs != null && <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-900/30">{Math.round(r.latencyMs)}ms</span>}
-                    {r.costUsd != null && <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-900/30">${r.costUsd.toFixed(4)}</span>}
-                    <Button size="sm" variant="ghost" onClick={() => navigator.clipboard.writeText(r.response)}>
+                    {r.tokens != null && (
+                      <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-900/30">
+                        {r.tokens} tokens
+                      </span>
+                    )}
+                    {r.latencyMs != null && (
+                      <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-900/30">
+                        {Math.round(r.latencyMs)}ms
+                      </span>
+                    )}
+                    {r.costUsd != null && (
+                      <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-900/30">
+                        ${r.costUsd.toFixed(4)}
+                      </span>
+                    )}
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => navigator.clipboard.writeText(r.response)}
+                    >
                       <Copy className="w-3.5 h-3.5" />
                     </Button>
                   </div>
                 </div>
                 <div className="max-h-56 md:max-h-64">
                   <ScrollArea className="h-full">
-                    <pre className="text-[11px] leading-5 text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{r.response}</pre>
+                    <pre className="text-[11px] leading-5 text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
+                      {r.response}
+                    </pre>
                   </ScrollArea>
                 </div>
               </div>
@@ -238,9 +285,7 @@ export function InteractivePromptLab() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default InteractivePromptLab
-
-
+export default InteractivePromptLab;

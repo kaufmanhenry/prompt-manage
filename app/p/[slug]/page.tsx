@@ -1,12 +1,12 @@
-import { PublicPromptPageClient } from './PublicPromptPageClient'
+import { PublicPromptPageClient } from './PublicPromptPageClient';
 
 interface PageProps {
   params: Promise<{
-    slug: string
-  }>
+    slug: string;
+  }>;
 }
 
 export default async function PublicPromptPage({ params }: PageProps) {
-  const resolvedParams = await params
-  return <PublicPromptPageClient params={resolvedParams} />
-} 
+  const resolvedParams = await params;
+  return <PublicPromptPageClient params={resolvedParams} />;
+}

@@ -1,51 +1,48 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { useToast } from '@/components/ui/use-toast'
+import { useQuery } from '@tanstack/react-query';
 import {
-  Clock,
-  RefreshCw,
-  XCircle,
-  CheckCircle,
   AlertCircle,
-  MessageSquare,
-  Zap,
+  CheckCircle,
+  Clock,
   Copy,
+  MessageSquare,
+  RefreshCw,
   Sparkles,
   X,
-} from 'lucide-react'
-import { CardLoading } from '@/components/ui/loading'
-import type { PromptRunHistory } from '@/lib/schemas/prompt-run-history'
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from './ui/accordion'
+  XCircle,
+  Zap,
+} from 'lucide-react';
+import { useState } from 'react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardLoading } from '@/components/ui/loading';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useToast } from '@/components/ui/use-toast';
+import type { PromptRunHistory as PromptRunHistoryType } from '@/lib/schemas/prompt-run-history';
+
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 
 interface PromptRunHistoryProps {
-  promptId: string
-  onClose?: () => void
+  promptId: string;
+  onClose?: () => void;
 }
 
 interface HistoryResponse {
-  success: boolean
-  history: PromptRunHistory[]
+  success: boolean;
+  history: PromptRunHistoryType[];
   pagination: {
-    limit: number
-    offset: number
-    hasMore: boolean
-  }
+    limit: number;
+    offset: number;
+    hasMore: boolean;
+  };
 }
 
 export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
-  const { toast } = useToast()
-  const [selectedRun, setSelectedRun] = useState<PromptRunHistory | null>(null)
+  const { toast } = useToast();
+  const [selectedRun, setSelectedRun] = useState<PromptRunHistoryType | null>(null);
 
   const {
     data: historyData,
@@ -55,42 +52,42 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
   } = useQuery<HistoryResponse>({
     queryKey: ['prompt-run-history', promptId],
     queryFn: async () => {
-      const response = await fetch(`/api/prompts/${promptId}/history?limit=50`)
+      const response = await fetch(`/api/prompts/${promptId}/history?limit=50`);
       if (!response.ok) {
-        throw new Error('Failed to fetch history')
+        throw new Error('Failed to fetch history');
       }
-      return response.json()
+      return response.json();
     },
-  })
+  });
 
   const handleCopyResponse = async (text: string) => {
     try {
-      await navigator.clipboard.writeText(text)
+      await navigator.clipboard.writeText(text);
       toast({
         title: 'Copied to clipboard',
         description: 'Response copied to clipboard',
-      })
+      });
     } catch {
       toast({
         title: 'Failed to copy',
         description: 'Could not copy to clipboard',
         variant: 'destructive',
-      })
+      });
     }
-  }
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'success':
-        return <CheckCircle className="h-4 w-4 text-green-500" />
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
       case 'error':
-        return <XCircle className="h-4 w-4 text-red-500" />
+        return <XCircle className="h-4 w-4 text-red-500" />;
       case 'timeout':
-        return <AlertCircle className="h-4 w-4 text-yellow-500" />
+        return <AlertCircle className="h-4 w-4 text-yellow-500" />;
       default:
-        return <AlertCircle className="h-4 w-4 text-gray-500" />
+        return <AlertCircle className="h-4 w-4 text-gray-500" />;
     }
-  }
+  };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -99,29 +96,29 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
           <Badge variant="default" className="bg-green-100 text-green-800">
             Success
           </Badge>
-        )
+        );
       case 'error':
-        return <Badge variant="destructive">Error</Badge>
+        return <Badge variant="destructive">Error</Badge>;
       case 'timeout':
         return (
           <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
             Timeout
           </Badge>
-        )
+        );
       default:
-        return <Badge variant="outline">{status}</Badge>
+        return <Badge variant="outline">{status}</Badge>;
     }
-  }
+  };
 
   const formatDuration = (ms: number | null) => {
-    if (!ms) return 'N/A'
-    if (ms < 1000) return `${ms}ms`
-    return `${(ms / 1000).toFixed(2)}s`
-  }
+    if (!ms) return 'N/A';
+    if (ms < 1000) return `${ms}ms`;
+    return `${(ms / 1000).toFixed(2)}s`;
+  };
 
   const formatTimestamp = (timestamp: string) => {
-    return new Date(timestamp).toLocaleString()
-  }
+    return new Date(timestamp).toLocaleString();
+  };
 
   if (isLoading) {
     return (
@@ -136,7 +133,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
           <CardLoading text="Loading history..." />
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (error) {
@@ -152,21 +149,17 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
           <div className="text-center py-8">
             <XCircle className="h-8 w-8 text-red-500 mx-auto mb-2" />
             <p className="text-red-600">Failed to load history</p>
-            <Button
-              variant="outline"
-              onClick={() => refetch()}
-              className="mt-2"
-            >
+            <Button variant="outline" onClick={() => refetch()} className="mt-2">
               <RefreshCw className="h-4 w-4 mr-2" />
               Retry
             </Button>
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
-  const history = historyData?.history || []
+  const history = historyData?.history || [];
 
   return (
     <Card className="p-4 gap-0 space-y-0">
@@ -190,12 +183,8 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
         {history.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground space-y-2">
             <MessageSquare className="h-8 w-8 mx-auto mb-2" />
-            <p className="font-medium text-foreground">
-              No run history yet
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Run this prompt to see its history here
-            </p>
+            <p className="font-medium text-foreground">No run history yet</p>
+            <p className="text-sm text-muted-foreground">Run this prompt to see its history here</p>
             <Button variant="outline" size="sm" onClick={() => refetch()}>
               <RefreshCw className="h-4 w-4" />
               Refresh History
@@ -211,9 +200,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                     className={`cursor-pointer transition-colors h-fit p-2 rounded-lg ${
                       selectedRun?.id === run.id ? 'bg-accent' : ''
                     }`}
-                    onClick={() =>
-                      setSelectedRun(selectedRun?.id === run.id ? null : run)
-                    }
+                    onClick={() => setSelectedRun(selectedRun?.id === run.id ? null : run)}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
@@ -239,9 +226,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                       </div>
                     </div>
 
-                    <div className="text-sm text-muted-foreground mb-2">
-                      Model: {run.model}
-                    </div>
+                    <div className="text-sm text-muted-foreground mb-2">Model: {run.model}</div>
 
                     {run.error_message && (
                       <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded text-sm text-red-700">
@@ -280,8 +265,8 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                           variant="ghost"
                           size="sm"
                           onClick={(e) => {
-                            e.stopPropagation()
-                            handleCopyResponse(selectedRun.response)
+                            e.stopPropagation();
+                            handleCopyResponse(selectedRun.response);
                           }}
                         >
                           <Copy className="h-3 w-3 mr-1" />
@@ -305,5 +290,5 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const promptRunHistorySchema = z.object({
   id: z.string().uuid(),
@@ -12,14 +12,14 @@ export const promptRunHistorySchema = z.object({
   status: z.enum(['success', 'error', 'timeout']).default('success'),
   error_message: z.string().nullable(),
   created_at: z.string().datetime(),
-})
+});
 
-export type PromptRunHistory = z.infer<typeof promptRunHistorySchema>
+export type PromptRunHistory = z.infer<typeof promptRunHistorySchema>;
 
 export const createPromptRunHistorySchema = promptRunHistorySchema.omit({
   id: true,
   user_id: true,
   created_at: true,
-})
+});
 
-export type CreatePromptRunHistory = z.infer<typeof createPromptRunHistorySchema> 
+export type CreatePromptRunHistory = z.infer<typeof createPromptRunHistorySchema>;

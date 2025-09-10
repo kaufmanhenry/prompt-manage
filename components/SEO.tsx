@@ -1,22 +1,22 @@
-'use client'
+'use client';
 
-import Head from 'next/head'
+import Head from 'next/head';
 
 interface SEOProps {
-  title: string
-  description: string
-  url: string
-  image?: string
-  type?: 'website' | 'article' | 'profile'
-  publishedTime?: string
-  modifiedTime?: string
-  author?: string
-  tags?: string[]
+  title: string;
+  description: string;
+  url: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
   organization?: {
-    name: string
-    url: string
-    logo: string
-  }
+    name: string;
+    url: string;
+    logo: string;
+  };
 }
 
 export function SEO({
@@ -35,7 +35,7 @@ export function SEO({
     logo: 'https://promptmanage.com/logo.svg',
   },
 }: SEOProps) {
-  const fullUrl = url.startsWith('http') ? url : `https://promptmanage.com${url}`
+  const fullUrl = url.startsWith('http') ? url : `https://promptmanage.com${url}`;
 
   // Generate JSON-LD structured data
   const generateStructuredData = () => {
@@ -83,7 +83,7 @@ export function SEO({
           },
         },
       ],
-    }
+    };
 
     // Add Article schema for prompt pages
     if (type === 'article' && publishedTime) {
@@ -109,7 +109,7 @@ export function SEO({
           '@id': `${fullUrl}#webpage`,
         },
         keywords: tags.join(', '),
-      })
+      });
     }
 
     // Add Person schema for profile pages
@@ -120,11 +120,11 @@ export function SEO({
         name: author,
         url: fullUrl,
         sameAs: [],
-      })
+      });
     }
 
-    return baseStructuredData
-  }
+    return baseStructuredData;
+  };
 
   return (
     <Head>
@@ -165,5 +165,5 @@ export function SEO({
         }}
       />
     </Head>
-  )
-} 
+  );
+}

@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const modelSchema = z.enum([
   // Top models
@@ -24,7 +24,7 @@ export const modelSchema = z.enum([
   'mistral-large',
   'mistral-medium',
   'mistral-small',
-])
+]);
 
 export const promptSchema = z.object({
   id: z.string().optional(),
@@ -40,18 +40,33 @@ export const promptSchema = z.object({
   inserted_at: z.string().optional(),
   updated_at: z.string().optional(),
   user_id: z.string(),
-})
+});
 
-export type Model = z.infer<typeof modelSchema>
-export type Prompt = z.infer<typeof promptSchema>
-export type CreatePrompt = Omit<Prompt, 'id' | 'updated_at' | 'inserted_at' | 'slug' | 'view_count'>
-export type UpdatePrompt = Partial<CreatePrompt> & { id: string }
-export type PublicPrompt = Pick<Prompt, 'id' | 'name' | 'description' | 'prompt_text' | 'model' | 'tags' | 'slug' | 'view_count' | 'inserted_at' | 'updated_at'>
+export type Model = z.infer<typeof modelSchema>;
+export type Prompt = z.infer<typeof promptSchema>;
+export type CreatePrompt = Omit<
+  Prompt,
+  'id' | 'updated_at' | 'inserted_at' | 'slug' | 'view_count'
+>;
+export type UpdatePrompt = Partial<CreatePrompt> & { id: string };
+export type PublicPrompt = Pick<
+  Prompt,
+  | 'id'
+  | 'name'
+  | 'description'
+  | 'prompt_text'
+  | 'model'
+  | 'tags'
+  | 'slug'
+  | 'view_count'
+  | 'inserted_at'
+  | 'updated_at'
+>;
 
 // Schema for copying a public prompt
 export const copyPromptSchema = z.object({
   source_prompt_id: z.string().uuid(),
   new_name: z.string().optional(),
-})
+});
 
-export type CopyPrompt = z.infer<typeof copyPromptSchema> 
+export type CopyPrompt = z.infer<typeof copyPromptSchema>;

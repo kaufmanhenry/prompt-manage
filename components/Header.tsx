@@ -1,54 +1,47 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Button } from '@/components/ui/button'
+import { useQuery } from '@tanstack/react-query';
+import { Globe, LogOut, Settings, User2 } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { createClient } from '@/utils/supabase/client'
-import { useQuery } from '@tanstack/react-query'
-import { Settings, LogOut, Globe, User2 } from 'lucide-react'
-import Image from 'next/image'
+} from '@/components/ui/dropdown-menu';
+import { WorkspaceSwitcher } from '@/components/workspace/workspace-switcher';
+import { createClient } from '@/utils/supabase/client';
 
 export function Header() {
-  const pathname = usePathname()
+  const pathname = usePathname();
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
       const {
         data: { session },
         error,
-      } = await createClient().auth.getSession()
-      if (error) throw error
-      return session
+      } = await createClient().auth.getSession();
+      if (error) throw error;
+      return session;
     },
-  })
+  });
 
   const handleSignOut = async () => {
-    await createClient().auth.signOut()
-    window.location.href = '/'
-  }
+    await createClient().auth.signOut();
+    window.location.href = '/';
+  };
 
   return (
     <header className="border-b sticky top-0 z-50 bg-background/90 backdrop-blur-md">
       <div className="mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link
-            href="/"
-            className="font-semibold text-base tracking-tight flex items-center"
-          >
-            <Image
-              src="/logo.svg"
-              alt="Prompt Manage"
-              width={32}
-              height={32}
-              className="h-6 w-6"
-            />
+          <Link href="/" className="font-semibold text-base tracking-tight flex items-center">
+            <Image src="/logo.svg" alt="Prompt Manage" width={32} height={32} className="h-6 w-6" />
           </Link>
           <nav className="hidden md:flex items-center gap-2">
             {session && (
@@ -62,8 +55,8 @@ export function Header() {
                   } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
                   onClick={(e) => {
                     if (pathname === '/dashboard') {
-                      e.preventDefault()
-                      window.location.reload()
+                      e.preventDefault();
+                      window.location.reload();
                     }
                   }}
                 >
@@ -75,9 +68,7 @@ export function Header() {
             <Link
               href="/p"
               className={`text-sm ${
-                pathname.startsWith('/p')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-muted-foreground'
+                pathname.startsWith('/p') ? 'text-primary bg-primary/10' : 'text-muted-foreground'
               } hover:text-primary transition-colors flex items-center gap-1 font-medium rounded-lg px-2 py-1`}
             >
               <Globe className="w-4 h-4" />
@@ -96,6 +87,7 @@ export function Header() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
+          {session && <WorkspaceSwitcher />}
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -124,10 +116,7 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleSignOut}
-                  className="flex items-center"
-                >
+                <DropdownMenuItem onClick={handleSignOut} className="flex items-center">
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign out
                 </DropdownMenuItem>
@@ -146,5 +135,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }

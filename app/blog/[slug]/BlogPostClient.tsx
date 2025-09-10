@@ -1,86 +1,105 @@
-"use client"
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { PromptCard } from '@/components/PromptCard'
+'use client';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+
+import { PromptCard } from '@/components/PromptCard';
+import { createClient } from '@/utils/supabase/client';
 
 interface BlogPost {
-  title: string
-  html: string
-  slug: string
-  date: string
-  category: string
-  tags: string[]
-  excerpt?: string
-  author?: string
+  title: string;
+  html: string;
+  slug: string;
+  date: string;
+  category: string;
+  tags: string[];
+  excerpt?: string;
+  author?: string;
 }
 
 declare global {
   interface Window {
     twttr?: {
       widgets: {
-        load: () => void
-      }
-    }
+        load: () => void;
+      };
+    };
   }
 }
 
 export default function BlogPostClient({ post }: { post: BlogPost }) {
-  const [latestPrompts, setLatestPrompts] = useState<{ name: string; slug: string }[]>([])
+  const [latestPrompts, setLatestPrompts] = useState<{ name: string; slug: string }[]>([]);
   useEffect(() => {
     // Load Twitter widgets script
     if (!document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')) {
-      const script = document.createElement('script')
-      script.src = 'https://platform.twitter.com/widgets.js'
-      script.async = true
-      script.charset = 'utf-8'
-      document.head.appendChild(script)
+      const script = document.createElement('script');
+      script.src = 'https://platform.twitter.com/widgets.js';
+      script.async = true;
+      script.charset = 'utf-8';
+      document.head.appendChild(script);
     } else if (window.twttr && window.twttr.widgets) {
-      window.twttr.widgets.load()
+      window.twttr.widgets.load();
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     async function fetchLatestPrompts() {
       try {
-        const supabase = createClient()
+        const supabase = createClient();
         const { data } = await supabase
           .from('prompts')
           .select('name, slug')
           .eq('is_public', true)
           .order('inserted_at', { ascending: false })
-          .limit(10)
-        setLatestPrompts((data || []).filter(p => p.slug))
+          .limit(10);
+        setLatestPrompts((data || []).filter((p) => p.slug));
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
     }
     if (post.slug === 'top-gpt5-prompts-for-marketers') {
-      fetchLatestPrompts()
+      fetchLatestPrompts();
     }
-  }, [post.slug])
+  }, [post.slug]);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Back to blog link */}
         <div className="mb-8">
-          <Link href="/blog" className="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">← Back to Blog</Link>
+          <Link
+            href="/blog"
+            className="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium"
+          >
+            ← Back to Blog
+          </Link>
         </div>
         {/* Post metadata */}
         <div className="mb-4 flex flex-wrap items-center gap-2">
-          <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">{post.category}</span>
+          <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
+            {post.category}
+          </span>
           <span className="text-xs text-gray-400">•</span>
-          <span className="text-xs text-gray-500 dark:text-gray-400">{new Date(post.date).toLocaleDateString()}</span>
+          <span className="text-xs text-gray-500 dark:text-gray-400">
+            {new Date(post.date).toLocaleDateString()}
+          </span>
         </div>
         {/* Title */}
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">{post.title}</h1>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+          {post.title}
+        </h1>
         {/* Author */}
-        <div className="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium">By {post.author}</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium">
+          By {post.author}
+        </div>
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-8">
           {post.tags.map((tag: string) => (
-            <span key={tag} className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-xs px-3 py-1 rounded-full font-medium">{tag}</span>
+            <span
+              key={tag}
+              className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-xs px-3 py-1 rounded-full font-medium"
+            >
+              {tag}
+            </span>
           ))}
         </div>
         {/* Blog content rendered as HTML */}
@@ -108,25 +127,52 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
                 <div className="mb-3 not-prose">
                   <PromptCard slug={p.slug} />
                 </div>
-                <Link href={`/p/${p.slug}`} className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm">View full prompt →</Link>
+                <Link
+                  href={`/p/${p.slug}`}
+                  className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm"
+                >
+                  View full prompt →
+                </Link>
               </div>
             ))}
 
             <hr className="my-10 border-gray-200 dark:border-gray-700" />
             <div className="space-y-4">
-              <p className="text-gray-700 dark:text-gray-300">Looking to create and manage your own GPT-5 prompts?</p>
               <p className="text-gray-700 dark:text-gray-300">
-                Try <Link href="/" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm">Prompt Manage</Link> — the easiest way to organize, run, and share prompts with your team. No more messy docs or copy-paste chaos.
+                Looking to create and manage your own GPT-5 prompts?
               </p>
               <p className="text-gray-700 dark:text-gray-300">
-                Explore all public prompts → <Link href="/p" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm">Prompt Directory</Link>
+                Try{' '}
+                <Link
+                  href="/"
+                  className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm"
+                >
+                  Prompt Manage
+                </Link>{' '}
+                — the easiest way to organize, run, and share prompts with your team. No more messy
+                docs or copy-paste chaos.
+              </p>
+              <p className="text-gray-700 dark:text-gray-300">
+                Explore all public prompts →{' '}
+                <Link
+                  href="/p"
+                  className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm"
+                >
+                  Prompt Directory
+                </Link>
                 <br />
-                Build your first custom workflow → <Link href="/dashboard" className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm">Create a Prompt</Link>
+                Build your first custom workflow →{' '}
+                <Link
+                  href="/dashboard"
+                  className="text-blue-600 dark:text-blue-400 underline underline-offset-2 decoration-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm"
+                >
+                  Create a Prompt
+                </Link>
               </p>
             </div>
           </div>
         )}
       </div>
     </div>
-  )
-} 
+  );
+}

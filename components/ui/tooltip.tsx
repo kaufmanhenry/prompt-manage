@@ -1,16 +1,17 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from 'react';
+
+import { cn } from '@/lib/utils';
 
 interface TooltipProps {
-  children: React.ReactNode
-  content: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  content: React.ReactNode;
+  className?: string;
 }
 
 export function Tooltip({ children, content, className }: TooltipProps) {
-  const [isVisible, setIsVisible] = React.useState(false)
+  const [isVisible, setIsVisible] = React.useState(false);
 
   return (
     <div
@@ -22,8 +23,8 @@ export function Tooltip({ children, content, className }: TooltipProps) {
       {isVisible && (
         <div
           className={cn(
-            "absolute z-50 px-2 py-1 text-sm text-white bg-gray-900 rounded shadow-lg whitespace-nowrap",
-            "transform -translate-x-1/2 left-1/2 -top-8",
+            'absolute z-50 px-2 py-1 text-sm text-white bg-gray-900 rounded shadow-lg whitespace-nowrap',
+            'transform -translate-x-1/2 left-1/2 -top-8',
             className
           )}
         >
@@ -32,9 +33,9 @@ export function Tooltip({ children, content, className }: TooltipProps) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export const TooltipProvider = ({ children }: { children: React.ReactNode }) => <>{children}</>
-export const TooltipTrigger = ({ children }: { children: React.ReactNode }) => <>{children}</>
-export const TooltipContent = ({ children }: { children: React.ReactNode }) => <>{children}</> 
+export const TooltipProvider = ({ children }: { children: React.ReactNode }) => <>{children}</>;
+export const TooltipTrigger = ({ children }: { children: React.ReactNode }) => <>{children}</>;
+export const TooltipContent = ({ children }: { children: React.ReactNode }) => <>{children}</>;

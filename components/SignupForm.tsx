@@ -1,44 +1,42 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import Link from 'next/link'
-import { Mail } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
+import { Mail } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
+import { createClient } from '@/utils/supabase/client';
 
 interface SignupFormProps {
-  promptId?: string
-  promptName?: string
-  redirectUrl?: string
+  promptId?: string;
+  promptName?: string;
+  redirectUrl?: string;
 }
 
 export function SignupForm({ promptId, promptName, redirectUrl }: SignupFormProps) {
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const { toast } = useToast()
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
       // Store the redirect info in localStorage for after signup
       if (promptId && promptName && redirectUrl) {
-        localStorage.setItem('pendingPromptCopy', JSON.stringify({
-          promptId,
-          promptName,
-          redirectUrl
-        }))
+        localStorage.setItem(
+          'pendingPromptCopy',
+          JSON.stringify({
+            promptId,
+            promptName,
+            redirectUrl,
+          })
+        );
       }
 
       const { error } = await createClient().auth.signInWithOtp({
@@ -47,35 +45,35 @@ export function SignupForm({ promptId, promptName, redirectUrl }: SignupFormProp
           emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback`,
           shouldCreateUser: true,
         },
-      })
+      });
 
       if (error) {
         toast({
-          title: "Error",
+          title: 'Error',
           description: error.message,
-          variant: "destructive",
-        })
+          variant: 'destructive',
+        });
       } else {
-        const message = promptId 
+        const message = promptId
           ? `We've sent a secure sign-in link to ${email}. After signing in, "${promptName}" will be added to your prompts.`
-          : `We've sent a secure sign-in link to ${email}. Check your inbox.`
-        
+          : `We've sent a secure sign-in link to ${email}. Check your inbox.`;
+
         toast({
-          title: "Magic link sent!",
+          title: 'Magic link sent!',
           description: message,
-        })
+        });
       }
     } catch (error) {
-      console.error('Signup error:', error)
+      console.error('Signup error:', error);
       toast({
-        title: "Error",
-        description: "An error occurred. Please try again.",
-        variant: "destructive",
-      })
+        title: 'Error',
+        description: 'An error occurred. Please try again.',
+        variant: 'destructive',
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Card className="w-full max-w-md">
@@ -84,10 +82,14 @@ export function SignupForm({ promptId, promptName, redirectUrl }: SignupFormProp
           {promptId ? 'Save this prompt to your library' : 'Create an account'}
         </CardTitle>
         <CardDescription className="text-center">
-          {promptId 
-            ? <>Create a free account to save <span className="font-bold">&ldquo;{promptName}&rdquo;</span> to your library.</>
-            : 'Enter your email to get started with Prompt Manage'
-          }
+          {promptId ? (
+            <>
+              Create a free account to save{' '}
+              <span className="font-bold">&ldquo;{promptName}&rdquo;</span> to your library.
+            </>
+          ) : (
+            'Enter your email to get started with Prompt Manage'
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -121,5 +123,5 @@ export function SignupForm({ promptId, promptName, redirectUrl }: SignupFormProp
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

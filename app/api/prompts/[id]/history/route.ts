@@ -1,26 +1,25 @@
-import { createClient } from '@/utils/supabase/server'
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+import { createClient } from '@/utils/supabase/server';
+
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const supabase = await createClient()
+    const supabase = await createClient();
 
     // Check authentication
     const {
       data: { user },
       error: authError,
-    } = await supabase.auth.getUser()
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id: promptId } = await context.params
+    const { id: promptId } = await context.params;
 
     if (!promptId) {
-      return NextResponse.json({ error: 'Prompt ID is required' }, { status: 400 })
+      return NextResponse.json({ error: 'Prompt ID is required' }, { status: 400 });
     }
 
     // Verify the user owns this prompt
@@ -29,17 +28,17 @@ export async function GET(
       .select('id')
       .eq('id', promptId)
       .eq('user_id', user.id)
-      .single()
+      .single();
 
     if (promptError || !prompt) {
-      return NextResponse.json({ error: 'Prompt not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Prompt not found' }, { status: 404 });
     }
 
     // Get URL parameters for pagination and filtering
-    const { searchParams } = new URL(request.url)
-    const limit = parseInt(searchParams.get('limit') || '50')
-    const offset = parseInt(searchParams.get('offset') || '0')
-    const status = searchParams.get('status')
+    const { searchParams } = new URL(request.url);
+    const limit = parseInt(searchParams.get('limit') || '50');
+    const offset = parseInt(searchParams.get('offset') || '0');
+    const status = searchParams.get('status');
 
     // Build query
     let query = supabase
@@ -48,21 +47,18 @@ export async function GET(
       .eq('prompt_id', promptId)
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
-      .range(offset, offset + limit - 1)
+      .range(offset, offset + limit - 1);
 
     // Add status filter if provided
     if (status) {
-      query = query.eq('status', status)
+      query = query.eq('status', status);
     }
 
-    const { data: history, error: historyError } = await query
+    const { data: history, error: historyError } = await query;
 
     if (historyError) {
-      console.error('Error fetching prompt history:', historyError)
-      return NextResponse.json(
-        { error: 'Failed to fetch prompt history' },
-        { status: 500 }
-      )
+      console.error('Error fetching prompt history:', historyError);
+      return NextResponse.json({ error: 'Failed to fetch prompt history' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -73,12 +69,9 @@ export async function GET(
         offset,
         hasMore: (history || []).length === limit,
       },
-    })
+    });
   } catch (error) {
-    console.error('Get prompt history API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error('Get prompt history API error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}

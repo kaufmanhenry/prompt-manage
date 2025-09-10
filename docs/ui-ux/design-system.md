@@ -17,137 +17,93 @@ Our design system is built on the following principles:
 ### Color Palette
 
 #### Primary Colors
+
 ```css
 /* Primary Brand Colors */
---primary-50: #eff6ff
---primary-100: #dbeafe
---primary-200: #bfdbfe
---primary-300: #93c5fd
---primary-400: #60a5fa
---primary-500: #3b82f6  /* Main primary color */
---primary-600: #2563eb
---primary-700: #1d4ed8
---primary-800: #1e40af
---primary-900: #1e3a8a
---primary-950: #172554
+--primary-50: #eff6ff --primary-100: #dbeafe --primary-200: #bfdbfe --primary-300: #93c5fd
+  --primary-400: #60a5fa --primary-500: #3b82f6 /* Main primary color */ --primary-600: #2563eb
+  --primary-700: #1d4ed8 --primary-800: #1e40af --primary-900: #1e3a8a --primary-950: #172554;
 ```
 
 #### Neutral Colors
+
 ```css
 /* Gray Scale */
---gray-50: #f9fafb
---gray-100: #f3f4f6
---gray-200: #e5e7eb
---gray-300: #d1d5db
---gray-400: #9ca3af
---gray-500: #6b7280
---gray-600: #4b5563
---gray-700: #374151
---gray-800: #1f2937
---gray-900: #111827
---gray-950: #030712
+--gray-50: #f9fafb --gray-100: #f3f4f6 --gray-200: #e5e7eb --gray-300: #d1d5db --gray-400: #9ca3af
+  --gray-500: #6b7280 --gray-600: #4b5563 --gray-700: #374151 --gray-800: #1f2937
+  --gray-900: #111827 --gray-950: #030712;
 ```
 
 #### Semantic Colors
+
 ```css
 /* Success */
---success-50: #f0fdf4
---success-500: #22c55e
---success-600: #16a34a
-
-/* Warning */
---warning-50: #fffbeb
---warning-500: #f59e0b
---warning-600: #d97706
-
-/* Error */
---error-50: #fef2f2
---error-500: #ef4444
---error-600: #dc2626
-
-/* Info */
---info-50: #eff6ff
---info-500: #3b82f6
---info-600: #2563eb
+--success-50: #f0fdf4 --success-500: #22c55e --success-600: #16a34a /* Warning */
+  --warning-50: #fffbeb --warning-500: #f59e0b --warning-600: #d97706 /* Error */
+  --error-50: #fef2f2 --error-500: #ef4444 --error-600: #dc2626 /* Info */ --info-50: #eff6ff
+  --info-500: #3b82f6 --info-600: #2563eb;
 ```
 
 ### Typography
 
 #### Font Family
+
 ```css
 /* Font Stack */
---font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif
---font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace
+--font-sans:
+  ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+  Arial, 'Noto Sans', sans-serif --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas,
+  'Liberation Mono', Menlo, monospace;
 ```
 
 #### Font Sizes
+
 ```css
 /* Text Sizes */
---text-xs: 0.75rem    /* 12px */
---text-sm: 0.875rem   /* 14px */
---text-base: 1rem     /* 16px */
---text-lg: 1.125rem   /* 18px */
---text-xl: 1.25rem    /* 20px */
---text-2xl: 1.5rem    /* 24px */
---text-3xl: 1.875rem  /* 30px */
---text-4xl: 2.25rem   /* 36px */
---text-5xl: 3rem      /* 48px */
+--text-xs: 0.75rem /* 12px */ --text-sm: 0.875rem /* 14px */ --text-base: 1rem /* 16px */
+  --text-lg: 1.125rem /* 18px */ --text-xl: 1.25rem /* 20px */ --text-2xl: 1.5rem /* 24px */
+  --text-3xl: 1.875rem /* 30px */ --text-4xl: 2.25rem /* 36px */ --text-5xl: 3rem /* 48px */;
 ```
 
 #### Font Weights
+
 ```css
 /* Font Weights */
---font-light: 300
---font-normal: 400
---font-medium: 500
---font-semibold: 600
---font-bold: 700
---font-extrabold: 800
+--font-light: 300 --font-normal: 400 --font-medium: 500 --font-semibold: 600 --font-bold: 700
+  --font-extrabold: 800;
 ```
 
 ### Spacing
 
 #### Spacing Scale
+
 ```css
 /* Spacing Tokens */
---space-0: 0px
---space-1: 0.25rem   /* 4px */
---space-2: 0.5rem    /* 8px */
---space-3: 0.75rem   /* 12px */
---space-4: 1rem      /* 16px */
---space-5: 1.25rem   /* 20px */
---space-6: 1.5rem    /* 24px */
---space-8: 2rem      /* 32px */
---space-10: 2.5rem   /* 40px */
---space-12: 3rem     /* 48px */
---space-16: 4rem     /* 64px */
---space-20: 5rem     /* 80px */
---space-24: 6rem     /* 96px */
+--space-0: 0px --space-1: 0.25rem /* 4px */ --space-2: 0.5rem /* 8px */ --space-3: 0.75rem
+  /* 12px */ --space-4: 1rem /* 16px */ --space-5: 1.25rem /* 20px */ --space-6: 1.5rem /* 24px */
+  --space-8: 2rem /* 32px */ --space-10: 2.5rem /* 40px */ --space-12: 3rem /* 48px */
+  --space-16: 4rem /* 64px */ --space-20: 5rem /* 80px */ --space-24: 6rem /* 96px */;
 ```
 
 ### Border Radius
 
 ```css
 /* Border Radius */
---radius-none: 0px
---radius-sm: 0.125rem   /* 2px */
---radius-base: 0.25rem  /* 4px */
---radius-md: 0.375rem   /* 6px */
---radius-lg: 0.5rem     /* 8px */
---radius-xl: 0.75rem    /* 12px */
---radius-2xl: 1rem      /* 16px */
---radius-full: 9999px
+--radius-none: 0px --radius-sm: 0.125rem /* 2px */ --radius-base: 0.25rem /* 4px */
+  --radius-md: 0.375rem /* 6px */ --radius-lg: 0.5rem /* 8px */ --radius-xl: 0.75rem /* 12px */
+  --radius-2xl: 1rem /* 16px */ --radius-full: 9999px;
 ```
 
 ### Shadows
 
 ```css
 /* Shadow Tokens */
---shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05)
---shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)
---shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)
---shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
---shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)
+--shadow-sm:
+  0 1px 2px 0 rgb(0 0 0 / 0.05) --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1),
+  0 1px 2px -1px rgb(0 0 0 / 0.1) --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+  0 2px 4px -2px rgb(0 0 0 / 0.1) --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+  0 4px 6px -4px rgb(0 0 0 / 0.1) --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+  0 8px 10px -6px rgb(0 0 0 / 0.1);
 ```
 
 ## Component Library
@@ -155,6 +111,7 @@ Our design system is built on the following principles:
 ### Base Components
 
 #### Button
+
 ```typescript
 // Button variants
 <Button variant="default">Default Button</Button>
@@ -171,6 +128,7 @@ Our design system is built on the following principles:
 ```
 
 #### Input
+
 ```typescript
 // Input types
 <Input type="text" placeholder="Enter text" />
@@ -183,6 +141,7 @@ Our design system is built on the following principles:
 ```
 
 #### Card
+
 ```typescript
 // Card usage
 <Card>
@@ -202,6 +161,7 @@ Our design system is built on the following principles:
 ### Form Components
 
 #### Form
+
 ```typescript
 // Form with validation
 <Form {...form}>
@@ -224,6 +184,7 @@ Our design system is built on the following principles:
 ```
 
 #### Select
+
 ```typescript
 // Select component
 <Select>
@@ -240,6 +201,7 @@ Our design system is built on the following principles:
 ### Navigation Components
 
 #### Command Palette
+
 ```typescript
 // Global command palette
 <Command>
@@ -255,6 +217,7 @@ Our design system is built on the following principles:
 ```
 
 #### Dropdown Menu
+
 ```typescript
 // Dropdown menu
 <DropdownMenu>
@@ -271,6 +234,7 @@ Our design system is built on the following principles:
 ## Layout Components
 
 ### Page Layout
+
 ```typescript
 // Standard page layout
 <Layout>
@@ -285,6 +249,7 @@ Our design system is built on the following principles:
 ```
 
 ### Dashboard Layout
+
 ```typescript
 // Dashboard with sidebar
 <div className="flex min-h-screen">
@@ -300,16 +265,15 @@ Our design system is built on the following principles:
 ## Responsive Design
 
 ### Breakpoints
+
 ```css
 /* Responsive Breakpoints */
---breakpoint-sm: 640px
---breakpoint-md: 768px
---breakpoint-lg: 1024px
---breakpoint-xl: 1280px
---breakpoint-2xl: 1536px
+--breakpoint-sm: 640px --breakpoint-md: 768px --breakpoint-lg: 1024px --breakpoint-xl: 1280px
+  --breakpoint-2xl: 1536px;
 ```
 
 ### Responsive Utilities
+
 ```typescript
 // Responsive classes
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -328,56 +292,33 @@ Our design system is built on the following principles:
 ## Dark Mode
 
 ### Theme Variables
+
 ```css
 /* Light Mode */
 :root {
-  --background: 0 0% 100%
-  --foreground: 222.2 84% 4.9%
-  --card: 0 0% 100%
-  --card-foreground: 222.2 84% 4.9%
-  --popover: 0 0% 100%
-  --popover-foreground: 222.2 84% 4.9%
-  --primary: 221.2 83.2% 53.3%
-  --primary-foreground: 210 40% 98%
-  --secondary: 210 40% 96%
-  --secondary-foreground: 222.2 84% 4.9%
-  --muted: 210 40% 96%
-  --muted-foreground: 215.4 16.3% 46.9%
-  --accent: 210 40% 96%
-  --accent-foreground: 222.2 84% 4.9%
-  --destructive: 0 84.2% 60.2%
-  --destructive-foreground: 210 40% 98%
-  --border: 214.3 31.8% 91.4%
-  --input: 214.3 31.8% 91.4%
-  --ring: 221.2 83.2% 53.3%
-  --radius: 0.5rem
+  --background: 0 0% 100% --foreground: 222.2 84% 4.9% --card: 0 0% 100% --card-foreground: 222.2
+    84% 4.9% --popover: 0 0% 100% --popover-foreground: 222.2 84% 4.9% --primary: 221.2 83.2% 53.3%
+    --primary-foreground: 210 40% 98% --secondary: 210 40% 96% --secondary-foreground: 222.2 84%
+    4.9% --muted: 210 40% 96% --muted-foreground: 215.4 16.3% 46.9% --accent: 210 40% 96%
+    --accent-foreground: 222.2 84% 4.9% --destructive: 0 84.2% 60.2% --destructive-foreground: 210
+    40% 98% --border: 214.3 31.8% 91.4% --input: 214.3 31.8% 91.4% --ring: 221.2 83.2% 53.3%
+    --radius: 0.5rem;
 }
 
 /* Dark Mode */
 .dark {
-  --background: 222.2 84% 4.9%
-  --foreground: 210 40% 98%
-  --card: 222.2 84% 4.9%
-  --card-foreground: 210 40% 98%
-  --popover: 222.2 84% 4.9%
-  --popover-foreground: 210 40% 98%
-  --primary: 217.2 91.2% 59.8%
-  --primary-foreground: 222.2 84% 4.9%
-  --secondary: 217.2 32.6% 17.5%
-  --secondary-foreground: 210 40% 98%
-  --muted: 217.2 32.6% 17.5%
-  --muted-foreground: 215 20.2% 65.1%
-  --accent: 217.2 32.6% 17.5%
-  --accent-foreground: 210 40% 98%
-  --destructive: 0 62.8% 30.6%
-  --destructive-foreground: 210 40% 98%
-  --border: 217.2 32.6% 17.5%
-  --input: 217.2 32.6% 17.5%
-  --ring: 224.3 76.3% 94.1%
+  --background: 222.2 84% 4.9% --foreground: 210 40% 98% --card: 222.2 84% 4.9%
+    --card-foreground: 210 40% 98% --popover: 222.2 84% 4.9% --popover-foreground: 210 40% 98%
+    --primary: 217.2 91.2% 59.8% --primary-foreground: 222.2 84% 4.9% --secondary: 217.2 32.6% 17.5%
+    --secondary-foreground: 210 40% 98% --muted: 217.2 32.6% 17.5% --muted-foreground: 215 20.2%
+    65.1% --accent: 217.2 32.6% 17.5% --accent-foreground: 210 40% 98% --destructive: 0 62.8% 30.6%
+    --destructive-foreground: 210 40% 98% --border: 217.2 32.6% 17.5% --input: 217.2 32.6% 17.5%
+    --ring: 224.3 76.3% 94.1%;
 }
 ```
 
 ### Theme Provider
+
 ```typescript
 // Theme provider usage
 <ThemeProvider
@@ -393,16 +334,20 @@ Our design system is built on the following principles:
 ## Animation and Transitions
 
 ### Transition Classes
+
 ```css
 /* Transition utilities */
---transition-all: all 0.15s cubic-bezier(0.4, 0, 0.2, 1)
---transition-colors: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, text-decoration-color 0.15s ease-in-out, fill 0.15s ease-in-out, stroke 0.15s ease-in-out
---transition-opacity: opacity 0.15s ease-in-out
---transition-shadow: box-shadow 0.15s ease-in-out
---transition-transform: transform 0.15s ease-in-out
+--transition-all:
+  all 0.15s cubic-bezier(0.4, 0, 0.2, 1) --transition-colors: color 0.15s ease-in-out,
+  background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+  text-decoration-color 0.15s ease-in-out, fill 0.15s ease-in-out,
+  stroke 0.15s ease-in-out --transition-opacity: opacity 0.15s ease-in-out
+    --transition-shadow: box-shadow 0.15s ease-in-out --transition-transform: transform 0.15s
+    ease-in-out;
 ```
 
 ### Animation Classes
+
 ```typescript
 // Animation utilities
 <div className="animate-in fade-in duration-300">
@@ -421,6 +366,7 @@ Our design system is built on the following principles:
 ## Accessibility
 
 ### ARIA Labels
+
 ```typescript
 // Proper ARIA usage
 <Button aria-label="Close dialog">
@@ -434,6 +380,7 @@ Our design system is built on the following principles:
 ```
 
 ### Focus Management
+
 ```typescript
 // Focus management
 <Dialog>
@@ -449,6 +396,7 @@ Our design system is built on the following principles:
 ```
 
 ### Keyboard Navigation
+
 ```typescript
 // Keyboard navigation support
 <div role="button" tabIndex={0} onKeyDown={handleKeyDown}>
@@ -459,6 +407,7 @@ Our design system is built on the following principles:
 ## Icon System
 
 ### Lucide Icons
+
 ```typescript
 // Icon usage
 import { Plus, Edit, Trash2, Search } from 'lucide-react'
@@ -472,6 +421,7 @@ import { Plus, Edit, Trash2, Search } from 'lucide-react'
 ```
 
 ### Icon Guidelines
+
 - Use consistent icon sizes (16px, 20px, 24px)
 - Maintain proper spacing around icons
 - Use semantic colors for icons
@@ -480,6 +430,7 @@ import { Plus, Edit, Trash2, Search } from 'lucide-react'
 ## Best Practices
 
 ### Component Design
+
 1. **Single Responsibility**: Each component should have one clear purpose
 2. **Composition**: Build complex components from simple ones
 3. **Props Interface**: Define clear prop interfaces with TypeScript
@@ -487,6 +438,7 @@ import { Plus, Edit, Trash2, Search } from 'lucide-react'
 5. **Error Boundaries**: Handle errors gracefully
 
 ### Styling Guidelines
+
 1. **Utility First**: Use Tailwind utility classes when possible
 2. **Custom CSS**: Use custom CSS for complex animations or layouts
 3. **CSS Variables**: Use CSS custom properties for theme values
@@ -494,6 +446,7 @@ import { Plus, Edit, Trash2, Search } from 'lucide-react'
 5. **Performance**: Optimize for performance with efficient CSS
 
 ### Accessibility Standards
+
 1. **WCAG 2.1 AA**: Follow WCAG 2.1 AA guidelines
 2. **Semantic HTML**: Use proper HTML semantics
 3. **Keyboard Navigation**: Ensure all interactive elements are keyboard accessible
@@ -501,6 +454,7 @@ import { Plus, Edit, Trash2, Search } from 'lucide-react'
 5. **Color Contrast**: Maintain sufficient color contrast ratios
 
 ### Performance Considerations
+
 1. **Bundle Size**: Keep component bundle size minimal
 2. **Lazy Loading**: Lazy load components when appropriate
 3. **Optimization**: Optimize images and assets
@@ -510,6 +464,7 @@ import { Plus, Edit, Trash2, Search } from 'lucide-react'
 ## Component Documentation
 
 ### Storybook Integration
+
 ```typescript
 // Component story example
 export default {
@@ -518,22 +473,23 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'A versatile button component with multiple variants and sizes.'
-      }
-    }
-  }
-} as Meta
+        component: 'A versatile button component with multiple variants and sizes.',
+      },
+    },
+  },
+} as Meta;
 
 export const Default: Story = {
   args: {
     children: 'Button',
     variant: 'default',
-    size: 'default'
-  }
-}
+    size: 'default',
+  },
+};
 ```
 
 ### Usage Examples
+
 ```typescript
 // Common usage patterns
 // 1. Primary action button
@@ -559,4 +515,4 @@ export const Default: Story = {
 
 ---
 
-*Last updated: December 2024* 
+_Last updated: December 2024_

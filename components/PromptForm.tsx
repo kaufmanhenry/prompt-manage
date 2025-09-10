@@ -1,22 +1,18 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/utils/supabase/client'
-import { promptSchema, Prompt, modelSchema } from '@/lib/schemas/prompt'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Switch } from '@/components/ui/switch'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -25,75 +21,82 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import type { Option } from '@/components/ui/multi-select';
+import MultipleSelector from '@/components/ui/multi-select';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import MultipleSelector, { Option } from '@/components/ui/multi-select'
-import { useToast } from '@/components/ui/use-toast'
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/components/ui/use-toast';
+import type { Prompt } from '@/lib/schemas/prompt';
+import { modelSchema, promptSchema } from '@/lib/schemas/prompt';
+import { createClient } from '@/utils/supabase/client';
 
 interface PromptFormProps {
-  prompt?: Prompt | null
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  prompt?: Prompt | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-const models = modelSchema.options
+const models = modelSchema.options;
 
 export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
-  const [loading, setLoading] = useState(false)
-  const queryClient = useQueryClient()
-  const { toast } = useToast()
+  const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
       const {
         data: { session },
-      } = await createClient().auth.getSession()
-      return session
+      } = await createClient().auth.getSession();
+      return session;
     },
-  })
+  });
 
   // Fetch all tags from user's existing prompts
   const { data: userTags = [] } = useQuery({
     queryKey: ['user-tags', session?.user?.id],
     queryFn: async () => {
-      if (!session?.user?.id) return []
+      if (!session?.user?.id) return [];
 
       const { data, error } = await createClient()
         .from('prompts')
         .select('tags')
         .eq('user_id', session.user.id)
-        .not('tags', 'is', null)
+        .not('tags', 'is', null);
 
       if (error) {
-        console.error('Error fetching user tags:', error)
-        return []
+        console.error('Error fetching user tags:', error);
+        return [];
       }
 
       // Extract all unique tags from user's prompts
-      const allTags = new Set<string>()
+      const allTags = new Set<string>();
       data?.forEach((prompt) => {
         if (prompt.tags && Array.isArray(prompt.tags)) {
-          prompt.tags.forEach((tag) => allTags.add(tag))
+          prompt.tags.forEach((tag) => allTags.add(tag));
         }
-      })
+      });
 
-      return Array.from(allTags).sort()
+      return Array.from(allTags).sort();
     },
     enabled: !!session?.user?.id,
-  })
+  });
 
   // Convert tags to Option format for MultipleSelector
   const tagOptions: Option[] = userTags.map((tag) => ({
     label: tag,
     value: tag,
-  }))
+  }));
 
   const form = useForm<Prompt>({
     resolver: zodResolver(promptSchema),
@@ -105,7 +108,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       user_id: prompt?.user_id || session?.user?.id || '',
       is_public: prompt?.is_public || false,
     },
-  })
+  });
 
   // Reset form values when prompt changes (for editing)
   useEffect(() => {
@@ -116,8 +119,8 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       tags: prompt?.tags || [],
       user_id: prompt?.user_id || session?.user?.id || '',
       is_public: prompt?.is_public || false,
-    })
-  }, [prompt, session?.user?.id, form])
+    });
+  }, [prompt, session?.user?.id, form]);
 
   const onSubmit = async (values: Prompt) => {
     if (!session?.user?.id) {
@@ -125,11 +128,11 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         title: 'Authentication Error',
         description: 'Please log in to save prompts.',
         variant: 'destructive',
-      })
-      return
+      });
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
     try {
       // Only save the fields that exist in the current database schema
       const promptData = {
@@ -141,33 +144,31 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         is_public: values.is_public,
         // Note: description, slug, view_count are not included
         // until the database migration is run
-      }
+      };
 
       if (prompt?.id) {
         // Update existing prompt
         const { error } = await createClient()
           .from('prompts')
           .update(promptData)
-          .eq('id', prompt.id)
+          .eq('id', prompt.id);
 
-        if (error) throw error
+        if (error) throw error;
 
         toast({
           title: 'Prompt Updated',
           description: `"${values.name}" has been successfully updated.`,
-        })
+        });
       } else {
         // Create new prompt
-        const { error } = await createClient()
-          .from('prompts')
-          .insert(promptData)
+        const { error } = await createClient().from('prompts').insert(promptData);
 
-        if (error) throw error
+        if (error) throw error;
 
         toast({
           title: 'Prompt Created',
           description: `"${values.name}" has been successfully created.`,
-        })
+        });
         // Reset form after successful creation
         form.reset({
           name: '',
@@ -176,25 +177,25 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
           tags: [],
           user_id: session.user.id,
           is_public: false,
-        })
+        });
       }
 
-      queryClient.invalidateQueries({ queryKey: ['prompts'] })
-      queryClient.invalidateQueries({ queryKey: ['user-tags'] })
-      onOpenChange(false)
+      queryClient.invalidateQueries({ queryKey: ['prompts'] });
+      queryClient.invalidateQueries({ queryKey: ['user-tags'] });
+      onOpenChange(false);
     } catch (error) {
-      console.error('Error saving prompt:', error)
+      console.error('Error saving prompt:', error);
       toast({
         title: 'Error',
         description: prompt?.id
           ? 'Failed to update prompt. Please try again.'
           : 'Failed to create prompt. Please try again.',
         variant: 'destructive',
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -268,9 +269,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormDescription>
-                    Choose the AI model that will use this prompt.
-                  </FormDescription>
+                  <FormDescription>Choose the AI model that will use this prompt.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -325,8 +324,8 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                   />
                   <FormMessage />
                   <FormDescription>
-                    Select from your existing tags or create new ones. Tags help
-                    organize and find your prompts.
+                    Select from your existing tags or create new ones. Tags help organize and find
+                    your prompts.
                   </FormDescription>
                 </FormItem>
               )}
@@ -344,10 +343,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       </FormDescription>
                     </div>
                     <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                     <FormMessage />
                   </div>
@@ -355,11 +351,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
               )}
             />
             <div className="sticky -bottom-6 bg-background z-5 border-t flex justify-end gap-2 py-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => onOpenChange(false)}
-              >
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
               <Button
@@ -367,16 +359,12 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 disabled={loading || !session?.user?.id}
                 data-testid="submit-prompt"
               >
-                {loading
-                  ? 'Saving...'
-                  : prompt
-                  ? 'Update Prompt'
-                  : 'Create Prompt'}
+                {loading ? 'Saving...' : prompt ? 'Update Prompt' : 'Create Prompt'}
               </Button>
             </div>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

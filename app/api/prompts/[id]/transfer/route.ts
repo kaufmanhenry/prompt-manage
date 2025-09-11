@@ -7,7 +7,7 @@ import { createRateLimiter } from '@/lib/server/rate-limit';
 
 const limiter = createRateLimiter({ windowMs: 60_000, max: 30 });
 
-type RouteContext = { params: { promptId: string } };
+type RouteContext = { params: { id: string } };
 
 const transferSchema = z.object({
   orgId: z.string().uuid().nullable(),
@@ -17,7 +17,7 @@ const transferSchema = z.object({
 export async function POST(request: Request, context: RouteContext) {
   try {
     const { supabase, userId } = await requireAuth();
-    const promptId = context.params.promptId;
+    const promptId = context.params.id;
     if (!promptId || !/^[0-9a-fA-F-]{36}$/.test(promptId)) {
       return NextResponse.json({ error: 'Invalid promptId' }, { status: 400 });
     }

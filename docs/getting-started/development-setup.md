@@ -51,6 +51,15 @@ SUPABASE_SERVICE_ROLE=your-service-role-key
 # Optional: Development overrides
 NODE_ENV=development
 NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Email provider configuration (use SES in dev/prod; Resend as fallback)
+# Minimum for SES:
+AWS_SES_REGION=us-east-1
+# Use either IAM role on the host or explicit keys:
+AWS_ACCESS_KEY_ID=your-aws-access-key-id
+AWS_SECRET_ACCESS_KEY=your-aws-secret-access-key
+# Optional fallback provider for local testing:
+RESEND_API_KEY=your_resend_api_key
 ```
 
 ### 4. Get Supabase Credentials

@@ -181,6 +181,9 @@ For detailed testing information, see our **[Testing Guide](./docs/development/t
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE`
+   - `AWS_SES_REGION` (e.g. `us-east-1`)
+   - `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (or use IAM role)
+   - Optional fallback: `RESEND_API_KEY`
 3. Deploy automatically on push to main branch
 
 ### Supabase Setup

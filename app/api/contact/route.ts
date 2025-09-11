@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { sendEmail } from '@/lib/server/email';
 
 // Minimal email forwarding using Resend HTTP API (no extra deps)
 // Requires env: RESEND_API_KEY
@@ -18,12 +19,9 @@ export async function POST(request: NextRequest) {
     const body = (await request.json()) as Partial<ContactPayload>;
 
     const toAddress = process.env.CONTACT_TO || 'support@promptmanage.com';
-    const fromAddress = process.env.CONTACT_FROM || 'no-reply@promptmanage.com';
-    const resendApiKey = process.env.RESEND_API_KEY;
-
-    if (!resendApiKey) {
-      return NextResponse.json({ error: 'Email service not configured' }, { status: 500 });
-    }
+    const fromAddress = process.env.CONTACT_FROM || `Prompt Manage <no-reply@promptmanage.com>`;
+    const hasProvider = Boolean(process.env.AWS_SES_REGION || process.env.RESEND_API_KEY);
+    if (!hasProvider) return NextResponse.json({ error: 'Email service not configured' }, { status: 500 });
 
     const email = (body.email || '').trim();
     if (!email) {
@@ -49,27 +47,7 @@ export async function POST(request: NextRequest) {
       </div>
     `;
 
-    const payload = {
-      from: fromAddress,
-      to: [toAddress],
-      subject,
-      html,
-      reply_to: email,
-    };
-
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${resendApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      const details = await res.text().catch(() => '');
-      return NextResponse.json({ error: 'Failed to send email', details }, { status: 502 });
-    }
+    await sendEmail({ from: fromAddress, to: [toAddress], subject, html, replyTo: email });
 
     return NextResponse.json({ success: true });
   } catch (error) {

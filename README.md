@@ -57,6 +57,8 @@ For comprehensive documentation, visit our **[Documentation Hub](./docs/README.m
    # Supabase Configuration - Get from your Supabase project settings
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   # Public site URL for OAuth redirects (e.g., Vercel URL or localhost)
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
    ```
 
    **Important**: Replace `your_openai_api_key_here` with your actual OpenAI API key. You can get one from [OpenAI's platform](https://platform.openai.com/api-keys).
@@ -70,7 +72,6 @@ For detailed setup instructions, see our **[Development Setup Guide](./docs/gett
 
 ## Features
 
-- ✅ Email OTP authentication
 - ✅ Prompt management (CRUD)
 - ✅ Full-text search
 - ✅ Command palette (⌘K)
@@ -79,6 +80,7 @@ For detailed setup instructions, see our **[Development Setup Guide](./docs/gett
 - ✅ Prompt sharing and public access
 - ✅ Related prompts discovery
 - ✅ Responsive design
+ - ✅ Google authentication
 - **Prompt Management**: Create, edit, and organize your AI prompts
 - **Public Sharing**: Share prompts publicly with a unique URL
 - **Tagging System**: Organize prompts with custom tags
@@ -190,7 +192,7 @@ For detailed testing information, see our **[Testing Guide](./docs/development/t
 
 1. Create a new project in Supabase
 2. Run migrations: `supabase db push`
-3. Enable Email OTP authentication in Supabase Auth settings
+3. Enable Google authentication in Supabase Auth settings and configure OAuth credentials
 
 ## Contributing
 

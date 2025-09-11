@@ -13,9 +13,7 @@ export default function SignupHelp() {
         <ol className="list-decimal pl-6 mb-6 text-gray-700 dark:text-gray-300 space-y-2">
           <li>
             Go to the{' '}
-            <Link href="/auth/signup" className="text-blue-600 dark:text-blue-400 underline">
-              Sign Up
-            </Link>{' '}
+            <span className="text-blue-600 dark:text-blue-400">Use the Google sign-in button in the header</span>{' '}
             page.
           </li>
           <li>Enter your email address, create a password, and fill in any required fields.</li>

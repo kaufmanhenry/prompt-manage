@@ -1,53 +1,35 @@
 'use client';
 
-import { Mail } from 'lucide-react';
+import { Chrome } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { createClient } from '@/utils/supabase/client';
 
 export function LoginForm() {
-  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // No OTP flow; Google OAuth only
+
+  const handleGoogle = async () => {
     setLoading(true);
-
     try {
-      const { error } = await createClient().auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback`,
-          shouldCreateUser: true,
-        },
+      const redirectTo = `${window.location.origin}/auth/callback`;
+      const { error } = await createClient().auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo },
       });
-
       if (error) {
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        });
-      } else {
-        toast({
-          title: 'Magic link sent!',
-          description: `We've sent a secure sign-in link to ${email}. Check your inbox.`,
-        });
+        throw error;
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      toast({
-        title: 'Error',
-        description: 'An error occurred. Please try again.',
-        variant: 'destructive',
-      });
+    } catch (error: unknown) {
+      console.error('Google login error:', error);
+      const description = error instanceof Error ? error.message : 'Google sign-in failed';
+      toast({ title: 'Error', description, variant: 'destructive' });
     } finally {
       setLoading(false);
     }
@@ -62,35 +44,12 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
-                required
-              />
-            </div>
-          </div>
-
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Sending magic link...' : 'Send magic link'}
-          </Button>
-        </form>
+        <Button type="button" variant="outline" className="w-full" onClick={handleGoogle} disabled={loading}>
+          <Chrome className="mr-2 h-4 w-4" /> Continue with Google
+        </Button>
 
         <div className="space-y-2 text-center">
-          <div className="text-sm">
-            Don&apos;t have an account?{' '}
-            <Link href="/auth/signup" className="text-primary hover:underline">
-              Sign up
-            </Link>
-          </div>
+          <div className="text-sm">Don&apos;t have an account? <Link href="/auth/signup" className="text-primary hover:underline">Sign up</Link></div>
         </div>
       </CardContent>
     </Card>

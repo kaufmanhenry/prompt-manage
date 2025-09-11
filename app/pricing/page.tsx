@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { GoogleSignInButton } from '@/components/GoogleSignInButton';
 
 export default function PricingPage() {
   // Countdown target: 72 hours from first visit (stored in localStorage to persist urgency)
@@ -77,11 +78,7 @@ export default function PricingPage() {
             </ul>
             {/* CTA */}
             <div className="mt-6">
-              <Link href="/auth/signup">
-                <Button size="lg" className="w-full">
-                  Get Started Free
-                </Button>
-              </Link>
+              <GoogleSignInButton label="Get Started Free" className="w-full" size="lg" />
               <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">
                 No credit card required
               </p>
@@ -119,11 +116,7 @@ export default function PricingPage() {
             </ul>
             {/* CTA */}
             <div className="mt-6">
-              <Link href="/auth/signup?plan=team">
-                <Button size="lg" className="w-full">
-                  Start Team
-                </Button>
-              </Link>
+              <GoogleSignInButton label="Start Team" className="w-full" size="lg" />
               <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">
                 Billed monthly per active user
               </p>
@@ -171,11 +164,7 @@ export default function PricingPage() {
               </ul>
               {/* CTA */}
               <div className="mt-6">
-                <Link href="/auth/signup?plan=pro">
-                  <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                    Grab the Lifetime Deal
-                  </Button>
-                </Link>
+                <GoogleSignInButton label="Grab the Lifetime Deal" className="w-full bg-blue-600 hover:bg-blue-700 text-white" size="lg" />
                 <p className="mt-2 text-xs text-gray-600 dark:text-gray-400 text-center">
                   Unlock all features • Pay once, use forever
                 </p>

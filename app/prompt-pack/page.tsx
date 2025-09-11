@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { GoogleSignInButton } from '@/components/GoogleSignInButton';
 
 export default function PromptPackPage() {
   const [email, setEmail] = useState('');
@@ -147,9 +148,7 @@ export default function PromptPackPage() {
                   Check your email for the download link. You&rsquo;ll also receive tips on how to
                   use these prompts effectively.
                 </p>
-                <Link href="/auth/signup">
-                  <Button className="text-lg py-3">Start Free Trial</Button>
-                </Link>
+                <GoogleSignInButton label="Start Free Trial" className="text-lg py-3" />
               </div>
             )}
           </div>
@@ -303,11 +302,7 @@ export default function PromptPackPage() {
             prompts
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/auth/signup">
-              <Button size="lg" className="text-lg px-8 py-4">
-                Get Started Free
-              </Button>
-            </Link>
+            <GoogleSignInButton label="Get Started Free" className="text-lg px-8 py-4" size="lg" />
             <Link href="/pricing">
               <Button variant="outline" size="lg" className="text-lg px-8 py-4">
                 See Pricing

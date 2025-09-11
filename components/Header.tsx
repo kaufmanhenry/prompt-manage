@@ -36,6 +36,18 @@ export function Header() {
     window.location.href = '/';
   };
 
+  const handleGoogle = async () => {
+    try {
+      const url = new URL(window.location.href);
+      const redirect = url.searchParams.get('redirect') || '/auth/callback';
+      const redirectTo = `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`;
+      const { error } = await createClient().auth.signInWithOAuth({ provider: 'google', options: { redirectTo } });
+      if (error) throw error;
+    } catch (error) {
+      console.error('Google sign-in error:', error);
+    }
+  };
+
   return (
     <header className="border-b sticky top-0 z-50 bg-background/90 backdrop-blur-md">
       <div className="mx-auto px-4 h-16 flex items-center justify-between">
@@ -124,12 +136,7 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button variant="ghost" asChild>
-                <Link href="/auth/login">Sign in</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/auth/signup">Sign up</Link>
-              </Button>
+              <Button variant="default" onClick={handleGoogle}>Continue with Google</Button>
             </div>
           )}
         </div>

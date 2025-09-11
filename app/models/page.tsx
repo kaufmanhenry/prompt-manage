@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { GoogleSignInButton } from '@/components/GoogleSignInButton';
 import { supportedModels } from '@/lib/models';
 
 export const metadata: Metadata = {
@@ -300,9 +301,7 @@ export default function ModelsPage() {
             supported models
           </p>
           <div className="flex items-center justify-center gap-4">
-            <Link href="/auth/signup">
-              <Button size="lg">Get Started</Button>
-            </Link>
+            <GoogleSignInButton label="Get Started" size="lg" />
             <Link href="/p">
               <Button variant="outline" size="lg">
                 Browse Public Prompts

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import InteractivePromptLab from '@/components/InteractivePromptLab';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { GoogleSignInButton } from '@/components/GoogleSignInButton';
 import { Separator } from '@/components/ui/separator';
 import { createClient } from '@/utils/supabase/server';
 
@@ -114,11 +115,7 @@ export default async function Home() {
               </div>
             ) : (
               <div className="flex flex-col sm:flex-row items-center gap-3">
-                <Link href="/auth/signup">
-                  <Button size="lg" className="text-base px-7 py-6">
-                    Start Free
-                  </Button>
-                </Link>
+                <GoogleSignInButton label="Start Free" className="text-base px-7 py-6" size="lg" />
                 <Link href="/p">
                   <Button variant="outline" size="lg" className="text-base px-7 py-6">
                     <Search className="mr-2 h-5 w-5" /> Browse Templates

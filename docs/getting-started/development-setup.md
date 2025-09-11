@@ -52,6 +52,9 @@ SUPABASE_SERVICE_ROLE=your-service-role-key
 NODE_ENV=development
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 
+# OAuth
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
 # Email provider configuration (use SES in dev/prod; Resend as fallback)
 # Minimum for SES:
 AWS_SES_REGION=us-east-1
@@ -202,9 +205,9 @@ supabase db diff --schema public --linked
 
 ### 2. Test Authentication
 
-1. Try signing up with a new email
-2. Check that you receive the OTP email
-3. Verify you can log in with the OTP
+1. Click "Continue with Google" on Login/Signup
+2. Complete Google OAuth flow
+3. You should be redirected to the dashboard and a profile will be created automatically
 
 ## Common Issues and Solutions
 

@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { useToast } from '@/components/ui/use-toast'
-import { Copy, Check } from 'lucide-react'
-import { usePromptRouting } from '@/hooks/usePromptRouting'
-import { Spinner } from '@/components/ui/loading'
-import { createClient } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
+import { Check, Copy } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/loading'
+import { useToast } from '@/components/ui/use-toast'
+import { usePromptRouting } from '@/hooks/usePromptRouting'
+import { createClient } from '@/utils/supabase/client'
 
 interface CopyPromptButtonProps {
   promptId: string
@@ -17,18 +18,18 @@ interface CopyPromptButtonProps {
   onCopySuccess?: (newPromptId: string) => void
 }
 
-export function CopyPromptButton({ 
-  promptId, 
-  promptName, 
-  className, 
-  onCopySuccess 
+export function CopyPromptButton({
+  promptId,
+  promptName,
+  className,
+  onCopySuccess,
 }: CopyPromptButtonProps) {
   const [loading, setLoading] = useState(false)
   const [copied, setCopied] = useState(false)
   const { toast } = useToast()
   const { navigateToPrompt } = usePromptRouting()
   const router = useRouter()
-  
+
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
@@ -59,7 +60,7 @@ export function CopyPromptButton({
         },
         body: JSON.stringify({
           source_prompt_id: promptId,
-          new_name: `${promptName} (Copy)`
+          new_name: `${promptName} (Copy)`,
         }),
       })
 
@@ -71,7 +72,7 @@ export function CopyPromptButton({
 
       setCopied(true)
       toast({
-        title: "Prompt Copied!",
+        title: 'Prompt Copied!',
         description: `"${promptName}" has been added to your personal prompts.`,
       })
 
@@ -82,13 +83,13 @@ export function CopyPromptButton({
         // Navigate to the newly copied prompt
         navigateToPrompt(data.prompt.id)
       }
-
     } catch (error) {
       console.error('Copy prompt error:', error)
       toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : 'Failed to copy prompt',
-        variant: "destructive",
+        title: 'Error',
+        description:
+          error instanceof Error ? error.message : 'Failed to copy prompt',
+        variant: 'destructive',
       })
     } finally {
       setLoading(false)
@@ -100,7 +101,7 @@ export function CopyPromptButton({
       onClick={handleCopy}
       disabled={loading || copied}
       className={className}
-      variant={copied ? "default" : "outline"}
+      variant={copied ? 'default' : 'outline'}
     >
       {loading ? (
         <Spinner size="sm" className="mr-2" />
@@ -112,4 +113,4 @@ export function CopyPromptButton({
       {copied ? 'Copied!' : loading ? 'Copying...' : 'Copy to My Prompts'}
     </Button>
   )
-} 
+}

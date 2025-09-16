@@ -1,6 +1,8 @@
-import { createClient } from '@/utils/supabase/server'
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
+
+import { createClient } from '@/utils/supabase/server'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -8,7 +10,7 @@ const openai = new OpenAI({
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
-  
+
   try {
     // Check if OpenAI API key is configured
     if (!process.env.OPENAI_API_KEY) {
@@ -32,7 +34,10 @@ export async function POST(request: NextRequest) {
     const { promptId } = await request.json()
 
     if (!promptId) {
-      return NextResponse.json({ error: 'Prompt ID is required' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'Prompt ID is required' },
+        { status: 400 }
+      )
     }
 
     // Fetch the prompt and verify ownership
@@ -60,7 +65,8 @@ export async function POST(request: NextRequest) {
       temperature: 0.7,
     })
 
-    const response = completion.choices[0]?.message?.content || 'No response generated'
+    const response =
+      completion.choices[0]?.message?.content || 'No response generated'
     const executionTime = Date.now() - startTime
     const tokensUsed = completion.usage?.total_tokens || null
 
@@ -73,7 +79,7 @@ export async function POST(request: NextRequest) {
       p_tokens_used: tokensUsed,
       p_execution_time_ms: executionTime,
       p_status: 'success',
-      p_error_message: null
+      p_error_message: null,
     })
 
     if (logError) {
@@ -94,13 +100,16 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     const executionTime = Date.now() - startTime
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-    
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error'
+
     // Log the failed prompt run
     try {
       const supabase = await createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+
       if (user) {
         const { promptId } = await request.json().catch(() => ({}))
         if (promptId) {
@@ -120,7 +129,7 @@ export async function POST(request: NextRequest) {
               p_tokens_used: null,
               p_execution_time_ms: executionTime,
               p_status: 'error',
-              p_error_message: errorMessage
+              p_error_message: errorMessage,
             })
           }
         }
@@ -128,9 +137,9 @@ export async function POST(request: NextRequest) {
     } catch (logError) {
       console.error('Failed to log failed prompt run:', logError)
     }
-    
+
     console.error('Run prompt API error:', error)
-    
+
     // Handle OpenAI-specific errors
     if (error instanceof OpenAI.APIError) {
       return NextResponse.json(
@@ -144,4 +153,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-} 
+}

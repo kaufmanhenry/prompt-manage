@@ -1,23 +1,19 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
-import { useToast } from '@/components/ui/use-toast'
-import { User as AuthUser } from '@supabase/supabase-js'
-import { User, Mail, Globe, MapPin, Save, Trash2, Settings } from 'lucide-react'
+import type { User as AuthUser } from '@supabase/supabase-js'
+import { Globe, Mail, MapPin, Save, Settings, Trash2, User } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useCallback, useEffect, useState } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Switch } from '@/components/ui/switch'
+import { Textarea } from '@/components/ui/textarea'
+import { useToast } from '@/components/ui/use-toast'
+import { createClient } from '@/utils/supabase/client'
 
 export default function SettingsPage() {
   const { toast } = useToast()
@@ -214,9 +210,9 @@ export default function SettingsPage() {
   if (loading || !user) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="space-y-6">
-            <Skeleton className="h-8 w-1/4 mb-8" />
+            <Skeleton className="mb-8 h-8 w-1/4" />
             <Skeleton className="h-64" />
             <Skeleton className="h-64" />
           </div>
@@ -227,7 +223,7 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-4">
           <h1 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
             Account Settings
@@ -239,7 +235,7 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base font-medium">
-                <div className="flex items-center justify-center bg-input rounded-lg h-6 w-6">
+                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
                   <User className="size-4 text-muted-foreground" />
                 </div>
                 <span className="text-base font-medium">
@@ -248,7 +244,7 @@ export default function SettingsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="displayName">Display Name</Label>
                   <div className="relative">
@@ -271,7 +267,7 @@ export default function SettingsPage() {
                       id="email"
                       value={user.email || ''}
                       disabled
-                      className="pl-10 bg-gray-50 dark:bg-gray-800"
+                      className="bg-gray-50 pl-10 dark:bg-gray-800"
                     />
                   </div>
                 </div>
@@ -288,7 +284,7 @@ export default function SettingsPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="website">Website</Label>
                   <div className="relative">
@@ -333,7 +329,7 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base font-medium">
-                <div className="flex items-center justify-center bg-input rounded-lg h-6 w-6">
+                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
                   <Settings className="size-4 text-muted-foreground" />
                 </div>
                 <span className="text-base font-medium">Preferences</span>
@@ -372,7 +368,7 @@ export default function SettingsPage() {
           <Card className="border-red-200 dark:border-red-800">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base font-medium">
-                <div className="flex items-center justify-center bg-input rounded-lg h-6 w-6">
+                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
                   <Trash2 className="size-4 text-muted-foreground" />
                 </div>
                 <span className="text-base font-medium">Danger Zone</span>

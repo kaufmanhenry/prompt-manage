@@ -1,12 +1,14 @@
 'use client'
 
-import { useState, useEffect, Suspense, useCallback } from 'react'
-import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
-import { PublicPrompt } from '@/lib/schemas/prompt'
-import { Card } from '@/components/ui/card'
+import { Search, TrendingUp } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useCallback, useEffect, useState } from 'react'
+
+import CopyButton from '@/components/CopyButton'
 import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { FullPageLoading } from '@/components/ui/loading'
 import {
   Select,
   SelectContent,
@@ -14,11 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import CopyButton from '@/components/CopyButton'
-import { Search, TrendingUp } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
-import { FullPageLoading } from '@/components/ui/loading'
 import { supportedModels } from '@/lib/models'
+import type { PublicPrompt } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client'
 
 function PublicDirectoryContent() {
   const router = useRouter()
@@ -137,10 +138,10 @@ function PublicDirectoryContent() {
 
   return (
     <div className="min-h-screen bg-accent/50">
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="mx-auto max-w-7xl p-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground tracking-tight mb-2">
+          <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
             Public Prompt Directory
           </h1>
           <p className="text-muted-foreground">
@@ -151,8 +152,8 @@ function PublicDirectoryContent() {
         {/* Search and Filters */}
         <div className="mb-4 space-y-4">
           <div className="flex gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
               <Input
                 placeholder="Search prompts by name, description, content, or tags..."
                 value={search}
@@ -203,29 +204,29 @@ function PublicDirectoryContent() {
 
         {/* Results Count */}
         <div className="mb-4">
-          <p className="text-muted-foreground text-sm font-medium">
+          <p className="text-sm font-medium text-muted-foreground">
             {filteredPrompts.length} prompt
             {filteredPrompts.length !== 1 ? 's' : ''} found
           </p>
         </div>
 
         {/* Prompts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {paginatedPrompts.map((prompt) => (
             <Card
               key={prompt.id}
-              className="p-4 hover:shadow-sm transition-shadow cursor-pointer flex flex-col h-full"
+              className="flex h-full cursor-pointer flex-col p-4 transition-shadow hover:shadow-sm"
               onClick={() => router.push(`/p/${prompt.slug}`)}
             >
               <div className="flex-grow">
                 <div className="mb-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-lg font-semibold line-clamp-1 flex-1">
+                  <div className="mb-2 flex items-start justify-between">
+                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold">
                       {prompt.name}
                     </h3>
                   </div>
                   {prompt.description && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
+                    <p className="mb-2 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
                       {prompt.description}
                     </p>
                   )}
@@ -244,14 +245,14 @@ function PublicDirectoryContent() {
                   </div>
                 </div>
                 <div className="mb-4">
-                  <pre className="text-xs font-medium text-muted-foreground line-clamp-3 bg-accent text-wrap p-2 rounded-lg">
+                  <pre className="line-clamp-3 text-wrap rounded-lg bg-accent p-2 text-xs font-medium text-muted-foreground">
                     {prompt.prompt_text}
                   </pre>
                 </div>
 
                 {/* Stats for public prompts */}
                 <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-lg">
+                  <div className="flex items-center gap-1 rounded-lg bg-accent px-2 py-1">
                     <TrendingUp className="h-3 w-3" />
                     <span>{prompt.view_count} views</span>
                   </div>
@@ -265,7 +266,7 @@ function PublicDirectoryContent() {
         </div>
 
         {filteredPrompts.length === 0 && (
-          <div className="text-center py-12">
+          <div className="py-12 text-center">
             <p className="text-gray-600 dark:text-gray-400">
               No prompts found matching your criteria.
             </p>
@@ -274,9 +275,9 @@ function PublicDirectoryContent() {
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 py-8">
+          <div className="flex items-center justify-center gap-2 py-8">
             <button
-              className="px-3 py-1 rounded border bg-white dark:bg-gray-800 disabled:opacity-50"
+              className="rounded border bg-white px-3 py-1 disabled:opacity-50 dark:bg-gray-800"
               onClick={() => setPage(page - 1)}
               disabled={page === 1}
             >
@@ -286,7 +287,7 @@ function PublicDirectoryContent() {
               Page {page} of {totalPages}
             </span>
             <button
-              className="px-3 py-1 rounded border bg-white dark:bg-gray-800 disabled:opacity-50"
+              className="rounded border bg-white px-3 py-1 disabled:opacity-50 dark:bg-gray-800"
               onClick={() => setPage(page + 1)}
               disabled={page === totalPages}
             >

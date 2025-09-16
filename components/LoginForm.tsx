@@ -1,9 +1,10 @@
 'use client'
 
+import { Mail } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
-import { createClient } from '@/utils/supabase/client'
+
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Card,
   CardContent,
@@ -11,10 +12,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import Link from 'next/link'
-import { Mail } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
+import { createClient } from '@/utils/supabase/client'
 
 export function LoginForm() {
   const [email, setEmail] = useState('')
@@ -36,22 +37,22 @@ export function LoginForm() {
 
       if (error) {
         toast({
-          title: "Error",
+          title: 'Error',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         })
       } else {
         toast({
-          title: "Magic link sent!",
+          title: 'Magic link sent!',
           description: `We've sent a secure sign-in link to ${email}. Check your inbox.`,
         })
       }
     } catch (error) {
       console.error('Login error:', error)
       toast({
-        title: "Error",
-        description: "An error occurred. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'An error occurred. Please try again.',
+        variant: 'destructive',
       })
     } finally {
       setLoading(false)
@@ -61,7 +62,7 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
+        <CardTitle className="text-center text-2xl">Welcome back</CardTitle>
         <CardDescription className="text-center">
           Sign in to your Prompt Manage account
         </CardDescription>

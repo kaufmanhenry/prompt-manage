@@ -9,4 +9,4 @@ interface PageProps {
 export default async function PublicPromptPage({ params }: PageProps) {
   const resolvedParams = await params
   return <PublicPromptPageClient params={resolvedParams} />
-} 
+}

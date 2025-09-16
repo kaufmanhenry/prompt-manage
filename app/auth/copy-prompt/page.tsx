@@ -1,14 +1,15 @@
-  'use client'
+'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
+import { ArrowRight, Check } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useToast } from '@/components/ui/use-toast'
-import { Check, ArrowRight } from 'lucide-react'
 import { FullPageLoading } from '@/components/ui/loading'
+import { useToast } from '@/components/ui/use-toast'
+import { createClient } from '@/utils/supabase/client'
 
 interface PendingPromptCopy {
   promptId: string
@@ -49,8 +50,9 @@ export default function CopyPromptPage() {
       }
 
       try {
-        const { promptId, promptName, redirectUrl }: PendingPromptCopy = JSON.parse(pendingCopy)
-        
+        const { promptId, promptName, redirectUrl }: PendingPromptCopy =
+          JSON.parse(pendingCopy)
+
         // Copy the prompt
         const response = await fetch('/api/prompts/copy', {
           method: 'POST',
@@ -59,7 +61,7 @@ export default function CopyPromptPage() {
           },
           body: JSON.stringify({
             source_prompt_id: promptId,
-            new_name: `${promptName} (Copy)`
+            new_name: `${promptName} (Copy)`,
           }),
         })
 
@@ -71,7 +73,7 @@ export default function CopyPromptPage() {
 
         setCopied(true)
         toast({
-          title: "Prompt Copied!",
+          title: 'Prompt Copied!',
           description: `"${promptName}" has been added to your personal prompts.`,
         })
 
@@ -82,14 +84,16 @@ export default function CopyPromptPage() {
         setTimeout(() => {
           router.push(redirectUrl)
         }, 2000)
-
       } catch (error) {
         console.error('Copy prompt error:', error)
-        setError(error instanceof Error ? error.message : 'Failed to copy prompt')
+        setError(
+          error instanceof Error ? error.message : 'Failed to copy prompt'
+        )
         toast({
-          title: "Error",
-          description: error instanceof Error ? error.message : 'Failed to copy prompt',
-          variant: "destructive",
+          title: 'Error',
+          description:
+            error instanceof Error ? error.message : 'Failed to copy prompt',
+          variant: 'destructive',
         })
       } finally {
         setLoading(false)
@@ -105,15 +109,13 @@ export default function CopyPromptPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-center text-red-600">Error</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              {error}
-            </p>
+            <p className="mb-4 text-gray-600 dark:text-gray-400">{error}</p>
             <Button onClick={() => router.push('/dashboard')}>
               Go to Dashboard
             </Button>
@@ -124,16 +126,16 @@ export default function CopyPromptPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-center flex items-center justify-center gap-2">
+          <CardTitle className="flex items-center justify-center gap-2 text-center">
             <Check className="h-6 w-6 text-green-500" />
             Prompt Saved!
           </CardTitle>
         </CardHeader>
         <CardContent className="text-center">
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="mb-4 text-gray-600 dark:text-gray-400">
             The prompt has been successfully added to your personal library.
           </p>
           <Button onClick={() => router.push('/dashboard')}>
@@ -144,4 +146,4 @@ export default function CopyPromptPage() {
       </Card>
     </div>
   )
-} 
+}

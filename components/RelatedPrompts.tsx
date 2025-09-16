@@ -1,15 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { PublicPrompt } from '@/lib/schemas/prompt'
+import { ArrowRight, Clock, Sparkles, Tag, TrendingUp, Zap } from 'lucide-react'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+
+import CopyButton from '@/components/CopyButton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ArrowRight, TrendingUp, Clock, Sparkles, Tag, Zap } from 'lucide-react'
-import Link from 'next/link'
-import CopyButton from '@/components/CopyButton'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import type { PublicPrompt } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client'
 
 interface RelatedPromptsProps {
   currentPrompt: PublicPrompt
@@ -119,21 +120,21 @@ export function RelatedPrompts({
   }, [currentPrompt, maxResults])
 
   const PromptCard = ({ prompt }: { prompt: PublicPrompt }) => (
-    <div className="border rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-background shadow-sm">
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex-1 min-w-0">
+    <div className="rounded-lg border bg-background p-4 shadow-sm transition-colors hover:bg-gray-50 dark:hover:bg-gray-800">
+      <div className="mb-3 flex items-start justify-between">
+        <div className="min-w-0 flex-1">
           <Link href={`/p/${prompt.slug}`}>
-            <h4 className="font-medium text-lg text-foreground truncate hover:text-primary transition-colors">
+            <h4 className="truncate text-lg font-medium text-foreground transition-colors hover:text-primary">
               {prompt.name}
             </h4>
           </Link>
           {prompt.description && (
-            <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+            <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
               {prompt.description}
             </p>
           )}
         </div>
-        <div className="flex items-center gap-2 ml-4">
+        <div className="ml-4 flex items-center gap-2">
           <CopyButton text={prompt.prompt_text} />
           <Link href={`/p/${prompt.slug}`}>
             <Button variant="ghost" size="sm">
@@ -143,7 +144,7 @@ export function RelatedPrompts({
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 mb-3">
+      <div className="mb-3 flex flex-wrap items-center gap-2">
         <Badge variant="secondary" className="text-xs">
           {prompt.model}
         </Badge>
@@ -160,12 +161,12 @@ export function RelatedPrompts({
       </div>
 
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-lg">
+        <div className="flex items-center gap-1 rounded-lg bg-accent px-2 py-1">
           <TrendingUp className="h-3 w-3" />
           <span>{prompt.view_count} views</span>
         </div>
         {prompt.updated_at && (
-          <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-lg">
+          <div className="flex items-center gap-1 rounded-lg bg-accent px-2 py-1">
             <Clock className="h-3 w-3" />
             <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
           </div>
@@ -190,8 +191,8 @@ export function RelatedPrompts({
   )
 
   const EmptyState = ({ message }: { message: string }) => (
-    <div className="text-center py-8">
-      <Sparkles className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+    <div className="py-8 text-center">
+      <Sparkles className="mx-auto mb-2 h-8 w-8 text-gray-400" />
       <p className="text-gray-500 dark:text-gray-400">{message}</p>
     </div>
   )
@@ -216,10 +217,10 @@ export function RelatedPrompts({
   return (
     <div>
       <Tabs defaultValue="tags">
-        <div className="flex items-center gap-2 mb-4">
+        <div className="mb-4 flex items-center gap-2">
           <Zap className="h-5 w-5 text-gray-800 dark:text-white" />
           <h3 className="text-lg font-medium">Related Prompts</h3>
-          <div className="flex-1 flex justify-end">
+          <div className="flex flex-1 justify-end">
             <TabsList className="">
               <TabsTrigger value="tags">
                 <Tag className="mr-2 h-4 w-4" />
@@ -239,7 +240,7 @@ export function RelatedPrompts({
 
         <TabsContent value="tags" className="mt-4">
           {relatedData.tagMatches.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {relatedData.tagMatches.map((prompt) => (
                 <PromptCard key={prompt.id} prompt={prompt} />
               ))}
@@ -250,7 +251,7 @@ export function RelatedPrompts({
         </TabsContent>
         <TabsContent value="model" className="mt-4">
           {relatedData.modelMatches.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {relatedData.modelMatches.map((prompt) => (
                 <PromptCard key={prompt.id} prompt={prompt} />
               ))}
@@ -261,7 +262,7 @@ export function RelatedPrompts({
         </TabsContent>
         <TabsContent value="popular" className="mt-4">
           {relatedData.popularPrompts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {relatedData.popularPrompts.map((prompt) => (
                 <PromptCard key={prompt.id} prompt={prompt} />
               ))}

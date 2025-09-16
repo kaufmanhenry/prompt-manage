@@ -24,4 +24,4 @@ export type CreatePrompt = z.infer<typeof createPromptSchema>
 
 export const updatePromptSchema = createPromptSchema.partial()
 
-export type UpdatePrompt = z.infer<typeof updatePromptSchema> 
+export type UpdatePrompt = z.infer<typeof updatePromptSchema>

@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 // Minimal email forwarding using Resend HTTP API (no extra deps)
 // Requires env: RESEND_API_KEY
@@ -29,10 +30,7 @@ export async function POST(request: NextRequest) {
 
     const email = (body.email || '').trim()
     if (!email) {
-      return NextResponse.json(
-        { error: 'Email is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Email is required' }, { status: 400 })
     }
 
     const name = (body.name || '').trim()
@@ -82,10 +80,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Contact API error:', error)
-    return NextResponse.json(
-      { error: 'Unexpected error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Unexpected error' }, { status: 500 })
   }
 }
 
@@ -97,5 +92,3 @@ function escapeHtml(input: string) {
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#039;')
 }
-
-

@@ -10,8 +10,10 @@ const __dirname = path.dirname(__filename)
 const envPath = path.join(__dirname, '.env.local')
 if (fs.existsSync(envPath)) {
   const envContent = fs.readFileSync(envPath, 'utf8')
-  const openaiKeyLine = envContent.split('\n').find(line => line.startsWith('OPENAI_API_KEY='))
-  
+  const openaiKeyLine = envContent
+    .split('\n')
+    .find((line) => line.startsWith('OPENAI_API_KEY='))
+
   if (openaiKeyLine) {
     const apiKey = openaiKeyLine.split('=')[1]
     console.log('✅ OpenAI API key found in .env.local')
@@ -22,4 +24,4 @@ if (fs.existsSync(envPath)) {
   }
 } else {
   console.log('❌ .env.local file not found')
-} 
+}

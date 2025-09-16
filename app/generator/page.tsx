@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
 import { supportedModels } from '@/lib/models'
 
 export default function GeneratorPage() {
@@ -19,24 +20,24 @@ export default function GeneratorPage() {
   const [tone, setTone] = useState('neutral')
 
   return (
-    <div className="max-w-2xl mx-auto py-8 px-4 space-y-8">
-      <h1 className="text-2xl font-bold mb-2">Prompt Generator</h1>
-      <div className="space-y-4 bg-white dark:bg-gray-900 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-800">
+    <div className="mx-auto max-w-2xl space-y-8 px-4 py-8">
+      <h1 className="mb-2 text-2xl font-bold">Prompt Generator</h1>
+      <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-800 dark:bg-gray-900">
         <Input
           placeholder="Prompt Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="text-lg font-semibold mb-2"
+          className="mb-2 text-lg font-semibold"
         />
         <Textarea
           placeholder="Write your prompt here..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="h-40 text-base mb-2"
+          className="mb-2 h-40 text-base"
         />
-        <div className="flex flex-wrap gap-4 items-center">
+        <div className="flex flex-wrap items-center gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Model</label>
+            <label className="mb-1 block text-sm font-medium">Model</label>
             <Select value={model} onValueChange={setModel}>
               <SelectTrigger className="w-40">
                 <SelectValue placeholder="Select a model" />
@@ -51,7 +52,7 @@ export default function GeneratorPage() {
             </Select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Tone</label>
+            <label className="mb-1 block text-sm font-medium">Tone</label>
             <Select value={tone} onValueChange={setTone}>
               <SelectTrigger className="w-32">
                 <SelectValue placeholder="Select tone" />
@@ -67,15 +68,15 @@ export default function GeneratorPage() {
         </div>
         <Button className="mt-4">Generate Prompt</Button>
       </div>
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold mb-2">Preset Templates</h2>
+      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+          <h2 className="mb-2 text-lg font-semibold">Preset Templates</h2>
           <div className="text-sm text-gray-700 dark:text-gray-300">
             (Coming soon: Choose from a library of prompt templates.)
           </div>
         </div>
-        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold mb-2">
+        <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+          <h2 className="mb-2 text-lg font-semibold">
             Prompt Ideas & Suggestions
           </h2>
           <div className="text-sm text-gray-700 dark:text-gray-300">

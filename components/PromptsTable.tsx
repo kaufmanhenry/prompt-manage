@@ -1,41 +1,40 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Prompt } from '@/lib/schemas/prompt'
-import type { PromptRunHistory } from '@/lib/schemas/prompt-run-history'
-import CopyButton from './CopyButton'
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import {
-  Share2,
-  ExternalLink,
+  AlertCircle,
+  CheckCircle,
+  Copy,
   Edit,
-  Trash2,
-  Lock,
+  ExternalLink,
+  FileText,
   Globe,
+  Link as LinkIcon,
+  Loader2,
+  Lock,
+  MoreVertical,
+  PackageOpen,
+  Play,
+  Plus,
+  SearchIcon,
+  Share2,
+  Trash2,
   TrendingUp,
   X,
-  FileText,
-  SearchIcon,
-  Plus,
-  MoreVertical,
-  Play,
-  Link as LinkIcon,
-  Copy,
-  PackageOpen,
-  CheckCircle,
   XCircle,
-  AlertCircle,
-  Loader2,
 } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from '@/components/ui/dialog'
 import {
   DropdownMenu,
@@ -43,13 +42,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useQueryClient, useQuery } from '@tanstack/react-query'
-import Link from 'next/link'
-import { createClient } from '@/utils/supabase/client'
 import { Spinner } from '@/components/ui/loading'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Tooltip } from '@/components/ui/tooltip'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { useToast } from '@/components/ui/use-toast'
+import type { Prompt } from '@/lib/schemas/prompt'
+import type { PromptRunHistory } from '@/lib/schemas/prompt-run-history'
+import { createClient } from '@/utils/supabase/client'
+
+import CopyButton from './CopyButton'
 import {
   Accordion,
   AccordionContent,
@@ -218,13 +220,13 @@ export function PromptsTable({
     return (
       <Card className="p-12 text-center">
         <div className="mx-auto max-w-md">
-          <div className="mx-auto h-12 w-12 text-gray-400 mb-4">
+          <div className="mx-auto mb-4 h-12 w-12 text-gray-400">
             <FileText className="h-12 w-12" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+          <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
             No prompts yet
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="mb-6 text-gray-600 dark:text-gray-400">
             Get started by creating your first prompt. You can create prompts
             for different AI models and organize them with tags.
           </p>
@@ -247,13 +249,13 @@ export function PromptsTable({
     return (
       <Card className="p-12 text-center">
         <div className="mx-auto max-w-md">
-          <div className="mx-auto h-12 w-12 text-gray-400 mb-4">
+          <div className="mx-auto mb-4 h-12 w-12 text-gray-400">
             <SearchIcon className="h-12 w-12" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+          <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
             No prompts found
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="mb-6 text-gray-600 dark:text-gray-400">
             Try adjusting your search terms or filters to find what you&apos;re
             looking for.
           </p>
@@ -308,20 +310,20 @@ export function PromptsTable({
           {filteredPrompts.map((prompt) => (
             <Card
               key={prompt.id}
-              className="p-4 hover:shadow-lg transition-shadow cursor-pointer flex flex-col h-full"
+              className="flex h-full cursor-pointer flex-col p-4 transition-shadow hover:shadow-lg"
               onClick={() => setSelectedPrompt(prompt)}
               data-testid="prompt-card"
             >
               <div className="flex-grow">
                 <div className="mb-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-lg font-semibold line-clamp-1 flex-1">
+                  <div className="mb-2 flex items-start justify-between">
+                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold">
                       {prompt.name}
                     </h3>
                     {prompt.is_public ? (
                       <Badge
                         variant="default"
-                        className="bg-green-100 text-green-800 border-green-200 ml-2"
+                        className="ml-2 border-green-200 bg-green-100 text-green-800"
                       >
                         <Globe className="mr-1 h-3 w-3" />
                         Public
@@ -334,7 +336,7 @@ export function PromptsTable({
                     )}
                   </div>
                   {prompt.description && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
+                    <p className="mb-2 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
                       {prompt.description}
                     </p>
                   )}
@@ -351,7 +353,7 @@ export function PromptsTable({
                   </div>
                 </div>
                 <div className="mb-4">
-                  <pre className="text-sm text-muted-foreground line-clamp-3">
+                  <pre className="line-clamp-3 text-sm text-muted-foreground">
                     {prompt.prompt_text}
                   </pre>
                 </div>
@@ -385,7 +387,7 @@ export function PromptsTable({
               </div>
 
               <div
-                className="flex items-center justify-between mt-auto pt-4"
+                className="mt-auto flex items-center justify-between pt-4"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex items-center gap-2">
@@ -482,8 +484,8 @@ export function PromptsTable({
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="rounded-lg border p-4 bg-red-50 dark:bg-red-950">
-              <h4 className="font-medium mb-2 flex items-center gap-2 text-red-800 dark:text-red-200">
+            <div className="rounded-lg border bg-red-50 p-4 dark:bg-red-950">
+              <h4 className="mb-2 flex items-center gap-2 font-medium text-red-800 dark:text-red-200">
                 <Trash2 className="h-4 w-4" />
                 Permanent Deletion
               </h4>
@@ -534,10 +536,10 @@ function PromptDetailHeader({
   runningPrompts: Record<string, boolean>
 }) {
   return (
-    <div className="flex items-center justify-between pb-4 border-b">
+    <div className="flex items-center justify-between border-b pb-4">
       <div>
-        <h2 className="text-2xl font-semibold mb-1">{prompt.name}</h2>
-        <div className="flex items-center gap-2 flex-wrap mb-1">
+        <h2 className="mb-1 text-2xl font-semibold">{prompt.name}</h2>
+        <div className="mb-1 flex flex-wrap items-center gap-2">
           <Badge variant="secondary">{prompt.model}</Badge>
           {prompt.tags?.map((tag) => (
             <Badge key={tag} variant="outline">
@@ -553,14 +555,14 @@ function PromptDetailHeader({
           disabled={runningPrompts[prompt.id as string]}
         >
           {!runningPrompts[prompt.id as string] ? (
-            <Play className="h-5 w-5 mr-2" />
+            <Play className="mr-2 h-5 w-5" />
           ) : (
-            <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
           )}{' '}
           {runningPrompts[prompt.id as string] ? 'Running...' : 'Run'}
         </Button>
         <Button variant="outline" onClick={onEdit}>
-          <Edit className="h-5 w-5 mr-2" /> Edit
+          <Edit className="mr-2 h-5 w-5" /> Edit
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -570,19 +572,19 @@ function PromptDetailHeader({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => onMore('share')}>
-              <Share2 className="h-4 w-4 mr-2" /> Share
+              <Share2 className="mr-2 h-4 w-4" /> Share
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onMore('copy')}>
-              <Copy className="h-4 w-4 mr-2" /> Copy Prompt
+              <Copy className="mr-2 h-4 w-4" /> Copy Prompt
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => onMore('delete')}
               className="text-red-600"
             >
-              <Trash2 className="h-4 w-4 mr-2" /> Delete
+              <Trash2 className="mr-2 h-4 w-4" /> Delete
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onMore('close')}>
-              <X className="h-4 w-4 mr-2" /> Close
+              <X className="mr-2 h-4 w-4" /> Close
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -679,7 +681,7 @@ export function PromptDetails({
         return (
           <Badge
             variant="default"
-            className="bg-green-100 text-green-800 gap-1.5"
+            className="gap-1.5 bg-green-100 text-green-800"
           >
             {getStatusIcon(status)}
             Success
@@ -696,7 +698,7 @@ export function PromptDetails({
         return (
           <Badge
             variant="secondary"
-            className="bg-yellow-100 text-yellow-800 gap-1.5"
+            className="gap-1.5 bg-yellow-100 text-yellow-800"
           >
             {getStatusIcon(status)}
             Timeout
@@ -719,7 +721,7 @@ export function PromptDetails({
 
   if (!prompt) {
     return (
-      <div className="flex flex-col gap-2 items-center justify-center h-full text-muted-foreground text-sm font-medium">
+      <div className="flex h-full flex-col items-center justify-center gap-2 text-sm font-medium text-muted-foreground">
         <PackageOpen className="h-6 w-6" />
         <p>Select a prompt to view its details.</p>
       </div>
@@ -788,7 +790,7 @@ export function PromptDetails({
   }
 
   return (
-    <Card className="p-8 m-4 rounded-lg gap-6">
+    <Card className="m-4 gap-6 rounded-lg p-8">
       <PromptDetailHeader
         prompt={prompt}
         onRun={() => handleRunPrompt(prompt)}
@@ -808,11 +810,11 @@ export function PromptDetails({
         <TabsContent value="details">
           {/* Derivative and Public Link Info */}
           {prompt.is_public && prompt.slug && (
-            <div className="rounded-lg bg-green-50 dark:bg-green-950 px-2 py-1 mb-4">
+            <div className="mb-4 rounded-lg bg-green-50 px-2 py-1 dark:bg-green-950">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
                   <Globe className="h-4 w-4" />
-                  <span className="text-green-800 dark:text-green-200 text-sm font-medium">
+                  <span className="text-sm font-medium text-green-800 dark:text-green-200">
                     Public Link Available
                   </span>
                 </div>
@@ -823,10 +825,10 @@ export function PromptDetails({
             </div>
           )}
           {prompt.parent_prompt_id && (
-            <div className="rounded-lg bg-blue-50 dark:bg-blue-950 p-2 mb-4">
+            <div className="mb-4 rounded-lg bg-blue-50 p-2 dark:bg-blue-950">
               <div className="flex items-center gap-1">
                 <LinkIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                <span className="text-blue-800 dark:text-blue-200 text-sm font-medium">
+                <span className="text-sm font-medium text-blue-800 dark:text-blue-200">
                   Derivative Prompt
                 </span>
                 {originalPromptSlug && (
@@ -837,57 +839,57 @@ export function PromptDetails({
                       window.open(`/p/${originalPromptSlug}`, '_blank')
                     }
                   >
-                    <ExternalLink className="h-4 w-4 mr-1" /> View Original
+                    <ExternalLink className="mr-1 h-4 w-4" /> View Original
                   </Button>
                 )}
               </div>
-              <p className="text-sm text-blue-800 dark:text-blue-200 mt-1">
+              <p className="mt-1 text-sm text-blue-800 dark:text-blue-200">
                 This prompt was copied from a public prompt and can be
                 customized for your needs.
               </p>
             </div>
           )}
           {/* Prompt Text */}
-          <div className="rounded-lg border bg-muted/50 p-6 mb-4 relative">
-            <p className="text-xs font-medium text-muted-foreground mb-2">
+          <div className="relative mb-4 rounded-lg border bg-muted/50 p-6">
+            <p className="mb-2 text-xs font-medium text-muted-foreground">
               Prompt
             </p>
-            <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
+            <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
               {prompt.prompt_text}
             </pre>
-            <div className="absolute top-4 right-4">
+            <div className="absolute right-4 top-4">
               <CopyButton text={prompt.prompt_text} />
             </div>
           </div>
         </TabsContent>
         <TabsContent value="history">
-          <div className="flex flex-col lg:flex-row gap-6">
+          <div className="flex flex-col gap-6 lg:flex-row">
             {/* Run History List */}
             <div className="flex-1 space-y-2">
               {historyLoading ? (
-                <div className="text-center py-8">
+                <div className="py-8 text-center">
                   <Spinner size="lg" />
-                  <p className="text-sm text-muted-foreground mt-2">
+                  <p className="mt-2 text-sm text-muted-foreground">
                     Loading history...
                   </p>
                 </div>
               ) : historyError ? (
-                <div className="text-center py-8">
-                  <XCircle className="h-8 w-8 text-red-500 mx-auto mb-2" />
+                <div className="py-8 text-center">
+                  <XCircle className="mx-auto mb-2 h-8 w-8 text-red-500" />
                   <p className="text-red-600">Failed to load history</p>
                   <Button variant="outline" onClick={() => refetchHistory()}>
                     Retry
                   </Button>
                 </div>
               ) : history.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
+                <div className="py-8 text-center text-muted-foreground">
                   No runs yet.
                 </div>
               ) : (
                 history.map((run: PromptRunHistory) => (
                   <Card
                     key={run.id}
-                    className={`p-2 flex justify-between cursor-pointer hover:bg-accent/40 gap-2 ${
+                    className={`flex cursor-pointer justify-between gap-2 p-2 hover:bg-accent/40 ${
                       selectedRun?.id === run.id
                         ? 'border-primary bg-accent/30'
                         : ''
@@ -895,19 +897,19 @@ export function PromptDetails({
                     onClick={() => setSelectedRun(run)}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-sm">
+                      <span className="text-sm font-medium">
                         {formatTimestamp(run.created_at)}
                       </span>
                       {getStatusBadge(run.status)}
                     </div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span className="font-medium text-xs bg-accent px-2 py-1 rounded-lg">
+                      <span className="rounded-lg bg-accent px-2 py-1 text-xs font-medium">
                         {run.model}
                       </span>
-                      <span className="font-medium text-xs bg-accent px-2 py-1 rounded-lg">
+                      <span className="rounded-lg bg-accent px-2 py-1 text-xs font-medium">
                         {run.tokens_used ?? '—'} tokens
                       </span>
-                      <span className="font-medium text-xs bg-accent px-2 py-1 rounded-lg">
+                      <span className="rounded-lg bg-accent px-2 py-1 text-xs font-medium">
                         {formatDuration(run.execution_time_ms)}
                       </span>
                     </div>
@@ -916,24 +918,24 @@ export function PromptDetails({
               )}
             </div>
             {/* Run Details Panel */}
-            <div className="flex-1 min-w-[300px]">
+            <div className="min-w-[300px] flex-1">
               {selectedRun ? (
-                <Card className="p-4 gap-2">
+                <Card className="gap-2 p-4">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-sm">
+                    <span className="text-sm font-medium">
                       {formatTimestamp(selectedRun.created_at)}
                     </span>
                     {getStatusBadge(selectedRun.status)}
                   </div>
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground mb-2">
+                  <div className="mb-2 flex items-center gap-4 text-xs text-muted-foreground">
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <span className="font-medium text-xs bg-accent px-2 py-1 rounded-lg">
+                      <span className="rounded-lg bg-accent px-2 py-1 text-xs font-medium">
                         {selectedRun.model}
                       </span>
-                      <span className="font-medium text-xs bg-accent px-2 py-1 rounded-lg">
+                      <span className="rounded-lg bg-accent px-2 py-1 text-xs font-medium">
                         {selectedRun.tokens_used ?? '—'} tokens
                       </span>
-                      <span className="font-medium text-xs bg-accent px-2 py-1 rounded-lg">
+                      <span className="rounded-lg bg-accent px-2 py-1 text-xs font-medium">
                         {formatDuration(selectedRun.execution_time_ms)}
                       </span>
                     </div>
@@ -944,20 +946,20 @@ export function PromptDetails({
                         Prompt
                       </AccordionTrigger>
                       <AccordionContent>
-                        <pre className="text-xs font-mono text-card-foreground whitespace-pre-wrap break-words bg-accent p-3 rounded-lg">
+                        <pre className="whitespace-pre-wrap break-words rounded-lg bg-accent p-3 font-mono text-xs text-card-foreground">
                           {selectedRun.prompt_text}
                         </pre>
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <div className="rounded-lg border bg-muted/50 p-4 relative max-h-[400px] overflow-y-auto">
-                    <p className="text-xs font-medium text-muted-foreground mb-2">
+                  <div className="relative max-h-[400px] overflow-y-auto rounded-lg border bg-muted/50 p-4">
+                    <p className="mb-2 text-xs font-medium text-muted-foreground">
                       Response
                     </p>
-                    <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
+                    <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
                       {selectedRun.response}
                     </pre>
-                    <div className="absolute top-4 right-4">
+                    <div className="absolute right-4 top-4">
                       <CopyButton text={selectedRun.response} />
                     </div>
                   </div>
@@ -968,7 +970,7 @@ export function PromptDetails({
                   )}
                 </Card>
               ) : (
-                <div className="flex flex-col items-center justify-center h-full text-muted-foreground text-sm font-medium border rounded-lg p-8">
+                <div className="flex h-full flex-col items-center justify-center rounded-lg border p-8 text-sm font-medium text-muted-foreground">
                   <p>Select a run to view details.</p>
                 </div>
               )}
@@ -991,12 +993,12 @@ export function PromptDetails({
           <div className="space-y-4">
             {prompt.is_public ? (
               <div className="space-y-4">
-                <div className="rounded-lg border p-4 bg-green-50 dark:bg-green-950">
-                  <h4 className="font-medium mb-2 flex items-center gap-2">
+                <div className="rounded-lg border bg-green-50 p-4 dark:bg-green-950">
+                  <h4 className="mb-2 flex items-center gap-2 font-medium">
                     <Globe className="h-4 w-4 text-green-600" />
                     Public Link Available
                   </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Anyone with this link can view your prompt
                   </p>
                   <div className="flex gap-2">
@@ -1018,8 +1020,8 @@ export function PromptDetails({
                   </div>
                 </div>
                 <div className="rounded-lg border p-4">
-                  <h4 className="font-medium mb-2">Make Private</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  <h4 className="mb-2 font-medium">Make Private</h4>
+                  <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Remove this prompt from public access
                   </p>
                   <Button
@@ -1034,10 +1036,10 @@ export function PromptDetails({
             ) : (
               <div className="space-y-4">
                 <div className="rounded-lg border p-4">
-                  <h4 className="font-medium mb-2">
+                  <h4 className="mb-2 font-medium">
                     Publish to Public Directory
                   </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Make this prompt publicly accessible and discoverable
                   </p>
                   <Button onClick={handleTogglePublic} className="w-full">

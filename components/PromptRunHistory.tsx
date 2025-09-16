@@ -1,31 +1,33 @@
 'use client'
 
-import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { useToast } from '@/components/ui/use-toast'
 import {
-  Clock,
-  RefreshCw,
-  XCircle,
-  CheckCircle,
   AlertCircle,
-  MessageSquare,
-  Zap,
+  CheckCircle,
+  Clock,
   Copy,
+  MessageSquare,
+  RefreshCw,
   Sparkles,
   X,
+  XCircle,
+  Zap,
 } from 'lucide-react'
+import { useState } from 'react'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CardLoading } from '@/components/ui/loading'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { useToast } from '@/components/ui/use-toast'
 import type { PromptRunHistory } from '@/lib/schemas/prompt-run-history'
+
 import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  AccordionContent,
 } from './ui/accordion'
 
 interface PromptRunHistoryProps {
@@ -125,7 +127,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
 
   if (isLoading) {
     return (
-      <Card className="p-4 gap-4 space-y-0">
+      <Card className="gap-4 space-y-0 p-4">
         <CardHeader className="p-0">
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-4 w-4" />
@@ -141,7 +143,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
 
   if (error) {
     return (
-      <Card className="p-4 gap-4 space-y-0">
+      <Card className="gap-4 space-y-0 p-4">
         <CardHeader className="p-0">
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-4 w-4" />
@@ -149,15 +151,15 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="text-center py-8">
-            <XCircle className="h-8 w-8 text-red-500 mx-auto mb-2" />
+          <div className="py-8 text-center">
+            <XCircle className="mx-auto mb-2 h-8 w-8 text-red-500" />
             <p className="text-red-600">Failed to load history</p>
             <Button
               variant="outline"
               onClick={() => refetch()}
               className="mt-2"
             >
-              <RefreshCw className="h-4 w-4 mr-2" />
+              <RefreshCw className="mr-2 h-4 w-4" />
               Retry
             </Button>
           </div>
@@ -169,7 +171,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
   const history = historyData?.history || []
 
   return (
-    <Card className="p-4 gap-0 space-y-0">
+    <Card className="gap-0 space-y-0 p-4">
       <CardHeader className="p-0">
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -188,11 +190,9 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
       </CardHeader>
       <CardContent className="p-0">
         {history.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground space-y-2">
-            <MessageSquare className="h-8 w-8 mx-auto mb-2" />
-            <p className="font-medium text-foreground">
-              No run history yet
-            </p>
+          <div className="space-y-2 py-8 text-center text-muted-foreground">
+            <MessageSquare className="mx-auto mb-2 h-8 w-8" />
+            <p className="font-medium text-foreground">No run history yet</p>
             <p className="text-sm text-muted-foreground">
               Run this prompt to see its history here
             </p>
@@ -203,19 +203,19 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
           </div>
         ) : (
           <ScrollArea className="h-[400px]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="h-full space-y-2">
                 {history.map((run) => (
                   <div
                     key={run.id}
-                    className={`cursor-pointer transition-colors h-fit p-2 rounded-lg ${
+                    className={`h-fit cursor-pointer rounded-lg p-2 transition-colors ${
                       selectedRun?.id === run.id ? 'bg-accent' : ''
                     }`}
                     onClick={() =>
                       setSelectedRun(selectedRun?.id === run.id ? null : run)
                     }
                   >
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="mb-2 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {getStatusIcon(run.status)}
                         {getStatusBadge(run.status)}
@@ -225,13 +225,13 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         {run.execution_time_ms && (
-                          <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-md">
+                          <div className="flex items-center gap-1 rounded-md bg-accent px-2 py-1">
                             <Zap className="h-3 w-3" />
                             {formatDuration(run.execution_time_ms)}
                           </div>
                         )}
                         {run.tokens_used && (
-                          <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-md">
+                          <div className="flex items-center gap-1 rounded-md bg-accent px-2 py-1">
                             <Sparkles className="h-3 w-3" />
                             {run.tokens_used} tokens
                           </div>
@@ -239,12 +239,12 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                       </div>
                     </div>
 
-                    <div className="text-sm text-muted-foreground mb-2">
+                    <div className="mb-2 text-sm text-muted-foreground">
                       Model: {run.model}
                     </div>
 
                     {run.error_message && (
-                      <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded text-sm text-red-700">
+                      <div className="mb-2 rounded border border-red-200 bg-red-50 p-2 text-sm text-red-700">
                         Error: {run.error_message}
                       </div>
                     )}
@@ -265,7 +265,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                             Prompt
                           </AccordionTrigger>
                           <AccordionContent>
-                            <div className="bg-muted p-3 rounded text-sm font-mono whitespace-pre-wrap">
+                            <div className="whitespace-pre-wrap rounded bg-muted p-3 font-mono text-sm">
                               {selectedRun.prompt_text}
                             </div>
                           </AccordionContent>
@@ -274,7 +274,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                     </div>
 
                     <div>
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="mb-2 flex items-center justify-between">
                         <h4 className="text-sm font-medium">Response:</h4>
                         <Button
                           variant="ghost"
@@ -284,18 +284,18 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                             handleCopyResponse(selectedRun.response)
                           }}
                         >
-                          <Copy className="h-3 w-3 mr-1" />
+                          <Copy className="mr-1 h-3 w-3" />
                           Copy
                         </Button>
                       </div>
-                      <div className="bg-muted p-3 rounded text-sm whitespace-pre-wrap max-h-72 overflow-y-auto">
+                      <div className="max-h-72 overflow-y-auto whitespace-pre-wrap rounded bg-muted p-3 text-sm">
                         {selectedRun.response}
                       </div>
                     </div>
                   </>
                 ) : (
-                  <div className="text-center text-sm text-muted-foreground bg-accent p-4 py-8 rounded-md">
-                    <MessageSquare className="h-4 w-4 mx-auto mb-2" />
+                  <div className="rounded-md bg-accent p-4 py-8 text-center text-sm text-muted-foreground">
+                    <MessageSquare className="mx-auto mb-2 h-4 w-4" />
                     <p>No run selected</p>
                   </div>
                 )}

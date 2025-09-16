@@ -1,8 +1,11 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/utils/supabase/client'
-import { Prompt } from '@/lib/schemas/prompt'
+import { PlusIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+import { Badge } from '@/components/ui/badge'
 import {
   CommandDialog,
   CommandEmpty,
@@ -12,10 +15,8 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import { useRouter } from 'next/navigation'
-import { PlusIcon } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
-import { useEffect, useState } from 'react'
+import type { Prompt } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client'
 
 export function CommandPalette() {
   const router = useRouter()
@@ -48,8 +49,8 @@ export function CommandPalette() {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput 
-        placeholder="Search prompts..." 
+      <CommandInput
+        placeholder="Search prompts..."
         className="border-none focus:ring-0"
       />
       <CommandList>
@@ -98,4 +99,4 @@ export function CommandPalette() {
       </CommandList>
     </CommandDialog>
   )
-} 
+}

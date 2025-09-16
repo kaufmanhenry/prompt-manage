@@ -1,18 +1,20 @@
 'use client'
 
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Button } from '@/components/ui/button'
-import { Prompt } from '@/lib/schemas/prompt'
 import { GlobeIcon } from 'lucide-react'
-import { Badge } from './ui/badge'
+import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import { useState } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import type { Prompt } from '@/lib/schemas/prompt'
+
+import { Badge } from './ui/badge'
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
   DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
 } from './ui/dropdown-menu'
-import { XIcon, FilterIcon, Tag as TagIcon } from 'lucide-react'
 import { Skeleton } from './ui/skeleton'
 
 interface SidebarProps {
@@ -66,9 +68,9 @@ export function Sidebar({
   }
 
   return (
-    <aside className="w-80 border-r bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-4 shrink-0 flex flex-col">
+    <aside className="flex w-80 shrink-0 flex-col border-r bg-white/50 p-4 backdrop-blur-sm dark:bg-gray-800/50">
       {/* Top filter row */}
-      <div className="flex items-center gap-2 mb-4 justify-between">
+      <div className="mb-4 flex items-center justify-between gap-2">
         <h2 className="text-lg font-medium  ">Prompts</h2>
         <Button
           size="sm"
@@ -80,13 +82,13 @@ export function Sidebar({
           + Add
         </Button>
       </div>
-      <div className="flex items-center gap-2 mb-4 flex-wrap">
+      <div className="mb-4 flex flex-wrap items-center gap-2">
         <input
           type="text"
           placeholder="Search prompts..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 rounded-md border px-2 py-1 text-sm bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="flex-1 rounded-md border bg-white px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-900"
         />
         {/* Model filter button */}
         <DropdownMenu>
@@ -97,7 +99,7 @@ export function Sidebar({
               className="px-2 py-1"
               aria-label="Filter by model"
             >
-              <FilterIcon className="w-4 h-4 mr-1" /> Model
+              <FilterIcon className="mr-1 h-4 w-4" /> Model
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
@@ -125,7 +127,7 @@ export function Sidebar({
                 className="mt-3 w-full"
                 onClick={clearModelFilters}
               >
-                <XIcon className="w-4 h-4 mr-1" /> Clear Model Filters
+                <XIcon className="mr-1 h-4 w-4" /> Clear Model Filters
               </Button>
             )}
           </DropdownMenuContent>
@@ -139,11 +141,11 @@ export function Sidebar({
               className="px-2 py-1"
               aria-label="Filter by tag"
             >
-              <TagIcon className="w-4 h-4 mr-1" /> Tag
+              <TagIcon className="mr-1 h-4 w-4" /> Tag
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <div className="flex flex-col gap-2 max-h-48 overflow-y-auto">
+            <div className="flex max-h-48 flex-col gap-2 overflow-y-auto">
               {uniqueTags.length === 0 ? (
                 <div className="text-sm text-muted-foreground">
                   No tags found.
@@ -167,7 +169,7 @@ export function Sidebar({
                 className="mt-3 w-full"
                 onClick={clearTagFilters}
               >
-                <XIcon className="w-4 h-4 mr-1" /> Clear Tag Filters
+                <XIcon className="mr-1 h-4 w-4" /> Clear Tag Filters
               </Button>
             )}
           </DropdownMenuContent>
@@ -175,7 +177,7 @@ export function Sidebar({
       </div>
       {/* Active filter chips */}
       {(modelFilters.length > 0 || tagFilters.length > 0 || search) && (
-        <div className="flex flex-wrap gap-2 mb-2">
+        <div className="mb-2 flex flex-wrap gap-2">
           {search && (
             <Badge variant="secondary" className="flex items-center gap-1">
               Search: &quot;{search}&quot;
@@ -185,7 +187,7 @@ export function Sidebar({
                 onClick={() => setSearch('')}
                 aria-label="Remove search filter"
               >
-                <XIcon className="w-3 h-3" />
+                <XIcon className="h-3 w-3" />
               </button>
             </Badge>
           )}
@@ -202,7 +204,7 @@ export function Sidebar({
                 onClick={() => toggleModel(model)}
                 aria-label={`Remove filter ${model}`}
               >
-                <XIcon className="w-3 h-3" />
+                <XIcon className="h-3 w-3" />
               </button>
             </Badge>
           ))}
@@ -219,7 +221,7 @@ export function Sidebar({
                 onClick={() => toggleTag(tag)}
                 aria-label={`Remove tag filter ${tag}`}
               >
-                <XIcon className="w-3 h-3" />
+                <XIcon className="h-3 w-3" />
               </button>
             </Badge>
           ))}
@@ -241,7 +243,7 @@ export function Sidebar({
               ))}
             </div>
           ) : filteredPrompts.length === 0 ? (
-            <div className="text-sm text-muted-foreground p-4">
+            <div className="p-4 text-sm text-muted-foreground">
               No prompts found.
             </div>
           ) : (
@@ -249,21 +251,21 @@ export function Sidebar({
               <Button
                 key={prompt.id}
                 variant={prompt.id === selectedPromptId ? 'secondary' : 'ghost'}
-                className="justify-start w-full text-left rounded-lg px-2 py-2 flex-wrap h-auto"
+                className="h-auto w-full flex-wrap justify-start rounded-lg px-2 py-2 text-left"
                 onClick={() => onSelectPrompt(prompt.id as string)}
               >
-                <div className="flex justify-between w-full">
-                  <div className="font-medium truncate whitespace-normal line-clamp-3">
+                <div className="flex w-full justify-between">
+                  <div className="line-clamp-3 truncate whitespace-normal font-medium">
                     {prompt.name}
                   </div>
                   {prompt.is_public && (
-                    <div className="text-right ml-auto">
-                      <GlobeIcon className="w-4 h-4" />
+                    <div className="ml-auto text-right">
+                      <GlobeIcon className="h-4 w-4" />
                     </div>
                   )}
                 </div>
                 {prompt.description && (
-                  <div className="text-xs text-muted-foreground truncate">
+                  <div className="truncate text-xs text-muted-foreground">
                     {prompt.description}
                   </div>
                 )}
@@ -273,7 +275,7 @@ export function Sidebar({
                   </Badge>
                 )}
                 {prompt.tags.length > 0 && (
-                  <div className="text-xs text-muted-foreground truncate w-full whitespace-normal line-clamp-2">
+                  <div className="line-clamp-2 w-full truncate whitespace-normal text-xs text-muted-foreground">
                     {prompt.tags.join(', ')}
                   </div>
                 )}

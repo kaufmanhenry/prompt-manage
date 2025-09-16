@@ -1,28 +1,26 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { PublicPrompt } from '@/lib/schemas/prompt'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import CopyButton from '@/components/CopyButton'
-import { CopyPromptButton } from '@/components/CopyPromptButton'
-import { RelatedPrompts } from '@/components/RelatedPrompts'
-import { DerivativePrompts } from '@/components/DerivativePrompts'
 import {
   ArrowLeft,
-  ExternalLink,
   Calendar,
-  User,
-  TrendingUp,
-  Share2,
-  Linkedin,
-  Twitter,
+  ExternalLink,
   Facebook,
+  Linkedin,
+  Share2,
+  TrendingUp,
+  Twitter,
+  User,
 } from 'lucide-react'
 import Link from 'next/link'
-import { useToast } from '@/components/ui/use-toast'
+import { useCallback, useEffect, useState } from 'react'
+
+import CopyButton from '@/components/CopyButton'
+import { CopyPromptButton } from '@/components/CopyPromptButton'
+import { DerivativePrompts } from '@/components/DerivativePrompts'
+import { RelatedPrompts } from '@/components/RelatedPrompts'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -30,6 +28,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { FullPageLoading } from '@/components/ui/loading'
+import { useToast } from '@/components/ui/use-toast'
+import type { PublicPrompt } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client'
 
 interface PublicPromptPageClientProps {
   params: {
@@ -147,12 +148,12 @@ export function PublicPromptPageClient({
 
   if (error || !prompt) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
             Prompt Not Found
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="mb-4 text-gray-600 dark:text-gray-400">
             This prompt may have been deleted or is not publicly available.
           </p>
           <Link href="/p">
@@ -168,7 +169,7 @@ export function PublicPromptPageClient({
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="mx-auto max-w-4xl p-6">
         {/* Header */}
         <div className="mb-8">
           <Link href="/p">
@@ -180,28 +181,28 @@ export function PublicPromptPageClient({
 
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
                 {prompt.name}
               </h1>
               {prompt.description && (
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                <p className="mb-4 text-gray-600 dark:text-gray-400">
                   {prompt.description}
                 </p>
               )}
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <div className="flex items-center gap-1 bg-input/70 px-2 py-1 rounded-lg">
+                <div className="flex items-center gap-1 rounded-lg bg-input/70 px-2 py-1">
                   <User className="h-4 w-4" />
                   <span>Shared by Community</span>
                 </div>
                 {prompt.updated_at && (
-                  <div className="flex items-center gap-1 bg-input/70 px-2 py-1 rounded-lg">
+                  <div className="flex items-center gap-1 rounded-lg bg-input/70 px-2 py-1">
                     <Calendar className="h-4 w-4" />
                     <span>
                       Updated {new Date(prompt.updated_at).toLocaleDateString()}
                     </span>
                   </div>
                 )}
-                <div className="flex items-center gap-1 bg-input/70 px-2 py-1 rounded-lg">
+                <div className="flex items-center gap-1 rounded-lg bg-input/70 px-2 py-1">
                   <TrendingUp className="h-4 w-4" />
                   <span>{prompt.view_count} views</span>
                 </div>
@@ -228,8 +229,8 @@ export function PublicPromptPageClient({
 
         {/* Prompt Content */}
         <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-3 min-w-0">
-            <Card className="space-y-0 gap-2">
+          <div className="min-w-0 lg:col-span-3">
+            <Card className="gap-2 space-y-0">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Prompt</span>
@@ -237,8 +238,8 @@ export function PublicPromptPageClient({
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="bg-accent p-4 rounded-lg">
-                  <pre className="text-sm font-mono text-card-foreground whitespace-pre-wrap break-words">
+                <div className="rounded-lg bg-accent p-4">
+                  <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
                     {prompt.prompt_text}
                   </pre>
                 </div>
@@ -247,20 +248,18 @@ export function PublicPromptPageClient({
           </div>
 
           {/* Model Info */}
-          <Card className="space-y-0 gap-2">
+          <Card className="gap-2 space-y-0">
             <CardHeader>
               <CardTitle>Model</CardTitle>
             </CardHeader>
             <CardContent>
-              <Badge variant="secondary">
-                {prompt.model}
-              </Badge>
+              <Badge variant="secondary">{prompt.model}</Badge>
             </CardContent>
           </Card>
 
           {/* Tags */}
           {prompt.tags && prompt.tags.length > 0 && (
-            <Card className="space-y-0 gap-2">
+            <Card className="gap-2 space-y-0">
               <CardHeader>
                 <CardTitle>Tags</CardTitle>
               </CardHeader>
@@ -277,7 +276,7 @@ export function PublicPromptPageClient({
           )}
 
           {/* Stats */}
-          <Card className="space-y-0 gap-2">
+          <Card className="gap-2 space-y-0">
             <CardHeader>
               <CardTitle>Stats</CardTitle>
             </CardHeader>
@@ -327,34 +326,34 @@ export function PublicPromptPageClient({
             <div className="space-y-4">
               <Button
                 onClick={handleCopyLink}
-                className="w-full flex items-center gap-2"
+                className="flex w-full items-center gap-2"
               >
                 <Share2 className="h-4 w-4" /> Copy Link
               </Button>
               <Button
                 onClick={handleShareToX}
-                className="w-full flex items-center gap-2"
+                className="flex w-full items-center gap-2"
                 variant="outline"
               >
                 <Twitter className="h-4 w-4 text-blue-500" /> Share to X
               </Button>
               <Button
                 onClick={handleShareToLinkedIn}
-                className="w-full flex items-center gap-2"
+                className="flex w-full items-center gap-2"
                 variant="outline"
               >
                 <Linkedin className="h-4 w-4 text-blue-700" /> Share to LinkedIn
               </Button>
               <Button
                 onClick={handleShareToFacebook}
-                className="w-full flex items-center gap-2"
+                className="flex w-full items-center gap-2"
                 variant="outline"
               >
                 <Facebook className="h-4 w-4 text-blue-600" /> Share to Facebook
               </Button>
               <Button
                 onClick={handleShareToReddit}
-                className="w-full flex items-center gap-2"
+                className="flex w-full items-center gap-2"
                 variant="outline"
               >
                 <Share2 className="h-4 w-4 text-orange-500" /> Share to Reddit

@@ -4,26 +4,27 @@ import Link from 'next/link'
 
 export function Footer() {
   return (
-    <footer className="border-t py-10 bg-white dark:bg-gray-950">
-      <div className="mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
-        <div className="flex md:flex-row flex-col md:gap-8 gap-4 w-full">
+    <footer className="border-t bg-white py-10 dark:bg-gray-950">
+      <div className="mx-auto flex flex-col items-start justify-between gap-8 px-6 md:flex-row md:items-center md:gap-0">
+        <div className="flex w-full flex-col gap-4 md:flex-row md:gap-8">
           <div className="flex flex-col gap-2">
             <h3 className="text-sm font-semibold tracking-tight">
               Prompt Manage
             </h3>
             <p className="text-xs text-gray-600 dark:text-gray-400">
-              Create, manage, and run AI prompts.<br />
+              Create, manage, and run AI prompts.
+              <br />
               All in one place.
             </p>
           </div>
-          <ul className="text-sm items-center space-y-2">
-            <li className="font-medium text-xs text-muted-foreground">
+          <ul className="items-center space-y-2 text-sm">
+            <li className="text-xs font-medium text-muted-foreground">
               Company
             </li>
             <li>
               <Link
                 href="/"
-                className="hover:underline text-gray-600 dark:text-gray-300"
+                className="text-gray-600 hover:underline dark:text-gray-300"
               >
                 Home
               </Link>
@@ -31,20 +32,20 @@ export function Footer() {
             <li>
               <Link
                 href="/pricing"
-                className="hover:underline text-gray-600 dark:text-gray-300"
+                className="text-gray-600 hover:underline dark:text-gray-300"
               >
                 Pricing
               </Link>
             </li>
           </ul>
-          <ul className="text-sm items-center space-y-2">
-            <li className="font-medium text-xs text-muted-foreground">
+          <ul className="items-center space-y-2 text-sm">
+            <li className="text-xs font-medium text-muted-foreground">
               Resources
             </li>
             <li>
               <Link
                 href="/p"
-                className="hover:underline text-gray-600 dark:text-gray-300"
+                className="text-gray-600 hover:underline dark:text-gray-300"
               >
                 Prompt Directory
               </Link>
@@ -52,18 +53,18 @@ export function Footer() {
             <li>
               <Link
                 href="/docs"
-                className="hover:underline text-gray-600 dark:text-gray-300"
+                className="text-gray-600 hover:underline dark:text-gray-300"
               >
                 Docs
               </Link>
             </li>
           </ul>
-          <ul className="text-sm items-center space-y-2">
-            <li className="font-medium text-xs text-muted-foreground">Legal</li>
+          <ul className="items-center space-y-2 text-sm">
+            <li className="text-xs font-medium text-muted-foreground">Legal</li>
             <li>
               <Link
                 href="/terms"
-                className="hover:underline text-gray-600 dark:text-gray-300"
+                className="text-gray-600 hover:underline dark:text-gray-300"
               >
                 Terms
               </Link>
@@ -71,7 +72,7 @@ export function Footer() {
             <li>
               <Link
                 href="/privacy"
-                className="hover:underline text-gray-600 dark:text-gray-300"
+                className="text-gray-600 hover:underline dark:text-gray-300"
               >
                 Privacy
               </Link>
@@ -79,24 +80,23 @@ export function Footer() {
             <li>
               <Link
                 href="/dmca"
-                className="hover:underline text-gray-600 dark:text-gray-300"
+                className="text-gray-600 hover:underline dark:text-gray-300"
               >
                 DMCA
               </Link>
             </li>
           </ul>
-          
-          
-          <div className="md:ml-auto space-y-2 flex flex-col justify-between">
-            <div className="flex items-center gap-2 justify-start md:justify-end">
+
+          <div className="flex flex-col justify-between space-y-2 md:ml-auto">
+            <div className="flex items-center justify-start gap-2 md:justify-end">
               <Link
                 href="https://x.com/promptmanage"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+                className="text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
               >
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   aria-hidden="true"
@@ -108,10 +108,10 @@ export function Footer() {
                 href="https://www.linkedin.com/company/prompt-manage/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+                className="text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
               >
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   aria-hidden="true"

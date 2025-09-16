@@ -22,10 +22,12 @@ import { Spinner } from '@/components/ui/loading'
 ```
 
 **Props:**
+
 - `size`: "sm" | "md" | "lg" (default: "md")
 - `className`: Additional CSS classes
 
 **Use cases:**
+
 - Button loading states
 - Inline loading indicators
 - Small loading contexts
@@ -43,10 +45,12 @@ import { LoadingText } from '@/components/ui/loading'
 ```
 
 **Props:**
+
 - `text`: Loading message (default: "Loading...")
 - `className`: Additional CSS classes
 
 **Use cases:**
+
 - Card content loading
 - Form submission states
 - Component-level loading
@@ -59,7 +63,7 @@ A centered loading state for card components.
 import { CardLoading } from '@/components/ui/loading'
 
 // Usage
-<Card>
+;<Card>
   <CardHeader>
     <CardTitle>Component Title</CardTitle>
   </CardHeader>
@@ -70,10 +74,12 @@ import { CardLoading } from '@/components/ui/loading'
 ```
 
 **Props:**
+
 - `text`: Loading message (default: "Loading...")
 - `className`: Additional CSS classes
 
 **Use cases:**
+
 - Card component loading states
 - Data fetching in cards
 - Component initialization
@@ -86,14 +92,16 @@ A full-screen loading state for page-level operations.
 import { FullPageLoading } from '@/components/ui/loading'
 
 // Usage
-<FullPageLoading text="Loading page..." />
+;<FullPageLoading text="Loading page..." />
 ```
 
 **Props:**
+
 - `text`: Loading message (default: "Loading...")
 - `className`: Additional CSS classes
 
 **Use cases:**
+
 - Page transitions
 - Initial page loads
 - Suspense boundaries
@@ -111,10 +119,12 @@ import { Skeleton } from '@/components/ui/skeleton'
 ```
 
 **Props:**
+
 - Standard HTML div props
 - Uses `animate-pulse` and `bg-muted` by default
 
 **Use cases:**
+
 - Content placeholders
 - List item skeletons
 - Form field placeholders
@@ -132,6 +142,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 ### Color Scheme
 
 All loading components use the design system's color tokens:
+
 - `text-muted-foreground` for text
 - `bg-muted` for skeleton backgrounds
 - Consistent with light/dark mode
@@ -145,6 +156,7 @@ All loading components use the design system's color tokens:
 ## Migration Guide
 
 ### Before (Inconsistent)
+
 ```tsx
 // Custom spinner with hardcoded colors
 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-500"></div>
@@ -162,6 +174,7 @@ All loading components use the design system's color tokens:
 ```
 
 ### After (Standardized)
+
 ```tsx
 // Standardized spinner
 <Spinner size="sm" />
@@ -176,6 +189,7 @@ All loading components use the design system's color tokens:
 ## Examples by Component
 
 ### Button Loading States
+
 ```tsx
 <Button disabled={loading}>
   {loading ? (
@@ -190,36 +204,36 @@ All loading components use the design system's color tokens:
 ```
 
 ### Card Loading States
+
 ```tsx
 <Card>
   <CardHeader>
     <CardTitle>Data</CardTitle>
   </CardHeader>
   <CardContent>
-    {isLoading ? (
-      <CardLoading text="Loading data..." />
-    ) : (
-      <div>Content</div>
-    )}
+    {isLoading ? <CardLoading text="Loading data..." /> : <div>Content</div>}
   </CardContent>
 </Card>
 ```
 
 ### Skeleton Loading
+
 ```tsx
-{isLoading ? (
-  <div className="space-y-4">
-    {Array.from({ length: 3 }).map((_, i) => (
-      <div key={i} className="space-y-2">
-        <Skeleton className="h-4 w-3/4" />
-        <Skeleton className="h-3 w-1/2" />
-        <Skeleton className="h-6 w-16" />
-      </div>
-    ))}
-  </div>
-) : (
-  <div>Actual content</div>
-)}
+{
+  isLoading ? (
+    <div className="space-y-4">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div key={i} className="space-y-2">
+          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-3 w-1/2" />
+          <Skeleton className="h-6 w-16" />
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div>Actual content</div>
+  )
+}
 ```
 
 ## Best Practices
@@ -233,6 +247,7 @@ All loading components use the design system's color tokens:
 ## Accessibility
 
 All loading components include proper ARIA attributes and are screen reader friendly:
+
 - Loading text is announced to screen readers
 - Spinners have appropriate ARIA labels
 - Skeleton content is properly hidden from screen readers
@@ -241,4 +256,4 @@ All loading components include proper ARIA attributes and are screen reader frie
 
 - Progress indicators for long-running operations
 - Skeleton variations for different content types
-- Loading state animations for better perceived performance 
+- Loading state animations for better perceived performance

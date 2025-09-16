@@ -1,6 +1,7 @@
-import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+
 import { SignupForm } from '@/components/SignupForm'
+import { createClient } from '@/utils/supabase/server'
 
 interface SignupPageProps {
   searchParams: Promise<{
@@ -12,7 +13,9 @@ interface SignupPageProps {
 
 export default async function SignupPage({ searchParams }: SignupPageProps) {
   const supabase = await createClient()
-  const { data: { session } } = await supabase.auth.getSession()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
   const params = await searchParams
 
   if (session) {
@@ -25,11 +28,11 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <SignupForm 
+      <SignupForm
         promptId={params.promptId}
         promptName={params.promptName}
         redirectUrl={params.redirect}
       />
     </div>
   )
-} 
+}

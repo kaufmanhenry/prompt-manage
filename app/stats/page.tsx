@@ -1,7 +1,19 @@
-"use client"
-import React, { useState, useEffect } from 'react'
-import { BarChart3, Users, Globe, Download, Share2, Heart, GitBranch, TrendingUp, Zap, Clock, MapPin, Activity } from 'lucide-react'
-
+'use client'
+import {
+  Activity,
+  BarChart3,
+  Clock,
+  Download,
+  GitBranch,
+  Globe,
+  Heart,
+  MapPin,
+  Share2,
+  TrendingUp,
+  Users,
+  Zap,
+} from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 
 interface Stats {
   totalPrompts: number
@@ -19,7 +31,11 @@ interface Stats {
   activeToday: number
   promptsThisWeek: number
   topCountries: Array<{ country: string; users: number; percentage: number }>
-  topCategories: Array<{ category: string; prompts: number; percentage: number }>
+  topCategories: Array<{
+    category: string
+    prompts: number
+    percentage: number
+  }>
   growthMetrics: {
     promptsThisMonth: number
     usersThisMonth: number
@@ -52,7 +68,9 @@ export default function StatsPage() {
         const data = await response.json()
         setStats(data)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load statistics')
+        setError(
+          err instanceof Error ? err.message : 'Failed to load statistics'
+        )
       } finally {
         setIsLoading(false)
       }
@@ -87,96 +105,114 @@ export default function StatsPage() {
     }
   }
 
-  const StatCard = ({ title, value, icon: Icon, description, trend }: StatCardProps) => (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-      <div className="flex items-center justify-between mb-4">
-        <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+  const StatCard = ({
+    title,
+    value,
+    icon: Icon,
+    description,
+    trend,
+  }: StatCardProps) => (
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900">
           <Icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
         </div>
         {trend && (
-          <span className={`text-sm font-medium flex items-center ${trend.isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-            <TrendingUp className="w-4 h-4 mr-1" />
-            {trend.isPositive ? '+' : ''}{trend.value}%
+          <span
+            className={`flex items-center text-sm font-medium ${trend.isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}
+          >
+            <TrendingUp className="mr-1 h-4 w-4" />
+            {trend.isPositive ? '+' : ''}
+            {trend.value}%
           </span>
         )}
       </div>
-      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+      <h3 className="mb-1 text-2xl font-bold text-gray-900 dark:text-white">
         {typeof value === 'number' ? formatNumber(value) : value}
       </h3>
-      <p className="text-gray-600 dark:text-gray-400 text-sm">{title}</p>
+      <p className="text-sm text-gray-600 dark:text-gray-400">{title}</p>
       {description && (
-        <p className="text-gray-500 dark:text-gray-500 text-xs mt-2">{description}</p>
+        <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
+          {description}
+        </p>
       )}
     </div>
   )
 
-  const DailyPromptsChart = ({ data }: { data: Array<{ date: string; count: number }> }) => {
+  const DailyPromptsChart = ({
+    data,
+  }: {
+    data: Array<{ date: string; count: number }>
+  }) => {
     if (!data || data.length === 0) return null
 
-    const maxCount = Math.max(...data.map(d => d.count))
+    const maxCount = Math.max(...data.map((d) => d.count))
     const chartHeight = 200
     const chartWidth = 800
     const padding = 40
-    const availableWidth = chartWidth - (padding * 2)
-    const availableHeight = chartHeight - (padding * 2)
+    const availableWidth = chartWidth - padding * 2
+    const availableHeight = chartHeight - padding * 2
     const pointSpacing = availableWidth / (data.length - 1)
 
     const points = data.map((point, index) => {
-      const x = padding + (index * pointSpacing)
-      const y = padding + availableHeight - ((point.count / maxCount) * availableHeight)
+      const x = padding + index * pointSpacing
+      const y =
+        padding + availableHeight - (point.count / maxCount) * availableHeight
       return { x, y, ...point }
     })
 
-    const pathData = points.map((point, index) => {
-      if (index === 0) return `M ${point.x} ${point.y}`
-      return `L ${point.x} ${point.y}`
-    }).join(' ')
+    const pathData = points
+      .map((point, index) => {
+        if (index === 0) return `M ${point.x} ${point.y}`
+        return `L ${point.x} ${point.y}`
+      })
+      .join(' ')
 
-    const areaPathData = points.map((point, index) => {
-      if (index === 0) return `M ${point.x} ${point.y}`
-      return `L ${point.x} ${point.y}`
-    }).join(' ') + ` L ${points[points.length - 1].x} ${padding + availableHeight} L ${points[0].x} ${padding + availableHeight} Z`
+    const areaPathData =
+      points
+        .map((point, index) => {
+          if (index === 0) return `M ${point.x} ${point.y}`
+          return `L ${point.x} ${point.y}`
+        })
+        .join(' ') +
+      ` L ${points[points.length - 1].x} ${padding + availableHeight} L ${points[0].x} ${padding + availableHeight} Z`
 
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+      <div className="rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-700 dark:bg-gray-800">
+        <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white">
           Daily Prompts Published
         </h3>
         <div className="overflow-x-auto">
           <svg width={chartWidth} height={chartHeight} className="mx-auto">
             {/* Grid lines */}
-            {[0, 1, 2, 3, 4].map(i => (
+            {[0, 1, 2, 3, 4].map((i) => (
               <line
                 key={i}
                 x1={padding}
-                y1={padding + (i * availableHeight / 4)}
+                y1={padding + (i * availableHeight) / 4}
                 x2={chartWidth - padding}
-                y2={padding + (i * availableHeight / 4)}
+                y2={padding + (i * availableHeight) / 4}
                 stroke="#e5e7eb"
                 strokeWidth="1"
                 className="dark:stroke-gray-700"
               />
             ))}
-            
+
             {/* Y-axis labels */}
-            {[0, 1, 2, 3, 4].map(i => (
+            {[0, 1, 2, 3, 4].map((i) => (
               <text
                 key={i}
                 x={padding - 10}
-                y={padding + (i * availableHeight / 4) + 4}
+                y={padding + (i * availableHeight) / 4 + 4}
                 textAnchor="end"
-                className="text-xs fill-gray-500 dark:fill-gray-400"
+                className="fill-gray-500 text-xs dark:fill-gray-400"
               >
                 {Math.round((maxCount / 4) * (4 - i))}
               </text>
             ))}
 
             {/* Area fill */}
-            <path
-              d={areaPathData}
-              fill="url(#gradient)"
-              opacity="0.3"
-            />
+            <path d={areaPathData} fill="url(#gradient)" opacity="0.3" />
 
             {/* Line */}
             <path
@@ -211,7 +247,9 @@ export default function StatsPage() {
             {points.map((point, index) => {
               if (index % 7 === 0 || index === points.length - 1) {
                 const date = new Date(point.date)
-                const month = date.toLocaleDateString('en-US', { month: 'short' })
+                const month = date.toLocaleDateString('en-US', {
+                  month: 'short',
+                })
                 const day = date.getDate()
                 return (
                   <text
@@ -219,7 +257,7 @@ export default function StatsPage() {
                     x={point.x}
                     y={chartHeight - 10}
                     textAnchor="middle"
-                    className="text-xs fill-gray-500 dark:fill-gray-400"
+                    className="fill-gray-500 text-xs dark:fill-gray-400"
                   >
                     {month} {day}
                   </text>
@@ -229,26 +267,34 @@ export default function StatsPage() {
             })}
           </svg>
         </div>
-        
+
         {/* Summary stats */}
         <div className="mt-6 grid grid-cols-3 gap-4 text-center">
           <div>
             <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-              {Math.max(...data.map(d => d.count))}
+              {Math.max(...data.map((d) => d.count))}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Peak Day</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Peak Day
+            </div>
           </div>
           <div>
             <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-              {Math.round(data.reduce((sum, d) => sum + d.count, 0) / data.length)}
+              {Math.round(
+                data.reduce((sum, d) => sum + d.count, 0) / data.length
+              )}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Daily Average</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Daily Average
+            </div>
           </div>
           <div>
             <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
               {data.reduce((sum, d) => sum + d.count, 0)}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Total in Period</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Total in Period
+            </div>
           </div>
         </div>
       </div>
@@ -257,10 +303,12 @@ export default function StatsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400">Loading live stats...</p>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          <p className="text-gray-600 dark:text-gray-400">
+            Loading live stats...
+          </p>
         </div>
       </div>
     )
@@ -268,10 +316,12 @@ export default function StatsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
-          <p className="text-red-600 dark:text-red-400 mb-4">Error loading statistics</p>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">{error}</p>
+          <p className="mb-4 text-red-600 dark:text-red-400">
+            Error loading statistics
+          </p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{error}</p>
         </div>
       </div>
     )
@@ -279,9 +329,11 @@ export default function StatsPage() {
 
   if (!stats) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
-          <p className="text-gray-600 dark:text-gray-400">No statistics available</p>
+          <p className="text-gray-600 dark:text-gray-400">
+            No statistics available
+          </p>
         </div>
       </div>
     )
@@ -289,25 +341,26 @@ export default function StatsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+        <div className="mb-16 text-center">
+          <h1 className="mb-6 text-4xl font-bold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
             Prompt Manage Stats
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            Real-time statistics and insights from the world&rsquo;s leading AI prompt management platform
+          <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600 dark:text-gray-300">
+            Real-time statistics and insights from the world&rsquo;s leading AI
+            prompt management platform
           </p>
           <div className="flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-            <Clock className="w-4 h-4" />
+            <Clock className="h-4 w-4" />
             <span>Last updated: {currentTime.toLocaleTimeString()}</span>
-            <Activity className="w-4 h-4" />
+            <Activity className="h-4 w-4" />
             <span>Live data</span>
           </div>
         </div>
 
         {/* Main Stats Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="mb-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
             title="Total Prompts Published"
             value={stats.totalPrompts}
@@ -339,49 +392,59 @@ export default function StatsPage() {
         </div>
 
         {/* Real-time Activity */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+        <div className="mb-16 rounded-2xl bg-white p-8 dark:bg-gray-800">
+          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
             Real-time Activity
           </h2>
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid gap-6 md:grid-cols-4">
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+              <div className="mb-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
                 {stats.realTimeStats.promptsCreatedToday}
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">Prompts Created Today</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Prompts Created Today
+              </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
+              <div className="mb-2 text-3xl font-bold text-green-600 dark:text-green-400">
                 {stats.realTimeStats.usersActiveNow}
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">Users Active Now</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Users Active Now
+              </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+              <div className="mb-2 text-3xl font-bold text-purple-600 dark:text-purple-400">
                 {formatNumber(stats.realTimeStats.runsInLastHour)}
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">Runs in Last Hour</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Runs in Last Hour
+              </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">
+              <div className="mb-2 text-3xl font-bold text-orange-600 dark:text-orange-400">
                 {stats.realTimeStats.newSignupsToday}
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">New Signups Today</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                New Signups Today
+              </p>
             </div>
           </div>
         </div>
 
         {/* Engagement Metrics */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+        <div className="mb-16 grid gap-8 md:grid-cols-2">
+          <div className="rounded-2xl bg-white p-8 dark:bg-gray-800">
+            <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white">
               Engagement Metrics
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Download className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                  <span className="text-gray-700 dark:text-gray-300">Prompts Saved</span>
+                  <Download className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  <span className="text-gray-700 dark:text-gray-300">
+                    Prompts Saved
+                  </span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalSaves)}
@@ -389,8 +452,10 @@ export default function StatsPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <GitBranch className="w-5 h-5 text-green-600 dark:text-green-400" />
-                  <span className="text-gray-700 dark:text-gray-300">Prompts Remixed</span>
+                  <GitBranch className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  <span className="text-gray-700 dark:text-gray-300">
+                    Prompts Remixed
+                  </span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalRemixes)}
@@ -398,8 +463,10 @@ export default function StatsPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Share2 className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                  <span className="text-gray-700 dark:text-gray-300">Prompts Copied</span>
+                  <Share2 className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                  <span className="text-gray-700 dark:text-gray-300">
+                    Prompts Copied
+                  </span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalCopies)}
@@ -407,8 +474,10 @@ export default function StatsPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Heart className="w-5 h-5 text-red-600 dark:text-red-400" />
-                  <span className="text-gray-700 dark:text-gray-300">Total Likes</span>
+                  <Heart className="h-5 w-5 text-red-600 dark:text-red-400" />
+                  <span className="text-gray-700 dark:text-gray-300">
+                    Total Likes
+                  </span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalLikes)}
@@ -416,8 +485,10 @@ export default function StatsPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Share2 className="w-5 h-5 text-orange-600 dark:text-orange-400" />
-                  <span className="text-gray-700 dark:text-gray-300">Total Shares</span>
+                  <Share2 className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                  <span className="text-gray-700 dark:text-gray-300">
+                    Total Shares
+                  </span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalShares)}
@@ -426,31 +497,39 @@ export default function StatsPage() {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+          <div className="rounded-2xl bg-white p-8 dark:bg-gray-800">
+            <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white">
               Growth This Month
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">New Prompts</span>
+                <span className="text-gray-700 dark:text-gray-300">
+                  New Prompts
+                </span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   +{formatNumber(stats.growthMetrics.promptsThisMonth)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">New Users</span>
+                <span className="text-gray-700 dark:text-gray-300">
+                  New Users
+                </span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   +{formatNumber(stats.growthMetrics.usersThisMonth)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">Prompt Runs</span>
+                <span className="text-gray-700 dark:text-gray-300">
+                  Prompt Runs
+                </span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   +{formatNumber(stats.growthMetrics.runsThisMonth)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">Growth Rate</span>
+                <span className="text-gray-700 dark:text-gray-300">
+                  Growth Rate
+                </span>
                 <span className="font-semibold text-green-600 dark:text-green-400">
                   +{stats.growthMetrics.growthRate}%
                 </span>
@@ -467,29 +546,34 @@ export default function StatsPage() {
         )}
 
         {/* Global Reach */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+        <div className="mb-16 rounded-2xl bg-white p-8 dark:bg-gray-800">
+          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
             Global Reach
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid gap-8 md:grid-cols-2">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                <MapPin className="w-5 h-5 mr-2" />
+              <h3 className="mb-4 flex items-center text-lg font-semibold text-gray-900 dark:text-white">
+                <MapPin className="mr-2 h-5 w-5" />
                 Top Countries
               </h3>
               <div className="space-y-3">
                 {stats.topCountries.map((country, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-medium text-gray-900 dark:text-white">
                         {index + 1}.
                       </span>
-                      <span className="text-gray-700 dark:text-gray-300">{country.country}</span>
+                      <span className="text-gray-700 dark:text-gray-300">
+                        {country.country}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div className="h-2 w-20 rounded-full bg-gray-200 dark:bg-gray-700">
                         <div
-                          className="bg-blue-600 h-2 rounded-full"
+                          className="h-2 rounded-full bg-blue-600"
                           style={{ width: `${country.percentage}%` }}
                         ></div>
                       </div>
@@ -502,23 +586,28 @@ export default function StatsPage() {
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                <BarChart3 className="w-5 h-5 mr-2" />
+              <h3 className="mb-4 flex items-center text-lg font-semibold text-gray-900 dark:text-white">
+                <BarChart3 className="mr-2 h-5 w-5" />
                 Top Categories
               </h3>
               <div className="space-y-3">
                 {stats.topCategories.map((category, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-medium text-gray-900 dark:text-white">
                         {index + 1}.
                       </span>
-                      <span className="text-gray-700 dark:text-gray-300">{category.category}</span>
+                      <span className="text-gray-700 dark:text-gray-300">
+                        {category.category}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div className="h-2 w-20 rounded-full bg-gray-200 dark:bg-gray-700">
                         <div
-                          className="bg-green-600 h-2 rounded-full"
+                          className="h-2 rounded-full bg-green-600"
                           style={{ width: `${category.percentage}%` }}
                         ></div>
                       </div>
@@ -534,115 +623,132 @@ export default function StatsPage() {
         </div>
 
         {/* Fun Facts */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-8 mb-16">
-          <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8">
+        <div className="mb-16 rounded-2xl bg-gradient-to-r from-blue-50 to-purple-50 p-8 dark:from-blue-900/20 dark:to-purple-900/20">
+          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
             Fun Facts & Milestones
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+              <div className="mb-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
                 {Math.floor(stats.totalRuns / 1000)}K+
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 AI conversations powered
               </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
+              <div className="mb-2 text-3xl font-bold text-green-600 dark:text-green-400">
                 {Math.floor(stats.totalViews / 1000)}K+
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Public prompt views
               </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+              <div className="mb-2 text-3xl font-bold text-purple-600 dark:text-purple-400">
                 {Math.floor(stats.totalPrompts / 100)}%
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Growth vs last month
               </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">
+              <div className="mb-2 text-3xl font-bold text-orange-600 dark:text-orange-400">
                 {stats.averageRating}/5
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Average user rating
               </p>
             </div>
           </div>
-          
+
           {/* Additional Milestones */}
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                  <Zap className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900">
+                  <Zap className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">Fastest Execution</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  Fastest Execution
+                </h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Average prompt runs in under 2 seconds
               </p>
             </div>
-            
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
-                  <Users className="w-5 h-5 text-green-600 dark:text-green-400" />
+
+            <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="rounded-lg bg-green-100 p-2 dark:bg-green-900">
+                  <Users className="h-5 w-5 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">Team Collaboration</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  Team Collaboration
+                </h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                {Math.floor(stats.totalUsers * 0.3)}+ teams actively sharing prompts
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {Math.floor(stats.totalUsers * 0.3)}+ teams actively sharing
+                prompts
               </p>
             </div>
-            
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
-                  <Globe className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+
+            <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="rounded-lg bg-purple-100 p-2 dark:bg-purple-900">
+                  <Globe className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">Global Reach</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  Global Reach
+                </h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Used in {stats.totalCountries} countries worldwide
               </p>
             </div>
-            
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-orange-100 dark:bg-orange-900 rounded-lg">
-                  <Clock className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+
+            <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="rounded-lg bg-orange-100 p-2 dark:bg-orange-900">
+                  <Clock className="h-5 w-5 text-orange-600 dark:text-orange-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">24/7 Activity</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  24/7 Activity
+                </h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Prompts run every {Math.floor(24 * 60 / Math.max(stats.realTimeStats.runsInLastHour, 1))} minutes on average
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Prompts run every{' '}
+                {Math.floor(
+                  (24 * 60) / Math.max(stats.realTimeStats.runsInLastHour, 1)
+                )}{' '}
+                minutes on average
               </p>
             </div>
-            
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-red-100 dark:bg-red-900 rounded-lg">
-                  <Heart className="w-5 h-5 text-red-600 dark:text-red-400" />
+
+            <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="rounded-lg bg-red-100 p-2 dark:bg-red-900">
+                  <Heart className="h-5 w-5 text-red-600 dark:text-red-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">Community Love</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  Community Love
+                </h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {Math.floor(stats.totalLikes / 1000)}K+ likes on shared prompts
               </p>
             </div>
-            
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-indigo-100 dark:bg-indigo-900 rounded-lg">
-                  <GitBranch className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+
+            <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="rounded-lg bg-indigo-100 p-2 dark:bg-indigo-900">
+                  <GitBranch className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">Innovation Hub</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  Innovation Hub
+                </h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {Math.floor(stats.totalRemixes / 1000)}K+ prompt remixes created
               </p>
             </div>
@@ -651,23 +757,22 @@ export default function StatsPage() {
 
         {/* CTA */}
         <div className="text-center">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          <h3 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
             Join thousands of teams using Prompt Manage
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">
+          <p className="mb-8 text-gray-600 dark:text-gray-400">
             Start managing your AI prompts like the pros
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href="/auth/signup"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700"
             >
               Start Free Trial
             </a>
-            
           </div>
         </div>
       </div>
     </div>
   )
-} 
+}

@@ -1,15 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/utils/supabase/client'
-import { promptSchema, Prompt, modelSchema } from '@/lib/schemas/prompt'
+import { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Switch } from '@/components/ui/switch'
 import {
   Dialog,
   DialogContent,
@@ -26,6 +22,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import type { Option } from '@/components/ui/multi-select'
+import MultipleSelector from '@/components/ui/multi-select'
 import {
   Select,
   SelectContent,
@@ -33,8 +32,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import MultipleSelector, { Option } from '@/components/ui/multi-select'
+import { Switch } from '@/components/ui/switch'
+import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
+import type { Prompt } from '@/lib/schemas/prompt'
+import { modelSchema, promptSchema } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client'
 
 interface PromptFormProps {
   prompt?: Prompt | null
@@ -198,7 +201,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>{prompt ? 'Edit Prompt' : 'New Prompt'}</DialogTitle>
           <DialogDescription>
@@ -335,7 +338,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
               control={form.control}
               name="is_public"
               render={({ field }) => (
-                <FormItem className="bg-accent p-3 rounded-lg">
+                <FormItem className="rounded-lg bg-accent p-3">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-1">
                       <FormLabel>Public</FormLabel>
@@ -354,7 +357,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 </FormItem>
               )}
             />
-            <div className="sticky -bottom-6 bg-background z-5 border-t flex justify-end gap-2 py-4">
+            <div className="z-5 sticky -bottom-6 flex justify-end gap-2 border-t bg-background py-4">
               <Button
                 type="button"
                 variant="outline"
@@ -370,8 +373,8 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 {loading
                   ? 'Saving...'
                   : prompt
-                  ? 'Update Prompt'
-                  : 'Create Prompt'}
+                    ? 'Update Prompt'
+                    : 'Create Prompt'}
               </Button>
             </div>
           </form>

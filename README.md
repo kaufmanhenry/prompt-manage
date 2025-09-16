@@ -27,6 +27,7 @@ For comprehensive documentation, visit our **[Documentation Hub](./docs/README.m
 ## Quick Start
 
 1. **Clone and install**:
+
    ```bash
    git clone <repository-url>
    cd prompt-manage
@@ -34,18 +35,21 @@ For comprehensive documentation, visit our **[Documentation Hub](./docs/README.m
    ```
 
 2. **Set up environment**:
+
    ```bash
    cp .env.example .env.local
    # Add your Supabase credentials to .env.local
    ```
 
 3. **Set up environment variables**:
+
    ```bash
    # Create a .env.local file in the root directory
    touch .env.local
    ```
 
    Fill in your environment variables in `.env.local`:
+
    ```env
    # OpenAI API Key - Get from https://platform.openai.com/api-keys
    OPENAI_API_KEY=your_openai_api_key_here
@@ -57,7 +61,7 @@ For comprehensive documentation, visit our **[Documentation Hub](./docs/README.m
 
    **Important**: Replace `your_openai_api_key_here` with your actual OpenAI API key. You can get one from [OpenAI's platform](https://platform.openai.com/api-keys).
 
-3. **Start development**:
+4. **Start development**:
    ```bash
    npm run dev
    ```
@@ -139,11 +143,13 @@ For detailed project structure information, see our **[Project Structure Guide](
 ## Database Setup
 
 1. **Install Supabase CLI**:
+
    ```bash
    npm install -g supabase
    ```
 
 2. **Initialize and link**:
+
    ```bash
    supabase init
    supabase link --project-ref your-project-ref
@@ -208,7 +214,7 @@ MIT
 
 ---
 
-*For questions and support, check our documentation or open an issue on GitHub.*
+_For questions and support, check our documentation or open an issue on GitHub._
 
 ## Run Prompt Feature
 
@@ -240,7 +246,7 @@ The dashboard now includes a "Run Prompt" feature that allows logged-in users to
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - Supabase account
 - OpenAI API key
@@ -248,22 +254,26 @@ The dashboard now includes a "Run Prompt" feature that allows logged-in users to
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd prompt-manage
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Set up environment variables:
+
 ```bash
 cp .env.example .env.local
 ```
 
 Fill in your environment variables:
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -271,6 +281,7 @@ OPENAI_API_KEY=your_openai_api_key
 ```
 
 4. Run the development server:
+
 ```bash
 npm run dev
 ```
@@ -293,6 +304,7 @@ Run the database migration in your Supabase SQL editor:
 Executes a stored prompt using OpenAI's GPT-3.5-turbo model.
 
 **Request Body:**
+
 ```json
 {
   "promptId": "string"
@@ -300,6 +312,7 @@ Executes a stored prompt using OpenAI's GPT-3.5-turbo model.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,

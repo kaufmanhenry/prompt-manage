@@ -25,6 +25,7 @@ Users can explore different types of related content through an intuitive tabbed
 ### 3. Smart Fallback System
 
 The algorithm intelligently falls back to different strategies:
+
 1. First tries to find prompts with exact tag matches
 2. Falls back to model + tag overlap
 3. Falls back to same model only
@@ -202,7 +203,7 @@ const trackRelatedPromptClick = (promptId: string, type: string) => {
   analytics.track('related_prompt_clicked', {
     promptId,
     relatedType: type,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   })
 }
 ```
@@ -211,4 +212,4 @@ const trackRelatedPromptClick = (promptId: string, type: string) => {
 
 The Related Prompts feature significantly enhances the user experience by providing intelligent content discovery. The multi-strategy approach ensures users always find relevant content, while the tabbed interface makes exploration intuitive and engaging.
 
-The implementation is performant, scalable, and maintainable, with clear separation of concerns and comprehensive error handling. Future enhancements can build upon this solid foundation to create an even more powerful recommendation system. 
+The implementation is performant, scalable, and maintainable, with clear separation of concerns and comprehensive error handling. Future enhancements can build upon this solid foundation to create an even more powerful recommendation system.

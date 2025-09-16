@@ -5,6 +5,7 @@ This guide provides comprehensive testing strategies and best practices for the 
 ## Testing Philosophy
 
 Our testing approach follows these principles:
+
 - **Test-driven development** when possible
 - **Comprehensive coverage** of critical user flows
 - **Fast feedback** for developers
@@ -15,6 +16,7 @@ Our testing approach follows these principles:
 ## Testing Stack
 
 ### Core Testing Tools
+
 - **Playwright**: E2E testing framework
 - **React Testing Library**: Component testing
 - **Jest**: Unit testing framework
@@ -22,6 +24,7 @@ Our testing approach follows these principles:
 - **@testing-library/user-event**: User interaction simulation
 
 ### Testing Utilities
+
 - **Playwright Test**: Browser automation
 - **React Query DevTools**: Query debugging
 - **Supabase Testing**: Database testing utilities
@@ -29,21 +32,25 @@ Our testing approach follows these principles:
 ## Test Types and Structure
 
 ### 1. Unit Tests
+
 **Purpose**: Test individual functions and components in isolation
 **Location**: `__tests__/` directories or `.test.ts` files
 **Coverage**: Business logic, utility functions, component rendering
 
 ### 2. Integration Tests
+
 **Purpose**: Test interactions between components and services
 **Location**: `tests/integration/` directory
 **Coverage**: API routes, database operations, component integration
 
 ### 3. E2E Tests
+
 **Purpose**: Test complete user workflows
 **Location**: `tests/` directory (`.spec.ts` files)
 **Coverage**: Full user journeys, critical paths
 
 ### 4. Performance Tests
+
 **Purpose**: Ensure optimal performance
 **Location**: `tests/performance/` directory
 **Coverage**: Load times, memory usage, database performance
@@ -74,6 +81,7 @@ tests/
 ### Component Testing
 
 #### Basic Component Test
+
 ```typescript
 // __tests__/components/Button.test.tsx
 import { render, screen } from '@testing-library/react'
@@ -89,9 +97,9 @@ describe('Button', () => {
   it('calls onClick when clicked', async () => {
     const handleClick = jest.fn()
     const user = userEvent.setup()
-    
+
     render(<Button onClick={handleClick}>Click me</Button>)
-    
+
     await user.click(screen.getByRole('button', { name: 'Click me' }))
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
@@ -104,6 +112,7 @@ describe('Button', () => {
 ```
 
 #### Form Component Test
+
 ```typescript
 // __tests__/components/PromptForm.test.tsx
 import { render, screen, waitFor } from '@testing-library/react'
@@ -128,7 +137,7 @@ describe('PromptForm', () => {
 
   it('renders form fields', () => {
     render(<PromptForm />)
-    
+
     expect(screen.getByLabelText(/name/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/description/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/prompt text/i)).toBeInTheDocument()
@@ -137,10 +146,10 @@ describe('PromptForm', () => {
 
   it('validates required fields', async () => {
     render(<PromptForm />)
-    
+
     // Try to submit without filling required fields
     await user.click(screen.getByRole('button', { name: /create prompt/i }))
-    
+
     await waitFor(() => {
       expect(screen.getByText(/name is required/i)).toBeInTheDocument()
       expect(screen.getByText(/prompt text is required/i)).toBeInTheDocument()
@@ -157,15 +166,15 @@ describe('PromptForm', () => {
     ) as jest.Mock
 
     render(<PromptForm onSuccess={mockOnSuccess} />)
-    
+
     // Fill form
     await user.type(screen.getByLabelText(/name/i), 'Test Prompt')
     await user.type(screen.getByLabelText(/prompt text/i), 'Test prompt text')
     await user.selectOptions(screen.getByLabelText(/model/i), 'gpt-4')
-    
+
     // Submit form
     await user.click(screen.getByRole('button', { name: /create prompt/i }))
-    
+
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/prompts', {
         method: 'POST',
@@ -239,7 +248,7 @@ describe('promptSchema', () => {
 
     const result = promptSchema.safeParse(invalidPrompt)
     expect(result.success).toBe(false)
-    
+
     if (!result.success) {
       expect(result.error.issues).toHaveLength(3)
     }
@@ -261,21 +270,21 @@ test.describe('Authentication', () => {
 
     // Go to signup page
     await page.goto('/signup')
-    
+
     // Fill signup form
     await page.fill('[data-testid="email"]', testEmail)
     await page.click('[data-testid="send-otp"]')
-    
+
     // Wait for OTP email (in real test, you'd check email or use test email service)
     await page.waitForSelector('[data-testid="otp-input"]')
-    
+
     // Enter OTP (mock for testing)
     await page.fill('[data-testid="otp-input"]', '123456')
     await page.click('[data-testid="verify-otp"]')
-    
+
     // Should redirect to dashboard
     await expect(page).toHaveURL('/dashboard')
-    
+
     // Should show welcome message
     await expect(page.locator('text=Welcome')).toBeVisible()
   })
@@ -283,16 +292,16 @@ test.describe('Authentication', () => {
   test('user can log out', async ({ page }) => {
     // Login first (use helper function)
     await loginUser(page, 'test@example.com')
-    
+
     // Go to dashboard
     await page.goto('/dashboard')
-    
+
     // Click logout
     await page.click('[data-testid="logout-button"]')
-    
+
     // Should redirect to home page
     await expect(page).toHaveURL('/')
-    
+
     // Should not show dashboard content
     await expect(page.locator('text=Dashboard')).not.toBeVisible()
   })
@@ -324,26 +333,26 @@ test.describe('Prompt Management', () => {
 
   test('user can create a new prompt', async ({ page }) => {
     await page.goto('/dashboard')
-    
+
     // Click create prompt button
     await page.click('[data-testid="create-prompt"]')
-    
+
     // Fill prompt form
     await page.fill('[data-testid="prompt-name"]', 'Test Prompt')
     await page.fill('[data-testid="prompt-description"]', 'Test Description')
     await page.fill('[data-testid="prompt-text"]', 'This is a test prompt')
     await page.selectOption('[data-testid="prompt-model"]', 'gpt-4')
-    
+
     // Add tags
     await page.fill('[data-testid="prompt-tags"]', 'test, example')
     await page.keyboard.press('Enter')
-    
+
     // Submit form
     await page.click('[data-testid="submit-prompt"]')
-    
+
     // Verify success
     await expect(page.locator('[data-testid="success-toast"]')).toBeVisible()
-    
+
     // Verify prompt appears in list
     await expect(page.locator('text=Test Prompt')).toBeVisible()
     await expect(page.locator('text=Test Description')).toBeVisible()
@@ -351,39 +360,39 @@ test.describe('Prompt Management', () => {
 
   test('user can edit an existing prompt', async ({ page }) => {
     await page.goto('/dashboard')
-    
+
     // Create a prompt first
     await createTestPrompt(page)
-    
+
     // Click edit on the prompt
     await page.click('[data-testid="edit-prompt"]').first()
-    
+
     // Update the prompt
     await page.fill('[data-testid="prompt-name"]', 'Updated Prompt')
     await page.click('[data-testid="submit-prompt"]')
-    
+
     // Verify success
     await expect(page.locator('[data-testid="success-toast"]')).toBeVisible()
-    
+
     // Verify updated prompt
     await expect(page.locator('text=Updated Prompt')).toBeVisible()
   })
 
   test('user can delete a prompt', async ({ page }) => {
     await page.goto('/dashboard')
-    
+
     // Create a prompt first
     await createTestPrompt(page)
-    
+
     // Click delete on the prompt
     await page.click('[data-testid="delete-prompt"]').first()
-    
+
     // Confirm deletion
     await page.click('[data-testid="confirm-delete"]')
-    
+
     // Verify success
     await expect(page.locator('[data-testid="success-toast"]')).toBeVisible()
-    
+
     // Verify prompt is removed
     await expect(page.locator('text=Test Prompt')).not.toBeVisible()
   })
@@ -411,26 +420,26 @@ import { test, expect } from '@playwright/test'
 test.describe('Performance', () => {
   test('dashboard loads within acceptable time', async ({ page }) => {
     const startTime = Date.now()
-    
+
     await page.goto('/dashboard')
-    
+
     // Wait for main content to load
     await page.waitForSelector('[data-testid="dashboard-content"]')
-    
+
     const loadTime = Date.now() - startTime
-    
+
     // Should load within 3 seconds
     expect(loadTime).toBeLessThan(3000)
   })
 
   test('prompt list loads efficiently', async ({ page }) => {
     await page.goto('/dashboard')
-    
+
     // Measure time to load prompts
     const startTime = Date.now()
     await page.waitForSelector('[data-testid="prompt-card"]')
     const loadTime = Date.now() - startTime
-    
+
     // Should load within 2 seconds
     expect(loadTime).toBeLessThan(2000)
   })
@@ -448,18 +457,18 @@ import { test, expect } from '@playwright/test'
 test.describe('Accessibility', () => {
   test('homepage meets accessibility standards', async ({ page }) => {
     await page.goto('/')
-    
+
     // Check for proper heading structure
     const headings = await page.locator('h1, h2, h3, h4, h5, h6').all()
     expect(headings.length).toBeGreaterThan(0)
-    
+
     // Check for alt text on images
     const images = await page.locator('img').all()
     for (const img of images) {
       const alt = await img.getAttribute('alt')
       expect(alt).toBeTruthy()
     }
-    
+
     // Check for proper form labels
     const inputs = await page.locator('input, textarea, select').all()
     for (const input of inputs) {
@@ -473,12 +482,14 @@ test.describe('Accessibility', () => {
 
   test('keyboard navigation works', async ({ page }) => {
     await page.goto('/dashboard')
-    
+
     // Tab through all interactive elements
     await page.keyboard.press('Tab')
-    
+
     // Should focus on first interactive element
-    const focusedElement = await page.evaluate(() => document.activeElement?.tagName)
+    const focusedElement = await page.evaluate(
+      () => document.activeElement?.tagName
+    )
     expect(focusedElement).toBeTruthy()
   })
 })
@@ -514,30 +525,35 @@ npm run test:debug
 ## Best Practices
 
 ### 1. Test Organization
+
 - Group related tests together
 - Use descriptive test names
 - Keep tests focused and atomic
 - Follow AAA pattern (Arrange, Act, Assert)
 
 ### 2. Test Data Management
+
 - Use factories for test data
 - Clean up test data after tests
 - Use unique identifiers for test data
 - Mock external dependencies
 
 ### 3. Test Reliability
+
 - Avoid flaky tests
 - Use proper wait strategies
 - Handle async operations correctly
 - Test error scenarios
 
 ### 4. Performance
+
 - Keep tests fast
 - Use parallel execution when possible
 - Optimize test setup and teardown
 - Monitor test execution times
 
 ### 5. Maintenance
+
 - Keep tests up-to-date with code changes
 - Refactor tests when needed
 - Remove obsolete tests
@@ -546,6 +562,7 @@ npm run test:debug
 ## Common Testing Patterns
 
 ### 1. Page Object Model
+
 ```typescript
 // tests/pages/DashboardPage.ts
 export class DashboardPage {
@@ -569,6 +586,7 @@ export class DashboardPage {
 ```
 
 ### 2. Test Utilities
+
 ```typescript
 // tests/utils/test-helpers.ts
 export async function loginUser(page: any, email: string) {
@@ -600,4 +618,4 @@ export async function createTestPrompt(page: any, data = {}) {
 
 ---
 
-*Last updated: December 2024* 
+_Last updated: December 2024_

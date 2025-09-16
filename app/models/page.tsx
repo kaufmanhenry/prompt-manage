@@ -1,13 +1,25 @@
+import {
+  ArrowLeft,
+  Brain,
+  Code,
+  Eye,
+  Globe,
+  Settings,
+  Shield,
+  Zap,
+} from 'lucide-react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Zap, Shield, Globe, Code, Brain, Eye, Settings } from 'lucide-react'
-import { Metadata } from 'next'
 import { supportedModels } from '@/lib/models'
 
 export const metadata: Metadata = {
   title: 'Supported AI Models - Prompt Manage',
-  description: 'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
-  keywords: 'AI models, GPT-5, GPT-4o, Claude 4, Gemini 2.5, Llama 4, DeepSeek, Mistral, prompt management',
+  description:
+    'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
+  keywords:
+    'AI models, GPT-5, GPT-4o, Claude 4, Gemini 2.5, Llama 4, DeepSeek, Mistral, prompt management',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
   publisher: 'Prompt Manage',
@@ -22,7 +34,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Supported AI Models - Prompt Manage',
-    description: 'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
+    description:
+      'Explore the comprehensive list of AI models supported on Prompt Manage, including GPT-5, GPT-4o, Claude 4 Opus, Gemini 2.5 Pro, and more.',
     url: 'https://promptmanage.com/models',
     siteName: 'Prompt Manage',
     images: [
@@ -39,7 +52,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Supported AI Models - Prompt Manage',
-    description: 'Explore the comprehensive list of AI models supported on Prompt Manage.',
+    description:
+      'Explore the comprehensive list of AI models supported on Prompt Manage.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -56,76 +70,78 @@ export const metadata: Metadata = {
   },
 }
 
-
-
 export default function ModelsPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="mb-12 text-center">
           <Link href="/">
             <Button variant="ghost" className="mb-6">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Home
             </Button>
           </Link>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">
             Supported AI Models
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Discover the comprehensive range of AI models supported on Prompt Manage. 
-            From cutting-edge proprietary models to powerful open-source alternatives, 
-            we integrate with the most important LLMs to streamline your prompt management needs and prompt engineering workflows.
+          <p className="mx-auto max-w-3xl text-xl text-gray-600 dark:text-gray-400">
+            Discover the comprehensive range of AI models supported on Prompt
+            Manage. From cutting-edge proprietary models to powerful open-source
+            alternatives, we integrate with the most important LLMs to
+            streamline your prompt management needs and prompt engineering
+            workflows.
           </p>
         </div>
 
         {/* Model Categories */}
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
             Model Categories
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-blue-100 dark:bg-blue-900 rounded-lg p-2">
+          <div className="grid gap-8 md:grid-cols-2">
+            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900">
                   <Shield className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Proprietary Models
                 </h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                High-performance models from leading AI companies with advanced capabilities, 
-                extensive training, and enterprise-grade reliability.
+              <p className="mb-4 text-gray-600 dark:text-gray-400">
+                High-performance models from leading AI companies with advanced
+                capabilities, extensive training, and enterprise-grade
+                reliability.
               </p>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+              <h4 className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Key Benefits for Enterprise:
               </h4>
-              <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                 <li>• Advanced multimodal capabilities</li>
                 <li>• Extensive safety measures</li>
                 <li>• Enterprise-grade support</li>
                 <li>• Regular updates and improvements</li>
               </ul>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-green-100 dark:bg-green-900 rounded-lg p-2">
+            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="rounded-lg bg-green-100 p-2 dark:bg-green-900">
                   <Globe className="h-6 w-6 text-green-600 dark:text-green-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Open Source Models
                 </h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Community-driven models offering transparency, customizability, and 
-                the freedom to modify and deploy according to your specific needs.
+              <p className="mb-4 text-gray-600 dark:text-gray-400">
+                Community-driven models offering transparency, customizability,
+                and the freedom to modify and deploy according to your specific
+                needs.
               </p>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+              <h4 className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Key Benefits for Enterprise:
               </h4>
-              <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                 <li>• Full transparency and control</li>
                 <li>• Customizable and deployable</li>
                 <li>• Cost-effective solutions</li>
@@ -137,13 +153,16 @@ export default function ModelsPage() {
 
         {/* Models Grid */}
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
             Integrated AI Models
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {supportedModels.map((model, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between mb-4">
+              <div
+                key={index}
+                className="rounded-lg bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:bg-gray-800"
+              >
+                <div className="mb-4 flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div className={`${model.color} rounded-lg p-2`}>
                       <span className="text-2xl">{model.icon}</span>
@@ -157,26 +176,28 @@ export default function ModelsPage() {
                       </p>
                     </div>
                   </div>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    model.type === 'Proprietary' 
-                      ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                      : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                  }`}>
+                  <span
+                    className={`rounded-full px-2 py-1 text-xs ${
+                      model.type === 'Proprietary'
+                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                        : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                    }`}
+                  >
                     {model.type}
                   </span>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
                   {model.description}
                 </p>
                 <div className="mb-4">
-                  <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                  <h4 className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Key Capabilities:
                   </h4>
                   <div className="flex flex-wrap gap-1">
                     {model.capabilities.map((capability, capIndex) => (
                       <span
                         key={capIndex}
-                        className={`text-xs px-2 py-1 rounded-full ${model.color} ${model.textColor}`}
+                        className={`rounded-full px-2 py-1 text-xs ${model.color} ${model.textColor}`}
                       >
                         {capability}
                       </span>
@@ -184,13 +205,13 @@ export default function ModelsPage() {
                   </div>
                 </div>
                 <div className="mb-4">
-                  <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                  <h4 className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Key Use Cases:
                   </h4>
-                  <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                  <ul className="space-y-1 text-xs text-gray-600 dark:text-gray-400">
                     {model.useCases.map((useCase, useCaseIndex) => (
                       <li key={useCaseIndex} className="flex items-start gap-2">
-                        <span className="text-green-500 mt-1">•</span>
+                        <span className="mt-1 text-green-500">•</span>
                         {useCase}
                       </li>
                     ))}
@@ -201,7 +222,7 @@ export default function ModelsPage() {
                     href={model.companyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                   >
                     Visit {model.company} →
                   </a>
@@ -213,92 +234,92 @@ export default function ModelsPage() {
 
         {/* Capability Overview */}
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
             Model Capabilities Overview
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="text-center">
-              <div className="bg-blue-100 dark:bg-blue-900 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-blue-100 p-4 dark:bg-blue-900">
                 <Eye className="h-8 w-8 text-blue-600 dark:text-blue-400" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Multimodal
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Process text, images, audio, and video inputs seamlessly
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-green-100 dark:bg-green-900 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-green-100 p-4 dark:bg-green-900">
                 <Brain className="h-8 w-8 text-green-600 dark:text-green-400" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Reasoning
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Advanced logical thinking and problem-solving capabilities
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-purple-100 dark:bg-purple-900 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-purple-100 p-4 dark:bg-purple-900">
                 <Code className="h-8 w-8 text-purple-600 dark:text-purple-400" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Code Generation
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Write, debug, and optimize code across multiple languages
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-orange-100 dark:bg-orange-900 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-orange-100 p-4 dark:bg-orange-900">
                 <Zap className="h-8 w-8 text-orange-600 dark:text-orange-400" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Performance
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 High-speed processing with large context windows
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-indigo-100 dark:bg-indigo-900 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-indigo-100 p-4 dark:bg-indigo-900">
                 <Settings className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Customization
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Fine-tune and adapt models to specific enterprise requirements
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-red-100 dark:bg-red-900 rounded-lg p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-red-100 p-4 dark:bg-red-900">
                 <Shield className="h-8 w-8 text-red-600 dark:text-red-400" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Security & Compliance
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Enterprise-grade security with compliance and governance features
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Enterprise-grade security with compliance and governance
+                features
               </p>
             </div>
           </div>
         </div>
 
         {/* CTA */}
-        <div className="text-center bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="rounded-lg bg-white p-8 text-center shadow-sm dark:bg-gray-800">
+          <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
             Ready to elevate your prompt engineering?
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Create your account and start creating, managing, and running AI prompts for all supported models
+          <p className="mb-6 text-gray-600 dark:text-gray-400">
+            Create your account and start creating, managing, and running AI
+            prompts for all supported models
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/auth/signup">
-              <Button size="lg">
-                Get Started
-              </Button>
+              <Button size="lg">Get Started</Button>
             </Link>
             <Link href="/p">
               <Button variant="outline" size="lg">
@@ -310,4 +331,4 @@ export default function ModelsPage() {
       </div>
     </div>
   )
-} 
+}

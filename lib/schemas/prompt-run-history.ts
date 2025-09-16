@@ -22,4 +22,6 @@ export const createPromptRunHistorySchema = promptRunHistorySchema.omit({
   created_at: true,
 })
 
-export type CreatePromptRunHistory = z.infer<typeof createPromptRunHistorySchema> 
+export type CreatePromptRunHistory = z.infer<
+  typeof createPromptRunHistorySchema
+>

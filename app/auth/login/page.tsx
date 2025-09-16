@@ -1,10 +1,13 @@
-import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+
 import { LoginForm } from '@/components/LoginForm'
+import { createClient } from '@/utils/supabase/server'
 
 export default async function LoginPage() {
   const supabase = await createClient()
-  const { data: { session } } = await supabase.auth.getSession()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
   if (session) {
     redirect('/dashboard')
@@ -15,4 +18,4 @@ export default async function LoginPage() {
       <LoginForm />
     </div>
   )
-} 
+}

@@ -1,30 +1,31 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { Sidebar } from '@/components/Sidebar'
-import { PromptDetails } from '@/components/PromptsTable'
-import { PromptForm } from '@/components/PromptForm'
-import { Prompt } from '@/lib/schemas/prompt'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/utils/supabase/client'
-import { useToast } from '@/components/ui/use-toast'
+import { Trash2 } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+import { PromptForm } from '@/components/PromptForm'
+import { PromptDetails } from '@/components/PromptsTable'
+import { Sidebar } from '@/components/Sidebar'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Trash2 } from 'lucide-react'
+import { useToast } from '@/components/ui/use-toast'
+import type { Prompt } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client'
 
 export default function DashboardPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const queryClient = useQueryClient()
   const { toast } = useToast()
-  
+
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
@@ -42,9 +43,11 @@ export default function DashboardPage() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [promptToDelete, setPromptToDelete] = useState<Prompt | null>(null)
   const [deleting, setDeleting] = useState(false)
-  
-  const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(null)
-  
+
+  const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(
+    null
+  )
+
   const { data: prompts = [], isLoading } = useQuery({
     queryKey: ['prompts'],
     queryFn: async () => {
@@ -190,7 +193,7 @@ export default function DashboardPage() {
         onSelectPrompt={handleSelectPrompt}
       />
       <main className="flex-1 overflow-y-auto bg-accent/50">
-        <PromptDetails 
+        <PromptDetails
           prompt={selectedPrompt}
           onEdit={handleEditPrompt}
           onDelete={handleDeletePrompt}
@@ -198,14 +201,14 @@ export default function DashboardPage() {
           onClose={handleClosePromptDetails}
         />
       </main>
-      
+
       {/* Create Prompt Form */}
       <PromptForm
         prompt={null}
         open={showCreateForm}
         onOpenChange={handleCloseCreateForm}
       />
-      
+
       {/* Edit Prompt Form */}
       <PromptForm
         prompt={editingPrompt}
@@ -224,8 +227,8 @@ export default function DashboardPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="rounded-lg border p-4 bg-red-50 dark:bg-red-950">
-              <h4 className="font-medium mb-2 flex items-center gap-2 text-red-800 dark:text-red-200">
+            <div className="rounded-lg border bg-red-50 p-4 dark:bg-red-950">
+              <h4 className="mb-2 flex items-center gap-2 font-medium text-red-800 dark:text-red-200">
                 <Trash2 className="h-4 w-4" />
                 Permanent Deletion
               </h4>

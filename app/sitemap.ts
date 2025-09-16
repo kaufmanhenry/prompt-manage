@@ -1,7 +1,8 @@
-import { createServerSideClient } from '@/utils/supabase/server'
-import { MetadataRoute } from 'next'
 import fs from 'fs'
+import type { MetadataRoute } from 'next'
 import path from 'path'
+
+import { createServerSideClient } from '@/utils/supabase/server'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://promptmanage.com'
@@ -32,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly' as const,
       priority: 0.3,
     },
-    
+
     {
       url: `${baseUrl}/docs`,
       lastModified: new Date(),
@@ -68,10 +69,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Generate legal pages from markdown files
   const legalDir = path.join(process.cwd(), 'legal')
   let legalPages: MetadataRoute.Sitemap = []
-  
+
   if (fs.existsSync(legalDir)) {
-    const legalFiles = fs.readdirSync(legalDir).filter(f => f.endsWith('.md'))
-    legalPages = legalFiles.map(file => {
+    const legalFiles = fs.readdirSync(legalDir).filter((f) => f.endsWith('.md'))
+    legalPages = legalFiles.map((file) => {
       const slug = file.replace(/\.md$/, '')
       return {
         url: `${baseUrl}/legal/${slug}`,

@@ -35,7 +35,9 @@ export function SEO({
     logo: 'https://promptmanage.com/logo.svg',
   },
 }: SEOProps) {
-  const fullUrl = url.startsWith('http') ? url : `https://promptmanage.com${url}`
+  const fullUrl = url.startsWith('http')
+    ? url
+    : `https://promptmanage.com${url}`
 
   // Generate JSON-LD structured data
   const generateStructuredData = () => {
@@ -87,7 +89,7 @@ export function SEO({
 
     // Add Article schema for prompt pages
     if (type === 'article' && publishedTime) {
-      (baseStructuredData['@graph'] as object[]).push({
+      ;(baseStructuredData['@graph'] as object[]).push({
         '@type': 'Article',
         '@id': `${fullUrl}#article`,
         isPartOf: {
@@ -114,7 +116,7 @@ export function SEO({
 
     // Add Person schema for profile pages
     if (type === 'profile' && author) {
-      (baseStructuredData['@graph'] as object[]).push({
+      ;(baseStructuredData['@graph'] as object[]).push({
         '@type': 'Person',
         '@id': `${fullUrl}#person`,
         name: author,
@@ -153,8 +155,12 @@ export function SEO({
       <meta name="robots" content="index, follow" />
       <meta name="author" content={author || organization.name} />
       {tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
-      {publishedTime && <meta property="article:published_time" content={publishedTime} />}
-      {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+      {publishedTime && (
+        <meta property="article:published_time" content={publishedTime} />
+      )}
+      {modifiedTime && (
+        <meta property="article:modified_time" content={modifiedTime} />
+      )}
       {author && <meta property="article:author" content={author} />}
 
       {/* Structured Data */}
@@ -166,4 +172,4 @@ export function SEO({
       />
     </Head>
   )
-} 
+}

@@ -28,7 +28,10 @@ export const modelSchema = z.enum([
 
 export const promptSchema = z.object({
   id: z.string().optional(),
-  name: z.string().min(1, 'Name is required').max(120, 'Name must be 120 characters or less'),
+  name: z
+    .string()
+    .min(1, 'Name is required')
+    .max(120, 'Name must be 120 characters or less'),
   description: z.string().optional(),
   prompt_text: z.string().min(1, 'Prompt text is required'),
   model: modelSchema,
@@ -44,9 +47,24 @@ export const promptSchema = z.object({
 
 export type Model = z.infer<typeof modelSchema>
 export type Prompt = z.infer<typeof promptSchema>
-export type CreatePrompt = Omit<Prompt, 'id' | 'updated_at' | 'inserted_at' | 'slug' | 'view_count'>
+export type CreatePrompt = Omit<
+  Prompt,
+  'id' | 'updated_at' | 'inserted_at' | 'slug' | 'view_count'
+>
 export type UpdatePrompt = Partial<CreatePrompt> & { id: string }
-export type PublicPrompt = Pick<Prompt, 'id' | 'name' | 'description' | 'prompt_text' | 'model' | 'tags' | 'slug' | 'view_count' | 'inserted_at' | 'updated_at'>
+export type PublicPrompt = Pick<
+  Prompt,
+  | 'id'
+  | 'name'
+  | 'description'
+  | 'prompt_text'
+  | 'model'
+  | 'tags'
+  | 'slug'
+  | 'view_count'
+  | 'inserted_at'
+  | 'updated_at'
+>
 
 // Schema for copying a public prompt
 export const copyPromptSchema = z.object({
@@ -54,4 +72,4 @@ export const copyPromptSchema = z.object({
   new_name: z.string().optional(),
 })
 
-export type CopyPrompt = z.infer<typeof copyPromptSchema> 
+export type CopyPrompt = z.infer<typeof copyPromptSchema>

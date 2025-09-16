@@ -1,14 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+
 import { copyPromptSchema } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient()
-    
+
     // Get the current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
+
     if (authError || !user) {
       return NextResponse.json(
         { error: 'Authentication required' },
@@ -19,7 +24,7 @@ export async function POST(request: NextRequest) {
     // Parse the request body
     const body = await request.json()
     const validation = copyPromptSchema.safeParse(body)
-    
+
     if (!validation.success) {
       return NextResponse.json(
         { error: 'Invalid request data', details: validation.error },
@@ -60,12 +65,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Copy the prompt using the database function
-    const { data: newPromptId, error: copyError } = await supabase
-      .rpc('copy_public_prompt', {
+    const { data: newPromptId, error: copyError } = await supabase.rpc(
+      'copy_public_prompt',
+      {
         source_prompt_id,
         target_user_id: user.id,
-        new_name: new_name || null
-      })
+        new_name: new_name || null,
+      }
+    )
 
     if (copyError) {
       console.error('Copy prompt error:', copyError)
@@ -102,10 +109,9 @@ export async function POST(request: NextRequest) {
       prompt: newPrompt,
       originalPrompt: {
         id: source_prompt_id,
-        slug: originalPrompt?.slug
-      }
+        slug: originalPrompt?.slug,
+      },
     })
-
   } catch (error) {
     console.error('Copy prompt error:', error)
     return NextResponse.json(
@@ -113,4 +119,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-} 
+}

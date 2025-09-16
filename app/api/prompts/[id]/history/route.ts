@@ -1,5 +1,7 @@
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+
 import { createClient } from '@/utils/supabase/server'
-import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
   request: NextRequest,
@@ -20,7 +22,10 @@ export async function GET(
     const { id: promptId } = await context.params
 
     if (!promptId) {
-      return NextResponse.json({ error: 'Prompt ID is required' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'Prompt ID is required' },
+        { status: 400 }
+      )
     }
 
     // Verify the user owns this prompt
@@ -81,4 +86,4 @@ export async function GET(
       { status: 500 }
     )
   }
-} 
+}

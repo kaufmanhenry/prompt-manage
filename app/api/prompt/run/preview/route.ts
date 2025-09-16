@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 type VariablesRow = Record<string, string>
 
@@ -41,7 +42,10 @@ export async function POST(request: NextRequest) {
     const outputs = variablesRows.map((row, index) => {
       const combined = `${context}\n\n${substitute(prompt, row)}`
       // Create a pseudo output by paraphrasing the goal line slightly
-      const firstLine = substitute(prompt.split('\n')[0] || 'Generate text', row)
+      const firstLine = substitute(
+        prompt.split('\n')[0] || 'Generate text',
+        row
+      )
       const response = [
         `Variant ${variant}: ${firstLine}`,
         '',
@@ -85,7 +89,9 @@ export async function POST(request: NextRequest) {
       aggregate: {
         total_tokens: totals.total_tokens,
         avg_latency_ms:
-          outputs.length > 0 ? Math.round(totals.total_latency_ms / outputs.length) : Date.now() - startedAt,
+          outputs.length > 0
+            ? Math.round(totals.total_latency_ms / outputs.length)
+            : Date.now() - startedAt,
         total_cost_usd: Number(totals.total_cost_usd.toFixed(6)),
       },
     }
@@ -93,8 +99,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response)
   } catch (error) {
     console.error('Preview run error', error)
-    return NextResponse.json({ success: false, error: 'Bad request' }, { status: 400 })
+    return NextResponse.json(
+      { success: false, error: 'Bad request' },
+      { status: 400 }
+    )
   }
 }
-
-

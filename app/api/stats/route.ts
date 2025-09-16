@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { createServerSideClient } from '@/utils/supabase/server'
 
 export async function GET() {
@@ -30,8 +31,9 @@ export async function GET() {
       .from('prompts')
       .select('view_count')
       .eq('is_public', true)
-    
-    const totalViews = viewData?.reduce((sum, prompt) => sum + (prompt.view_count || 0), 0) || 0
+
+    const totalViews =
+      viewData?.reduce((sum, prompt) => sum + (prompt.view_count || 0), 0) || 0
 
     // Get prompts created today
     const today = new Date()
@@ -47,8 +49,9 @@ export async function GET() {
       .select('user_id')
       .gte('inserted_at', today.toISOString())
       .not('user_id', 'is', null)
-    
-    const activeUsersToday = new Set(activeUsersData?.map(p => p.user_id)).size
+
+    const activeUsersToday = new Set(activeUsersData?.map((p) => p.user_id))
+      .size
 
     // Get prompt runs in last hour
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
@@ -59,56 +62,63 @@ export async function GET() {
 
     // Get new signups today
     const { data: newUsersData } = await supabase.auth.admin.listUsers()
-    const newSignupsToday = newUsersData?.users?.filter(user => {
-      const createdAt = new Date(user.created_at)
-      return createdAt >= today
-    }).length || 0
+    const newSignupsToday =
+      newUsersData?.users?.filter((user) => {
+        const createdAt = new Date(user.created_at)
+        return createdAt >= today
+      }).length || 0
 
     // Get top categories (based on tags)
     const { data: categoryData } = await supabase
       .from('prompts')
       .select('tags')
       .not('tags', 'is', null)
-    
+
     const categoryCounts: Record<string, number> = {}
-    categoryData?.forEach(prompt => {
+    categoryData?.forEach((prompt) => {
       if (prompt.tags && Array.isArray(prompt.tags)) {
-        prompt.tags.forEach(tag => {
+        prompt.tags.forEach((tag) => {
           categoryCounts[tag] = (categoryCounts[tag] || 0) + 1
         })
       }
     })
-    
+
     const topCategories = Object.entries(categoryCounts)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, 7)
       .map(([category, count]) => ({
         category,
         prompts: count,
-        percentage: Math.round((count / (totalPrompts || 1)) * 100 * 10) / 10
+        percentage: Math.round((count / (totalPrompts || 1)) * 100 * 10) / 10,
       }))
 
     // Get growth metrics (this month vs last month)
     const thisMonth = new Date()
     thisMonth.setDate(1)
     thisMonth.setHours(0, 0, 0, 0)
-    
+
     const lastMonth = new Date(thisMonth)
     lastMonth.setMonth(lastMonth.getMonth() - 1)
-    
+
     const { count: promptsThisMonth } = await supabase
       .from('prompts')
       .select('*', { count: 'exact', head: true })
       .gte('inserted_at', thisMonth.toISOString())
-    
+
     const { count: promptsLastMonth } = await supabase
       .from('prompts')
       .select('*', { count: 'exact', head: true })
       .gte('inserted_at', lastMonth.toISOString())
       .lt('inserted_at', thisMonth.toISOString())
-    
-    const growthRate = promptsLastMonth && promptsThisMonth ? 
-      Math.round(((promptsThisMonth - promptsLastMonth) / promptsLastMonth) * 100 * 10) / 10 : 0
+
+    const growthRate =
+      promptsLastMonth && promptsThisMonth
+        ? Math.round(
+            ((promptsThisMonth - promptsLastMonth) / promptsLastMonth) *
+              100 *
+              10
+          ) / 10
+        : 0
 
     // Get average rating (placeholder - would need a ratings table)
     const averageRating = 4.8 // This would come from a ratings table
@@ -134,40 +144,80 @@ export async function GET() {
       .from('prompts')
       .select('inserted_at')
       .gte('inserted_at', juneFirst.toISOString())
-    
+
     // Group by date and count
     const dailyCounts: Record<string, number> = {}
-    dailyData?.forEach(prompt => {
+    dailyData?.forEach((prompt) => {
       const date = new Date(prompt.inserted_at).toISOString().split('T')[0]
       dailyCounts[date] = (dailyCounts[date] || 0) + 1
     })
-    
+
     // Generate daily data array
     const dailyPrompts = []
     const currentDate = new Date(juneFirst)
     const currentToday = new Date()
-    
+
     while (currentDate <= currentToday) {
       const dateStr = currentDate.toISOString().split('T')[0]
       dailyPrompts.push({
         date: dateStr,
-        count: dailyCounts[dateStr] || 0
+        count: dailyCounts[dateStr] || 0,
       })
       currentDate.setDate(currentDate.getDate() + 1)
     }
 
     // Get country data (placeholder - would need user location data)
     const topCountries = [
-      { country: 'United States', users: Math.floor((userCount || 0) * 0.4), percentage: 40.0 },
-      { country: 'United Kingdom', users: Math.floor((userCount || 0) * 0.15), percentage: 15.0 },
-      { country: 'Canada', users: Math.floor((userCount || 0) * 0.1), percentage: 10.0 },
-      { country: 'Germany', users: Math.floor((userCount || 0) * 0.08), percentage: 8.0 },
-      { country: 'Australia', users: Math.floor((userCount || 0) * 0.06), percentage: 6.0 },
-      { country: 'Netherlands', users: Math.floor((userCount || 0) * 0.05), percentage: 5.0 },
-      { country: 'France', users: Math.floor((userCount || 0) * 0.04), percentage: 4.0 },
-      { country: 'Sweden', users: Math.floor((userCount || 0) * 0.03), percentage: 3.0 },
-      { country: 'Japan', users: Math.floor((userCount || 0) * 0.03), percentage: 3.0 },
-      { country: 'India', users: Math.floor((userCount || 0) * 0.02), percentage: 2.0 }
+      {
+        country: 'United States',
+        users: Math.floor((userCount || 0) * 0.4),
+        percentage: 40.0,
+      },
+      {
+        country: 'United Kingdom',
+        users: Math.floor((userCount || 0) * 0.15),
+        percentage: 15.0,
+      },
+      {
+        country: 'Canada',
+        users: Math.floor((userCount || 0) * 0.1),
+        percentage: 10.0,
+      },
+      {
+        country: 'Germany',
+        users: Math.floor((userCount || 0) * 0.08),
+        percentage: 8.0,
+      },
+      {
+        country: 'Australia',
+        users: Math.floor((userCount || 0) * 0.06),
+        percentage: 6.0,
+      },
+      {
+        country: 'Netherlands',
+        users: Math.floor((userCount || 0) * 0.05),
+        percentage: 5.0,
+      },
+      {
+        country: 'France',
+        users: Math.floor((userCount || 0) * 0.04),
+        percentage: 4.0,
+      },
+      {
+        country: 'Sweden',
+        users: Math.floor((userCount || 0) * 0.03),
+        percentage: 3.0,
+      },
+      {
+        country: 'Japan',
+        users: Math.floor((userCount || 0) * 0.03),
+        percentage: 3.0,
+      },
+      {
+        country: 'India',
+        users: Math.floor((userCount || 0) * 0.02),
+        percentage: 2.0,
+      },
     ]
 
     const stats = {
@@ -192,14 +242,14 @@ export async function GET() {
         promptsThisMonth: promptsThisMonth || 0,
         usersThisMonth: Math.floor((userCount || 0) * 0.15), // Estimate
         runsThisMonth: Math.floor((totalRuns || 0) * 0.16), // Estimate
-        growthRate
+        growthRate,
       },
       realTimeStats: {
         promptsCreatedToday: promptsToday || 0,
         usersActiveNow: Math.floor(activeUsersToday * 0.1), // Estimate
         runsInLastHour: runsLastHour || 0,
-        newSignupsToday: newSignupsToday
-      }
+        newSignupsToday: newSignupsToday,
+      },
     }
 
     return NextResponse.json(stats)
@@ -210,4 +260,4 @@ export async function GET() {
       { status: 500 }
     )
   }
-} 
+}

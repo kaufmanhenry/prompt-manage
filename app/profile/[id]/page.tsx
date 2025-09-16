@@ -1,11 +1,18 @@
-import { createClient } from '@/utils/supabase/server'
-import { notFound } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { ArrowLeft, ExternalLink, Globe, MapPin } from 'lucide-react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, ExternalLink, MapPin, Globe } from 'lucide-react'
-import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { createClient } from '@/utils/supabase/server'
 
 interface UserProfile {
   id: string
@@ -34,10 +41,12 @@ interface UserProfilePageProps {
 }
 
 // Generate metadata for the user profile page
-export async function generateMetadata({ params }: UserProfilePageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: UserProfilePageProps): Promise<Metadata> {
   const { id } = await params
   const supabase = await createClient()
-  
+
   try {
     const { data: profile } = await supabase
       .from('user_profiles')
@@ -58,10 +67,16 @@ export async function generateMetadata({ params }: UserProfilePageProps): Promis
 
     const userProfile = profile as UserProfile
     const displayName = userProfile.display_name || 'Anonymous User'
-    const description = userProfile.bio || 
+    const description =
+      userProfile.bio ||
       `View ${displayName}'s public AI prompts and profile on Prompt Manage.`
-    
-    const keywords = ['AI prompts', 'prompt sharing', displayName, 'Prompt Manage user'].join(', ')
+
+    const keywords = [
+      'AI prompts',
+      'prompt sharing',
+      displayName,
+      'Prompt Manage user',
+    ].join(', ')
 
     return {
       title: `${displayName} - User Profile | Prompt Manage`,
@@ -162,7 +177,7 @@ export default async function UserProfilePage({
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
           <Link href="/p">
@@ -178,16 +193,17 @@ export default async function UserProfilePage({
           <CardContent className="p-8">
             <div className="flex items-start gap-6">
               <div className="flex-shrink-0">
-                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center text-2xl font-semibold text-primary">
-                  {userProfile.display_name?.[0]?.toUpperCase() || userProfile.id[0].toUpperCase()}
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-2xl font-semibold text-primary">
+                  {userProfile.display_name?.[0]?.toUpperCase() ||
+                    userProfile.id[0].toUpperCase()}
                 </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              <div className="min-w-0 flex-1">
+                <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
                   {userProfile.display_name || 'Anonymous User'}
                 </h1>
                 {userProfile.bio && (
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 text-lg">
+                  <p className="mb-4 text-lg text-gray-600 dark:text-gray-400">
                     {userProfile.bio}
                   </p>
                 )}
@@ -203,7 +219,7 @@ export default async function UserProfilePage({
                       href={userProfile.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1 hover:text-primary transition-colors"
+                      className="flex items-center gap-1 transition-colors hover:text-primary"
                     >
                       <Globe className="h-4 w-4" />
                       Website
@@ -211,7 +227,8 @@ export default async function UserProfilePage({
                     </a>
                   )}
                   <div>
-                    Member since {new Date(userProfile.created_at).toLocaleDateString()}
+                    Member since{' '}
+                    {new Date(userProfile.created_at).toLocaleDateString()}
                   </div>
                 </div>
               </div>
@@ -238,13 +255,16 @@ export default async function UserProfilePage({
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {userPrompts.map((prompt) => (
-                <Card key={prompt.id} className="hover:shadow-md transition-shadow">
+                <Card
+                  key={prompt.id}
+                  className="transition-shadow hover:shadow-md"
+                >
                   <CardHeader>
                     <div className="flex items-start justify-between">
-                      <CardTitle className="text-lg line-clamp-2">
+                      <CardTitle className="line-clamp-2 text-lg">
                         <Link
                           href={`/p/${prompt.slug}`}
-                          className="hover:text-primary transition-colors"
+                          className="transition-colors hover:text-primary"
                         >
                           {prompt.name}
                         </Link>
@@ -268,7 +288,11 @@ export default async function UserProfilePage({
                     {prompt.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {prompt.tags.slice(0, 3).map((tag) => (
-                          <Badge key={tag} variant="outline" className="text-xs">
+                          <Badge
+                            key={tag}
+                            variant="outline"
+                            className="text-xs"
+                          >
                             {tag}
                           </Badge>
                         ))}
@@ -291,4 +315,4 @@ export default async function UserProfilePage({
       </div>
     </div>
   )
-} 
+}

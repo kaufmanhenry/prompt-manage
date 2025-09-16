@@ -9,17 +9,20 @@ When a user finds a useful public prompt, they can now copy it to their personal
 ## Features
 
 ### 🔗 Copy to Personal Collection
+
 - **One-click copying**: Users can copy any public prompt to their personal collection
 - **Automatic naming**: Copied prompts get "(Copy)" appended to the name
 - **Private by default**: All copied prompts are private and can be customized
 - **Duplicate prevention**: Users can only copy a prompt once
 
 ### 📊 Derivative Tracking
+
 - **Parent-child relationship**: Each copied prompt links back to the original
 - **Visual indicators**: Clear indication when a prompt is a derivative
 - **Usage statistics**: Public prompts show how many times they've been copied
 
 ### 🎨 User Interface
+
 - **Copy button**: Prominent "Copy to My Prompts" button on public prompt pages
 - **Derivative badges**: Visual indicators in the dashboard for derivative prompts
 - **Statistics display**: Shows derivative count on public prompt pages
@@ -27,19 +30,23 @@ When a user finds a useful public prompt, they can now copy it to their personal
 ## Database Schema
 
 ### New Fields
+
 - `parent_prompt_id`: UUID reference to the original prompt (nullable)
 - Indexes for efficient querying of derivative relationships
 
 ### New Functions
+
 - `copy_public_prompt()`: Copies a public prompt to a user's collection
 - `get_derivative_prompts()`: Retrieves all derivatives of a given prompt
 
 ## API Endpoints
 
 ### POST /api/prompts/copy
+
 Copies a public prompt to the authenticated user's collection.
 
 **Request Body:**
+
 ```json
 {
   "source_prompt_id": "uuid",
@@ -48,13 +55,14 @@ Copies a public prompt to the authenticated user's collection.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Prompt copied successfully",
   "prompt": {
     "id": "uuid",
     "name": "Original Name (Copy)",
-    "parent_prompt_id": "original-prompt-uuid",
+    "parent_prompt_id": "original-prompt-uuid"
     // ... other prompt fields
   }
 }
@@ -63,9 +71,11 @@ Copies a public prompt to the authenticated user's collection.
 ## Components
 
 ### CopyPromptButton
+
 A reusable button component that handles copying prompts with loading states and success feedback.
 
 ### DerivativePrompts
+
 Displays statistics about how many users have copied a public prompt.
 
 ## Migration Required
@@ -97,4 +107,4 @@ To enable this feature, run the following migration:
 - **Fork tracking**: Show the full chain of derivatives
 - **Collaboration**: Allow users to contribute back to original prompts
 - **Analytics**: More detailed statistics about prompt usage
-- **Notifications**: Alert original authors when their prompts are copied 
+- **Notifications**: Alert original authors when their prompts are copied

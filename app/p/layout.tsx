@@ -1,9 +1,11 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Public Prompts Directory - Discover AI Prompts | Prompt Manage',
-  description: 'Browse and discover hundreds of AI prompts shared by the community. Find prompts for ChatGPT, Claude, Gemini, and more. Search by model, tags, and popularity.',
-  keywords: 'AI prompts directory, ChatGPT prompts, Claude prompts, Gemini prompts, prompt discovery, AI tools, prompt sharing',
+  description:
+    'Browse and discover hundreds of AI prompts shared by the community. Find prompts for ChatGPT, Claude, Gemini, and more. Search by model, tags, and popularity.',
+  keywords:
+    'AI prompts directory, ChatGPT prompts, Claude prompts, Gemini prompts, prompt discovery, AI tools, prompt sharing',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
   publisher: 'Prompt Manage',
@@ -16,9 +18,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/p',
   },
-      openGraph: {
-      title: 'Public Prompts Directory - Discover AI Prompts',
-      description: 'Browse and discover hundreds of AI prompts shared by the community. Find prompts for ChatGPT, Claude, Gemini, and more.',
+  openGraph: {
+    title: 'Public Prompts Directory - Discover AI Prompts',
+    description:
+      'Browse and discover hundreds of AI prompts shared by the community. Find prompts for ChatGPT, Claude, Gemini, and more.',
     url: 'https://promptmanage.com/p',
     siteName: 'Prompt Manage',
     images: [
@@ -32,10 +35,11 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
-      twitter: {
-      card: 'summary_large_image',
-      title: 'Public Prompts Directory - Discover AI Prompts',
-      description: 'Browse and discover hundreds of AI prompts shared by the community.',
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Public Prompts Directory - Discover AI Prompts',
+    description:
+      'Browse and discover hundreds of AI prompts shared by the community.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -52,6 +56,10 @@ export const metadata: Metadata = {
   },
 }
 
-export default function PublicLayout({ children }: { children: React.ReactNode }) {
-  return children;
-} 
+export default function PublicLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return children
+}

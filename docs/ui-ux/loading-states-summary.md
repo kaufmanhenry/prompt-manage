@@ -7,6 +7,7 @@ This document summarizes the comprehensive review and standardization of loading
 ## Issues Identified
 
 ### 1. Inconsistent Spinner Implementations
+
 - **Problem**: Different components used custom spinner implementations with varying sizes, colors, and styles
 - **Examples**:
   - `app/p/page.tsx`: Custom border-based spinner with hardcoded colors
@@ -14,6 +15,7 @@ This document summarizes the comprehensive review and standardization of loading
   - `components/PromptsTable.tsx`: Multiple Loader2 icons with different sizes
 
 ### 2. Mixed Skeleton Patterns
+
 - **Problem**: Some components used the `Skeleton` component while others created custom skeletons
 - **Examples**:
   - `components/Sidebar.tsx`: Used `Skeleton` component correctly
@@ -21,6 +23,7 @@ This document summarizes the comprehensive review and standardization of loading
   - `components/RelatedPrompts.tsx`: Custom skeletons with hardcoded colors
 
 ### 3. Inconsistent Color Schemes
+
 - **Problem**: Different loading states used different color tokens
 - **Examples**:
   - `border-gray-500` vs `border-gray-900 dark:border-white`
@@ -28,6 +31,7 @@ This document summarizes the comprehensive review and standardization of loading
   - `text-gray-600 dark:text-gray-400` vs `text-muted-foreground`
 
 ### 4. Varying Loading Text Patterns
+
 - **Problem**: Inconsistent loading messages and text styling
 - **Examples**:
   - "Loading public prompts..." vs "Loading prompt..." vs "Loading..."
@@ -47,18 +51,22 @@ This document summarizes the comprehensive review and standardization of loading
 ### 2. Updated All Components
 
 #### Full-Page Loading States
+
 - ✅ `app/p/page.tsx`: Updated to use `FullPageLoading`
 - ✅ `app/p/[slug]/PublicPromptPageClient.tsx`: Updated to use `FullPageLoading`
 
 #### Button Loading States
+
 - ✅ `components/PromptsTable.tsx`: Updated all "Run Prompt" buttons to use `Spinner`
 - ✅ `components/CopyPromptButton.tsx`: Updated to use `Spinner`
 
 #### Card Loading States
+
 - ✅ `components/DerivativePrompts.tsx`: Updated to use `LoadingText`
 - ✅ `components/PromptRunHistory.tsx`: Updated to use `CardLoading`
 
 #### Skeleton Loading States
+
 - ✅ `components/PromptsTable.tsx`: Updated to use `Skeleton` component
 - ✅ `components/RelatedPrompts.tsx`: Updated to use `Skeleton` component
 - ✅ `app/settings/page.tsx`: Updated to use `Skeleton` component
@@ -66,6 +74,7 @@ This document summarizes the comprehensive review and standardization of loading
 ### 3. Standardized Design Tokens
 
 All loading components now use consistent design system tokens:
+
 - **Text**: `text-muted-foreground`
 - **Backgrounds**: `bg-muted`
 - **Spinners**: `text-muted-foreground` with `animate-spin`
@@ -74,21 +83,25 @@ All loading components now use consistent design system tokens:
 ## Benefits Achieved
 
 ### 1. Consistency
+
 - All loading states now follow the same visual patterns
 - Consistent sizing, colors, and animations
 - Unified user experience across the application
 
 ### 2. Maintainability
+
 - Centralized loading components reduce code duplication
 - Easy to update loading styles globally
 - Consistent API across all loading states
 
 ### 3. Accessibility
+
 - Proper ARIA attributes and screen reader support
 - Consistent focus management
 - Better keyboard navigation
 
 ### 4. Performance
+
 - Reusable components reduce bundle size
 - Optimized animations and transitions
 - Better perceived performance
@@ -96,6 +109,7 @@ All loading components now use consistent design system tokens:
 ## Component Usage Guide
 
 ### Spinner Sizes
+
 ```tsx
 <Spinner size="sm" />  // 16x16px - buttons, inline
 <Spinner size="md" />  // 24x24px - default, general use
@@ -103,6 +117,7 @@ All loading components now use consistent design system tokens:
 ```
 
 ### Loading Contexts
+
 ```tsx
 // Button loading
 <Button disabled={loading}>
@@ -124,11 +139,13 @@ All loading components now use consistent design system tokens:
 ## Files Modified
 
 ### New Files
+
 - `components/ui/loading.tsx` - Standardized loading components
 - `docs/ui-ux/loading-states.md` - Comprehensive documentation
 - `docs/ui-ux/loading-states-summary.md` - This summary
 
 ### Updated Files
+
 - `app/p/page.tsx` - Full-page loading standardization
 - `app/p/[slug]/PublicPromptPageClient.tsx` - Full-page loading standardization
 - `app/settings/page.tsx` - Skeleton loading standardization
@@ -154,4 +171,4 @@ All loading components now use consistent design system tokens:
 
 ## Conclusion
 
-The loading state standardization significantly improves the user experience by providing consistent, accessible, and maintainable loading feedback throughout the application. All components now follow the same design patterns and use the design system's color tokens, ensuring a cohesive and professional user interface. 
+The loading state standardization significantly improves the user experience by providing consistent, accessible, and maintainable loading feedback throughout the application. All components now follow the same design patterns and use the design system's color tokens, ensuring a cohesive and professional user interface.

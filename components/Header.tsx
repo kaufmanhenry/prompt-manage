@@ -84,16 +84,6 @@ export function Header() {
               <Globe className="h-4 w-4" />
               <span className="text-sm font-medium">Public</span>
             </Link>
-            <Link
-              href="/docs"
-              className={`text-sm ${
-                pathname.startsWith('/docs')
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-muted-foreground'
-              } rounded-lg px-2 py-1 font-medium transition-colors hover:text-primary`}
-            >
-              Docs
-            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-4">

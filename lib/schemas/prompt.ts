@@ -40,6 +40,8 @@ export const promptSchema = z.object({
   inserted_at: z.string().optional(),
   updated_at: z.string().optional(),
   user_id: z.string(),
+  org_id: z.string().uuid().nullable().optional(),
+  visibility: z.enum(['private','team','public']).optional(),
 });
 
 export type Model = z.infer<typeof modelSchema>;

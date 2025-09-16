@@ -116,9 +116,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
     return `${(ms / 1000).toFixed(2)}s`;
   };
 
-  const formatTimestamp = (timestamp: string) => {
-    return new Date(timestamp).toLocaleString();
-  };
+  const formatTimestamp = (timestamp: string) => new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' }).format(new Date(timestamp));
 
   if (isLoading) {
     return (

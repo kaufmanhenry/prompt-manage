@@ -45,6 +45,7 @@ import {
 import { Spinner } from '@/components/ui/loading';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { formatDateTimeUTC } from '@/lib/datetime';
 import { Tooltip } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
 import type { Prompt } from '@/lib/schemas/prompt';
@@ -337,10 +338,22 @@ export function PromptsTable({
                     )}
                   </div>
                 </div>
-                <div className="mb-4">
+                <div className="mb-2">
                   <pre className="text-sm text-muted-foreground line-clamp-3">
                     {prompt.prompt_text}
                   </pre>
+                </div>
+                <div className="flex gap-2 mb-4">
+                  {((prompt as any).org_id) ? (
+                    <Badge variant="outline">Team</Badge>
+                  ) : (
+                    <Badge variant="outline">Personal</Badge>
+                  )}
+                  {prompt.is_public ? (
+                    <Badge variant="secondary">Public</Badge>
+                  ) : (
+                    <Badge variant="secondary">Private</Badge>
+                  )}
                 </div>
 
                 {/* Stats for public prompts */}
@@ -403,10 +416,38 @@ export function PromptsTable({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
-                        onClick={() => toast({ title: 'Share action not implemented yet.' })}
+                        onClick={() =>
+                          toast({ title: 'Use Share to Team to move prompt to the current team.' })
+                        }
                       >
                         <Share2 className="mr-2 size-4" />
                         {prompt.is_public ? 'Manage Sharing' : 'Share'}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={async () => {
+                          const orgId = new URLSearchParams(window.location.search).get('org')
+                          if (!orgId) {
+                            toast({ title: 'Select a team', description: 'Switch to a team workspace first.', variant: 'destructive' })
+                            return
+                          }
+                          try {
+                            const res = await fetch(`/api/prompts/${prompt.id}/transfer`, {
+                              method: 'POST',
+                              headers: { 'content-type': 'application/json' },
+                              body: JSON.stringify({ orgId, visibility: 'team' }),
+                            })
+                            if (!res.ok) {
+                              const err = await res.json().catch(() => ({}))
+                              throw new Error(err.error || 'Transfer failed')
+                            }
+                            await queryClient.invalidateQueries({ queryKey: ['prompts'] })
+                            toast({ title: 'Shared to team', description: 'Prompt moved to team.' })
+                          } catch (e: any) {
+                            toast({ title: 'Error', description: e?.message || 'Failed to share', variant: 'destructive' })
+                          }
+                        }}
+                      >
+                        <Share2 className="mr-2 size-4" /> Share to Team
                       </DropdownMenuItem>
                       {prompt.is_public && (
                         <DropdownMenuItem onClick={() => handleCopyLink()}>
@@ -667,9 +708,7 @@ export function PromptDetails({
     return `${(ms / 1000).toFixed(2)}s`;
   };
 
-  const formatTimestamp = (timestamp: string) => {
-    return new Date(timestamp).toLocaleString();
-  };
+  const formatTimestamp = (timestamp: string) => formatDateTimeUTC(timestamp);
 
   if (!prompt) {
     return (

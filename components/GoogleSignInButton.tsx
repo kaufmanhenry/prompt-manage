@@ -1,6 +1,6 @@
 'use client';
 
-import type { ButtonHTMLAttributes } from 'react';
+import type { ComponentProps } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/utils/supabase/client';
@@ -8,8 +8,8 @@ import { createClient } from '@/utils/supabase/client';
 interface GoogleSignInButtonProps {
   label: string;
   className?: string;
-  size?: ButtonHTMLAttributes<HTMLButtonElement>['size'] | 'sm' | 'default' | 'lg';
-  variant?: 'default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link';
+  size?: ComponentProps<typeof Button>['size'];
+  variant?: ComponentProps<typeof Button>['variant'];
 }
 
 export function GoogleSignInButton({ label, className, size = 'default', variant = 'default' }: GoogleSignInButtonProps) {

@@ -161,7 +161,7 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
         {prompt.updated_at && (
           <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-lg">
             <Clock className="h-3 w-3" />
-            <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
+            <span>{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit', timeZone: 'UTC' }).format(new Date(prompt.updated_at))}</span>
           </div>
         )}
       </div>

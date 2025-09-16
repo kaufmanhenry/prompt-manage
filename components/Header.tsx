@@ -48,7 +48,7 @@ export function Header() {
               alt="Prompt Manage"
               width={32}
               height={32}
-              className="h-6 w-6"
+              className="h-6 w-6 dark:invert"
             />
           </Link>
           <nav className="hidden items-center gap-2 md:flex">

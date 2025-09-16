@@ -70,6 +70,23 @@ Our design system is built on the following principles:
   --text-4xl: 2.25rem /* 36px */ --text-5xl: 3rem /* 48px */;
 ```
 
+#### Semantic Type Scale
+
+```css
+/* CSS custom properties */
+--font-size-xs: 0.75rem;   /* 12 */
+--font-size-sm: 0.875rem;  /* 14 */
+--font-size-base: 1rem;    /* 16 */
+--font-size-lg: 1.125rem;  /* 18 */
+--font-size-xl: 1.25rem;   /* 20 */
+--font-size-2xl: 1.5rem;   /* 24 */
+--font-size-3xl: 1.875rem; /* 30 */
+--font-size-4xl: 2.25rem;  /* 36 */
+--line-height-tight: 1.2;
+--line-height-snug: 1.3;
+--line-height-normal: 1.5;
+```
+
 #### Font Weights
 
 ```css
@@ -113,6 +130,24 @@ Our design system is built on the following principles:
   0 8px 10px -6px rgb(0 0 0 / 0.1);
 ```
 
+### Motion & Interaction
+
+```css
+/* Motion tokens */
+--motion-duration-fast: 120ms;
+--motion-duration-normal: 180ms;
+--motion-duration-slow: 240ms;
+--motion-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+--motion-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+```
+
+Tailwind mappings:
+
+- ease: `ease-standard`, `ease-emphasized`
+- duration: `duration-fast`, `duration-normal`, `duration-slow`
+- elevation: `elevate-1` … `elevate-4`
+- focus: use `focus-visible:ring-[var(--focus-ring-width)]` and `ring-ring/50`
+
 ## Component Library
 
 ### Base Components
@@ -133,6 +168,9 @@ Our design system is built on the following principles:
 <Button size="default">Default</Button>
 <Button size="lg">Large</Button>
 ```
+Usage notes:
+
+- Subtle lift on hover and tokenized focus rings; never hardcode colors.
 
 #### Input
 
@@ -146,6 +184,9 @@ Our design system is built on the following principles:
 <Input disabled placeholder="Disabled input" />
 <Input className="error" placeholder="Error state" />
 ```
+Usage notes:
+
+- Defaults to `bg-surface-primary`; uses semantic focus rings.
 
 #### Card
 
@@ -164,6 +205,9 @@ Our design system is built on the following principles:
   </CardFooter>
 </Card>
 ```
+Usage notes:
+
+- Uses `bg-surface-elevated` and `shadow` tokens; add `elevate-2` on hover as needed.
 
 ### Form Components
 

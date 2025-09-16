@@ -61,9 +61,12 @@
     /* Neutral ramp */
     --gray-50: 240 20% 99%;
     --gray-100: 210 22.2% 96.5%;
+    --gray-200: 214 20% 90%;
     --gray-300: 215 18.2% 91.1%;
+    --gray-400: 215 16% 65%;
     --gray-500: 219 8.5% 46.3%;
     --gray-700: 218.6 10.4% 26.3%;
+    --gray-800: 217 22% 17.5%;
     --gray-900: 217.5 14.3% 11%;
 
     --background: var(--gray-50);
@@ -95,6 +98,56 @@
     --ring: var(--brand-500);
 
     --radius: 0.5rem;
+
+    /* Semantic aliases */
+    --surface-primary: var(--background);
+    --surface-secondary: var(--secondary);
+    --surface-elevated: var(--card);
+    --surface-overlay: var(--popover);
+
+    --text-primary: var(--foreground);
+    --text-muted: var(--muted-foreground);
+    --text-on-accent: var(--primary-foreground);
+
+    /* Overlay scrim base (use with alpha: hsl(var(--scrim) / 0.6)) */
+    --scrim: var(--gray-900);
+
+    /* Focus */
+    --focus-ring-width: 3px;
+
+    /* Motion tokens */
+    --motion-duration-fast: 120ms;
+    --motion-duration-normal: 180ms;
+    --motion-duration-slow: 240ms;
+    --motion-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --motion-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+    /* Elevation tokens */
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.04);
+    --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-3: 0 6px 12px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-4: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.10);
+
+    /* Accent gradient for brand-forward elements */
+    --gradient-accent: conic-gradient(
+      from 180deg at 50% 50%,
+      hsl(var(--brand-500)) 0deg,
+      hsl(var(--accent-teal-500)) 140deg,
+      hsl(var(--accent-violet-500)) 320deg
+    );
+
+    /* Type scale */
+    --font-size-xs: 0.75rem;   /* 12 */
+    --font-size-sm: 0.875rem;  /* 14 */
+    --font-size-base: 1rem;    /* 16 */
+    --font-size-lg: 1.125rem;  /* 18 */
+    --font-size-xl: 1.25rem;   /* 20 */
+    --font-size-2xl: 1.5rem;   /* 24 */
+    --font-size-3xl: 1.875rem; /* 30 */
+    --font-size-4xl: 2.25rem;  /* 36 */
+    --line-height-tight: 1.2;
+    --line-height-snug: 1.3;
+    --line-height-normal: 1.5;
   }
 
   .dark {
@@ -120,7 +173,26 @@
     --accent-foreground: var(--gray-50);
 
     --destructive: var(--accent-coral-500);
-    --destructive-foreground: var --ring: 212.7 26.8% 83.9%;
+    --destructive-foreground: var(--gray-50);
+    --ring: var(--brand-300);
+
+    /* Dark mode semantic aliases */
+    --surface-primary: var(--background);
+    --surface-secondary: var(--secondary);
+    --surface-elevated: var(--card);
+    --surface-overlay: var(--popover);
+
+    --text-primary: var(--foreground);
+    --text-muted: var(--muted-foreground);
+    --text-on-accent: var(--primary-foreground);
+
+    --scrim: var(--gray-900);
+
+    /* Softer shadows in dark */
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.40), 0 1px 1px rgba(0, 0, 0, 0.30);
+    --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-3: 0 6px 12px rgba(0, 0, 0, 0.50), 0 2px 4px rgba(0, 0, 0, 0.40);
+    --shadow-4: 0 10px 20px rgba(0, 0, 0, 0.55), 0 4px 8px rgba(0, 0, 0, 0.45);
 
     --border: var(--gray-700);
     --input: var(--gray-700);
@@ -135,6 +207,24 @@
 }
 
 @layer utilities {
+  /* Interaction utilities built on tokens */
+  .elevate-1 { box-shadow: var(--shadow-1); }
+  .elevate-2 { box-shadow: var(--shadow-2); }
+  .elevate-3 { box-shadow: var(--shadow-3); }
+  .elevate-4 { box-shadow: var(--shadow-4); }
+
+  .ease-standard { transition-timing-function: var(--motion-ease-standard); }
+  .ease-emphasized { transition-timing-function: var(--motion-ease-emphasized); }
+  .duration-fast { transition-duration: var(--motion-duration-fast); }
+  .duration-normal { transition-duration: var(--motion-duration-normal); }
+  .duration-slow { transition-duration: var(--motion-duration-slow); }
+
+  .focus-ring {
+    outline: none;
+    box-shadow: 0 0 0 var(--focus-ring-width) hsl(var(--ring) / 0.5);
+    border-color: hsl(var(--ring));
+  }
+
   .line-clamp-1 {
     overflow: hidden;
     display: -webkit-box;

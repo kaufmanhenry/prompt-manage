@@ -15,12 +15,8 @@ export function Switch({ checked, onCheckedChange, ...props }: SwitchProps) {
         onChange={(e) => onCheckedChange(e.target.checked)}
         {...props}
       />
-      <span
-        className={`flex h-6 w-10 items-center rounded-full bg-gray-300 p-1 duration-300 ease-in-out ${checked ? 'bg-primary' : ''}`}
-      >
-        <span
-          className={`h-4 w-4 transform rounded-full bg-white shadow-md duration-300 ease-in-out ${checked ? 'translate-x-4' : ''}`}
-        ></span>
+      <span className={`flex h-6 w-10 items-center rounded-full p-1 transition-[background-color] duration-normal ease-standard ${checked ? 'bg-primary' : 'bg-input'}`}>
+        <span className={`h-4 w-4 transform rounded-full bg-background shadow-sm transition-transform duration-normal ease-standard ${checked ? 'translate-x-4' : ''}`}></span>
       </span>
     </label>
   )

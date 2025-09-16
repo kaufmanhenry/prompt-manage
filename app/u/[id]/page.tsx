@@ -46,7 +46,7 @@ export default async function PublicProfilePage({
     .eq('is_public', true)
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-4xl p-6">
         <Link href="/directory">
           <Button variant="ghost" className="mb-4">

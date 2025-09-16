@@ -148,7 +148,7 @@ export function PublicPromptPageClient({
 
   if (error || !prompt) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
           <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
             Prompt Not Found
@@ -168,7 +168,7 @@ export function PublicPromptPageClient({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-4xl p-6">
         {/* Header */}
         <div className="mb-8">

@@ -80,7 +80,7 @@ export default async function Home() {
   // Allow logged-in users to view the homepage; no redirect to dashboard
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Hero Section - split layout */}
         <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24">

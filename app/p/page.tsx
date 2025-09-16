@@ -137,7 +137,7 @@ function PublicDirectoryContent() {
   }
 
   return (
-    <div className="min-h-screen bg-accent/50">
+    <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl p-6">
         {/* Header */}
         <div className="mb-8">

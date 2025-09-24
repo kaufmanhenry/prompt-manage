@@ -3,6 +3,7 @@ import './globals.css'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Suspense } from 'react'
 
 import { Layout } from '@/components/Layout'
 import { PromptProvider } from '@/components/PromptContext'
@@ -25,7 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeHtmlScript />
         <Providers>
           <PromptProvider>
-            <Layout>{children}</Layout>
+            <Suspense fallback={null}>
+              <Layout>{children}</Layout>
+            </Suspense>
             <Toaster />
           </PromptProvider>
         </Providers>

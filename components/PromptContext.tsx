@@ -13,7 +13,7 @@ const PromptContext = createContext<{ prompts: Prompt[]; isLoading: boolean }>({
 
 export function PromptProvider({ children }: { children: React.ReactNode }) {
   const { data: prompts = [], isLoading } = useQuery({
-    queryKey: ['prompts'],
+    queryKey: ['allPrompts'],
     queryFn: async () => {
       const { data, error } = await createClient()
         .from('prompts')

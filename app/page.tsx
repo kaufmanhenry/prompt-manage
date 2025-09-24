@@ -128,7 +128,7 @@ export default async function Home() {
               </div>
             ) : (
               <div className="flex flex-col items-center gap-3 sm:flex-row">
-                <Link href="/auth/signup">
+                <Link href="/?redirect=/dashboard">
                   <Button size="lg" className="px-7 py-6 text-base">
                     Start Free
                   </Button>

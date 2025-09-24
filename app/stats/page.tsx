@@ -765,7 +765,7 @@ export default function StatsPage() {
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href="/auth/signup"
+              href="/?redirect=/dashboard"
               className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700"
             >
               Start Free Trial

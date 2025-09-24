@@ -11,15 +11,14 @@ test.describe('Prompt Editing UI Components', () => {
     await page.waitForLoadState('networkidle')
 
     // Check if we're on the login page (which is expected if not authenticated)
-    const isLoginPage = await page.locator('text=Welcome back').isVisible()
+    const hasSignInButton = await page
+      .getByRole('button', { name: 'Sign in with Google' })
+      .isVisible()
 
-    if (isLoginPage) {
-      // If we're on login page, just test that the login form works
-      await expect(page.locator('text=Welcome back')).toBeVisible()
-      await expect(page.locator('input[type="email"]')).toBeVisible()
-      await expect(page.locator('button[type="submit"]')).toHaveText(
-        'Send magic link'
-      )
+    if (hasSignInButton) {
+      await expect(
+        page.getByRole('button', { name: 'Sign in with Google' })
+      ).toBeVisible()
       return
     }
 
@@ -34,7 +33,7 @@ test.describe('Prompt Editing UI Components', () => {
       await expect(
         page.locator('text=Create a new prompt to use with your AI models.')
       ).toBeVisible()
-      await expect(page.locator('button[type="submit"]')).toHaveText(
+      await expect(page.locator('button[type="submit"]').toHaveText(
         'Create Prompt'
       )
     }

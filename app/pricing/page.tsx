@@ -85,7 +85,7 @@ export default function PricingPage() {
             </ul>
             {/* CTA */}
             <div className="mt-6">
-              <Link href="/auth/signup">
+              <Link href="/?redirect=/dashboard">
                 <Button size="lg" className="w-full">
                   Get Started Free
                 </Button>
@@ -130,7 +130,7 @@ export default function PricingPage() {
             </ul>
             {/* CTA */}
             <div className="mt-6">
-              <Link href="/auth/signup?plan=team">
+              <Link href="/?redirect=/dashboard">
                 <Button size="lg" className="w-full">
                   Start Team
                 </Button>
@@ -188,7 +188,7 @@ export default function PricingPage() {
               </ul>
               {/* CTA */}
               <div className="mt-6">
-                <Link href="/auth/signup?plan=pro">
+                <Link href="/?redirect=/dashboard">
                   <Button
                     size="lg"
                     className="w-full bg-blue-600 text-white hover:bg-blue-700"

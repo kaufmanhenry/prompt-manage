@@ -159,7 +159,7 @@ export default function PromptPackPage() {
                   Check your email for the download link. You&rsquo;ll also
                   receive tips on how to use these prompts effectively.
                 </p>
-                <Link href="/auth/signup">
+                <Link href="/?redirect=/dashboard">
                   <Button className="py-3 text-lg">Start Free Trial</Button>
                 </Link>
               </div>
@@ -317,7 +317,7 @@ export default function PromptPackPage() {
             optimize their AI prompts
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link href="/auth/signup">
+            <Link href="/?redirect=/dashboard">
               <Button size="lg" className="px-8 py-4 text-lg">
                 Get Started Free
               </Button>

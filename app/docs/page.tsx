@@ -339,7 +339,7 @@ export default function DocsPage() {
           <p className="mb-6 text-gray-600 dark:text-gray-400">
             Create your first prompt and start organizing your AI workflow
           </p>
-          <Link href="/auth/login">
+          <Link href="/?redirect=/dashboard">
             <Button size="lg">Start Using Prompt Manage</Button>
           </Link>
         </div>

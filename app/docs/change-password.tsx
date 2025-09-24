@@ -40,12 +40,12 @@ export default function ChangePasswordHelp() {
           <li>
             Go to the{' '}
             <Link
-              href="/auth/login"
+              href="/?redirect=/dashboard"
               className="text-blue-600 underline dark:text-blue-400"
             >
-              Sign In
+              Sign in
             </Link>{' '}
-            page and click <strong>Forgot Password?</strong>
+            from the homepage.
           </li>
           <li>
             Enter your email address and follow the instructions in the email

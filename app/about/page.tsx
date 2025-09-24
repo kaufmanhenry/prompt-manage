@@ -250,7 +250,7 @@ export default function AboutPage() {
             Join leading enterprises in streamlining their AI prompt management
           </p>
           <div className="flex items-center justify-center gap-4">
-            <Link href="/auth/signup">
+            <Link href="/?redirect=/dashboard">
               <Button size="lg">Create Your Account</Button>
             </Link>
             <Link href="/p">

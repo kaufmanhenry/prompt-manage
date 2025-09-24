@@ -318,7 +318,7 @@ export default function ModelsPage() {
             prompts for all supported models
           </p>
           <div className="flex items-center justify-center gap-4">
-            <Link href="/auth/signup">
+            <Link href="/?redirect=/dashboard">
               <Button size="lg">Get Started</Button>
             </Link>
             <Link href="/p">

@@ -58,23 +58,13 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   )
 
-  // Auth routes that should redirect if already authenticated
-  const authRoutes = ['/auth/login', '/auth/signup']
-  const isAuthRoute = authRoutes.some((route) =>
-    request.nextUrl.pathname.startsWith(route)
-  )
-
   if (isProtectedRoute && !session) {
-    // Redirect to login if accessing protected route without session
-    const redirectUrl = new URL('/auth/login', request.url)
+    // Redirect unauthenticated users to home with redirect param
+    const redirectUrl = new URL('/', request.url)
     redirectUrl.searchParams.set('redirect', request.nextUrl.pathname)
     return NextResponse.redirect(redirectUrl)
   }
 
-  if (isAuthRoute && session) {
-    // Redirect to dashboard if accessing auth route with session
-    return NextResponse.redirect(new URL('/dashboard', request.url))
-  }
 
   return supabaseResponse
 }

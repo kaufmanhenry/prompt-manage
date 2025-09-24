@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Globe, LogOut, Settings, User2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -29,6 +29,23 @@ export function Header() {
       return session
     },
   })
+
+  const searchParams = useSearchParams()
+
+  const handleSignIn = async () => {
+    const redirectParam = searchParams.get('redirect') || '/dashboard'
+    const callbackUrl = `${
+      process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+    }/auth/callback?redirect=${encodeURIComponent(redirectParam)}`
+
+    await createClient().auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: callbackUrl,
+        queryParams: { access_type: 'offline', prompt: 'consent' },
+      },
+    })
+  }
 
   const handleSignOut = async () => {
     await createClient().auth.signOut()
@@ -126,12 +143,7 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button variant="ghost" asChild>
-                <Link href="/auth/login">Sign in</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/auth/signup">Sign up</Link>
-              </Button>
+              <Button onClick={handleSignIn}>Sign in with Google</Button>
             </div>
           )}
         </div>

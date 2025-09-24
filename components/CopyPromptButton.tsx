@@ -45,9 +45,25 @@ export function CopyPromptButton({
   const handleCopy = async () => {
     // Check if user is authenticated
     if (!session) {
-      // Redirect to signup with the prompt info
-      const redirectUrl = `/auth/signup?promptId=${promptId}&promptName=${encodeURIComponent(promptName)}&redirect=${encodeURIComponent(window.location.href)}`
-      router.push(redirectUrl)
+      // Persist copy intent and initiate Google OAuth
+      const redirectAfterLogin = '/auth/copy-prompt'
+      localStorage.setItem(
+        'pendingPromptCopy',
+        JSON.stringify({
+          promptId,
+          promptName,
+          redirectUrl: window.location.href,
+        })
+      )
+      await createClient().auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${
+            process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+          }/auth/callback?redirect=${encodeURIComponent(redirectAfterLogin)}`,
+          queryParams: { access_type: 'offline', prompt: 'consent' },
+        },
+      })
       return
     }
 

@@ -15,12 +15,12 @@ export default function SignupHelp() {
           <li>
             Go to the{' '}
             <Link
-              href="/auth/signup"
+              href="/?redirect=/dashboard"
               className="text-blue-600 underline dark:text-blue-400"
             >
-              Sign Up
+              Start Free
             </Link>{' '}
-            page.
+            from the homepage.
           </li>
           <li>
             Enter your email address, create a password, and fill in any

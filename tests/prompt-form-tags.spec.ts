@@ -2,14 +2,8 @@ import { expect, test } from '@playwright/test'
 
 test.describe('PromptForm Tags', () => {
   test.beforeEach(async ({ page }) => {
-    // Login before each test
-    await page.goto('/auth/login')
-    await page.fill('[data-testid="email"]', 'test@example.com')
-    await page.fill('[data-testid="password"]', 'password123')
-    await page.click('[data-testid="login-button"]')
-
-    // Wait for redirect to dashboard
-    await page.waitForURL('/dashboard')
+    // These tests assume an authenticated session exists or are skipped in CI
+    await page.goto('/dashboard')
   })
 
   test('shows existing user tags in tag selector', async ({ page }) => {

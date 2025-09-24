@@ -28,7 +28,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { promptId } = await request.json()
+    const { promptId, promptText } = await request.json()
+
 
     if (!promptId) {
       return NextResponse.json({ error: 'Prompt ID is required' }, { status: 400 })
@@ -46,13 +47,32 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Prompt not found' }, { status: 404 })
     }
 
+    // Update prompt text if provided and different from current
+    let updatedPrompt = prompt
+    if (promptText && promptText !== prompt.prompt_text) {
+      const { data: updatedData, error: updateError } = await supabase
+        .from('prompts')
+        .update({ prompt_text: promptText })
+        .eq('id', promptId)
+        .eq('user_id', user.id)
+        .select('*')
+        .single()
+
+      if (updateError) {
+        console.error('Failed to update prompt text:', updateError)
+        return NextResponse.json({ error: 'Failed to update prompt text' }, { status: 500 })
+      }
+
+      updatedPrompt = updatedData
+    }
+
     // Call OpenAI API with the prompt content
     const completion = await openai.chat.completions.create({
-      model: prompt.model,
+      model: updatedPrompt.model,
       messages: [
         {
           role: 'user',
-          content: prompt.prompt_text,
+          content: updatedPrompt.prompt_text,
         },
       ],
       max_tokens: 1000,
@@ -66,9 +86,9 @@ export async function POST(request: NextRequest) {
     // Log the prompt run to history
     const { error: logError } = await supabase.rpc('log_prompt_run', {
       p_prompt_id: promptId,
-      p_prompt_text: prompt.prompt_text,
+      p_prompt_text: updatedPrompt.prompt_text,
       p_response: response,
-      p_model: prompt.model,
+      p_model: updatedPrompt.model,
       p_tokens_used: tokensUsed,
       p_execution_time_ms: executionTime,
       p_status: 'success',
@@ -84,9 +104,9 @@ export async function POST(request: NextRequest) {
       success: true,
       response,
       prompt: {
-        id: prompt.id,
-        name: prompt.name,
-        prompt_text: prompt.prompt_text,
+        id: updatedPrompt.id,
+        name: updatedPrompt.name,
+        prompt_text: updatedPrompt.prompt_text,
       },
       execution_time_ms: executionTime,
       tokens_used: tokensUsed,

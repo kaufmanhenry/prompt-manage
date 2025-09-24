@@ -77,6 +77,7 @@ interface PromptDetailsProps {
   prompt: Prompt | null
   onEdit?: (prompt: Prompt) => void
   onDelete?: (prompt: Prompt) => void
+  onUpdatePrompt?: (prompt: Prompt) => void
   originalPromptSlug: string | null
   onClose: () => void
 }
@@ -293,6 +294,7 @@ export function PromptsTable({
           prompt={selectedPrompt}
           onEdit={onEditPrompt}
           onDelete={handleDeletePrompt}
+          onUpdatePrompt={(updatedPrompt) => setSelectedPrompt(updatedPrompt)}
           originalPromptSlug={originalPromptSlug}
           onClose={() => setSelectedPrompt(null)}
         />
@@ -543,6 +545,7 @@ function PromptDetailHeader({
 export function PromptDetails({
   prompt,
   onDelete,
+  onUpdatePrompt,
   originalPromptSlug,
   onClose,
 }: PromptDetailsProps) {
@@ -551,7 +554,9 @@ export function PromptDetails({
   const [currentPromptText, setCurrentPromptText] = useState(prompt?.prompt_text || '')
   const [selectedHistoryVersion, setSelectedHistoryVersion] = useState<string | null>(null)
   const [selectedRun, setSelectedRun] = useState<PromptRunHistory | null>(null)
+  const [isUserEditing, setIsUserEditing] = useState(false)
   const { toast } = useToast()
+  const queryClient = useQueryClient()
 
   // Query for prompt run history
   const { data: historyData, refetch: refetchHistory } = useQuery({
@@ -588,7 +593,20 @@ export function PromptDetails({
         throw new Error(errorData.error || 'Failed to run prompt')
       }
 
+      const result = await response.json()
+      
+      // Update the selected prompt with the updated text if it was modified
+      if (result.prompt && result.prompt.prompt_text !== promptToRun.prompt_text) {
+        onUpdatePrompt?.(result.prompt)
+        setIsUserEditing(false) // Reset editing state after successful update
+      }
+      
       await refetchHistory()
+      
+      // Invalidate prompts query to refresh the prompt data after a short delay
+      setTimeout(() => {
+        void queryClient.invalidateQueries({ queryKey: ['prompts'] })
+      }, 100)
 
       toast({
         title: 'Prompt Executed',
@@ -650,14 +668,14 @@ export function PromptDetails({
     return new Date(timestamp).toLocaleString()
   }
 
-  // Update current prompt text when prompt changes
+  // Update current prompt text when prompt changes (only if user is not editing)
   useEffect(() => {
-    if (prompt) {
+    if (prompt && !isUserEditing) {
       setCurrentPromptText(prompt.prompt_text)
       setSelectedHistoryVersion(null)
       setSelectedRun(null)
     }
-  }, [prompt])
+  }, [prompt, isUserEditing]) // Update when prompt changes or editing state changes
 
   if (!prompt) {
     return (
@@ -795,7 +813,10 @@ export function PromptDetails({
           </div>
           <textarea
             value={currentPromptText}
-            onChange={(e) => setCurrentPromptText(e.target.value)}
+            onChange={(e) => {
+              setCurrentPromptText(e.target.value)
+              setIsUserEditing(true)
+            }}
             className="min-h-[200px] w-full rounded-lg border bg-background p-3 font-mono text-sm"
             placeholder="Enter your prompt here..."
           />

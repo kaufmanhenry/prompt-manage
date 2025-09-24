@@ -101,7 +101,7 @@ export default function DashboardPage() {
       }
     }
 
-    fetchOriginalPromptSlug()
+    void fetchOriginalPromptSlug()
   }, [selectedPrompt?.parent_prompt_id])
 
   const handleSelectPrompt = (promptId: string) => {
@@ -195,6 +195,13 @@ export default function DashboardPage() {
           prompt={selectedPrompt}
           onEdit={handleEditPrompt}
           onDelete={handleDeletePrompt}
+          onUpdatePrompt={(updatedPrompt) => {
+            // Update the prompts query cache with the updated prompt
+            queryClient.setQueryData(['prompts'], (oldPrompts: Prompt[] | undefined) => {
+              if (!oldPrompts) return oldPrompts
+              return oldPrompts.map(p => p.id === updatedPrompt.id ? updatedPrompt : p)
+            })
+          }}
           originalPromptSlug={originalPromptSlug}
           onClose={handleClosePromptDetails}
         />

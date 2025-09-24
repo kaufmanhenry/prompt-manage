@@ -12,6 +12,7 @@ import Link from 'next/link'
 import InteractivePromptLab from '@/components/InteractivePromptLab'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Separator } from '@/components/ui/separator'
 import { createClient } from '@/utils/supabase/server'
 
@@ -128,11 +129,9 @@ export default async function Home() {
               </div>
             ) : (
               <div className="flex flex-col items-center gap-3 sm:flex-row">
-                <Link href="/?redirect=/dashboard">
-                  <Button size="lg" className="px-7 py-6 text-base">
-                    Start Free
-                  </Button>
-                </Link>
+                <GoogleSignInButton redirectPath="/dashboard" size="lg" className="px-7 py-6 text-base">
+                  Start Free
+                </GoogleSignInButton>
                 <Link href="/p">
                   <Button
                     variant="outline"

@@ -100,10 +100,6 @@ export function PromptsTable({
   const { toast } = useToast()
   const queryClient = useQueryClient()
 
-  // Debug selectedPrompt changes
-  useEffect(() => {
-    console.log('selectedPrompt changed:', selectedPrompt?.id)
-  }, [selectedPrompt])
 
   // Fetch original prompt slug when viewing a derivative prompt
   useEffect(() => {
@@ -388,10 +384,6 @@ export function PromptsTable({
                       variant="outline"
                       size="icon"
                       onClick={() => {
-                        console.log('Grid run prompt button clicked for:', prompt.id)
-                        console.log('Current runningPrompts state:')
-                        console.log('Button disabled state:')
-                        alert('Grid button clicked! Testing basic functionality.')
                         // TODO: Implement run prompt functionality for grid view
                       }}
                       disabled={false} // Temporarily disable the disabled state for testing

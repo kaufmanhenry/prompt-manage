@@ -19,8 +19,7 @@ export default function BlogIndexPage() {
             Prompt Manage Blog
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            Insights, best practices, and the latest in AI and prompt
-            engineering.
+            Insights, best practices, and the latest in AI and prompt engineering.
           </p>
         </div>
         {/* Blog Post List */}
@@ -44,9 +43,7 @@ export default function BlogIndexPage() {
                   {post.title}
                 </Link>
               </h2>
-              <p className="mb-2 text-gray-700 dark:text-gray-300">
-                {post.summary}
-              </p>
+              <p className="mb-2 text-gray-700 dark:text-gray-300">{post.summary}</p>
               <div className="mb-2 flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
                   <span
@@ -57,9 +54,7 @@ export default function BlogIndexPage() {
                   </span>
                 ))}
               </div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
-                By {post.author}
-              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">By {post.author}</div>
               <Link
                 href={`/blog/${post.slug}`}
                 className="mt-2 w-fit font-medium text-blue-600 hover:underline dark:text-blue-400"

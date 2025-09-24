@@ -56,10 +56,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur-md">
       <div className="mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
-          <Link
-            href="/"
-            className="flex items-center text-base font-semibold tracking-tight"
-          >
+          <Link href="/" className="flex items-center text-base font-semibold tracking-tight">
             <Image
               src="/logo.svg"
               alt="Prompt Manage"
@@ -93,9 +90,7 @@ export function Header() {
             <Link
               href="/p"
               className={`text-sm ${
-                pathname.startsWith('/p')
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-muted-foreground'
+                pathname.startsWith('/p') ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
               } flex items-center gap-1 rounded-lg px-2 py-1 font-medium transition-colors hover:text-primary`}
             >
               <Globe className="h-4 w-4" />
@@ -132,10 +127,7 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleSignOut}
-                  className="flex items-center"
-                >
+                <DropdownMenuItem onClick={handleSignOut} className="flex items-center">
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign out
                 </DropdownMenuItem>

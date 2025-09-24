@@ -21,11 +21,7 @@ export const supportedModels: Model[] = [
     type: 'Proprietary',
     description:
       "OpenAI's latest and most advanced model with enhanced capabilities across all domains.",
-    capabilities: [
-      'Advanced Reasoning',
-      'Multimodal Processing',
-      'Enhanced Performance',
-    ],
+    capabilities: ['Advanced Reasoning', 'Multimodal Processing', 'Enhanced Performance'],
     icon: '🚀',
     color: 'bg-emerald-100 dark:bg-emerald-900',
     textColor: 'text-emerald-600 dark:text-emerald-400',
@@ -36,11 +32,7 @@ export const supportedModels: Model[] = [
       'Superior performance across tasks',
       'Latest AI technology',
     ],
-    useCases: [
-      'Advanced AI applications',
-      'Complex problem solving',
-      'Cutting-edge development',
-    ],
+    useCases: ['Advanced AI applications', 'Complex problem solving', 'Cutting-edge development'],
     companyUrl: 'https://openai.com/gpt-5',
   },
   {
@@ -50,11 +42,7 @@ export const supportedModels: Model[] = [
     type: 'Proprietary',
     description:
       'The current benchmark for multimodal capabilities, seamlessly handling text, image, audio, and video.',
-    capabilities: [
-      'Multimodal Processing',
-      'Advanced Reasoning',
-      'Real-time Knowledge',
-    ],
+    capabilities: ['Multimodal Processing', 'Advanced Reasoning', 'Real-time Knowledge'],
     icon: '🤖',
     color: 'bg-green-100 dark:bg-green-900',
     textColor: 'text-green-600 dark:text-green-400',
@@ -79,11 +67,7 @@ export const supportedModels: Model[] = [
     type: 'Proprietary',
     description:
       "Google's top-tier model with deep multimodal understanding, massive context window, and strong reasoning.",
-    capabilities: [
-      'Multimodal Understanding',
-      'Massive Context',
-      'Deep Reasoning',
-    ],
+    capabilities: ['Multimodal Understanding', 'Massive Context', 'Deep Reasoning'],
     icon: '🧠',
     color: 'bg-blue-100 dark:bg-blue-900',
     textColor: 'text-blue-600 dark:text-blue-400',
@@ -183,11 +167,7 @@ export const supportedModels: Model[] = [
     type: 'Open Source',
     description:
       'Renowned for punching above their weight with competitive performance and efficient architecture.',
-    capabilities: [
-      'Efficient Architecture',
-      'MoE Design',
-      'Competitive Performance',
-    ],
+    capabilities: ['Efficient Architecture', 'MoE Design', 'Competitive Performance'],
     icon: '🌪️',
     color: 'bg-teal-100 dark:bg-teal-900',
     textColor: 'text-teal-600 dark:text-teal-400',
@@ -287,11 +267,7 @@ export const supportedModels: Model[] = [
     type: 'Proprietary',
     description:
       'Beta model with focus on real-time knowledge access and less restrictive guardrails.',
-    capabilities: [
-      'Real-time Knowledge',
-      'Less Restrictive',
-      'Innovative Approach',
-    ],
+    capabilities: ['Real-time Knowledge', 'Less Restrictive', 'Innovative Approach'],
     icon: '🚀',
     color: 'bg-cyan-100 dark:bg-cyan-900',
     textColor: 'text-cyan-600 dark:text-cyan-400',
@@ -315,8 +291,7 @@ export const supportedModels: Model[] = [
     name: 'GPT-4',
     company: 'OpenAI',
     type: 'Proprietary',
-    description:
-      'Advanced language model with strong reasoning and creative capabilities.',
+    description: 'Advanced language model with strong reasoning and creative capabilities.',
     capabilities: ['Advanced Reasoning', 'Creative Writing', 'Code Generation'],
     icon: '🤖',
     color: 'bg-green-100 dark:bg-green-900',
@@ -350,11 +325,7 @@ export const supportedModels: Model[] = [
       'General-purpose applications',
       'Conversational AI capabilities',
     ],
-    useCases: [
-      'High-volume processing',
-      'Cost-sensitive applications',
-      'General business tasks',
-    ],
+    useCases: ['High-volume processing', 'Cost-sensitive applications', 'General business tasks'],
     companyUrl: 'https://openai.com/gpt-3-5-turbo',
   },
   {
@@ -397,11 +368,7 @@ export const supportedModels: Model[] = [
       'Efficient resource usage',
       'Ideal for real-time applications',
     ],
-    useCases: [
-      'Real-time applications',
-      'High-frequency processing',
-      'Cost-optimized operations',
-    ],
+    useCases: ['Real-time applications', 'High-frequency processing', 'Cost-optimized operations'],
     companyUrl: 'https://www.anthropic.com/claude',
   },
   {
@@ -409,8 +376,7 @@ export const supportedModels: Model[] = [
     name: 'Gemini Pro',
     company: 'Google DeepMind',
     type: 'Proprietary',
-    description:
-      "Google's advanced language model with strong reasoning capabilities.",
+    description: "Google's advanced language model with strong reasoning capabilities.",
     capabilities: ['Advanced Reasoning', 'Multimodal', 'Google Ecosystem'],
     icon: '🧠',
     color: 'bg-blue-100 dark:bg-blue-900',
@@ -434,11 +400,7 @@ export const supportedModels: Model[] = [
     company: 'Mistral AI',
     type: 'Open Source',
     description: 'High-performance model with efficient architecture.',
-    capabilities: [
-      'High Performance',
-      'Efficient Architecture',
-      'Strong Reasoning',
-    ],
+    capabilities: ['High Performance', 'Efficient Architecture', 'Strong Reasoning'],
     icon: '🌪️',
     color: 'bg-teal-100 dark:bg-teal-900',
     textColor: 'text-teal-600 dark:text-teal-400',

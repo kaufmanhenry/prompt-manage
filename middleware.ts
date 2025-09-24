@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
           })
         },
       },
-    }
+    },
   )
 
   const {
@@ -55,7 +55,7 @@ export async function middleware(request: NextRequest) {
   // Protected routes that require authentication
   const protectedRoutes = ['/dashboard', '/settings', '/profile']
   const isProtectedRoute = protectedRoutes.some((route) =>
-    request.nextUrl.pathname.startsWith(route)
+    request.nextUrl.pathname.startsWith(route),
   )
 
   if (isProtectedRoute && !session) {
@@ -64,7 +64,6 @@ export async function middleware(request: NextRequest) {
     redirectUrl.searchParams.set('redirect', request.nextUrl.pathname)
     return NextResponse.redirect(redirectUrl)
   }
-
 
   return supabaseResponse
 }

@@ -15,9 +15,7 @@ test.describe('Run Prompt Feature', () => {
     await expect(runButton).toBeVisible()
   })
 
-  test('should handle unauthorized access to run prompt API', async ({
-    request,
-  }) => {
+  test('should handle unauthorized access to run prompt API', async ({ request }) => {
     // Test API without authentication
     const response = await request.post('/api/prompt/run', {
       data: { promptId: 'test-id' },

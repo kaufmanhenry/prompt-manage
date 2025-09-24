@@ -3,10 +3,7 @@ import { NextResponse } from 'next/server'
 
 import { createClient } from '@/utils/supabase/server'
 
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -22,10 +19,7 @@ export async function GET(
     const { id: promptId } = await context.params
 
     if (!promptId) {
-      return NextResponse.json(
-        { error: 'Prompt ID is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Prompt ID is required' }, { status: 400 })
     }
 
     // Verify the user owns this prompt
@@ -64,10 +58,7 @@ export async function GET(
 
     if (historyError) {
       console.error('Error fetching prompt history:', historyError)
-      return NextResponse.json(
-        { error: 'Failed to fetch prompt history' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'Failed to fetch prompt history' }, { status: 500 })
     }
 
     return NextResponse.json({
@@ -81,9 +72,6 @@ export async function GET(
     })
   } catch (error) {
     console.error('Get prompt history API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

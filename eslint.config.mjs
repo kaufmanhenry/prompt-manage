@@ -67,10 +67,7 @@ export default tseslint.config(
   // Type-aware TS rules for .ts/.tsx only
   {
     files: ['**/*.{ts,tsx}'],
-    extends: [
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.recommendedTypeChecked,
-    ],
+    extends: [...tseslint.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
     languageOptions: {
       parserOptions: {
         project: ['./tsconfig.json'],
@@ -128,10 +125,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-redundant-type-constituents': 'off',
       '@typescript-eslint/require-await': 'off',
-      '@typescript-eslint/no-misused-promises': [
-        'error',
-        { checksVoidReturn: false },
-      ],
+      '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
 
       // A11y (lightweight)
       'jsx-a11y/alt-text': 'warn',
@@ -151,5 +145,5 @@ export default tseslint.config(
     rules: {},
   },
   // Disable Prettier-conflicting rules
-  prettierConfig
+  prettierConfig,
 )

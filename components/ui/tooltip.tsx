@@ -25,7 +25,7 @@ export function Tooltip({ children, content, className }: TooltipProps) {
           className={cn(
             'absolute z-50 px-2 py-1 text-sm text-white bg-gray-900 rounded shadow-lg whitespace-nowrap',
             'transform -translate-x-1/2 left-1/2 -top-8',
-            className
+            className,
           )}
         >
           {content}
@@ -36,14 +36,6 @@ export function Tooltip({ children, content, className }: TooltipProps) {
   )
 }
 
-export const TooltipProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => <>{children}</>
-export const TooltipTrigger = ({ children }: { children: React.ReactNode }) => (
-  <>{children}</>
-)
-export const TooltipContent = ({ children }: { children: React.ReactNode }) => (
-  <>{children}</>
-)
+export const TooltipProvider = ({ children }: { children: React.ReactNode }) => <>{children}</>
+export const TooltipTrigger = ({ children }: { children: React.ReactNode }) => <>{children}</>
+export const TooltipContent = ({ children }: { children: React.ReactNode }) => <>{children}</>

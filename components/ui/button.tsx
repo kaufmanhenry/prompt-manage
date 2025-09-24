@@ -5,18 +5,18 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium outline-none transition-[background-color,border-color,box-shadow,transform,color] duration-normal ease-standard will-change-transform focus-visible:border-ring focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [@media(hover:hover)]:hover:-translate-y-px active:translate-y-0 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium outline-none transition-[background-color,border-color,box-shadow,transform,color] duration-normal ease-standard will-change-transform focus-visible:border-ring focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-ring/50 active:translate-y-0 disabled:pointer-events-none disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 [@media(hover:hover)]:hover:-translate-y-px",
   {
     variants: {
       variant: {
         default:
-          'shadow-xs bg-primary text-primary-foreground [@media(hover:hover)]:hover:bg-primary/90',
+          'bg-primary text-primary-foreground shadow-xs [@media(hover:hover)]:hover:bg-primary/90',
         destructive:
-          'shadow-xs bg-destructive text-white [@media(hover:hover)]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40',
+          'bg-destructive text-white shadow-xs focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40 [@media(hover:hover)]:hover:bg-destructive/90',
         outline:
-          'shadow-xs border bg-surface-primary [@media(hover:hover)]:hover:bg-accent [@media(hover:hover)]:hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:[@media(hover:hover)]:hover:bg-input/50',
+          'border bg-surface-primary shadow-xs dark:border-input dark:bg-input/30 [@media(hover:hover)]:hover:bg-accent [@media(hover:hover)]:hover:text-accent-foreground dark:[@media(hover:hover)]:hover:bg-input/50',
         secondary:
-          'shadow-xs bg-secondary text-secondary-foreground [@media(hover:hover)]:hover:bg-secondary/80',
+          'bg-secondary text-secondary-foreground shadow-xs [@media(hover:hover)]:hover:bg-secondary/80',
         ghost:
           '[@media(hover:hover)]:hover:bg-accent [@media(hover:hover)]:hover:text-accent-foreground dark:[@media(hover:hover)]:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
@@ -32,7 +32,7 @@ const buttonVariants = cva(
       variant: 'default',
       size: 'default',
     },
-  }
+  },
 )
 
 function Button({

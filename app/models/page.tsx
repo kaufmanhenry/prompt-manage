@@ -1,13 +1,4 @@
-import {
-  ArrowLeft,
-  Brain,
-  Code,
-  Eye,
-  Globe,
-  Settings,
-  Shield,
-  Zap,
-} from 'lucide-react'
+import { ArrowLeft, Brain, Code, Eye, Globe, Settings, Shield, Zap } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -52,8 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Supported AI Models - Prompt Manage',
-    description:
-      'Explore the comprehensive list of AI models supported on Prompt Manage.',
+    description: 'Explore the comprehensive list of AI models supported on Prompt Manage.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -86,11 +76,10 @@ export default function ModelsPage() {
             Supported AI Models
           </h1>
           <p className="mx-auto max-w-3xl text-xl text-gray-600 dark:text-gray-400">
-            Discover the comprehensive range of AI models supported on Prompt
-            Manage. From cutting-edge proprietary models to powerful open-source
-            alternatives, we integrate with the most important LLMs to
-            streamline your prompt management needs and prompt engineering
-            workflows.
+            Discover the comprehensive range of AI models supported on Prompt Manage. From
+            cutting-edge proprietary models to powerful open-source alternatives, we integrate with
+            the most important LLMs to streamline your prompt management needs and prompt
+            engineering workflows.
           </p>
         </div>
 
@@ -110,9 +99,8 @@ export default function ModelsPage() {
                 </h3>
               </div>
               <p className="mb-4 text-gray-600 dark:text-gray-400">
-                High-performance models from leading AI companies with advanced
-                capabilities, extensive training, and enterprise-grade
-                reliability.
+                High-performance models from leading AI companies with advanced capabilities,
+                extensive training, and enterprise-grade reliability.
               </p>
               <h4 className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Key Benefits for Enterprise:
@@ -134,9 +122,8 @@ export default function ModelsPage() {
                 </h3>
               </div>
               <p className="mb-4 text-gray-600 dark:text-gray-400">
-                Community-driven models offering transparency, customizability,
-                and the freedom to modify and deploy according to your specific
-                needs.
+                Community-driven models offering transparency, customizability, and the freedom to
+                modify and deploy according to your specific needs.
               </p>
               <h4 className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Key Benefits for Enterprise:
@@ -171,9 +158,7 @@ export default function ModelsPage() {
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         {model.name}
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {model.company}
-                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{model.company}</p>
                     </div>
                   </div>
                   <span
@@ -186,9 +171,7 @@ export default function ModelsPage() {
                     {model.type}
                   </span>
                 </div>
-                <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                  {model.description}
-                </p>
+                <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">{model.description}</p>
                 <div className="mb-4">
                   <h4 className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Key Capabilities:
@@ -301,8 +284,7 @@ export default function ModelsPage() {
                 Security & Compliance
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Enterprise-grade security with compliance and governance
-                features
+                Enterprise-grade security with compliance and governance features
               </p>
             </div>
           </div>
@@ -314,8 +296,8 @@ export default function ModelsPage() {
             Ready to elevate your prompt engineering?
           </h2>
           <p className="mb-6 text-gray-600 dark:text-gray-400">
-            Create your account and start creating, managing, and running AI
-            prompts for all supported models
+            Create your account and start creating, managing, and running AI prompts for all
+            supported models
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link href="/?redirect=/dashboard">

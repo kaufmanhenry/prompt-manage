@@ -38,10 +38,7 @@ interface DatabasePrompt {
   updated_at?: string | null
 }
 
-export function RelatedPrompts({
-  currentPrompt,
-  maxResults = 8,
-}: RelatedPromptsProps) {
+export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPromptsProps) {
   const [relatedData, setRelatedData] = useState<RelatedPromptsData>({
     tagMatches: [],
     modelMatches: [],
@@ -90,9 +87,7 @@ export function RelatedPrompts({
             .limit(maxResults),
         ])
 
-        const transformPrompts = (
-          data: DatabasePrompt[] | null
-        ): PublicPrompt[] => {
+        const transformPrompts = (data: DatabasePrompt[] | null): PublicPrompt[] => {
           return (data || []).map((prompt) => ({
             ...prompt,
             description: prompt.description || null,
@@ -129,9 +124,7 @@ export function RelatedPrompts({
             </h4>
           </Link>
           {prompt.description && (
-            <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-              {prompt.description}
-            </p>
+            <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{prompt.description}</p>
           )}
         </div>
         <div className="ml-4 flex items-center gap-2">

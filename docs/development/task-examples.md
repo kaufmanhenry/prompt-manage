@@ -106,10 +106,7 @@ $$ LANGUAGE plpgsql;
 import { createClient } from '@/utils/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
     const { id } = await context.params
@@ -133,26 +130,17 @@ export async function GET(
 
     if (error) {
       console.error('Error fetching versions:', error)
-      return NextResponse.json(
-        { error: 'Failed to fetch versions' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'Failed to fetch versions' }, { status: 500 })
     }
 
     return NextResponse.json(versions)
   } catch (error) {
     console.error('Versions API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
-export async function POST(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
     const { id } = await context.params
@@ -180,19 +168,13 @@ export async function POST(
 
     if (error) {
       console.error('Error creating version:', error)
-      return NextResponse.json(
-        { error: 'Failed to create version' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'Failed to create version' }, { status: 500 })
     }
 
     return NextResponse.json({ version: data })
   } catch (error) {
     console.error('Create version API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 ```

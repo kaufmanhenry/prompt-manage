@@ -34,30 +34,24 @@ export function Sidebar({
   const [modelFilters, setModelFilters] = useState<string[]>([])
   const [tagFilters, setTagFilters] = useState<string[]>([])
   const [search, setSearch] = useState('')
-  const uniqueModels = Array.from(
-    new Set(prompts.map((p) => p.model).filter(Boolean))
-  )
+  const uniqueModels = Array.from(new Set(prompts.map((p) => p.model).filter(Boolean)))
   const uniqueTags = Array.from(new Set(prompts.flatMap((p) => p.tags)))
 
   // Filtering logic
   const filteredPrompts = prompts.filter((p) => {
     const matchesName = p.name.toLowerCase().includes(search.toLowerCase())
-    const matchesModel =
-      modelFilters.length === 0 || modelFilters.includes(p.model)
-    const matchesTags =
-      tagFilters.length === 0 || tagFilters.every((tag) => p.tags.includes(tag))
+    const matchesModel = modelFilters.length === 0 || modelFilters.includes(p.model)
+    const matchesTags = tagFilters.length === 0 || tagFilters.every((tag) => p.tags.includes(tag))
     return matchesName && matchesModel && matchesTags
   })
 
   const toggleModel = (model: string) => {
     setModelFilters((prev) =>
-      prev.includes(model) ? prev.filter((m) => m !== model) : [...prev, model]
+      prev.includes(model) ? prev.filter((m) => m !== model) : [...prev, model],
     )
   }
   const toggleTag = (tag: string) => {
-    setTagFilters((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    )
+    setTagFilters((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
   }
   const clearModelFilters = () => setModelFilters([])
   const clearTagFilters = () => setTagFilters([])
@@ -93,21 +87,14 @@ export function Sidebar({
         {/* Model filter button */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              size="sm"
-              variant="outline"
-              className="px-2 py-1"
-              aria-label="Filter by model"
-            >
+            <Button size="sm" variant="outline" className="px-2 py-1" aria-label="Filter by model">
               <FilterIcon className="mr-1 h-4 w-4" /> Model
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <div className="flex flex-col gap-2">
               {uniqueModels.length === 0 ? (
-                <div className="text-sm text-muted-foreground">
-                  No models found.
-                </div>
+                <div className="text-sm text-muted-foreground">No models found.</div>
               ) : (
                 uniqueModels.map((model) => (
                   <DropdownMenuCheckboxItem
@@ -121,12 +108,7 @@ export function Sidebar({
               )}
             </div>
             {modelFilters.length > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="mt-3 w-full"
-                onClick={clearModelFilters}
-              >
+              <Button variant="ghost" size="sm" className="mt-3 w-full" onClick={clearModelFilters}>
                 <XIcon className="mr-1 h-4 w-4" /> Clear Model Filters
               </Button>
             )}
@@ -135,21 +117,14 @@ export function Sidebar({
         {/* Tag filter button */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              size="sm"
-              variant="outline"
-              className="px-2 py-1"
-              aria-label="Filter by tag"
-            >
+            <Button size="sm" variant="outline" className="px-2 py-1" aria-label="Filter by tag">
               <TagIcon className="mr-1 h-4 w-4" /> Tag
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <div className="flex max-h-48 flex-col gap-2 overflow-y-auto">
               {uniqueTags.length === 0 ? (
-                <div className="text-sm text-muted-foreground">
-                  No tags found.
-                </div>
+                <div className="text-sm text-muted-foreground">No tags found.</div>
               ) : (
                 uniqueTags.map((tag) => (
                   <DropdownMenuCheckboxItem
@@ -163,12 +138,7 @@ export function Sidebar({
               )}
             </div>
             {tagFilters.length > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="mt-3 w-full"
-                onClick={clearTagFilters}
-              >
+              <Button variant="ghost" size="sm" className="mt-3 w-full" onClick={clearTagFilters}>
                 <XIcon className="mr-1 h-4 w-4" /> Clear Tag Filters
               </Button>
             )}
@@ -192,11 +162,7 @@ export function Sidebar({
             </Badge>
           )}
           {modelFilters.map((model) => (
-            <Badge
-              key={model}
-              variant="secondary"
-              className="flex items-center gap-1"
-            >
+            <Badge key={model} variant="secondary" className="flex items-center gap-1">
               {model}
               <button
                 type="button"
@@ -209,11 +175,7 @@ export function Sidebar({
             </Badge>
           ))}
           {tagFilters.map((tag) => (
-            <Badge
-              key={tag}
-              variant="secondary"
-              className="flex items-center gap-1"
-            >
+            <Badge key={tag} variant="secondary" className="flex items-center gap-1">
               {tag}
               <button
                 type="button"
@@ -243,9 +205,7 @@ export function Sidebar({
               ))}
             </div>
           ) : filteredPrompts.length === 0 ? (
-            <div className="p-4 text-sm text-muted-foreground">
-              No prompts found.
-            </div>
+            <div className="p-4 text-sm text-muted-foreground">No prompts found.</div>
           ) : (
             filteredPrompts.map((prompt) => (
               <Button
@@ -265,9 +225,7 @@ export function Sidebar({
                   )}
                 </div>
                 {prompt.description && (
-                  <div className="truncate text-xs text-muted-foreground">
-                    {prompt.description}
-                  </div>
+                  <div className="truncate text-xs text-muted-foreground">{prompt.description}</div>
                 )}
                 {prompt.model && (
                   <Badge className="text-xs" variant="outline">

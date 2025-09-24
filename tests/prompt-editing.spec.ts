@@ -1,9 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('Prompt Editing UI Components', () => {
-  test('edit form shows correct title and button text when editing', async ({
-    page,
-  }) => {
+  test('edit form shows correct title and button text when editing', async ({ page }) => {
     // Navigate directly to the dashboard (this will redirect to login if not authenticated)
     await page.goto('/dashboard')
 
@@ -16,9 +14,7 @@ test.describe('Prompt Editing UI Components', () => {
       .isVisible()
 
     if (hasSignInButton) {
-      await expect(
-        page.getByRole('button', { name: 'Sign in with Google' })
-      ).toBeVisible()
+      await expect(page.getByRole('button', { name: 'Sign in with Google' })).toBeVisible()
       return
     }
 
@@ -31,11 +27,9 @@ test.describe('Prompt Editing UI Components', () => {
       // Verify the create form elements
       await expect(page.locator('text=New Prompt')).toBeVisible()
       await expect(
-        page.locator('text=Create a new prompt to use with your AI models.')
+        page.locator('text=Create a new prompt to use with your AI models.'),
       ).toBeVisible()
-      await expect(page.locator('button[type="submit"]').toHaveText(
-        'Create Prompt'
-      )
+      await expect(page.locator('button[type="submit"]')).toHaveText('Create Prompt')
     }
   })
 

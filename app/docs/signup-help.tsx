@@ -8,8 +8,7 @@ export default function SignupHelp() {
           Signing Up for Prompt Manage
         </h1>
         <p className="mb-6 text-gray-700 dark:text-gray-300">
-          Creating an account is quick and easy. Here&rsquo;s how to get
-          started:
+          Creating an account is quick and easy. Here&rsquo;s how to get started:
         </p>
         <ol className="mb-6 list-decimal space-y-2 pl-6 text-gray-700 dark:text-gray-300">
           <li>
@@ -22,31 +21,22 @@ export default function SignupHelp() {
             </Link>{' '}
             from the homepage.
           </li>
-          <li>
-            Enter your email address, create a password, and fill in any
-            required fields.
-          </li>
+          <li>Enter your email address, create a password, and fill in any required fields.</li>
           <li>
             Click <strong>Sign Up</strong> to create your account.
           </li>
           <li>
-            Check your email for a verification link and follow the instructions
-            to verify your account.
+            Check your email for a verification link and follow the instructions to verify your
+            account.
           </li>
         </ol>
         <h2 className="mb-2 mt-8 text-xl font-semibold text-gray-900 dark:text-white">
           Troubleshooting & Tips
         </h2>
         <ul className="mb-6 list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
-          <li>
-            If you don&rsquo;t receive a verification email, check your spam or
-            junk folder.
-          </li>
+          <li>If you don&rsquo;t receive a verification email, check your spam or junk folder.</li>
           <li>Make sure your email address is entered correctly.</li>
-          <li>
-            If you see an error message, try using a different browser or
-            device.
-          </li>
+          <li>If you see an error message, try using a different browser or device.</li>
         </ul>
         <h2 className="mb-2 mt-8 text-xl font-semibold text-gray-900 dark:text-white">
           Need More Help?

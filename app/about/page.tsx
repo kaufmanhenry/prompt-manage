@@ -5,10 +5,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
-  title:
-    'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
-  description:
-    'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
+  title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
+  description: 'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
   keywords:
     'about Prompt Manage, AI prompt management, prompt sharing platform, ChatGPT prompts, Claude prompts',
   authors: [{ name: 'Prompt Manage' }],
@@ -24,10 +22,8 @@ export const metadata: Metadata = {
     canonical: '/about',
   },
   openGraph: {
-    title:
-      'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
-    description:
-      'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
+    title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
+    description: 'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
     url: 'https://promptmanage.com/about',
     siteName: 'Prompt Manage',
     images: [
@@ -43,10 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title:
-      'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
-    description:
-      'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
+    title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
+    description: 'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -87,21 +81,17 @@ export default function AboutPage() {
 
         {/* Mission */}
         <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
-            Our Mission
-          </h2>
+          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">Our Mission</h2>
           <p className="mb-6 text-lg text-gray-600 dark:text-gray-400">
-            We believe that AI prompts are the new programming language of the
-            future, and effective prompt engineering is critical for leveraging
-            AI at scale. As AI becomes more integrated into enterprise
-            workflows, having a reliable platform to manage, share, and discover
+            We believe that AI prompts are the new programming language of the future, and effective
+            prompt engineering is critical for leveraging AI at scale. As AI becomes more integrated
+            into enterprise workflows, having a reliable platform to manage, share, and discover
             high-quality prompts is essential.
           </p>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            Prompt Manage was built to solve this challenge. We provide a secure
-            platform where you can centralize your prompt libraries, collaborate
-            seamlessly with your team, and accelerate prompt engineering
-            workflows.
+            Prompt Manage was built to solve this challenge. We provide a secure platform where you
+            can centralize your prompt libraries, collaborate seamlessly with your team, and
+            accelerate prompt engineering workflows.
           </p>
         </div>
 
@@ -120,9 +110,9 @@ export default function AboutPage() {
                   Enterprise-Grade Privacy & Security
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  All your prompt libraries are private by default. You maintain
-                  granular control over access permissions and what content is
-                  shared, ensuring data governance and compliance.
+                  All your prompt libraries are private by default. You maintain granular control
+                  over access permissions and what content is shared, ensuring data governance and
+                  compliance.
                 </p>
               </div>
             </div>
@@ -135,11 +125,10 @@ export default function AboutPage() {
                   Collaborative Prompt Sharing
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Publish and share individual prompts or entire prompt
-                  collections with colleagues, departments, or external
-                  partners. Each prompt gets its own dedicated page for easy
-                  access and version control. COMING SOON: Comprehensive Prompt
-                  Collection Management.
+                  Publish and share individual prompts or entire prompt collections with colleagues,
+                  departments, or external partners. Each prompt gets its own dedicated page for
+                  easy access and version control. COMING SOON: Comprehensive Prompt Collection
+                  Management.
                 </p>
               </div>
             </div>
@@ -152,10 +141,9 @@ export default function AboutPage() {
                   Best Practice Sharing
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Discover and leverage best-in-class prompts shared by our
-                  network of AI professionals. Our curated directory is
-                  continually expanding with optimized prompt engineering
-                  examples.
+                  Discover and leverage best-in-class prompts shared by our network of AI
+                  professionals. Our curated directory is continually expanding with optimized
+                  prompt engineering examples.
                 </p>
               </div>
             </div>
@@ -168,10 +156,9 @@ export default function AboutPage() {
                   Built for Prompt Engineering Productivity
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Organize prompts with advanced tagging, full-text search, and
-                  one-click copy functionality. Every feature is engineered for
-                  speed, efficiency, and seamless integration into your prompt
-                  development lifecycle.
+                  Organize prompts with advanced tagging, full-text search, and one-click copy
+                  functionality. Every feature is engineered for speed, efficiency, and seamless
+                  integration into your prompt development lifecycle.
                 </p>
               </div>
             </div>
@@ -184,26 +171,22 @@ export default function AboutPage() {
             Developed by AI Engineering Experts
           </h2>
           <p className="mb-6 text-lg text-gray-600 dark:text-gray-400">
-            Prompt Manage was created by a team of developers and AI engineers
-            who deeply understand the complexities of managing AI prompts and
-            prompt libraries in today&apos;s rapidly evolving technological
-            landscape.
+            Prompt Manage was created by a team of developers and AI engineers who deeply understand
+            the complexities of managing AI prompts and prompt libraries in today&apos;s rapidly
+            evolving technological landscape.
           </p>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            We are committed to building the leading platform for prompt
-            management, with a focus on security, scalability, and enhanced team
-            collaboration.
+            We are committed to building the leading platform for prompt management, with a focus on
+            security, scalability, and enhanced team collaboration.
           </p>
         </div>
 
         {/* Social Media */}
         <div className="mb-16 text-center">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
-            Connect With Us
-          </h2>
+          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">Connect With Us</h2>
           <p className="mb-8 text-lg text-gray-600 dark:text-gray-400">
-            Follow us for updates, prompt engineering best practices, and the
-            latest in AI prompt management solutions
+            Follow us for updates, prompt engineering best practices, and the latest in AI prompt
+            management solutions
           </p>
           <div className="flex items-center justify-center gap-6">
             <Link
@@ -212,12 +195,7 @@ export default function AboutPage() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
             >
-              <svg
-                className="h-6 w-6"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
+              <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
               </svg>
               <span className="font-medium">X</span>
@@ -228,12 +206,7 @@ export default function AboutPage() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
             >
-              <svg
-                className="h-6 w-6"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
+              <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
               </svg>
               <span className="font-medium">LinkedIn</span>

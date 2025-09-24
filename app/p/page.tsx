@@ -28,14 +28,10 @@ function PublicDirectoryContent() {
   const [prompts, setPrompts] = useState<PublicPrompt[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState(searchParams.get('search') || '')
-  const [selectedModel, setSelectedModel] = useState<string>(
-    searchParams.get('model') || 'all'
-  )
-  const [selectedTag, setSelectedTag] = useState<string>(
-    searchParams.get('tag') || 'all'
-  )
+  const [selectedModel, setSelectedModel] = useState<string>(searchParams.get('model') || 'all')
+  const [selectedTag, setSelectedTag] = useState<string>(searchParams.get('tag') || 'all')
   const [sortBy, setSortBy] = useState<'recent' | 'popular'>(
-    (searchParams.get('sortBy') as 'recent' | 'popular') || 'recent'
+    (searchParams.get('sortBy') as 'recent' | 'popular') || 'recent',
   )
   const [availableTags, setAvailableTags] = useState<string[]>([])
   const { toast } = useToast()
@@ -45,10 +41,7 @@ function PublicDirectoryContent() {
 
   const fetchPublicPrompts = useCallback(async () => {
     try {
-      let query = createClient()
-        .from('prompts')
-        .select('*')
-        .eq('is_public', true)
+      let query = createClient().from('prompts').select('*').eq('is_public', true)
 
       if (sortBy === 'recent') {
         query = query.order('updated_at', { ascending: false })
@@ -114,23 +107,16 @@ function PublicDirectoryContent() {
       prompt.name.toLowerCase().includes(search.toLowerCase()) ||
       prompt.description?.toLowerCase().includes(search.toLowerCase()) ||
       prompt.prompt_text.toLowerCase().includes(search.toLowerCase()) ||
-      prompt.tags?.some((tag) =>
-        tag.toLowerCase().includes(search.toLowerCase())
-      )
+      prompt.tags?.some((tag) => tag.toLowerCase().includes(search.toLowerCase()))
 
-    const matchesModel =
-      selectedModel === 'all' || prompt.model === selectedModel
-    const matchesTag =
-      selectedTag === 'all' || prompt.tags?.includes(selectedTag)
+    const matchesModel = selectedModel === 'all' || prompt.model === selectedModel
+    const matchesTag = selectedTag === 'all' || prompt.tags?.includes(selectedTag)
 
     return matchesSearch && matchesModel && matchesTag
   })
 
   const totalPages = Math.ceil(filteredPrompts.length / promptsPerPage)
-  const paginatedPrompts = filteredPrompts.slice(
-    (page - 1) * promptsPerPage,
-    page * promptsPerPage
-  )
+  const paginatedPrompts = filteredPrompts.slice((page - 1) * promptsPerPage, page * promptsPerPage)
 
   if (loading) {
     return <FullPageLoading text="Loading public prompts..." />
@@ -144,9 +130,7 @@ function PublicDirectoryContent() {
           <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
             Public Prompt Directory
           </h1>
-          <p className="text-muted-foreground">
-            Discover and use prompts shared by the community
-          </p>
+          <p className="text-muted-foreground">Discover and use prompts shared by the community</p>
         </div>
 
         {/* Search and Filters */}
@@ -221,9 +205,7 @@ function PublicDirectoryContent() {
               <div className="flex-grow">
                 <div className="mb-4">
                   <div className="mb-2 flex items-start justify-between">
-                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold">
-                      {prompt.name}
-                    </h3>
+                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold">{prompt.name}</h3>
                   </div>
                   {prompt.description && (
                     <p className="mb-2 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">

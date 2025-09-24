@@ -23,11 +23,7 @@ export function PromptProvider({ children }: { children: React.ReactNode }) {
       return data as Prompt[]
     },
   })
-  return (
-    <PromptContext.Provider value={{ prompts, isLoading }}>
-      {children}
-    </PromptContext.Provider>
-  )
+  return <PromptContext.Provider value={{ prompts, isLoading }}>{children}</PromptContext.Provider>
 }
 
 export function usePrompts() {

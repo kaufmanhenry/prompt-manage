@@ -76,9 +76,7 @@ export default function GeneratorPage() {
           </div>
         </div>
         <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
-          <h2 className="mb-2 text-lg font-semibold">
-            Prompt Ideas & Suggestions
-          </h2>
+          <h2 className="mb-2 text-lg font-semibold">Prompt Ideas & Suggestions</h2>
           <div className="text-sm text-gray-700 dark:text-gray-300">
             (Coming soon: Get AI-powered suggestions and inspiration.)
           </div>

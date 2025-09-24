@@ -23,9 +23,7 @@ interface PublicProfilePageProps {
   }>
 }
 
-export default async function PublicProfilePage({
-  params,
-}: PublicProfilePageProps) {
+export default async function PublicProfilePage({ params }: PublicProfilePageProps) {
   const supabase = await createClient()
   const { id } = await params
 
@@ -70,14 +68,8 @@ export default async function PublicProfilePage({
             )}
           </div>
           <div>
-            <h1 className="text-3xl font-bold">
-              {profile.display_name || 'Anonymous User'}
-            </h1>
-            {profile.bio && (
-              <p className="mt-2 text-gray-600 dark:text-gray-400">
-                {profile.bio}
-              </p>
-            )}
+            <h1 className="text-3xl font-bold">{profile.display_name || 'Anonymous User'}</h1>
+            {profile.bio && <p className="mt-2 text-gray-600 dark:text-gray-400">{profile.bio}</p>}
             {profile.website && (
               <a
                 href={profile.website}

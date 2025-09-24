@@ -209,19 +209,13 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching features:', error)
-      return NextResponse.json(
-        { error: 'Failed to fetch features' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'Failed to fetch features' }, { status: 500 })
     }
 
     return NextResponse.json(features)
   } catch (error) {
     console.error('Features API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -252,19 +246,13 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Error creating feature:', error)
-      return NextResponse.json(
-        { error: 'Failed to create feature' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'Failed to create feature' }, { status: 500 })
     }
 
     return NextResponse.json(feature)
   } catch (error) {
     console.error('Create feature API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 ```

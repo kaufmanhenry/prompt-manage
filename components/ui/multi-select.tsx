@@ -6,12 +6,7 @@ import * as React from 'react'
 import { forwardRef, useEffect } from 'react'
 
 import { Badge } from '@/components/ui/badge'
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
+import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
 import { cn } from '@/lib/utils'
 
 export interface Option {
@@ -130,18 +125,14 @@ function removePickedOption(groupOption: GroupOption, picked: Option[]) {
   const cloneOption = JSON.parse(JSON.stringify(groupOption)) as GroupOption
 
   for (const [key, value] of Object.entries(cloneOption)) {
-    cloneOption[key] = value.filter(
-      (val) => !picked.find((p) => p.value === val.value)
-    )
+    cloneOption[key] = value.filter((val) => !picked.find((p) => p.value === val.value))
   }
   return cloneOption
 }
 
 function isOptionsExist(groupOption: GroupOption, targetOption: Option[]) {
   for (const [, value] of Object.entries(groupOption)) {
-    if (
-      value.some((option) => targetOption.find((p) => p.value === option.value))
-    ) {
+    if (value.some((option) => targetOption.find((p) => p.value === option.value))) {
       return true
     }
   }
@@ -175,10 +166,7 @@ const CommandEmpty = forwardRef<
 
 CommandEmpty.displayName = 'CommandEmpty'
 
-const MultipleSelector = React.forwardRef<
-  MultipleSelectorRef,
-  MultipleSelectorProps
->(
+const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
   (
     {
       value,
@@ -205,7 +193,7 @@ const MultipleSelector = React.forwardRef<
       inputProps,
       hideClearAllButton = false,
     }: MultipleSelectorProps,
-    ref: React.Ref<MultipleSelectorRef>
+    ref: React.Ref<MultipleSelectorRef>,
   ) => {
     const inputRef = React.useRef<HTMLInputElement>(null)
     const [open, setOpen] = React.useState(false)
@@ -215,7 +203,7 @@ const MultipleSelector = React.forwardRef<
 
     const [selected, setSelected] = React.useState<Option[]>(value || [])
     const [options, setOptions] = React.useState<GroupOption>(
-      transToGroupOption(arrayDefaultOptions, groupBy)
+      transToGroupOption(arrayDefaultOptions, groupBy),
     )
     const [inputValue, setInputValue] = React.useState('')
     const debouncedSearchTerm = useDebounce(inputValue, delay || 500)
@@ -228,7 +216,7 @@ const MultipleSelector = React.forwardRef<
         focus: () => inputRef?.current?.focus(),
         reset: () => setSelected([]),
       }),
-      [selected]
+      [selected],
     )
 
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
@@ -249,7 +237,7 @@ const MultipleSelector = React.forwardRef<
         setSelected(newOptions)
         onChange?.(newOptions)
       },
-      [onChange, selected]
+      [onChange, selected],
     )
 
     const handleKeyDown = React.useCallback(
@@ -271,7 +259,7 @@ const MultipleSelector = React.forwardRef<
           }
         }
       },
-      [handleUnselect, selected]
+      [handleUnselect, selected],
     )
 
     useEffect(() => {
@@ -418,7 +406,7 @@ const MultipleSelector = React.forwardRef<
 
     const selectables = React.useMemo<GroupOption>(
       () => removePickedOption(options, selected),
-      [options, selected]
+      [options, selected],
     )
 
     /** Avoid Creatable Selector freezing or lagging when paste a long string. */
@@ -444,14 +432,9 @@ const MultipleSelector = React.forwardRef<
           handleKeyDown(e)
           commandProps?.onKeyDown?.(e)
         }}
-        className={cn(
-          'h-auto overflow-visible bg-transparent',
-          commandProps?.className
-        )}
+        className={cn('h-auto overflow-visible bg-transparent', commandProps?.className)}
         shouldFilter={
-          commandProps?.shouldFilter !== undefined
-            ? commandProps.shouldFilter
-            : !onSearch
+          commandProps?.shouldFilter !== undefined ? commandProps.shouldFilter : !onSearch
         } // When onSearch is provided, we don't want to filter the options. You can still override it.
         filter={commandFilter()}
       >
@@ -462,7 +445,7 @@ const MultipleSelector = React.forwardRef<
               'px-3 py-2': selected.length !== 0,
               'cursor-text': !disabled && selected.length !== 0,
             },
-            className
+            className,
           )}
           onClick={() => {
             if (disabled) return
@@ -478,7 +461,7 @@ const MultipleSelector = React.forwardRef<
                     className={cn(
                       'data-[disabled]:bg-muted-foreground data-[disabled]:text-muted data-[disabled]:hover:bg-muted-foreground',
                       'data-[fixed]:bg-muted-foreground data-[fixed]:text-muted data-[fixed]:hover:bg-muted-foreground',
-                      badgeClassName
+                      badgeClassName,
                     )}
                     data-fixed={option.fixed}
                     data-disabled={disabled || undefined}
@@ -488,7 +471,7 @@ const MultipleSelector = React.forwardRef<
                       type="button"
                       className={cn(
                         'ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2',
-                        (disabled || option.fixed) && 'hidden'
+                        (disabled || option.fixed) && 'hidden',
                       )}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
@@ -527,9 +510,7 @@ const MultipleSelector = React.forwardRef<
                   inputProps?.onFocus?.(event)
                 }}
                 placeholder={
-                  hidePlaceholderWhenSelected && selected.length !== 0
-                    ? ''
-                    : placeholder
+                  hidePlaceholderWhenSelected && selected.length !== 0 ? '' : placeholder
                 }
                 className={cn(
                   'flex-1 bg-transparent outline-none placeholder:text-muted-foreground',
@@ -538,7 +519,7 @@ const MultipleSelector = React.forwardRef<
                     'px-3 py-2': selected.length === 0,
                     'ml-1': selected.length !== 0,
                   },
-                  inputProps?.className
+                  inputProps?.className,
                 )}
               />
             </div>
@@ -554,7 +535,7 @@ const MultipleSelector = React.forwardRef<
                   disabled ||
                   selected.length < 1 ||
                   selected.filter((s) => s.fixed).length === selected.length) &&
-                  'hidden'
+                  'hidden',
               )}
             >
               <X className="size-4" />
@@ -581,15 +562,9 @@ const MultipleSelector = React.forwardRef<
                 <>
                   {EmptyItem()}
                   {CreatableItem()}
-                  {!selectFirstItem && (
-                    <CommandItem value="-" className="hidden" />
-                  )}
+                  {!selectFirstItem && <CommandItem value="-" className="hidden" />}
                   {Object.entries(selectables).map(([key, dropdowns]) => (
-                    <CommandGroup
-                      key={key}
-                      heading={key}
-                      className="h-full overflow-auto"
-                    >
+                    <CommandGroup key={key} heading={key} className="h-full overflow-auto">
                       <>
                         {dropdowns.map((option) => {
                           return (
@@ -613,8 +588,7 @@ const MultipleSelector = React.forwardRef<
                               }}
                               className={cn(
                                 'cursor-pointer',
-                                option.disable &&
-                                  'cursor-default text-muted-foreground'
+                                option.disable && 'cursor-default text-muted-foreground',
                               )}
                             >
                               {option.label}
@@ -631,7 +605,7 @@ const MultipleSelector = React.forwardRef<
         </div>
       </Command>
     )
-  }
+  },
 )
 
 MultipleSelector.displayName = 'MultipleSelector'

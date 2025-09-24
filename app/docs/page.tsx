@@ -15,9 +15,7 @@ export default function DocsPage() {
               Back to Home
             </Button>
           </Link>
-          <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">
-            Documentation
-          </h1>
+          <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">Documentation</h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
             Learn how to get the most out of Prompt Manage
           </p>
@@ -54,10 +52,7 @@ export default function DocsPage() {
               </Link>
             </li>
             <li>
-              <Link
-                href="/docs/signup-help"
-                className="text-blue-600 underline dark:text-blue-400"
-              >
+              <Link href="/docs/signup-help" className="text-blue-600 underline dark:text-blue-400">
                 Signing Up
               </Link>
             </li>
@@ -66,9 +61,7 @@ export default function DocsPage() {
 
         {/* Get Help Section */}
         <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            Get Help
-          </h2>
+          <h2 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">Get Help</h2>
           <ul className="list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
             <li>
               <Link
@@ -87,10 +80,7 @@ export default function DocsPage() {
               </Link>
             </li>
             <li>
-              <Link
-                href="/docs/signup-help"
-                className="text-blue-600 underline dark:text-blue-400"
-              >
+              <Link href="/docs/signup-help" className="text-blue-600 underline dark:text-blue-400">
                 Signing Up
               </Link>
             </li>
@@ -108,9 +98,7 @@ export default function DocsPage() {
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 p-3 dark:bg-blue-900">
                   <Plus className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  1. Create
-                </h3>
+                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">1. Create</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Add your first prompt with a name, description, and tags
                 </p>
@@ -119,9 +107,7 @@ export default function DocsPage() {
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 p-3 dark:bg-green-900">
                   <Search className="h-6 w-6 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  2. Organize
-                </h3>
+                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">2. Organize</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Use tags and filters to keep your prompts organized
                 </p>
@@ -130,9 +116,7 @@ export default function DocsPage() {
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 p-3 dark:bg-purple-900">
                   <Share2 className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  3. Share
-                </h3>
+                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">3. Share</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Share prompts publicly or keep them private
                 </p>
@@ -157,17 +141,13 @@ export default function DocsPage() {
                     Private Prompt Library
                   </h3>
                   <p className="mb-4 text-gray-600 dark:text-gray-400">
-                    Prompt Manage acts as your personal library for AI prompts.
-                    Every prompt you create is private by default, giving you
-                    complete control over your content. Organize prompts with
-                    tags, descriptions, and categories to make them easy to find
-                    when you need them.
+                    Prompt Manage acts as your personal library for AI prompts. Every prompt you
+                    create is private by default, giving you complete control over your content.
+                    Organize prompts with tags, descriptions, and categories to make them easy to
+                    find when you need them.
                   </p>
                   <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                    <li>
-                      • Store prompts for any AI model (GPT-4, Claude, Gemini,
-                      etc.)
-                    </li>
+                    <li>• Store prompts for any AI model (GPT-4, Claude, Gemini, etc.)</li>
                     <li>• Add descriptions and tags for easy organization</li>
                     <li>• Search and filter your prompts instantly</li>
                     <li>• Copy prompts with one click</li>
@@ -186,9 +166,8 @@ export default function DocsPage() {
                     Publicly Share Prompts!
                   </h3>
                   <p className="mb-4 text-gray-600 dark:text-gray-400">
-                    Share individual prompts with friends and colleagues when
-                    you publish on Prompt Manage. Each prompt gets its own
-                    public page when shared. SOON: Collections
+                    Share individual prompts with friends and colleagues when you publish on Prompt
+                    Manage. Each prompt gets its own public page when shared. SOON: Collections
                   </p>
                   <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                     <li>• Share individual prompts with unique URLs</li>
@@ -210,10 +189,9 @@ export default function DocsPage() {
                     Community Discovery
                   </h3>
                   <p className="mb-4 text-gray-600 dark:text-gray-400">
-                    Browse prompts shared by the community in our public
-                    directory. Discover new techniques, find inspiration, and
-                    learn from others. The directory is searchable and
-                    filterable by model, tags, and popularity.
+                    Browse prompts shared by the community in our public directory. Discover new
+                    techniques, find inspiration, and learn from others. The directory is searchable
+                    and filterable by model, tags, and popularity.
                   </p>
                   <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                     <li>• Browse hundreds of shared prompts</li>
@@ -234,9 +212,7 @@ export default function DocsPage() {
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">
-                Organization
-              </h3>
+              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Organization</h3>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                 <li>• Tag-based organization system</li>
                 <li>• Model-specific categorization</li>
@@ -245,9 +221,7 @@ export default function DocsPage() {
               </ul>
             </div>
             <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">
-                Sharing
-              </h3>
+              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Sharing</h3>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                 <li>• One-click public sharing</li>
                 <li>• Unique URLs for each prompt</li>
@@ -256,9 +230,7 @@ export default function DocsPage() {
               </ul>
             </div>
             <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">
-                Productivity
-              </h3>
+              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Productivity</h3>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                 <li>• One-click copy to clipboard</li>
                 <li>• Keyboard shortcuts</li>
@@ -267,9 +239,7 @@ export default function DocsPage() {
               </ul>
             </div>
             <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">
-                Security
-              </h3>
+              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Security</h3>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                 <li>• Private by default</li>
                 <li>• Secure authentication</li>
@@ -292,9 +262,8 @@ export default function DocsPage() {
                   Naming Your Prompts
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Use descriptive names that clearly indicate what the prompt
-                  does. Include the target model or use case in the name for
-                  easy identification.
+                  Use descriptive names that clearly indicate what the prompt does. Include the
+                  target model or use case in the name for easy identification.
                 </p>
               </div>
               <div>
@@ -302,9 +271,8 @@ export default function DocsPage() {
                   Using Tags Effectively
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Create a consistent tagging system. Use tags for model types,
-                  use cases, difficulty levels, and any other categories that
-                  help you organize your prompts.
+                  Create a consistent tagging system. Use tags for model types, use cases,
+                  difficulty levels, and any other categories that help you organize your prompts.
                 </p>
               </div>
               <div>
@@ -312,9 +280,8 @@ export default function DocsPage() {
                   Writing Descriptions
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Include clear descriptions that explain what the prompt does,
-                  what inputs it expects, and what outputs it produces. This
-                  helps when sharing with others.
+                  Include clear descriptions that explain what the prompt does, what inputs it
+                  expects, and what outputs it produces. This helps when sharing with others.
                 </p>
               </div>
               <div>
@@ -322,9 +289,8 @@ export default function DocsPage() {
                   Sharing Responsibly
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Only share prompts that you&apos;re comfortable making public.
-                  Remember that shared prompts can be viewed by anyone with the
-                  link.
+                  Only share prompts that you&apos;re comfortable making public. Remember that
+                  shared prompts can be viewed by anyone with the link.
                 </p>
               </div>
             </div>
@@ -358,20 +324,17 @@ export default function DocsPage() {
           <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
             <ol className="list-decimal space-y-2 pl-6 text-gray-600 dark:text-gray-400">
               <li>
-                Go to your profile or dashboard and click on{' '}
-                <strong>Settings</strong> in the navigation menu.
+                Go to your profile or dashboard and click on <strong>Settings</strong> in the
+                navigation menu.
               </li>
-              <li>
-                Update your display name, email address, or other available
-                fields as needed.
-              </li>
+              <li>Update your display name, email address, or other available fields as needed.</li>
               <li>
                 Click <strong>Save</strong> to apply your changes.
               </li>
             </ol>
             <p className="mt-4 text-sm text-gray-500">
-              Note: Some fields (such as email) may require verification or
-              additional security steps.
+              Note: Some fields (such as email) may require verification or additional security
+              steps.
             </p>
           </div>
         </div>
@@ -390,24 +353,19 @@ export default function DocsPage() {
           <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
             <ol className="list-decimal space-y-2 pl-6 text-gray-600 dark:text-gray-400">
               <li>
-                Navigate to <strong>Settings</strong> from your profile or
-                dashboard.
+                Navigate to <strong>Settings</strong> from your profile or dashboard.
               </li>
               <li>
                 Find the <strong>Password</strong> section.
               </li>
-              <li>
-                Enter your current password, then your new password twice to
-                confirm.
-              </li>
+              <li>Enter your current password, then your new password twice to confirm.</li>
               <li>
                 Click <strong>Change Password</strong> to update your password.
               </li>
             </ol>
             <p className="mt-4 text-sm text-gray-500">
-              If you forget your password, use the{' '}
-              <strong>Forgot Password</strong> link on the sign-in page to reset
-              it via email.
+              If you forget your password, use the <strong>Forgot Password</strong> link on the
+              sign-in page to reset it via email.
             </p>
           </div>
         </div>
@@ -426,24 +384,20 @@ export default function DocsPage() {
           <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
             <ol className="list-decimal space-y-2 pl-6 text-gray-600 dark:text-gray-400">
               <li>
-                Go to the <strong>Sign Up</strong> page from the main navigation
-                or homepage.
+                Go to the <strong>Sign Up</strong> page from the main navigation or homepage.
               </li>
-              <li>
-                Enter your email address, create a password, and fill in any
-                required fields.
-              </li>
+              <li>Enter your email address, create a password, and fill in any required fields.</li>
               <li>
                 Click <strong>Sign Up</strong> to create your account.
               </li>
               <li>
-                Check your email for a verification link and follow the
-                instructions to verify your account.
+                Check your email for a verification link and follow the instructions to verify your
+                account.
               </li>
             </ol>
             <p className="mt-4 text-sm text-gray-500">
-              If you do not receive a verification email, check your spam folder
-              or request a new one from the sign-up page.
+              If you do not receive a verification email, check your spam folder or request a new
+              one from the sign-up page.
             </p>
           </div>
         </div>

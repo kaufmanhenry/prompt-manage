@@ -8,44 +8,36 @@ export default function BestPractices() {
           Prompt Management Best Practices
         </h1>
         <p className="mb-6 text-gray-700 dark:text-gray-300">
-          Follow these best practices to keep your prompt library organized,
-          discoverable, and easy to use for yourself and your team.
+          Follow these best practices to keep your prompt library organized, discoverable, and easy
+          to use for yourself and your team.
         </p>
         <h2 className="mb-2 mt-8 text-xl font-semibold text-gray-900 dark:text-white">
           Naming Your Prompts
         </h2>
         <ul className="mb-6 list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
           <li>
-            Use clear, descriptive names that indicate the prompt&rsquo;s
-            purpose (e.g., <strong>Summarize Meeting Notes</strong> or{' '}
-            <strong>Generate Blog Outline</strong>).
+            Use clear, descriptive names that indicate the prompt&rsquo;s purpose (e.g.,{' '}
+            <strong>Summarize Meeting Notes</strong> or <strong>Generate Blog Outline</strong>).
           </li>
           <li>
             Include the target model or use case in the name if relevant (e.g.,{' '}
             <strong>GPT-4: Email Draft</strong>).
           </li>
-          <li>
-            Keep names concise but specific—avoid generic titles like
-            &ldquo;Prompt 1.&rdquo;
-          </li>
+          <li>Keep names concise but specific—avoid generic titles like &ldquo;Prompt 1.&rdquo;</li>
         </ul>
         <h2 className="mb-2 mt-8 text-xl font-semibold text-gray-900 dark:text-white">
           Using Tags Effectively
         </h2>
         <ul className="mb-6 list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
           <li>
-            Create a consistent tagging system for your team (e.g.,{' '}
-            <strong>marketing</strong>, <strong>qa</strong>,{' '}
-            <strong>customer-support</strong>).
+            Create a consistent tagging system for your team (e.g., <strong>marketing</strong>,{' '}
+            <strong>qa</strong>, <strong>customer-support</strong>).
           </li>
           <li>
-            Use tags for model types, use cases, difficulty levels, and any
-            other categories that help you organize your prompts.
+            Use tags for model types, use cases, difficulty levels, and any other categories that
+            help you organize your prompts.
           </li>
-          <li>
-            Review and update tags regularly to keep your library organized as
-            it grows.
-          </li>
+          <li>Review and update tags regularly to keep your library organized as it grows.</li>
         </ul>
         <h2 className="mb-2 mt-8 text-xl font-semibold text-gray-900 dark:text-white">
           Organizing Your Library
@@ -53,18 +45,14 @@ export default function BestPractices() {
         <ul className="mb-6 list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
           <li>Group related prompts together using tags or collections.</li>
           <li>Archive or delete outdated prompts to reduce clutter.</li>
-          <li>
-            Encourage your team to add descriptions and usage notes for each
-            prompt.
-          </li>
+          <li>Encourage your team to add descriptions and usage notes for each prompt.</li>
         </ul>
         <h2 className="mb-2 mt-8 text-xl font-semibold text-gray-900 dark:text-white">
           Tips for Teams
         </h2>
         <ul className="mb-6 list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
           <li>
-            Share best practices with new team members and encourage consistent
-            naming/tagging.
+            Share best practices with new team members and encourage consistent naming/tagging.
           </li>
           <li>
             Use the{' '}
@@ -74,12 +62,11 @@ export default function BestPractices() {
             >
               Account Settings
             </Link>{' '}
-            page to update your profile and help others recognize your
-            contributions.
+            page to update your profile and help others recognize your contributions.
           </li>
           <li>
-            If you&rsquo;re unsure how to organize a new prompt, ask your team
-            or check existing examples in your library.
+            If you&rsquo;re unsure how to organize a new prompt, ask your team or check existing
+            examples in your library.
           </li>
         </ul>
         <p className="mt-8 text-gray-700 dark:text-gray-300">

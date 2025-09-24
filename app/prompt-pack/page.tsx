@@ -1,12 +1,5 @@
 'use client'
-import {
-  CheckCircle,
-  Download,
-  FileText,
-  MessageSquare,
-  TrendingUp,
-  Users,
-} from 'lucide-react'
+import { CheckCircle, Download, FileText, MessageSquare, TrendingUp, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -31,7 +24,7 @@ export default function PromptPackPage() {
     } catch (err) {
       console.error('Lead submit error:', err)
       alert(
-        'There was an error. Please email support@promptmanage.com and we will send the pack manually.'
+        'There was an error. Please email support@promptmanage.com and we will send the pack manually.',
       )
     } finally {
       setIsSubmitting(false)
@@ -41,8 +34,7 @@ export default function PromptPackPage() {
   const promptPreviews = [
     {
       title: 'Social Media Post Generator',
-      description:
-        'Create engaging social media posts that drive engagement and clicks',
+      description: 'Create engaging social media posts that drive engagement and clicks',
       category: 'Marketing',
       icon: TrendingUp,
       preview:
@@ -50,8 +42,7 @@ export default function PromptPackPage() {
     },
     {
       title: 'Customer Support Response',
-      description:
-        'Generate professional, empathetic responses to customer inquiries',
+      description: 'Generate professional, empathetic responses to customer inquiries',
       category: 'Support',
       icon: MessageSquare,
       preview:
@@ -59,8 +50,7 @@ export default function PromptPackPage() {
     },
     {
       title: 'Product Description Writer',
-      description:
-        'Create compelling product descriptions that convert browsers to buyers',
+      description: 'Create compelling product descriptions that convert browsers to buyers',
       category: 'Sales',
       icon: FileText,
       preview:
@@ -82,13 +72,11 @@ export default function PromptPackPage() {
           <h1 className="mb-6 text-4xl font-bold leading-tight text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
             Get 20 Ready-to-Use
             <br />
-            <span className="text-green-600 dark:text-green-400">
-              AI Prompts
-            </span>
+            <span className="text-green-600 dark:text-green-400">AI Prompts</span>
           </h1>
           <p className="mx-auto mb-8 max-w-4xl text-xl leading-relaxed text-gray-600 dark:text-gray-300 md:text-2xl">
-            Download our curated collection of proven prompts for marketing,
-            support, and product teams. Start using AI more effectively today.
+            Download our curated collection of proven prompts for marketing, support, and product
+            teams. Start using AI more effectively today.
           </p>
         </div>
 
@@ -102,8 +90,8 @@ export default function PromptPackPage() {
                   Download Your Free Prompt Pack
                 </h2>
                 <p className="mb-6 text-gray-600 dark:text-gray-400">
-                  Get instant access to 20 proven prompts that teams are using
-                  to scale their AI operations.
+                  Get instant access to 20 proven prompts that teams are using to scale their AI
+                  operations.
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -156,8 +144,8 @@ export default function PromptPackPage() {
                   Download Complete!
                 </h2>
                 <p className="mb-6 text-gray-600 dark:text-gray-400">
-                  Check your email for the download link. You&rsquo;ll also
-                  receive tips on how to use these prompts effectively.
+                  Check your email for the download link. You&rsquo;ll also receive tips on how to
+                  use these prompts effectively.
                 </p>
                 <Link href="/?redirect=/dashboard">
                   <Button className="py-3 text-lg">Start Free Trial</Button>
@@ -190,9 +178,7 @@ export default function PromptPackPage() {
                         {prompt.category}
                       </span>
                     </div>
-                    <p className="mb-3 text-gray-600 dark:text-gray-400">
-                      {prompt.description}
-                    </p>
+                    <p className="mb-3 text-gray-600 dark:text-gray-400">{prompt.description}</p>
                     <div className="rounded-lg bg-gray-50 p-3 dark:bg-gray-700">
                       <p className="font-mono text-sm text-gray-700 dark:text-gray-300">
                         {prompt.preview}
@@ -219,8 +205,8 @@ export default function PromptPackPage() {
                 Proven Results
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                These prompts have been tested and refined by hundreds of teams
-                across different industries.
+                These prompts have been tested and refined by hundreds of teams across different
+                industries.
               </p>
             </div>
             <div className="text-center">
@@ -231,8 +217,8 @@ export default function PromptPackPage() {
                 Save Time
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Stop starting from scratch. Use these templates and customize
-                them for your specific needs.
+                Stop starting from scratch. Use these templates and customize them for your specific
+                needs.
               </p>
             </div>
             <div className="text-center">
@@ -243,8 +229,8 @@ export default function PromptPackPage() {
                 Better Outputs
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Get higher quality AI responses with prompts that are optimized
-                for specific use cases.
+                Get higher quality AI responses with prompts that are optimized for specific use
+                cases.
               </p>
             </div>
           </div>
@@ -313,8 +299,8 @@ export default function PromptPackPage() {
             Ready to scale your AI operations?
           </h3>
           <p className="mb-8 text-lg text-gray-600 dark:text-gray-400">
-            Join thousands of teams using Prompt Manage to organize, test, and
-            optimize their AI prompts
+            Join thousands of teams using Prompt Manage to organize, test, and optimize their AI
+            prompts
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/?redirect=/dashboard">

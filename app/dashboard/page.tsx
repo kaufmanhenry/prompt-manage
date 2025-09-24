@@ -44,9 +44,7 @@ export default function DashboardPage() {
   const [promptToDelete, setPromptToDelete] = useState<Prompt | null>(null)
   const [deleting, setDeleting] = useState(false)
 
-  const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(
-    null
-  )
+  const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(null)
 
   const { data: prompts = [], isLoading } = useQuery({
     queryKey: ['prompts'],
@@ -203,18 +201,10 @@ export default function DashboardPage() {
       </main>
 
       {/* Create Prompt Form */}
-      <PromptForm
-        prompt={null}
-        open={showCreateForm}
-        onOpenChange={handleCloseCreateForm}
-      />
+      <PromptForm prompt={null} open={showCreateForm} onOpenChange={handleCloseCreateForm} />
 
       {/* Edit Prompt Form */}
-      <PromptForm
-        prompt={editingPrompt}
-        open={showEditForm}
-        onOpenChange={handleCloseEditForm}
-      />
+      <PromptForm prompt={editingPrompt} open={showEditForm} onOpenChange={handleCloseEditForm} />
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
@@ -233,9 +223,8 @@ export default function DashboardPage() {
                 Permanent Deletion
               </h4>
               <p className="text-sm text-red-600 dark:text-red-300">
-                This prompt will be permanently deleted and cannot be recovered.
-                If this prompt is public, it will also be removed from the
-                public directory.
+                This prompt will be permanently deleted and cannot be recovered. If this prompt is
+                public, it will also be removed from the public directory.
               </p>
             </div>
 
@@ -250,11 +239,7 @@ export default function DashboardPage() {
               >
                 Cancel
               </Button>
-              <Button
-                variant="destructive"
-                onClick={confirmDelete}
-                disabled={deleting}
-              >
+              <Button variant="destructive" onClick={confirmDelete} disabled={deleting}>
                 {deleting ? 'Deleting...' : 'Delete Prompt'}
               </Button>
             </div>

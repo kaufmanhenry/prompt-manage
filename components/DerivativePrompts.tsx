@@ -27,10 +27,9 @@ export function DerivativePrompts({ promptId }: DerivativePromptsProps) {
   useEffect(() => {
     const fetchDerivatives = async () => {
       try {
-        const { data, error } = await createClient().rpc(
-          'get_derivative_prompts',
-          { prompt_id: promptId }
-        )
+        const { data, error } = await createClient().rpc('get_derivative_prompts', {
+          prompt_id: promptId,
+        })
 
         if (error) {
           console.error('Error fetching derivatives:', error)
@@ -87,20 +86,14 @@ export function DerivativePrompts({ promptId }: DerivativePromptsProps) {
           <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <Users className="h-4 w-4" />
             <span>
-              {derivatives.length} user{derivatives.length !== 1 ? 's' : ''}{' '}
-              have copied this prompt
+              {derivatives.length} user{derivatives.length !== 1 ? 's' : ''} have copied this prompt
             </span>
           </div>
 
           <div className="space-y-2">
             {derivatives.slice(0, 3).map((derivative) => (
-              <div
-                key={derivative.id}
-                className="flex items-center justify-between text-sm"
-              >
-                <span className="truncate text-gray-700 dark:text-gray-300">
-                  {derivative.name}
-                </span>
+              <div key={derivative.id} className="flex items-center justify-between text-sm">
+                <span className="truncate text-gray-700 dark:text-gray-300">{derivative.name}</span>
                 <Badge variant="outline" className="text-xs">
                   {new Date(derivative.created_at).toLocaleDateString()}
                 </Badge>

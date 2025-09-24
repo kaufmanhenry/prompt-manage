@@ -30,22 +30,13 @@ export default function CopyButton({ text, label }: CopyButtonProps) {
       size="icon"
       className={cn(
         'hover:bg-muted',
-        label &&
-          'flex items-center gap-2 w-full bg-accent px-2 py-1 rounded-lg',
-        !label && 'h-8 w-8'
+        label && 'flex items-center gap-2 w-full bg-accent px-2 py-1 rounded-lg',
+        !label && 'h-8 w-8',
       )}
       onClick={handleCopy}
     >
-      {copied ? (
-        <Check className="size-4 text-green-500" />
-      ) : (
-        <Copy className="size-4" />
-      )}
-      {label && (
-        <span className="text-sm font-medium">
-          {copied ? 'Copied!' : label}
-        </span>
-      )}
+      {copied ? <Check className="size-4 text-green-500" /> : <Copy className="size-4" />}
+      {label && <span className="text-sm font-medium">{copied ? 'Copied!' : label}</span>}
       <span className="sr-only">Copy to clipboard</span>
     </Button>
   )

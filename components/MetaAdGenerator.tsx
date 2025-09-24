@@ -1,14 +1,6 @@
 'use client'
 
-import {
-  AlertCircle,
-  CheckCircle2,
-  Copy,
-  Download,
-  Loader2,
-  Sparkles,
-  Wand2,
-} from 'lucide-react'
+import { AlertCircle, CheckCircle2, Copy, Download, Loader2, Sparkles, Wand2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -48,13 +40,7 @@ const RECOMMENDED_LIMITS = {
 
 const TONES = ['Confident', 'Friendly', 'Direct', 'Playful', 'Urgent']
 const CTAS = ['Shop Now', 'Learn More', 'Sign Up', 'Get Offer', 'Subscribe']
-const ANGLES = [
-  'Discount',
-  'Social Proof',
-  'Urgency',
-  'Benefits',
-  'Problem/Solution',
-]
+const ANGLES = ['Discount', 'Social Proof', 'Urgency', 'Benefits', 'Problem/Solution']
 
 function clampToLimit(text: string, limit: number): string {
   if (text.length <= limit) return text
@@ -71,7 +57,7 @@ function charBadge(text: string, limit: number) {
     <span
       className={cn(
         'px-1.5 py-0.5 rounded text-[10px]',
-        isOk ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+        isOk ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700',
       )}
     >
       {isOk ? `${remaining} left` : `${Math.abs(remaining)} over`}
@@ -83,13 +69,9 @@ function toCsv(rows: GeneratedAd[]): string {
   const headers = ['Variant', 'Primary Text', 'Headline', 'Description', 'CTA']
   const lines = [headers.join(',')]
   for (const r of rows) {
-    const cells = [
-      r.variant,
-      r.primaryText,
-      r.headline,
-      r.description,
-      r.cta,
-    ].map((v) => '"' + String(v).replace(/"/g, '""') + '"')
+    const cells = [r.variant, r.primaryText, r.headline, r.description, r.cta].map(
+      (v) => '"' + String(v).replace(/"/g, '""') + '"',
+    )
     lines.push(cells.join(','))
   }
   return lines.join('\n')
@@ -106,14 +88,10 @@ function download(filename: string, content: string) {
 }
 
 export default function MetaAdGenerator() {
-  const [offer, setOffer] = useState(
-    'Prompt Manage – organize, test, and share prompts'
-  )
-  const [audience, setAudience] = useState(
-    'Performance marketers running Meta ads at scale'
-  )
+  const [offer, setOffer] = useState('Prompt Manage – organize, test, and share prompts')
+  const [audience, setAudience] = useState('Performance marketers running Meta ads at scale')
   const [benefit, setBenefit] = useState(
-    'Ship high-performing ads faster with consistent, on-brand copy'
+    'Ship high-performing ads faster with consistent, on-brand copy',
   )
   const [tone, setTone] = useState<string>('Confident')
   const [angles, setAngles] = useState<string[]>(['Benefits', 'Urgency'])
@@ -123,21 +101,16 @@ export default function MetaAdGenerator() {
   const [rows, setRows] = useState<GeneratedAd[]>([])
 
   function toggleAngle(a: string) {
-    setAngles((prev) =>
-      prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
-    )
+    setAngles((prev) => (prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]))
   }
 
   function buildPrimaryText() {
     const pieces: string[] = []
     pieces.push(offer)
     if (angles.includes('Benefits')) pieces.push(benefit)
-    if (angles.includes('Social Proof'))
-      pieces.push('Teams like Acme trust us to scale creative')
-    if (angles.includes('Discount'))
-      pieces.push('Limited-time pricing for growth teams')
-    if (angles.includes('Urgency'))
-      pieces.push('Launch faster—stop waiting on copy')
+    if (angles.includes('Social Proof')) pieces.push('Teams like Acme trust us to scale creative')
+    if (angles.includes('Discount')) pieces.push('Limited-time pricing for growth teams')
+    if (angles.includes('Urgency')) pieces.push('Launch faster—stop waiting on copy')
     if (angles.includes('Problem/Solution'))
       pieces.push('Stop ad fatigue: keep variants fresh without the chaos')
     const base = pieces.join('. ')
@@ -201,9 +174,9 @@ export default function MetaAdGenerator() {
         (r) =>
           r.primaryText.length <= RECOMMENDED_LIMITS.primaryText &&
           r.headline.length <= RECOMMENDED_LIMITS.headline &&
-          r.description.length <= RECOMMENDED_LIMITS.description
+          r.description.length <= RECOMMENDED_LIMITS.description,
       ),
-    [rows]
+    [rows],
   )
 
   return (
@@ -219,16 +192,13 @@ export default function MetaAdGenerator() {
           </span>
         </div>
         <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-          <Sparkles className="h-3.5 w-3.5" /> Results follow Meta’s recommended
-          limits
+          <Sparkles className="h-3.5 w-3.5" /> Results follow Meta’s recommended limits
         </div>
       </div>
 
       <div className="space-y-3">
         <div>
-          <label className="text-xs text-gray-600 dark:text-gray-300">
-            Offer
-          </label>
+          <label className="text-xs text-gray-600 dark:text-gray-300">Offer</label>
           <Input
             value={offer}
             onChange={(e) => setOffer(e.target.value)}
@@ -236,9 +206,7 @@ export default function MetaAdGenerator() {
           />
         </div>
         <div>
-          <label className="text-xs text-gray-600 dark:text-gray-300">
-            Audience
-          </label>
+          <label className="text-xs text-gray-600 dark:text-gray-300">Audience</label>
           <Input
             value={audience}
             onChange={(e) => setAudience(e.target.value)}
@@ -246,9 +214,7 @@ export default function MetaAdGenerator() {
           />
         </div>
         <div>
-          <label className="text-xs text-gray-600 dark:text-gray-300">
-            Key Benefit
-          </label>
+          <label className="text-xs text-gray-600 dark:text-gray-300">Key Benefit</label>
           <Textarea
             value={benefit}
             onChange={(e) => setBenefit(e.target.value)}
@@ -258,9 +224,7 @@ export default function MetaAdGenerator() {
         </div>
         <div className="flex items-center gap-2">
           <div className="flex-1">
-            <label className="text-xs text-gray-600 dark:text-gray-300">
-              Tone
-            </label>
+            <label className="text-xs text-gray-600 dark:text-gray-300">Tone</label>
             <Select value={tone} onValueChange={setTone}>
               <SelectTrigger className="h-8">
                 <SelectValue placeholder="Tone" />
@@ -275,9 +239,7 @@ export default function MetaAdGenerator() {
             </Select>
           </div>
           <div className="flex-1">
-            <label className="text-xs text-gray-600 dark:text-gray-300">
-              CTA
-            </label>
+            <label className="text-xs text-gray-600 dark:text-gray-300">CTA</label>
             <Select value={cta} onValueChange={setCta}>
               <SelectTrigger className="h-8">
                 <SelectValue placeholder="CTA" />
@@ -292,9 +254,7 @@ export default function MetaAdGenerator() {
             </Select>
           </div>
           <div className="w-[90px]">
-            <label className="text-xs text-gray-600 dark:text-gray-300">
-              Variants
-            </label>
+            <label className="text-xs text-gray-600 dark:text-gray-300">Variants</label>
             <Input
               type="number"
               className="h-8"
@@ -307,9 +267,7 @@ export default function MetaAdGenerator() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs text-gray-600 dark:text-gray-300">
-            Angles
-          </label>
+          <label className="mb-1 block text-xs text-gray-600 dark:text-gray-300">Angles</label>
           <div className="flex flex-wrap gap-2">
             {ANGLES.map((a) => (
               <Button
@@ -367,13 +325,8 @@ export default function MetaAdGenerator() {
                       <TableCell className="text-[11px]">{r.variant}</TableCell>
                       <TableCell className="align-top text-[11px]">
                         <div className="flex items-start justify-between gap-2">
-                          <div className="whitespace-pre-wrap">
-                            {r.primaryText}
-                          </div>
-                          {charBadge(
-                            r.primaryText,
-                            RECOMMENDED_LIMITS.primaryText
-                          )}
+                          <div className="whitespace-pre-wrap">{r.primaryText}</div>
+                          {charBadge(r.primaryText, RECOMMENDED_LIMITS.primaryText)}
                         </div>
                       </TableCell>
                       <TableCell className="align-top text-[11px]">
@@ -385,10 +338,7 @@ export default function MetaAdGenerator() {
                       <TableCell className="align-top text-[11px]">
                         <div className="flex items-start justify-between gap-2">
                           <div>{r.description}</div>
-                          {charBadge(
-                            r.description,
-                            RECOMMENDED_LIMITS.description
-                          )}
+                          {charBadge(r.description, RECOMMENDED_LIMITS.description)}
                         </div>
                       </TableCell>
                       <TableCell className="text-[11px]">{r.cta}</TableCell>
@@ -397,9 +347,7 @@ export default function MetaAdGenerator() {
                           size="sm"
                           variant="ghost"
                           onClick={() =>
-                            copyText(
-                              `${r.primaryText}\n${r.headline}\n${r.description}\n${r.cta}`
-                            )
+                            copyText(`${r.primaryText}\n${r.headline}\n${r.description}\n${r.cta}`)
                           }
                         >
                           <Copy className="h-3.5 w-3.5" />
@@ -415,18 +363,17 @@ export default function MetaAdGenerator() {
             <div
               className={cn(
                 'text-xs flex items-center gap-2',
-                allValid ? 'text-emerald-600' : 'text-red-600'
+                allValid ? 'text-emerald-600' : 'text-red-600',
               )}
             >
               {allValid ? (
                 <>
-                  <CheckCircle2 className="h-4 w-4" /> All within recommended
-                  limits
+                  <CheckCircle2 className="h-4 w-4" /> All within recommended limits
                 </>
               ) : (
                 <>
-                  <AlertCircle className="h-4 w-4" /> Some variants exceed
-                  limits—edit or trim before launching
+                  <AlertCircle className="h-4 w-4" /> Some variants exceed limits—edit or trim
+                  before launching
                 </>
               )}
             </div>

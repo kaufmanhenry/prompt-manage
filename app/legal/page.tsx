@@ -6,9 +6,8 @@ export default function LegalPage() {
     <div className="mx-auto max-w-2xl space-y-8 px-4 py-12">
       <h1 className="mb-4 text-3xl font-bold">Legal & Compliance</h1>
       <p className="mb-6 text-base text-gray-700 dark:text-gray-200">
-        Prompt Manage is committed to transparency, security, and compliance.
-        Below you will find links to our key legal and policy documents. For
-        legal inquiries, contact{' '}
+        Prompt Manage is committed to transparency, security, and compliance. Below you will find
+        links to our key legal and policy documents. For legal inquiries, contact{' '}
         <a href="mailto:legal@promptmanage.com" className="underline">
           legal@promptmanage.com
         </a>
@@ -32,8 +31,7 @@ export default function LegalPage() {
         </li>
       </ul>
       <p className="mt-8 text-xs text-gray-500">
-        Prompt Manage, Boston, MA (Suffolk County) &copy;{' '}
-        {new Date().getFullYear()}
+        Prompt Manage, Boston, MA (Suffolk County) &copy; {new Date().getFullYear()}
       </p>
     </div>
   )

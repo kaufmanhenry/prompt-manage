@@ -97,10 +97,7 @@ const form = useForm<Prompt>({
 ```typescript
 // Update existing prompt
 if (prompt?.id) {
-  const { error } = await createClient()
-    .from('prompts')
-    .update(promptData)
-    .eq('id', prompt.id)
+  const { error } = await createClient().from('prompts').update(promptData).eq('id', prompt.id)
 }
 ```
 

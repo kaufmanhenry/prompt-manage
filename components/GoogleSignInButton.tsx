@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useState } from 'react'
 
@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/utils/supabase/client'
 
-interface GoogleSignInButtonProps
-  extends React.ComponentProps<typeof Button> {
+interface GoogleSignInButtonProps extends React.ComponentProps<typeof Button> {
   redirectPath?: string
 }
 
@@ -56,9 +55,7 @@ export function GoogleSignInButton({
 
   return (
     <Button onClick={handleClick} disabled={disabled || loading} {...buttonProps}>
-      {loading ? 'Redirecting…' : children ?? 'Sign in with Google'}
+      {loading ? 'Redirecting…' : (children ?? 'Sign in with Google')}
     </Button>
   )
 }
-
-

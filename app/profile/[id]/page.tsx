@@ -5,13 +5,7 @@ import { notFound } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { createClient } from '@/utils/supabase/server'
 
 interface UserProfile {
@@ -41,18 +35,12 @@ interface UserProfilePageProps {
 }
 
 // Generate metadata for the user profile page
-export async function generateMetadata({
-  params,
-}: UserProfilePageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: UserProfilePageProps): Promise<Metadata> {
   const { id } = await params
   const supabase = await createClient()
 
   try {
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('*')
-      .eq('id', id)
-      .single()
+    const { data: profile } = await supabase.from('user_profiles').select('*').eq('id', id).single()
 
     if (!profile) {
       return {
@@ -68,15 +56,9 @@ export async function generateMetadata({
     const userProfile = profile as UserProfile
     const displayName = userProfile.display_name || 'Anonymous User'
     const description =
-      userProfile.bio ||
-      `View ${displayName}'s public AI prompts and profile on Prompt Manage.`
+      userProfile.bio || `View ${displayName}'s public AI prompts and profile on Prompt Manage.`
 
-    const keywords = [
-      'AI prompts',
-      'prompt sharing',
-      displayName,
-      'Prompt Manage user',
-    ].join(', ')
+    const keywords = ['AI prompts', 'prompt sharing', displayName, 'Prompt Manage user'].join(', ')
 
     return {
       title: `${displayName} - User Profile | Prompt Manage`,
@@ -141,11 +123,7 @@ export async function generateMetadata({
   }
 }
 
-export default async function UserProfilePage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
+export default async function UserProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
 
@@ -194,8 +172,7 @@ export default async function UserProfilePage({
             <div className="flex items-start gap-6">
               <div className="flex-shrink-0">
                 <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-2xl font-semibold text-primary">
-                  {userProfile.display_name?.[0]?.toUpperCase() ||
-                    userProfile.id[0].toUpperCase()}
+                  {userProfile.display_name?.[0]?.toUpperCase() || userProfile.id[0].toUpperCase()}
                 </div>
               </div>
               <div className="min-w-0 flex-1">
@@ -203,9 +180,7 @@ export default async function UserProfilePage({
                   {userProfile.display_name || 'Anonymous User'}
                 </h1>
                 {userProfile.bio && (
-                  <p className="mb-4 text-lg text-gray-600 dark:text-gray-400">
-                    {userProfile.bio}
-                  </p>
+                  <p className="mb-4 text-lg text-gray-600 dark:text-gray-400">{userProfile.bio}</p>
                 )}
                 <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                   {userProfile.location && (
@@ -226,10 +201,7 @@ export default async function UserProfilePage({
                       <ExternalLink className="h-3 w-3" />
                     </a>
                   )}
-                  <div>
-                    Member since{' '}
-                    {new Date(userProfile.created_at).toLocaleDateString()}
-                  </div>
+                  <div>Member since {new Date(userProfile.created_at).toLocaleDateString()}</div>
                 </div>
               </div>
             </div>
@@ -255,10 +227,7 @@ export default async function UserProfilePage({
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {userPrompts.map((prompt) => (
-                <Card
-                  key={prompt.id}
-                  className="transition-shadow hover:shadow-md"
-                >
+                <Card key={prompt.id} className="transition-shadow hover:shadow-md">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <CardTitle className="line-clamp-2 text-lg">
@@ -288,11 +257,7 @@ export default async function UserProfilePage({
                     {prompt.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {prompt.tags.slice(0, 3).map((tag) => (
-                          <Badge
-                            key={tag}
-                            variant="outline"
-                            className="text-xs"
-                          >
+                          <Badge key={tag} variant="outline" className="text-xs">
                             {tag}
                           </Badge>
                         ))}

@@ -38,8 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Public Prompts Directory - Discover AI Prompts',
-    description:
-      'Browse and discover hundreds of AI prompts shared by the community.',
+    description: 'Browse and discover hundreds of AI prompts shared by the community.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -56,10 +55,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return children
 }

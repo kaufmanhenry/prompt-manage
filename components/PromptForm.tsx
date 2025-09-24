@@ -161,9 +161,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         })
       } else {
         // Create new prompt
-        const { error } = await createClient()
-          .from('prompts')
-          .insert(promptData)
+        const { error } = await createClient().from('prompts').insert(promptData)
 
         if (error) throw error
 
@@ -271,9 +269,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormDescription>
-                    Choose the AI model that will use this prompt.
-                  </FormDescription>
+                  <FormDescription>Choose the AI model that will use this prompt.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -328,8 +324,8 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                   />
                   <FormMessage />
                   <FormDescription>
-                    Select from your existing tags or create new ones. Tags help
-                    organize and find your prompts.
+                    Select from your existing tags or create new ones. Tags help organize and find
+                    your prompts.
                   </FormDescription>
                 </FormItem>
               )}
@@ -347,10 +343,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       </FormDescription>
                     </div>
                     <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                     <FormMessage />
                   </div>
@@ -358,11 +351,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
               )}
             />
             <div className="z-5 sticky -bottom-6 flex justify-end gap-2 border-t bg-background py-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => onOpenChange(false)}
-              >
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
               <Button
@@ -370,11 +359,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 disabled={loading || !session?.user?.id}
                 data-testid="submit-prompt"
               >
-                {loading
-                  ? 'Saving...'
-                  : prompt
-                    ? 'Update Prompt'
-                    : 'Create Prompt'}
+                {loading ? 'Saving...' : prompt ? 'Update Prompt' : 'Create Prompt'}
               </Button>
             </div>
           </form>

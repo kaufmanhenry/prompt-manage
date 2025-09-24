@@ -2,7 +2,6 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { Check, Copy } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -28,7 +27,6 @@ export function CopyPromptButton({
   const [copied, setCopied] = useState(false)
   const { toast } = useToast()
   const { navigateToPrompt } = usePromptRouting()
-  const router = useRouter()
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -53,7 +51,7 @@ export function CopyPromptButton({
           promptId,
           promptName,
           redirectUrl: window.location.href,
-        })
+        }),
       )
       await createClient().auth.signInWithOAuth({
         provider: 'google',
@@ -103,8 +101,7 @@ export function CopyPromptButton({
       console.error('Copy prompt error:', error)
       toast({
         title: 'Error',
-        description:
-          error instanceof Error ? error.message : 'Failed to copy prompt',
+        description: error instanceof Error ? error.message : 'Failed to copy prompt',
         variant: 'destructive',
       })
     } finally {

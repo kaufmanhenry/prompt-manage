@@ -72,9 +72,7 @@ export default function PrivacyPage() {
               Back to Home
             </Button>
           </Link>
-          <h1 className="mb-8 text-4xl font-bold text-gray-900 dark:text-white">
-            Privacy Policy
-          </h1>
+          <h1 className="mb-8 text-4xl font-bold text-gray-900 dark:text-white">Privacy Policy</h1>
           <p className="mb-6 text-gray-700 dark:text-gray-300">
             <strong>Last Updated: June 24, 2025</strong>
           </p>
@@ -84,10 +82,9 @@ export default function PrivacyPage() {
         <div className="rounded-lg bg-white p-8 shadow-sm dark:bg-gray-800">
           <div className="prose prose-gray dark:prose-invert max-w-none">
             <p className="mb-6 text-gray-700 dark:text-gray-300">
-              This Privacy Policy describes how Prompt Manage
-              (&ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or
-              &ldquo;our&rdquo;) collects, uses, discloses, and protects your
-              information when you use our website and services. By accessing or
+              This Privacy Policy describes how Prompt Manage (&ldquo;Company&rdquo;,
+              &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, discloses,
+              and protects your information when you use our website and services. By accessing or
               using our services, you agree to the terms of this Privacy Policy.
             </p>
 
@@ -98,8 +95,8 @@ export default function PrivacyPage() {
               Personal Information
             </h3>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              We collect information you provide directly to us, such as when
-              you create an account, including:
+              We collect information you provide directly to us, such as when you create an account,
+              including:
             </p>
             <ul className="mb-4 list-disc space-y-1 pl-6 text-gray-700 dark:text-gray-300">
               <li>Name and email address</li>
@@ -111,8 +108,7 @@ export default function PrivacyPage() {
               Usage Information
             </h3>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              We automatically collect certain information about your use of our
-              services:
+              We automatically collect certain information about your use of our services:
             </p>
             <ul className="mb-4 list-disc space-y-1 pl-6 text-gray-700 dark:text-gray-300">
               <li>IP address and device information</li>
@@ -125,8 +121,7 @@ export default function PrivacyPage() {
               2. How We Use Your Information
             </h2>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              We use the information we collect to provide, maintain, and
-              improve our services:
+              We use the information we collect to provide, maintain, and improve our services:
             </p>
             <ul className="mb-4 list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
               <li>Provide and personalize our services</li>
@@ -141,37 +136,31 @@ export default function PrivacyPage() {
               3. Use of AI Services (Free vs. Paid Accounts)
             </h2>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              Prompt Manage integrates with third-party artificial intelligence
-              services provided by OpenAI, L.L.C. (&ldquo;OpenAI&rdquo;). For{' '}
-              <strong>free account users</strong>, some content you submit
-              (referred to as &ldquo;Input&rdquo;) may be shared with OpenAI as
-              &ldquo;Designated Content&rdquo; and used for research,
-              evaluation, model training, and improvement of OpenAI&rsquo;s
-              services. OpenAI processes this content as an{' '}
+              Prompt Manage integrates with third-party artificial intelligence services provided by
+              OpenAI, L.L.C. (&ldquo;OpenAI&rdquo;). For <strong>free account users</strong>, some
+              content you submit (referred to as &ldquo;Input&rdquo;) may be shared with OpenAI as
+              &ldquo;Designated Content&rdquo; and used for research, evaluation, model training,
+              and improvement of OpenAI&rsquo;s services. OpenAI processes this content as an{' '}
               <strong>independent data controller</strong>, and it is{' '}
-              <strong>
-                not subject to the same protections as paid account content
-              </strong>
-              .
+              <strong>not subject to the same protections as paid account content</strong>.
             </p>
             <ul className="mb-4 list-disc pl-6 text-sm text-gray-700 dark:text-gray-300">
               <li>
-                Do not submit confidential, proprietary, or sensitive content
-                through a free account. This includes:
+                Do not submit confidential, proprietary, or sensitive content through a free
+                account. This includes:
               </li>
               <li>Protected Health Information (as defined by HIPAA)</li>
               <li>Information related to children under 13 years old</li>
               <li>Any content you do not have the legal right to submit</li>
             </ul>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              For <strong>paid accounts</strong>, Input is not shared with
-              OpenAI for model training or development. Enhanced privacy
-              protections and data control apply under our commercial agreements
-              with OpenAI.
+              For <strong>paid accounts</strong>, Input is not shared with OpenAI for model training
+              or development. Enhanced privacy protections and data control apply under our
+              commercial agreements with OpenAI.
             </p>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              By using Prompt Manage, you confirm that you are at least 18 years
-              of age. If you have questions, contact{' '}
+              By using Prompt Manage, you confirm that you are at least 18 years of age. If you have
+              questions, contact{' '}
               <a
                 href="mailto:support@promptmanage.com"
                 className="text-blue-600 hover:underline dark:text-blue-400"
@@ -188,43 +177,40 @@ export default function PrivacyPage() {
               Public Content
             </h3>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              When you choose to share prompts publicly, they become visible to
-              anyone with the link. You control what content is shared and can
-              make it private again at any time.
+              When you choose to share prompts publicly, they become visible to anyone with the
+              link. You control what content is shared and can make it private again at any time.
             </p>
             <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
               Service Providers
             </h3>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              We may share information with trusted service providers who help
-              us operate our platform, such as hosting providers and analytics
-              services.
+              We may share information with trusted service providers who help us operate our
+              platform, such as hosting providers and analytics services.
             </p>
             <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
               Legal Requirements
             </h3>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              We may disclose information if required by law or to protect our
-              rights, property, or safety, or that of our users.
+              We may disclose information if required by law or to protect our rights, property, or
+              safety, or that of our users.
             </p>
 
             <h2 className="mb-4 mt-8 text-2xl font-semibold text-gray-900 dark:text-white">
               5. Data Security
             </h2>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              We implement reasonable security measures to protect your
-              information from unauthorized access, disclosure, alteration, or
-              destruction. However, no method of transmission over the Internet
-              or electronic storage is 100% secure, and we cannot guarantee
-              absolute security.
+              We implement reasonable security measures to protect your information from
+              unauthorized access, disclosure, alteration, or destruction. However, no method of
+              transmission over the Internet or electronic storage is 100% secure, and we cannot
+              guarantee absolute security.
             </p>
 
             <h2 className="mb-4 mt-8 text-2xl font-semibold text-gray-900 dark:text-white">
               6. Your Rights and Choices
             </h2>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              You may access, update, or delete your personal information by
-              logging into your account or contacting us at{' '}
+              You may access, update, or delete your personal information by logging into your
+              account or contacting us at{' '}
               <a
                 href="mailto:support@promptmanage.com"
                 className="text-blue-600 hover:underline dark:text-blue-400"
@@ -238,28 +224,25 @@ export default function PrivacyPage() {
               7. Children&apos;s Privacy
             </h2>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              Our services are not intended for children under 13. We do not
-              knowingly collect personal information from children under 13. If
-              you believe we have collected such information, please contact us
-              so we can take appropriate action.
+              Our services are not intended for children under 13. We do not knowingly collect
+              personal information from children under 13. If you believe we have collected such
+              information, please contact us so we can take appropriate action.
             </p>
 
             <h2 className="mb-4 mt-8 text-2xl font-semibold text-gray-900 dark:text-white">
               8. Changes to This Privacy Policy
             </h2>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              We may update this Privacy Policy from time to time. If we make
-              material changes, we will notify you by email or through our
-              services. Your continued use of Prompt Manage after changes are
-              posted constitutes your acceptance of the revised policy.
+              We may update this Privacy Policy from time to time. If we make material changes, we
+              will notify you by email or through our services. Your continued use of Prompt Manage
+              after changes are posted constitutes your acceptance of the revised policy.
             </p>
 
             <h2 className="mb-4 mt-8 text-2xl font-semibold text-gray-900 dark:text-white">
               9. Contact Us
             </h2>
             <p className="mb-4 text-gray-700 dark:text-gray-300">
-              If you have any questions about this Privacy Policy, please
-              contact us:
+              If you have any questions about this Privacy Policy, please contact us:
             </p>
             <p className="mb-6 text-gray-700 dark:text-gray-300">
               By email:{' '}
@@ -277,18 +260,12 @@ export default function PrivacyPage() {
               </h3>
               <ul className="list-disc space-y-1 pl-6 text-gray-700 dark:text-gray-300">
                 <li>
-                  <a
-                    href="/terms"
-                    className="text-blue-600 underline dark:text-blue-400"
-                  >
+                  <a href="/terms" className="text-blue-600 underline dark:text-blue-400">
                     Terms of Service
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/dmca"
-                    className="text-blue-600 underline dark:text-blue-400"
-                  >
+                  <a href="/dmca" className="text-blue-600 underline dark:text-blue-400">
                     DMCA Policy
                   </a>
                 </li>

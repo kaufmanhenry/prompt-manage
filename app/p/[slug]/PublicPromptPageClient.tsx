@@ -21,12 +21,7 @@ import { RelatedPrompts } from '@/components/RelatedPrompts'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { FullPageLoading } from '@/components/ui/loading'
 import { useToast } from '@/components/ui/use-toast'
 import type { PublicPrompt } from '@/lib/schemas/prompt'
@@ -38,9 +33,7 @@ interface PublicPromptPageClientProps {
   }
 }
 
-export function PublicPromptPageClient({
-  params,
-}: PublicPromptPageClientProps) {
+export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) {
   const [prompt, setPrompt] = useState<PublicPrompt | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -113,10 +106,7 @@ export function PublicPromptPageClient({
   const handleShareToX = () => {
     const url = encodeURIComponent(window.location.href)
     const text = encodeURIComponent(prompt?.name || 'Check out this prompt!')
-    window.open(
-      `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
-      '_blank'
-    )
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
   }
 
   const handleShareToLinkedIn = () => {
@@ -124,7 +114,7 @@ export function PublicPromptPageClient({
     const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
     window.open(
       `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`,
-      '_blank'
+      '_blank',
     )
   }
 
@@ -136,10 +126,7 @@ export function PublicPromptPageClient({
   const handleShareToReddit = () => {
     const url = encodeURIComponent(window.location.href)
     const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
-    window.open(
-      `https://www.reddit.com/submit?url=${url}&title=${title}`,
-      '_blank'
-    )
+    window.open(`https://www.reddit.com/submit?url=${url}&title=${title}`, '_blank')
   }
 
   if (loading) {
@@ -185,9 +172,7 @@ export function PublicPromptPageClient({
                 {prompt.name}
               </h1>
               {prompt.description && (
-                <p className="mb-4 text-gray-600 dark:text-gray-400">
-                  {prompt.description}
-                </p>
+                <p className="mb-4 text-gray-600 dark:text-gray-400">{prompt.description}</p>
               )}
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                 <div className="flex items-center gap-1 rounded-lg bg-input/70 px-2 py-1">
@@ -197,9 +182,7 @@ export function PublicPromptPageClient({
                 {prompt.updated_at && (
                   <div className="flex items-center gap-1 rounded-lg bg-input/70 px-2 py-1">
                     <Calendar className="h-4 w-4" />
-                    <span>
-                      Updated {new Date(prompt.updated_at).toLocaleDateString()}
-                    </span>
+                    <span>Updated {new Date(prompt.updated_at).toLocaleDateString()}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-1 rounded-lg bg-input/70 px-2 py-1">
@@ -210,16 +193,8 @@ export function PublicPromptPageClient({
             </div>
 
             <div className="flex items-center gap-2">
-              {prompt.id && (
-                <CopyPromptButton
-                  promptId={prompt.id}
-                  promptName={prompt.name}
-                />
-              )}
-              <Button
-                onClick={() => setShowShareDialog(true)}
-                variant="outline"
-              >
+              {prompt.id && <CopyPromptButton promptId={prompt.id} promptName={prompt.name} />}
+              <Button onClick={() => setShowShareDialog(true)} variant="outline">
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Share
               </Button>
@@ -286,23 +261,15 @@ export function PublicPromptPageClient({
                 <span className="font-medium">{prompt.view_count}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">
-                  Created
-                </span>
+                <span className="text-gray-600 dark:text-gray-400">Created</span>
                 <span className="font-medium">
-                  {prompt.inserted_at
-                    ? new Date(prompt.inserted_at).toLocaleDateString()
-                    : '—'}
+                  {prompt.inserted_at ? new Date(prompt.inserted_at).toLocaleDateString() : '—'}
                 </span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">
-                  Last Updated
-                </span>
+                <span className="text-gray-600 dark:text-gray-400">Last Updated</span>
                 <span className="font-medium">
-                  {prompt.updated_at
-                    ? new Date(prompt.updated_at).toLocaleDateString()
-                    : '—'}
+                  {prompt.updated_at ? new Date(prompt.updated_at).toLocaleDateString() : '—'}
                 </span>
               </div>
             </CardContent>
@@ -324,10 +291,7 @@ export function PublicPromptPageClient({
               <DialogTitle>Share this Prompt</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
-              <Button
-                onClick={handleCopyLink}
-                className="flex w-full items-center gap-2"
-              >
+              <Button onClick={handleCopyLink} className="flex w-full items-center gap-2">
                 <Share2 className="h-4 w-4" /> Copy Link
               </Button>
               <Button

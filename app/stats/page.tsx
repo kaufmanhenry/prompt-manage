@@ -68,9 +68,7 @@ export default function StatsPage() {
         const data = await response.json()
         setStats(data)
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Failed to load statistics'
-        )
+        setError(err instanceof Error ? err.message : 'Failed to load statistics')
       } finally {
         setIsLoading(false)
       }
@@ -105,13 +103,7 @@ export default function StatsPage() {
     }
   }
 
-  const StatCard = ({
-    title,
-    value,
-    icon: Icon,
-    description,
-    trend,
-  }: StatCardProps) => (
+  const StatCard = ({ title, value, icon: Icon, description, trend }: StatCardProps) => (
     <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
       <div className="mb-4 flex items-center justify-between">
         <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900">
@@ -132,18 +124,12 @@ export default function StatsPage() {
       </h3>
       <p className="text-sm text-gray-600 dark:text-gray-400">{title}</p>
       {description && (
-        <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
-          {description}
-        </p>
+        <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">{description}</p>
       )}
     </div>
   )
 
-  const DailyPromptsChart = ({
-    data,
-  }: {
-    data: Array<{ date: string; count: number }>
-  }) => {
+  const DailyPromptsChart = ({ data }: { data: Array<{ date: string; count: number }> }) => {
     if (!data || data.length === 0) return null
 
     const maxCount = Math.max(...data.map((d) => d.count))
@@ -156,8 +142,7 @@ export default function StatsPage() {
 
     const points = data.map((point, index) => {
       const x = padding + index * pointSpacing
-      const y =
-        padding + availableHeight - (point.count / maxCount) * availableHeight
+      const y = padding + availableHeight - (point.count / maxCount) * availableHeight
       return { x, y, ...point }
     })
 
@@ -274,27 +259,19 @@ export default function StatsPage() {
             <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
               {Math.max(...data.map((d) => d.count))}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              Peak Day
-            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Peak Day</div>
           </div>
           <div>
             <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-              {Math.round(
-                data.reduce((sum, d) => sum + d.count, 0) / data.length
-              )}
+              {Math.round(data.reduce((sum, d) => sum + d.count, 0) / data.length)}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              Daily Average
-            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Daily Average</div>
           </div>
           <div>
             <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
               {data.reduce((sum, d) => sum + d.count, 0)}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              Total in Period
-            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Total in Period</div>
           </div>
         </div>
       </div>
@@ -306,9 +283,7 @@ export default function StatsPage() {
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
           <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
-          <p className="text-gray-600 dark:text-gray-400">
-            Loading live stats...
-          </p>
+          <p className="text-gray-600 dark:text-gray-400">Loading live stats...</p>
         </div>
       </div>
     )
@@ -318,9 +293,7 @@ export default function StatsPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
-          <p className="mb-4 text-red-600 dark:text-red-400">
-            Error loading statistics
-          </p>
+          <p className="mb-4 text-red-600 dark:text-red-400">Error loading statistics</p>
           <p className="text-sm text-gray-600 dark:text-gray-400">{error}</p>
         </div>
       </div>
@@ -331,9 +304,7 @@ export default function StatsPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
-          <p className="text-gray-600 dark:text-gray-400">
-            No statistics available
-          </p>
+          <p className="text-gray-600 dark:text-gray-400">No statistics available</p>
         </div>
       </div>
     )
@@ -348,8 +319,8 @@ export default function StatsPage() {
             Prompt Manage Stats
           </h1>
           <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-600 dark:text-gray-300">
-            Real-time statistics and insights from the world&rsquo;s leading AI
-            prompt management platform
+            Real-time statistics and insights from the world&rsquo;s leading AI prompt management
+            platform
           </p>
           <div className="flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
             <Clock className="h-4 w-4" />
@@ -401,33 +372,25 @@ export default function StatsPage() {
               <div className="mb-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
                 {stats.realTimeStats.promptsCreatedToday}
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Prompts Created Today
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Prompts Created Today</p>
             </div>
             <div className="text-center">
               <div className="mb-2 text-3xl font-bold text-green-600 dark:text-green-400">
                 {stats.realTimeStats.usersActiveNow}
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Users Active Now
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Users Active Now</p>
             </div>
             <div className="text-center">
               <div className="mb-2 text-3xl font-bold text-purple-600 dark:text-purple-400">
                 {formatNumber(stats.realTimeStats.runsInLastHour)}
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Runs in Last Hour
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Runs in Last Hour</p>
             </div>
             <div className="text-center">
               <div className="mb-2 text-3xl font-bold text-orange-600 dark:text-orange-400">
                 {stats.realTimeStats.newSignupsToday}
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                New Signups Today
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">New Signups Today</p>
             </div>
           </div>
         </div>
@@ -442,9 +405,7 @@ export default function StatsPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Download className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                  <span className="text-gray-700 dark:text-gray-300">
-                    Prompts Saved
-                  </span>
+                  <span className="text-gray-700 dark:text-gray-300">Prompts Saved</span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalSaves)}
@@ -453,9 +414,7 @@ export default function StatsPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <GitBranch className="h-5 w-5 text-green-600 dark:text-green-400" />
-                  <span className="text-gray-700 dark:text-gray-300">
-                    Prompts Remixed
-                  </span>
+                  <span className="text-gray-700 dark:text-gray-300">Prompts Remixed</span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalRemixes)}
@@ -464,9 +423,7 @@ export default function StatsPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Share2 className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                  <span className="text-gray-700 dark:text-gray-300">
-                    Prompts Copied
-                  </span>
+                  <span className="text-gray-700 dark:text-gray-300">Prompts Copied</span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalCopies)}
@@ -475,9 +432,7 @@ export default function StatsPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Heart className="h-5 w-5 text-red-600 dark:text-red-400" />
-                  <span className="text-gray-700 dark:text-gray-300">
-                    Total Likes
-                  </span>
+                  <span className="text-gray-700 dark:text-gray-300">Total Likes</span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalLikes)}
@@ -486,9 +441,7 @@ export default function StatsPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Share2 className="h-5 w-5 text-orange-600 dark:text-orange-400" />
-                  <span className="text-gray-700 dark:text-gray-300">
-                    Total Shares
-                  </span>
+                  <span className="text-gray-700 dark:text-gray-300">Total Shares</span>
                 </div>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   {formatNumber(stats.totalShares)}
@@ -503,33 +456,25 @@ export default function StatsPage() {
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">
-                  New Prompts
-                </span>
+                <span className="text-gray-700 dark:text-gray-300">New Prompts</span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   +{formatNumber(stats.growthMetrics.promptsThisMonth)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">
-                  New Users
-                </span>
+                <span className="text-gray-700 dark:text-gray-300">New Users</span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   +{formatNumber(stats.growthMetrics.usersThisMonth)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">
-                  Prompt Runs
-                </span>
+                <span className="text-gray-700 dark:text-gray-300">Prompt Runs</span>
                 <span className="font-semibold text-gray-900 dark:text-white">
                   +{formatNumber(stats.growthMetrics.runsThisMonth)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">
-                  Growth Rate
-                </span>
+                <span className="text-gray-700 dark:text-gray-300">Growth Rate</span>
                 <span className="font-semibold text-green-600 dark:text-green-400">
                   +{stats.growthMetrics.growthRate}%
                 </span>
@@ -558,17 +503,12 @@ export default function StatsPage() {
               </h3>
               <div className="space-y-3">
                 {stats.topCountries.map((country, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
+                  <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-medium text-gray-900 dark:text-white">
                         {index + 1}.
                       </span>
-                      <span className="text-gray-700 dark:text-gray-300">
-                        {country.country}
-                      </span>
+                      <span className="text-gray-700 dark:text-gray-300">{country.country}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-20 rounded-full bg-gray-200 dark:bg-gray-700">
@@ -592,17 +532,12 @@ export default function StatsPage() {
               </h3>
               <div className="space-y-3">
                 {stats.topCategories.map((category, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
+                  <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-medium text-gray-900 dark:text-white">
                         {index + 1}.
                       </span>
-                      <span className="text-gray-700 dark:text-gray-300">
-                        {category.category}
-                      </span>
+                      <span className="text-gray-700 dark:text-gray-300">{category.category}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-20 rounded-full bg-gray-200 dark:bg-gray-700">
@@ -632,33 +567,25 @@ export default function StatsPage() {
               <div className="mb-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
                 {Math.floor(stats.totalRuns / 1000)}K+
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                AI conversations powered
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">AI conversations powered</p>
             </div>
             <div className="text-center">
               <div className="mb-2 text-3xl font-bold text-green-600 dark:text-green-400">
                 {Math.floor(stats.totalViews / 1000)}K+
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Public prompt views
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Public prompt views</p>
             </div>
             <div className="text-center">
               <div className="mb-2 text-3xl font-bold text-purple-600 dark:text-purple-400">
                 {Math.floor(stats.totalPrompts / 100)}%
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Growth vs last month
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Growth vs last month</p>
             </div>
             <div className="text-center">
               <div className="mb-2 text-3xl font-bold text-orange-600 dark:text-orange-400">
                 {stats.averageRating}/5
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Average user rating
-              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Average user rating</p>
             </div>
           </div>
 
@@ -669,9 +596,7 @@ export default function StatsPage() {
                 <div className="rounded-lg bg-blue-100 p-2 dark:bg-blue-900">
                   <Zap className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  Fastest Execution
-                </h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Fastest Execution</h3>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Average prompt runs in under 2 seconds
@@ -683,13 +608,10 @@ export default function StatsPage() {
                 <div className="rounded-lg bg-green-100 p-2 dark:bg-green-900">
                   <Users className="h-5 w-5 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  Team Collaboration
-                </h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Team Collaboration</h3>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                {Math.floor(stats.totalUsers * 0.3)}+ teams actively sharing
-                prompts
+                {Math.floor(stats.totalUsers * 0.3)}+ teams actively sharing prompts
               </p>
             </div>
 
@@ -698,9 +620,7 @@ export default function StatsPage() {
                 <div className="rounded-lg bg-purple-100 p-2 dark:bg-purple-900">
                   <Globe className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  Global Reach
-                </h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Global Reach</h3>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Used in {stats.totalCountries} countries worldwide
@@ -712,16 +632,12 @@ export default function StatsPage() {
                 <div className="rounded-lg bg-orange-100 p-2 dark:bg-orange-900">
                   <Clock className="h-5 w-5 text-orange-600 dark:text-orange-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  24/7 Activity
-                </h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">24/7 Activity</h3>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Prompts run every{' '}
-                {Math.floor(
-                  (24 * 60) / Math.max(stats.realTimeStats.runsInLastHour, 1)
-                )}{' '}
-                minutes on average
+                {Math.floor((24 * 60) / Math.max(stats.realTimeStats.runsInLastHour, 1))} minutes on
+                average
               </p>
             </div>
 
@@ -730,9 +646,7 @@ export default function StatsPage() {
                 <div className="rounded-lg bg-red-100 p-2 dark:bg-red-900">
                   <Heart className="h-5 w-5 text-red-600 dark:text-red-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  Community Love
-                </h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Community Love</h3>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {Math.floor(stats.totalLikes / 1000)}K+ likes on shared prompts
@@ -744,9 +658,7 @@ export default function StatsPage() {
                 <div className="rounded-lg bg-indigo-100 p-2 dark:bg-indigo-900">
                   <GitBranch className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">
-                  Innovation Hub
-                </h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Innovation Hub</h3>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {Math.floor(stats.totalRemixes / 1000)}K+ prompt remixes created

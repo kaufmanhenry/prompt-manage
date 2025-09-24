@@ -42,10 +42,7 @@ export async function POST(request: NextRequest) {
     const outputs = variablesRows.map((row, index) => {
       const combined = `${context}\n\n${substitute(prompt, row)}`
       // Create a pseudo output by paraphrasing the goal line slightly
-      const firstLine = substitute(
-        prompt.split('\n')[0] || 'Generate text',
-        row
-      )
+      const firstLine = substitute(prompt.split('\n')[0] || 'Generate text', row)
       const response = [
         `Variant ${variant}: ${firstLine}`,
         '',
@@ -79,7 +76,7 @@ export async function POST(request: NextRequest) {
         acc.total_latency_ms += o.execution_time_ms
         return acc
       },
-      { total_tokens: 0, total_cost_usd: 0, total_latency_ms: 0 }
+      { total_tokens: 0, total_cost_usd: 0, total_latency_ms: 0 },
     )
 
     const response = {
@@ -99,9 +96,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response)
   } catch (error) {
     console.error('Preview run error', error)
-    return NextResponse.json(
-      { success: false, error: 'Bad request' },
-      { status: 400 }
-    )
+    return NextResponse.json({ success: false, error: 'Bad request' }, { status: 400 })
   }
 }

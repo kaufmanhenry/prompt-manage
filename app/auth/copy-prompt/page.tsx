@@ -50,8 +50,7 @@ export default function CopyPromptPage() {
       }
 
       try {
-        const { promptId, promptName, redirectUrl }: PendingPromptCopy =
-          JSON.parse(pendingCopy)
+        const { promptId, promptName, redirectUrl }: PendingPromptCopy = JSON.parse(pendingCopy)
 
         // Copy the prompt
         const response = await fetch('/api/prompts/copy', {
@@ -86,13 +85,10 @@ export default function CopyPromptPage() {
         }, 2000)
       } catch (error) {
         console.error('Copy prompt error:', error)
-        setError(
-          error instanceof Error ? error.message : 'Failed to copy prompt'
-        )
+        setError(error instanceof Error ? error.message : 'Failed to copy prompt')
         toast({
           title: 'Error',
-          description:
-            error instanceof Error ? error.message : 'Failed to copy prompt',
+          description: error instanceof Error ? error.message : 'Failed to copy prompt',
           variant: 'destructive',
         })
       } finally {
@@ -116,9 +112,7 @@ export default function CopyPromptPage() {
           </CardHeader>
           <CardContent className="text-center">
             <p className="mb-4 text-gray-600 dark:text-gray-400">{error}</p>
-            <Button onClick={() => router.push('/dashboard')}>
-              Go to Dashboard
-            </Button>
+            <Button onClick={() => router.push('/dashboard')}>Go to Dashboard</Button>
           </CardContent>
         </Card>
       </div>

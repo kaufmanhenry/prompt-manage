@@ -15,13 +15,7 @@ export function Spinner({ size = 'md', className }: SpinnerProps) {
   }
 
   return (
-    <Loader2
-      className={cn(
-        'animate-spin text-muted-foreground',
-        sizeClasses[size],
-        className
-      )}
-    />
+    <Loader2 className={cn('animate-spin text-muted-foreground', sizeClasses[size], className)} />
   )
 }
 
@@ -30,14 +24,9 @@ interface LoadingTextProps {
   className?: string
 }
 
-export function LoadingText({
-  text = 'Loading...',
-  className,
-}: LoadingTextProps) {
+export function LoadingText({ text = 'Loading...', className }: LoadingTextProps) {
   return (
-    <div
-      className={cn('flex items-center gap-2 text-muted-foreground', className)}
-    >
+    <div className={cn('flex items-center gap-2 text-muted-foreground', className)}>
       <Spinner size="sm" />
       <span>{text}</span>
     </div>
@@ -49,17 +38,9 @@ interface FullPageLoadingProps {
   className?: string
 }
 
-export function FullPageLoading({
-  text = 'Loading...',
-  className,
-}: FullPageLoadingProps) {
+export function FullPageLoading({ text = 'Loading...', className }: FullPageLoadingProps) {
   return (
-    <div
-      className={cn(
-        'min-h-screen bg-background flex items-center justify-center',
-        className
-      )}
-    >
+    <div className={cn('min-h-screen bg-background flex items-center justify-center', className)}>
       <div className="text-center">
         <Spinner size="lg" className="mx-auto mb-2" />
         <p className="text-muted-foreground">{text}</p>
@@ -73,10 +54,7 @@ interface CardLoadingProps {
   className?: string
 }
 
-export function CardLoading({
-  text = 'Loading...',
-  className,
-}: CardLoadingProps) {
+export function CardLoading({ text = 'Loading...', className }: CardLoadingProps) {
   return (
     <div className={cn('flex items-center justify-center py-8', className)}>
       <LoadingText text={text} />

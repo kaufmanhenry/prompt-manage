@@ -23,12 +23,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { useToast } from '@/components/ui/use-toast'
 import type { PromptRunHistory } from '@/lib/schemas/prompt-run-history'
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from './ui/accordion'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 
 interface PromptRunHistoryProps {
   promptId: string
@@ -154,11 +149,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
           <div className="py-8 text-center">
             <XCircle className="mx-auto mb-2 h-8 w-8 text-red-500" />
             <p className="text-red-600">Failed to load history</p>
-            <Button
-              variant="outline"
-              onClick={() => refetch()}
-              className="mt-2"
-            >
+            <Button variant="outline" onClick={() => refetch()} className="mt-2">
               <RefreshCw className="mr-2 h-4 w-4" />
               Retry
             </Button>
@@ -193,9 +184,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
           <div className="space-y-2 py-8 text-center text-muted-foreground">
             <MessageSquare className="mx-auto mb-2 h-8 w-8" />
             <p className="font-medium text-foreground">No run history yet</p>
-            <p className="text-sm text-muted-foreground">
-              Run this prompt to see its history here
-            </p>
+            <p className="text-sm text-muted-foreground">Run this prompt to see its history here</p>
             <Button variant="outline" size="sm" onClick={() => refetch()}>
               <RefreshCw className="h-4 w-4" />
               Refresh History
@@ -211,9 +200,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                     className={`h-fit cursor-pointer rounded-lg p-2 transition-colors ${
                       selectedRun?.id === run.id ? 'bg-accent' : ''
                     }`}
-                    onClick={() =>
-                      setSelectedRun(selectedRun?.id === run.id ? null : run)
-                    }
+                    onClick={() => setSelectedRun(selectedRun?.id === run.id ? null : run)}
                   >
                     <div className="mb-2 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -239,9 +226,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                       </div>
                     </div>
 
-                    <div className="mb-2 text-sm text-muted-foreground">
-                      Model: {run.model}
-                    </div>
+                    <div className="mb-2 text-sm text-muted-foreground">Model: {run.model}</div>
 
                     {run.error_message && (
                       <div className="mb-2 rounded border border-red-200 bg-red-50 p-2 text-sm text-red-700">

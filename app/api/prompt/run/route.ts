@@ -14,10 +14,7 @@ export async function POST(request: NextRequest) {
   try {
     // Check if OpenAI API key is configured
     if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json(
-        { error: 'OpenAI API key not configured' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 })
     }
 
     const supabase = await createClient()
@@ -34,10 +31,7 @@ export async function POST(request: NextRequest) {
     const { promptId } = await request.json()
 
     if (!promptId) {
-      return NextResponse.json(
-        { error: 'Prompt ID is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Prompt ID is required' }, { status: 400 })
     }
 
     // Fetch the prompt and verify ownership
@@ -65,8 +59,7 @@ export async function POST(request: NextRequest) {
       temperature: 0.7,
     })
 
-    const response =
-      completion.choices[0]?.message?.content || 'No response generated'
+    const response = completion.choices[0]?.message?.content || 'No response generated'
     const executionTime = Date.now() - startTime
     const tokensUsed = completion.usage?.total_tokens || null
 
@@ -100,8 +93,7 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     const executionTime = Date.now() - startTime
-    const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error'
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
 
     // Log the failed prompt run
     try {
@@ -142,15 +134,9 @@ export async function POST(request: NextRequest) {
 
     // Handle OpenAI-specific errors
     if (error instanceof OpenAI.APIError) {
-      return NextResponse.json(
-        { error: `OpenAI API error: ${error.message}` },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: `OpenAI API error: ${error.message}` }, { status: 500 })
     }
 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

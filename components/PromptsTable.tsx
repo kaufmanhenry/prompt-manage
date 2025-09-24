@@ -52,12 +52,7 @@ import type { PromptRunHistory } from '@/lib/schemas/prompt-run-history'
 import { createClient } from '@/utils/supabase/client'
 
 import CopyButton from './CopyButton'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from './ui/accordion'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 
 interface Filters {
   search: string
@@ -95,9 +90,7 @@ export function PromptsTable({
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [promptToDelete, setPromptToDelete] = useState<Prompt | null>(null)
   const [deleting, setDeleting] = useState(false)
-  const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(
-    null
-  )
+  const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(null)
 
   const { toast } = useToast()
   const queryClient = useQueryClient()
@@ -189,8 +182,7 @@ export function PromptsTable({
       filters.selectedTags.some((tag) => prompt.tags?.includes(tag))
 
     const matchesModels =
-      filters.selectedModels.length === 0 ||
-      filters.selectedModels.includes(prompt.model)
+      filters.selectedModels.length === 0 || filters.selectedModels.includes(prompt.model)
 
     return matchesSearch && matchesTags && matchesModels
   })
@@ -227,8 +219,8 @@ export function PromptsTable({
             No prompts yet
           </h3>
           <p className="mb-6 text-gray-600 dark:text-gray-400">
-            Get started by creating your first prompt. You can create prompts
-            for different AI models and organize them with tags.
+            Get started by creating your first prompt. You can create prompts for different AI
+            models and organize them with tags.
           </p>
           <Button onClick={onNewPrompt}>
             <Plus className="mr-2 h-4 w-4" />
@@ -242,9 +234,7 @@ export function PromptsTable({
   // Show no results state if filters return no results
   if (
     filteredPrompts.length === 0 &&
-    (filters.search ||
-      filters.selectedTags.length > 0 ||
-      filters.selectedModels.length > 0)
+    (filters.search || filters.selectedTags.length > 0 || filters.selectedModels.length > 0)
   ) {
     return (
       <Card className="p-12 text-center">
@@ -256,8 +246,7 @@ export function PromptsTable({
             No prompts found
           </h3>
           <p className="mb-6 text-gray-600 dark:text-gray-400">
-            Try adjusting your search terms or filters to find what you&apos;re
-            looking for.
+            Try adjusting your search terms or filters to find what you&apos;re looking for.
           </p>
           <Button
             variant="outline"
@@ -276,9 +265,7 @@ export function PromptsTable({
   // 4. Implement handleCopyPrompt
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(
-        `${window.location.origin}/p/${selectedPrompt?.slug}`
-      )
+      await navigator.clipboard.writeText(`${window.location.origin}/p/${selectedPrompt?.slug}`)
       toast({
         title: 'Copied!',
         description: 'Prompt text copied to clipboard.',
@@ -317,9 +304,7 @@ export function PromptsTable({
               <div className="flex-grow">
                 <div className="mb-4">
                   <div className="mb-2 flex items-start justify-between">
-                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold">
-                      {prompt.name}
-                    </h3>
+                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold">{prompt.name}</h3>
                     {prompt.is_public ? (
                       <Badge
                         variant="default"
@@ -397,15 +382,10 @@ export function PromptsTable({
                       variant="outline"
                       size="icon"
                       onClick={() => {
-                        console.log(
-                          'Grid run prompt button clicked for:',
-                          prompt.id
-                        )
+                        console.log('Grid run prompt button clicked for:', prompt.id)
                         console.log('Current runningPrompts state:')
                         console.log('Button disabled state:')
-                        alert(
-                          'Grid button clicked! Testing basic functionality.'
-                        )
+                        alert('Grid button clicked! Testing basic functionality.')
                         // TODO: Implement run prompt functionality for grid view
                       }}
                       disabled={false} // Temporarily disable the disabled state for testing
@@ -423,9 +403,7 @@ export function PromptsTable({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
-                        onClick={() =>
-                          toast({ title: 'Share action not implemented yet.' })
-                        }
+                        onClick={() => toast({ title: 'Share action not implemented yet.' })}
                       >
                         <Share2 className="mr-2 size-4" />
                         {prompt.is_public ? 'Manage Sharing' : 'Share'}
@@ -460,16 +438,10 @@ export function PromptsTable({
       <Dialog open={false} onOpenChange={() => {}}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
-              {/* Placeholder for Share Dialog Title */}
-            </DialogTitle>
-            <DialogDescription>
-              {/* Placeholder for Share Dialog Description */}
-            </DialogDescription>
+            <DialogTitle>{/* Placeholder for Share Dialog Title */}</DialogTitle>
+            <DialogDescription>{/* Placeholder for Share Dialog Description */}</DialogDescription>
           </DialogHeader>
-          <div className="space-y-4">
-            {/* Placeholder for Share Dialog Content */}
-          </div>
+          <div className="space-y-4">{/* Placeholder for Share Dialog Content */}</div>
         </DialogContent>
       </Dialog>
 
@@ -490,9 +462,8 @@ export function PromptsTable({
                 Permanent Deletion
               </h4>
               <p className="text-sm text-red-600 dark:text-red-300">
-                This prompt will be permanently deleted and cannot be recovered.
-                If this prompt is public, it will also be removed from the
-                public directory.
+                This prompt will be permanently deleted and cannot be recovered. If this prompt is
+                public, it will also be removed from the public directory.
               </p>
             </div>
 
@@ -507,11 +478,7 @@ export function PromptsTable({
               >
                 Cancel
               </Button>
-              <Button
-                variant="destructive"
-                onClick={confirmDelete}
-                disabled={deleting}
-              >
+              <Button variant="destructive" onClick={confirmDelete} disabled={deleting}>
                 {deleting ? 'Deleting...' : 'Delete Prompt'}
               </Button>
             </div>
@@ -549,11 +516,7 @@ function PromptDetailHeader({
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <Button
-          variant="default"
-          onClick={onRun}
-          disabled={runningPrompts[prompt.id as string]}
-        >
+        <Button variant="default" onClick={onRun} disabled={runningPrompts[prompt.id as string]}>
           {!runningPrompts[prompt.id as string] ? (
             <Play className="mr-2 h-5 w-5" />
           ) : (
@@ -577,10 +540,7 @@ function PromptDetailHeader({
             <DropdownMenuItem onClick={() => onMore('copy')}>
               <Copy className="mr-2 h-4 w-4" /> Copy Prompt
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => onMore('delete')}
-              className="text-red-600"
-            >
+            <DropdownMenuItem onClick={() => onMore('delete')} className="text-red-600">
               <Trash2 className="mr-2 h-4 w-4" /> Delete
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onMore('close')}>
@@ -603,9 +563,7 @@ export function PromptDetails({
   const [showShareDialog, setShowShareDialog] = useState(false)
   const [tab, setTab] = useState<'details' | 'history'>('details')
   const [selectedRun, setSelectedRun] = useState<PromptRunHistory | null>(null)
-  const [runningPrompts, setRunningPrompts] = useState<Record<string, boolean>>(
-    {}
-  )
+  const [runningPrompts, setRunningPrompts] = useState<Record<string, boolean>>({})
   const { toast } = useToast()
 
   // Query for prompt run history
@@ -679,10 +637,7 @@ export function PromptDetails({
     switch (status) {
       case 'success':
         return (
-          <Badge
-            variant="default"
-            className="gap-1.5 bg-green-100 text-green-800"
-          >
+          <Badge variant="default" className="gap-1.5 bg-green-100 text-green-800">
             {getStatusIcon(status)}
             Success
           </Badge>
@@ -696,10 +651,7 @@ export function PromptDetails({
         )
       case 'timeout':
         return (
-          <Badge
-            variant="secondary"
-            className="gap-1.5 bg-yellow-100 text-yellow-800"
-          >
+          <Badge variant="secondary" className="gap-1.5 bg-yellow-100 text-yellow-800">
             {getStatusIcon(status)}
             Timeout
           </Badge>
@@ -773,9 +725,7 @@ export function PromptDetails({
   // 4. Implement handleCopyPrompt
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(
-        `${window.location.origin}/p/${prompt.slug}`
-      )
+      await navigator.clipboard.writeText(`${window.location.origin}/p/${prompt.slug}`)
       toast({
         title: 'Copied!',
         description: 'Prompt text copied to clipboard.',
@@ -835,25 +785,20 @@ export function PromptDetails({
                   <Button
                     variant="link"
                     size="sm"
-                    onClick={() =>
-                      window.open(`/p/${originalPromptSlug}`, '_blank')
-                    }
+                    onClick={() => window.open(`/p/${originalPromptSlug}`, '_blank')}
                   >
                     <ExternalLink className="mr-1 h-4 w-4" /> View Original
                   </Button>
                 )}
               </div>
               <p className="mt-1 text-sm text-blue-800 dark:text-blue-200">
-                This prompt was copied from a public prompt and can be
-                customized for your needs.
+                This prompt was copied from a public prompt and can be customized for your needs.
               </p>
             </div>
           )}
           {/* Prompt Text */}
           <div className="relative mb-4 rounded-lg border bg-muted/50 p-6">
-            <p className="mb-2 text-xs font-medium text-muted-foreground">
-              Prompt
-            </p>
+            <p className="mb-2 text-xs font-medium text-muted-foreground">Prompt</p>
             <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
               {prompt.prompt_text}
             </pre>
@@ -869,9 +814,7 @@ export function PromptDetails({
               {historyLoading ? (
                 <div className="py-8 text-center">
                   <Spinner size="lg" />
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Loading history...
-                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">Loading history...</p>
                 </div>
               ) : historyError ? (
                 <div className="py-8 text-center">
@@ -882,24 +825,18 @@ export function PromptDetails({
                   </Button>
                 </div>
               ) : history.length === 0 ? (
-                <div className="py-8 text-center text-muted-foreground">
-                  No runs yet.
-                </div>
+                <div className="py-8 text-center text-muted-foreground">No runs yet.</div>
               ) : (
                 history.map((run: PromptRunHistory) => (
                   <Card
                     key={run.id}
                     className={`flex cursor-pointer justify-between gap-2 p-2 hover:bg-accent/40 ${
-                      selectedRun?.id === run.id
-                        ? 'border-primary bg-accent/30'
-                        : ''
+                      selectedRun?.id === run.id ? 'border-primary bg-accent/30' : ''
                     }`}
                     onClick={() => setSelectedRun(run)}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium">
-                        {formatTimestamp(run.created_at)}
-                      </span>
+                      <span className="text-sm font-medium">{formatTimestamp(run.created_at)}</span>
                       {getStatusBadge(run.status)}
                     </div>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -942,9 +879,7 @@ export function PromptDetails({
                   </div>
                   <Accordion type="single" collapsible>
                     <AccordionItem value="prompt" className="border-none">
-                      <AccordionTrigger className="text-sm font-medium">
-                        Prompt
-                      </AccordionTrigger>
+                      <AccordionTrigger className="text-sm font-medium">Prompt</AccordionTrigger>
                       <AccordionContent>
                         <pre className="whitespace-pre-wrap break-words rounded-lg bg-accent p-3 font-mono text-xs text-card-foreground">
                           {selectedRun.prompt_text}
@@ -953,9 +888,7 @@ export function PromptDetails({
                     </AccordionItem>
                   </Accordion>
                   <div className="relative max-h-[400px] overflow-y-auto rounded-lg border bg-muted/50 p-4">
-                    <p className="mb-2 text-xs font-medium text-muted-foreground">
-                      Response
-                    </p>
+                    <p className="mb-2 text-xs font-medium text-muted-foreground">Response</p>
                     <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
                       {selectedRun.response}
                     </pre>
@@ -964,9 +897,7 @@ export function PromptDetails({
                     </div>
                   </div>
                   {selectedRun.error_message && (
-                    <div className="text-xs text-red-600">
-                      Error: {selectedRun.error_message}
-                    </div>
+                    <div className="text-xs text-red-600">Error: {selectedRun.error_message}</div>
                   )}
                 </Card>
               ) : (
@@ -981,9 +912,7 @@ export function PromptDetails({
       <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
-              {prompt.is_public ? 'Manage Prompt Sharing' : 'Share Prompt'}
-            </DialogTitle>
+            <DialogTitle>{prompt.is_public ? 'Manage Prompt Sharing' : 'Share Prompt'}</DialogTitle>
             <DialogDescription>
               {prompt.is_public
                 ? `"${prompt.name}" is currently public`
@@ -1007,11 +936,7 @@ export function PromptDetails({
                       Copy Link
                     </Button>
                     {prompt.slug && (
-                      <a
-                        href={`/p/${prompt.slug}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a href={`/p/${prompt.slug}`} target="_blank" rel="noopener noreferrer">
                         <Button variant="outline">
                           <ExternalLink className="size-4" />
                         </Button>
@@ -1024,11 +949,7 @@ export function PromptDetails({
                   <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Remove this prompt from public access
                   </p>
-                  <Button
-                    variant="outline"
-                    onClick={handleTogglePublic}
-                    className="w-full"
-                  >
+                  <Button variant="outline" onClick={handleTogglePublic} className="w-full">
                     {prompt.is_public ? 'Updating...' : 'Make Private'}
                   </Button>
                 </div>
@@ -1036,9 +957,7 @@ export function PromptDetails({
             ) : (
               <div className="space-y-4">
                 <div className="rounded-lg border p-4">
-                  <h4 className="mb-2 font-medium">
-                    Publish to Public Directory
-                  </h4>
+                  <h4 className="mb-2 font-medium">Publish to Public Directory</h4>
                   <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Make this prompt publicly accessible and discoverable
                   </p>

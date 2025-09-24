@@ -1,18 +1,11 @@
-import {
-  Folder,
-  Megaphone,
-  Rocket,
-  Search,
-  ShieldCheck,
-  Users,
-} from 'lucide-react'
+import { Folder, Megaphone, Rocket, Search, ShieldCheck, Users } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import InteractivePromptLab from '@/components/InteractivePromptLab'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Separator } from '@/components/ui/separator'
 import { createClient } from '@/utils/supabase/server'
 
@@ -90,14 +83,11 @@ export default async function Home() {
             <h1 className="mb-6 text-5xl font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white md:text-6xl">
               Prompt Libraries
               <br />
-              <span className="text-emerald-600 dark:text-emerald-400">
-                for Marketing Teams
-              </span>
+              <span className="text-emerald-600 dark:text-emerald-400">for Marketing Teams</span>
             </h1>
             <p className="mb-6 max-w-xl text-lg text-gray-700 dark:text-gray-300 md:text-xl">
-              Store and systemize prompts for ads, emails, landing pages, and
-              socials. Keep brand voice consistent, share with your team, and
-              ship campaigns faster.
+              Store and systemize prompts for ads, emails, landing pages, and socials. Keep brand
+              voice consistent, share with your team, and ship campaigns faster.
             </p>
             <div className="mb-8 flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
@@ -118,35 +108,29 @@ export default async function Home() {
                   </Button>
                 </Link>
                 <Link href="/p">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="px-7 py-6 text-base"
-                  >
+                  <Button variant="outline" size="lg" className="px-7 py-6 text-base">
                     <Search className="mr-2 h-5 w-5" /> Browse Templates
                   </Button>
                 </Link>
               </div>
             ) : (
               <div className="flex flex-col items-center gap-3 sm:flex-row">
-                <GoogleSignInButton redirectPath="/dashboard" size="lg" className="px-7 py-6 text-base">
+                <GoogleSignInButton
+                  redirectPath="/dashboard"
+                  size="lg"
+                  className="px-7 py-6 text-base"
+                >
                   Start Free
                 </GoogleSignInButton>
                 <Link href="/p">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="px-7 py-6 text-base"
-                  >
+                  <Button variant="outline" size="lg" className="px-7 py-6 text-base">
                     <Search className="mr-2 h-5 w-5" /> Browse Templates
                   </Button>
                 </Link>
               </div>
             )}
             <div className="mt-4 flex flex-wrap items-center gap-2">
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                Popular models:
-              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">Popular models:</span>
               {[
                 'gpt-4',
                 'gpt-4o',
@@ -155,11 +139,7 @@ export default async function Home() {
                 'Llama 4 Series',
                 'Mistral Large',
               ].map((m) => (
-                <Badge
-                  key={m}
-                  variant="outline"
-                  className="px-2 py-0.5 text-[10px]"
-                >
+                <Badge key={m} variant="outline" className="px-2 py-0.5 text-[10px]">
                   {m}
                 </Badge>
               ))}
@@ -194,8 +174,7 @@ export default async function Home() {
                   Campaign-ready libraries
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Group prompts by channel and campaign so the team can reuse
-                  what works.
+                  Group prompts by channel and campaign so the team can reuse what works.
                 </p>
               </div>
               <div className="text-center">
@@ -206,8 +185,7 @@ export default async function Home() {
                   Brand voice guardrails
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Lock key instructions and share best-practice templates across
-                  the org.
+                  Lock key instructions and share best-practice templates across the org.
                 </p>
               </div>
               <div className="text-center">
@@ -218,8 +196,7 @@ export default async function Home() {
                   Test variations, ship faster
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Save variants, compare outcomes, and roll forward what
-                  performs.
+                  Save variants, compare outcomes, and roll forward what performs.
                 </p>
               </div>
             </div>
@@ -239,12 +216,8 @@ export default async function Home() {
                 key={k}
                 className="rounded-xl border border-gray-200 bg-white p-4 text-center dark:border-gray-800 dark:bg-gray-900"
               >
-                <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">
-                  {k}
-                </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">
-                  {v}
-                </div>
+                <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{k}</div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">{v}</div>
               </div>
             ))}
           </div>
@@ -281,9 +254,7 @@ export default async function Home() {
                   <h3 className="mb-1 text-base font-semibold text-gray-900 dark:text-white">
                     {s.title}
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {s.desc}
-                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{s.desc}</p>
                 </div>
               ))}
             </div>
@@ -299,9 +270,8 @@ export default async function Home() {
         <Separator className="mx-auto my-12 max-w-xs" />
         <div className="mx-auto max-w-3xl pb-16 text-center">
           <blockquote className="text-xl leading-relaxed text-gray-900 dark:text-white md:text-2xl">
-            “Prompt Manage turned our scattered prompt docs into a single source
-            of truth. Our team ships campaigns noticeably faster with more
-            consistent copy.”
+            “Prompt Manage turned our scattered prompt docs into a single source of truth. Our team
+            ships campaigns noticeably faster with more consistent copy.”
           </blockquote>
           <div className="mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300">
             Mike M., Co-Founder of MCA

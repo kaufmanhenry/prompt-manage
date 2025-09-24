@@ -32,8 +32,7 @@ export async function GET() {
       .select('view_count')
       .eq('is_public', true)
 
-    const totalViews =
-      viewData?.reduce((sum, prompt) => sum + (prompt.view_count || 0), 0) || 0
+    const totalViews = viewData?.reduce((sum, prompt) => sum + (prompt.view_count || 0), 0) || 0
 
     // Get prompts created today
     const today = new Date()
@@ -50,8 +49,7 @@ export async function GET() {
       .gte('inserted_at', today.toISOString())
       .not('user_id', 'is', null)
 
-    const activeUsersToday = new Set(activeUsersData?.map((p) => p.user_id))
-      .size
+    const activeUsersToday = new Set(activeUsersData?.map((p) => p.user_id)).size
 
     // Get prompt runs in last hour
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
@@ -113,11 +111,7 @@ export async function GET() {
 
     const growthRate =
       promptsLastMonth && promptsThisMonth
-        ? Math.round(
-            ((promptsThisMonth - promptsLastMonth) / promptsLastMonth) *
-              100 *
-              10
-          ) / 10
+        ? Math.round(((promptsThisMonth - promptsLastMonth) / promptsLastMonth) * 100 * 10) / 10
         : 0
 
     // Get average rating (placeholder - would need a ratings table)
@@ -255,9 +249,6 @@ export async function GET() {
     return NextResponse.json(stats)
   } catch (error) {
     console.error('Error fetching stats:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch statistics' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch statistics' }, { status: 500 })
   }
 }

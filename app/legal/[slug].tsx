@@ -11,16 +11,10 @@ const LEGAL_DIR = path.join(process.cwd(), 'legal')
 
 export async function generateStaticParams() {
   const files = fs.readdirSync(LEGAL_DIR)
-  return files
-    .filter((f) => f.endsWith('.md'))
-    .map((f) => ({ slug: f.replace(/\.md$/, '') }))
+  return files.filter((f) => f.endsWith('.md')).map((f) => ({ slug: f.replace(/\.md$/, '') }))
 }
 
-export default async function LegalDocPage({
-  params,
-}: {
-  params: { slug: string }
-}) {
+export default async function LegalDocPage({ params }: { params: { slug: string } }) {
   const filePath = path.join(LEGAL_DIR, `${params.slug}.md`)
   if (!fs.existsSync(filePath)) return notFound()
   const file = fs.readFileSync(filePath, 'utf8')
@@ -35,10 +29,7 @@ export default async function LegalDocPage({
       <aside className="hidden w-64 shrink-0 md:block">
         <ScrollArea className="h-[calc(100vh-8rem)] pr-2">
           <nav className="space-y-2 text-sm">
-            <Link
-              href="/legal/legal-index"
-              className="mb-2 block font-semibold"
-            >
+            <Link href="/legal/legal-index" className="mb-2 block font-semibold">
               Legal Overview
             </Link>
             <ul className="space-y-1">
@@ -64,23 +55,14 @@ export default async function LegalDocPage({
       </aside>
       <main className="min-w-0 flex-1">
         <h1 className="mb-4 text-2xl font-bold">
-          {params.slug
-            .replace(/-/g, ' ')
-            .replace(/\b\w/g, (l) => l.toUpperCase())}
+          {params.slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
         </h1>
-        {lastUpdated && (
-          <p className="mb-2 text-xs text-gray-500">
-            Last updated: {lastUpdated}
-          </p>
-        )}
+        {lastUpdated && <p className="mb-2 text-xs text-gray-500">Last updated: {lastUpdated}</p>}
         <article className="prose prose-blue dark:prose-invert max-w-none">
           <MDXRemote source={content} />
         </article>
         <div className="mt-8">
-          <Link
-            href="/legal/legal-index"
-            className="text-blue-700 underline dark:text-blue-300"
-          >
+          <Link href="/legal/legal-index" className="text-blue-700 underline dark:text-blue-300">
             ← Back to Legal Overview
           </Link>
         </div>

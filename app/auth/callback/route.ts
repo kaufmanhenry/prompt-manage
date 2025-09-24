@@ -25,9 +25,7 @@ export async function GET(request: Request) {
       if (profileError && profileError.code === 'PGRST116') {
         // Profile doesn't exist, create it
         const displayName =
-          session.user.user_metadata?.display_name ||
-          session.user.email?.split('@')[0] ||
-          'User'
+          session.user.user_metadata?.display_name || session.user.email?.split('@')[0] || 'User'
 
         await supabase.from('user_profiles').insert({
           id: session.user.id,

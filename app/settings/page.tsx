@@ -77,10 +77,7 @@ export default function SettingsPage() {
           .from('user_profiles')
           .insert({
             id: user.id,
-            display_name:
-              user.user_metadata?.display_name ||
-              user.email?.split('@')[0] ||
-              'User',
+            display_name: user.user_metadata?.display_name || user.email?.split('@')[0] || 'User',
             email_notifications: true,
             dark_mode: false,
             theme_preference: 'system',
@@ -163,9 +160,7 @@ export default function SettingsPage() {
   const handleDeleteAccount = async () => {
     if (
       !user ||
-      !confirm(
-        'Are you sure you want to delete your account? This action cannot be undone.'
-      )
+      !confirm('Are you sure you want to delete your account? This action cannot be undone.')
     ) {
       return
     }
@@ -238,9 +233,7 @@ export default function SettingsPage() {
                 <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
                   <User className="size-4 text-muted-foreground" />
                 </div>
-                <span className="text-base font-medium">
-                  Profile Information
-                </span>
+                <span className="text-base font-medium">Profile Information</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -314,11 +307,7 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <Button
-                onClick={handleSaveProfile}
-                disabled={saving}
-                className="w-full md:w-auto"
-              >
+              <Button onClick={handleSaveProfile} disabled={saving} className="w-full md:w-auto">
                 <Save className="size-4" />
                 {saving ? 'Saving...' : 'Save'}
               </Button>
@@ -352,14 +341,9 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Dark Mode</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Use dark theme for the interface
-                  </p>
+                  <p className="text-sm text-muted-foreground">Use dark theme for the interface</p>
                 </div>
-                <Switch
-                  checked={darkMode}
-                  onCheckedChange={handleThemeChange}
-                />
+                <Switch checked={darkMode} onCheckedChange={handleThemeChange} />
               </div>
             </CardContent>
           </Card>

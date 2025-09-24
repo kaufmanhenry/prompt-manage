@@ -487,9 +487,7 @@ test.describe('Accessibility', () => {
     await page.keyboard.press('Tab')
 
     // Should focus on first interactive element
-    const focusedElement = await page.evaluate(
-      () => document.activeElement?.tagName
-    )
+    const focusedElement = await page.evaluate(() => document.activeElement?.tagName)
     expect(focusedElement).toBeTruthy()
   })
 })

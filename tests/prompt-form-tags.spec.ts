@@ -40,9 +40,7 @@ test.describe('PromptForm Tags', () => {
     await expect(page.locator('text=demo')).toBeVisible()
   })
 
-  test('allows creating new tags while showing existing ones', async ({
-    page,
-  }) => {
+  test('allows creating new tags while showing existing ones', async ({ page }) => {
     await page.goto('/dashboard')
 
     // Click create prompt button

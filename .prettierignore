@@ -1,8 +1,8 @@
 .next
 node_modules
-public
-build
 dist
+build
 coverage
+.vercel
 playwright-report
-test-results 
+.turbo 

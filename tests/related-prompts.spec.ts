@@ -1,9 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('Related Prompts Feature', () => {
-  test('should display related prompts on public prompt page', async ({
-    page,
-  }) => {
+  test('should display related prompts on public prompt page', async ({ page }) => {
     // Navigate to a public prompt page
     await page.goto('/p')
 
@@ -54,9 +52,7 @@ test.describe('Related Prompts Feature', () => {
     await expect(tabsContent).toBeVisible()
   })
 
-  test('should show empty state when no related prompts found', async ({
-    page,
-  }) => {
+  test('should show empty state when no related prompts found', async ({ page }) => {
     // This test would require a prompt with no related content
     // For now, we'll just verify the component handles empty states gracefully
     await page.goto('/p')

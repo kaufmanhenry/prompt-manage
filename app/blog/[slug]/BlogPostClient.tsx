@@ -27,16 +27,10 @@ declare global {
 }
 
 export default function BlogPostClient({ post }: { post: BlogPost }) {
-  const [latestPrompts, setLatestPrompts] = useState<
-    { name: string; slug: string }[]
-  >([])
+  const [latestPrompts, setLatestPrompts] = useState<{ name: string; slug: string }[]>([])
   useEffect(() => {
     // Load Twitter widgets script
-    if (
-      !document.querySelector(
-        'script[src="https://platform.twitter.com/widgets.js"]'
-      )
-    ) {
+    if (!document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')) {
       const script = document.createElement('script')
       script.src = 'https://platform.twitter.com/widgets.js'
       script.async = true
@@ -129,9 +123,7 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
           <div className="mt-8">
             {latestPrompts.map((p) => (
               <div key={p.slug} className="mb-10">
-                <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white">
-                  {p.name}
-                </h3>
+                <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white">{p.name}</h3>
                 <div className="not-prose mb-3">
                   <PromptCard slug={p.slug} />
                 </div>
@@ -157,8 +149,8 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
                 >
                   Prompt Manage
                 </Link>{' '}
-                — the easiest way to organize, run, and share prompts with your
-                team. No more messy docs or copy-paste chaos.
+                — the easiest way to organize, run, and share prompts with your team. No more messy
+                docs or copy-paste chaos.
               </p>
               <p className="text-gray-700 dark:text-gray-300">
                 Explore all public prompts →{' '}

@@ -128,9 +128,7 @@ export function InteractivePromptLab() {
     setVariables((v) => v.filter((_, i) => i !== index))
   }
   function updateVar(index: number, field: 'key' | 'value', value: string) {
-    setVariables((v) =>
-      v.map((item, i) => (i === index ? { ...item, [field]: value } : item))
-    )
+    setVariables((v) => v.map((item, i) => (i === index ? { ...item, [field]: value } : item)))
   }
 
   return (
@@ -138,9 +136,7 @@ export function InteractivePromptLab() {
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-          <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-            Prompt Lab
-          </span>
+          <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">Prompt Lab</span>
           <Badge variant="outline" className="text-[10px]">
             Preview
           </Badge>
@@ -160,9 +156,7 @@ export function InteractivePromptLab() {
 
       <div className="space-y-3 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-950">
         <div>
-          <label className="text-xs text-gray-600 dark:text-gray-300">
-            Prompt
-          </label>
+          <label className="text-xs text-gray-600 dark:text-gray-300">Prompt</label>
           <Textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
@@ -192,9 +186,7 @@ export function InteractivePromptLab() {
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-xs text-gray-600 dark:text-gray-300">
-              Variables (optional)
-            </label>
+            <label className="text-xs text-gray-600 dark:text-gray-300">Variables (optional)</label>
             <Button size="sm" variant="outline" onClick={addVar}>
               <Plus className="h-3.5 w-3.5" /> Add
             </Button>
@@ -215,11 +207,7 @@ export function InteractivePromptLab() {
                   className="col-span-3 h-8 text-xs"
                 />
                 <div className="col-span-5 flex justify-end">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => removeVar(i)}
-                  >
+                  <Button size="sm" variant="ghost" onClick={() => removeVar(i)}>
                     <Trash2 className="h-3.5 w-3.5" />
                   </Button>
                 </div>
@@ -241,12 +229,9 @@ export function InteractivePromptLab() {
 
       <div className="mt-4">
         <div className="mb-2 flex items-center justify-between">
-          <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-            Outputs
-          </span>
+          <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Outputs</span>
           <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
-            <Sparkles className="h-3.5 w-3.5" /> {runs.length}{' '}
-            {runs.length === 1 ? 'run' : 'runs'}
+            <Sparkles className="h-3.5 w-3.5" /> {runs.length} {runs.length === 1 ? 'run' : 'runs'}
           </div>
         </div>
         {runs.length === 0 ? (

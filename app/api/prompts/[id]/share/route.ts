@@ -3,10 +3,7 @@ import { NextResponse } from 'next/server'
 
 import { createClient } from '@/utils/supabase/server'
 
-export async function PATCH(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
     const { id } = await context.params
@@ -45,18 +42,12 @@ export async function PATCH(
 
     if (updateError) {
       console.error('Error updating prompt:', updateError)
-      return NextResponse.json(
-        { error: 'Failed to update prompt' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'Failed to update prompt' }, { status: 500 })
     }
 
     return NextResponse.json(updatedPrompt)
   } catch (error) {
     console.error('Share API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

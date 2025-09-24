@@ -49,10 +49,7 @@ export function CommandPalette() {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput
-        placeholder="Search prompts..."
-        className="border-none focus:ring-0"
-      />
+      <CommandInput placeholder="Search prompts..." className="border-none focus:ring-0" />
       <CommandList>
         <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
           No prompts found.

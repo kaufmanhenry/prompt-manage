@@ -30,8 +30,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'gpt-5-for-marketers',
-    title:
-      'GPT-5 Is Here — How Marketers Can Use It to Gain a Competitive Edge',
+    title: 'GPT-5 Is Here — How Marketers Can Use It to Gain a Competitive Edge',
     summary:
       'Explore how GPT-5 unlocks new potential for marketers, including use cases, strategies, and a powerful prompt example.',
     date: '2025-08-07',
@@ -330,8 +329,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'understanding-context-engineering',
-    title:
-      'Understanding Context Engineering: The Next Evolution of Prompt Engineering',
+    title: 'Understanding Context Engineering: The Next Evolution of Prompt Engineering',
     summary:
       'Discover why context engineering is the next big leap in prompt engineering, and how it can unlock the full power of AI.',
     date: '2025-06-24',

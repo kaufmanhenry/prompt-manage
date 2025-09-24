@@ -22,10 +22,7 @@ export async function POST(request: NextRequest) {
     const resendApiKey = process.env.RESEND_API_KEY
 
     if (!resendApiKey) {
-      return NextResponse.json(
-        { error: 'Email service not configured' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'Email service not configured' }, { status: 500 })
     }
 
     const email = (body.email || '').trim()
@@ -71,10 +68,7 @@ export async function POST(request: NextRequest) {
 
     if (!res.ok) {
       const details = await res.text().catch(() => '')
-      return NextResponse.json(
-        { error: 'Failed to send email', details },
-        { status: 502 }
-      )
+      return NextResponse.json({ error: 'Failed to send email', details }, { status: 502 })
     }
 
     return NextResponse.json({ success: true })

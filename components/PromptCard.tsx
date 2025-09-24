@@ -35,9 +35,7 @@ export function PromptCard({ slug }: PromptCardProps) {
         const supabase = createClient()
         const { data } = await supabase
           .from('prompts')
-          .select(
-            'id, name, description, prompt_text, model, tags, slug, view_count'
-          )
+          .select('id, name, description, prompt_text, model, tags, slug, view_count')
           .eq('slug', slug)
           .eq('is_public', true)
           .single()

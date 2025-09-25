@@ -22,11 +22,6 @@ export function Footer() {
                 Home
               </Link>
             </li>
-            <li>
-              <Link href="/pricing" className="text-gray-600 hover:underline dark:text-gray-300">
-                Pricing
-              </Link>
-            </li>
           </ul>
           <ul className="items-center space-y-2 text-sm">
             <li className="text-xs font-medium text-muted-foreground">Resources</li>

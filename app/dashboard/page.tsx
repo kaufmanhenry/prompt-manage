@@ -189,6 +189,8 @@ export default function DashboardPage() {
         prompts={prompts}
         selectedPromptId={selectedPromptId}
         onSelectPrompt={handleSelectPrompt}
+        onNewPrompt={() => setShowCreateForm(true)}
+        currentPage="dashboard"
       />
       <main className="flex-1 overflow-y-auto bg-accent/50">
         <PromptDetails

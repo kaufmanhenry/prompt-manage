@@ -1,4 +1,4 @@
-import type { NextRequest } from 'next/server'
+o9import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 type VariablesRow = Record<string, string>

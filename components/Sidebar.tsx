@@ -1,7 +1,8 @@
 'use client'
 
-import { GlobeIcon } from 'lucide-react'
+import { GlobeIcon, FlaskConical, Home, Plus } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -21,14 +22,18 @@ interface SidebarProps {
   prompts?: Prompt[]
   selectedPromptId?: string | null
   onSelectPrompt: (promptId: string) => void
+  onNewPrompt?: () => void
   isLoading?: boolean
+  currentPage?: 'dashboard' | 'lab'
 }
 
 export function Sidebar({
   prompts = [],
   selectedPromptId,
   onSelectPrompt,
+  onNewPrompt,
   isLoading = false,
+  currentPage = 'dashboard',
 }: SidebarProps) {
   // Local state for model and tag filters and search
   const [modelFilters, setModelFilters] = useState<string[]>([])
@@ -63,17 +68,43 @@ export function Sidebar({
 
   return (
     <aside className="flex w-80 shrink-0 flex-col border-r bg-white/50 p-4 backdrop-blur-sm dark:bg-gray-800/50">
+      {/* Navigation */}
+      <div className="mb-4 space-y-2">
+        <Link
+          href="/dashboard"
+          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+            currentPage === 'dashboard'
+              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+          }`}
+        >
+          <Home className="h-4 w-4" />
+          Dashboard
+        </Link>
+        <Link
+          href="/dashboard/lab"
+          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+            currentPage === 'lab'
+              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+          }`}
+        >
+          <FlaskConical className="h-4 w-4" />
+          Prompt Lab
+        </Link>
+      </div>
+
       {/* Top filter row */}
       <div className="mb-4 flex items-center justify-between gap-2">
-        <h2 className="text-lg font-medium  ">Prompts</h2>
+        <h2 className="text-lg font-medium">Prompts</h2>
         <Button
           size="sm"
           variant="outline"
           className="px-2 py-1"
-          onClick={() => onSelectPrompt('new')}
+          onClick={() => onNewPrompt ? onNewPrompt() : onSelectPrompt('new')}
           data-testid="create-prompt"
         >
-          + Add
+          <Plus className="h-4 w-4" />
         </Button>
       </div>
       <div className="mb-4 flex flex-wrap items-center gap-2">

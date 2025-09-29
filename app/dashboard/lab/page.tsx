@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import PromptLab from '@/components/PromptLab'
+import SimplePromptLab from '@/components/SimplePromptLab'
 import { Sidebar } from '@/components/Sidebar'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
@@ -130,31 +130,7 @@ export default function LabPage() {
       />
       <main className="flex-1 overflow-auto">
         <div className="mx-auto max-w-7xl p-6">
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Prompt Lab</h1>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">
-              Create, test, and iterate on prompts with our interactive lab environment.
-            </p>
-          </div>
-
-          {isLoadingPrompt ? (
-            <div className="flex items-center justify-center py-12">
-              <div className="text-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-emerald-500 border-t-transparent mx-auto mb-4"></div>
-                <p className="text-gray-600 dark:text-gray-400">Loading prompt...</p>
-              </div>
-            </div>
-          ) : (
-            <PromptLab
-              initialPrompt={selectedPrompt ? {
-                id: selectedPrompt.id,
-                name: selectedPrompt.name,
-                prompt_text: selectedPrompt.prompt_text,
-                model: selectedPrompt.model,
-              } : undefined}
-              onSavePrompt={handleSavePrompt}
-            />
-          )}
+          <SimplePromptLab />
         </div>
       </main>
     </div>

@@ -103,6 +103,7 @@ function SimplePromptLab() {
   const [newContextName, setNewContextName] = useState<string>('')
   const [isRunning, setIsRunning] = useState<boolean>(false)
   const [progress, setProgress] = useState<number>(0)
+  const [model, setModel] = useState<string>('gpt-4')
   const [contentType, setContentType] = useState<ContentType>('Ad')
   const [promptTouched, setPromptTouched] = useState<boolean>(false)
   const [runs, setRuns] = useState<
@@ -288,6 +289,7 @@ function SimplePromptLab() {
         body: JSON.stringify({
           prompt,
           context,
+          model,
         }),
       })
 
@@ -403,7 +405,7 @@ function SimplePromptLab() {
           .insert({
             name: finalPromptName.trim(),
             prompt_text: editingPrompt,
-            model: 'gpt-4',
+            model,
             tags: [contentType.toLowerCase()],
             is_public: false,
             user_id: session.user.id,
@@ -444,6 +446,21 @@ function SimplePromptLab() {
           <Badge variant="outline" className="text-xs">
             Create Better Prompts
           </Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <Select value={model} onValueChange={setModel}>
+            <SelectTrigger className="h-8 min-w-[170px] text-xs">
+              <SelectValue placeholder="Model" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="gpt-4">GPT-4 (active)</SelectItem>
+              <SelectItem disabled value="gpt-4o">GPT-4o — Coming soon</SelectItem>
+              <SelectItem disabled value="claude-3-5">Claude 3.5 — Coming soon</SelectItem>
+              <SelectItem disabled value="gemini-1-5">Gemini 1.5 — Coming soon</SelectItem>
+              <SelectItem disabled value="llama-3-1">Llama 3.1 — Coming soon</SelectItem>
+              <SelectItem disabled value="mistral-large">Mistral Large — Coming soon</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 

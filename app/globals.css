@@ -1,6 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Homepage visual refinements */
+:root {
+  --pm-emerald: 72 187 120; /* #48bb78 */
+  --pm-teal: 45 212 191; /* #2dd4bf */
+  --pm-sky: 56 189 248; /* #38bdf8 */
+}
+
+.pm-gradient-text {
+  background-image: linear-gradient(90deg, rgb(var(--pm-emerald)) 0%, rgb(var(--pm-teal)) 40%, rgb(var(--pm-sky)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 @plugin '@tailwindcss/typography';
 
 @theme inline {

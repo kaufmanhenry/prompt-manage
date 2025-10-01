@@ -1,20 +1,10 @@
 'use client'
 
-import {
-  ChevronDown,
-  ChevronRight,
-  Copy,
-  Loader2,
-  Plus,
-  Rocket,
-  Sparkles,
-  Trash2,
-} from 'lucide-react'
-import { useState } from 'react'
+import { ChevronDown, ChevronRight, Copy, Loader2, Rocket, Sparkles } from 'lucide-react'
+import React, { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
@@ -25,7 +15,8 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 
-type VariablesRow = Record<string, string>
+const CONTENT_TYPES = ['Email', 'Ad', 'Landing Page', 'Social', 'Blog', 'Other'] as const
+type ContentType = typeof CONTENT_TYPES[number]
 
 type RunResponse = {
   success: boolean
@@ -44,36 +35,41 @@ type RunResponse = {
   }
 }
 
-const DEFAULT_PROMPT = `Goal: Generate 5 Google Ads headlines (<= 30 chars)
-Audience: {audience}
-Product: {product}
-Benefit: {benefit}
-Tone: {tone}
-
-Instructions:
-- Use direct response style
-- Include one curiosity angle
-- Avoid clickbait`
+const DEFAULT_PROMPT = `Write 5 Google Ads headlines for {product} targeting {audience}. Focus on {benefit}. Keep under 30 characters.`
 
 const DEFAULT_CONTEXT = `Company: Prompt Manage helps marketing teams organize, test, and share prompts.
 Voice: Clear, confident, and helpful.`
 
-type KeyValue = { key: string; value: string }
+function getExampleForType(type: ContentType): string {
+  switch (type) {
+    case 'Email':
+      return 'Write a product launch email announcing our new AI feature. Audience: existing customers. Tone: friendly and clear. Include a CTA to try it.'
+    case 'Ad':
+      return 'Create 5 Google Ads headlines for a project management SaaS. Audience: startup teams. Emphasize speed and simplicity. Each under 30 characters.'
+    case 'Landing Page':
+      return 'Draft hero section copy for an AI writing tool landing page. Include headline, subheadline, and a primary CTA. Tone: confident and helpful.'
+    case 'Social':
+      return 'Write a LinkedIn post announcing our upcoming webinar on prompt engineering. Include a hook, 3 value bullets, and a signup CTA.'
+    case 'Blog':
+      return 'Outline a beginner\'s guide to prompt engineering for marketers. Provide an H2/H3 structure and a brief intro and conclusion.'
+    case 'Other':
+    default:
+      return 'Describe what you want to create in plain English. Example: draft a cold outreach message to book demos with marketing leaders.'
+  }
+}
 
 export function InteractivePromptLab() {
   const [prompt, setPrompt] = useState<string>(DEFAULT_PROMPT)
   const [context, setContext] = useState<string>(DEFAULT_CONTEXT)
   const [showContext, setShowContext] = useState<boolean>(false)
-  const [variables, setVariables] = useState<KeyValue[]>([
-    { key: 'product', value: 'Prompt Manage' },
-    { key: 'audience', value: 'Ecommerce marketers' },
-    { key: 'benefit', value: 'Higher ROAS from better copy' },
-    { key: 'tone', value: 'Confident and helpful' },
-  ])
+  const [contentType, setContentType] = useState<ContentType>('Ad')
   const [model, setModel] = useState<string>('gpt-4')
   const [isRunning, setIsRunning] = useState<boolean>(false)
+  const [progress, setProgress] = useState<number>(0)
+  const [promptTouched, setPromptTouched] = useState<boolean>(false)
   const [runs, setRuns] = useState<
     Array<{
+      original: string
       response: string
       tokens?: number | null
       latencyMs?: number | null
@@ -82,149 +78,143 @@ export function InteractivePromptLab() {
     }>
   >([])
 
-  function toVariablesRow(): VariablesRow {
-    const row: VariablesRow = {}
-    for (const kv of variables) {
-      if (kv.key.trim()) row[kv.key.trim()] = kv.value
+  // Update example prompt when content type changes, if user hasn't typed a custom idea
+  React.useEffect(() => {
+    const example = getExampleForType(contentType)
+    // Replace if untouched or currently equals another example template
+    if (!promptTouched || CONTENT_TYPES.some((t) => prompt === getExampleForType(t as ContentType))) {
+      setPrompt(example)
     }
-    return row
-  }
+  }, [contentType, promptTouched, prompt])
 
   async function runOnce() {
     setIsRunning(true)
+    setProgress(10)
+    const progressTimer = setInterval(() => {
+      setProgress((p) => (p < 90 ? p + 8 : p))
+    }, 250)
     try {
-      const res = await fetch('/api/prompt/run/preview', {
+      const res = await fetch('/api/prompt/improve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          variant: 'A',
-          model: 'gpt-4',
-          prompt,
-          context,
-          variablesRows: [toVariablesRow()],
-        }),
+        body: JSON.stringify({ prompt, context, model }),
       })
-      const json = (await res.json()) as RunResponse
-      const out = json.outputs?.[0]
+      const result = (await res.json()) as any
+      const after = result.response || 'No response'
       setRuns((prev) => [
         {
-          response: out?.response || 'No response',
-          tokens: out?.tokens_used ?? null,
-          latencyMs: out?.execution_time_ms ?? null,
-          costUsd: out?.cost_usd ?? null,
+          original: prompt,
+          response: after,
+          tokens: result.tokens_used ?? null,
+          latencyMs: result.execution_time_ms ?? null,
+          costUsd: null,
           createdAt: new Date().toISOString(),
         },
         ...prev,
       ])
     } finally {
+      clearInterval(progressTimer)
+      setProgress(100)
       setIsRunning(false)
+      setTimeout(() => setProgress(0), 500)
     }
   }
 
-  function addVar() {
-    setVariables((v) => [...v, { key: '', value: '' }])
-  }
-  function removeVar(index: number) {
-    setVariables((v) => v.filter((_, i) => i !== index))
-  }
-  function updateVar(index: number, field: 'key' | 'value', value: string) {
-    setVariables((v) => v.map((item, i) => (i === index ? { ...item, [field]: value } : item)))
-  }
-
   return (
-    <div className="mx-auto w-full max-w-full overflow-hidden rounded-2xl border border-emerald-200/50 bg-white p-4 shadow-sm ring-1 ring-emerald-500/10 dark:border-emerald-900/40 dark:bg-gray-900 md:max-w-md md:p-5">
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+    <div className="mx-auto w-full max-w-full overflow-hidden rounded-2xl border border-emerald-200/50 bg-white p-4 shadow-sm ring-1 ring-emerald-500/10 dark:border-emerald-900/40 dark:bg-gray-900 md:max-w-4xl md:p-6">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-          <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">Prompt Lab</span>
-          <Badge variant="outline" className="text-[10px]">
-            Preview
-          </Badge>
+          <span className="h-3 w-3 rounded-full bg-emerald-500" />
+          <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">Turn your idea into a great prompt</span>
+          <Badge variant="outline" className="text-xs">Create Better Prompts</Badge>
         </div>
         <Select value={model} onValueChange={setModel}>
-          <SelectTrigger className="h-8 min-w-[160px] text-xs">
+          <SelectTrigger className="h-8 min-w-[170px] text-xs">
             <SelectValue placeholder="Model" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="gpt-4">gpt-4</SelectItem>
-            <SelectItem disabled value="__pro__">
-              All Models Available on PRO
-            </SelectItem>
+            <SelectItem value="gpt-4">GPT-4 (active)</SelectItem>
+            <SelectItem disabled value="gpt-4o">GPT-4o — Coming soon</SelectItem>
+            <SelectItem disabled value="claude-3-5">Claude 3.5 — Coming soon</SelectItem>
+            <SelectItem disabled value="gemini-1-5">Gemini 1.5 — Coming soon</SelectItem>
+            <SelectItem disabled value="llama-3-1">Llama 3.1 — Coming soon</SelectItem>
+            <SelectItem disabled value="mistral-large">Mistral Large — Coming soon</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      <div className="space-y-3 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-950">
+      <div className="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-950">
+        {/* Content type chips */}
+        <div className="flex flex-wrap gap-2">
+          {CONTENT_TYPES.map((t) => (
+            <Button
+              key={t}
+              size="sm"
+              variant={t === contentType ? 'default' : 'outline'}
+              onClick={() => setContentType(t)}
+              className="h-8"
+            >
+              {t}
+            </Button>
+          ))}
+        </div>
+
         <div>
-          <label className="text-xs text-gray-600 dark:text-gray-300">Prompt</label>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">Your idea</label>
           <Textarea
             value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            className="min-h-[140px] font-mono text-[12px]"
+            onChange={(e) => {
+              setPrompt(e.target.value)
+              setPromptTouched(true)
+            }}
+            className="min-h[120px] min-h-[120px] font-mono text-sm"
+            placeholder={
+              contentType === 'Email'
+                ? 'Example: Launch email announcing our new feature...'
+                : contentType === 'Ad'
+                ? 'Example: Google ad for project management SaaS...'
+                : contentType === 'Landing Page'
+                ? 'Example: Product page hero copy for AI writing tool...'
+                : contentType === 'Social'
+                ? 'Example: LinkedIn post announcing a webinar...'
+                : contentType === 'Blog'
+                ? 'Example: Blog outline for beginner\'s guide to prompts...'
+                : 'Example: Describe what you want to create...'
+            }
           />
+          <p className="mt-1 text-xs text-gray-500">Write what you want—don't worry about wording. We'll turn it into a great prompt.</p>
         </div>
-        <div className="space-y-1">
+
+        <div className="space-y-2">
           <button
             type="button"
-            className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-300"
+            className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300"
             onClick={() => setShowContext(!showContext)}
           >
-            {showContext ? (
-              <ChevronDown className="h-3.5 w-3.5" />
-            ) : (
-              <ChevronRight className="h-3.5 w-3.5" />
-            )}
-            Context (optional)
+            {showContext ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+            Add context about your brand (optional)
           </button>
           {showContext && (
             <Textarea
               value={context}
               onChange={(e) => setContext(e.target.value)}
-              className="min-h-[80px] font-mono text-[12px]"
+              className="min-h-[80px] font-mono text-sm"
+              placeholder="Company: Your company name and what you do. Voice: Your brand personality..."
             />
           )}
         </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="text-xs text-gray-600 dark:text-gray-300">Variables (optional)</label>
-            <Button size="sm" variant="outline" onClick={addVar}>
-              <Plus className="h-3.5 w-3.5" /> Add
-            </Button>
-          </div>
-          <div className="space-y-2">
-            {variables.map((kv, i) => (
-              <div key={i} className="grid grid-cols-5 gap-2">
-                <Input
-                  placeholder="key"
-                  value={kv.key}
-                  onChange={(e) => updateVar(i, 'key', e.target.value)}
-                  className="col-span-2 h-8 text-xs"
-                />
-                <Input
-                  placeholder="value"
-                  value={kv.value}
-                  onChange={(e) => updateVar(i, 'value', e.target.value)}
-                  className="col-span-3 h-8 text-xs"
-                />
-                <div className="col-span-5 flex justify-end">
-                  <Button size="sm" variant="ghost" onClick={() => removeVar(i)}>
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex items-center justify-end gap-2 pt-1">
+
+        <div className="flex items-center justify-end gap-2 pt-2">
           <Button onClick={runOnce} disabled={isRunning}>
-            {isRunning ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Rocket className="h-4 w-4" />
-            )}{' '}
-            Run
+            {isRunning ? <Loader2 className="h-4 w-4 animate-spin" /> : <Rocket className="h-4 w-4" />} Generate
           </Button>
         </div>
+
+        {isRunning || progress > 0 ? (
+          <div className="mt-2 h-2 w-full overflow-hidden rounded bg-gray-200 dark:bg-gray-800">
+            <div className="h-full bg-emerald-500 transition-all" style={{ width: `${progress}%` }} />
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-4">

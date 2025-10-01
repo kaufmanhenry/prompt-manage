@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import InteractivePromptLab from '@/components/InteractivePromptLab'
+import RotatingAudience from '@/components/RotatingAudience'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -75,29 +76,41 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
         {/* Hero Section - split layout */}
         <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24">
           {/* Left: Copy */}
           <div className="text-left">
-            <h1 className="mb-6 text-5xl font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white md:text-6xl">
-              Prompt Libraries
-              <br />
-              <span className="text-emerald-600 dark:text-emerald-400">for Marketing Teams</span>
+            <h1 className="mb-6 font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white text-[clamp(1.75rem,5vw,3.1rem)] md:text-[clamp(2rem,4.4vw,3.4rem)] xl:text-[clamp(2.125rem,3.6vw,3.5rem)]">
+              <span className="block">Prompt Management</span>
+              <span className="block">for </span>
+              <RotatingAudience
+                className="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-500 bg-clip-text text-transparent"
+                intervalMs={3000}
+                items={[
+                  'Marketing Teams',
+                  'Creative Studios',
+                  'Advertising Agencies',
+                  'Editorial Teams',
+                  'Customer Support',
+                ]}
+              />
             </h1>
-            <p className="mb-6 max-w-xl text-lg text-gray-700 dark:text-gray-300 md:text-xl">
-              Store and systemize prompts for ads, emails, landing pages, and socials. Keep brand
-              voice consistent, share with your team, and ship campaigns faster.
+            <p className="mb-3 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
+              Create, manage, and run AI prompts. All in one place. With the Prompt Lab you can generate incredible and efficient prompts for emails, ads, landing pages, social media, blogs, and much more.
+            </p>
+            <p className="mb-6 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
+              Keep brand voice consistent and ship campaigns faster using Prompt Manage.
             </p>
             <div className="mb-8 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
-                <Folder className="h-4 w-4" /> Campaign libraries
+              <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
+                <Folder className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Campaign libraries
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
-                <ShieldCheck className="h-4 w-4" /> Brand voice guardrails
+              <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
+                <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Brand voice guardrails
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
-                <Users className="h-4 w-4" /> Team sharing
+              <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
+                <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Team sharing
               </span>
             </div>
             {session ? (
@@ -154,50 +167,97 @@ export default async function Home() {
 
           {/* Right: Team Prompt Workspace (broader across personas) */}
           <div className="relative">
-            <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-tr from-emerald-200/40 to-transparent blur-3xl dark:from-emerald-500/10" />
+            <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-tr from-gray-200/50 via-gray-100/40 to-transparent blur-3xl dark:from-gray-700/20 dark:via-gray-800/10" />
             <InteractivePromptLab />
           </div>
         </section>
 
-        {/* Built for marketers and advertisers */}
+        {/* Use Case Workflows */}
         <section className="mt-12 md:mt-20">
-          <div className="mx-auto max-w-5xl">
-            <h2 className="mb-10 text-center text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">
-              Built for marketers and advertisers
+          <div className="mx-auto max-w-6xl">
+            <h2 className="mb-12 text-center text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">
+              How teams ship campaigns faster
             </h2>
-            <div className="grid gap-8 md:grid-cols-3">
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-100 p-4 dark:bg-emerald-900/40">
-                  <Megaphone className="h-8 w-8 text-emerald-700 dark:text-emerald-300" />
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {/* Campaign Manager Workflow */}
+              <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
+                    <Megaphone className="h-5 w-5 text-emerald-600 dark:text-emerald-300" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">Campaign Manager</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Sets up libraries</p>
+                  </div>
                 </div>
-                <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                  Campaign-ready libraries
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Group prompts by channel and campaign so the team can reuse what works.
-                </p>
+                <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Creates "Q4 Holiday Campaign" library</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Adds proven email subject templates</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Shares with team → 2x faster setup</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-100 p-4 dark:bg-emerald-900/40">
-                  <ShieldCheck className="h-8 w-8 text-emerald-700 dark:text-emerald-300" />
+
+              {/* Content Creator Workflow */}
+              <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
+                    <Rocket className="h-5 w-5 text-emerald-600 dark:text-emerald-300" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">Content Creator</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Uses templates</p>
+                  </div>
                 </div>
-                <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                  Brand voice guardrails
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Lock key instructions and share best-practice templates across the org.
-                </p>
+                <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Opens "Social Media" library</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Runs Instagram caption prompt</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Gets 5 variations → picks best</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-100 p-4 dark:bg-emerald-900/40">
-                  <Rocket className="h-8 w-8 text-emerald-700 dark:text-emerald-300" />
+
+              {/* Team Lead Workflow */}
+              <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
+                    <Users className="h-5 w-5 text-emerald-600 dark:text-emerald-300" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">Team Lead</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Scales best practices</p>
+                  </div>
                 </div>
-                <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                  Test variations, ship faster
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Save variants, compare outcomes, and roll forward what performs.
-                </p>
+                <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Reviews winning prompts</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Adds to "Proven Templates"</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Team ships 30% faster</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -216,7 +276,7 @@ export default async function Home() {
                 key={k}
                 className="rounded-xl border border-gray-200 bg-white p-4 text-center dark:border-gray-800 dark:bg-gray-900"
               >
-                <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{k}</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">{k}</div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">{v}</div>
               </div>
             ))}
@@ -268,14 +328,22 @@ export default async function Home() {
 
         {/* Testimonial */}
         <Separator className="mx-auto my-12 max-w-xs" />
-        <div className="mx-auto max-w-3xl pb-16 text-center">
+          <div className="mx-auto max-w-3xl pb-16 text-center">
           <blockquote className="text-xl leading-relaxed text-gray-900 dark:text-white md:text-2xl">
             “Prompt Manage turned our scattered prompt docs into a single source of truth. Our team
             ships campaigns noticeably faster with more consistent copy.”
           </blockquote>
-          <div className="mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300">
-            Mike M., Co-Founder of MCA
-          </div>
+            <div className="mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300">
+              Michael Moloney, Co-Founder of{' '}
+              <a
+                href="https://moloneycreativeagency.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-emerald-300/50 underline-offset-2 hover:decoration-emerald-400"
+              >
+                MCA
+              </a>
+            </div>
         </div>
       </div>
     </div>

@@ -180,8 +180,8 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         })
       }
 
-      queryClient.invalidateQueries({ queryKey: ['prompts'] })
-      queryClient.invalidateQueries({ queryKey: ['user-tags'] })
+      void queryClient.invalidateQueries({ queryKey: ['prompts'] })
+      void queryClient.invalidateQueries({ queryKey: ['user-tags'] })
       onOpenChange(false)
     } catch (error) {
       console.error('Error saving prompt:', error)

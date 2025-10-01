@@ -81,7 +81,7 @@ export default async function Home() {
         <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24">
           {/* Left: Copy */}
           <div className="text-left">
-            <h1 className="mb-6 font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white text-[clamp(1.75rem,5vw,3.1rem)] md:text-[clamp(2rem,4.4vw,3.4rem)] xl:text-[clamp(2.125rem,3.6vw,3.5rem)]">
+            <h1 className="mb-6 text-[clamp(1.75rem,5vw,3.1rem)] font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white md:text-[clamp(2rem,4.4vw,3.4rem)] xl:text-[clamp(2.125rem,3.6vw,3.5rem)]">
               <span className="block">Prompt Management</span>
               <span className="block">for </span>
               <RotatingAudience
@@ -97,17 +97,21 @@ export default async function Home() {
               />
             </h1>
             <p className="mb-3 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
-              Create, manage, and run AI prompts. All in one place. With the Prompt Lab you can generate incredible and efficient prompts for emails, ads, landing pages, social media, blogs, and much more.
+              Create, manage, and run AI prompts. All in one place. With the Prompt Lab you can
+              generate incredible and efficient prompts for emails, ads, landing pages, social
+              media, blogs, and much more.
             </p>
             <p className="mb-6 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
               Keep brand voice consistent and ship campaigns faster using Prompt Manage.
             </p>
             <div className="mb-8 flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
-                <Folder className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Campaign libraries
+                <Folder className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Campaign
+                libraries
               </span>
               <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
-                <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Brand voice guardrails
+                <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Brand
+                voice guardrails
               </span>
               <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
                 <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Team sharing
@@ -186,7 +190,9 @@ export default async function Home() {
                     <Megaphone className="h-5 w-5 text-emerald-600 dark:text-emerald-300" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Campaign Manager</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">
+                      Campaign Manager
+                    </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">Sets up libraries</p>
                   </div>
                 </div>
@@ -241,7 +247,9 @@ export default async function Home() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-white">Team Lead</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Scales best practices</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Scales best practices
+                    </p>
                   </div>
                 </div>
                 <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
@@ -328,22 +336,22 @@ export default async function Home() {
 
         {/* Testimonial */}
         <Separator className="mx-auto my-12 max-w-xs" />
-          <div className="mx-auto max-w-3xl pb-16 text-center">
+        <div className="mx-auto max-w-3xl pb-16 text-center">
           <blockquote className="text-xl leading-relaxed text-gray-900 dark:text-white md:text-2xl">
             “Prompt Manage turned our scattered prompt docs into a single source of truth. Our team
             ships campaigns noticeably faster with more consistent copy.”
           </blockquote>
-            <div className="mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300">
-              Michael Moloney, Co-Founder of{' '}
-              <a
-                href="https://moloneycreativeagency.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-emerald-300/50 underline-offset-2 hover:decoration-emerald-400"
-              >
-                MCA
-              </a>
-            </div>
+          <div className="mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300">
+            Michael Moloney, Co-Founder of{' '}
+            <a
+              href="https://moloneycreativeagency.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-emerald-300/50 underline-offset-2 hover:decoration-emerald-400"
+            >
+              MCA
+            </a>
+          </div>
         </div>
       </div>
     </div>

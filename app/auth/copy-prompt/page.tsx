@@ -96,7 +96,7 @@ export default function CopyPromptPage() {
       }
     }
 
-    handlePromptCopy()
+    void handlePromptCopy()
   }, [session, router, toast])
 
   if (loading) {

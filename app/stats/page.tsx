@@ -74,7 +74,7 @@ export default function StatsPage() {
       }
     }
 
-    fetchStats()
+    void fetchStats()
   }, [])
 
   // Update time every second

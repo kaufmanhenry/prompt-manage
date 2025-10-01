@@ -57,7 +57,7 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
       }
     }
     if (post.slug === 'top-gpt5-prompts-for-marketers') {
-      fetchLatestPrompts()
+      void fetchLatestPrompts()
     }
   }, [post.slug])
 

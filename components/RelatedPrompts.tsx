@@ -111,7 +111,7 @@ export function RelatedPrompts({ currentPrompt, maxResults = 8 }: RelatedPrompts
       }
     }
 
-    fetchAllRelatedPrompts()
+    void fetchAllRelatedPrompts()
   }, [currentPrompt, maxResults])
 
   const PromptCard = ({ prompt }: { prompt: PublicPrompt }) => (

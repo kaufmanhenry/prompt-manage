@@ -16,9 +16,9 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 
 const CONTENT_TYPES = ['Email', 'Ad', 'Landing Page', 'Social', 'Blog', 'Other'] as const
-type ContentType = typeof CONTENT_TYPES[number]
+type ContentType = (typeof CONTENT_TYPES)[number]
 
-type RunResponse = {
+type _RunResponse = {
   success: boolean
   variant: string
   outputs: Array<{
@@ -51,7 +51,7 @@ function getExampleForType(type: ContentType): string {
     case 'Social':
       return 'Write a LinkedIn post announcing our upcoming webinar on prompt engineering. Include a hook, 3 value bullets, and a signup CTA.'
     case 'Blog':
-      return 'Outline a beginner\'s guide to prompt engineering for marketers. Provide an H2/H3 structure and a brief intro and conclusion.'
+      return "Outline a beginner's guide to prompt engineering for marketers. Provide an H2/H3 structure and a brief intro and conclusion."
     case 'Other':
     default:
       return 'Describe what you want to create in plain English. Example: draft a cold outreach message to book demos with marketing leaders.'
@@ -82,7 +82,7 @@ export function InteractivePromptLab() {
   React.useEffect(() => {
     const example = getExampleForType(contentType)
     // Replace if untouched or currently equals another example template
-    if (!promptTouched || CONTENT_TYPES.some((t) => prompt === getExampleForType(t as ContentType))) {
+    if (!promptTouched || CONTENT_TYPES.some((t) => prompt === getExampleForType(t))) {
       setPrompt(example)
     }
   }, [contentType, promptTouched, prompt])
@@ -99,7 +99,7 @@ export function InteractivePromptLab() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt, context, model }),
       })
-      const result = (await res.json()) as any
+      const result = await res.json()
       const after = result.response || 'No response'
       setRuns((prev) => [
         {
@@ -125,8 +125,12 @@ export function InteractivePromptLab() {
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="h-3 w-3 rounded-full bg-emerald-500" />
-          <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">Turn your idea into a great prompt</span>
-          <Badge variant="outline" className="text-xs">Create Better Prompts</Badge>
+          <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Turn your idea into a great prompt
+          </span>
+          <Badge variant="outline" className="text-xs">
+            Create Better Prompts
+          </Badge>
         </div>
         <Select value={model} onValueChange={setModel}>
           <SelectTrigger className="h-8 min-w-[170px] text-xs">
@@ -134,11 +138,21 @@ export function InteractivePromptLab() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="gpt-4">GPT-4 (active)</SelectItem>
-            <SelectItem disabled value="gpt-4o">GPT-4o — Coming soon</SelectItem>
-            <SelectItem disabled value="claude-3-5">Claude 3.5 — Coming soon</SelectItem>
-            <SelectItem disabled value="gemini-1-5">Gemini 1.5 — Coming soon</SelectItem>
-            <SelectItem disabled value="llama-3-1">Llama 3.1 — Coming soon</SelectItem>
-            <SelectItem disabled value="mistral-large">Mistral Large — Coming soon</SelectItem>
+            <SelectItem disabled value="gpt-4o">
+              GPT-4o — Coming soon
+            </SelectItem>
+            <SelectItem disabled value="claude-3-5">
+              Claude 3.5 — Coming soon
+            </SelectItem>
+            <SelectItem disabled value="gemini-1-5">
+              Gemini 1.5 — Coming soon
+            </SelectItem>
+            <SelectItem disabled value="llama-3-1">
+              Llama 3.1 — Coming soon
+            </SelectItem>
+            <SelectItem disabled value="mistral-large">
+              Mistral Large — Coming soon
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -160,7 +174,9 @@ export function InteractivePromptLab() {
         </div>
 
         <div>
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">Your idea</label>
+          <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Your idea
+          </label>
           <Textarea
             value={prompt}
             onChange={(e) => {
@@ -172,17 +188,19 @@ export function InteractivePromptLab() {
               contentType === 'Email'
                 ? 'Example: Launch email announcing our new feature...'
                 : contentType === 'Ad'
-                ? 'Example: Google ad for project management SaaS...'
-                : contentType === 'Landing Page'
-                ? 'Example: Product page hero copy for AI writing tool...'
-                : contentType === 'Social'
-                ? 'Example: LinkedIn post announcing a webinar...'
-                : contentType === 'Blog'
-                ? 'Example: Blog outline for beginner\'s guide to prompts...'
-                : 'Example: Describe what you want to create...'
+                  ? 'Example: Google ad for project management SaaS...'
+                  : contentType === 'Landing Page'
+                    ? 'Example: Product page hero copy for AI writing tool...'
+                    : contentType === 'Social'
+                      ? 'Example: LinkedIn post announcing a webinar...'
+                      : contentType === 'Blog'
+                        ? "Example: Blog outline for beginner's guide to prompts..."
+                        : 'Example: Describe what you want to create...'
             }
           />
-          <p className="mt-1 text-xs text-gray-500">Write what you want—don't worry about wording. We'll turn it into a great prompt.</p>
+          <p className="mt-1 text-xs text-gray-500">
+            Write what you want—don't worry about wording. We'll turn it into a great prompt.
+          </p>
         </div>
 
         <div className="space-y-2">
@@ -191,7 +209,11 @@ export function InteractivePromptLab() {
             className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300"
             onClick={() => setShowContext(!showContext)}
           >
-            {showContext ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+            {showContext ? (
+              <ChevronDown className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
             Add context about your brand (optional)
           </button>
           {showContext && (
@@ -206,13 +228,21 @@ export function InteractivePromptLab() {
 
         <div className="flex items-center justify-end gap-2 pt-2">
           <Button onClick={runOnce} disabled={isRunning}>
-            {isRunning ? <Loader2 className="h-4 w-4 animate-spin" /> : <Rocket className="h-4 w-4" />} Generate
+            {isRunning ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Rocket className="h-4 w-4" />
+            )}{' '}
+            Generate
           </Button>
         </div>
 
         {isRunning || progress > 0 ? (
           <div className="mt-2 h-2 w-full overflow-hidden rounded bg-gray-200 dark:bg-gray-800">
-            <div className="h-full bg-emerald-500 transition-all" style={{ width: `${progress}%` }} />
+            <div
+              className="h-full bg-emerald-500 transition-all"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         ) : null}
       </div>

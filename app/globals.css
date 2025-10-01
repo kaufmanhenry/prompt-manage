@@ -10,7 +10,12 @@
 }
 
 .pm-gradient-text {
-  background-image: linear-gradient(90deg, rgb(var(--pm-emerald)) 0%, rgb(var(--pm-teal)) 40%, rgb(var(--pm-sky)) 100%);
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--pm-emerald)) 0%,
+    rgb(var(--pm-teal)) 40%,
+    rgb(var(--pm-sky)) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

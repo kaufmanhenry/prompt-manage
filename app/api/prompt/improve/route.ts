@@ -63,11 +63,14 @@ Return only the improved prompt, no explanations.`
   } catch (error) {
     const executionTime = Date.now() - startTime
     console.error('Prompt improvement error:', error)
-    
-    return NextResponse.json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
-      execution_time_ms: executionTime,
-    }, { status: 500 })
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+        execution_time_ms: executionTime,
+      },
+      { status: 500 },
+    )
   }
 }

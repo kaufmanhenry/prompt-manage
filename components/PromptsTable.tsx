@@ -100,7 +100,6 @@ export function PromptsTable({
   const { toast } = useToast()
   const queryClient = useQueryClient()
 
-
   // Fetch original prompt slug when viewing a derivative prompt
   useEffect(() => {
     const fetchOriginalPromptSlug = async () => {
@@ -586,15 +585,15 @@ export function PromptDetails({
       }
 
       const result = await response.json()
-      
+
       // Update the selected prompt with the updated text if it was modified
       if (result.prompt && result.prompt.prompt_text !== promptToRun.prompt_text) {
         onUpdatePrompt?.(result.prompt)
         setIsUserEditing(false) // Reset editing state after successful update
       }
-      
+
       await refetchHistory()
-      
+
       // Invalidate prompts query to refresh the prompt data after a short delay
       setTimeout(() => {
         void queryClient.invalidateQueries({ queryKey: ['prompts'] })

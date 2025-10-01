@@ -83,7 +83,7 @@ function PublicDirectoryContent() {
   }, [sortBy, toast])
 
   useEffect(() => {
-    fetchPublicPrompts()
+    void fetchPublicPrompts()
   }, [sortBy, fetchPublicPrompts])
 
   // Sync filters/page with URL

@@ -201,7 +201,7 @@ export default function DashboardPage() {
             // Update the prompts query cache with the updated prompt
             queryClient.setQueryData(['prompts'], (oldPrompts: Prompt[] | undefined) => {
               if (!oldPrompts) return oldPrompts
-              return oldPrompts.map(p => p.id === updatedPrompt.id ? updatedPrompt : p)
+              return oldPrompts.map((p) => (p.id === updatedPrompt.id ? updatedPrompt : p))
             })
           }}
           originalPromptSlug={originalPromptSlug}

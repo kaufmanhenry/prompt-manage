@@ -83,7 +83,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
   }, [params.slug])
 
   useEffect(() => {
-    fetchPrompt()
+    void fetchPrompt()
   }, [params.slug, fetchPrompt])
 
   const handleCopyLink = async () => {

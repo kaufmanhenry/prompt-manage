@@ -266,7 +266,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
                           size="sm"
                           onClick={(e) => {
                             e.stopPropagation()
-                            handleCopyResponse(selectedRun.response)
+                            void handleCopyResponse(selectedRun.response)
                           }}
                         >
                           <Copy className="mr-1 h-3 w-3" />

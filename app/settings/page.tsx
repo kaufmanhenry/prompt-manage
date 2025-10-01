@@ -102,7 +102,7 @@ export default function SettingsPage() {
   }, [setTheme])
 
   useEffect(() => {
-    loadUserData()
+    void loadUserData()
   }, [loadUserData])
 
   useEffect(() => {

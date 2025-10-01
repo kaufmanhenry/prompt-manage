@@ -4,9 +4,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import SimplePromptLab from '@/components/SimplePromptLab'
 import { Sidebar } from '@/components/Sidebar'
-import { Button } from '@/components/ui/button'
+import SimplePromptLab from '@/components/SimplePromptLab'
 import { useToast } from '@/components/ui/use-toast'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
@@ -53,25 +52,25 @@ export default function LabPage() {
   }, [searchParams])
 
   // Fetch selected prompt data
-  const { data: selectedPrompt, isLoading: isLoadingPrompt } = useQuery({
+  const { data: _selectedPrompt, isLoading: _isLoadingPrompt } = useQuery({
     queryKey: ['prompt', selectedPromptId],
     queryFn: async () => {
       if (!selectedPromptId || !session?.user?.id) return null
-      
+
       const { data, error } = await createClient()
         .from('prompts')
         .select('*')
         .eq('id', selectedPromptId)
         .eq('user_id', session.user.id)
         .single()
-      
+
       if (error) throw error
       return data as Prompt
     },
     enabled: !!selectedPromptId && !!session?.user?.id,
   })
 
-  const handleSavePrompt = async (promptData: {
+  const _handleSavePrompt = async (promptData: {
     name: string
     prompt_text: string
     model: string
@@ -98,8 +97,8 @@ export default function LabPage() {
       if (error) throw error
 
       // Invalidate queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ['prompts'] })
-      
+      void queryClient.invalidateQueries({ queryKey: ['prompts'] })
+
       // Navigate to the dashboard to see the new prompt
       router.push('/dashboard')
     } catch (error) {
@@ -120,7 +119,7 @@ export default function LabPage() {
 
   return (
     <div className="flex h-screen bg-background">
-      <Sidebar 
+      <Sidebar
         prompts={prompts}
         selectedPromptId={selectedPromptId}
         onSelectPrompt={handleSelectPrompt}

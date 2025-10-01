@@ -1,6 +1,6 @@
 'use client'
 
-import { GlobeIcon, FlaskConical, Home, Plus } from 'lucide-react'
+import { FlaskConical, GlobeIcon, Home, Plus } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -101,7 +101,7 @@ export function Sidebar({
           size="sm"
           variant="outline"
           className="px-2 py-1"
-          onClick={() => onNewPrompt ? onNewPrompt() : onSelectPrompt('new')}
+          onClick={() => (onNewPrompt ? onNewPrompt() : onSelectPrompt('new'))}
           data-testid="create-prompt"
         >
           <Plus className="h-4 w-4" />

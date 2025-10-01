@@ -1,34 +1,20 @@
 'use client'
 
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   ChevronDown,
   ChevronRight,
   Copy,
-  Loader2,
-  Plus,
-  Rocket,
-  Sparkles,
-  Trash2,
-  Save,
   Folder,
+  Loader2,
+  Rocket,
+  Save,
+  Sparkles,
 } from 'lucide-react'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { createClient } from '@/utils/supabase/client'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Textarea } from '@/components/ui/textarea'
-import { useToast } from '@/components/ui/use-toast'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import {
   Dialog,
   DialogContent,
@@ -37,10 +23,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+import { useToast } from '@/components/ui/use-toast'
+import { createClient } from '@/utils/supabase/client'
 
-type VariablesRow = Record<string, string>
+type _VariablesRow = Record<string, string>
 
-type RunResponse = {
+type _RunResponse = {
   success: boolean
   variant: string
   outputs: Array<{
@@ -62,7 +60,7 @@ const DEFAULT_PROMPT = `Write 5 Google Ads headlines for {product} targeting {au
 const DEFAULT_CONTEXT = `Company: Prompt Manage helps marketing teams organize, test, and share prompts.
 Voice: Clear, confident, and helpful.`
 
-type KeyValue = { key: string; value: string }
+type _KeyValue = { key: string; value: string }
 
 type SavedContext = {
   id: string
@@ -72,7 +70,7 @@ type SavedContext = {
 }
 
 const CONTENT_TYPES = ['Email', 'Ad', 'Landing Page', 'Social', 'Blog', 'Other'] as const
-type ContentType = typeof CONTENT_TYPES[number]
+type ContentType = (typeof CONTENT_TYPES)[number]
 
 function getExampleForType(type: ContentType): string {
   switch (type) {
@@ -153,17 +151,14 @@ function SimplePromptLab() {
       const isMeta = e.ctrlKey || e.metaKey
       if (e.key === 'Enter' && !isRunning) {
         e.preventDefault()
-        runOnce()
+        void runOnce()
       }
       if (isMeta && e.key.toLowerCase() === 's') {
         e.preventDefault()
         if (runs.length > 0) {
           setEditingPrompt(runs[0].response)
           // Default name from first 6 words
-          const defaultName = runs[0].response
-            .split(/\s+/)
-            .slice(0, 6)
-            .join(' ')
+          const defaultName = runs[0].response.split(/\s+/).slice(0, 6).join(' ')
           setFinalPromptName(defaultName)
           setShowFinalizeDialog(true)
         }
@@ -171,32 +166,24 @@ function SimplePromptLab() {
       if (isMeta && e.key.toLowerCase() === 'c') {
         e.preventDefault()
         if (runs.length > 0) {
-          navigator.clipboard.writeText(runs[0].response)
+          void navigator.clipboard.writeText(runs[0].response)
           toast({ title: 'Copied!', description: 'Prompt copied to clipboard' })
         }
       }
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [isRunning, runs])
+  }, [isRunning, runs]) // eslint-disable-line react-hooks/exhaustive-deps -- runOnce and toast are stable function references
 
   // Update example prompt when content type changes, if user hasn't typed a custom idea
   useEffect(() => {
     const example = getExampleForType(contentType)
     // Replace if untouched or currently equals another example template
-    if (!promptTouched || CONTENT_TYPES.some((t) => prompt === getExampleForType(t as ContentType))) {
+    if (!promptTouched || CONTENT_TYPES.some((t) => prompt === getExampleForType(t))) {
       setPrompt(example)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contentType])
-
-  function toVariablesRow(): VariablesRow {
-    const row: VariablesRow = {}
-    for (const kv of variables) {
-      if (kv.key.trim()) row[kv.key.trim()] = kv.value
-    }
-    return row
-  }
 
   function saveContext() {
     if (!newContextName.trim() || !context.trim()) {
@@ -218,10 +205,10 @@ function SimplePromptLab() {
     const updatedContexts = [...savedContexts, newContext]
     setSavedContexts(updatedContexts)
     localStorage.setItem('savedContexts', JSON.stringify(updatedContexts))
-    
+
     setNewContextName('')
     setShowSaveDialog(false)
-    
+
     toast({
       title: 'Context saved!',
       description: `"${newContext.name}" has been saved to your context library.`,
@@ -229,7 +216,7 @@ function SimplePromptLab() {
   }
 
   function loadContext(contextId: string) {
-    const savedContext = savedContexts.find(c => c.id === contextId)
+    const savedContext = savedContexts.find((c) => c.id === contextId)
     if (savedContext) {
       setContext(savedContext.content)
       setSelectedContextId(contextId)
@@ -240,33 +227,35 @@ function SimplePromptLab() {
     }
   }
 
-  function deleteContext(contextId: string) {
-    const updatedContexts = savedContexts.filter(c => c.id !== contextId)
+  function _deleteContext(contextId: string) {
+    const updatedContexts = savedContexts.filter((c) => c.id !== contextId)
     setSavedContexts(updatedContexts)
     localStorage.setItem('savedContexts', JSON.stringify(updatedContexts))
-    
+
     if (selectedContextId === contextId) {
       setSelectedContextId('')
       setContext(DEFAULT_CONTEXT)
     }
-    
+
     toast({
       title: 'Context deleted',
       description: 'The context has been removed from your library.',
     })
   }
 
-
   function generateWhatChanged(beforeText: string, afterText: string): string[] {
     const changes: string[] = []
     if (afterText.length !== beforeText.length) {
       const delta = afterText.length - beforeText.length
-      changes.push(`${delta > 0 ? 'Expanded' : 'Condensed'} details (${Math.abs(delta)} chars)`) 
+      changes.push(`${delta > 0 ? 'Expanded' : 'Condensed'} details (${Math.abs(delta)} chars)`)
     }
     if (/\n\n|\d+\.|\-|\*/.test(afterText) && !/\n\n|\d+\.|\-|\*/.test(beforeText)) {
       changes.push('Improved structure and formatting')
     }
-    if (/(you|your|audience|target|tone)/i.test(afterText) && !/(you|your|audience|target|tone)/i.test(beforeText)) {
+    if (
+      /(you|your|audience|target|tone)/i.test(afterText) &&
+      !/(you|your|audience|target|tone)/i.test(beforeText)
+    ) {
       changes.push('Clarified audience and instructions')
     }
     if (context && afterText.toLowerCase().includes('brand')) {
@@ -278,7 +267,7 @@ function SimplePromptLab() {
   async function runOnce() {
     setIsRunning(true)
     setProgress(10)
-    const start = Date.now()
+    const _start = Date.now()
     const progressTimer = setInterval(() => {
       setProgress((p) => (p < 90 ? p + 8 : p))
     }, 250)
@@ -323,7 +312,8 @@ function SimplePromptLab() {
       console.error('Error running prompt:', error)
       toast({
         title: 'Oops!',
-        description: error instanceof Error ? error.message : 'Something went wrong. Please try again.',
+        description:
+          error instanceof Error ? error.message : 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     } finally {
@@ -337,7 +327,7 @@ function SimplePromptLab() {
   function startEditing(index: number) {
     const updatedRuns = runs.map((run, i) => ({
       ...run,
-      isEditing: i === index
+      isEditing: i === index,
     }))
     setRuns(updatedRuns)
     setEditingPrompt(runs[index].response)
@@ -347,21 +337,21 @@ function SimplePromptLab() {
     const updatedRuns = runs.map((run, i) => ({
       ...run,
       response: i === index ? editingPrompt : run.response,
-      isEditing: false
+      isEditing: false,
     }))
     setRuns(updatedRuns)
     setEditingPrompt('')
-    
+
     toast({
       title: 'Prompt updated!',
       description: 'Your changes have been saved.',
     })
   }
 
-  function cancelEdit(index: number) {
-    const updatedRuns = runs.map((run, i) => ({
+  function cancelEdit(_index: number) {
+    const updatedRuns = runs.map((run, _i) => ({
       ...run,
-      isEditing: false
+      isEditing: false,
     }))
     setRuns(updatedRuns)
     setEditingPrompt('')
@@ -370,10 +360,7 @@ function SimplePromptLab() {
   function finalizePrompt(index: number) {
     setEditingPrompt(runs[index].response)
     // default name from first 6 words
-    const defaultName = runs[index].response
-      .split(/\s+/)
-      .slice(0, 6)
-      .join(' ')
+    const defaultName = runs[index].response.split(/\s+/).slice(0, 6).join(' ')
     setFinalPromptName(defaultName)
     setShowFinalizeDialog(true)
   }
@@ -414,12 +401,12 @@ function SimplePromptLab() {
         if (error) throw error
 
         // Invalidate queries to refresh data
-        queryClient.invalidateQueries({ queryKey: ['prompts'] })
-        
+        void queryClient.invalidateQueries({ queryKey: ['prompts'] })
+
         setFinalPromptName('')
         setShowFinalizeDialog(false)
         setEditingPrompt('')
-        
+
         toast({
           title: 'Prompt saved!',
           description: `"${finalPromptName}" has been saved to your prompt library.`,
@@ -434,7 +421,7 @@ function SimplePromptLab() {
       }
     }
 
-    saveToDatabase()
+    void saveToDatabase()
   }
 
   return (
@@ -442,7 +429,9 @@ function SimplePromptLab() {
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="h-3 w-3 rounded-full bg-emerald-500" />
-          <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">Turn your idea into a great prompt</span>
+          <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Turn your idea into a great prompt
+          </span>
           <Badge variant="outline" className="text-xs">
             Create Better Prompts
           </Badge>
@@ -454,11 +443,21 @@ function SimplePromptLab() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="gpt-4">GPT-4 (active)</SelectItem>
-              <SelectItem disabled value="gpt-4o">GPT-4o — Coming soon</SelectItem>
-              <SelectItem disabled value="claude-3-5">Claude 3.5 — Coming soon</SelectItem>
-              <SelectItem disabled value="gemini-1-5">Gemini 1.5 — Coming soon</SelectItem>
-              <SelectItem disabled value="llama-3-1">Llama 3.1 — Coming soon</SelectItem>
-              <SelectItem disabled value="mistral-large">Mistral Large — Coming soon</SelectItem>
+              <SelectItem disabled value="gpt-4o">
+                GPT-4o — Coming soon
+              </SelectItem>
+              <SelectItem disabled value="claude-3-5">
+                Claude 3.5 — Coming soon
+              </SelectItem>
+              <SelectItem disabled value="gemini-1-5">
+                Gemini 1.5 — Coming soon
+              </SelectItem>
+              <SelectItem disabled value="llama-3-1">
+                Llama 3.1 — Coming soon
+              </SelectItem>
+              <SelectItem disabled value="mistral-large">
+                Mistral Large — Coming soon
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -481,7 +480,7 @@ function SimplePromptLab() {
         </div>
 
         <div>
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+          <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
             Your idea
           </label>
           <Textarea
@@ -495,17 +494,19 @@ function SimplePromptLab() {
               contentType === 'Email'
                 ? 'Example: Launch email announcing our new feature...'
                 : contentType === 'Ad'
-                ? 'Example: Google ad for project management SaaS...'
-                : contentType === 'Landing Page'
-                ? 'Example: Product page hero copy for AI writing tool...'
-                : contentType === 'Social'
-                ? 'Example: LinkedIn post announcing a webinar...'
-                : contentType === 'Blog'
-                ? 'Example: Blog outline for beginner’s guide to prompts...'
-                : 'Example: Describe what you want to create...'
+                  ? 'Example: Google ad for project management SaaS...'
+                  : contentType === 'Landing Page'
+                    ? 'Example: Product page hero copy for AI writing tool...'
+                    : contentType === 'Social'
+                      ? 'Example: LinkedIn post announcing a webinar...'
+                      : contentType === 'Blog'
+                        ? 'Example: Blog outline for beginner’s guide to prompts...'
+                        : 'Example: Describe what you want to create...'
             }
           />
-          <p className="mt-1 text-xs text-gray-500">Write what you want—don’t worry about wording. We’ll turn it into a great prompt.</p>
+          <p className="mt-1 text-xs text-gray-500">
+            Write what you want—don’t worry about wording. We’ll turn it into a great prompt.
+          </p>
         </div>
 
         <div className="space-y-2">
@@ -525,7 +526,7 @@ function SimplePromptLab() {
             {showContext && (
               <div className="flex items-center gap-2">
                 <Select value={selectedContextId} onValueChange={loadContext}>
-                  <SelectTrigger className="w-48 h-8 text-xs">
+                  <SelectTrigger className="h-8 w-48 text-xs">
                     <SelectValue placeholder="Load saved context" />
                   </SelectTrigger>
                   <SelectContent>
@@ -540,19 +541,19 @@ function SimplePromptLab() {
                     {savedContexts
                       .filter((c) => c.name.toLowerCase().includes(contextSearch.toLowerCase()))
                       .map((ctx) => (
-                      <SelectItem key={ctx.id} value={ctx.id}>
-                        <div className="flex items-center gap-2">
-                          <Folder className="h-3 w-3" />
-                          {ctx.name}
-                        </div>
-                      </SelectItem>
-                    ))}
+                        <SelectItem key={ctx.id} value={ctx.id}>
+                          <div className="flex items-center gap-2">
+                            <Folder className="h-3 w-3" />
+                            {ctx.name}
+                          </div>
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
                 <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
                   <DialogTrigger asChild>
                     <Button size="sm" variant="outline" className="h-8 text-xs">
-                      <Save className="h-3 w-3 mr-1" />
+                      <Save className="mr-1 h-3 w-3" />
                       Save
                     </Button>
                   </DialogTrigger>
@@ -577,9 +578,7 @@ function SimplePromptLab() {
                         <Button variant="outline" onClick={() => setShowSaveDialog(false)}>
                           Cancel
                         </Button>
-                        <Button onClick={saveContext}>
-                          Save Context
-                        </Button>
+                        <Button onClick={saveContext}>Save Context</Button>
                       </div>
                     </div>
                   </DialogContent>
@@ -597,17 +596,18 @@ function SimplePromptLab() {
           )}
         </div>
 
-
         {selectedContextId && (
-          <div className="text-xs text-emerald-700 dark:text-emerald-300">Using context: {savedContexts.find(c=>c.id===selectedContextId)?.name}</div>
+          <div className="text-xs text-emerald-700 dark:text-emerald-300">
+            Using context: {savedContexts.find((c) => c.id === selectedContextId)?.name}
+          </div>
         )}
 
         <div className="flex items-center justify-end gap-2 pt-2">
           <Button onClick={runOnce} disabled={isRunning} size="lg">
             {isRunning ? (
-              <Loader2 className="h-5 w-5 animate-spin mr-2" />
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
             ) : (
-              <Rocket className="h-5 w-5 mr-2" />
+              <Rocket className="mr-2 h-5 w-5" />
             )}
             Generate Prompt
           </Button>
@@ -625,14 +625,17 @@ function SimplePromptLab() {
 
       <div className="mt-6">
         <div className="mb-3 flex items-center justify-between">
-          <span className="text-lg font-medium text-gray-800 dark:text-gray-200">Improved Prompts</span>
+          <span className="text-lg font-medium text-gray-800 dark:text-gray-200">
+            Improved Prompts
+          </span>
           <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-            <Sparkles className="h-4 w-4" /> {runs.length} {runs.length === 1 ? 'prompt' : 'prompts'}
+            <Sparkles className="h-4 w-4" /> {runs.length}{' '}
+            {runs.length === 1 ? 'prompt' : 'prompts'}
           </div>
         </div>
         {runs.length === 0 ? (
-          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-            <Rocket className="h-12 w-12 mx-auto mb-3 opacity-50" />
+          <div className="py-8 text-center text-gray-500 dark:text-gray-400">
+            <Rocket className="mx-auto mb-3 h-12 w-12 opacity-50" />
             <p className="text-sm">Click "Generate Prompt" to see your improved prompt here</p>
           </div>
         ) : (
@@ -649,41 +652,26 @@ function SimplePromptLab() {
                   <div className="flex items-center gap-2">
                     {r.isEditing ? (
                       <>
-                        <Button
-                          size="sm"
-                          onClick={() => saveEdit(idx)}
-                        >
+                        <Button size="sm" onClick={() => saveEdit(idx)}>
                           Save
                         </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => cancelEdit(idx)}
-                        >
+                        <Button size="sm" variant="outline" onClick={() => cancelEdit(idx)}>
                           Cancel
                         </Button>
                       </>
                     ) : (
                       <>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => startEditing(idx)}
-                        >
+                        <Button size="sm" variant="outline" onClick={() => startEditing(idx)}>
                           Edit
                         </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => finalizePrompt(idx)}
-                        >
+                        <Button size="sm" variant="outline" onClick={() => finalizePrompt(idx)}>
                           Finalize & Save
                         </Button>
                         <Button
                           size="sm"
                           variant="ghost"
                           onClick={() => {
-                            navigator.clipboard.writeText(r.response)
+                            void navigator.clipboard.writeText(r.response)
                             toast({
                               title: 'Copied!',
                               description: 'Prompt copied to clipboard',
@@ -701,7 +689,9 @@ function SimplePromptLab() {
                   <div className="rounded-md border border-gray-200 p-3 dark:border-gray-800">
                     <div className="mb-2 text-xs font-semibold text-gray-600">Your idea</div>
                     <ScrollArea className="h-full max-h-64">
-                      <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-700 dark:text-gray-300">{r.original}</pre>
+                      <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+                        {r.original}
+                      </pre>
                     </ScrollArea>
                   </div>
                   {/* After */}
@@ -715,7 +705,9 @@ function SimplePromptLab() {
                       />
                     ) : (
                       <ScrollArea className="h-full max-h-64">
-                        <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-800 dark:text-gray-200">{r.response}</pre>
+                        <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-800 dark:text-gray-200">
+                          {r.response}
+                        </pre>
                       </ScrollArea>
                     )}
                   </div>
@@ -763,9 +755,7 @@ function SimplePromptLab() {
               <Button variant="outline" onClick={() => setShowFinalizeDialog(false)}>
                 Cancel
               </Button>
-              <Button onClick={saveFinalPrompt}>
-                Save Prompt
-              </Button>
+              <Button onClick={saveFinalPrompt}>Save Prompt</Button>
             </div>
           </div>
         </DialogContent>

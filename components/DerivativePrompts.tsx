@@ -46,7 +46,7 @@ export function DerivativePrompts({ promptId }: DerivativePromptsProps) {
       }
     }
 
-    fetchDerivatives()
+    void fetchDerivatives()
   }, [promptId])
 
   if (loading) {

@@ -44,7 +44,7 @@ export function PromptCard({ slug }: PromptCardProps) {
         if (mounted) setLoading(false)
       }
     }
-    fetchPrompt()
+    void fetchPrompt()
     return () => {
       mounted = false
     }

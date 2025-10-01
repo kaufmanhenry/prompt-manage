@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
 
     const { promptId, promptText } = await request.json()
 
-
     if (!promptId) {
       return NextResponse.json({ error: 'Prompt ID is required' }, { status: 400 })
     }

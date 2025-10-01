@@ -8,11 +8,21 @@ type RotatingAudienceProps = {
   className?: string
 }
 
-export default function RotatingAudience({ items, intervalMs = 1800, className }: RotatingAudienceProps) {
-  const stableItems = useMemo(() => (items && items.length > 0 ? items : ['Marketing Teams']), [items])
+export default function RotatingAudience({
+  items,
+  intervalMs = 1800,
+  className,
+}: RotatingAudienceProps) {
+  const stableItems = useMemo(
+    () => (items && items.length > 0 ? items : ['Marketing Teams']),
+    [items],
+  )
   const [index, setIndex] = useState<number>(0)
   const [fade, setFade] = useState<boolean>(false)
-  const longest = useMemo(() => stableItems.reduce((a, b) => (a.length >= b.length ? a : b), ''), [stableItems])
+  const longest = useMemo(
+    () => stableItems.reduce((a, b) => (a.length >= b.length ? a : b), ''),
+    [stableItems],
+  )
   const timerRef = useRef<number | null>(null)
 
   useEffect(() => {
@@ -53,5 +63,3 @@ export default function RotatingAudience({ items, intervalMs = 1800, className }
     </span>
   )
 }
-
-

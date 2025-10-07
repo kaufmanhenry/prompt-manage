@@ -39,7 +39,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { getModelsByCompany } from '@/lib/models'
 import type { Prompt } from '@/lib/schemas/prompt'
-import { modelSchema, promptSchema } from '@/lib/schemas/prompt'
+import { promptSchema } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
 interface PromptFormProps {
@@ -48,7 +48,6 @@ interface PromptFormProps {
   onOpenChange: (open: boolean) => void
 }
 
-const models = modelSchema.options
 const modelsByCompany = getModelsByCompany()
 
 export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {

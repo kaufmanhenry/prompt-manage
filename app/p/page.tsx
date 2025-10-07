@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
-import { getModelsByCompany, supportedModels } from '@/lib/models'
+import { getModelsByCompany } from '@/lib/models'
 import type { PublicPrompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -301,8 +301,8 @@ function PublicDirectoryContent() {
         )}
 
         {/* SEO Footer Content */}
-        <div className="mx-auto mt-16 max-w-4xl border-t pt-12 pb-8">
-          <div className="prose prose-sm max-w-none dark:prose-invert">
+        <div className="mx-auto mt-16 max-w-4xl border-t pb-8 pt-12">
+          <div className="prose prose-sm dark:prose-invert max-w-none">
             <h2 className="mb-4 text-2xl font-bold text-foreground">
               Your Complete AI Prompt Directory
             </h2>

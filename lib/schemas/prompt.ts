@@ -1,29 +1,35 @@
 import { z } from 'zod'
 
 export const modelSchema = z.enum([
-  // Top models
-  'gpt-5',
+  // OpenAI
   'gpt-4o',
-  'gemini-2-5-pro',
-  'claude-4-opus',
-  'deepseek-r1-v3',
-  // Others
-  'llama-4-series',
-  'mistral-large-mixtral',
-  'gpt-4-5',
-  'claude-3-5-sonnet',
-  'gemma-3-27b',
-  'grok-3-beta',
-  // Legacy models for backward compatibility
+  'gpt-4o-mini',
   'gpt-4',
   'gpt-3.5-turbo',
-  'claude-3-opus',
-  'claude-3-sonnet',
+  // Anthropic
+  'claude-4-opus',
+  'claude-4-sonnet',
+  'claude-3.5-sonnet',
   'claude-3-haiku',
-  'gemini-pro',
+  'claude-3-sonnet',
+  // Google
+  'gemini-2-5-pro',
+  'gemini-1-5-pro',
+  'gemma-3-27b',
+  // Meta
+  'llama-3.1-70b-instruct',
+  // DeepSeek
+  'deepseek-r1-v3',
+  // Mistral
   'mistral-large',
-  'mistral-medium',
+  'mixtral-8x22b-instruct',
   'mistral-small',
+  // xAI
+  'grok-4',
+  // Alibaba/Qwen
+  'qwen2.5-72b-instruct',
+  // Cohere
+  'command-r-plus',
 ])
 
 export const promptSchema = z.object({

@@ -1,6 +1,7 @@
 'use client'
 
 import { Search, TrendingUp } from 'lucide-react'
+import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 
@@ -277,6 +278,29 @@ function PublicDirectoryContent() {
             </button>
           </div>
         )}
+
+        {/* SEO Footer Content */}
+        <div className="mx-auto mt-16 max-w-4xl border-t pt-12 pb-8">
+          <div className="prose prose-sm max-w-none dark:prose-invert">
+            <h2 className="mb-4 text-2xl font-bold text-foreground">
+              Your Complete AI Prompt Directory
+            </h2>
+            <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
+              <p>
+                <strong className="text-foreground">Prompt Manage</strong> is your all-in-one platform for creating, organizing, and running AI prompts across every major model. The <Link href="/p" className="text-blue-600 hover:underline dark:text-blue-400">Public Prompt Directory</Link> is our community-driven <strong>AI prompt database</strong> featuring hundreds of curated prompts ready to use with ChatGPT, Google Gemini, Claude, Grok, and more.
+              </p>
+              <p>
+                This <strong>directory of prompts</strong> serves as both a <strong>prompt marketplace</strong> and learning resource for everyone—from beginners exploring their first AI chatbot to advanced practitioners refining their <strong>prompt engineering</strong> skills. Browse <strong>popular AI prompts</strong> for content creation, coding, analysis, and automation, or dive into <strong>advanced AI prompts</strong> designed for complex reasoning and specialized workflows.
+              </p>
+              <p>
+                Want to build your own <strong>prompt collection</strong>? Simply <Link href="/docs" className="text-blue-600 hover:underline dark:text-blue-400">sign up</Link> to save any prompt from the directory to your personal library, organize them with tags, and run them directly within Prompt Manage. You can also share your best work by publishing prompts to the directory for others to discover. Whether you're looking for inspiration, testing new ideas, or scaling your AI workflows, this <strong>AI prompt directory</strong> is built to help you work smarter with every model.
+              </p>
+              <p className="text-sm">
+                Explore our <Link href="/models" className="text-blue-600 hover:underline dark:text-blue-400">supported AI models</Link> to see the full range of options, or check out our <Link href="/docs" className="text-blue-600 hover:underline dark:text-blue-400">documentation</Link> to learn best practices for prompt engineering and workflow optimization.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

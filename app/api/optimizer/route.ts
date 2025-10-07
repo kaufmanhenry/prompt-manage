@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import { checkRateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Initialize OpenAI client only when needed
+function getOpenAIClient() {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OpenAI API key not configured')
+  }
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+}
 
 interface PromptAnalysis {
   score: number
@@ -27,8 +34,8 @@ interface PromptAnalysis {
   abTestVariations?: string[]
 }
 
-function analyzePromptStructure(prompt: string): Partial<PromptAnalysis> {
-  const analysis: Partial<PromptAnalysis> = {
+function analyzePromptStructure(prompt: string): PromptAnalysis {
+  const analysis: PromptAnalysis = {
     score: 0,
     suggestions: [],
     strengths: [],
@@ -59,10 +66,52 @@ function analyzePromptStructure(prompt: string): Partial<PromptAnalysis> {
     analysis.strengths.push('Good length - provides sufficient context')
   }
 
-  // Advanced Action Words Analysis
-  const actionWordsRegex = /\b(do|don't|avoid|include|exclude|format|structure|write|create|generate|analyze|explain|summarize|compare|contrast|list|outline|describe|define|evaluate|assess|review|critique|improve|optimize|enhance|refine|develop|build|construct|design|implement|execute|perform|conduct|carry out|accomplish|achieve|deliver|produce|output|result|provide|give|offer|present|show|demonstrate|illustrate|clarify|elaborate|expand|detail|specify|identify|recognize|determine|establish|set|define|configure|customize|personalize|adapt|modify|adjust|tweak|refine|polish|perfect|finalize|complete|finish|conclude|wrap up|summarize|recap|restate|reiterate|emphasize|highlight|focus|concentrate|target|aim|direct|guide|lead|steer|influence|persuade|convince|motivate|inspire|encourage|support|help|assist|aid|facilitate|enable|allow|permit|authorize|approve|endorse|recommend|suggest|propose|recommend|advise|counsel|mentor|teach|instruct|educate|inform|notify|alert|warn|caution|remind|prompt|trigger|activate|initiate|start|begin|commence|launch|introduce|present|unveil|reveal|disclose|expose|uncover|discover|find|locate|search|seek|investigate|explore|examine|study|research|analyze|evaluate|assess|judge|rate|rank|score|measure|quantify|calculate|compute|process|handle|manage|control|regulate|monitor|track|follow|observe|watch|supervise|oversee|direct|coordinate|organize|arrange|sort|categorize|classify|group|cluster|segment|divide|separate|distinguish|differentiate|compare|contrast|match|align|sync|synchronize|integrate|combine|merge|blend|mix|fuse|unite|join|connect|link|associate|relate|correlate|map|translate|convert|transform|change|alter|modify|update|revise|edit|correct|fix|repair|restore|renew|refresh|revitalize|rejuvenate|reinvigorate|stimulate|activate|energize|boost|enhance|improve|upgrade|advance|progress|evolve|develop|grow|expand|scale|amplify|magnify|intensify|strengthen|reinforce|consolidate|solidify|stabilize|secure|protect|defend|guard|shield|cover|wrap|enclose|contain|hold|grasp|grip|clutch|seize|capture|catch|grab|snatch|take|get|obtain|acquire|gain|earn|win|achieve|accomplish|attain|reach|arrive|get to|make it to|succeed|triumph|prevail|overcome|defeat|beat|conquer|master|dominate|control|rule|govern|lead|command|direct|guide|steer|navigate|pilot|drive|operate|run|manage|administer|supervise|oversee|monitor|watch|observe|inspect|examine|check|verify|validate|confirm|approve|endorse|support|back|sponsor|fund|finance|invest|contribute|donate|give|provide|supply|deliver|distribute|share|spread|circulate|disseminate|broadcast|announce|declare|proclaim|state|say|tell|speak|talk|discuss|debate|argue|negotiate|bargain|deal|trade|exchange|swap|substitute|replace|substitute|alternate|rotate|cycle|repeat|recur|return|come back|go back|revert|restore|recover|retrieve|reclaim|regain|repossess|take back|get back|win back|earn back|make up for|compensate|offset|balance|equalize|level|even|smooth|flatten|straighten|align|adjust|calibrate|tune|fine-tune|optimize|maximize|minimize|reduce|decrease|lower|cut|trim|shave|slice|chop|dice|mince|grind|crush|smash|break|split|crack|fracture|shatter|destroy|demolish|ruin|damage|harm|hurt|injure|wound|cut|slash|stab|pierce|penetrate|puncture|drill|bore|dig|excavate|mine|extract|remove|take out|pull out|draw out|suck out|drain|empty|clear|clean|wash|rinse|scrub|brush|wipe|dust|sweep|mop|vacuum|polish|shine|buff|smooth|soften|harden|strengthen|toughen|reinforce|fortify|secure|fasten|attach|connect|join|link|bind|tie|knot|wrap|cover|conceal|hide|disguise|mask|camouflage|blend|merge|fuse|combine|mix|stir|shake|toss|throw|fling|hurl|launch|fire|shoot|aim|target|focus|concentrate|center|centralize|localize|position|place|put|set|lay|rest|stand|sit|lie|hang|suspend|float|drift|flow|stream|pour|spill|leak|drip|drop|fall|descend|sink|dive|plunge|dip|duck|bend|stoop|crouch|squat|kneel|crawl|creep|slither|slide|glide|skim|skim|brush|graze|touch|contact|meet|encounter|face|confront|challenge|dare|defy|resist|oppose|fight|battle|struggle|compete|contend|vie|rival|match|equal|parallel|mirror|reflect|echo|resonate|vibrate|pulse|beat|throb|pound|hammer|strike|hit|slap|punch|kick|push|pull|drag|haul|carry|lift|raise|elevate|boost|hoist|heave|toss|throw|fling|hurl|launch|fire|shoot|aim|target|focus|concentrate|center|centralize|localize|position|place|put|set|lay|rest|stand|sit|lie|hang|suspend|float|drift|flow|stream|pour|spill|leak|drip|drop|fall|descend|sink|dive|plunge|dip|duck|bend|stoop|crouch|squat|kneel|crawl|creep|slither|slide|glide|skim|skim|brush|graze|touch|contact|meet|encounter|face|confront|challenge|dare|defy|resist|oppose|fight|battle|struggle|compete|contend|vie|rival|match|equal|parallel|mirror|reflect|echo|resonate|vibrate|pulse|beat|throb|pound|hammer|strike|hit|slap|punch|kick|push|pull|drag|haul|carry|lift|raise|elevate|boost|hoist|heave)\b/gi
+  // Optimized Action Words Analysis - using smaller, more focused patterns
+  const actionWords = [
+    'create', 'generate', 'write', 'build', 'develop', 'design', 'implement', 'analyze', 'explain',
+    'describe', 'define', 'evaluate', 'assess', 'review', 'improve', 'optimize', 'enhance', 'refine',
+    'provide', 'give', 'offer', 'present', 'show', 'demonstrate', 'illustrate', 'clarify', 'specify',
+    'identify', 'recognize', 'determine', 'establish', 'configure', 'customize', 'adapt', 'modify',
+    'adjust', 'complete', 'finish', 'conclude', 'emphasize', 'highlight', 'focus', 'target', 'aim',
+    'guide', 'lead', 'help', 'assist', 'support', 'recommend', 'suggest', 'advise', 'teach', 'instruct',
+    'inform', 'notify', 'alert', 'warn', 'start', 'begin', 'launch', 'introduce', 'reveal', 'discover',
+    'find', 'search', 'investigate', 'explore', 'examine', 'study', 'research', 'measure', 'calculate',
+    'process', 'handle', 'manage', 'control', 'monitor', 'track', 'organize', 'arrange', 'sort',
+    'categorize', 'classify', 'group', 'compare', 'contrast', 'match', 'align', 'integrate', 'combine',
+    'merge', 'connect', 'link', 'associate', 'relate', 'map', 'translate', 'convert', 'transform',
+    'change', 'update', 'revise', 'edit', 'correct', 'fix', 'repair', 'restore', 'enhance', 'upgrade',
+    'advance', 'progress', 'develop', 'grow', 'expand', 'scale', 'strengthen', 'reinforce', 'secure',
+    'protect', 'defend', 'achieve', 'accomplish', 'attain', 'reach', 'succeed', 'overcome', 'master',
+    'dominate', 'control', 'govern', 'lead', 'command', 'direct', 'navigate', 'operate', 'run',
+    'administer', 'supervise', 'oversee', 'inspect', 'check', 'verify', 'validate', 'confirm',
+    'approve', 'endorse', 'back', 'sponsor', 'fund', 'invest', 'contribute', 'donate', 'deliver',
+    'distribute', 'share', 'spread', 'circulate', 'broadcast', 'announce', 'declare', 'state',
+    'say', 'tell', 'speak', 'talk', 'discuss', 'debate', 'argue', 'negotiate', 'trade', 'exchange',
+    'replace', 'alternate', 'rotate', 'repeat', 'return', 'revert', 'restore', 'recover', 'retrieve',
+    'reclaim', 'regain', 'compensate', 'balance', 'equalize', 'level', 'smooth', 'straighten',
+    'adjust', 'calibrate', 'tune', 'optimize', 'maximize', 'minimize', 'reduce', 'decrease',
+    'lower', 'cut', 'trim', 'slice', 'chop', 'grind', 'crush', 'break', 'split', 'crack',
+    'destroy', 'damage', 'harm', 'hurt', 'injure', 'wound', 'pierce', 'penetrate', 'drill',
+    'dig', 'extract', 'remove', 'drain', 'empty', 'clear', 'clean', 'wash', 'rinse', 'scrub',
+    'wipe', 'dust', 'sweep', 'polish', 'shine', 'smooth', 'soften', 'harden', 'strengthen',
+    'toughen', 'reinforce', 'fortify', 'secure', 'fasten', 'attach', 'connect', 'join', 'link',
+    'bind', 'tie', 'wrap', 'cover', 'hide', 'disguise', 'mask', 'blend', 'merge', 'fuse',
+    'combine', 'mix', 'stir', 'shake', 'throw', 'launch', 'fire', 'shoot', 'aim', 'target',
+    'focus', 'concentrate', 'center', 'position', 'place', 'put', 'set', 'lay', 'rest',
+    'stand', 'sit', 'lie', 'hang', 'suspend', 'float', 'drift', 'flow', 'stream', 'pour',
+    'spill', 'leak', 'drip', 'drop', 'fall', 'descend', 'sink', 'dive', 'plunge', 'dip',
+    'bend', 'stoop', 'crouch', 'squat', 'kneel', 'crawl', 'creep', 'slide', 'glide', 'skim',
+    'brush', 'graze', 'touch', 'contact', 'meet', 'encounter', 'face', 'confront', 'challenge',
+    'dare', 'defy', 'resist', 'oppose', 'fight', 'battle', 'struggle', 'compete', 'contend',
+    'rival', 'match', 'equal', 'parallel', 'mirror', 'reflect', 'echo', 'resonate', 'vibrate',
+    'pulse', 'beat', 'throb', 'pound', 'hammer', 'strike', 'hit', 'slap', 'punch', 'kick',
+    'push', 'pull', 'drag', 'haul', 'carry', 'lift', 'raise', 'elevate', 'boost', 'hoist',
+    'heave'
+  ]
+  
+  const actionWordsRegex = new RegExp(`\\b(${actionWords.join('|')})\\b`, 'gi')
   const foundActionWords = prompt.match(actionWordsRegex) || []
-  analysis.actionWords = [...new Set(foundActionWords.map(word => word.toLowerCase()))]
+  analysis.actionWords = Array.from(new Set(foundActionWords.map(word => word.toLowerCase())))
   
   if (foundActionWords.length > 0) {
     analysis.score += Math.min(15, foundActionWords.length * 2)
@@ -129,10 +178,85 @@ function analyzePromptStructure(prompt: string): Partial<PromptAnalysis> {
     analysis.strengths.push('Clear single question')
   }
 
-  // Vague words check
-  const vagueWordsRegex = /\b(good|bad|better|nice|interesting|cool|amazing|great|awesome|wonderful|fantastic|terrible|awful|horrible|excellent|perfect|best|worst|okay|fine|decent|average|mediocre|so-so|meh|whatever|stuff|things|stuff|items|objects|elements|pieces|parts|components|aspects|factors|considerations|points|issues|problems|concerns|matters|topics|subjects|areas|fields|domains|realms|spheres|worlds|universes|environments|settings|contexts|situations|circumstances|conditions|states|modes|phases|stages|levels|degrees|extents|amounts|quantities|numbers|figures|statistics|data|information|details|facts|truths|realities|possibilities|opportunities|challenges|difficulties|obstacles|barriers|limitations|restrictions|constraints|requirements|needs|wants|desires|goals|objectives|aims|targets|purposes|intentions|motivations|reasons|causes|effects|impacts|influences|consequences|results|outcomes|outputs|products|deliverables|solutions|answers|responses|replies|feedback|input|output|process|procedure|method|approach|strategy|technique|tactic|tool|resource|asset|advantage|benefit|value|worth|importance|significance|relevance|applicability|usefulness|effectiveness|efficiency|quality|standard|criterion|measure|metric|indicator|signal|sign|mark|trace|evidence|proof|confirmation|validation|verification|authentication|authorization|approval|endorsement|support|backing|sponsorship|funding|investment|contribution|donation|gift|present|offering|provision|supply|delivery|distribution|sharing|circulation|dissemination|broadcasting|announcement|declaration|proclamation|statement|saying|telling|speaking|talking|discussing|debating|arguing|negotiating|bargaining|dealing|trading|exchanging|swapping|substituting|replacing|alternating|rotating|cycling|repeating|recurring|returning|coming back|going back|reverting|restoring|recovering|retrieving|reclaiming|regaining|repossessing|taking back|getting back|winning back|earning back|making up for|compensating|offsetting|balancing|equalizing|leveling|evening|smoothing|flattening|straightening|aligning|adjusting|calibrating|tuning|fine-tuning|optimizing|maximizing|minimizing|reducing|decreasing|lowering|cutting|trimming|shaving|slicing|chopping|dicing|mincing|grinding|crushing|smashing|breaking|splitting|cracking|fracturing|shattering|destroying|demolishing|ruining|damaging|harming|hurting|injuring|wounding|cutting|slashing|stabbing|piercing|penetrating|puncturing|drilling|boring|digging|excavating|mining|extracting|removing|taking out|pulling out|drawing out|sucking out|draining|emptying|clearing|cleaning|washing|rinsing|scrubbing|brushing|wiping|dusting|sweeping|mopping|vacuuming|polishing|shining|buffing|smoothing|softening|hardening|strengthening|toughening|reinforcing|fortifying|securing|fastening|attaching|connecting|joining|linking|binding|tying|knotting|wrapping|covering|concealing|hiding|disguising|masking|camouflaging|blending|merging|fusing|combining|mixing|stirring|shaking|tossing|throwing|flinging|hurling|launching|firing|shooting|aiming|targeting|focusing|concentrating|centering|centralizing|localizing|positioning|placing|putting|setting|laying|resting|standing|sitting|lying|hanging|suspending|floating|drifting|flowing|streaming|pouring|spilling|leaking|dripping|dropping|falling|descending|sinking|diving|plunging|dipping|ducking|bending|stooping|crouching|squatting|kneeling|crawling|creeping|slithering|sliding|gliding|skimming|brushing|grazing|touching|contacting|meeting|encountering|facing|confronting|challenging|daring|defying|resisting|opposing|fighting|battling|struggling|competing|contending|vying|rivaling|matching|equaling|paralleling|mirroring|reflecting|echoing|resonating|vibrating|pulsing|beating|throbbing|pounding|hammering|striking|hitting|slapping|punching|kicking|pushing|pulling|dragging|hauling|carrying|lifting|raising|elevating|boosting|hoisting|heaving|tossing|throwing|flinging|hurling|launching|firing|shooting|aiming|targeting|focusing|concentrating|centering|centralizing|localizing|positioning|placing|putting|setting|laying|resting|standing|sitting|lying|hanging|suspending|floating|drifting|flowing|streaming|pouring|spilling|leaking|dripping|dropping|falling|descending|sinking|diving|plunging|dipping|ducking|bending|stooping|crouching|squatting|kneeling|crawling|creeping|slithering|sliding|gliding|skimming|brushing|grazing|touching|contacting|meeting|encountering|facing|confronting|challenging|daring|defying|resisting|opposing|fighting|battling|struggling|competing|contending|vying|rivaling|matching|equaling|paralleling|mirroring|reflecting|echoing|resonating|vibrating|pulsing|beating|throbbing|pounding|hammering|striking|hitting|slapping|punching|kicking|pushing|pulling|dragging|hauling|carrying|lifting|raising|elevating|boosting|hoisting|heaving)\b/gi
+  // Optimized Vague Words Check - using smaller, more focused patterns
+  const vagueWords = [
+    'good', 'bad', 'better', 'nice', 'interesting', 'cool', 'amazing', 'great', 'awesome',
+    'wonderful', 'fantastic', 'terrible', 'awful', 'horrible', 'excellent', 'perfect', 'best',
+    'worst', 'okay', 'fine', 'decent', 'average', 'mediocre', 'so-so', 'meh', 'whatever',
+    'stuff', 'things', 'items', 'objects', 'elements', 'pieces', 'parts', 'components',
+    'aspects', 'factors', 'considerations', 'points', 'issues', 'problems', 'concerns',
+    'matters', 'topics', 'subjects', 'areas', 'fields', 'domains', 'realms', 'spheres',
+    'worlds', 'universes', 'environments', 'settings', 'contexts', 'situations',
+    'circumstances', 'conditions', 'states', 'modes', 'phases', 'stages', 'levels',
+    'degrees', 'extents', 'amounts', 'quantities', 'numbers', 'figures', 'statistics',
+    'data', 'information', 'details', 'facts', 'truths', 'realities', 'possibilities',
+    'opportunities', 'challenges', 'difficulties', 'obstacles', 'barriers', 'limitations',
+    'restrictions', 'constraints', 'requirements', 'needs', 'wants', 'desires', 'goals',
+    'objectives', 'aims', 'targets', 'purposes', 'intentions', 'motivations', 'reasons',
+    'causes', 'effects', 'impacts', 'influences', 'consequences', 'results', 'outcomes',
+    'outputs', 'products', 'deliverables', 'solutions', 'answers', 'responses', 'replies',
+    'feedback', 'input', 'output', 'process', 'procedure', 'method', 'approach', 'strategy',
+    'technique', 'tactic', 'tool', 'resource', 'asset', 'advantage', 'benefit', 'value',
+    'worth', 'importance', 'significance', 'relevance', 'applicability', 'usefulness',
+    'effectiveness', 'efficiency', 'quality', 'standard', 'criterion', 'measure', 'metric',
+    'indicator', 'signal', 'sign', 'mark', 'trace', 'evidence', 'proof', 'confirmation',
+    'validation', 'verification', 'authentication', 'authorization', 'approval', 'endorsement',
+    'support', 'backing', 'sponsorship', 'funding', 'investment', 'contribution', 'donation',
+    'gift', 'present', 'offering', 'provision', 'supply', 'delivery', 'distribution', 'sharing',
+    'circulation', 'dissemination', 'broadcasting', 'announcement', 'declaration', 'proclamation',
+    'statement', 'saying', 'telling', 'speaking', 'talking', 'discussing', 'debating', 'arguing',
+    'negotiating', 'bargaining', 'dealing', 'trading', 'exchanging', 'swapping', 'substituting',
+    'replacing', 'alternating', 'rotating', 'cycling', 'repeating', 'recurring', 'returning',
+    'coming back', 'going back', 'reverting', 'restoring', 'recovering', 'retrieving',
+    'reclaiming', 'regaining', 'repossessing', 'taking back', 'getting back', 'winning back',
+    'earning back', 'making up for', 'compensating', 'offsetting', 'balancing', 'equalizing',
+    'leveling', 'evening', 'smoothing', 'flattening', 'straightening', 'aligning', 'adjusting',
+    'calibrating', 'tuning', 'fine-tuning', 'optimizing', 'maximizing', 'minimizing', 'reducing',
+    'decreasing', 'lowering', 'cutting', 'trimming', 'shaving', 'slicing', 'chopping', 'dicing',
+    'mincing', 'grinding', 'crushing', 'smashing', 'breaking', 'splitting', 'cracking',
+    'fracturing', 'shattering', 'destroying', 'demolishing', 'ruining', 'damaging', 'harming',
+    'hurting', 'injuring', 'wounding', 'cutting', 'slashing', 'stabbing', 'piercing',
+    'penetrating', 'puncturing', 'drilling', 'boring', 'digging', 'excavating', 'mining',
+    'extracting', 'removing', 'taking out', 'pulling out', 'drawing out', 'sucking out',
+    'draining', 'emptying', 'clearing', 'cleaning', 'washing', 'rinsing', 'scrubbing',
+    'brushing', 'wiping', 'dusting', 'sweeping', 'mopping', 'vacuuming', 'polishing',
+    'shining', 'buffing', 'smoothing', 'softening', 'hardening', 'strengthening', 'toughening',
+    'reinforcing', 'fortifying', 'securing', 'fastening', 'attaching', 'connecting', 'joining',
+    'linking', 'binding', 'tying', 'knotting', 'wrapping', 'covering', 'concealing', 'hiding',
+    'disguising', 'masking', 'camouflaging', 'blending', 'merging', 'fusing', 'combining',
+    'mixing', 'stirring', 'shaking', 'tossing', 'throwing', 'flinging', 'hurling', 'launching',
+    'firing', 'shooting', 'aiming', 'targeting', 'focusing', 'concentrating', 'centering',
+    'centralizing', 'localizing', 'positioning', 'placing', 'putting', 'setting', 'laying',
+    'resting', 'standing', 'sitting', 'lying', 'hanging', 'suspending', 'floating', 'drifting',
+    'flowing', 'streaming', 'pouring', 'spilling', 'leaking', 'dripping', 'dropping', 'falling',
+    'descending', 'sinking', 'diving', 'plunging', 'dipping', 'ducking', 'bending', 'stooping',
+    'crouching', 'squatting', 'kneeling', 'crawling', 'creeping', 'slithering', 'sliding',
+    'gliding', 'skimming', 'brushing', 'grazing', 'touching', 'contacting', 'meeting',
+    'encountering', 'facing', 'confronting', 'challenging', 'daring', 'defying', 'resisting',
+    'opposing', 'fighting', 'battling', 'struggling', 'competing', 'contending', 'vying',
+    'rivaling', 'matching', 'equaling', 'paralleling', 'mirroring', 'reflecting', 'echoing',
+    'resonating', 'vibrating', 'pulsing', 'beating', 'throbbing', 'pounding', 'hammering',
+    'striking', 'hitting', 'slapping', 'punching', 'kicking', 'pushing', 'pulling', 'dragging',
+    'hauling', 'carrying', 'lifting', 'raising', 'elevating', 'boosting', 'hoisting', 'heaving',
+    'tossing', 'throwing', 'flinging', 'hurling', 'launching', 'firing', 'shooting', 'aiming',
+    'targeting', 'focusing', 'concentrating', 'centering', 'centralizing', 'localizing',
+    'positioning', 'placing', 'putting', 'setting', 'laying', 'resting', 'standing', 'sitting',
+    'lying', 'hanging', 'suspending', 'floating', 'drifting', 'flowing', 'streaming', 'pouring',
+    'spilling', 'leaking', 'dripping', 'dropping', 'falling', 'descending', 'sinking', 'diving',
+    'plunging', 'dipping', 'ducking', 'bending', 'stooping', 'crouching', 'squatting', 'kneeling',
+    'crawling', 'creeping', 'slithering', 'sliding', 'gliding', 'skimming', 'brushing', 'grazing',
+    'touching', 'contacting', 'meeting', 'encountering', 'facing', 'confronting', 'challenging',
+    'daring', 'defying', 'resisting', 'opposing', 'fighting', 'battling', 'struggling', 'competing',
+    'contending', 'vying', 'rivaling', 'matching', 'equaling', 'paralleling', 'mirroring',
+    'reflecting', 'echoing', 'resonating', 'vibrating', 'pulsing', 'beating', 'throbbing',
+    'pounding', 'hammering', 'striking', 'hitting', 'slapping', 'punching', 'kicking', 'pushing',
+    'pulling', 'dragging', 'hauling', 'carrying', 'lifting', 'raising', 'elevating', 'boosting',
+    'hoisting', 'heaving'
+  ]
+  
+  const vagueWordsRegex = new RegExp(`\\b(${vagueWords.join('|')})\\b`, 'gi')
   const foundVagueWords = prompt.match(vagueWordsRegex) || []
-  analysis.vagueWords = [...new Set(foundVagueWords.map(word => word.toLowerCase()))]
+  analysis.vagueWords = Array.from(new Set(foundVagueWords.map(word => word.toLowerCase())))
   
   if (foundVagueWords.length > 0) {
     analysis.score -= Math.min(20, foundVagueWords.length * 3)
@@ -195,11 +319,48 @@ function analyzePromptStructure(prompt: string): Partial<PromptAnalysis> {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientId = getClientIdentifier(request)
+    const rateLimit = checkRateLimit(clientId)
+    
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded. Please try again later.',
+          resetTime: rateLimit.resetTime
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '10',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimit.resetTime.toString()
+          }
+        }
+      )
+    }
+
+    // Check if OpenAI API key is configured
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json(
+        { error: 'Service temporarily unavailable. Please try again later.' },
+        { status: 503 }
+      )
+    }
+
     const { prompt, generateOptimized = false } = await request.json()
 
     if (!prompt || prompt.trim().length === 0) {
       return NextResponse.json(
         { error: 'Prompt is required' },
+        { status: 400 }
+      )
+    }
+
+    // Input validation
+    if (prompt.length > 10000) {
+      return NextResponse.json(
+        { error: 'Prompt is too long. Please keep it under 10,000 characters.' },
         { status: 400 }
       )
     }
@@ -212,11 +373,15 @@ export async function POST(request: NextRequest) {
 
     if (generateOptimized) {
       try {
+        // Add timeout handling
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
+
+        const openai = getOpenAIClient()
         const optimizationResponse = await openai.chat.completions.create({
           model: 'gpt-4o-mini',
           messages: [
             {
-              role: 'system',
               role: 'system',
               content: `You are an expert prompt engineer. Analyze the given prompt and provide:
 1. Specific suggestions for improvement
@@ -239,7 +404,11 @@ Be constructive and practical in your suggestions.`
           ],
           temperature: 0.7,
           max_tokens: 1000
+        }, {
+          signal: controller.signal
         })
+
+        clearTimeout(timeoutId)
 
         const aiResponse = optimizationResponse.choices[0]?.message?.content || ''
         
@@ -254,7 +423,7 @@ Be constructive and practical in your suggestions.`
         ).slice(0, 5) // Limit to 5 suggestions
 
         // Try to extract optimized prompt (look for "Optimized prompt:" or similar)
-        const optimizedMatch = aiResponse.match(/(?:optimized prompt|improved version|better prompt):\s*(.+)/is)
+        const optimizedMatch = aiResponse.match(/(?:optimized prompt|improved version|better prompt):\s*(.+)/i)
         if (optimizedMatch) {
           optimizedPrompt = optimizedMatch[1].trim()
         } else {
@@ -278,7 +447,19 @@ Be constructive and practical in your suggestions.`
       ].slice(0, 8), // Limit total suggestions
       strengths: structureAnalysis.strengths || [],
       improvements: structureAnalysis.improvements || [],
-      ...(optimizedPrompt && { optimizedPrompt })
+      ...(optimizedPrompt && { optimizedPrompt }),
+      sentiment: structureAnalysis.sentiment || 'neutral',
+      complexity: structureAnalysis.complexity || 'moderate',
+      specificity: structureAnalysis.specificity || 0,
+      clarity: structureAnalysis.clarity || 0,
+      contextScore: structureAnalysis.contextScore || 0,
+      formatScore: structureAnalysis.formatScore || 0,
+      examplesScore: structureAnalysis.examplesScore || 0,
+      audienceScore: structureAnalysis.audienceScore || 0,
+      actionWords: structureAnalysis.actionWords || [],
+      vagueWords: structureAnalysis.vagueWords || [],
+      missingElements: structureAnalysis.missingElements || [],
+      templateSuggestions: structureAnalysis.templateSuggestions || []
     }
 
     return NextResponse.json(response)

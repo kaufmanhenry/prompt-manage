@@ -1,8 +1,15 @@
 import OpenAI from 'openai'
+import { checkRateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Initialize OpenAI client only when needed
+function getOpenAIClient() {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OpenAI API key not configured')
+  }
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+}
 
 interface ClaudePromptRequest {
   requirements: string
@@ -23,11 +30,48 @@ interface ClaudePrompt {
 
 export async function POST(request: Request) {
   try {
+    // Rate limiting
+    const clientId = getClientIdentifier(request)
+    const rateLimit = checkRateLimit(clientId)
+    
+    if (!rateLimit.allowed) {
+      return Response.json(
+        { 
+          error: 'Rate limit exceeded. Please try again later.',
+          resetTime: rateLimit.resetTime
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '10',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimit.resetTime.toString()
+          }
+        }
+      )
+    }
+
+    // Check if OpenAI API key is configured
+    if (!process.env.OPENAI_API_KEY) {
+      return Response.json(
+        { error: 'Service temporarily unavailable. Please try again later.' },
+        { status: 503 }
+      )
+    }
+
     const body: ClaudePromptRequest = await request.json()
     const { requirements, context, complexity, domain, taskType } = body
 
     if (!requirements?.trim()) {
       return Response.json({ error: 'Requirements are required' }, { status: 400 })
+    }
+
+    // Input validation
+    if (requirements.length > 5000) {
+      return Response.json(
+        { error: 'Requirements are too long. Please keep it under 5,000 characters.' },
+        { status: 400 }
+      )
     }
 
     // Build the system prompt for Claude-specific optimization
@@ -57,6 +101,11 @@ ${taskType ? `Task Type: ${taskType}` : ''}
 
 Generate a prompt optimized specifically for Claude AI.`
 
+    // Add timeout handling
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
+
+    const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -71,7 +120,11 @@ Generate a prompt optimized specifically for Claude AI.`
       ],
       temperature: 0.7,
       max_tokens: 1000,
+    }, {
+      signal: controller.signal
     })
+
+    clearTimeout(timeoutId)
 
     const generatedPrompt = completion.choices[0]?.message?.content || ''
 

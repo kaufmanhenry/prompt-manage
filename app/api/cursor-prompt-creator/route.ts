@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import { checkRateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Initialize OpenAI client only when needed
+function getOpenAIClient() {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OpenAI API key not configured')
+  }
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+}
 
 interface CursorPromptRequest {
   task: string
@@ -25,6 +32,35 @@ interface CursorPromptResponse {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientId = getClientIdentifier(request)
+    const rateLimit = checkRateLimit(clientId)
+    
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { 
+          error: 'Rate limit exceeded. Please try again later.',
+          resetTime: rateLimit.resetTime
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '10',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimit.resetTime.toString()
+          }
+        }
+      )
+    }
+
+    // Check if OpenAI API key is configured
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json(
+        { error: 'Service temporarily unavailable. Please try again later.' },
+        { status: 503 }
+      )
+    }
+
     const { 
       task, 
       context = '', 
@@ -39,6 +75,14 @@ export async function POST(request: NextRequest) {
     if (!task || task.trim().length === 0) {
       return NextResponse.json(
         { error: 'Task description is required' },
+        { status: 400 }
+      )
+    }
+
+    // Input validation
+    if (task.length > 5000) {
+      return NextResponse.json(
+        { error: 'Task description is too long. Please keep it under 5,000 characters.' },
         { status: 400 }
       )
     }
@@ -108,6 +152,11 @@ Include Documentation: ${includeDocs ? 'Yes' : 'No'}
 Generate a comprehensive Cursor prompt that will produce high-quality code.`
 
   try {
+    // Add timeout handling
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
+
+    const openai = getOpenAIClient()
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -116,7 +165,11 @@ Generate a comprehensive Cursor prompt that will produce high-quality code.`
       ],
       temperature: 0.7,
       max_tokens: 1000
+    }, {
+      signal: controller.signal
     })
+
+    clearTimeout(timeoutId)
 
     const generatedContent = response.choices[0]?.message?.content || ''
     

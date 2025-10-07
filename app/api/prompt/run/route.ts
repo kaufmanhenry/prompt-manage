@@ -4,9 +4,15 @@ import OpenAI from 'openai'
 
 import { createClient } from '@/utils/supabase/server'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Initialize OpenAI client only when needed
+function getOpenAIClient() {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OpenAI API key not configured')
+  }
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+}
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
@@ -66,6 +72,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Call OpenAI API with the prompt content
+    const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
       model: updatedPrompt.model,
       messages: [

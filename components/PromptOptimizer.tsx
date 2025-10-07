@@ -26,6 +26,17 @@ interface PromptAnalysis {
   optimizedPrompt?: string
 }
 
+const examplePrompts = [
+  "Write a blog post about AI",
+  "Create a marketing email for our new product launch",
+  "Help me write a professional email to my boss about working from home",
+  "Generate ideas for a startup business",
+  "Explain quantum computing in simple terms",
+  "Write a Python function to sort a list",
+  "Create a social media post for our company's anniversary",
+  "Help me write a cover letter for a software engineer position"
+]
+
 export default function PromptOptimizer() {
   const [prompt, setPrompt] = useState('')
   const [analysis, setAnalysis] = useState<PromptAnalysis | null>(null)
@@ -56,11 +67,25 @@ export default function PromptOptimizer() {
       })
 
       if (!response.ok) {
+        if (response.status === 429) {
+          const data = await response.json()
+          toast({
+            title: 'Rate limit exceeded',
+            description: 'Please wait a moment before trying again.',
+            variant: 'destructive'
+          })
+          return
+        }
         throw new Error('Failed to analyze prompt')
       }
 
       const result = await response.json()
       setAnalysis(result)
+      
+      toast({
+        title: 'Analysis Complete!',
+        description: `Your prompt scored ${result.score}/100. Check the suggestions below.`,
+      })
     } catch (error) {
       console.error('Analysis error:', error)
       toast({

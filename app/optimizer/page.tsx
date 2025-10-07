@@ -10,16 +10,26 @@ export const metadata: Metadata = {
   title: 'Free AI Prompt Optimizer - Get 3x Better Results | Prompt Manage',
   description: 'Optimize your AI prompts for better results. Free tool analyzes prompts and provides specific suggestions for improvement. Get 3x better outputs from ChatGPT, Claude, and other AI models.',
   keywords: [
-    'prompt optimizer',
-    'AI prompt optimization',
-    'ChatGPT prompt improvement',
-    'Claude prompt optimization',
-    'prompt engineering',
-    'AI prompt analyzer',
-    'free prompt tool',
+    'ai prompt optimizer',
+    'prompt optimization',
+    'chatgpt prompt optimizer',
+    'claude prompt optimizer',
+    'ai prompt improvement',
+    'prompt engineering tool',
+    'free prompt optimizer',
+    'ai prompt analyzer',
     'prompt optimization tool',
-    'better AI prompts',
-    'prompt improvement'
+    'chatgpt prompt improvement',
+    'claude prompt improvement',
+    'ai prompt best practices',
+    'prompt engineering',
+    'ai prompt generator',
+    'prompt analysis tool',
+    'gpt prompt optimizer',
+    'openai prompt optimizer',
+    'anthropic prompt optimizer',
+    'ai prompt enhancer',
+    'prompt quality checker'
   ],
   openGraph: {
     title: 'Free AI Prompt Optimizer - Get 3x Better Results',
@@ -38,8 +48,41 @@ export const metadata: Metadata = {
 }
 
 export default function PromptOptimizerPage() {
+  // Structured data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AI Prompt Optimizer",
+    "description": "Free tool to optimize AI prompts for better results with ChatGPT, Claude, and other AI models",
+    "url": "https://promptmanage.com/optimizer",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Prompt Manage",
+      "url": "https://promptmanage.com"
+    },
+    "featureList": [
+      "Prompt analysis and scoring",
+      "AI-powered optimization suggestions",
+      "Support for multiple AI models",
+      "Free to use",
+      "No signup required"
+    ]
+  }
+
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
@@ -407,22 +450,23 @@ export default function PromptOptimizerPage() {
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Link href="/?redirect=/dashboard">
-              <Button size="lg" className="bg-white text-emerald-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
+              <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-50 px-8 py-3 text-lg font-semibold shadow-lg">
                 <Users className="mr-2 h-5 w-5" />
                 Start Building Your Library
               </Button>
             </Link>
             <Link href="/p">
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-emerald-600 px-8 py-3 text-lg">
+              <Button size="lg" className="bg-gray-900 text-white hover:bg-gray-800 px-8 py-3 text-lg font-semibold shadow-lg">
                 Browse Templates First
               </Button>
             </Link>
           </div>
           <p className="mt-6 text-sm text-emerald-200">
-            Free forever • No credit card required • Join 10,000+ users
+            Free to use • No credit card required • Join 100s of users
           </p>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   )
 }

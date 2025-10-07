@@ -1,5 +1,4 @@
 import { ArrowLeft, Globe, User as UserIcon } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -29,7 +28,7 @@ interface PublicProfilePageProps {
 export default async function PublicProfilePage({ params, searchParams }: PublicProfilePageProps) {
   const supabase = await createClient()
   const { id } = await params
-  const resolvedSearch = (await (searchParams || Promise.resolve({}))) || {}
+  const resolvedSearch: { page?: string } = (await (searchParams || Promise.resolve({}))) || {}
   const pageParam = Number.parseInt(resolvedSearch.page || '1', 10)
   const page = Number.isNaN(pageParam) || pageParam < 1 ? 1 : pageParam
   const PAGE_SIZE = 12
@@ -86,7 +85,6 @@ export default async function PublicProfilePage({ params, searchParams }: Public
         <div className="mb-8 flex items-center space-x-6">
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
             {profile.avatar_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={profile.avatar_url.startsWith('http')
                   ? profile.avatar_url

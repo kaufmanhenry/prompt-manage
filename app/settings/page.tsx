@@ -1,7 +1,7 @@
 'use client'
 
 import type { User as AuthUser } from '@supabase/supabase-js'
-import { Globe, Mail, MapPin, Save, Settings, Trash2, User, Upload } from 'lucide-react'
+import { Globe, MapPin, Save, Settings, Trash2, Upload, User } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -230,8 +230,6 @@ export default function SettingsPage() {
 
       // Store the storage path (not full URL) for portability
       const storagePath = uploadData.path
-      const { data: publicUrlData } = supabase.storage.from('avatars').getPublicUrl(storagePath)
-      const newPublicUrl = publicUrlData.publicUrl
 
       setAvatarUrl(storagePath)
 
@@ -242,9 +240,10 @@ export default function SettingsPage() {
       if (profileErr) throw profileErr
 
       toast({ title: 'Profile image updated' })
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Avatar upload failed:', err)
-      toast({ title: 'Upload failed', description: err?.message || 'Please try again.', variant: 'destructive' })
+      const message = err instanceof Error ? err.message : 'Please try again.'
+      toast({ title: 'Upload failed', description: message, variant: 'destructive' })
     } finally {
       setAvatarUploading(false)
     }
@@ -304,7 +303,6 @@ export default function SettingsPage() {
                   <Label>Profile Image</Label>
                   <div className="flex items-center gap-3">
                     {avatarUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={avatarUrl.startsWith('http')
                           ? avatarUrl

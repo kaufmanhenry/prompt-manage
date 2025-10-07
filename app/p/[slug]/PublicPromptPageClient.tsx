@@ -185,14 +185,14 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
 
   // Fetch total public prompts count (for footer blurb)
   useEffect(() => {
-    ;(async () => {
+    void (async () => {
       try {
         const { count } = await createClient()
           .from('prompts')
           .select('id', { count: 'exact', head: true })
           .eq('is_public', true)
         setPublicCount(count ?? null)
-      } catch (e) {
+      } catch {
         // ignore count failure
       }
     })()

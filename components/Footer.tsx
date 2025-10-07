@@ -57,6 +57,24 @@ export function Footer() {
             </li>
           </ul>
           <ul className="items-center space-y-2 text-sm">
+            <li className="text-xs font-medium text-muted-foreground">Free Tools</li>
+            <li>
+              <Link href="/optimizer" className="text-gray-600 hover:underline dark:text-gray-300">
+                Optimizer
+              </Link>
+            </li>
+            <li>
+              <Link href="/cursor-prompt-creator" className="text-gray-600 hover:underline dark:text-gray-300">
+                Cursor Creator
+              </Link>
+            </li>
+            <li>
+              <Link href="/claude-prompt-creator" className="text-gray-600 hover:underline dark:text-gray-300">
+                Claude Creator
+              </Link>
+            </li>
+          </ul>
+          <ul className="items-center space-y-2 text-sm">
             <li className="text-xs font-medium text-muted-foreground">Legal</li>
             <li>
               <Link href="/terms" className="text-gray-600 hover:underline dark:text-gray-300">

@@ -1,41 +1,10 @@
 'use client'
-import { Check, Clock, Star } from 'lucide-react'
+import { Check, Clock } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 
 export default function PricingPage() {
-  // Countdown target: 72 hours from first visit (stored in localStorage to persist urgency)
-  const [timeLeft, setTimeLeft] = useState<{
-    days: number
-    hours: number
-    minutes: number
-    seconds: number
-  }>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-
-  const deadline = useMemo(() => {
-    if (typeof window === 'undefined') return Date.now() + 72 * 60 * 60 * 1000
-    const key = 'pm_pro_ltd_deadline'
-    const existing = window.localStorage.getItem(key)
-    if (existing) return parseInt(existing, 10)
-    const next = Date.now() + 72 * 60 * 60 * 1000
-    window.localStorage.setItem(key, String(next))
-    return next
-  }, [])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = Date.now()
-      const diff = Math.max(0, deadline - now)
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
-      setTimeLeft({ days, hours, minutes, seconds })
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [deadline])
 
   return (
     <div className="min-h-screen bg-background">
@@ -74,6 +43,10 @@ export default function PricingPage() {
                 <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Public sharing only (no
                 team sharing)
               </li>
+              <li className="flex items-start">
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Prompt Lab access (limited
+                beta only)
+              </li>
             </ul>
             {/* CTA */}
             <div className="mt-6">
@@ -89,7 +62,13 @@ export default function PricingPage() {
           </div>
 
           {/* Team Plan */}
-          <div className="flex flex-col rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 md:p-8">
+          <div className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 md:p-8">
+            {/* Coming Soon Badge */}
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-medium text-white shadow">
+                <Clock className="h-3 w-3" /> Coming Soon
+              </span>
+            </div>
             {/* Title and Price */}
             <div className="mb-4">
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Team</h3>
@@ -109,6 +88,9 @@ export default function PricingPage() {
                 <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited prompts and runs
               </li>
               <li className="flex items-start">
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Full Prompt Lab access
+              </li>
+              <li className="flex items-start">
                 <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Shared libraries and
                 collaboration
               </li>
@@ -119,13 +101,11 @@ export default function PricingPage() {
             </ul>
             {/* CTA */}
             <div className="mt-6">
-              <Link href="/?redirect=/dashboard">
-                <Button size="lg" className="w-full">
-                  Start Team
-                </Button>
-              </Link>
+              <Button size="lg" className="w-full" disabled variant="outline">
+                Coming Soon
+              </Button>
               <p className="mt-2 text-center text-xs text-gray-500 dark:text-gray-400">
-                Billed monthly per active user
+                Will be available soon
               </p>
             </div>
           </div>
@@ -133,8 +113,8 @@ export default function PricingPage() {
           {/* Pro Plan */}
           <div className="relative rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 p-1">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <span className="inline-flex items-center gap-1 rounded-full bg-blue-600 px-3 py-1 text-xs font-medium text-white shadow">
-                <Star className="h-3 w-3" /> Limited Time Offer
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-medium text-white shadow">
+                <Clock className="h-3 w-3" /> Coming Soon
               </span>
             </div>
             <div className="flex h-full flex-col rounded-[14px] bg-white p-6 dark:bg-gray-800 md:p-8">
@@ -145,11 +125,6 @@ export default function PricingPage() {
                 <p className="text-xs text-gray-600 dark:text-gray-400">
                   One-time payment • Lifetime deal
                 </p>
-                {/* Urgency */}
-                <div className="mt-3 inline-flex items-center gap-2 self-start rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-                  <Clock className="h-4 w-4" /> Offer ends soon — {timeLeft.days}d {timeLeft.hours}h{' '}
-                  {timeLeft.minutes}m {timeLeft.seconds}s
-                </div>
                 <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
                   Unlock the full power of Prompt Manage with a one-time purchase.
                 </p>
@@ -159,6 +134,9 @@ export default function PricingPage() {
                 <li className="flex items-start">
                   <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited prompts for all
                   your projects
+                </li>
+                <li className="flex items-start">
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Full Prompt Lab access
                 </li>
                 <li className="flex items-start">
                   <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Run prompts on the latest
@@ -171,13 +149,11 @@ export default function PricingPage() {
               </ul>
               {/* CTA */}
               <div className="mt-6">
-                <Link href="/?redirect=/dashboard">
-                  <Button size="lg" className="w-full bg-blue-600 text-white hover:bg-blue-700">
-                    Grab the Lifetime Deal
-                  </Button>
-                </Link>
+                <Button size="lg" className="w-full bg-blue-600 text-white hover:bg-blue-700" disabled>
+                  Coming Soon
+                </Button>
                 <p className="mt-2 text-center text-xs text-gray-600 dark:text-gray-400">
-                  Unlock all features • Pay once, use forever
+                  Will be available soon
                 </p>
               </div>
             </div>
@@ -186,8 +162,7 @@ export default function PricingPage() {
 
         {/* Secondary reassurance */}
         <div className="mt-10 text-center text-xs text-gray-500 dark:text-gray-400">
-          One-time purchase. No subscription. You keep access to all Pro features shipped during
-          this offer.
+          Premium plans coming soon. Stay tuned for updates!
         </div>
 
         {/* Minimal distraction-free footer link */}

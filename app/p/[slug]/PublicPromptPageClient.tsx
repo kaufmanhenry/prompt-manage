@@ -396,7 +396,14 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
               <CardTitle>Model</CardTitle>
             </CardHeader>
             <CardContent>
-              <Badge variant="secondary">{prompt.model}</Badge>
+              <Link 
+                href={`/p?model=${encodeURIComponent(prompt.model)}`}
+                className="hover:opacity-80 transition-opacity"
+              >
+                <Badge variant="secondary" className="cursor-pointer">
+                  {prompt.model}
+                </Badge>
+              </Link>
             </CardContent>
           </Card>
 
@@ -409,9 +416,15 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {prompt.tags.map((tag) => (
-                    <Badge key={tag} variant="outline">
-                      {tag}
-                    </Badge>
+                    <Link 
+                      key={tag} 
+                      href={`/p?tag=${encodeURIComponent(tag)}`}
+                      className="hover:opacity-80 transition-opacity"
+                    >
+                      <Badge variant="outline" className="cursor-pointer">
+                        {tag}
+                      </Badge>
+                    </Link>
                   ))}
                 </div>
               </CardContent>

@@ -260,13 +260,26 @@ function PublicDirectoryContent() {
                     </p>
                   )}
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="ml-2">
-                      {prompt.model}
-                    </Badge>
-                    {prompt.tags?.slice(0, 2).map((tag) => (
-                      <Badge key={tag} variant="outline">
-                        {tag}
+                    <Link 
+                      href={`/p?model=${encodeURIComponent(prompt.model)}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="hover:opacity-80 transition-opacity"
+                    >
+                      <Badge variant="secondary" className="ml-2 cursor-pointer">
+                        {prompt.model}
                       </Badge>
+                    </Link>
+                    {prompt.tags?.slice(0, 2).map((tag) => (
+                      <Link 
+                        key={tag} 
+                        href={`/p?tag=${encodeURIComponent(tag)}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="hover:opacity-80 transition-opacity"
+                      >
+                        <Badge variant="outline" className="cursor-pointer">
+                          {tag}
+                        </Badge>
+                      </Link>
                     ))}
                     {prompt.tags && prompt.tags.length > 2 && (
                       <Badge variant="outline">+{prompt.tags.length - 2}</Badge>

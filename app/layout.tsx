@@ -101,8 +101,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Toaster />
           </PromptProvider>
         </Providers>
+        <GoogleAnalytics gaId="G-J61N380PQS" />
       </body>
-      <GoogleAnalytics gaId="G-J61N380PQS" />
     </html>
   )
 }

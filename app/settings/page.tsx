@@ -1,7 +1,7 @@
 'use client'
 
 import type { User as AuthUser } from '@supabase/supabase-js'
-import { Globe, Mail, MapPin, Save, Settings, Trash2, User } from 'lucide-react'
+import { Globe, Mail, MapPin, Save, Settings, Trash2, User, Upload } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -26,6 +26,8 @@ export default function SettingsPage() {
   const [bio, setBio] = useState('')
   const [website, setWebsite] = useState('')
   const [location, setLocation] = useState('')
+  const [avatarUploading, setAvatarUploading] = useState(false)
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 
   // Settings state
   const [emailNotifications, setEmailNotifications] = useState(true)
@@ -66,6 +68,7 @@ export default function SettingsPage() {
         setEmailNotifications(profile.email_notifications ?? true)
         setDarkMode(profile.dark_mode ?? false)
         setThemePreference(profile.theme_preference || 'system')
+        setAvatarUrl(profile.avatar_url || null)
 
         // Apply theme preference
         if (profile.theme_preference && profile.theme_preference !== 'system') {
@@ -127,6 +130,7 @@ export default function SettingsPage() {
         email_notifications: emailNotifications,
         dark_mode: darkMode,
         theme_preference: themePreference,
+        avatar_url: avatarUrl || undefined,
       }
       console.log('Saving profile with payload:', payload)
       const { error } = await supabase.from('user_profiles').upsert(payload)
@@ -202,6 +206,50 @@ export default function SettingsPage() {
     setEmailNotifications(checked)
   }
 
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!user) return
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    try {
+      setAvatarUploading(true)
+      const supabase = createClient()
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Date.now()}_${Math.random().toString(36).slice(2)}.${fileExt}`
+      const path = `${user.id}/${fileName}`
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(path, file, {
+          upsert: true,
+          cacheControl: '3600',
+          contentType: file.type,
+        })
+
+      if (uploadError) throw uploadError
+
+      // Store the storage path (not full URL) for portability
+      const storagePath = uploadData.path
+      const { data: publicUrlData } = supabase.storage.from('avatars').getPublicUrl(storagePath)
+      const newPublicUrl = publicUrlData.publicUrl
+
+      setAvatarUrl(storagePath)
+
+      const { error: profileErr } = await supabase
+        .from('user_profiles')
+        .upsert({ id: user.id, avatar_url: storagePath })
+
+      if (profileErr) throw profileErr
+
+      toast({ title: 'Profile image updated' })
+    } catch (err: any) {
+      console.error('Avatar upload failed:', err)
+      toast({ title: 'Upload failed', description: err?.message || 'Please try again.', variant: 'destructive' })
+    } finally {
+      setAvatarUploading(false)
+    }
+  }
+
   if (loading || !user) {
     return (
       <div className="min-h-screen bg-background">
@@ -253,15 +301,27 @@ export default function SettingsPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="email"
-                      value={user.email || ''}
-                      disabled
-                      className="bg-gray-50 pl-10 dark:bg-gray-800"
-                    />
+                  <Label>Profile Image</Label>
+                  <div className="flex items-center gap-3">
+                    {avatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={avatarUrl.startsWith('http')
+                          ? avatarUrl
+                          : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl.replace(/^avatars\//, '')}`}
+                        alt="Avatar"
+                        className="h-12 w-12 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-12 w-12 rounded-full bg-input" />
+                    )}
+                    <label className="inline-flex items-center gap-2">
+                      <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+                      <Button type="button" variant="outline" disabled={avatarUploading}>
+                        <Upload className="mr-2 h-4 w-4" />
+                        {avatarUploading ? 'Uploading…' : 'Upload' }
+                      </Button>
+                    </label>
                   </div>
                 </div>
               </div>

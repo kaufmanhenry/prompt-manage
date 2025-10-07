@@ -135,11 +135,36 @@ function PublicDirectoryContent() {
   const totalPages = Math.ceil(filteredPrompts.length / promptsPerPage)
   const paginatedPrompts = filteredPrompts.slice((page - 1) * promptsPerPage, page * promptsPerPage)
 
+  // Schema.org ItemList for SEO
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Public Prompt Directory',
+    description: 'Community-driven AI prompt database with 300+ curated prompts for ChatGPT, Claude, Gemini, Grok, and more.',
+    numberOfItems: filteredPrompts.length,
+    itemListElement: paginatedPrompts.slice(0, 10).map((prompt, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'CreativeWork',
+        name: prompt.name,
+        description: prompt.description || `AI prompt for ${prompt.model}`,
+        url: `https://promptmanage.com/p/${prompt.slug}`,
+        keywords: prompt.tags?.join(', '),
+      },
+    })),
+  }
+
   if (loading) {
     return <FullPageLoading text="Loading public prompts..." />
   }
 
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl p-6">
         {/* Header */}
@@ -166,7 +191,7 @@ function PublicDirectoryContent() {
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="Filter by model" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-[400px]">
                 <SelectItem value="all">All Models</SelectItem>
                 {Object.entries(modelsByCompany).map(([company, companyModels]) => (
                   <SelectGroup key={company}>
@@ -184,7 +209,7 @@ function PublicDirectoryContent() {
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="Filter by tag" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-[400px]">
                 <SelectItem value="all">All Tags</SelectItem>
                 {availableTags.map((tag) => (
                   <SelectItem key={tag} value={tag}>
@@ -338,6 +363,7 @@ function PublicDirectoryContent() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

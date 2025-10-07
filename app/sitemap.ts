@@ -7,20 +7,66 @@ import { createServerSideClient } from '@/utils/supabase/server'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://promptmanage.com'
 
-  // Static pages
+  // Static pages - High priority pages for indexing
   const staticPages = [
+    // Core pages - highest priority
     {
       url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
-      priority: 1,
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/p`,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.95, // Public directory is key content hub
+    },
+    {
+      url: `${baseUrl}/models`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9, // Important content page
+    },
+    {
+      url: `${baseUrl}/docs`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8, // Helpful content
     },
     {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.8,
+      priority: 0.7,
     },
+    // Specific documentation pages
+    {
+      url: `${baseUrl}/docs/best-practices`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.75, // High-value SEO content
+    },
+    {
+      url: `${baseUrl}/pricing`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    // Tools and utilities
+    {
+      url: `${baseUrl}/generator`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    },
+    // Legal pages - lower priority
     {
       url: `${baseUrl}/terms`,
       lastModified: new Date(),
@@ -33,30 +79,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly' as const,
       priority: 0.3,
     },
-
     {
-      url: `${baseUrl}/docs`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/p`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/generator`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/legal`,
+      url: `${baseUrl}/dmca`,
       lastModified: new Date(),
       changeFrequency: 'yearly' as const,
-      priority: 0.4,
+      priority: 0.2,
     },
   ]
 
@@ -87,11 +114,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .order('updated_at', { ascending: false })
       .limit(1000) // Limit to prevent sitemap from getting too large
 
+    // Individual prompts - core content, higher priority
     const promptPages = (publicPrompts || []).map((prompt) => ({
       url: `${baseUrl}/p/${prompt.slug}`,
       lastModified: new Date(prompt.updated_at),
       changeFrequency: 'weekly' as const,
-      priority: 0.6,
+      priority: 0.7, // Increased priority for valuable content
     }))
 
     // Get public user profiles
@@ -101,10 +129,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .limit(1000)
 
     const profilePages = (publicProfiles || []).map((profile) => ({
-      url: `${baseUrl}/profile/${profile.id}`,
+      url: `${baseUrl}/u/${profile.id}`, // Fixed: should be /u/ not /profile/
       lastModified: new Date(profile.updated_at),
       changeFrequency: 'monthly' as const,
-      priority: 0.4,
+      priority: 0.5, // Slightly higher priority
     }))
 
     return [...staticPages, ...legalPages, ...promptPages, ...profilePages]

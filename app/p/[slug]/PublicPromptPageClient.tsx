@@ -42,6 +42,65 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
   const [creatorId, setCreatorId] = useState<string | null>(null)
   const [publicCount, setPublicCount] = useState<number | null>(null)
 
+  // Schema.org structured data for this prompt
+  const promptSchema = useMemo(() => {
+    if (!prompt) return null
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: prompt.name,
+      description: prompt.description || `AI prompt for ${prompt.model}`,
+      text: prompt.prompt_text,
+      datePublished: prompt.inserted_at,
+      dateModified: prompt.updated_at,
+      keywords: prompt.tags?.join(', '),
+      url: `https://promptmanage.com/p/${prompt.slug}`,
+      creator: {
+        '@type': 'Person',
+        name: creatorId || 'Anonymous',
+      },
+      about: {
+        '@type': 'SoftwareApplication',
+        name: prompt.model,
+      },
+      isAccessibleForFree: true,
+    }
+  }, [prompt, creatorId])
+
+  const breadcrumbSchema = useMemo(() => {
+    if (!prompt) return null
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://promptmanage.com',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Public Prompt Directory',
+          item: 'https://promptmanage.com/p',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: prompt.model,
+          item: `https://promptmanage.com/p?model=${encodeURIComponent(prompt.model)}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          name: prompt.name,
+          item: `https://promptmanage.com/p/${prompt.slug}`,
+        },
+      ],
+    }
+  }, [prompt])
+
   // Inferred audience based on tags/name
   const inferredAudiences = useMemo(() => {
     if (!prompt) return [] as string[]
@@ -227,7 +286,20 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      {promptSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(promptSchema) }}
+        />
+      )}
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
+      <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-4xl p-6">
         {/* Header */}
         <div className="mb-8">
@@ -471,5 +543,6 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
         </Dialog>
       </div>
     </div>
+    </>
   )
 }

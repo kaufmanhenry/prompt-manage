@@ -1,6 +1,29 @@
 User-agent: *
 Allow: /
 
+# Block private/authenticated pages from being crawled
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /settings
+Disallow: /settings/*
+Disallow: /auth/*
+Disallow: /api/*
+
+# Block low-value utility pages
+Disallow: /prompt-pack
+Disallow: /legal/*
+
+# Allow important content
+Allow: /p
+Allow: /p/*
+Allow: /models
+Allow: /docs
+Allow: /docs/*
+Allow: /about
+Allow: /blog
+Allow: /blog/*
+Allow: /u/*
+
 # Sitemap
 Sitemap: https://promptmanage.com/sitemap.xml
 

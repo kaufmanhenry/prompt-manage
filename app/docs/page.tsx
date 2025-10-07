@@ -1,407 +1,660 @@
-import { ArrowLeft, BookOpen, Plus, Search, Share2, Users } from 'lucide-react'
+import { ArrowLeft, Eye, Lock, Palette, Plus, Save, Settings, Share2, Trash2, User } from 'lucide-react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 
+export const metadata: Metadata = {
+  title: 'Documentation - Prompt Manage',
+  description:
+    'Learn how to use Prompt Manage. Complete guides for signing up, saving prompts, sharing publicly, editing your profile, and more.',
+  keywords: [
+    'prompt manage documentation',
+    'how to use prompt manage',
+    'save AI prompts',
+    'share prompts',
+    'prompt management guide',
+  ],
+}
+
 export default function DocsPage() {
+  const howToSchemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'HowTo',
+      name: 'How to Create and Save AI Prompts on Prompt Manage',
+      description: 'Learn how to create, save, and organize AI prompts using Prompt Manage',
+      step: [
+        {
+          '@type': 'HowToStep',
+          name: 'Go to Dashboard',
+          text: 'Sign in and navigate to your dashboard',
+          position: 1,
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Click New Prompt',
+          text: 'Click the "New Prompt" button to create a new prompt',
+          position: 2,
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Fill in Details',
+          text: 'Add a name, description, prompt text, select an AI model, and add tags',
+          position: 3,
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Save Prompt',
+          text: 'Click Save to add the prompt to your library',
+          position: 4,
+        },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'HowTo',
+      name: 'How to Share Prompts Publicly on Prompt Manage',
+      description: 'Step-by-step guide to sharing your AI prompts with the community',
+      step: [
+        {
+          '@type': 'HowToStep',
+          name: 'Open Your Prompt',
+          text: 'Go to your dashboard and click on the prompt you want to share',
+          position: 1,
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Click Edit',
+          text: 'Click the Edit button to modify your prompt settings',
+          position: 2,
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Toggle Public',
+          text: 'Toggle the "Make this prompt public" switch to ON',
+          position: 3,
+        },
+        {
+          '@type': 'HowToStep',
+          name: 'Save and Share',
+          text: 'Save your changes. Your prompt will now appear in the public directory with its own shareable URL',
+          position: 4,
+        },
+      ],
+    },
+  ]
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://promptmanage.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Documentation',
+        item: 'https://promptmanage.com/docs',
+      },
+    ],
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-12">
-          <Link href="/">
-            <Button variant="ghost" className="mb-6">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
-            </Button>
-          </Link>
-          <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">Documentation</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            Learn how to get the most out of Prompt Manage
-          </p>
-        </div>
-
-        {/* Docs Navigation Section */}
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            Documentation Pages
-          </h2>
-          <ul className="list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
-            <li>
-              <Link
-                href="/docs/best-practices"
-                className="text-blue-600 underline dark:text-blue-400"
-              >
-                Prompt Management Best Practices
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/docs/account-settings"
-                className="text-blue-600 underline dark:text-blue-400"
-              >
-                Editing Account Settings
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/docs/change-password"
-                className="text-blue-600 underline dark:text-blue-400"
-              >
-                Changing Your Password
-              </Link>
-            </li>
-            <li>
-              <Link href="/docs/signup-help" className="text-blue-600 underline dark:text-blue-400">
-                Signing Up
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Get Help Section */}
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">Get Help</h2>
-          <ul className="list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
-            <li>
-              <Link
-                href="/docs/account-settings"
-                className="text-blue-600 underline dark:text-blue-400"
-              >
-                Editing Account Settings
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/docs/change-password"
-                className="text-blue-600 underline dark:text-blue-400"
-              >
-                Changing Your Password
-              </Link>
-            </li>
-            <li>
-              <Link href="/docs/signup-help" className="text-blue-600 underline dark:text-blue-400">
-                Signing Up
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Quick Start */}
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            Quick Start Guide
-          </h2>
-          <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-            <div className="grid gap-6 md:grid-cols-3">
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 p-3 dark:bg-blue-900">
-                  <Plus className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                </div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">1. Create</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Add your first prompt with a name, description, and tags
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 p-3 dark:bg-green-900">
-                  <Search className="h-6 w-6 text-green-600 dark:text-green-400" />
-                </div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">2. Organize</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Use tags and filters to keep your prompts organized
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 p-3 dark:bg-purple-900">
-                  <Share2 className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                </div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">3. Share</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Share prompts publicly or keep them private
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* How It Works */}
-        <div className="mb-16">
-          <h2 className="mb-8 text-2xl font-semibold text-gray-900 dark:text-white">
-            How It Works
-          </h2>
-          <div className="space-y-8">
-            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-blue-100 p-3 dark:bg-blue-900">
-                  <BookOpen className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div>
-                  <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                    Private Prompt Library
-                  </h3>
-                  <p className="mb-4 text-gray-600 dark:text-gray-400">
-                    Prompt Manage acts as your personal library for AI prompts. Every prompt you
-                    create is private by default, giving you complete control over your content.
-                    Organize prompts with tags, descriptions, and categories to make them easy to
-                    find when you need them.
-                  </p>
-                  <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                    <li>• Store prompts for any AI model (GPT-4, Claude, Gemini, etc.)</li>
-                    <li>• Add descriptions and tags for easy organization</li>
-                    <li>• Search and filter your prompts instantly</li>
-                    <li>• Copy prompts with one click</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-green-100 p-3 dark:bg-green-900">
-                  <Share2 className="h-6 w-6 text-green-600 dark:text-green-400" />
-                </div>
-                <div>
-                  <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                    Publicly Share Prompts!
-                  </h3>
-                  <p className="mb-4 text-gray-600 dark:text-gray-400">
-                    Share individual prompts with friends and colleagues when you publish on Prompt
-                    Manage. Each prompt gets its own public page when shared. SOON: Collections
-                  </p>
-                  <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                    <li>• Share individual prompts with unique URLs</li>
-                    <li>• Public pages work without authentication</li>
-                    <li>• Track view counts on shared prompts</li>
-                    <li>• Make prompts private again anytime</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <div className="flex items-start gap-4">
-                <div className="rounded-lg bg-purple-100 p-3 dark:bg-purple-900">
-                  <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                    Community Discovery
-                  </h3>
-                  <p className="mb-4 text-gray-600 dark:text-gray-400">
-                    Browse prompts shared by the community in our public directory. Discover new
-                    techniques, find inspiration, and learn from others. The directory is searchable
-                    and filterable by model, tags, and popularity.
-                  </p>
-                  <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                    <li>• Browse hundreds of shared prompts</li>
-                    <li>• Search by model, tags, or keywords</li>
-                    <li>• Filter by popularity and recency</li>
-                    <li>• Copy prompts directly to your library</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Features */}
-        <div className="mb-16">
-          <h2 className="mb-8 text-2xl font-semibold text-gray-900 dark:text-white">
-            Key Features
-          </h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Organization</h3>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li>• Tag-based organization system</li>
-                <li>• Model-specific categorization</li>
-                <li>• Advanced search and filtering</li>
-                <li>• Bulk operations (Pro)</li>
-              </ul>
-            </div>
-            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Sharing</h3>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li>• One-click public sharing</li>
-                <li>• Unique URLs for each prompt</li>
-                <li>• View count tracking</li>
-                <li>• Social media integration</li>
-              </ul>
-            </div>
-            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Productivity</h3>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li>• One-click copy to clipboard</li>
-                <li>• Keyboard shortcuts</li>
-                <li>• Dark/light mode</li>
-                <li>• Mobile-responsive design</li>
-              </ul>
-            </div>
-            <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Security</h3>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li>• Private by default</li>
-                <li>• Secure authentication</li>
-                <li>• Data encryption</li>
-                <li>• GDPR compliant</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Best Practices */}
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            Best Practices
-          </h2>
-          <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-            <div className="space-y-4">
-              <div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  Naming Your Prompts
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Use descriptive names that clearly indicate what the prompt does. Include the
-                  target model or use case in the name for easy identification.
-                </p>
-              </div>
-              <div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  Using Tags Effectively
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Create a consistent tagging system. Use tags for model types, use cases,
-                  difficulty levels, and any other categories that help you organize your prompts.
-                </p>
-              </div>
-              <div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  Writing Descriptions
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Include clear descriptions that explain what the prompt does, what inputs it
-                  expects, and what outputs it produces. This helps when sharing with others.
-                </p>
-              </div>
-              <div>
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  Sharing Responsibly
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Only share prompts that you&apos;re comfortable making public. Remember that
-                  shared prompts can be viewed by anyone with the link.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="rounded-lg bg-white p-8 text-center shadow-sm dark:bg-gray-800">
-          <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
-            Ready to get started?
-          </h2>
-          <p className="mb-6 text-gray-600 dark:text-gray-400">
-            Create your first prompt and start organizing your AI workflow
-          </p>
-          <Link href="/?redirect=/dashboard">
-            <Button size="lg">Start Using Prompt Manage</Button>
-          </Link>
-        </div>
-
-        {/* Editing Account Settings */}
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            Editing Account Settings{' '}
-            <Link
-              href="/docs/account-settings"
-              className="ml-2 text-base text-blue-600 underline dark:text-blue-400"
-            >
-              (Full Help)
+    <>
+      {howToSchemas.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="mb-12">
+            <Link href="/">
+              <Button variant="ghost" className="mb-6">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Home
+              </Button>
             </Link>
-          </h2>
-          <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-            <ol className="list-decimal space-y-2 pl-6 text-gray-600 dark:text-gray-400">
-              <li>
-                Go to your profile or dashboard and click on <strong>Settings</strong> in the
-                navigation menu.
-              </li>
-              <li>Update your display name, email address, or other available fields as needed.</li>
-              <li>
-                Click <strong>Save</strong> to apply your changes.
-              </li>
-            </ol>
-            <p className="mt-4 text-sm text-gray-500">
-              Note: Some fields (such as email) may require verification or additional security
-              steps.
+            <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">Documentation</h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              Everything you need to know about using Prompt Manage
             </p>
           </div>
-        </div>
 
-        {/* Changing Your Password */}
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            Changing Your Password{' '}
-            <Link
-              href="/docs/change-password"
-              className="ml-2 text-base text-blue-600 underline dark:text-blue-400"
+          {/* Quick Links */}
+          <div className="mb-12 grid gap-4 md:grid-cols-2">
+            <a
+              href="#sign-up"
+              className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
             >
-              (Full Help)
-            </Link>
-          </h2>
-          <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-            <ol className="list-decimal space-y-2 pl-6 text-gray-600 dark:text-gray-400">
-              <li>
-                Navigate to <strong>Settings</strong> from your profile or dashboard.
-              </li>
-              <li>
-                Find the <strong>Password</strong> section.
-              </li>
-              <li>Enter your current password, then your new password twice to confirm.</li>
-              <li>
-                Click <strong>Change Password</strong> to update your password.
-              </li>
-            </ol>
-            <p className="mt-4 text-sm text-gray-500">
-              If you forget your password, use the <strong>Forgot Password</strong> link on the
-              sign-in page to reset it via email.
-            </p>
+              <User className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium text-gray-900 dark:text-white">How to Sign Up</span>
+            </a>
+            <a
+              href="#save-prompts"
+              className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <Save className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium text-gray-900 dark:text-white">How to Save Prompts</span>
+            </a>
+            <a
+              href="#share-prompts"
+              className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <Share2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium text-gray-900 dark:text-white">
+                How to Share Prompts Publicly
+              </span>
+            </a>
+            <a
+              href="#edit-profile"
+              className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <Settings className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium text-gray-900 dark:text-white">
+                How to Edit Your Profile
+              </span>
+            </a>
+            <a
+              href="#change-password"
+              className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <Lock className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium text-gray-900 dark:text-white">
+                How to Change Password
+              </span>
+            </a>
+            <a
+              href="#dark-mode"
+              className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <Palette className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium text-gray-900 dark:text-white">
+                How to Turn on Dark Mode
+              </span>
+            </a>
+            <a
+              href="#delete-prompt"
+              className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <Trash2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium text-gray-900 dark:text-white">
+                How to Delete a Prompt
+              </span>
+            </a>
+            <a
+              href="#browse-directory"
+              className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <Eye className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium text-gray-900 dark:text-white">
+                Browse Public Prompts
+              </span>
+            </a>
           </div>
-        </div>
 
-        {/* Signing Up */}
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            Signing Up{' '}
-            <Link
-              href="/docs/signup-help"
-              className="ml-2 text-base text-blue-600 underline dark:text-blue-400"
-            >
-              (Full Help)
-            </Link>
-          </h2>
-          <div className="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-            <ol className="list-decimal space-y-2 pl-6 text-gray-600 dark:text-gray-400">
-              <li>
-                Go to the <strong>Sign Up</strong> page from the main navigation or homepage.
-              </li>
-              <li>Enter your email address, create a password, and fill in any required fields.</li>
-              <li>
-                Click <strong>Sign Up</strong> to create your account.
-              </li>
-              <li>
-                Check your email for a verification link and follow the instructions to verify your
-                account.
-              </li>
-            </ol>
-            <p className="mt-4 text-sm text-gray-500">
-              If you do not receive a verification email, check your spam folder or request a new
-              one from the sign-up page.
+          {/* Documentation Sections */}
+          <div className="space-y-12">
+            {/* How to Sign Up */}
+            <section id="sign-up" className="scroll-mt-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
+                    <User className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    How to Sign Up
+                  </h2>
+                </div>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400">
+                  <ol className="list-decimal space-y-3 pl-6">
+                    <li>
+                      Click <strong className="text-gray-900 dark:text-white">"Sign in with Google"</strong> on the homepage or any page
+                    </li>
+                    <li>Authorize Prompt Manage to access your Google account</li>
+                    <li>You'll be automatically redirected to your dashboard</li>
+                    <li>
+                      Your account is now created! You can start saving and organizing prompts
+                      immediately
+                    </li>
+                  </ol>
+                  <div className="mt-4 rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
+                    <p className="text-sm text-emerald-900 dark:text-emerald-200">
+                      <strong>Note:</strong> We use Google Sign-In for secure, password-free
+                      authentication. Your account is created automatically on first sign-in.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* How to Save Prompts */}
+            <section id="save-prompts" className="scroll-mt-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
+                    <Save className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    How to Save Prompts
+                  </h2>
+                </div>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400">
+                  <p>There are two ways to save prompts to your library:</p>
+
+                  <div>
+                    <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                      Option 1: Create a New Prompt
+                    </h3>
+                    <ol className="list-decimal space-y-2 pl-6">
+                      <li>Go to your Dashboard</li>
+                      <li>
+                        Click the <strong className="text-gray-900 dark:text-white">"New Prompt"</strong> button
+                      </li>
+                      <li>Fill in the required fields:</li>
+                      <ul className="ml-6 mt-2 list-disc space-y-1">
+                        <li>
+                          <strong className="text-gray-900 dark:text-white">Name:</strong> A
+                          descriptive title for your prompt
+                        </li>
+                        <li>
+                          <strong className="text-gray-900 dark:text-white">Description:</strong>{' '}
+                          What the prompt does (optional but recommended)
+                        </li>
+                        <li>
+                          <strong className="text-gray-900 dark:text-white">Prompt Text:</strong>{' '}
+                          The actual prompt content
+                        </li>
+                        <li>
+                          <strong className="text-gray-900 dark:text-white">Model:</strong> Select
+                          which AI model to use (GPT-4o, Claude, Gemini, etc.)
+                        </li>
+                        <li>
+                          <strong className="text-gray-900 dark:text-white">Tags:</strong> Add tags
+                          to organize your prompts
+                        </li>
+                      </ul>
+                      <li>
+                        Click <strong className="text-gray-900 dark:text-white">"Save Prompt"</strong>
+                      </li>
+                    </ol>
+                  </div>
+
+                  <div>
+                    <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                      Option 2: Copy from Public Directory
+                    </h3>
+                    <ol className="list-decimal space-y-2 pl-6">
+                      <li>
+                        Browse the{' '}
+                        <Link
+                          href="/p"
+                          className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
+                        >
+                          Public Prompt Directory
+                        </Link>
+                      </li>
+                      <li>Find a prompt you like</li>
+                      <li>
+                        Click the <strong className="text-gray-900 dark:text-white">"Copy to My Library"</strong> button
+                      </li>
+                      <li>The prompt is instantly saved to your dashboard</li>
+                      <li>You can edit it to customize for your needs</li>
+                    </ol>
+                  </div>
+
+                  <div className="mt-4 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+                    <p className="text-sm text-blue-900 dark:text-blue-200">
+                      <strong>Pro Tip:</strong> Use consistent tags across your prompts (like
+                      "marketing," "email," "social") to make them easier to find and filter later.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* How to Share Prompts Publicly */}
+            <section id="share-prompts" className="scroll-mt-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
+                    <Share2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    How to Share Prompts Publicly
+                  </h2>
+                </div>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400">
+                  <p>
+                    Share your best prompts with the community! When you make a prompt public, it
+                    appears in the Public Prompt Directory and gets its own shareable URL.
+                  </p>
+                  <ol className="list-decimal space-y-3 pl-6">
+                    <li>Go to your Dashboard</li>
+                    <li>Click on the prompt you want to share</li>
+                    <li>
+                      Click the <strong className="text-gray-900 dark:text-white">"Edit"</strong>{' '}
+                      button
+                    </li>
+                    <li>
+                      Scroll down and toggle{' '}
+                      <strong className="text-gray-900 dark:text-white">
+                        "Make this prompt public"
+                      </strong>{' '}
+                      to <strong>ON</strong>
+                    </li>
+                    <li>
+                      Click <strong className="text-gray-900 dark:text-white">"Save Changes"</strong>
+                    </li>
+                    <li>
+                      Your prompt now has a public URL like{' '}
+                      <code className="rounded bg-gray-100 px-2 py-1 text-sm dark:bg-gray-800">
+                        promptmanage.com/p/your-prompt-slug
+                      </code>
+                    </li>
+                  </ol>
+
+                  <div className="mt-4 rounded-lg bg-purple-50 p-4 dark:bg-purple-900/20">
+                    <p className="mb-2 text-sm font-semibold text-purple-900 dark:text-purple-200">
+                      What happens when you share publicly:
+                    </p>
+                    <ul className="list-disc space-y-1 pl-6 text-sm text-purple-900 dark:text-purple-200">
+                      <li>Your prompt appears in the Public Prompt Directory</li>
+                      <li>It gets a unique, shareable URL</li>
+                      <li>View counts are tracked</li>
+                      <li>Others can copy it to their own libraries</li>
+                      <li>You can make it private again anytime</li>
+                    </ul>
+                  </div>
+
+                  <div className="mt-4 rounded-lg bg-amber-50 p-4 dark:bg-amber-900/20">
+                    <p className="text-sm text-amber-900 dark:text-amber-200">
+                      <strong>Privacy Note:</strong> Only share prompts you're comfortable making
+                      public. Don't include sensitive information, API keys, or proprietary content.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* How to Edit Your Profile */}
+            <section id="edit-profile" className="scroll-mt-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
+                    <Settings className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    How to Edit Your Profile
+                  </h2>
+                </div>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400">
+                  <ol className="list-decimal space-y-3 pl-6">
+                    <li>
+                      Click on your profile picture or name in the top right corner of any page
+                    </li>
+                    <li>
+                      Select <strong className="text-gray-900 dark:text-white">"Settings"</strong>{' '}
+                      from the dropdown menu
+                    </li>
+                    <li>Update any of the following:</li>
+                    <ul className="ml-6 mt-2 list-disc space-y-1">
+                      <li>
+                        <strong className="text-gray-900 dark:text-white">Display Name:</strong> The
+                        name shown on your public profile
+                      </li>
+                      <li>
+                        <strong className="text-gray-900 dark:text-white">Bio:</strong> A short
+                        description about yourself (optional)
+                      </li>
+                      <li>
+                        <strong className="text-gray-900 dark:text-white">Profile Picture:</strong>{' '}
+                        Your Google account photo is used by default
+                      </li>
+                    </ul>
+                    <li>
+                      Click <strong className="text-gray-900 dark:text-white">"Save Changes"</strong>
+                    </li>
+                  </ol>
+                  <div className="mt-4 rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
+                    <p className="text-sm text-emerald-900 dark:text-emerald-200">
+                      <strong>Note:</strong> Your display name and bio appear on your public profile
+                      page when you share prompts publicly.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* How to Change Password */}
+            <section id="change-password" className="scroll-mt-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
+                    <Lock className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    How to Change Your Password
+                  </h2>
+                </div>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400">
+                  <p>
+                    Since Prompt Manage uses Google Sign-In, you don't manage a password directly
+                    with us. Instead, your account security is managed through Google.
+                  </p>
+
+                  <div>
+                    <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                      To change your Google account password:
+                    </h3>
+                    <ol className="list-decimal space-y-2 pl-6">
+                      <li>
+                        Go to{' '}
+                        <a
+                          href="https://myaccount.google.com/security"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
+                        >
+                          Google Account Security
+                        </a>
+                      </li>
+                      <li>
+                        Click on <strong className="text-gray-900 dark:text-white">"Password"</strong>
+                      </li>
+                      <li>Follow Google's prompts to update your password</li>
+                      <li>
+                        Your new password will automatically apply to Prompt Manage and all other
+                        Google services
+                      </li>
+                    </ol>
+                  </div>
+
+                  <div className="mt-4 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+                    <p className="text-sm text-blue-900 dark:text-blue-200">
+                      <strong>Security Tip:</strong> Enable 2-factor authentication on your Google
+                      account for extra security across all services, including Prompt Manage.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* How to Turn on Dark Mode */}
+            <section id="dark-mode" className="scroll-mt-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
+                    <Palette className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    How to Turn on Dark Mode
+                  </h2>
+                </div>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400">
+                  <p>
+                    Toggle between light and dark mode directly in Prompt Manage.
+                  </p>
+
+                  <ol className="list-decimal space-y-3 pl-6">
+                    <li>
+                      Click on your profile picture or name in the top right corner of any page
+                    </li>
+                    <li>
+                      Select <strong className="text-gray-900 dark:text-white">"Settings"</strong>{' '}
+                      from the dropdown menu
+                    </li>
+                    <li>
+                      Look for the <strong className="text-gray-900 dark:text-white">"Dark Mode"</strong> toggle
+                    </li>
+                    <li>
+                      Click the toggle to switch between light and dark mode
+                    </li>
+                    <li>
+                      Your preference is saved automatically and will apply across all your devices
+                    </li>
+                  </ol>
+
+                  <div className="mt-4 rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
+                    <p className="text-sm text-emerald-900 dark:text-emerald-200">
+                      <strong>Note:</strong> Your dark mode preference is saved to your account, so it stays consistent across all devices where you're signed in.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* How to Delete a Prompt */}
+            <section id="delete-prompt" className="scroll-mt-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="rounded-lg bg-red-100 p-2 dark:bg-red-900/40">
+                    <Trash2 className="h-6 w-6 text-red-600 dark:text-red-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    How to Delete a Prompt
+                  </h2>
+                </div>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400">
+                  <ol className="list-decimal space-y-3 pl-6">
+                    <li>Go to your Dashboard</li>
+                    <li>Find the prompt you want to delete</li>
+                    <li>Click on the prompt to open it</li>
+                    <li>
+                      Click the <strong className="text-gray-900 dark:text-white">"Delete"</strong>{' '}
+                      button (usually a trash icon)
+                    </li>
+                    <li>Confirm the deletion when prompted</li>
+                    <li>The prompt is permanently removed from your library</li>
+                  </ol>
+
+                  <div className="mt-4 rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
+                    <p className="text-sm text-red-900 dark:text-red-200">
+                      <strong>Warning:</strong> Deleting a prompt is permanent and cannot be undone.
+                      If it was shared publicly, it will also be removed from the Public Prompt
+                      Directory.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Browse Public Prompts */}
+            <section id="browse-directory" className="scroll-mt-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
+                    <Eye className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    How to Browse Public Prompts
+                  </h2>
+                </div>
+                <div className="space-y-4 text-gray-600 dark:text-gray-400">
+                  <p>
+                    The Public Prompt Directory has 300+ community-shared prompts ready to use with
+                    any AI model.
+                  </p>
+                  <ol className="list-decimal space-y-3 pl-6">
+                    <li>
+                      Go to the{' '}
+                      <Link
+                        href="/p"
+                        className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
+                      >
+                        Public Prompt Directory
+                      </Link>
+                    </li>
+                    <li>Use the filters to narrow your search:</li>
+                    <ul className="ml-6 mt-2 list-disc space-y-1">
+                      <li>
+                        <strong className="text-gray-900 dark:text-white">Search:</strong> Find
+                        prompts by keyword
+                      </li>
+                      <li>
+                        <strong className="text-gray-900 dark:text-white">Model:</strong> Filter by
+                        AI model (GPT-4o, Claude, Gemini, etc.)
+                      </li>
+                      <li>
+                        <strong className="text-gray-900 dark:text-white">Tags:</strong> Browse by
+                        category (marketing, coding, content, etc.)
+                      </li>
+                      <li>
+                        <strong className="text-gray-900 dark:text-white">Sort:</strong> View by
+                        most recent or most popular
+                      </li>
+                    </ul>
+                    <li>Click on any prompt to view details</li>
+                    <li>
+                      Click <strong className="text-gray-900 dark:text-white">"Copy to My Library"</strong> to save it (requires
+                      sign-in)
+                    </li>
+                  </ol>
+
+                  <div className="mt-4 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+                    <p className="text-sm text-blue-900 dark:text-blue-200">
+                      <strong>Pro Tip:</strong> You don't need an account to browse the directory,
+                      but signing in lets you save prompts to your library and customize them.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          {/* Need More Help */}
+          <div className="mt-16 rounded-lg border border-gray-200 bg-white p-8 text-center dark:border-gray-800 dark:bg-gray-900">
+            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+              Need More Help?
+            </h2>
+            <p className="mb-6 text-gray-600 dark:text-gray-400">
+              Check out our best practices guide or explore the platform
             </p>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link href="/docs/best-practices">
+                <Button variant="outline" size="lg">
+                  View Best Practices
+                </Button>
+              </Link>
+              <Link href="/p">
+                <Button size="lg">Browse Public Prompts</Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

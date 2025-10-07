@@ -61,8 +61,49 @@ export const metadata: Metadata = {
 }
 
 export default function ModelsPage() {
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://promptmanage.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Supported AI Models',
+        item: 'https://promptmanage.com/models',
+      },
+    ],
+  }
+
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Supported AI Models',
+    description: 'Comprehensive list of AI models supported by Prompt Manage',
+    url: 'https://promptmanage.com/models',
+    about: {
+      '@type': 'SoftwareApplication',
+      name: 'Prompt Manage',
+    },
+    numberOfItems: supportedModels.length,
+  }
+
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+      <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12 text-center">
@@ -290,6 +331,48 @@ export default function ModelsPage() {
           </div>
         </div>
 
+        {/* Related Content */}
+        <div className="mx-auto mt-16 max-w-4xl border-t pt-12">
+          <h2 className="mb-6 text-center text-2xl font-bold text-gray-900 dark:text-white">
+            Explore AI Prompts by Model
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Link
+              href="/p?model=gpt-4o"
+              className="rounded-lg border border-gray-200 bg-white p-4 text-center transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <div className="font-semibold text-gray-900 dark:text-white">GPT-4o Prompts</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Browse GPT-4o templates</div>
+            </Link>
+            <Link
+              href="/p?model=claude-4-sonnet"
+              className="rounded-lg border border-gray-200 bg-white p-4 text-center transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <div className="font-semibold text-gray-900 dark:text-white">Claude 4 Prompts</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Browse Claude templates</div>
+            </Link>
+            <Link
+              href="/p?model=gemini-2-5-pro"
+              className="rounded-lg border border-gray-200 bg-white p-4 text-center transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <div className="font-semibold text-gray-900 dark:text-white">Gemini Prompts</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Browse Gemini templates</div>
+            </Link>
+            <Link
+              href="/p"
+              className="rounded-lg border border-gray-200 bg-white p-4 text-center transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <div className="font-semibold text-gray-900 dark:text-white">All Prompts</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">View full directory</div>
+            </Link>
+          </div>
+          <div className="mt-6 text-center">
+            <Link href="/docs/best-practices" className="text-emerald-600 hover:underline dark:text-emerald-400">
+              Learn prompt engineering best practices →
+            </Link>
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="rounded-lg bg-white p-8 text-center shadow-sm dark:bg-gray-800">
           <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
@@ -312,5 +395,6 @@ export default function ModelsPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

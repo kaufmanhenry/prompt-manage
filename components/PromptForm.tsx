@@ -265,7 +265,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                         <SelectValue placeholder="Select a model" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="max-h-[400px]">
                       {Object.entries(modelsByCompany).map(([company, companyModels]) => (
                         <SelectGroup key={company}>
                           <SelectLabel>{company}</SelectLabel>

@@ -58,8 +58,55 @@ export const metadata: Metadata = {
 }
 
 export default function AboutPage() {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Prompt Manage',
+    url: 'https://promptmanage.com',
+    logo: 'https://promptmanage.com/logo.svg',
+    description:
+      'Professional prompt management platform for marketing teams, agencies, and enterprises. Organize, test, and collaborate on AI prompts for ChatGPT, Claude, Gemini, and more.',
+    sameAs: [
+      'https://x.com/promptmanage',
+      'https://www.linkedin.com/company/prompt-manage/',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'Customer Service',
+      url: 'https://promptmanage.com/about',
+    },
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://promptmanage.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'About',
+        item: 'https://promptmanage.com/about',
+      },
+    ],
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12 text-center">
@@ -240,5 +287,6 @@ export default function AboutPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

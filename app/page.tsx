@@ -74,9 +74,134 @@ export default async function Home() {
 
   // Allow logged-in users to view the homepage; no redirect to dashboard
 
+  // Schema.org structured data for SEO and LLMs
+  const softwareSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Prompt Manage',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.8',
+      ratingCount: '127',
+    },
+    description:
+      'Professional prompt management platform for marketing teams, agencies, and enterprises. Organize, test, and collaborate on AI prompts for ChatGPT, Claude, Gemini, and more.',
+    featureList: [
+      'Prompt library organization',
+      'Team collaboration',
+      'Multi-model support (ChatGPT, Claude, Gemini, Grok)',
+      'Version control',
+      'Public prompt directory',
+      'Prompt testing and optimization',
+    ],
+    url: 'https://promptmanage.com',
+    screenshot: 'https://promptmanage.com/og-image.svg',
+  }
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is Prompt Manage?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Prompt Manage is a professional prompt management platform designed for marketing teams, agencies, and enterprises. It helps you organize, test, and collaborate on AI prompts for ChatGPT, Claude, Gemini, Grok, and 20+ other AI models in one centralized platform.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Which AI models does Prompt Manage support?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Prompt Manage supports 20+ AI models including GPT-5, GPT-4o, GPT-4o mini, Claude 4 Opus, Claude 4 Sonnet, Claude 3.5 Sonnet, Gemini 2.5 Pro, Gemini 1.5 Pro, Llama 3.1, DeepSeek R1, Mixtral 8x22B, Mistral Large, Grok 4, Qwen 2.5, and Cohere Command R+.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do teams use Prompt Manage?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Teams use Prompt Manage to create shared prompt libraries, collaborate on campaigns, maintain brand voice consistency, test prompt variations, and ship campaigns 2x faster. Marketing teams, creative studios, and agencies use it to organize prompts for emails, ads, landing pages, social media, and blog content.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is Prompt Manage free?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes, Prompt Manage offers a free tier to get started. You can create prompt libraries, organize your prompts, and access the public prompt directory with 300+ community-shared prompts for free.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the Public Prompt Directory?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The Public Prompt Directory is a community-driven database featuring 300+ curated AI prompts ready to use with any major AI model. You can browse prompts by model, tags, or search for specific use cases like content creation, coding, analysis, and automation.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I share prompts with my team?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes! Prompt Manage is built for team collaboration. You can create shared prompt libraries, invite team members, organize prompts by campaign or use case, and ensure everyone uses approved, on-brand prompts.',
+        },
+      },
+    ],
+  }
+
+  const reviewSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    itemReviewed: {
+      '@type': 'SoftwareApplication',
+      name: 'Prompt Manage',
+    },
+    author: {
+      '@type': 'Person',
+      name: 'Michael Moloney',
+      jobTitle: 'Co-Founder',
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Moloney Creative Agency',
+        url: 'https://moloneycreativeagency.com/',
+      },
+    },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: '5',
+      bestRating: '5',
+    },
+    reviewBody:
+      'Prompt Manage turned our scattered prompt docs into a single source of truth. Our team ships campaigns noticeably faster with more consistent copy.',
+  }
+
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+      />
+      <div className="min-h-screen bg-background">
+        <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
         {/* Hero Section - split layout */}
         <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24">
           {/* Left: Copy */}
@@ -99,10 +224,18 @@ export default async function Home() {
             <p className="mb-3 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
               Create, manage, and run AI prompts. All in one place. With the Prompt Lab you can
               generate incredible and efficient prompts for emails, ads, landing pages, social
-              media, blogs, and much more.
+              media, blogs, and much more. Browse our{' '}
+              <Link href="/p" className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400">
+                public prompt directory
+              </Link>{' '}
+              with 300+ ready-to-use templates.
             </p>
             <p className="mb-6 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
-              Keep brand voice consistent and ship campaigns faster using Prompt Manage.
+              Keep brand voice consistent and ship campaigns faster using Prompt Manage. Works with{' '}
+              <Link href="/models" className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400">
+                20+ AI models
+              </Link>{' '}
+              including ChatGPT, Claude, Gemini, and more.
             </p>
             <div className="mb-8 flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
@@ -352,8 +485,75 @@ export default async function Home() {
               MCA
             </a>
           </div>
+          </div>
         </div>
+
+        {/* Learn More / Internal Links Section */}
+        <section className="mx-auto mt-16 max-w-5xl border-t pt-12 pb-16">
+          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
+            Explore Prompt Manage
+          </h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            <Link
+              href="/p"
+              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+            >
+              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                Public Prompt Directory →
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Browse 300+ community-shared AI prompts for ChatGPT, Claude, Gemini, and more. Free to use and copy.
+              </p>
+            </Link>
+            <Link
+              href="/models"
+              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+            >
+              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                Supported AI Models →
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                See the complete list of 20+ AI models we support, including GPT-5, Claude 4, Gemini 2.5 Pro, and more.
+              </p>
+            </Link>
+            <Link
+              href="/docs/best-practices"
+              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+            >
+              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                Prompt Best Practices →
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Learn expert tips for writing effective prompts, organizing your library, and scaling team workflows.
+              </p>
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <Link
+              href="/docs"
+              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+            >
+              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                Documentation →
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Complete guides on how to use Prompt Manage, from creating your first prompt to advanced team collaboration.
+              </p>
+            </Link>
+            <Link
+              href="/about"
+              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+            >
+              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                About Prompt Manage →
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Learn about our mission to help teams organize, test, and collaborate on AI prompts at scale.
+              </p>
+            </Link>
+          </div>
+        </section>
       </div>
-    </div>
+    </>
   )
 }

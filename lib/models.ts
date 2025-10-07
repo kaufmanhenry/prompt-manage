@@ -16,6 +16,25 @@ export interface Model {
 export const supportedModels: Model[] = [
   // OpenAI
   {
+    id: 'gpt-5',
+    name: 'GPT-5',
+    company: 'OpenAI',
+    type: 'Proprietary',
+    description:
+      "OpenAI's most advanced model with enhanced capabilities across all domains.",
+    capabilities: ['Advanced Reasoning', 'Multimodal', 'Enhanced Performance'],
+    icon: '🚀',
+    color: 'bg-emerald-100 dark:bg-emerald-900',
+    textColor: 'text-emerald-600 dark:text-emerald-400',
+    features: [
+      'Enhanced reasoning and problem-solving',
+      'Improved multimodal capabilities',
+      'Superior performance across tasks',
+    ],
+    useCases: ['Advanced AI applications', 'Complex problem solving', 'Cutting-edge development'],
+    companyUrl: 'https://openai.com',
+  },
+  {
     id: 'gpt-4o',
     name: 'GPT-4o',
     company: 'OpenAI',
@@ -341,4 +360,15 @@ export function getProprietaryModels(): Model[] {
 
 export function getOpenSourceModels(): Model[] {
   return supportedModels.filter((model) => model.type === 'Open Source')
+}
+
+export function getModelsByCompany(): Record<string, Model[]> {
+  const grouped: Record<string, Model[]> = {}
+  supportedModels.forEach((model) => {
+    if (!grouped[model.company]) {
+      grouped[model.company] = []
+    }
+    grouped[model.company].push(model)
+  })
+  return grouped
 }

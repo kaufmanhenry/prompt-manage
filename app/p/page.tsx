@@ -1,11 +1,13 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { Search, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 
 import CopyButton from '@/components/CopyButton'
+import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -13,12 +15,14 @@ import { FullPageLoading } from '@/components/ui/loading'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
-import { supportedModels } from '@/lib/models'
+import { getModelsByCompany, supportedModels } from '@/lib/models'
 import type { PublicPrompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -39,6 +43,18 @@ function PublicDirectoryContent() {
   const initialPage = Number(searchParams.get('page')) || 1
   const [page, setPage] = useState(initialPage)
   const promptsPerPage = 21
+  const modelsByCompany = getModelsByCompany()
+
+  // Get user session
+  const { data: session } = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const {
+        data: { session },
+      } = await createClient().auth.getSession()
+      return session
+    },
+  })
 
   const fetchPublicPrompts = useCallback(async () => {
     try {
@@ -152,10 +168,15 @@ function PublicDirectoryContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Models</SelectItem>
-                {supportedModels.map((model) => (
-                  <SelectItem key={model.id} value={model.id}>
-                    {model.name}
-                  </SelectItem>
+                {Object.entries(modelsByCompany).map(([company, companyModels]) => (
+                  <SelectGroup key={company}>
+                    <SelectLabel>{company}</SelectLabel>
+                    {companyModels.map((model) => (
+                      <SelectItem key={model.id} value={model.id}>
+                        {model.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
                 ))}
               </SelectContent>
             </Select>
@@ -293,7 +314,21 @@ function PublicDirectoryContent() {
                 This <strong>directory of prompts</strong> serves as both a <strong>prompt marketplace</strong> and learning resource for everyone—from beginners exploring their first AI chatbot to advanced practitioners refining their <strong>prompt engineering</strong> skills. Browse <strong>popular AI prompts</strong> for content creation, coding, analysis, and automation, or dive into <strong>advanced AI prompts</strong> designed for complex reasoning and specialized workflows.
               </p>
               <p>
-                Want to build your own <strong>prompt collection</strong>? Simply <Link href="/docs" className="text-blue-600 hover:underline dark:text-blue-400">sign up</Link> to save any prompt from the directory to your personal library, organize them with tags, and run them directly within Prompt Manage. You can also share your best work by publishing prompts to the directory for others to discover. Whether you're looking for inspiration, testing new ideas, or scaling your AI workflows, this <strong>AI prompt directory</strong> is built to help you work smarter with every model.
+                Want to build your own <strong>prompt collection</strong>? Simply{' '}
+                {session ? (
+                  <Link href="/dashboard" className="text-blue-600 hover:underline dark:text-blue-400">
+                    go to your dashboard
+                  </Link>
+                ) : (
+                  <GoogleSignInButton
+                    redirectPath="/dashboard"
+                    variant="link"
+                    className="h-auto p-0 text-blue-600 hover:underline dark:text-blue-400"
+                  >
+                    sign up
+                  </GoogleSignInButton>
+                )}{' '}
+                to save any prompt from the directory to your personal library, organize them with tags, and run them directly within Prompt Manage. You can also share your best work by publishing prompts to the directory for others to discover. Whether you're looking for inspiration, testing new ideas, or scaling your AI workflows, this <strong>AI prompt directory</strong> is built to help you work smarter with every model.
               </p>
               <p className="text-sm">
                 Explore our <Link href="/models" className="text-blue-600 hover:underline dark:text-blue-400">supported AI models</Link> to see the full range of options, or check out our <Link href="/docs" className="text-blue-600 hover:underline dark:text-blue-400">documentation</Link> to learn best practices for prompt engineering and workflow optimization.

@@ -28,13 +28,16 @@ import MultipleSelector from '@/components/ui/multi-select'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
+import { getModelsByCompany } from '@/lib/models'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { modelSchema, promptSchema } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
@@ -46,6 +49,7 @@ interface PromptFormProps {
 }
 
 const models = modelSchema.options
+const modelsByCompany = getModelsByCompany()
 
 export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const [loading, setLoading] = useState(false)
@@ -262,10 +266,15 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {models.map((model) => (
-                        <SelectItem key={model} value={model}>
-                          {model}
-                        </SelectItem>
+                      {Object.entries(modelsByCompany).map(([company, companyModels]) => (
+                        <SelectGroup key={company}>
+                          <SelectLabel>{company}</SelectLabel>
+                          {companyModels.map((model) => (
+                            <SelectItem key={model.id} value={model.id}>
+                              {model.name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
                       ))}
                     </SelectContent>
                   </Select>

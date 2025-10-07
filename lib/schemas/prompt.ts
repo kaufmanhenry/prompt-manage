@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const modelSchema = z.enum([
   // OpenAI
+  'gpt-5',
   'gpt-4o',
   'gpt-4o-mini',
   'gpt-4',

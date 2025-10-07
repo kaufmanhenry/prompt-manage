@@ -1,4 +1,4 @@
-import { ArrowLeft, Eye, Lock, Palette, Plus, Save, Settings, Share2, Trash2, User } from 'lucide-react'
+import { ArrowLeft, Eye, Lock, Palette, Save, Settings, Share2, Trash2, User } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 

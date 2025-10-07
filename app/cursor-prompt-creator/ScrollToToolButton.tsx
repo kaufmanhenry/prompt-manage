@@ -1,7 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { ArrowRight, Code } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
 
 export function ScrollToToolButton() {
   const handleClick = () => {
@@ -11,7 +12,7 @@ export function ScrollToToolButton() {
   return (
     <Button
       size="lg"
-      className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+      className="bg-blue-600 px-8 py-3 text-lg text-white hover:bg-blue-700"
       onClick={handleClick}
     >
       <Code className="mr-2 h-5 w-5" />

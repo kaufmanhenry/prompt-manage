@@ -1,14 +1,18 @@
 'use client'
 
+import {
+  Brain,
+  Copy,
+  Lightbulb,
+  Save,
+  Sparkles,
+  User
+} from 'lucide-react'
 import { useState } from 'react'
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Textarea } from '@/components/ui/textarea'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
-import { Skeleton } from '@/components/ui/skeleton'
-import { useToast } from '@/components/ui/use-toast'
 import {
   Select,
   SelectContent,
@@ -16,17 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  CheckCircle,
-  AlertCircle,
-  Lightbulb,
-  Copy,
-  Sparkles,
-  Brain,
-  Save,
-  User
-} from 'lucide-react'
-import Link from 'next/link'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Textarea } from '@/components/ui/textarea'
+import { useToast } from '@/components/ui/use-toast'
 
 interface ClaudePrompt {
   prompt: string

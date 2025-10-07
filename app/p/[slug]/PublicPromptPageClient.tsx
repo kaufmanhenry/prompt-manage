@@ -398,7 +398,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
             <CardContent>
               <Link 
                 href={`/p?model=${encodeURIComponent(prompt.model)}`}
-                className="hover:opacity-80 transition-opacity"
+                className="transition-opacity hover:opacity-80"
               >
                 <Badge variant="secondary" className="cursor-pointer">
                   {prompt.model}
@@ -419,7 +419,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
                     <Link 
                       key={tag} 
                       href={`/p?tag=${encodeURIComponent(tag)}`}
-                      className="hover:opacity-80 transition-opacity"
+                      className="transition-opacity hover:opacity-80"
                     >
                       <Badge variant="outline" className="cursor-pointer">
                         {tag}

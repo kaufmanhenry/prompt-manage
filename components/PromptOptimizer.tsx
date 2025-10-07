@@ -1,22 +1,22 @@
 'use client'
 
+import { 
+  AlertCircle, 
+  CheckCircle, 
+  Copy, 
+  FileText,
+  Lightbulb, 
+  Sparkles,
+  Target,
+  TrendingUp} from 'lucide-react'
 import { useState } from 'react'
+
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Textarea } from '@/components/ui/textarea'
-import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { 
-  CheckCircle, 
-  AlertCircle, 
-  Lightbulb, 
-  Copy, 
-  Sparkles,
-  TrendingUp,
-  Target,
-  FileText
-} from 'lucide-react'
 
 interface PromptAnalysis {
   score: number
@@ -26,7 +26,7 @@ interface PromptAnalysis {
   optimizedPrompt?: string
 }
 
-const examplePrompts = [
+const _examplePrompts = [
   "Write a blog post about AI",
   "Create a marketing email for our new product launch",
   "Help me write a professional email to my boss about working from home",
@@ -68,7 +68,6 @@ export default function PromptOptimizer() {
 
       if (!response.ok) {
         if (response.status === 429) {
-          const data = await response.json()
           toast({
             title: 'Rate limit exceeded',
             description: 'Please wait a moment before trying again.',
@@ -99,7 +98,7 @@ export default function PromptOptimizer() {
   }
 
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
+    void navigator.clipboard.writeText(text)
     toast({
       title: 'Copied!',
       description: 'Prompt copied to clipboard',
@@ -120,16 +119,16 @@ export default function PromptOptimizer() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6 p-6">
       {/* Header */}
-      <div className="text-center space-y-4">
+      <div className="space-y-4 text-center">
         <div className="flex items-center justify-center gap-2">
           <Sparkles className="h-8 w-8 text-blue-600" />
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Prompt Optimizer
           </h1>
         </div>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
           Get 3x better results from AI with optimized prompts. Analyze your prompt and get specific suggestions for improvement.
         </p>
       </div>
@@ -149,7 +148,7 @@ export default function PromptOptimizer() {
             onChange={(e) => setPrompt(e.target.value)}
             className="min-h-[120px] resize-none"
           />
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <span className="text-sm text-gray-500">
               {prompt.length} characters
             </span>
@@ -160,12 +159,12 @@ export default function PromptOptimizer() {
             >
               {loading ? (
                 <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white" />
                   Analyzing...
                 </>
               ) : (
                 <>
-                  <TrendingUp className="h-4 w-4 mr-2" />
+                  <TrendingUp className="mr-2 h-4 w-4" />
                   Analyze Prompt
                 </>
               )}
@@ -212,7 +211,7 @@ export default function PromptOptimizer() {
                       {analysis.score}/100 - {getScoreLabel(analysis.score)}
                     </Badge>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                  <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
                     <div 
                       className={`h-2 rounded-full transition-all duration-500 ${
                         analysis.score >= 80 ? 'bg-green-500' : 
@@ -239,7 +238,7 @@ export default function PromptOptimizer() {
                 <ul className="space-y-2">
                   {analysis.strengths.map((strength, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
                       <span className="text-sm text-gray-700 dark:text-gray-300">
                         {strength}
                       </span>
@@ -263,7 +262,7 @@ export default function PromptOptimizer() {
                 <ul className="space-y-3">
                   {analysis.suggestions.map((suggestion, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <AlertCircle className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-blue-500" />
                       <span className="text-sm text-gray-700 dark:text-gray-300">
                         {suggestion}
                       </span>
@@ -288,14 +287,14 @@ export default function PromptOptimizer() {
                     size="sm"
                     onClick={() => copyToClipboard(analysis.optimizedPrompt!)}
                   >
-                    <Copy className="h-4 w-4 mr-2" />
+                    <Copy className="mr-2 h-4 w-4" />
                     Copy
                   </Button>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                  <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+                  <p className="whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-300">
                     {analysis.optimizedPrompt}
                   </p>
                 </div>
@@ -306,7 +305,7 @@ export default function PromptOptimizer() {
       )}
 
       {/* Tips Section */}
-      <Card className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
+      <Card className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/20">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
             <Lightbulb className="h-5 w-5" />
@@ -314,7 +313,7 @@ export default function PromptOptimizer() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid md:grid-cols-2 gap-4 text-sm">
+          <div className="grid gap-4 text-sm md:grid-cols-2">
             <div className="space-y-2">
               <h4 className="font-semibold text-blue-800 dark:text-blue-200">Be Specific</h4>
               <p className="text-blue-700 dark:text-blue-300">

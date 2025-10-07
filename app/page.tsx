@@ -489,7 +489,7 @@ export default async function Home() {
         </div>
 
         {/* Learn More / Internal Links Section */}
-        <section className="mx-auto mt-16 max-w-5xl border-t pt-12 pb-16">
+        <section className="mx-auto mt-16 max-w-5xl border-t pb-16 pt-12">
           <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
             Explore Prompt Manage
           </h2>

@@ -1,9 +1,11 @@
-import { Metadata } from 'next'
+import { CheckCircle, Sparkles, Target, TrendingUp,Users } from 'lucide-react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CheckCircle, Star, Users, Zap, ArrowRight, Sparkles, Target, TrendingUp } from 'lucide-react'
+
+import PromptOptimizer from '@/components/PromptOptimizer'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import PromptOptimizer from '@/components/PromptOptimizer'
+
 import { ScrollToToolButton } from './ScrollToToolButton'
 
 export const metadata: Metadata = {
@@ -85,7 +87,7 @@ export default function PromptOptimizerPage() {
       <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+        <div className="bg-grid-pattern absolute inset-0 opacity-5" />
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="mb-6 flex justify-center">
@@ -143,9 +145,9 @@ export default function PromptOptimizerPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="bg-gray-50 py-16 dark:bg-gray-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
               Why Use Our Prompt Optimizer?
             </h2>
@@ -224,9 +226,9 @@ export default function PromptOptimizerPage() {
       </section>
 
       {/* Use Cases Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="bg-gray-50 py-16 dark:bg-gray-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
               Perfect For Every Use Case
             </h2>
@@ -296,13 +298,13 @@ export default function PromptOptimizerPage() {
       </section>
 
       {/* Value Proposition Section */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20">
+      <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-16 dark:from-blue-900/20 dark:to-purple-900/20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl mb-4">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
               Get More Than Just Optimization
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <p className="mx-auto max-w-3xl text-lg text-gray-600 dark:text-gray-300">
               When you sign up for a free account, you unlock the full power of Prompt Manage's platform.
             </p>
           </div>
@@ -357,7 +359,7 @@ export default function PromptOptimizerPage() {
           
           <div className="mt-12 text-center">
             <Link href="/?redirect=/dashboard">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg">
+              <Button size="lg" className="bg-blue-600 px-8 py-3 text-lg text-white hover:bg-blue-700">
                 <Users className="mr-2 h-5 w-5" />
                 Get Free Account - No Credit Card Required
               </Button>
@@ -371,11 +373,11 @@ export default function PromptOptimizerPage() {
 
       {/* CTA Section */}
       <section className="py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl mb-6">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
             Ready to Get Better AI Results?
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+          <p className="mb-8 text-lg text-gray-600 dark:text-gray-300">
             Join thousands of users who are already getting 3x better results from AI with optimized prompts.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
@@ -391,9 +393,9 @@ export default function PromptOptimizerPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="bg-gray-50 py-16 dark:bg-gray-900">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
               Frequently Asked Questions
             </h2>
@@ -401,7 +403,7 @@ export default function PromptOptimizerPage() {
           
           <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Is the Prompt Optimizer really free?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
@@ -410,7 +412,7 @@ export default function PromptOptimizerPage() {
             </div>
             
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Which AI models does this work with?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
@@ -419,7 +421,7 @@ export default function PromptOptimizerPage() {
             </div>
             
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 How does the optimization work?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
@@ -428,7 +430,7 @@ export default function PromptOptimizerPage() {
             </div>
             
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Can I save my optimized prompts?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
@@ -440,23 +442,23 @@ export default function PromptOptimizerPage() {
       </section>
 
       {/* Final Conversion Section */}
-      <section className="py-16 bg-gradient-to-r from-emerald-500 to-blue-600">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl mb-6">
+      <section className="bg-gradient-to-r from-emerald-500 to-blue-600 py-16">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="mb-6 text-3xl font-bold text-white sm:text-4xl">
             Ready to Transform Your AI Workflow?
           </h2>
-          <p className="text-lg text-emerald-100 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-emerald-100">
             Don't just optimize one prompt - build a complete library of high-performing prompts that your team can use and improve over time.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Link href="/?redirect=/dashboard">
-              <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-50 px-8 py-3 text-lg font-semibold shadow-lg">
+              <Button size="lg" className="bg-white px-8 py-3 text-lg font-semibold text-gray-900 shadow-lg hover:bg-gray-50">
                 <Users className="mr-2 h-5 w-5" />
                 Start Building Your Library
               </Button>
             </Link>
             <Link href="/p">
-              <Button size="lg" className="bg-gray-900 text-white hover:bg-gray-800 px-8 py-3 text-lg font-semibold shadow-lg">
+              <Button size="lg" className="bg-gray-900 px-8 py-3 text-lg font-semibold text-white shadow-lg hover:bg-gray-800">
                 Browse Templates First
               </Button>
             </Link>

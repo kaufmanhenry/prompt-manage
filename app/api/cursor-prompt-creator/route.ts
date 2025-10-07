@@ -1,5 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
+
 import { checkRateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
 // Initialize OpenAI client only when needed
@@ -178,8 +180,8 @@ Generate a comprehensive Cursor prompt that will produce high-quality code.`
     
     let prompt = ''
     let explanation = ''
-    let tips: string[] = []
-    let examples: string[] = []
+    const tips: string[] = []
+    const examples: string[] = []
     
     let currentSection = 'prompt'
     

@@ -263,7 +263,7 @@ function PublicDirectoryContent() {
                     <Link 
                       href={`/p?model=${encodeURIComponent(prompt.model)}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="hover:opacity-80 transition-opacity"
+                      className="transition-opacity hover:opacity-80"
                     >
                       <Badge variant="secondary" className="ml-2 cursor-pointer">
                         {prompt.model}
@@ -274,7 +274,7 @@ function PublicDirectoryContent() {
                         key={tag} 
                         href={`/p?tag=${encodeURIComponent(tag)}`}
                         onClick={(e) => e.stopPropagation()}
-                        className="hover:opacity-80 transition-opacity"
+                        className="transition-opacity hover:opacity-80"
                       >
                         <Badge variant="outline" className="cursor-pointer">
                           {tag}

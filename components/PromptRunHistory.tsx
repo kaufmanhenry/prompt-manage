@@ -120,6 +120,9 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
     return new Date(timestamp).toLocaleString()
   }
 
+  const history = useMemo(() => historyData?.history || [], [historyData?.history])
+  const cappedHistory = useMemo(() => history.slice(0, 100), [history])
+
   if (isLoading) {
     return (
       <Card className="gap-4 space-y-0 p-4">
@@ -158,9 +161,6 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
       </Card>
     )
   }
-
-  const history = historyData?.history || []
-  const cappedHistory = useMemo(() => history.slice(0, 100), [history])
 
   return (
     <Card className="gap-0 space-y-0 p-4">

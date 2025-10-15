@@ -66,7 +66,7 @@ export default function PrivacyPage() {
         </p>
 
         <div className="prose prose-gray dark:prose-invert max-w-none">
-            <p className="mb-6 text-gray-700 dark:text-gray-300">
+          <p className="mb-6 text-gray-700 dark:text-gray-300">
               This Privacy Policy describes how Prompt Manage (&ldquo;Company&rdquo;,
               &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, discloses,
               and protects your information when you use our website and services. By accessing or
@@ -257,7 +257,6 @@ export default function PrivacyPage() {
               </ul>
             </div>
           </div>
-        </div>
       </div>
     </div>
   )

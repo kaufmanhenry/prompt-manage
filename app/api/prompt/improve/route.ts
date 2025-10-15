@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
+
 import { checkRateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
 // Initialize OpenAI client only when needed

@@ -11,7 +11,7 @@ import {
   Save,
   Sparkles,
 } from 'lucide-react'
-import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -368,91 +368,6 @@ function SimplePromptLab() {
       abortControllerRef.current = null
     }
   }
-
-  // Memoized list of runs, cap to most recent 20 for performance
-  const cappedRuns = useMemo(() => runs.slice(0, 20), [runs])
-
-  const RunItem = useMemo(
-    () =>
-      memo(function RunItem({ r, idx, onSave, onCancel, onEdit }: { r: (typeof runs)[number]; idx: number; onSave: (i: number) => void; onCancel: (i: number) => void; onEdit: (i: number) => void }) {
-        return (
-          <div
-            className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900"
-          >
-            <div className="mb-3 flex items-center justify-between">
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Generated {new Date(r.createdAt).toLocaleString()}
-              </div>
-              <div className="flex items-center gap-2">
-                {r.isEditing ? (
-                  <>
-                    <Button size="sm" onClick={() => onSave(idx)}>
-                      Save
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={() => onCancel(idx)}>
-                      Cancel
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button size="sm" variant="outline" onClick={() => onEdit(idx)}>
-                      Edit
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={() => finalizePrompt(idx)}>
-                      Finalize & Save
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => {
-                        void navigator.clipboard.writeText(r.response)
-                        toast({
-                          title: 'Copied!',
-                          description: 'Prompt copied to clipboard',
-                        })
-                      }}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {/* Before */}
-              <div className="rounded-md border border-gray-200 p-3 dark:border-gray-800">
-                <div className="mb-2 text-xs font-semibold text-gray-600">Your idea</div>
-                <ScrollArea className="h-full max-h-64">
-                  <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-700 dark:text-gray-300">{r.original}</pre>
-                </ScrollArea>
-              </div>
-              {/* After */}
-              <div className="rounded-md border border-emerald-200 p-3 ring-1 ring-emerald-500/20 dark:border-emerald-900/40">
-                <div className="mb-2 text-xs font-semibold text-gray-600">Improved prompt</div>
-                {r.isEditing ? (
-                  <Textarea
-                    value={editingPrompt}
-                    onChange={(e) => setEditingPrompt(e.target.value)}
-                    className="min-h-[200px] font-mono text-sm"
-                  />
-                ) : (
-                  <ScrollArea className="h-full max-h-64">
-                    <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-800 dark:text-gray-200">{r.response}</pre>
-                  </ScrollArea>
-                )}
-              </div>
-            </div>
-
-            {r.changes && r.changes.length > 0 && (
-              <div className="mt-3 text-xs text-gray-600">
-                <span className="font-semibold">What changed:</span> {r.changes.join(' • ')}
-              </div>
-            )}
-          </div>
-        )
-      }),
-    [editingPrompt, toast]
-  )
 
   function startEditing(index: number) {
     const updatedRuns = runs.map((run, i) => ({

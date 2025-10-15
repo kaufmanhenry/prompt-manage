@@ -4,7 +4,6 @@ import {
   ChevronDown,
   ChevronRight,
   Copy,
-  Download,
   Loader2,
   MoreVertical,
   Rocket,
@@ -64,7 +63,11 @@ interface PromptLabProps {
   className?: string
 }
 
-const QUICK_TEMPLATES = [
+const QUICK_TEMPLATES: Array<{
+  name: string
+  prompt: string
+  vars: Record<string, string>
+}> = [
   {
     name: 'Marketing Copy',
     prompt: 'Write {type} for {product} targeting {audience}. Tone: {tone}.',
@@ -121,7 +124,7 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
   const detectedVars = useMemo(() => {
     const matches = prompt.match(/\{([^}]+)\}/g)
     if (!matches) return []
-    return [...new Set(matches.map((m) => m.slice(1, -1)))]
+    return Array.from(new Set(matches.map((m) => m.slice(1, -1))))
   }, [prompt])
 
   const [varValues, setVarValues] = useState<Record<string, string>>({})

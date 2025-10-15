@@ -1,7 +1,7 @@
 # Autonomous Agent System
 
 ## Overview
-The autonomous agent system continuously generates high-quality prompts for the public directory using AI. Agents run on scheduled intervals and create prompts based on different strategies.
+The autonomous agent system generates high-quality prompts for the public directory using AI. Agents can be manually triggered to create prompts based on different strategies.
 
 ## Architecture
 
@@ -18,7 +18,7 @@ The autonomous agent system continuously generates high-quality prompts for the 
 
 ### Core Components
 - `AutonomousAgent` class: Main agent logic and prompt generation
-- `/api/agents/schedule`: Scheduled execution endpoint
+- `/api/agents/schedule`: Manual trigger endpoint for agent generation
 - `/api/agents`: Agent management API
 - `AgentDashboard`: Admin interface for monitoring and control
 
@@ -31,33 +31,7 @@ Run the migration to create agent tables:
 -- File: supabase/migrations/20241220000000_autonomous_agent.sql
 ```
 
-### 2. Environment Variables
-Add to `.env.local`:
-```env
-CRON_SECRET=your-secret-key-for-scheduled-execution
-```
-
-### 3. Scheduled Execution
-Set up a cron job to trigger agent generation:
-
-**Vercel Cron (recommended)**:
-Add to `vercel.json`:
-```json
-{
-  "crons": [
-    {
-      "path": "/api/agents/schedule",
-      "schedule": "0 */6 * * *"
-    }
-  ]
-}
-```
-
-**Alternative - External Cron Service**:
-- Use GitHub Actions, Railway, or similar
-- Call `POST /api/agents/schedule` with `Authorization: Bearer ${CRON_SECRET}`
-
-### 4. Agent Dashboard
+### 2. Agent Dashboard
 Add to your admin dashboard:
 ```tsx
 import { AgentDashboard } from '@/components/AgentDashboard'
@@ -129,17 +103,17 @@ Modify `scorePrompt()` method to adjust scoring criteria:
 - Weight different quality factors
 - Implement custom scoring models
 
-### Scheduling
-Adjust generation frequency per agent:
-- High-frequency agents for trending topics
-- Low-frequency agents for evergreen content
-- Pause agents during maintenance windows
+### Manual Generation
+Trigger agents manually from the dashboard:
+- Generate prompts on-demand for any active agent
+- Control when prompts are created
+- Test different agent configurations
 
 ## Security
 
 ### Access Control
 - Agent management requires admin privileges
-- Scheduled execution protected by `CRON_SECRET`
+- Manual generation available through admin dashboard
 - Database operations use service role
 
 ### Content Filtering
@@ -156,7 +130,7 @@ Adjust generation frequency per agent:
 4. **Database errors**: Verify RLS policies and service role permissions
 
 ### Debugging
-- Check agent logs in `/api/agents/schedule`
+- Use manual generation endpoint for testing: `GET /api/agents/schedule?agentId=AGENT_ID`
 - Monitor database for failed generations
-- Use manual generation endpoint for testing
+- Test agents from the admin dashboard
 - Review agent metrics for performance issues

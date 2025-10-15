@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-env node */
 
 // Quick test script to verify agent system is working
 const testAgentSystem = async () => {

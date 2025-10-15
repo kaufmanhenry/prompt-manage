@@ -72,27 +72,41 @@ create or replace function create_agent_prompt(
   p_tags text[],
   p_agent_id uuid,
   p_strategy_context text default null,
-  p_quality_score numeric default null
+  p_quality_score numeric default null,
+  p_user_id uuid default null
 )
 returns uuid as $$
 declare
   prompt_uuid uuid;
+  agent_user_id uuid;
 begin
+  -- Get or use the agent user ID
+  if p_user_id is not null then
+    agent_user_id := p_user_id;
+  else
+    -- Try to find agent user by email
+    select id into agent_user_id from auth.users where email = 'agent@promptmanage.com' limit 1;
+
+    -- If no agent user exists, raise an error with helpful message
+    if agent_user_id is null then
+      raise exception 'Agent user not found. Please create a user with email agent@promptmanage.com first.';
+    end if;
+  end if;
+
   -- Insert the prompt (will be public by default)
   insert into public.prompts (
     name, description, prompt_text, model, tags, is_public, user_id
   ) values (
-    p_name, p_description, p_prompt_text, p_model, p_tags, true, 
-    (select id from auth.users where email = 'agent@promptmanage.com' limit 1)
+    p_name, p_description, p_prompt_text, p_model, p_tags, true, agent_user_id
   ) returning id into prompt_uuid;
-  
+
   -- Log the generation
   insert into public.agent_generations (
     agent_id, prompt_id, strategy_context, quality_score
   ) values (
     p_agent_id, prompt_uuid, p_strategy_context, p_quality_score
   );
-  
+
   return prompt_uuid;
 end;
 $$ language plpgsql security definer;
@@ -110,7 +124,7 @@ create or replace function update_agent_metrics(
 returns void as $$
 begin
   insert into public.agent_metrics (
-    agent_id, date, prompts_generated, total_cost_usd, 
+    agent_id, date, prompts_generated, total_cost_usd,
     avg_quality_score, prompts_published, total_views
   ) values (
     p_agent_id, p_date, p_prompts_generated, p_cost_usd,
@@ -119,10 +133,10 @@ begin
   on conflict (agent_id, date) do update set
     prompts_generated = agent_metrics.prompts_generated + p_prompts_generated,
     total_cost_usd = agent_metrics.total_cost_usd + p_cost_usd,
-    avg_quality_score = case 
-      when p_quality_score is not null then 
+    avg_quality_score = case
+      when p_quality_score is not null then
         coalesce((agent_metrics.avg_quality_score + p_quality_score) / 2, p_quality_score)
-      else agent_metrics.avg_quality_score 
+      else agent_metrics.avg_quality_score
     end,
     prompts_published = agent_metrics.prompts_published + p_prompts_published,
     total_views = agent_metrics.total_views + p_views;
@@ -143,13 +157,6 @@ insert into public.agents (name, description, strategy, department, config) valu
 ('Educational Agent', 'Generates learning-focused prompts and tutorials', 'educational', 'general', '{"subjects": ["prompt engineering", "AI tools", "workflow optimization"], "frequency": "biweekly"}'),
 ('Seasonal Agent', 'Creates prompts based on seasons, holidays, and calendar events', 'seasonal', 'general', '{"events": ["holidays", "seasons", "business cycles"], "frequency": "monthly"}');
 
--- Create agent user account (for attribution)
-insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at)
-values (
-  gen_random_uuid(),
-  'agent@promptmanage.com',
-  crypt('agent_password', gen_salt('bf')),
-  now(),
-  now(),
-  now()
-) on conflict (email) do nothing;
+-- Note: Create the agent user account manually through Supabase Dashboard or Auth API
+-- Email: agent@promptmanage.com
+-- This user will be used to attribute AI-generated prompts

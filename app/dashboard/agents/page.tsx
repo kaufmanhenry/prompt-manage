@@ -1,13 +1,14 @@
 'use client'
 
-import { AgentDashboard } from '@/components/AgentDashboard'
-import { Sidebar } from '@/components/Sidebar'
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/utils/supabase/client'
-import { isAdminEmail } from '@/lib/admin'
-import type { Prompt } from '@/lib/schemas/prompt'
 import { redirect } from 'next/navigation'
 import { useEffect } from 'react'
+
+import { AgentDashboard } from '@/components/AgentDashboard'
+import { Sidebar } from '@/components/Sidebar'
+import { isAdminEmail } from '@/lib/admin'
+import type { Prompt } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client'
 
 export default function AgentAdminPage() {
   const { data: session } = useQuery({
@@ -20,42 +21,7 @@ export default function AgentAdminPage() {
     },
   })
 
-  // Check admin access
-  useEffect(() => {
-    if (session?.user?.email && !isAdminEmail(session.user.email)) {
-      redirect('/dashboard')
-    }
-  }, [session])
-
-  // Show loading while checking admin access
-  if (!session) {
-    return (
-      <div className="flex h-screen bg-background">
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500 mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading...</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  // Redirect non-admin users
-  if (!isAdminEmail(session.user.email)) {
-    return (
-      <div className="flex h-screen bg-background">
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-red-600 mb-2">Access Denied</h1>
-            <p className="text-muted-foreground">You don't have permission to access this page.</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  // Fetch user's prompts for the sidebar
+  // Fetch user's prompts for the sidebar (must be called before any conditional returns)
   const { data: prompts = [], isLoading } = useQuery({
     queryKey: ['prompts'],
     queryFn: async () => {
@@ -69,6 +35,41 @@ export default function AgentAdminPage() {
     },
     enabled: !!session?.user?.id,
   })
+
+  // Check admin access
+  useEffect(() => {
+    if (session?.user?.email && !isAdminEmail(session.user.email)) {
+      redirect('/dashboard')
+    }
+  }, [session])
+
+  // Show loading while checking admin access
+  if (!session) {
+    return (
+      <div className="flex h-screen bg-background">
+        <div className="flex flex-1 items-center justify-center">
+          <div className="text-center">
+            <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-emerald-500"></div>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Redirect non-admin users
+  if (!isAdminEmail(session.user.email)) {
+    return (
+      <div className="flex h-screen bg-background">
+        <div className="flex flex-1 items-center justify-center">
+          <div className="text-center">
+            <h1 className="mb-2 text-2xl font-bold text-red-600">Access Denied</h1>
+            <p className="text-muted-foreground">You don't have permission to access this page.</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const handleSelectPrompt = (promptId: string) => {
     // Navigate to prompt details if needed

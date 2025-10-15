@@ -1,16 +1,16 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { Bot, FlaskConical, GlobeIcon, Home, Plus } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { createClient } from '@/utils/supabase/client'
-import { isAdminEmail } from '@/lib/admin'
 
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { isAdminEmail } from '@/lib/admin'
 import type { Prompt } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client'
 
 import { Badge } from './ui/badge'
 import {

@@ -71,18 +71,23 @@ export async function POST(request: NextRequest) {
       updatedPrompt = updatedData
     }
 
+    // Enforce model defaults and input truncation
+    const MAX_INPUT_CHARS = 6000
+    const safePromptText = String(updatedPrompt.prompt_text || '').slice(0, MAX_INPUT_CHARS)
+    const model = updatedPrompt.model || 'gpt-4o-mini'
+
     // Call OpenAI API with the prompt content
     const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
-      model: updatedPrompt.model,
+      model,
       messages: [
         {
           role: 'user',
-          content: updatedPrompt.prompt_text,
+          content: safePromptText,
         },
       ],
-      max_tokens: 1000,
-      temperature: 0.7,
+      max_tokens: 500,
+      temperature: 0.6,
     })
 
     const response = completion.choices[0]?.message?.content || 'No response generated'
@@ -94,7 +99,7 @@ export async function POST(request: NextRequest) {
       p_prompt_id: promptId,
       p_prompt_text: updatedPrompt.prompt_text,
       p_response: response,
-      p_model: updatedPrompt.model,
+      p_model: model,
       p_tokens_used: tokensUsed,
       p_execution_time_ms: executionTime,
       p_status: 'success',

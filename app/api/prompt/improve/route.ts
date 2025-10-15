@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import { checkRateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
 // Initialize OpenAI client only when needed
 function getOpenAIClient() {
@@ -21,18 +22,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 })
     }
 
-    const { prompt, context } = await request.json()
+    // Basic rate limiting for free tools
+    const identifier = getClientIdentifier(request as unknown as Request)
+    const rate = checkRateLimit(identifier)
+    if (!rate.allowed) {
+      return NextResponse.json({ error: 'Rate limit exceeded. Please wait a moment.' }, { status: 429 })
+    }
+
+    const { prompt, context, model: requestedModel } = await request.json()
 
     if (!prompt) {
       return NextResponse.json({ error: 'Prompt is required' }, { status: 400 })
     }
 
+    // Enforce input truncation to reduce tokens
+    const MAX_INPUT_CHARS = 4000
+    const safePrompt = String(prompt || '').slice(0, MAX_INPUT_CHARS)
+    const safeContext = String(context || '').slice(0, 2000)
+
     // Create the prompt improvement request
     const promptImprovementRequest = `You are an expert prompt engineer. I want you to improve this prompt to make it more effective and specific.
 
-Original prompt: "${prompt}"
+Original prompt: "${safePrompt}"
 
-${context ? `Additional context: ${context}` : ''}
+${safeContext ? `Additional context: ${safeContext}` : ''}
 
 Please provide an improved version of this prompt that:
 1. Is more specific and actionable
@@ -45,16 +58,17 @@ Return only the improved prompt, no explanations.`
 
     // Call OpenAI API
     const openai = getOpenAIClient()
+    const model = requestedModel || 'gpt-4o-mini'
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model,
       messages: [
         {
           role: 'user',
           content: promptImprovementRequest,
         },
       ],
-      max_tokens: 1000,
-      temperature: 0.7,
+      max_tokens: 400,
+      temperature: 0.5,
     })
 
     const response = completion.choices[0]?.message?.content || 'No response generated'

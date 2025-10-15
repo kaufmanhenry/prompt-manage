@@ -13,7 +13,7 @@ import {
   XCircle,
   Zap,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -160,6 +160,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
   }
 
   const history = historyData?.history || []
+  const cappedHistory = useMemo(() => history.slice(0, 100), [history])
 
   return (
     <Card className="gap-0 space-y-0 p-4">
@@ -194,7 +195,7 @@ export function PromptRunHistory({ promptId, onClose }: PromptRunHistoryProps) {
           <ScrollArea className="h-[400px]">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="h-full space-y-2">
-                {history.map((run) => (
+                {cappedHistory.map((run) => (
                   <div
                     key={run.id}
                     className={`h-fit cursor-pointer rounded-lg p-2 transition-colors ${

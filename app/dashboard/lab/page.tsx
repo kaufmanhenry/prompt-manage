@@ -4,7 +4,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { Sidebar } from '@/components/Sidebar'
+import dynamic from 'next/dynamic'
+const Sidebar = dynamic(() => import('@/components/Sidebar').then(m => m.Sidebar), { ssr: false, loading: () => null })
 import SimplePromptLab from '@/components/SimplePromptLab'
 import { useToast } from '@/components/ui/use-toast'
 import type { Prompt } from '@/lib/schemas/prompt'

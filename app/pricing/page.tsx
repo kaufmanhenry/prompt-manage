@@ -15,7 +15,7 @@ export default function PricingPage() {
             Choose your plan
           </h1>
           <p className="text-base text-gray-600 dark:text-gray-300 md:text-lg">
-            Start free. Choose Pro (lifetime) or Team ($5/user/month).
+            Start free. Choose Team ($5/user/month) or Enterprise ($27/user/month).
           </p>
         </div>
 
@@ -110,7 +110,7 @@ export default function PricingPage() {
             </div>
           </div>
 
-          {/* Pro Plan */}
+          {/* Enterprise Plan */}
           <div className="relative rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 p-1">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
               <span className="inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-medium text-white shadow">
@@ -120,31 +120,30 @@ export default function PricingPage() {
             <div className="flex h-full flex-col rounded-[14px] bg-white p-6 dark:bg-gray-800 md:p-8">
               {/* Title and Price */}
               <div className="mb-2">
-                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Pro</h3>
-                <div className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">$19</div>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  One-time payment • Lifetime deal
-                </p>
+                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Enterprise</h3>
+                <div className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+                  $27
+                  <span className="text-base font-medium text-gray-600 dark:text-gray-300">
+                    /mo per user
+                  </span>
+                </div>
                 <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
-                  Unlock the full power of Prompt Manage with a one-time purchase.
+                  Advanced features for teams requiring enterprise-grade security and collaboration.
                 </p>
               </div>
               {/* Features */}
               <ul className="mt-4 flex-1 space-y-3 text-sm text-gray-800 dark:text-gray-200">
                 <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited prompts for all
-                  your projects
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Run prompts on the latest AI models (more coming soon)
+                </li>
+                <li className="flex items-start">
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Private collections, sharing, and team features with advanced security, safety, and sharing functionality/integrations
+                </li>
+                <li className="flex items-start">
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited prompts and runs
                 </li>
                 <li className="flex items-start">
                   <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Full Prompt Lab access
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Run prompts on the latest
-                  OpenAI models (more coming soon)
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Private collections,
-                  sharing, and team features
                 </li>
               </ul>
               {/* CTA */}

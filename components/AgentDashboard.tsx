@@ -23,6 +23,21 @@ interface Agent {
   is_active: boolean
   config: Record<string, any>
   created_at: string
+  department: string
+  output_type: string
+  output_format: Record<string, any>
+  target_audience: string
+  tone: string
+  length_preference: string
+  brand_guidelines: Record<string, any>
+  quality_standards: Record<string, any>
+  required_elements: Record<string, any>
+  key_phrases: string[]
+  forbidden_phrases: string[]
+  style_guide: string
+  examples: Record<string, any>
+  review_required: boolean
+  min_quality_score: number
   agent_generations: Array<{ count: number }>
   agent_metrics: Array<{
     date: string
@@ -34,17 +49,77 @@ interface Agent {
   }>
 }
 
+const DEPARTMENTS = [
+  { value: 'marketing', label: 'Marketing', icon: '📊' },
+  { value: 'support', label: 'Support', icon: '💬' },
+  { value: 'legal', label: 'Legal', icon: '⚖️' },
+  { value: 'design', label: 'Design', icon: '🎨' },
+  { value: 'engineering', label: 'Engineering', icon: '⚙️' },
+  { value: 'sales', label: 'Sales', icon: '💰' },
+  { value: 'content', label: 'Content', icon: '✍️' },
+  { value: 'product', label: 'Product', icon: '📦' },
+  { value: 'operations', label: 'Operations', icon: '🔧' },
+  { value: 'general', label: 'General', icon: '📂' },
+] as const
+
+const OUTPUT_TYPES = [
+  { value: 'prompt', label: 'AI Prompt', icon: '💡' },
+  { value: 'blog_post', label: 'Blog Post', icon: '📝' },
+  { value: 'documentation', label: 'Documentation', icon: '📚' },
+  { value: 'email', label: 'Email', icon: '📧' },
+  { value: 'social_media', label: 'Social Media', icon: '📱' },
+  { value: 'code', label: 'Code Snippet', icon: '💻' },
+  { value: 'presentation', label: 'Presentation', icon: '📊' },
+  { value: 'script', label: 'Script', icon: '🎬' },
+  { value: 'whitepaper', label: 'Whitepaper', icon: '📄' },
+  { value: 'case_study', label: 'Case Study', icon: '📖' },
+  { value: 'tutorial', label: 'Tutorial', icon: '🎓' },
+  { value: 'newsletter', label: 'Newsletter', icon: '📰' },
+  { value: 'landing_page', label: 'Landing Page', icon: '🌐' },
+  { value: 'product_description', label: 'Product Description', icon: '🏷️' },
+  { value: 'ads', label: 'Ad Copy', icon: '📢' },
+  { value: 'report', label: 'Report', icon: '📈' },
+  { value: 'other', label: 'Other', icon: '📌' },
+] as const
+
+const TONE_OPTIONS = [
+  'professional', 'casual', 'friendly', 'formal', 'conversational',
+  'authoritative', 'empathetic', 'persuasive', 'educational', 'entertaining'
+] as const
+
+const LENGTH_OPTIONS = [
+  'concise', 'medium', 'detailed', 'comprehensive'
+] as const
+
 export function AgentDashboard() {
   const { toast } = useToast()
   const queryClient = useQueryClient()
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null)
   const [showCreateDialog, setShowCreateDialog] = useState(false)
+  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null)
   const [createForm, setCreateForm] = useState({
     name: '',
     description: '',
     strategy: '',
+    department: 'general',
+    output_type: 'prompt',
+    target_audience: '',
+    tone: 'professional',
+    length_preference: 'medium',
+    output_format: {},
+    brand_guidelines: {},
+    quality_standards: {},
+    required_elements: {},
+    key_phrases: [] as string[],
+    forbidden_phrases: [] as string[],
+    style_guide: '',
+    examples: {},
+    review_required: false,
+    min_quality_score: 0.7,
     config: {}
   })
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [showQualityControl, setShowQualityControl] = useState(false)
 
   // Fetch agents
   const { data: agentsData, isLoading } = useQuery({
@@ -78,7 +153,7 @@ export function AgentDashboard() {
 
   // Create new agent
   const createAgentMutation = useMutation({
-    mutationFn: async (agentData: { name: string; description: string; strategy: string; config: any }) => {
+    mutationFn: async (agentData: any) => {
       const response = await fetch('/api/agents', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -91,7 +166,19 @@ export function AgentDashboard() {
       queryClient.invalidateQueries({ queryKey: ['agents'] })
       toast({ title: 'Agent created successfully' })
       setShowCreateDialog(false)
-      setCreateForm({ name: '', description: '', strategy: '', config: {} })
+      setShowAdvanced(false)
+      setCreateForm({ 
+        name: '', 
+        description: '', 
+        strategy: '', 
+        department: 'general', 
+        output_type: 'prompt',
+        target_audience: '',
+        tone: 'professional',
+        length_preference: 'medium',
+        output_format: {},
+        config: {} 
+      })
     },
     onError: () => {
       toast({ title: 'Failed to create agent', variant: 'destructive' })
@@ -119,6 +206,19 @@ export function AgentDashboard() {
 
   const agents: Agent[] = agentsData?.agents || []
 
+  // Filter agents by department
+  const filteredAgents = selectedDepartment
+    ? agents.filter(agent => agent.department === selectedDepartment)
+    : agents
+
+  // Group agents by department
+  const agentsByDepartment = agents.reduce((acc, agent) => {
+    const dept = agent.department || 'general'
+    if (!acc[dept]) acc[dept] = []
+    acc[dept].push(agent)
+    return acc
+  }, {} as Record<string, Agent[]>)
+
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -145,6 +245,32 @@ export function AgentDashboard() {
           <Bot className="mr-2 h-4 w-4" />
           Create Agent
         </Button>
+      </div>
+
+      {/* Department Filter */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="text-sm font-medium text-muted-foreground">Department:</span>
+        <Button
+          size="sm"
+          variant={!selectedDepartment ? 'default' : 'outline'}
+          onClick={() => setSelectedDepartment(null)}
+        >
+          All ({agents.length})
+        </Button>
+        {DEPARTMENTS.map((dept) => {
+          const count = agentsByDepartment[dept.value]?.length || 0
+          if (count === 0) return null
+          return (
+            <Button
+              key={dept.value}
+              size="sm"
+              variant={selectedDepartment === dept.value ? 'default' : 'outline'}
+              onClick={() => setSelectedDepartment(dept.value)}
+            >
+              {dept.icon} {dept.label} ({count})
+            </Button>
+          )
+        })}
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
@@ -229,7 +355,7 @@ export function AgentDashboard() {
 
         <TabsContent value="agents" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {agents.map((agent) => (
+            {filteredAgents.map((agent) => (
               <Card key={agent.id} className="relative">
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -243,8 +369,18 @@ export function AgentDashboard() {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <Badge variant="outline">{agent.strategy}</Badge>
+                    {agent.department && (
+                      <Badge variant="secondary">
+                        {DEPARTMENTS.find(d => d.value === agent.department)?.icon} {DEPARTMENTS.find(d => d.value === agent.department)?.label}
+                      </Badge>
+                    )}
+                    {agent.output_type && agent.output_type !== 'prompt' && (
+                      <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                        {OUTPUT_TYPES.find(t => t.value === agent.output_type)?.icon} {OUTPUT_TYPES.find(t => t.value === agent.output_type)?.label}
+                      </Badge>
+                    )}
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4 text-sm">
@@ -353,6 +489,177 @@ export function AgentDashboard() {
                 </SelectContent>
               </Select>
             </div>
+            <div>
+              <Label htmlFor="department">Department</Label>
+              <Select value={createForm.department} onValueChange={(value) => setCreateForm(prev => ({ ...prev, department: value }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select department" />
+                </SelectTrigger>
+                <SelectContent>
+                  {DEPARTMENTS.map((dept) => (
+                    <SelectItem key={dept.value} value={dept.value}>
+                      {dept.icon} {dept.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="output_type">Output Type</Label>
+              <Select value={createForm.output_type} onValueChange={(value) => setCreateForm(prev => ({ ...prev, output_type: value }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select output type" />
+                </SelectTrigger>
+                <SelectContent className="max-h-[300px]">
+                  {OUTPUT_TYPES.map((type) => (
+                    <SelectItem key={type.value} value={type.value}>
+                      {type.icon} {type.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Advanced Options Toggle */}
+            <div className="flex items-center justify-between">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowAdvanced(!showAdvanced)}
+              >
+                {showAdvanced ? '▼' : '▶'} Advanced Options
+              </Button>
+            </div>
+
+            {/* Advanced Options */}
+            {showAdvanced && (
+              <>
+                <div>
+                  <Label htmlFor="target_audience">Target Audience</Label>
+                  <Input
+                    id="target_audience"
+                    value={createForm.target_audience}
+                    onChange={(e) => setCreateForm(prev => ({ ...prev, target_audience: e.target.value }))}
+                    placeholder="e.g., marketing professionals, developers"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="tone">Tone</Label>
+                  <Select value={createForm.tone} onValueChange={(value) => setCreateForm(prev => ({ ...prev, tone: value }))}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select tone" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TONE_OPTIONS.map((tone) => (
+                        <SelectItem key={tone} value={tone}>
+                          {tone.charAt(0).toUpperCase() + tone.slice(1)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="length_preference">Length Preference</Label>
+                  <Select value={createForm.length_preference} onValueChange={(value) => setCreateForm(prev => ({ ...prev, length_preference: value }))}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select length" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LENGTH_OPTIONS.map((length) => (
+                        <SelectItem key={length} value={length}>
+                          {length.charAt(0).toUpperCase() + length.slice(1)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </>
+            )}
+
+            {/* Quality Control Section */}
+            <div className="flex items-center justify-between border-t pt-4">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowQualityControl(!showQualityControl)}
+              >
+                {showQualityControl ? '▼' : '▶'} Quality Control & Brand Guidelines
+              </Button>
+            </div>
+
+            {showQualityControl && (
+              <>
+                <div>
+                  <Label htmlFor="style_guide">Style Guide</Label>
+                  <Textarea
+                    id="style_guide"
+                    value={createForm.style_guide}
+                    onChange={(e) => setCreateForm(prev => ({ ...prev, style_guide: e.target.value }))}
+                    placeholder="e.g., Use active voice. Keep paragraphs under 4 sentences. Include examples."
+                    rows={3}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Writing rules and guidelines</p>
+                </div>
+
+                <div>
+                  <Label htmlFor="key_phrases">Key Phrases (comma-separated)</Label>
+                  <Input
+                    id="key_phrases"
+                    value={createForm.key_phrases.join(', ')}
+                    onChange={(e) => setCreateForm(prev => ({ 
+                      ...prev, 
+                      key_phrases: e.target.value.split(',').map(p => p.trim()).filter(Boolean)
+                    }))}
+                    placeholder="e.g., proven strategies, data-backed, actionable insights"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Phrases to include in content</p>
+                </div>
+
+                <div>
+                  <Label htmlFor="forbidden_phrases">Forbidden Phrases (comma-separated)</Label>
+                  <Input
+                    id="forbidden_phrases"
+                    value={createForm.forbidden_phrases.join(', ')}
+                    onChange={(e) => setCreateForm(prev => ({ 
+                      ...prev, 
+                      forbidden_phrases: e.target.value.split(',').map(p => p.trim()).filter(Boolean)
+                    }))}
+                    placeholder="e.g., click here, buy now, guaranteed results"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Phrases to never use</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="min_quality_score">Min Quality Score</Label>
+                    <Input
+                      id="min_quality_score"
+                      type="number"
+                      min="0"
+                      max="1"
+                      step="0.05"
+                      value={createForm.min_quality_score}
+                      onChange={(e) => setCreateForm(prev => ({ ...prev, min_quality_score: parseFloat(e.target.value) }))}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">0.0 - 1.0 (0.7 = good)</p>
+                  </div>
+                  <div className="flex items-end">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={createForm.review_required}
+                        onChange={(e) => setCreateForm(prev => ({ ...prev, review_required: e.target.checked }))}
+                        className="w-4 h-4"
+                      />
+                      <span className="text-sm">Require manual review</span>
+                    </label>
+                  </div>
+                </div>
+              </>
+            )}
+
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setShowCreateDialog(false)}>
                 Cancel

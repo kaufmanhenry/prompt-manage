@@ -7,10 +7,12 @@ create table public.agents (
   name        text not null,
   description text,
   strategy    text not null, -- 'trending', 'niche', 'seasonal', 'educational'
+  department  text default 'general', -- 'marketing', 'support', 'legal', 'design', 'engineering', 'sales', 'content', 'product', 'operations', 'general'
   is_active   boolean default true,
   config      jsonb default '{}', -- Strategy-specific configuration
   created_at  timestamptz default now(),
-  updated_at  timestamptz default now()
+  updated_at  timestamptz default now(),
+  constraint agents_department_check check (department in ('marketing', 'support', 'legal', 'design', 'engineering', 'sales', 'content', 'product', 'operations', 'general'))
 );
 
 -- Agent generation history
@@ -127,15 +129,19 @@ begin
 end;
 $$ language plpgsql security definer;
 
--- Create default agents for specific personas
-insert into public.agents (name, description, strategy, config) values
-('Marketing Manager Agent', 'Generates prompts for marketing managers focused on campaigns, analytics, and growth strategies', 'niche', '{"industries": ["marketing", "advertising", "growth"], "persona": "marketing_manager", "frequency": "daily", "topics": ["campaigns", "analytics", "growth", "conversion", "branding"]}'),
-('Content Creator Agent', 'Creates prompts for content creators, bloggers, and social media managers', 'trending', '{"topics": ["content", "social_media", "blogging", "video", "engagement"], "persona": "content_creator", "frequency": "daily", "platforms": ["instagram", "tiktok", "youtube", "linkedin"]}'),
-('Small Business Owner Agent', 'Generates prompts for small business owners focused on operations, sales, and customer service', 'educational', '{"subjects": ["business_operations", "customer_service", "sales", "productivity"], "persona": "small_business_owner", "frequency": "daily", "industries": ["retail", "service", "ecommerce", "consulting"]}'),
-('Trending Topics Agent', 'Generates prompts for trending topics and current events', 'trending', '{"topics": ["AI", "productivity", "marketing", "coding"], "frequency": "daily"}'),
-('Niche Expert Agent', 'Creates specialized prompts for specific industries and use cases', 'niche', '{"industries": ["healthcare", "finance", "education", "ecommerce"], "frequency": "weekly"}'),
-('Educational Agent', 'Generates learning-focused prompts and tutorials', 'educational', '{"subjects": ["prompt engineering", "AI tools", "workflow optimization"], "frequency": "biweekly"}'),
-('Seasonal Agent', 'Creates prompts based on seasons, holidays, and calendar events', 'seasonal', '{"events": ["holidays", "seasons", "business cycles"], "frequency": "monthly"}');
+-- Create default agents for specific personas and departments
+insert into public.agents (name, description, strategy, department, config) values
+('Marketing Manager Agent', 'Generates prompts for marketing managers focused on campaigns, analytics, and growth strategies', 'niche', 'marketing', '{"industries": ["marketing", "advertising", "growth"], "persona": "marketing_manager", "frequency": "daily", "topics": ["campaigns", "analytics", "growth", "conversion", "branding"]}'),
+('Content Creator Agent', 'Creates prompts for content creators, bloggers, and social media managers', 'trending', 'content', '{"topics": ["content", "social_media", "blogging", "video", "engagement"], "persona": "content_creator", "frequency": "daily", "platforms": ["instagram", "tiktok", "youtube", "linkedin"]}'),
+('Small Business Owner Agent', 'Generates prompts for small business owners focused on operations, sales, and customer service', 'educational', 'operations', '{"subjects": ["business_operations", "customer_service", "sales", "productivity"], "persona": "small_business_owner", "frequency": "daily", "industries": ["retail", "service", "ecommerce", "consulting"]}'),
+('Customer Support Agent', 'Creates prompts for customer support teams handling inquiries and tickets', 'niche', 'support', '{"industries": ["customer_service", "support", "help_desk"], "persona": "support_agent", "frequency": "daily", "topics": ["ticket_resolution", "customer_satisfaction", "empathy", "troubleshooting"]}'),
+('Sales Team Agent', 'Generates prompts for sales professionals focused on prospecting and closing deals', 'niche', 'sales', '{"industries": ["sales", "business_development"], "persona": "sales_professional", "frequency": "daily", "topics": ["prospecting", "objection_handling", "closing", "follow_up"]}'),
+('Product Manager Agent', 'Creates prompts for product managers working on roadmaps and user research', 'educational', 'product', '{"subjects": ["product_strategy", "user_research", "roadmap_planning"], "persona": "product_manager", "frequency": "daily"}'),
+('Engineering Team Agent', 'Generates prompts for software engineers and technical teams', 'niche', 'engineering', '{"industries": ["software", "development"], "persona": "engineer", "frequency": "daily", "topics": ["code_review", "architecture", "debugging", "documentation"]}'),
+('Trending Topics Agent', 'Generates prompts for trending topics and current events', 'trending', 'general', '{"topics": ["AI", "productivity", "marketing", "coding"], "frequency": "daily"}'),
+('Niche Expert Agent', 'Creates specialized prompts for specific industries and use cases', 'niche', 'general', '{"industries": ["healthcare", "finance", "education", "ecommerce"], "frequency": "weekly"}'),
+('Educational Agent', 'Generates learning-focused prompts and tutorials', 'educational', 'general', '{"subjects": ["prompt engineering", "AI tools", "workflow optimization"], "frequency": "biweekly"}'),
+('Seasonal Agent', 'Creates prompts based on seasons, holidays, and calendar events', 'seasonal', 'general', '{"events": ["holidays", "seasons", "business cycles"], "frequency": "monthly"}');
 
 -- Create agent user account (for attribution)
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at)

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { isAdminEmail } from '@/lib/admin'
+import { agentConfigCache } from '@/lib/agent-config-cache'
 
 // Check admin access for agent management
 async function checkAdminAccess(request: NextRequest) {
@@ -135,6 +136,9 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Database error' }, { status: 500 })
     }
 
+    // Invalidate cache for this agent since config changed
+    agentConfigCache.invalidate(id)
+
     return NextResponse.json({ agent: data })
   } catch (error) {
     console.error('Agent update error:', error)
@@ -171,6 +175,9 @@ export async function DELETE(request: NextRequest) {
       console.error('Error deleting agent:', error)
       return NextResponse.json({ error: 'Database error' }, { status: 500 })
     }
+
+    // Invalidate cache for deleted agent
+    agentConfigCache.invalidate(id)
 
     return NextResponse.json({ success: true })
   } catch (error) {

@@ -1,5 +1,8 @@
 import OpenAI from 'openai'
 import { createClient } from '@/utils/supabase/server'
+import { QualityControlService, type QualityConfig } from './quality-control-service'
+import { agentConfigCache } from './agent-config-cache'
+import { withRetry } from './retry-utils'
 
 // Agent strategies and their configurations
 export interface AgentConfig {
@@ -25,6 +28,7 @@ export class AutonomousAgent {
   private openai: OpenAI
   private supabase: ReturnType<typeof createClient>
   private agentId: string
+  private qualityService: QualityControlService | null = null
 
   constructor(agentId: string) {
     this.openai = new OpenAI({
@@ -40,24 +44,46 @@ export class AutonomousAgent {
       const agent = await this.getAgentConfig()
       if (!agent) return null
 
+      // Initialize quality service once per generation
+      this.qualityService = new QualityControlService({
+        brand_guidelines: agent.brand_guidelines,
+        quality_standards: agent.quality_standards,
+        required_elements: agent.required_elements,
+        key_phrases: agent.key_phrases,
+        forbidden_phrases: agent.forbidden_phrases,
+        style_guide: agent.style_guide,
+        examples: agent.examples
+      })
+
       const strategy = agent.strategy
+      const outputType = agent.output_type || 'prompt'
+      const tone = agent.tone || 'professional'
+      const targetAudience = agent.target_audience || 'general users'
+      const lengthPreference = agent.length_preference || 'medium'
+      
       let generation: AgentGeneration
 
-      switch (strategy) {
-        case 'trending':
-          generation = await this.generateTrendingPrompt(agent)
-          break
-        case 'niche':
-          generation = await this.generateNichePrompt(agent)
-          break
-        case 'educational':
-          generation = await this.generateEducationalPrompt(agent)
-          break
-        case 'seasonal':
-          generation = await this.generateSeasonalPrompt(agent)
-          break
-        default:
-          throw new Error(`Unknown strategy: ${strategy}`)
+      // Generate based on output type if not a standard prompt
+      if (outputType !== 'prompt') {
+        generation = await this.generateCustomOutput(agent, outputType, tone, targetAudience, lengthPreference)
+      } else {
+        // Standard prompt generation by strategy
+        switch (strategy) {
+          case 'trending':
+            generation = await this.generateTrendingPrompt(agent)
+            break
+          case 'niche':
+            generation = await this.generateNichePrompt(agent)
+            break
+          case 'educational':
+            generation = await this.generateEducationalPrompt(agent)
+            break
+          case 'seasonal':
+            generation = await this.generateSeasonalPrompt(agent)
+            break
+          default:
+            throw new Error(`Unknown strategy: ${strategy}`)
+        }
       }
 
       // Score the generation quality
@@ -67,6 +93,178 @@ export class AutonomousAgent {
     } catch (error) {
       console.error('Agent generation error:', error)
       return null
+    }
+  }
+
+  // Generate custom output types (blog posts, docs, emails, etc.)
+  private async generateCustomOutput(
+    agent: any, 
+    outputType: string, 
+    tone: string, 
+    targetAudience: string,
+    lengthPreference: string
+  ): Promise<AgentGeneration> {
+    const topics = agent.topics || agent.industries || agent.subjects || ['general']
+    const randomTopic = topics[Math.floor(Math.random() * topics.length)]
+    
+    let systemPrompt = ''
+    let userPrompt = ''
+    let maxTokens = 500
+    let name = ''
+    let description = ''
+    let tags: string[] = []
+
+    // Get pre-built quality instructions from service (cached, optimized)
+    const qualityInstructions = this.qualityService?.getQualityInstructions() || ''
+
+    switch (outputType) {
+      case 'blog_post':
+        maxTokens = lengthPreference === 'comprehensive' ? 1500 : lengthPreference === 'detailed' ? 1000 : 600
+        systemPrompt = `You are an expert blog writer creating SEO-optimized content for ${targetAudience}. Write in a ${tone} tone.${qualityInstructions}`
+        userPrompt = `Create a complete blog post about ${randomTopic}. Include:
+        - Compelling headline
+        - Introduction hook
+        - 3-5 main sections with subheadings
+        - Practical examples
+        - Conclusion with call-to-action
+        - SEO keywords
+        Target audience: ${targetAudience}
+        Length: ${lengthPreference === 'comprehensive' ? '1200-1500 words' : lengthPreference === 'detailed' ? '800-1000 words' : '500-700 words'}
+        
+        IMPORTANT: Follow all brand guidelines, style rules, and quality standards provided above.`
+        name = `${randomTopic} Blog Post`
+        description = `Complete blog post about ${randomTopic} for ${targetAudience}`
+        tags = [randomTopic.toLowerCase(), 'blog', 'content']
+        break
+
+      case 'documentation':
+        maxTokens = 800
+        systemPrompt = `You are a technical documentation expert writing for ${targetAudience}. Be clear, precise, and ${tone}.${qualityInstructions}`
+        userPrompt = `Create technical documentation for ${randomTopic}. Include:
+        - Overview and purpose
+        - Prerequisites
+        - Step-by-step instructions
+        - Code examples (if applicable)
+        - Common issues and troubleshooting
+        - Best practices
+        Target audience: ${targetAudience}`
+        name = `${randomTopic} Documentation`
+        description = `Technical documentation for ${randomTopic}`
+        tags = [randomTopic.toLowerCase(), 'documentation', 'technical']
+        break
+
+      case 'email':
+        maxTokens = 400
+        systemPrompt = `You are an email marketing expert writing for ${targetAudience}. Use a ${tone} tone.${qualityInstructions}`
+        userPrompt = `Create a compelling email about ${randomTopic}. Include:
+        - 3 subject line options
+        - Preview text
+        - Personalized greeting
+        - Engaging body copy
+        - Clear call-to-action
+        - Professional sign-off
+        Target audience: ${targetAudience}
+        Tone: ${tone}`
+        name = `${randomTopic} Email Campaign`
+        description = `Email campaign for ${randomTopic}`
+        tags = [randomTopic.toLowerCase(), 'email', 'marketing']
+        break
+
+      case 'social_media':
+        maxTokens = 300
+        systemPrompt = `You are a social media expert creating engaging posts for ${targetAudience}. Be ${tone} and platform-optimized.${qualityInstructions}`
+        userPrompt = `Create social media content about ${randomTopic}. Include:
+        - LinkedIn post (professional, 150-200 words)
+        - Twitter/X thread (5-7 tweets)
+        - Instagram caption with hashtags
+        - Engagement questions
+        Target audience: ${targetAudience}
+        Tone: ${tone}`
+        name = `${randomTopic} Social Media Pack`
+        description = `Social media content for ${randomTopic}`
+        tags = [randomTopic.toLowerCase(), 'social-media', 'content']
+        break
+
+      case 'code':
+        maxTokens = 600
+        systemPrompt = `You are an expert software engineer writing production-ready code for ${targetAudience}. Be clean, well-documented, and ${tone}.${qualityInstructions}`
+        userPrompt = `Create a code snippet or utility for ${randomTopic}. Include:
+        - Clear function/class documentation
+        - Type safety (if applicable)
+        - Error handling
+        - Usage examples
+        - Unit test examples
+        Target audience: ${targetAudience}
+        Best practices: Follow industry standards`
+        name = `${randomTopic} Code Snippet`
+        description = `Production-ready code for ${randomTopic}`
+        tags = [randomTopic.toLowerCase(), 'code', 'development']
+        break
+
+      case 'tutorial':
+        maxTokens = 800
+        systemPrompt = `You are an educational content creator teaching ${targetAudience}. Be ${tone} and step-by-step.${qualityInstructions}`
+        userPrompt = `Create a tutorial for ${randomTopic}. Include:
+        - What you'll learn (3-5 objectives)
+        - Prerequisites
+        - Step-by-step instructions with screenshots/examples
+        - Common mistakes to avoid
+        - Next steps and resources
+        Target audience: ${targetAudience}
+        Difficulty: Beginner to intermediate`
+        name = `${randomTopic} Tutorial`
+        description = `Complete tutorial for ${randomTopic}`
+        tags = [randomTopic.toLowerCase(), 'tutorial', 'education']
+        break
+
+      default:
+        // Generic content generation
+        maxTokens = 500
+        systemPrompt = `You are a professional content creator writing for ${targetAudience}. Use a ${tone} tone.${qualityInstructions}`
+        userPrompt = `Create high-quality content about ${randomTopic} in the format of ${outputType}. Make it practical and actionable for ${targetAudience}.
+        
+        IMPORTANT: Follow all brand guidelines, style rules, and quality standards provided above.`
+        name = `${randomTopic} ${outputType.replace('_', ' ')}`
+        description = `${outputType.replace('_', ' ')} about ${randomTopic}`
+        tags = [randomTopic.toLowerCase(), outputType.replace('_', '-')]
+    }
+
+    // Call OpenAI with retry logic for transient failures
+    const response = await withRetry(
+      () => this.openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        max_tokens: maxTokens,
+        temperature: 0.7,
+      }),
+      { maxRetries: 3, retryableErrors: ['rate_limit_exceeded', 'ECONNRESET', 'ETIMEDOUT'] }
+    )
+
+    const content = response.choices[0]?.message?.content || ''
+
+    // Post-generation quality check using optimized service
+    const qualityResult = this.qualityService?.validate(content) || { 
+      issues: [], 
+      score: 0.8, 
+      passed: true 
+    }
+    
+    // Log quality issues for review
+    if (qualityResult.issues.length > 0) {
+      console.warn(`Quality issues detected in ${outputType}:`, qualityResult.issues)
+    }
+
+    return {
+      name,
+      description,
+      prompt_text: content,
+      model: 'gpt-4o-mini',
+      tags,
+      strategy_context: `Generated ${outputType} for ${randomTopic}${qualityResult.issues.length > 0 ? ` (Quality issues: ${qualityResult.issues.join(', ')})` : ''}`,
+      quality_score: qualityResult.score,
     }
   }
 
@@ -342,8 +540,18 @@ export class AutonomousAgent {
     }
   }
 
-  // Get agent configuration from database
-  private async getAgentConfig(): Promise<AgentConfig | null> {
+  // Get agent configuration from database with caching
+  private async getAgentConfig(): Promise<any | null> {
+    // Check cache first
+    const cached = agentConfigCache.get(this.agentId)
+    if (cached) {
+      agentConfigCache.recordHit()
+      return cached
+    }
+
+    agentConfigCache.recordMiss()
+
+    // Fetch from database if not in cache
     const { data, error } = await this.supabase
       .from('agents')
       .select('*')
@@ -353,10 +561,29 @@ export class AutonomousAgent {
 
     if (error || !data) return null
 
-    return {
+    const config = {
       strategy: data.strategy as any,
+      output_type: data.output_type,
+      tone: data.tone,
+      target_audience: data.target_audience,
+      length_preference: data.length_preference,
+      output_format: data.output_format,
+      brand_guidelines: data.brand_guidelines,
+      quality_standards: data.quality_standards,
+      required_elements: data.required_elements,
+      key_phrases: data.key_phrases,
+      forbidden_phrases: data.forbidden_phrases,
+      style_guide: data.style_guide,
+      examples: data.examples,
+      review_required: data.review_required,
+      min_quality_score: data.min_quality_score,
       ...data.config,
     }
+
+    // Store in cache for future use
+    agentConfigCache.set(this.agentId, config)
+
+    return config
   }
 
   // Save generated prompt to database

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { AutonomousAgent } from '@/lib/autonomous-agent'
 import { createClient } from '@/utils/supabase/server'
+import { batchProcess } from '@/lib/retry-utils'
 
 // Agent scheduler API endpoint
 export async function POST(request: NextRequest) {
@@ -24,38 +25,50 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Database error' }, { status: 500 })
     }
 
-    const results = []
-
-    for (const agent of agents || []) {
-      try {
-        const autonomousAgent = new AutonomousAgent(agent.id)
-        
-        // Generate a prompt
-        const generation = await autonomousAgent.generatePrompt()
-        
-        if (generation && generation.quality_score >= 0.6) { // Only save high-quality prompts
-          const promptId = await autonomousAgent.savePrompt(generation)
+    // Process agents in batches with concurrency limit (5 at a time)
+    // This prevents overwhelming OpenAI API and respects rate limits
+    const results = await batchProcess(
+      agents || [],
+      async (agent) => {
+        try {
+          const autonomousAgent = new AutonomousAgent(agent.id)
           
-          if (promptId) {
-            // Update metrics
-            await autonomousAgent.updateMetrics(1, 0.01, generation.quality_score) // Estimate cost
+          // Generate a prompt
+          const generation = await autonomousAgent.generatePrompt()
+          
+          if (generation && generation.quality_score >= 0.6) { // Only save high-quality prompts
+            const promptId = await autonomousAgent.savePrompt(generation)
             
-            results.push({
-              agent: agent.name,
-              promptId,
-              qualityScore: generation.quality_score,
-              strategy: generation.strategy_context,
-            })
+            if (promptId) {
+              // Update metrics
+              await autonomousAgent.updateMetrics(1, 0.01, generation.quality_score) // Estimate cost
+              
+              return {
+                agent: agent.name,
+                promptId,
+                qualityScore: generation.quality_score,
+                strategy: generation.strategy_context,
+                success: true
+              }
+            }
+          }
+          
+          return {
+            agent: agent.name,
+            error: 'Quality score too low or generation failed',
+            success: false
+          }
+        } catch (agentError) {
+          console.error(`Error processing agent ${agent.name}:`, agentError)
+          return {
+            agent: agent.name,
+            error: agentError instanceof Error ? agentError.message : 'Unknown error',
+            success: false
           }
         }
-      } catch (agentError) {
-        console.error(`Error processing agent ${agent.name}:`, agentError)
-        results.push({
-          agent: agent.name,
-          error: agentError instanceof Error ? agentError.message : 'Unknown error',
-        })
-      }
-    }
+      },
+      { concurrency: 5 } // Process 5 agents concurrently
+    )
 
     return NextResponse.json({
       success: true,

@@ -1,9 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server'
+
 import { isAdminEmail } from '@/lib/admin'
+import { createClient } from '@/utils/supabase/server'
 
 // Check admin access for agent management
-async function checkAdminAccess(request: NextRequest) {
+async function checkAdminAccess(_request: NextRequest) {
   const supabase = await createClient()
   const {
     data: { user },

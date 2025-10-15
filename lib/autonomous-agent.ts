@@ -1,4 +1,5 @@
 import OpenAI from 'openai'
+
 import { createClient } from '@/utils/supabase/server'
 
 // Agent strategies and their configurations
@@ -57,7 +58,7 @@ export class AutonomousAgent {
           generation = await this.generateSeasonalPrompt(agent)
           break
         default:
-          throw new Error(`Unknown strategy: ${strategy}`)
+          throw new Error(`Unknown strategy: ${strategy as string}`)
       }
 
       // Score the generation quality
@@ -279,7 +280,7 @@ export class AutonomousAgent {
   }
 
   // Seasonal strategy
-  private async generateSeasonalPrompt(config: AgentConfig): Promise<AgentGeneration> {
+  private async generateSeasonalPrompt(_config: AgentConfig): Promise<AgentGeneration> {
     const currentMonth = new Date().getMonth()
     const seasons = ['spring', 'summer', 'fall', 'winter']
     const season = seasons[Math.floor(currentMonth / 3)]
@@ -354,9 +355,9 @@ export class AutonomousAgent {
     if (error || !data) return null
 
     return {
-      strategy: data.strategy as any,
+      strategy: data.strategy as 'trending' | 'niche' | 'educational' | 'seasonal',
       ...data.config,
-    }
+    } as AgentConfig
   }
 
   // Save generated prompt to database

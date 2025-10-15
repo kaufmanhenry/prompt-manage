@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-env node */
 
 // Quick test script to verify agent creation and generation
 const testAgentCreation = async () => {

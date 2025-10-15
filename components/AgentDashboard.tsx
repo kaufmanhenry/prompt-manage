@@ -1,18 +1,18 @@
 'use client'
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Bot, Pause, Play, Star, TrendingUp, Users } from 'lucide-react'
 import { useState } from 'react'
-import { Bot, Play, Pause, Settings, TrendingUp, Users, DollarSign, Star, X, Plus } from 'lucide-react'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 
 interface Agent {
@@ -21,7 +21,7 @@ interface Agent {
   description: string
   strategy: string
   is_active: boolean
-  config: Record<string, any>
+  config: Record<string, unknown>
   created_at: string
   agent_generations: Array<{ count: number }>
   agent_metrics: Array<{
@@ -37,7 +37,6 @@ interface Agent {
 export function AgentDashboard() {
   const { toast } = useToast()
   const queryClient = useQueryClient()
-  const [selectedAgent, setSelectedAgent] = useState<string | null>(null)
   const [showCreateDialog, setShowCreateDialog] = useState(false)
   const [createForm, setCreateForm] = useState({
     name: '',
@@ -68,7 +67,7 @@ export function AgentDashboard() {
       return response.json()
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['agents'] })
+      void queryClient.invalidateQueries({ queryKey: ['agents'] })
       toast({ title: 'Agent updated successfully' })
     },
     onError: () => {
@@ -78,7 +77,7 @@ export function AgentDashboard() {
 
   // Create new agent
   const createAgentMutation = useMutation({
-    mutationFn: async (agentData: { name: string; description: string; strategy: string; config: any }) => {
+    mutationFn: async (agentData: { name: string; description: string; strategy: string; config: Record<string, unknown> }) => {
       const response = await fetch('/api/agents', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -88,7 +87,7 @@ export function AgentDashboard() {
       return response.json()
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['agents'] })
+      void queryClient.invalidateQueries({ queryKey: ['agents'] })
       toast({ title: 'Agent created successfully' })
       setShowCreateDialog(false)
       setCreateForm({ name: '', description: '', strategy: '', config: {} })
@@ -106,11 +105,11 @@ export function AgentDashboard() {
       return response.json()
     },
     onSuccess: (data) => {
-      toast({ 
-        title: 'Prompt generated!', 
-        description: `Quality score: ${data.generation.quality_score.toFixed(2)}` 
+      toast({
+        title: 'Prompt generated!',
+        description: `Quality score: ${data.generation.quality_score.toFixed(2)}`
       })
-      queryClient.invalidateQueries({ queryKey: ['agents'] })
+      void queryClient.invalidateQueries({ queryKey: ['agents'] })
     },
     onError: () => {
       toast({ title: 'Failed to generate prompt', variant: 'destructive' })
@@ -122,10 +121,10 @@ export function AgentDashboard() {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-64 animate-pulse rounded bg-gray-200" />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-48 bg-gray-200 rounded animate-pulse" />
+            <div key={i} className="h-48 animate-pulse rounded bg-gray-200" />
           ))}
         </div>
       </div>
@@ -290,13 +289,13 @@ export function AgentDashboard() {
                       <Play className="mr-1 h-3 w-3" />
                       Generate
                     </Button>
-                    <Button
+                    {/* Settings button for future agent configuration */}
+                    {/* <Button
                       size="sm"
                       variant="ghost"
-                      onClick={() => setSelectedAgent(agent.id)}
                     >
                       <Settings className="h-3 w-3" />
-                    </Button>
+                    </Button> */}
                   </div>
                 </CardContent>
               </Card>

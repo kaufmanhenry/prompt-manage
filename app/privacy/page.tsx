@@ -1,8 +1,4 @@
-import { ArrowLeft } from 'lucide-react'
 import type { Metadata } from 'next'
-import Link from 'next/link'
-
-import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - Prompt Manage | Data Protection and Privacy',
@@ -64,23 +60,12 @@ export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-12">
-          <Link href="/">
-            <Button variant="ghost" className="mb-6">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
-            </Button>
-          </Link>
-          <h1 className="mb-8 text-4xl font-bold text-gray-900 dark:text-white">Privacy Policy</h1>
-          <p className="mb-6 text-gray-700 dark:text-gray-300">
-            <strong>Last Updated: June 24, 2025</strong>
-          </p>
-        </div>
+        <h1 className="mb-8 text-4xl font-bold text-gray-900 dark:text-white">Privacy Policy</h1>
+        <p className="mb-6 text-gray-700 dark:text-gray-300">
+          <strong>Last Updated: June 24, 2025</strong>
+        </p>
 
-        {/* Content */}
-        <div className="rounded-lg bg-white p-8 shadow-sm dark:bg-gray-800">
-          <div className="prose prose-gray dark:prose-invert max-w-none">
+        <div className="prose prose-gray dark:prose-invert max-w-none">
             <p className="mb-6 text-gray-700 dark:text-gray-300">
               This Privacy Policy describes how Prompt Manage (&ldquo;Company&rdquo;,
               &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) collects, uses, discloses,
@@ -272,13 +257,6 @@ export default function PrivacyPage() {
               </ul>
             </div>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-8 text-center">
-          <Link href="/terms">
-            <Button variant="outline">View Terms of Service</Button>
-          </Link>
         </div>
       </div>
     </div>

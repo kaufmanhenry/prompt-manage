@@ -1,9 +1,12 @@
 'use client'
 
-import { FlaskConical, GlobeIcon, Home, Plus } from 'lucide-react'
+import { Bot, FlaskConical, GlobeIcon, Home, Plus } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { createClient } from '@/utils/supabase/client'
+import { isAdminEmail } from '@/lib/admin'
 
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -24,7 +27,7 @@ interface SidebarProps {
   onSelectPrompt: (promptId: string) => void
   onNewPrompt?: () => void
   isLoading?: boolean
-  currentPage?: 'dashboard' | 'lab'
+  currentPage?: 'dashboard' | 'lab' | 'agents'
 }
 
 export function Sidebar({
@@ -41,6 +44,19 @@ export function Sidebar({
   const [search, setSearch] = useState('')
   const uniqueModels = Array.from(new Set(prompts.map((p) => p.model).filter(Boolean)))
   const uniqueTags = Array.from(new Set(prompts.flatMap((p) => p.tags)))
+
+  // Check if user is admin
+  const { data: session } = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const {
+        data: { session },
+      } = await createClient().auth.getSession()
+      return session
+    },
+  })
+
+  const isAdmin = isAdminEmail(session?.user?.email)
 
   // Filtering logic
   const filteredPrompts = prompts.filter((p) => {
@@ -92,6 +108,19 @@ export function Sidebar({
           <FlaskConical className="h-4 w-4" />
           Prompt Lab
         </Link>
+        {isAdmin && (
+          <Link
+            href="/dashboard/agents"
+            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              currentPage === 'agents'
+                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+            }`}
+          >
+            <Bot className="h-4 w-4" />
+            AI Agents
+          </Link>
+        )}
       </div>
 
       {/* Top filter row */}

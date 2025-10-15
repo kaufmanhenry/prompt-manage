@@ -1,0 +1,527 @@
+{
+  "templates": [
+    {
+      "id": "template-email-generator",
+      "name": "Personalized Email Generator",
+      "description": "Generate personalized emails for customers using data from Google Sheets",
+      "category": "content_generation",
+      "difficulty": "beginner",
+      "estimated_time": "5 minutes",
+      "required_connectors": ["google_sheets"],
+      "tags": ["email", "marketing", "personalization"],
+      "definition": {
+        "version": "1.0",
+        "nodes": [
+          {
+            "id": "source_customers",
+            "type": "data_source",
+            "label": "Load Customer Data",
+            "config": {
+              "sourceType": "google_sheets",
+              "sourceId": "{{GOOGLE_SHEET_ID}}",
+              "query": {
+                "sheet": "Customers",
+                "columns": ["name", "email", "company", "industry"],
+                "limit": 10
+              }
+            },
+            "position": { "x": 100, "y": 100 }
+          },
+          {
+            "id": "generate_email",
+            "type": "prompt",
+            "label": "Generate Personalized Email",
+            "config": {
+              "promptTemplate": "Write a personalized follow-up email for {{name}} at {{company}} in the {{industry}} industry. The email should:\n- Be friendly and professional\n- Reference their industry\n- Offer value\n- Include a clear call-to-action\n- Be under 150 words",
+              "model": "gpt-4o-mini",
+              "temperature": 0.7,
+              "maxTokens": 300
+            },
+            "position": { "x": 400, "y": 100 }
+          },
+          {
+            "id": "save_results",
+            "type": "output",
+            "label": "Save to Sheet",
+            "config": {
+              "destination": "google_sheets",
+              "sourceId": "{{GOOGLE_SHEET_ID}}",
+              "sheet": "Generated_Emails",
+              "mapping": {
+                "customer_name": "{{name}}",
+                "email": "{{email}}",
+                "generated_content": "{{generate_email.text}}",
+                "generated_at": "{{NOW}}"
+              }
+            },
+            "position": { "x": 700, "y": 100 }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e1",
+            "source": "source_customers",
+            "target": "generate_email"
+          },
+          {
+            "id": "e2",
+            "source": "generate_email",
+            "target": "save_results"
+          }
+        ],
+        "settings": {
+          "maxConcurrentNodes": 5,
+          "timeout": 600,
+          "retryPolicy": {
+            "maxAttempts": 3,
+            "backoff": "exponential",
+            "initialDelay": 1000,
+            "maxDelay": 30000
+          },
+          "errorHandling": "continue"
+        }
+      }
+    },
+    {
+      "id": "template-lead-scorer",
+      "name": "AI Lead Qualification",
+      "description": "Automatically score and qualify leads using AI analysis",
+      "category": "automation",
+      "difficulty": "intermediate",
+      "estimated_time": "10 minutes",
+      "required_connectors": ["airtable", "api"],
+      "tags": ["sales", "crm", "lead-qualification"],
+      "definition": {
+        "version": "1.0",
+        "nodes": [
+          {
+            "id": "fetch_leads",
+            "type": "data_source",
+            "label": "Fetch New Leads",
+            "config": {
+              "sourceType": "airtable",
+              "sourceId": "{{AIRTABLE_BASE_ID}}",
+              "query": {
+                "table": "Leads",
+                "filterByFormula": "{Status} = 'New'",
+                "maxRecords": 20
+              }
+            },
+            "position": { "x": 100, "y": 100 }
+          },
+          {
+            "id": "enrich_data",
+            "type": "webhook",
+            "label": "Enrich Company Data",
+            "config": {
+              "url": "https://api.clearbit.com/v2/companies/find",
+              "method": "GET",
+              "headers": {
+                "Authorization": "Bearer {{CLEARBIT_API_KEY}}"
+              }
+            },
+            "position": { "x": 400, "y": 100 }
+          },
+          {
+            "id": "analyze_fit",
+            "type": "prompt",
+            "label": "Analyze Lead Fit",
+            "config": {
+              "promptTemplate": "Analyze this lead and provide a qualification score (1-10):\n\nCompany: {{company_name}}\nIndustry: {{industry}}\nSize: {{employee_count}} employees\nRevenue: {{revenue}}\nWebsite: {{website}}\n\nOur ideal customer profile:\n- Mid-market companies (100-1000 employees)\n- B2B SaaS companies\n- Annual revenue $10M+\n- Tech-forward\n\nProvide:\n1. Score (1-10)\n2. Reasoning (2-3 sentences)\n3. Recommended next action\n\nFormat as JSON:\n{\n  \"score\": X,\n  \"reasoning\": \"...\",\n  \"action\": \"...\"\n}",
+              "model": "gpt-4o",
+              "temperature": 0.3,
+              "maxTokens": 200
+            },
+            "position": { "x": 700, "y": 100 }
+          },
+          {
+            "id": "check_score",
+            "type": "condition",
+            "label": "Score > 7?",
+            "config": {
+              "condition": "analyze_fit.score > 7",
+              "trueBranch": "create_task",
+              "falseBranch": "mark_nurture"
+            },
+            "position": { "x": 1000, "y": 100 }
+          },
+          {
+            "id": "create_task",
+            "type": "webhook",
+            "label": "Create Sales Task",
+            "config": {
+              "url": "{{CRM_API_URL}}/tasks",
+              "method": "POST",
+              "headers": {
+                "Authorization": "Bearer {{CRM_API_KEY}}",
+                "Content-Type": "application/json"
+              },
+              "body": "{\n  \"lead_id\": \"{{id}}\",\n  \"task_type\": \"follow_up\",\n  \"priority\": \"high\",\n  \"notes\": \"{{analyze_fit.reasoning}}\"\n}"
+            },
+            "position": { "x": 1300, "y": 50 }
+          },
+          {
+            "id": "mark_nurture",
+            "type": "output",
+            "label": "Add to Nurture Campaign",
+            "config": {
+              "destination": "airtable",
+              "sourceId": "{{AIRTABLE_BASE_ID}}",
+              "table": "Nurture_Campaign",
+              "mapping": {
+                "lead_id": "{{id}}",
+                "score": "{{analyze_fit.score}}",
+                "reasoning": "{{analyze_fit.reasoning}}"
+              }
+            },
+            "position": { "x": 1300, "y": 150 }
+          }
+        ],
+        "edges": [
+          { "id": "e1", "source": "fetch_leads", "target": "enrich_data" },
+          { "id": "e2", "source": "enrich_data", "target": "analyze_fit" },
+          { "id": "e3", "source": "analyze_fit", "target": "check_score" },
+          { "id": "e4", "source": "check_score", "target": "create_task", "condition": "true" },
+          { "id": "e5", "source": "check_score", "target": "mark_nurture", "condition": "false" }
+        ],
+        "settings": {
+          "maxConcurrentNodes": 3,
+          "timeout": 900,
+          "retryPolicy": {
+            "maxAttempts": 3,
+            "backoff": "exponential",
+            "initialDelay": 2000,
+            "maxDelay": 60000
+          },
+          "errorHandling": "continue"
+        }
+      }
+    },
+    {
+      "id": "template-content-moderator",
+      "name": "AI Content Moderation",
+      "description": "Automatically review and moderate user-generated content",
+      "category": "automation",
+      "difficulty": "intermediate",
+      "estimated_time": "8 minutes",
+      "required_connectors": ["airtable"],
+      "tags": ["moderation", "safety", "ugc"],
+      "definition": {
+        "version": "1.0",
+        "nodes": [
+          {
+            "id": "fetch_submissions",
+            "type": "data_source",
+            "label": "Fetch New Submissions",
+            "config": {
+              "sourceType": "airtable",
+              "sourceId": "{{AIRTABLE_BASE_ID}}",
+              "query": {
+                "table": "User_Submissions",
+                "filterByFormula": "{Status} = 'Pending'",
+                "maxRecords": 50
+              }
+            },
+            "position": { "x": 100, "y": 100 }
+          },
+          {
+            "id": "moderate_content",
+            "type": "prompt",
+            "label": "Check for Violations",
+            "config": {
+              "promptTemplate": "Review this user-generated content for violations:\n\nContent: {{content}}\nAuthor: {{username}}\n\nCheck for:\n1. Hate speech or harassment\n2. Violence or threats\n3. Spam or scams\n4. Inappropriate sexual content\n5. Misinformation\n\nRespond in JSON format:\n{\n  \"violates\": true/false,\n  \"categories\": [\"category1\", \"category2\"],\n  \"severity\": \"low/medium/high\",\n  \"explanation\": \"Brief explanation\",\n  \"action\": \"approve/flag/reject\"\n}",
+              "model": "claude-3-5-sonnet",
+              "temperature": 0.1,
+              "maxTokens": 200
+            },
+            "position": { "x": 400, "y": 100 }
+          },
+          {
+            "id": "check_violation",
+            "type": "condition",
+            "label": "Violation Detected?",
+            "config": {
+              "condition": "moderate_content.violates === true",
+              "trueBranch": "flag_content",
+              "falseBranch": "approve_content"
+            },
+            "position": { "x": 700, "y": 100 }
+          },
+          {
+            "id": "flag_content",
+            "type": "output",
+            "label": "Flag for Review",
+            "config": {
+              "destination": "airtable",
+              "sourceId": "{{AIRTABLE_BASE_ID}}",
+              "table": "User_Submissions",
+              "operation": "update",
+              "recordId": "{{id}}",
+              "mapping": {
+                "Status": "Flagged",
+                "Violation_Categories": "{{moderate_content.categories}}",
+                "Severity": "{{moderate_content.severity}}",
+                "AI_Explanation": "{{moderate_content.explanation}}",
+                "Flagged_At": "{{NOW}}"
+              }
+            },
+            "position": { "x": 1000, "y": 50 }
+          },
+          {
+            "id": "send_alert",
+            "type": "webhook",
+            "label": "Send Alert",
+            "config": {
+              "url": "{{SLACK_WEBHOOK_URL}}",
+              "method": "POST",
+              "body": "{\n  \"text\": \"🚨 Content flagged for review\",\n  \"blocks\": [\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Severity:* {{moderate_content.severity}}\\n*Reason:* {{moderate_content.explanation}}\"\n      }\n    }\n  ]\n}"
+            },
+            "position": { "x": 1300, "y": 50 }
+          },
+          {
+            "id": "approve_content",
+            "type": "output",
+            "label": "Auto-Approve",
+            "config": {
+              "destination": "airtable",
+              "sourceId": "{{AIRTABLE_BASE_ID}}",
+              "table": "User_Submissions",
+              "operation": "update",
+              "recordId": "{{id}}",
+              "mapping": {
+                "Status": "Approved",
+                "Approved_At": "{{NOW}}",
+                "Approved_By": "AI Moderator"
+              }
+            },
+            "position": { "x": 1000, "y": 150 }
+          }
+        ],
+        "edges": [
+          { "id": "e1", "source": "fetch_submissions", "target": "moderate_content" },
+          { "id": "e2", "source": "moderate_content", "target": "check_violation" },
+          { "id": "e3", "source": "check_violation", "target": "flag_content", "condition": "true" },
+          { "id": "e4", "source": "flag_content", "target": "send_alert" },
+          { "id": "e5", "source": "check_violation", "target": "approve_content", "condition": "false" }
+        ],
+        "settings": {
+          "maxConcurrentNodes": 10,
+          "timeout": 600,
+          "retryPolicy": {
+            "maxAttempts": 2,
+            "backoff": "linear",
+            "initialDelay": 1000,
+            "maxDelay": 5000
+          },
+          "errorHandling": "stop"
+        }
+      }
+    },
+    {
+      "id": "template-blog-pipeline",
+      "name": "Blog Post Generation Pipeline",
+      "description": "Generate blog posts from topics, including outline, draft, and SEO metadata",
+      "category": "content_generation",
+      "difficulty": "advanced",
+      "estimated_time": "15 minutes",
+      "required_connectors": ["notion", "google_sheets"],
+      "tags": ["blog", "seo", "content-marketing"],
+      "definition": {
+        "version": "1.0",
+        "nodes": [
+          {
+            "id": "fetch_topics",
+            "type": "data_source",
+            "label": "Get Blog Topics",
+            "config": {
+              "sourceType": "notion",
+              "sourceId": "{{NOTION_DATABASE_ID}}",
+              "query": {
+                "filter": {
+                  "property": "Status",
+                  "select": {
+                    "equals": "Approved"
+                  }
+                },
+                "sorts": [{ "property": "Priority", "direction": "descending" }]
+              }
+            },
+            "position": { "x": 100, "y": 100 }
+          },
+          {
+            "id": "generate_outline",
+            "type": "prompt",
+            "label": "Create Outline",
+            "config": {
+              "promptTemplate": "Create a detailed blog post outline for: {{topic}}\n\nTarget audience: {{target_audience}}\nKeywords: {{keywords}}\nTone: {{tone}}\n\nProvide:\n1. Compelling title\n2. Introduction hook\n3. 5-7 main sections with H2 headings\n4. Key points for each section\n5. Conclusion\n\nFormat as structured JSON.",
+              "model": "gpt-4o",
+              "temperature": 0.7,
+              "maxTokens": 800
+            },
+            "position": { "x": 400, "y": 100 }
+          },
+          {
+            "id": "write_draft",
+            "type": "prompt",
+            "label": "Write Full Draft",
+            "config": {
+              "promptTemplate": "Write a complete blog post based on this outline:\n\n{{generate_outline.output}}\n\nGuidelines:\n- 1500-2000 words\n- Conversational but professional\n- Include examples and data where relevant\n- Natural keyword integration\n- Engaging introduction and strong CTA\n\nWrite in markdown format.",
+              "model": "gpt-4o",
+              "temperature": 0.8,
+              "maxTokens": 3000
+            },
+            "position": { "x": 700, "y": 100 }
+          },
+          {
+            "id": "generate_seo",
+            "type": "prompt",
+            "label": "Generate SEO Metadata",
+            "config": {
+              "promptTemplate": "Create SEO metadata for this blog post:\n\nTitle: {{generate_outline.title}}\nContent: {{write_draft.output}}\n\nGenerate:\n1. Meta description (150-160 chars)\n2. Focus keyphrase\n3. 5 relevant tags\n4. Open Graph title\n5. Open Graph description\n\nFormat as JSON.",
+              "model": "gpt-4o-mini",
+              "temperature": 0.3,
+              "maxTokens": 300
+            },
+            "position": { "x": 1000, "y": 100 }
+          },
+          {
+            "id": "save_to_notion",
+            "type": "output",
+            "label": "Save to Notion",
+            "config": {
+              "destination": "notion",
+              "databaseId": "{{NOTION_DRAFTS_DB}}",
+              "mapping": {
+                "Title": "{{generate_outline.title}}",
+                "Content": "{{write_draft.output}}",
+                "Meta_Description": "{{generate_seo.meta_description}}",
+                "Focus_Keyword": "{{generate_seo.keyphrase}}",
+                "Tags": "{{generate_seo.tags}}",
+                "Status": "Draft",
+                "Generated_At": "{{NOW}}"
+              }
+            },
+            "position": { "x": 1300, "y": 100 }
+          }
+        ],
+        "edges": [
+          { "id": "e1", "source": "fetch_topics", "target": "generate_outline" },
+          { "id": "e2", "source": "generate_outline", "target": "write_draft" },
+          { "id": "e3", "source": "write_draft", "target": "generate_seo" },
+          { "id": "e4", "source": "generate_seo", "target": "save_to_notion" }
+        ],
+        "settings": {
+          "maxConcurrentNodes": 1,
+          "timeout": 1800,
+          "retryPolicy": {
+            "maxAttempts": 2,
+            "backoff": "exponential",
+            "initialDelay": 5000,
+            "maxDelay": 30000
+          },
+          "errorHandling": "stop"
+        }
+      }
+    },
+    {
+      "id": "template-data-enrichment",
+      "name": "Contact Data Enrichment",
+      "description": "Enrich contact data with company information and AI-generated insights",
+      "category": "data_processing",
+      "difficulty": "intermediate",
+      "estimated_time": "10 minutes",
+      "required_connectors": ["google_sheets", "api"],
+      "tags": ["data-enrichment", "contacts", "b2b"],
+      "definition": {
+        "version": "1.0",
+        "nodes": [
+          {
+            "id": "load_contacts",
+            "type": "data_source",
+            "label": "Load Contacts",
+            "config": {
+              "sourceType": "google_sheets",
+              "sourceId": "{{GOOGLE_SHEET_ID}}",
+              "query": {
+                "sheet": "Contacts",
+                "columns": ["email", "company_website", "name"],
+                "where": [{ "field": "enriched", "operator": "!=", "value": "true" }],
+                "limit": 100
+              }
+            },
+            "position": { "x": 100, "y": 100 }
+          },
+          {
+            "id": "enrich_company",
+            "type": "webhook",
+            "label": "Get Company Data",
+            "config": {
+              "url": "https://api.clearbit.com/v2/companies/find",
+              "method": "GET",
+              "headers": {
+                "Authorization": "Bearer {{CLEARBIT_API_KEY}}"
+              },
+              "params": {
+                "domain": "{{company_website}}"
+              }
+            },
+            "position": { "x": 400, "y": 100 }
+          },
+          {
+            "id": "generate_insights",
+            "type": "prompt",
+            "label": "Generate Insights",
+            "config": {
+              "promptTemplate": "Based on this company data, generate actionable insights for outreach:\n\nCompany: {{enrich_company.name}}\nIndustry: {{enrich_company.industry}}\nSize: {{enrich_company.employees}}\nLocation: {{enrich_company.location}}\nTech Stack: {{enrich_company.tech}}\n\nProvide:\n1. Personalization angle (1-2 sentences)\n2. Relevant pain points (3 bullets)\n3. Recommended outreach timing\n4. Subject line suggestion\n\nFormat as JSON.",
+              "model": "gpt-4o",
+              "temperature": 0.6,
+              "maxTokens": 300
+            },
+            "position": { "x": 700, "y": 100 }
+          },
+          {
+            "id": "save_enriched",
+            "type": "output",
+            "label": "Update Sheet",
+            "config": {
+              "destination": "google_sheets",
+              "sourceId": "{{GOOGLE_SHEET_ID}}",
+              "sheet": "Contacts",
+              "operation": "update",
+              "matching": { "email": "{{email}}" },
+              "mapping": {
+                "company_name": "{{enrich_company.name}}",
+                "industry": "{{enrich_company.industry}}",
+                "employee_count": "{{enrich_company.employees}}",
+                "company_location": "{{enrich_company.location}}",
+                "personalization_angle": "{{generate_insights.personalization}}",
+                "pain_points": "{{generate_insights.pain_points}}",
+                "suggested_subject": "{{generate_insights.subject_line}}",
+                "enriched": "true",
+                "enriched_at": "{{NOW}}"
+              }
+            },
+            "position": { "x": 1000, "y": 100 }
+          }
+        ],
+        "edges": [
+          { "id": "e1", "source": "load_contacts", "target": "enrich_company" },
+          { "id": "e2", "source": "enrich_company", "target": "generate_insights" },
+          { "id": "e3", "source": "generate_insights", "target": "save_enriched" }
+        ],
+        "settings": {
+          "maxConcurrentNodes": 5,
+          "timeout": 600,
+          "retryPolicy": {
+            "maxAttempts": 3,
+            "backoff": "exponential",
+            "initialDelay": 2000,
+            "maxDelay": 30000
+          },
+          "errorHandling": "continue"
+        }
+      }
+    }
+  ]
+}
+

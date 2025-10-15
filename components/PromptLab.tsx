@@ -5,30 +5,22 @@ import {
   ChevronRight,
   Copy,
   Download,
-  FileText,
   Loader2,
-  Play,
-  Plus,
+  MoreVertical,
   Rocket,
-  Save,
   Sparkles,
-  Square,
-  Trash2,
   Zap,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
@@ -38,7 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 
@@ -55,8 +46,6 @@ type RunResponse = {
   execution_time_ms: number
   tokens_used: number | null
 }
-
-type KeyValue = { key: string; value: string }
 
 interface PromptLabProps {
   initialPrompt?: {
@@ -75,168 +64,48 @@ interface PromptLabProps {
   className?: string
 }
 
-const PROMPT_TEMPLATES = [
+const QUICK_TEMPLATES = [
   {
-    name: 'Google Ads Headlines',
-    category: 'Marketing',
-    prompt: `Goal: Generate 5 Google Ads headlines (<= 30 chars)
-Audience: {audience}
-Product: {product}
-Benefit: {benefit}
-Tone: {tone}
-
-Instructions:
-- Use direct response style
-- Include one curiosity angle
-- Avoid clickbait`,
-    variables: [
-      { key: 'audience', value: 'Ecommerce marketers' },
-      { key: 'product', value: 'Prompt Manage' },
-      { key: 'benefit', value: 'Higher ROAS from better copy' },
-      { key: 'tone', value: 'Confident and helpful' },
-    ],
+    name: 'Marketing Copy',
+    prompt: 'Write {type} for {product} targeting {audience}. Tone: {tone}.',
+    vars: { type: 'ad copy', product: 'SaaS tool', audience: 'small businesses', tone: 'professional' },
   },
   {
-    name: 'Email Subject Lines',
-    category: 'Marketing',
-    prompt: `Create 10 compelling email subject lines for:
-Product: {product}
-Campaign: {campaign_type}
-Audience: {audience}
-Goal: {goal}
-
-Requirements:
-- Keep under 50 characters
-- Include urgency or curiosity
-- Avoid spam words
-- Test different angles`,
-    variables: [
-      { key: 'product', value: 'SaaS Product' },
-      { key: 'campaign_type', value: 'Newsletter' },
-      { key: 'audience', value: 'Small business owners' },
-      { key: 'goal', value: 'Increase open rates' },
-    ],
+    name: 'Email',
+    prompt: 'Draft a {email_type} email about {topic} for {recipient}.',
+    vars: { email_type: 'follow-up', topic: 'product demo', recipient: 'potential customers' },
   },
   {
-    name: 'Social Media Posts',
-    category: 'Social Media',
-    prompt: `Create engaging social media content for:
-Platform: {platform}
-Brand: {brand}
-Topic: {topic}
-Tone: {tone}
-Length: {length}
-
-Include:
-- Hook in first line
-- Call-to-action
-- Relevant hashtags
-- Platform-specific formatting`,
-    variables: [
-      { key: 'platform', value: 'LinkedIn' },
-      { key: 'brand', value: 'Tech Startup' },
-      { key: 'topic', value: 'AI productivity tools' },
-      { key: 'tone', value: 'Professional but approachable' },
-      { key: 'length', value: 'Medium (2-3 sentences)' },
-    ],
-  },
-  {
-    name: 'Product Descriptions',
-    category: 'E-commerce',
-    prompt: `Write compelling product descriptions for:
-Product: {product_name}
-Category: {category}
-Target: {target_audience}
-Price: {price_range}
-Features: {key_features}
-
-Focus on:
-- Benefits over features
-- Emotional triggers
-- Clear value proposition
-- SEO-friendly keywords`,
-    variables: [
-      { key: 'product_name', value: 'Wireless Headphones' },
-      { key: 'category', value: 'Electronics' },
-      { key: 'target_audience', value: 'Music enthusiasts' },
-      { key: 'price_range', value: '$100-200' },
-      { key: 'key_features', value: 'Noise cancellation, 30hr battery' },
-    ],
-  },
-  {
-    name: 'Blog Post Outline',
-    category: 'Content',
-    prompt: `Create a detailed blog post outline for:
-Topic: {topic}
-Target Audience: {audience}
-Word Count: {word_count}
-SEO Keyword: {keyword}
-Goal: {goal}
-
-Structure:
-- Compelling headline
-- Introduction hook
-- Main sections with subheadings
-- Conclusion with CTA
-- Suggested internal links`,
-    variables: [
-      { key: 'topic', value: 'AI tools for small businesses' },
-      { key: 'audience', value: 'Small business owners' },
-      { key: 'word_count', value: '2000 words' },
-      { key: 'keyword', value: 'AI productivity' },
-      { key: 'goal', value: 'Generate leads' },
-    ],
-  },
-  {
-    name: 'Customer Support Response',
-    category: 'Support',
-    prompt: `Draft a professional customer support response for:
-Issue: {issue_type}
-Customer: {customer_type}
-Urgency: {urgency_level}
-Resolution: {resolution_type}
-
-Tone: {tone}
-Include:
-- Empathy statement
-- Clear explanation
-- Next steps
-- Follow-up offer`,
-    variables: [
-      { key: 'issue_type', value: 'Billing question' },
-      { key: 'customer_type', value: 'Premium subscriber' },
-      { key: 'urgency_level', value: 'Medium' },
-      { key: 'resolution_type', value: 'Account adjustment' },
-      { key: 'tone', value: 'Helpful and professional' },
-    ],
+    name: 'Social Post',
+    prompt: 'Create a {platform} post about {topic}. Include hashtags and CTA.',
+    vars: { platform: 'LinkedIn', topic: 'AI productivity' },
   },
 ]
 
-const DEFAULT_CONTEXT = `Company: Prompt Manage helps marketing teams organize, test, and share prompts.
-Voice: Clear, confident, and helpful.`
+function estimateTokens(text: string): number {
+  return Math.ceil(text.length / 4)
+}
+
+function estimateCost(tokens: number, model: string): string {
+  const pricing: Record<string, number> = {
+    'gpt-4o-mini': 0.00015,
+    'gpt-4o': 0.0025,
+    'gpt-4': 0.03,
+    'gpt-3.5-turbo': 0.0005,
+  }
+  const rate = pricing[model] ?? 0.0005
+  const cost = (tokens / 1000) * rate
+  return cost < 0.01 ? `<$0.01` : `$${cost.toFixed(3)}`
+}
 
 export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: PromptLabProps) {
-  const [prompt, setPrompt] = useState<string>(
-    initialPrompt?.prompt_text || PROMPT_TEMPLATES[0].prompt,
-  )
-  const [context, setContext] = useState<string>(DEFAULT_CONTEXT)
-  const [showContext, setShowContext] = useState<boolean>(false)
-  const [variables, setVariables] = useState<KeyValue[]>(PROMPT_TEMPLATES[0].variables)
-  const [model, setModel] = useState<string>(initialPrompt?.model || 'gpt-4o-mini')
-  const [promptName, setPromptName] = useState<string>(initialPrompt?.name || '')
-  const [isRunning, setIsRunning] = useState<boolean>(false)
-  const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [isBatchMode, setIsBatchMode] = useState<boolean>(false)
-  const [batchData, setBatchData] = useState<string>('')
-  const [batchResults, setBatchResults] = useState<
-    Array<{
-      response: string
-      tokens?: number | null
-      latencyMs?: number | null
-      variables?: VariablesRow
-      createdAt: string
-    }>
-  >([])
+  const [prompt, setPrompt] = useState(initialPrompt?.prompt_text || '')
+  const [model, setModel] = useState(initialPrompt?.model || 'gpt-4o-mini')
+  const [promptName, setPromptName] = useState(initialPrompt?.name || '')
+  const [isRunning, setIsRunning] = useState(false)
+  const [showHistory, setShowHistory] = useState(true)
+  const [showContext, setShowContext] = useState(false)
+  const [context, setContext] = useState('')
   const [runs, setRuns] = useState<
     Array<{
       response: string
@@ -246,66 +115,58 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
       variables?: VariablesRow
     }>
   >([])
-  const [_selectedTemplate, _setSelectedTemplate] = useState<string>('')
-  const [showTemplates, setShowTemplates] = useState<boolean>(false)
   const { toast } = useToast()
 
-  // Auto-detect variables from prompt text
+  // Auto-detect variables from prompt
+  const detectedVars = useMemo(() => {
+    const matches = prompt.match(/\{([^}]+)\}/g)
+    if (!matches) return []
+    return [...new Set(matches.map((m) => m.slice(1, -1)))]
+  }, [prompt])
+
+  const [varValues, setVarValues] = useState<Record<string, string>>({})
+
+  // Initialize var values when detected
   useEffect(() => {
-    const variableRegex = /\{([^}]+)\}/g
-    const matches = prompt.match(variableRegex)
-    if (matches) {
-      const detectedVariables = matches.map((match) => {
-        const key = match.slice(1, -1) // Remove { and }
-        const existingVar = variables.find((v) => v.key === key)
-        return {
-          key,
-          value: existingVar?.value || '',
-        }
-      })
-
-      // Only update if we found new variables
-      const hasNewVariables = detectedVariables.some(
-        (dv) => !variables.some((v) => v.key === dv.key),
-      )
-
-      if (hasNewVariables) {
-        setVariables(detectedVariables)
+    const newVars: Record<string, string> = {}
+    detectedVars.forEach((varName) => {
+      if (!(varName in varValues)) {
+        newVars[varName] = ''
       }
+    })
+    if (Object.keys(newVars).length > 0) {
+      setVarValues((prev) => ({ ...prev, ...newVars }))
     }
-  }, [prompt]) // eslint-disable-line react-hooks/exhaustive-deps -- variables intentionally omitted to prevent infinite loop
+  }, [detectedVars]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  function toVariablesRow(): VariablesRow {
-    const row: VariablesRow = {}
-    for (const kv of variables) {
-      if (kv.key.trim()) row[kv.key.trim()] = kv.value
-    }
-    return row
-  }
+  // Compute final prompt with substitutions
+  const finalPrompt = useMemo(() => {
+    let result = prompt
+    detectedVars.forEach((varName) => {
+      const value = varValues[varName] || `{${varName}}`
+      result = result.replace(new RegExp(`\\{${varName}\\}`, 'g'), value)
+    })
+    return result
+  }, [prompt, detectedVars, varValues])
 
-  function substituteVariables(promptText: string, variables: VariablesRow): string {
-    let substitutedPrompt = promptText
-    for (const [key, value] of Object.entries(variables)) {
-      const regex = new RegExp(`\\{${key}\\}`, 'g')
-      substitutedPrompt = substitutedPrompt.replace(regex, value)
-    }
-    return substitutedPrompt
-  }
+  // Real-time stats
+  const stats = useMemo(() => {
+    const chars = finalPrompt.length
+    const tokens = estimateTokens(finalPrompt)
+    const cost = estimateCost(tokens, model)
+    return { chars, tokens, cost }
+  }, [finalPrompt, model])
 
   async function runPrompt() {
     setIsRunning(true)
     try {
-      const variablesRow = toVariablesRow()
-      const substitutedPrompt = substituteVariables(prompt, variablesRow)
-
-      // Use the private prompt running API if we have a prompt ID
       if (initialPrompt?.id) {
         const response = await fetch('/api/prompt/run', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             promptId: initialPrompt.id,
-            promptText: substitutedPrompt, // Use the substituted prompt
+            promptText: finalPrompt,
           }),
         })
 
@@ -321,21 +182,20 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
             tokens: result.tokens_used,
             latencyMs: result.execution_time_ms,
             createdAt: new Date().toISOString(),
-            variables: variablesRow,
+            variables: varValues,
           },
           ...prev,
         ])
       } else {
-        // Use the preview API for new prompts
         const res = await fetch('/api/prompt/run/preview', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             variant: 'A',
             model: model,
-            prompt: substitutedPrompt, // Use the substituted prompt
+            prompt: finalPrompt,
             context,
-            variablesRows: [variablesRow],
+            variablesRows: [varValues],
           }),
         })
         const json = await res.json()
@@ -346,16 +206,13 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
             tokens: out?.tokens_used ?? null,
             latencyMs: out?.execution_time_ms ?? null,
             createdAt: new Date().toISOString(),
-            variables: variablesRow,
+            variables: varValues,
           },
           ...prev,
         ])
       }
 
-      toast({
-        title: 'Prompt Executed',
-        description: 'Your prompt has been successfully executed.',
-      })
+      if (!showHistory) setShowHistory(true)
     } catch (error) {
       console.error('Error running prompt:', error)
       toast({
@@ -368,88 +225,48 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
     }
   }
 
-  async function runBatch() {
-    if (!batchData.trim()) {
-      toast({
-        title: 'Error',
-        description: 'Please enter batch data (CSV format).',
-        variant: 'destructive',
-      })
+  function loadTemplate(template: typeof QUICK_TEMPLATES[0]) {
+    setPrompt(template.prompt)
+    setVarValues(template.vars)
+  }
+
+  async function savePrompt() {
+    if (!onSavePrompt) return
+    if (!promptName.trim()) {
+      toast({ title: 'Error', description: 'Please enter a name for your prompt.', variant: 'destructive' })
       return
     }
 
-    setIsRunning(true)
     try {
-      // Parse CSV data
-      const lines = batchData.trim().split('\n')
-      const headers = lines[0].split(',').map((h) => h.trim())
-      const rows = lines.slice(1).map((line) => {
-        const values = line.split(',').map((v) => v.trim())
-        const row: VariablesRow = {}
-        headers.forEach((header, index) => {
-          row[header] = values[index] || ''
-        })
-        return row
+      await onSavePrompt({
+        name: promptName,
+        prompt_text: prompt,
+        model: model,
+        tags: [],
+        is_public: false,
       })
-
-      const results = []
-      for (const row of rows) {
-        const substitutedPrompt = substituteVariables(prompt, row)
-        const res = await fetch('/api/prompt/run/preview', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            variant: 'A',
-            model: model,
-            prompt: substitutedPrompt, // Use the substituted prompt
-            context,
-            variablesRows: [row],
-          }),
-        })
-        const json = await res.json()
-        const out = json.outputs?.[0]
-        results.push({
-          variables: row,
-          response: out?.response || 'No response',
-          tokens: out?.tokens_used ?? null,
-          latencyMs: out?.execution_time_ms ?? null,
-          createdAt: new Date().toISOString(),
-        })
-      }
-
-      setBatchResults(results)
-      toast({
-        title: 'Batch Processing Complete',
-        description: `Processed ${results.length} rows successfully.`,
-      })
+      toast({ title: 'Saved', description: `"${promptName}" has been saved.` })
     } catch (error) {
-      console.error('Error running batch:', error)
-      toast({
-        title: 'Error',
-        description: 'Failed to run batch processing. Please try again.',
-        variant: 'destructive',
-      })
-    } finally {
-      setIsRunning(false)
+      console.error('Error saving prompt:', error)
+      toast({ title: 'Error', description: 'Failed to save prompt.', variant: 'destructive' })
     }
   }
 
-  function loadTemplate(template: (typeof PROMPT_TEMPLATES)[0]) {
-    setPrompt(template.prompt)
-    setVariables(template.variables)
-    setPromptName(template.name)
-    setShowTemplates(false)
-    toast({
-      title: 'Template Loaded',
-      description: `Loaded "${template.name}" template.`,
-    })
-  }
-
   function exportResults() {
-    const data = isBatchMode ? batchResults : runs
-    const csvContent = isBatchMode ? generateBatchCSV(data) : generateRunsCSV(data)
+    const csv = [
+      ['Response', 'Tokens', 'Latency (ms)', 'Variables', 'Created At'],
+      ...runs.map((r) => [
+        `"${r.response.replace(/"/g, '""')}"`,
+        r.tokens || '',
+        r.latencyMs || '',
+        JSON.stringify(r.variables || {}),
+        r.createdAt,
+      ]),
+    ]
+      .map((row) => row.join(','))
+      .join('\n')
 
-    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const blob = new Blob([csv], { type: 'text/csv' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
@@ -458,530 +275,244 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
     URL.revokeObjectURL(url)
   }
 
-  function generateBatchCSV(
-    data: Array<{
-      response: string
-      tokens?: number | null
-      latencyMs?: number | null
-      variables?: VariablesRow
-      createdAt: string
-    }>,
-  ) {
-    if (data.length === 0) return ''
-
-    const headers = ['Variables', 'Response', 'Tokens', 'Latency (ms)', 'Created At']
-    const rows = data.map((item) => [
-      JSON.stringify(item.variables),
-      `"${item.response.replace(/"/g, '""')}"`,
-      item.tokens || '',
-      item.latencyMs || '',
-      item.createdAt,
-    ])
-
-    return [headers, ...rows].map((row) => row.join(',')).join('\n')
-  }
-
-  function generateRunsCSV(
-    data: Array<{
-      response: string
-      tokens?: number | null
-      latencyMs?: number | null
-      createdAt: string
-    }>,
-  ) {
-    if (data.length === 0) return ''
-
-    const headers = ['Response', 'Tokens', 'Latency (ms)', 'Created At']
-    const rows = data.map((item) => [
-      `"${item.response.replace(/"/g, '""')}"`,
-      item.tokens || '',
-      item.latencyMs || '',
-      item.createdAt,
-    ])
-
-    return [headers, ...rows].map((row) => row.join(',')).join('\n')
-  }
-
-  async function savePrompt() {
-    if (!promptName.trim()) {
-      toast({
-        title: 'Error',
-        description: 'Please enter a name for your prompt.',
-        variant: 'destructive',
-      })
-      return
-    }
-
-    if (!prompt.trim()) {
-      toast({
-        title: 'Error',
-        description: 'Please enter prompt text.',
-        variant: 'destructive',
-      })
-      return
-    }
-
-    setIsSaving(true)
-    try {
-      await onSavePrompt?.({
-        name: promptName,
-        prompt_text: prompt,
-        model: model,
-        tags: [],
-        is_public: false,
-      })
-
-      toast({
-        title: 'Prompt Saved',
-        description: `"${promptName}" has been successfully saved.`,
-      })
-    } catch (error) {
-      console.error('Error saving prompt:', error)
-      toast({
-        title: 'Error',
-        description: 'Failed to save prompt. Please try again.',
-        variant: 'destructive',
-      })
-    } finally {
-      setIsSaving(false)
-    }
-  }
-
-  function addVar() {
-    setVariables((v) => [...v, { key: '', value: '' }])
-  }
-
-  function removeVar(index: number) {
-    setVariables((v) => v.filter((_, i) => i !== index))
-  }
-
-  function updateVar(index: number, field: 'key' | 'value', value: string) {
-    setVariables((v) => v.map((item, i) => (i === index ? { ...item, [field]: value } : item)))
-  }
-
   return (
-    <div
-      className={`mx-auto w-full max-w-full overflow-hidden rounded-2xl border border-emerald-200/50 bg-white shadow-sm ring-1 ring-emerald-500/10 dark:border-emerald-900/40 dark:bg-gray-900 md:max-w-6xl ${className}`}
-    >
-      {/* Header */}
-      <div className="border-b border-gray-200 bg-gray-50 px-6 py-4 dark:border-gray-800 dark:bg-gray-950">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-              <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                Prompt Lab
-              </span>
-              <Badge variant="outline" className="text-xs">
-                {initialPrompt?.id ? 'Edit Mode' : 'Create Mode'}
-              </Badge>
-              {isBatchMode && (
-                <Badge variant="secondary" className="text-xs">
-                  Batch Mode
-                </Badge>
-              )}
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Dialog open={showTemplates} onOpenChange={setShowTemplates}>
-              <DialogTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Templates
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-h-[80vh] max-w-4xl overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>Prompt Templates</DialogTitle>
-                  <DialogDescription>
-                    Choose from pre-built templates to get started quickly.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 md:grid-cols-2">
-                  {PROMPT_TEMPLATES.map((template, index) => (
-                    <Card
-                      key={index}
-                      className="cursor-pointer p-4 hover:bg-gray-50 dark:hover:bg-gray-800"
-                      onClick={() => loadTemplate(template)}
-                    >
-                      <div className="mb-2 flex items-center justify-between">
-                        <h3 className="font-semibold">{template.name}</h3>
-                        <Badge variant="outline">{template.category}</Badge>
-                      </div>
-                      <p className="line-clamp-3 text-sm text-gray-600 dark:text-gray-400">
-                        {template.prompt.substring(0, 150)}...
-                      </p>
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {template.variables.slice(0, 3).map((var_, i) => (
-                          <Badge key={i} variant="secondary" className="text-xs">
-                            {var_.key}
-                          </Badge>
-                        ))}
-                        {template.variables.length > 3 && (
-                          <Badge variant="secondary" className="text-xs">
-                            +{template.variables.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-              </DialogContent>
-            </Dialog>
+    <div className={`flex h-full min-h-[600px] flex-col bg-white dark:bg-gray-950 ${className}`}>
+      {/* Minimal sticky header */}
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-950">
+        <div className="flex items-center gap-3">
+          {onSavePrompt && (
+            <Input
+              value={promptName}
+              onChange={(e) => setPromptName(e.target.value)}
+              placeholder="Untitled prompt"
+              className="h-9 w-64 border-0 px-0 text-base font-medium focus-visible:ring-0"
+            />
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <Select value={model} onValueChange={setModel}>
+            <SelectTrigger className="h-9 w-[140px] border-gray-300">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="gpt-4o-mini">GPT-4o mini</SelectItem>
+              <SelectItem value="gpt-4o">GPT-4o</SelectItem>
+              <SelectItem value="gpt-4">GPT-4</SelectItem>
+              <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
+            </SelectContent>
+          </Select>
 
-            <Select value={model} onValueChange={setModel}>
-              <SelectTrigger className="h-9 min-w-[160px]">
-                <SelectValue placeholder="Model" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="gpt-4">gpt-4</SelectItem>
-                <SelectItem value="gpt-4o">gpt-4o</SelectItem>
-                <SelectItem value="gpt-3.5-turbo">gpt-3.5-turbo</SelectItem>
-                <SelectItem disabled value="__pro__">
-                  All Models Available on PRO
-                </SelectItem>
-              </SelectContent>
-            </Select>
+          <Button onClick={runPrompt} disabled={isRunning || !prompt.trim()} size="sm">
+            {isRunning ? <Loader2 className="h-4 w-4 animate-spin" /> : <Rocket className="h-4 w-4" />}
+            Run
+          </Button>
 
-            <Button variant="outline" size="sm" onClick={() => setIsBatchMode(!isBatchMode)}>
-              {isBatchMode ? (
-                <Square className="mr-2 h-4 w-4" />
-              ) : (
-                <Play className="mr-2 h-4 w-4" />
-              )}
-              {isBatchMode ? 'Single' : 'Batch'}
-            </Button>
-
-            {(runs.length > 0 || batchResults.length > 0) && (
-              <Button variant="outline" size="sm" onClick={exportResults}>
-                <Download className="mr-2 h-4 w-4" />
-                Export
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <MoreVertical className="h-4 w-4" />
               </Button>
-            )}
-
-            {onSavePrompt && (
-              <Button
-                onClick={savePrompt}
-                disabled={isSaving || !promptName.trim() || !prompt.trim()}
-                variant="outline"
-                size="sm"
-              >
-                {isSaving ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Save className="h-4 w-4" />
-                )}
-                Save Prompt
-              </Button>
-            )}
-          </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {onSavePrompt && (
+                <DropdownMenuItem onClick={savePrompt}>Save Prompt</DropdownMenuItem>
+              )}
+              {runs.length > 0 && (
+                <DropdownMenuItem onClick={exportResults}>Export Results</DropdownMenuItem>
+              )}
+              <DropdownMenuItem onClick={() => setShowContext(!showContext)}>
+                {showContext ? 'Hide' : 'Show'} Context
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
-      <div className="p-6">
-        <Tabs
-          defaultValue="single"
-          value={isBatchMode ? 'batch' : 'single'}
-          onValueChange={(value) => setIsBatchMode(value === 'batch')}
-        >
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="single">Single Run</TabsTrigger>
-            <TabsTrigger value="batch">Batch Processing</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="single" className="mt-6">
-            <div className="grid gap-6 lg:grid-cols-2">
-              {/* Left Column - Input */}
-              <div className="space-y-6">
-                {/* Prompt Name */}
-                {onSavePrompt && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Prompt Name
-                    </label>
-                    <Input
-                      value={promptName}
-                      onChange={(e) => setPromptName(e.target.value)}
-                      placeholder="Enter a name for your prompt"
-                      className="mt-1"
-                    />
-                  </div>
-                )}
-
-                {/* Prompt Text */}
-                <div>
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Prompt
-                  </label>
+      {/* Main content area: side-by-side layout */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Left: Prompt editor */}
+        <div className="flex flex-1 flex-col border-r border-gray-200 dark:border-gray-800">
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="space-y-4">
+              {/* Context (collapsible) */}
+              {showContext && (
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-gray-500">Context</label>
                   <Textarea
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    className="mt-1 min-h-[200px] font-mono text-sm"
-                    placeholder="Enter your prompt text here..."
+                    value={context}
+                    onChange={(e) => setContext(e.target.value)}
+                    placeholder="Add background context, brand voice, or instructions..."
+                    className="min-h-[80px] text-sm"
                   />
                 </div>
+              )}
 
-                {/* Context */}
-                <div className="space-y-2">
-                  <button
-                    type="button"
-                    className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300"
-                    onClick={() => setShowContext(!showContext)}
-                  >
-                    {showContext ? (
-                      <ChevronDown className="h-4 w-4" />
-                    ) : (
-                      <ChevronRight className="h-4 w-4" />
-                    )}
-                    Context (optional)
-                  </button>
-                  {showContext && (
-                    <Textarea
-                      value={context}
-                      onChange={(e) => setContext(e.target.value)}
-                      className="min-h-[100px] font-mono text-sm"
-                      placeholder="Add context about your company, brand voice, etc."
-                    />
-                  )}
-                </div>
-
-                {/* Variables */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Variables (optional)
-                    </label>
-                    <Button size="sm" variant="outline" onClick={addVar}>
-                      <Plus className="h-4 w-4" /> Add Variable
-                    </Button>
+              {/* Prompt textarea */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-medium text-gray-500">Prompt</label>
+                  <div className="flex gap-3 text-xs text-gray-500">
+                    <span>{stats.chars} chars</span>
+                    <span>~{stats.tokens} tokens</span>
+                    <span>{stats.cost}</span>
                   </div>
-                  <div className="space-y-3">
-                    {variables.map((kv, i) => (
-                      <div key={i} className="grid grid-cols-5 gap-3">
+                </div>
+                <Textarea
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder="Write your prompt here... Use {variables} for dynamic content."
+                  className="min-h-[200px] font-mono text-sm"
+                />
+              </div>
+
+              {/* Inline variables */}
+              {detectedVars.length > 0 && (
+                <div className="space-y-3 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900">
+                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400">Variables</div>
+                  <div className="space-y-2">
+                    {detectedVars.map((varName) => (
+                      <div key={varName} className="flex items-center gap-2">
+                        <div className="w-24 text-xs font-medium text-gray-600 dark:text-gray-400">
+                          {varName}
+                        </div>
                         <Input
-                          placeholder="key"
-                          value={kv.key}
-                          onChange={(e) => updateVar(i, 'key', e.target.value)}
-                          className="col-span-2"
+                          value={varValues[varName] || ''}
+                          onChange={(e) =>
+                            setVarValues((prev) => ({ ...prev, [varName]: e.target.value }))
+                          }
+                          placeholder={`Enter ${varName}...`}
+                          className="h-8 flex-1 text-sm"
                         />
-                        <Input
-                          placeholder="value"
-                          value={kv.value}
-                          onChange={(e) => updateVar(i, 'value', e.target.value)}
-                          className="col-span-2"
-                        />
-                        <Button size="sm" variant="ghost" onClick={() => removeVar(i)}>
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
                       </div>
                     ))}
                   </div>
                 </div>
+              )}
 
-                {/* Prompt Preview */}
+              {/* Preview */}
+              {detectedVars.length > 0 && (
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Preview (what will be sent to AI)
-                  </label>
-                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-950">
-                    <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-800 dark:text-gray-200">
-                      {substituteVariables(prompt, toVariablesRow())}
+                  <label className="text-xs font-medium text-gray-500">Preview</label>
+                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900">
+                    <pre className="whitespace-pre-wrap text-xs leading-relaxed text-gray-700 dark:text-gray-300">
+                      {finalPrompt}
                     </pre>
                   </div>
                 </div>
+              )}
 
-                {/* Run Button */}
-                <div className="flex justify-end">
-                  <Button onClick={runPrompt} disabled={isRunning} size="lg">
-                    {isRunning ? (
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                    ) : (
-                      <Rocket className="h-5 w-5" />
-                    )}
-                    Run Prompt
-                  </Button>
-                </div>
-              </div>
-
-              {/* Right Column - Output */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    Outputs
-                  </h3>
-                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <Sparkles className="h-4 w-4" />
-                    {runs.length} {runs.length === 1 ? 'run' : 'runs'}
+              {/* Quick templates */}
+              {runs.length === 0 && (
+                <div className="space-y-2 pt-4">
+                  <label className="text-xs font-medium text-gray-500">Quick Start</label>
+                  <div className="grid gap-2">
+                    {QUICK_TEMPLATES.map((template, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => loadTemplate(template)}
+                        className="rounded-lg border border-gray-200 bg-white p-3 text-left text-sm hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-700 dark:hover:bg-gray-900"
+                      >
+                        <div className="font-medium text-gray-900 dark:text-gray-100">
+                          {template.name}
+                        </div>
+                        <div className="mt-1 text-xs text-gray-500">{template.prompt}</div>
+                      </button>
+                    ))}
                   </div>
                 </div>
+              )}
+            </div>
+          </div>
+        </div>
 
+        {/* Right: Results panel */}
+        <div
+          className={`flex flex-col border-l border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900 ${
+            showHistory ? 'w-[400px]' : 'w-12'
+          } transition-all duration-200`}
+        >
+          {showHistory ? (
+            <>
+              <div className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-950">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-gray-500" />
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    History
+                  </span>
+                  <Badge variant="secondary" className="text-xs">
+                    {runs.length}
+                  </Badge>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowHistory(false)}
+                  className="h-7 w-7 p-0"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <ScrollArea className="flex-1">
                 {runs.length === 0 ? (
-                  <Card className="p-8 text-center">
-                    <div className="text-gray-500 dark:text-gray-400">
-                      <Zap className="mx-auto mb-3 h-12 w-12 opacity-50" />
-                      <p className="text-sm">Run your prompt to see output here</p>
+                  <div className="flex h-full items-center justify-center p-8 text-center">
+                    <div className="text-gray-400">
+                      <Zap className="mx-auto mb-2 h-8 w-8 opacity-50" />
+                      <p className="text-xs">Run your prompt to see results</p>
                     </div>
-                  </Card>
+                  </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3 p-4">
                     {runs.map((run, idx) => (
-                      <Card key={idx} className="p-4">
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            {new Date(run.createdAt).toLocaleString()}
-                          </div>
-                          <div className="flex items-center gap-2">
+                      <div
+                        key={idx}
+                        className="rounded-lg border border-gray-200 bg-white p-3 dark:border-gray-800 dark:bg-gray-950"
+                      >
+                        <div className="mb-2 flex items-center justify-between">
+                          <div className="flex gap-2">
                             {run.tokens != null && (
-                              <Badge variant="secondary" className="text-xs">
-                                {run.tokens} tokens
-                              </Badge>
+                              <span className="text-xs text-gray-500">{run.tokens}t</span>
                             )}
                             {run.latencyMs != null && (
-                              <Badge variant="secondary" className="text-xs">
-                                {Math.round(run.latencyMs)}ms
-                              </Badge>
+                              <span className="text-xs text-gray-500">{Math.round(run.latencyMs)}ms</span>
                             )}
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => {
-                                void navigator.clipboard.writeText(run.response)
-                                toast({
-                                  title: 'Copied',
-                                  description: 'Response copied to clipboard',
-                                })
-                              }}
-                            >
-                              <Copy className="h-4 w-4" />
-                            </Button>
                           </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              void navigator.clipboard.writeText(run.response)
+                              toast({ title: 'Copied to clipboard' })
+                            }}
+                            className="h-6 w-6 p-0"
+                          >
+                            <Copy className="h-3 w-3" />
+                          </Button>
                         </div>
-                        <ScrollArea className="max-h-64">
-                          <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-800 dark:text-gray-200">
+                        <div className="max-h-48 overflow-y-auto">
+                          <pre className="whitespace-pre-wrap text-xs leading-relaxed text-gray-700 dark:text-gray-300">
                             {run.response}
                           </pre>
-                        </ScrollArea>
-                      </Card>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}
-              </div>
+              </ScrollArea>
+            </>
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowHistory(true)}
+                className="h-7 w-7 p-0"
+              >
+                <ChevronDown className="h-4 w-4" />
+              </Button>
             </div>
-          </TabsContent>
-
-          <TabsContent value="batch" className="mt-6">
-            <div className="grid gap-6 lg:grid-cols-2">
-              {/* Left Column - Batch Input */}
-              <div className="space-y-6">
-                <div>
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Batch Data (CSV Format)
-                  </label>
-                  <Textarea
-                    value={batchData}
-                    onChange={(e) => setBatchData(e.target.value)}
-                    className="mt-1 min-h-[300px] font-mono text-sm"
-                    placeholder={`product,audience,tone
-Prompt Manage,Ecommerce marketers,Confident
-SaaS Tool,Small businesses,Professional
-Mobile App,Gen Z users,Casual`}
-                  />
-                  <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                    Enter CSV data with headers in the first row. Each row will be processed as a
-                    separate run with the corresponding variables.
-                  </p>
-                </div>
-
-                <div className="flex justify-end">
-                  <Button onClick={runBatch} disabled={isRunning || !batchData.trim()} size="lg">
-                    {isRunning ? (
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                    ) : (
-                      <Rocket className="h-5 w-5" />
-                    )}
-                    Process Batch
-                  </Button>
-                </div>
-              </div>
-
-              {/* Right Column - Batch Results */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    Batch Results
-                  </h3>
-                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <Sparkles className="h-4 w-4" />
-                    {batchResults.length} {batchResults.length === 1 ? 'result' : 'results'}
-                  </div>
-                </div>
-
-                {batchResults.length === 0 ? (
-                  <Card className="p-8 text-center">
-                    <div className="text-gray-500 dark:text-gray-400">
-                      <Zap className="mx-auto mb-3 h-12 w-12 opacity-50" />
-                      <p className="text-sm">Process batch data to see results here</p>
-                    </div>
-                  </Card>
-                ) : (
-                  <div className="max-h-[600px] space-y-4 overflow-y-auto">
-                    {batchResults.map((result, idx) => (
-                      <Card key={idx} className="p-4">
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            Row {idx + 1} • {new Date(result.createdAt).toLocaleString()}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            {result.tokens != null && (
-                              <Badge variant="secondary" className="text-xs">
-                                {result.tokens} tokens
-                              </Badge>
-                            )}
-                            {result.latencyMs != null && (
-                              <Badge variant="secondary" className="text-xs">
-                                {Math.round(result.latencyMs)}ms
-                              </Badge>
-                            )}
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => {
-                                void navigator.clipboard.writeText(result.response)
-                                toast({
-                                  title: 'Copied',
-                                  description: 'Response copied to clipboard',
-                                })
-                              }}
-                            >
-                              <Copy className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                        <div className="mb-2">
-                          <div className="mb-1 text-xs text-gray-500 dark:text-gray-400">
-                            Variables:
-                          </div>
-                          <div className="flex flex-wrap gap-1">
-                            {Object.entries(result.variables || {}).map(([key, value]) => (
-                              <Badge key={key} variant="outline" className="text-xs">
-                                {key}: {value}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                        <ScrollArea className="max-h-48">
-                          <pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-800 dark:text-gray-200">
-                            {result.response}
-                          </pre>
-                        </ScrollArea>
-                      </Card>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
+          )}
+        </div>
       </div>
     </div>
   )

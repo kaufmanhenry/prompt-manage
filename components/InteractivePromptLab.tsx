@@ -63,7 +63,7 @@ export function InteractivePromptLab() {
   const [context, setContext] = useState<string>(DEFAULT_CONTEXT)
   const [showContext, setShowContext] = useState<boolean>(false)
   const [contentType, setContentType] = useState<ContentType>('Ad')
-  const [model, setModel] = useState<string>('gpt-4')
+  const [model, setModel] = useState<string>('gpt-4o-mini')
   const [isRunning, setIsRunning] = useState<boolean>(false)
   const [progress, setProgress] = useState<number>(0)
   const [promptTouched, setPromptTouched] = useState<boolean>(false)

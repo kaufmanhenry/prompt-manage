@@ -16,7 +16,7 @@ import { supportedModels } from '@/lib/models'
 export default function GeneratorPage() {
   const [title, setTitle] = useState('')
   const [prompt, setPrompt] = useState('')
-  const [model, setModel] = useState('gpt-4')
+  const [model, setModel] = useState('gpt-4o-mini')
   const [tone, setTone] = useState('neutral')
 
   return (

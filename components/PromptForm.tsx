@@ -106,7 +106,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
     defaultValues: {
       name: prompt?.name || '',
       prompt_text: prompt?.prompt_text || '',
-      model: prompt?.model || 'gpt-4',
+      model: prompt?.model || 'gpt-4o-mini',
       tags: prompt?.tags || [],
       user_id: prompt?.user_id || session?.user?.id || '',
       is_public: prompt?.is_public || false,
@@ -118,7 +118,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
     form.reset({
       name: prompt?.name || '',
       prompt_text: prompt?.prompt_text || '',
-      model: prompt?.model || 'gpt-4',
+      model: prompt?.model || 'gpt-4o-mini',
       tags: prompt?.tags || [],
       user_id: prompt?.user_id || session?.user?.id || '',
       is_public: prompt?.is_public || false,
@@ -176,7 +176,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         form.reset({
           name: '',
           prompt_text: '',
-          model: 'gpt-4',
+          model: 'gpt-4o-mini',
           tags: [],
           user_id: session.user.id,
           is_public: false,

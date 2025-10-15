@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const variant: string = body.variant || 'A'
-    const model: string = body.model || 'gpt-4'
+    const model: string = body.model || 'gpt-4o-mini'
     const prompt: string = body.prompt || ''
     const context: string = body.context || ''
     const variablesRows: VariablesRow[] = Array.isArray(body.variablesRows)

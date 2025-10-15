@@ -1,7 +1,9 @@
 import OpenAI from 'openai'
+
 import { createClient } from '@/utils/supabase/server'
-import { QualityControlService, type QualityConfig } from './quality-control-service'
+
 import { agentConfigCache } from './agent-config-cache'
+import { type QualityConfig,QualityControlService } from './quality-control-service'
 import { withRetry } from './retry-utils'
 
 // Agent strategies and their configurations
@@ -46,20 +48,20 @@ export class AutonomousAgent {
 
       // Initialize quality service once per generation
       this.qualityService = new QualityControlService({
-        brand_guidelines: agent.brand_guidelines,
-        quality_standards: agent.quality_standards,
-        required_elements: agent.required_elements,
-        key_phrases: agent.key_phrases,
-        forbidden_phrases: agent.forbidden_phrases,
-        style_guide: agent.style_guide,
-        examples: agent.examples
+        brand_guidelines: agent.brand_guidelines as QualityConfig['brand_guidelines'],
+        quality_standards: agent.quality_standards as QualityConfig['quality_standards'],
+        required_elements: agent.required_elements as QualityConfig['required_elements'],
+        key_phrases: agent.key_phrases as string[],
+        forbidden_phrases: agent.forbidden_phrases as string[],
+        style_guide: agent.style_guide as string,
+        examples: agent.examples as QualityConfig['examples']
       })
 
       const strategy = agent.strategy
-      const outputType = agent.output_type || 'prompt'
-      const tone = agent.tone || 'professional'
-      const targetAudience = agent.target_audience || 'general users'
-      const lengthPreference = agent.length_preference || 'medium'
+      const outputType = (agent.output_type as string) || 'prompt'
+      const tone = (agent.tone as string) || 'professional'
+      const targetAudience = (agent.target_audience as string) || 'general users'
+      const lengthPreference = (agent.length_preference as string) || 'medium'
       
       let generation: AgentGeneration
 
@@ -82,7 +84,7 @@ export class AutonomousAgent {
             generation = await this.generateSeasonalPrompt(agent)
             break
           default:
-            throw new Error(`Unknown strategy: ${strategy}`)
+            throw new Error(`Unknown strategy: ${String(strategy)}`)
         }
       }
 
@@ -98,7 +100,7 @@ export class AutonomousAgent {
 
   // Generate custom output types (blog posts, docs, emails, etc.)
   private async generateCustomOutput(
-    agent: any, 
+    agent: AgentConfig & { topics?: string[]; industries?: string[]; subjects?: string[]; }, 
     outputType: string, 
     tone: string, 
     targetAudience: string,
@@ -269,10 +271,10 @@ export class AutonomousAgent {
   }
 
   // Trending topics strategy with persona support
-  private async generateTrendingPrompt(config: AgentConfig): Promise<AgentGeneration> {
+  private async generateTrendingPrompt(config: AgentConfig & Record<string, unknown>): Promise<AgentGeneration> {
     const topics = config.topics || ['AI', 'productivity', 'marketing']
-    const platforms = config.platforms || []
-    const persona = config.persona || 'professional'
+    const platforms = (config.platforms as string[]) || []
+    const persona = (config.persona as string) || 'professional'
     const randomTopic = topics[Math.floor(Math.random() * topics.length)]
     const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)] || ''
 
@@ -328,10 +330,10 @@ export class AutonomousAgent {
   }
 
   // Niche industry strategy with persona support
-  private async generateNichePrompt(config: AgentConfig): Promise<AgentGeneration> {
+  private async generateNichePrompt(config: AgentConfig & Record<string, unknown>): Promise<AgentGeneration> {
     const industries = config.industries || ['healthcare', 'finance', 'education']
     const topics = config.topics || []
-    const persona = config.persona || 'professional'
+    const persona = (config.persona as string) || 'professional'
     const randomIndustry = industries[Math.floor(Math.random() * industries.length)]
     const randomTopic = topics[Math.floor(Math.random() * topics.length)] || randomIndustry
 
@@ -414,10 +416,10 @@ export class AutonomousAgent {
   }
 
   // Educational strategy with persona support
-  private async generateEducationalPrompt(config: AgentConfig): Promise<AgentGeneration> {
+  private async generateEducationalPrompt(config: AgentConfig & Record<string, unknown>): Promise<AgentGeneration> {
     const subjects = config.subjects || ['prompt engineering', 'AI tools', 'workflow optimization']
     const industries = config.industries || []
-    const persona = config.persona || 'learner'
+    const persona = (config.persona as string) || 'learner'
     const randomSubject = subjects[Math.floor(Math.random() * subjects.length)]
     const randomIndustry = industries[Math.floor(Math.random() * industries.length)] || ''
 
@@ -477,7 +479,7 @@ export class AutonomousAgent {
   }
 
   // Seasonal strategy
-  private async generateSeasonalPrompt(config: AgentConfig): Promise<AgentGeneration> {
+  private async generateSeasonalPrompt(_config: AgentConfig & Record<string, unknown>): Promise<AgentGeneration> {
     const currentMonth = new Date().getMonth()
     const seasons = ['spring', 'summer', 'fall', 'winter']
     const season = seasons[Math.floor(currentMonth / 3)]
@@ -541,18 +543,19 @@ export class AutonomousAgent {
   }
 
   // Get agent configuration from database with caching
-  private async getAgentConfig(): Promise<any | null> {
+  private async getAgentConfig(): Promise<AgentConfig & Record<string, unknown> | null> {
     // Check cache first
     const cached = agentConfigCache.get(this.agentId)
     if (cached) {
       agentConfigCache.recordHit()
-      return cached
+      return cached as unknown as AgentConfig & Record<string, unknown>
     }
 
     agentConfigCache.recordMiss()
 
     // Fetch from database if not in cache
-    const { data, error } = await this.supabase
+    const supabase = await this.supabase
+    const { data, error } = await supabase
       .from('agents')
       .select('*')
       .eq('id', this.agentId)
@@ -562,7 +565,7 @@ export class AutonomousAgent {
     if (error || !data) return null
 
     const config = {
-      strategy: data.strategy as any,
+      strategy: data.strategy as 'trending' | 'niche' | 'educational' | 'seasonal',
       output_type: data.output_type,
       tone: data.tone,
       target_audience: data.target_audience,
@@ -589,7 +592,8 @@ export class AutonomousAgent {
   // Save generated prompt to database
   async savePrompt(generation: AgentGeneration): Promise<string | null> {
     try {
-      const { data, error } = await this.supabase.rpc('create_agent_prompt', {
+      const supabase = await this.supabase
+      const { data, error } = await supabase.rpc('create_agent_prompt', {
         p_name: generation.name,
         p_description: generation.description,
         p_prompt_text: generation.prompt_text,
@@ -615,7 +619,8 @@ export class AutonomousAgent {
   // Update agent metrics
   async updateMetrics(promptsGenerated: number, costUsd: number, qualityScore: number): Promise<void> {
     try {
-      await this.supabase.rpc('update_agent_metrics', {
+      const supabase = await this.supabase
+      await supabase.rpc('update_agent_metrics', {
         p_agent_id: this.agentId,
         p_date: new Date().toISOString().split('T')[0],
         p_prompts_generated: promptsGenerated,

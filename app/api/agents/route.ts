@@ -1,10 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server'
+
 import { isAdminEmail } from '@/lib/admin'
 import { agentConfigCache } from '@/lib/agent-config-cache'
+import { createClient } from '@/utils/supabase/server'
 
 // Check admin access for agent management
-async function checkAdminAccess(request: NextRequest) {
+async function checkAdminAccess(_request: NextRequest) {
   const supabase = await createClient()
   const {
     data: { user },
@@ -31,8 +33,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: adminCheck.error }, { status: adminCheck.status })
     }
 
-    const supabase = createClient()
-    
+    const supabase = await createClient()
+
     // Get all agents with their metrics
     const { data: agents, error } = await supabase
       .from('agents')
@@ -79,8 +81,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name and strategy required' }, { status: 400 })
     }
 
-    const supabase = createClient()
-    
+    const supabase = await createClient()
+
     const { data, error } = await supabase
       .from('agents')
       .insert({
@@ -122,8 +124,8 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Agent ID required' }, { status: 400 })
     }
 
-    const supabase = createClient()
-    
+    const supabase = await createClient()
+
     const { data, error } = await supabase
       .from('agents')
       .update(updates)
@@ -164,8 +166,8 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Agent ID required' }, { status: 400 })
     }
 
-    const supabase = createClient()
-    
+    const supabase = await createClient()
+
     const { error } = await supabase
       .from('agents')
       .delete()

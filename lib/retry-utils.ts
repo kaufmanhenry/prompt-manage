@@ -29,18 +29,23 @@ function sleep(ms: number): Promise<void> {
 /**
  * Check if error is retryable
  */
-function isRetryableError(error: any, retryableErrors: string[]): boolean {
+function isRetryableError(error: unknown, retryableErrors: string[]): boolean {
   if (!error) return false
-  
+
+  // Type guard for error object
+  if (typeof error !== 'object') return false
+
+  const err = error as { code?: string; message?: string; type?: string }
+
   // Check error code
-  if (error.code && retryableErrors.includes(error.code)) return true
-  
+  if (err.code && retryableErrors.includes(err.code)) return true
+
   // Check error message
-  if (error.message && retryableErrors.some(msg => error.message.includes(msg))) return true
-  
+  if (err.message && retryableErrors.some(msg => err.message?.includes(msg))) return true
+
   // Check error type
-  if (error.type && retryableErrors.includes(error.type)) return true
-  
+  if (err.type && retryableErrors.includes(err.type)) return true
+
   return false
 }
 
@@ -63,8 +68,8 @@ export async function withRetry<T>(
   for (let attempt = 0; attempt < opts.maxRetries; attempt++) {
     try {
       return await fn()
-    } catch (error: any) {
-      lastError = error
+    } catch (error: unknown) {
+      lastError = error as Error
 
       // If this is the last attempt, throw
       if (attempt === opts.maxRetries - 1) {

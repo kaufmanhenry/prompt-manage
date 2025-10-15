@@ -131,7 +131,7 @@ export class QualityControlService {
     if (this.forbiddenRegex) {
       const matches = content.match(this.forbiddenRegex)
       if (matches) {
-        const uniqueMatches = [...new Set(matches.map(m => m.toLowerCase()))]
+        const uniqueMatches = Array.from(new Set(matches.map(m => m.toLowerCase())))
         issues.push(`Contains forbidden phrases: "${uniqueMatches.join('", "')}"`)
       }
     }

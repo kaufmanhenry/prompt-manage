@@ -12,17 +12,17 @@ interface AgentConfig {
   tone: string
   target_audience: string
   length_preference: string
-  output_format: Record<string, any>
-  brand_guidelines: Record<string, any>
-  quality_standards: Record<string, any>
-  required_elements: Record<string, any>
+  output_format: Record<string, unknown>
+  brand_guidelines: Record<string, unknown>
+  quality_standards: Record<string, unknown>
+  required_elements: Record<string, unknown>
   key_phrases: string[]
   forbidden_phrases: string[]
   style_guide: string
-  examples: Record<string, any>
+  examples: Record<string, unknown>
   review_required: boolean
   min_quality_score: number
-  config: Record<string, any>
+  config: Record<string, unknown>
   topics?: string[]
   industries?: string[]
   subjects?: string[]

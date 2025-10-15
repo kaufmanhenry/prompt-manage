@@ -1,7 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server'
+
 import { AutonomousAgent } from '@/lib/autonomous-agent'
-import { createClient } from '@/utils/supabase/server'
 import { batchProcess } from '@/lib/retry-utils'
+import { createClient } from '@/utils/supabase/server'
 
 // Agent scheduler API endpoint
 export async function POST(request: NextRequest) {
@@ -12,8 +14,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const supabase = createClient()
-    
+    const supabase = await createClient()
+
     // Get all active agents
     const { data: agents, error } = await supabase
       .from('agents')

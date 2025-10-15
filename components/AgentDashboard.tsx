@@ -1,18 +1,18 @@
 'use client'
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Bot, Pause, Play, Star, TrendingUp, Users } from 'lucide-react'
 import { useState } from 'react'
-import { Bot, Play, Pause, Settings, TrendingUp, Users, DollarSign, Star, X, Plus } from 'lucide-react'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 
 interface Agent {
@@ -21,21 +21,21 @@ interface Agent {
   description: string
   strategy: string
   is_active: boolean
-  config: Record<string, any>
+  config: Record<string, unknown>
   created_at: string
   department: string
   output_type: string
-  output_format: Record<string, any>
+  output_format: Record<string, unknown>
   target_audience: string
   tone: string
   length_preference: string
-  brand_guidelines: Record<string, any>
-  quality_standards: Record<string, any>
-  required_elements: Record<string, any>
+  brand_guidelines: Record<string, unknown>
+  quality_standards: Record<string, unknown>
+  required_elements: Record<string, unknown>
   key_phrases: string[]
   forbidden_phrases: string[]
   style_guide: string
-  examples: Record<string, any>
+  examples: Record<string, unknown>
   review_required: boolean
   min_quality_score: number
   agent_generations: Array<{ count: number }>
@@ -94,7 +94,6 @@ const LENGTH_OPTIONS = [
 export function AgentDashboard() {
   const { toast } = useToast()
   const queryClient = useQueryClient()
-  const [selectedAgent, setSelectedAgent] = useState<string | null>(null)
   const [showCreateDialog, setShowCreateDialog] = useState(false)
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null)
   const [createForm, setCreateForm] = useState({
@@ -143,7 +142,7 @@ export function AgentDashboard() {
       return response.json()
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['agents'] })
+      void queryClient.invalidateQueries({ queryKey: ['agents'] })
       toast({ title: 'Agent updated successfully' })
     },
     onError: () => {
@@ -153,7 +152,7 @@ export function AgentDashboard() {
 
   // Create new agent
   const createAgentMutation = useMutation({
-    mutationFn: async (agentData: any) => {
+    mutationFn: async (agentData: typeof createForm) => {
       const response = await fetch('/api/agents', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -163,21 +162,30 @@ export function AgentDashboard() {
       return response.json()
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['agents'] })
+      void queryClient.invalidateQueries({ queryKey: ['agents'] })
       toast({ title: 'Agent created successfully' })
       setShowCreateDialog(false)
       setShowAdvanced(false)
-      setCreateForm({ 
-        name: '', 
-        description: '', 
-        strategy: '', 
-        department: 'general', 
+      setCreateForm({
+        name: '',
+        description: '',
+        strategy: '',
+        department: 'general',
         output_type: 'prompt',
         target_audience: '',
         tone: 'professional',
         length_preference: 'medium',
         output_format: {},
-        config: {} 
+        brand_guidelines: {},
+        quality_standards: {},
+        required_elements: {},
+        key_phrases: [],
+        forbidden_phrases: [],
+        style_guide: '',
+        examples: {},
+        review_required: false,
+        min_quality_score: 0.7,
+        config: {}
       })
     },
     onError: () => {
@@ -193,11 +201,11 @@ export function AgentDashboard() {
       return response.json()
     },
     onSuccess: (data) => {
-      toast({ 
-        title: 'Prompt generated!', 
-        description: `Quality score: ${data.generation.quality_score.toFixed(2)}` 
+      toast({
+        title: 'Prompt generated!',
+        description: `Quality score: ${data.generation.quality_score.toFixed(2)}`
       })
-      queryClient.invalidateQueries({ queryKey: ['agents'] })
+      void queryClient.invalidateQueries({ queryKey: ['agents'] })
     },
     onError: () => {
       toast({ title: 'Failed to generate prompt', variant: 'destructive' })
@@ -222,10 +230,10 @@ export function AgentDashboard() {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-64 animate-pulse rounded bg-gray-200" />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-48 bg-gray-200 rounded animate-pulse" />
+            <div key={i} className="h-48 animate-pulse rounded bg-gray-200" />
           ))}
         </div>
       </div>
@@ -248,7 +256,7 @@ export function AgentDashboard() {
       </div>
 
       {/* Department Filter */}
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex flex-wrap items-center gap-2">
         <span className="text-sm font-medium text-muted-foreground">Department:</span>
         <Button
           size="sm"
@@ -369,7 +377,7 @@ export function AgentDashboard() {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex flex-wrap items-center gap-2">
                     <Badge variant="outline">{agent.strategy}</Badge>
                     {agent.department && (
                       <Badge variant="secondary">
@@ -426,13 +434,13 @@ export function AgentDashboard() {
                       <Play className="mr-1 h-3 w-3" />
                       Generate
                     </Button>
-                    <Button
+                    {/* Settings button for future configuration */}
+                    {/* <Button
                       size="sm"
                       variant="ghost"
-                      onClick={() => setSelectedAgent(agent.id)}
                     >
                       <Settings className="h-3 w-3" />
-                    </Button>
+                    </Button> */}
                   </div>
                 </CardContent>
               </Card>
@@ -600,7 +608,7 @@ export function AgentDashboard() {
                     placeholder="e.g., Use active voice. Keep paragraphs under 4 sentences. Include examples."
                     rows={3}
                   />
-                  <p className="text-xs text-muted-foreground mt-1">Writing rules and guidelines</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Writing rules and guidelines</p>
                 </div>
 
                 <div>
@@ -614,7 +622,7 @@ export function AgentDashboard() {
                     }))}
                     placeholder="e.g., proven strategies, data-backed, actionable insights"
                   />
-                  <p className="text-xs text-muted-foreground mt-1">Phrases to include in content</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Phrases to include in content</p>
                 </div>
 
                 <div>
@@ -628,7 +636,7 @@ export function AgentDashboard() {
                     }))}
                     placeholder="e.g., click here, buy now, guaranteed results"
                   />
-                  <p className="text-xs text-muted-foreground mt-1">Phrases to never use</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Phrases to never use</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -643,15 +651,15 @@ export function AgentDashboard() {
                       value={createForm.min_quality_score}
                       onChange={(e) => setCreateForm(prev => ({ ...prev, min_quality_score: parseFloat(e.target.value) }))}
                     />
-                    <p className="text-xs text-muted-foreground mt-1">0.0 - 1.0 (0.7 = good)</p>
+                    <p className="mt-1 text-xs text-muted-foreground">0.0 - 1.0 (0.7 = good)</p>
                   </div>
                   <div className="flex items-end">
-                    <label className="flex items-center gap-2 cursor-pointer">
+                    <label className="flex cursor-pointer items-center gap-2">
                       <input
                         type="checkbox"
                         checked={createForm.review_required}
                         onChange={(e) => setCreateForm(prev => ({ ...prev, review_required: e.target.checked }))}
-                        className="w-4 h-4"
+                        className="h-4 w-4"
                       />
                       <span className="text-sm">Require manual review</span>
                     </label>

@@ -1,9 +1,10 @@
+import { AlertCircle, ArrowLeft, Download, Shield,Trash2 } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+
 import { Badge } from '@/components/ui/badge'
-import { ArrowLeft, Trash2, AlertCircle, Download, Shield } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const metadata: Metadata = {
   title: 'Data Erasure Policy — Prompt Manage',

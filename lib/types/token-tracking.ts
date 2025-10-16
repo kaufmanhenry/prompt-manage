@@ -117,7 +117,7 @@ export interface UsageAlert {
   acknowledged_at?: string
   
   // Metadata
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
   created_at: string
 }
 

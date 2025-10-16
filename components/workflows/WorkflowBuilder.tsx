@@ -39,7 +39,6 @@ import type { WorkflowBuilderProps, WorkflowEdge as WorkflowEdgeType,WorkflowNod
  * ```
  */
 export function WorkflowBuilder({
-  workflowId,
   initialDefinition,
   onSave,
   readOnly = false,

@@ -74,14 +74,14 @@ export interface DataSource {
   description?: string
   type: DataSourceType
   
-  config: Record<string, any>
+  config: Record<string, unknown>
   
   status: DataSourceStatus
   sync_frequency?: SyncFrequency
   last_sync_at?: string
   next_sync_at?: string
   
-  error_log?: Record<string, any>
+  error_log?: Record<string, unknown>
   error_count: number
   
   created_at: string
@@ -125,10 +125,10 @@ export interface DataSourceSync {
   bytes_transferred: number
   
   error_message?: string
-  error_details?: Record<string, any>
+  error_details?: Record<string, unknown>
   
   sync_mode?: 'full' | 'incremental'
-  sync_metadata?: Record<string, any>
+  sync_metadata?: Record<string, unknown>
   
   created_at: string
 }
@@ -190,7 +190,7 @@ export interface WorkflowExecution {
   
   triggered_by: 'manual' | 'schedule' | 'api' | 'webhook' | 'event' | 'system'
   triggered_by_user_id?: string
-  trigger_data?: Record<string, any>
+  trigger_data?: Record<string, unknown>
   
   status: ExecutionStatus
   started_at?: string
@@ -207,9 +207,9 @@ export interface WorkflowExecution {
   
   error_message?: string
   error_node_id?: string
-  error_details?: Record<string, any>
+  error_details?: Record<string, unknown>
   
-  output_data?: Record<string, any>
+  output_data?: Record<string, unknown>
   
   created_at: string
 }
@@ -223,8 +223,8 @@ export interface NodeExecution {
   started_at?: string
   completed_at?: string
   
-  input_data?: Record<string, any>
-  output_data?: Record<string, any>
+  input_data?: Record<string, unknown>
+  output_data?: Record<string, unknown>
   
   tokens_used?: number
   cost_usd?: number
@@ -234,7 +234,7 @@ export interface NodeExecution {
   attempt_number: number
   max_attempts: number
   error_message?: string
-  error_details?: Record<string, any>
+  error_details?: Record<string, unknown>
   
   created_at: string
 }
@@ -280,7 +280,7 @@ export interface WorkflowAlert {
   
   title: string
   message: string
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
   
   notified_users?: string[]
   notified_via?: string[]
@@ -406,7 +406,7 @@ export interface LoopNodeConfig {
 
 export interface OutputNodeConfig {
   destination: 'database' | 'file' | 'webhook' | 'email'
-  config: Record<string, any>
+  config: Record<string, unknown>
 }
 
 export interface WebhookNodeConfig {
@@ -431,7 +431,7 @@ export interface QueryConfig {
 export interface QueryCondition {
   field: string
   operator: '=' | '!=' | '>' | '<' | '>=' | '<=' | 'contains' | 'startsWith' | 'endsWith'
-  value: any
+  value: unknown
 }
 
 export interface TransformConfig {
@@ -475,7 +475,7 @@ export interface UpdateWorkflowResponse {
 
 export interface TriggerWorkflowRequest {
   workflowId: string
-  triggerData?: Record<string, any>
+  triggerData?: Record<string, unknown>
 }
 
 export interface TriggerWorkflowResponse {
@@ -506,7 +506,7 @@ export interface CreateDataSourceRequest {
   name: string
   description?: string
   type: DataSourceType
-  config: Record<string, any>
+  config: Record<string, unknown>
   sync_frequency?: SyncFrequency
 }
 
@@ -522,7 +522,7 @@ export interface TestConnectionRequest {
 export interface TestConnectionResponse {
   success: boolean
   message: string
-  details?: Record<string, any>
+  details?: Record<string, unknown>
 }
 
 // ============================================================================
@@ -590,8 +590,8 @@ export interface ValidationError {
 export interface ExecutionContext {
   workflowId: string
   executionId: string
-  data: Map<string, any>
-  variables: Map<string, any>
+  data: Map<string, unknown>
+  variables: Map<string, unknown>
   startTime: number
 }
 

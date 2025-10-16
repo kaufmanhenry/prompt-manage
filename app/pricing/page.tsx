@@ -1,15 +1,13 @@
 'use client'
-import { Check, Clock } from 'lucide-react'
+import { Check } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 
 export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null)
-  const router = useRouter()
   const { toast } = useToast()
 
   const handleSubscribe = async (tier: 'team' | 'enterprise') => {

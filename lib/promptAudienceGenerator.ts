@@ -53,7 +53,7 @@ export function generateAudienceDescription(prompt: PromptContext): AudienceDesc
 /**
  * Detects relevant personas from prompt context
  */
-function detectPersonas(combined: string, name: string, tags: string[]): string[] {
+function detectPersonas(combined: string, name: string, _tags: string[]): string[] {
   const personaMap: Record<string, string[]> = {
     'Content Creators': ['content', 'blog', 'article', 'writing', 'writer', 'creator', 'youtube', 'tiktok', 'instagram'],
     'Marketing Professionals': ['marketing', 'marketer', 'campaign', 'seo', 'social media', 'email', 'ad', 'growth'],
@@ -162,7 +162,6 @@ function generatePrimaryDescription(
  * Generates optional secondary context
  */
 function generateSecondaryContext(prompt: PromptContext, combined: string): string | undefined {
-  const name = prompt.name.toLowerCase()
   
   // Add credibility/trust indicators
   if (combined.includes('seo') || combined.includes('optimization')) {

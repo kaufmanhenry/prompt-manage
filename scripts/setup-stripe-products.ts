@@ -1,7 +1,7 @@
-import Stripe from 'stripe'
+import { config } from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
-import { config } from 'dotenv'
+import Stripe from 'stripe'
 
 // Load environment variables from .env.local
 config({ path: path.join(process.cwd(), '.env.local') })
@@ -124,5 +124,5 @@ async function setupStripeProducts() {
   }
 }
 
-setupStripeProducts()
+void setupStripeProducts()
 

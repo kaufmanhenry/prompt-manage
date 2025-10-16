@@ -40,7 +40,6 @@ export function TokenPreview({
     estimatedCost: 0,
   })
   const [suggestions, setSuggestions] = useState<CostOptimizationSuggestion[]>([])
-  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     // Estimate tokens whenever prompt or context changes
@@ -50,7 +49,6 @@ export function TokenPreview({
         return
       }
 
-      setIsLoading(true)
       try {
         // TODO: Replace with actual API call
         const fullInput = contextText + '\n' + promptText
@@ -71,12 +69,10 @@ export function TokenPreview({
         setSuggestions(newSuggestions)
       } catch (error) {
         console.error('Error estimating tokens:', error)
-      } finally {
-        setIsLoading(false)
       }
     }
 
-    estimateUsage()
+    void estimateUsage()
   }, [promptText, contextText, model])
 
   // Free users don't see detailed preview

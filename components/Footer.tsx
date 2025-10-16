@@ -28,6 +28,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/product" className="text-gray-600 hover:underline dark:text-gray-300">
+                Product
+              </Link>
+            </li>
+            <li>
               <Link href="/pricing" className="text-gray-600 hover:underline dark:text-gray-300">
                 Pricing
               </Link>
@@ -35,6 +40,11 @@ export function Footer() {
             <li>
               <Link href="/blog" className="text-gray-600 hover:underline dark:text-gray-300">
                 Blog
+              </Link>
+            </li>
+            <li>
+              <Link href="/security" className="text-gray-600 hover:underline dark:text-gray-300">
+                Security
               </Link>
             </li>
           </ul>
@@ -53,6 +63,16 @@ export function Footer() {
             <li>
               <Link href="/docs" className="text-gray-600 hover:underline dark:text-gray-300">
                 Docs
+              </Link>
+            </li>
+            <li>
+              <Link href="/developer-docs" className="text-gray-600 hover:underline dark:text-gray-300">
+                API
+              </Link>
+            </li>
+            <li>
+              <Link href="/support" className="text-gray-600 hover:underline dark:text-gray-300">
+                Support
               </Link>
             </li>
           </ul>
@@ -76,6 +96,11 @@ export function Footer() {
           </ul>
           <ul className="items-center space-y-2 text-sm">
             <li className="text-xs font-medium text-muted-foreground">Legal</li>
+            <li>
+              <Link href="/legal-center" className="text-gray-600 hover:underline dark:text-gray-300">
+                Legal Center
+              </Link>
+            </li>
             <li>
               <Link href="/terms" className="text-gray-600 hover:underline dark:text-gray-300">
                 Terms

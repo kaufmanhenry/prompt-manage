@@ -14,6 +14,7 @@ interface CopyPromptButtonProps {
   promptId: string
   promptName: string
   className?: string
+  size?: 'sm' | 'default' | 'lg' | 'icon'
   onCopySuccess?: (newPromptId: string) => void
 }
 
@@ -21,6 +22,7 @@ export function CopyPromptButton({
   promptId,
   promptName,
   className,
+  size = 'default',
   onCopySuccess,
 }: CopyPromptButtonProps) {
   const [loading, setLoading] = useState(false)
@@ -114,6 +116,7 @@ export function CopyPromptButton({
       onClick={handleCopy}
       disabled={loading || copied}
       className={className}
+      size={size}
       variant={copied ? 'default' : 'outline'}
     >
       {loading ? (

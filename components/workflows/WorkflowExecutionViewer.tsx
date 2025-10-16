@@ -1,12 +1,13 @@
 'use client'
 
+import { AlertTriangle, CheckCircle, Clock, RefreshCw,XCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { CheckCircle, Clock, XCircle, AlertTriangle, RefreshCw } from 'lucide-react'
+
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import type { WorkflowExecution, NodeExecution, ExecutionStatus } from '@/lib/types/workflows'
+import type { ExecutionStatus,NodeExecution, WorkflowExecution } from '@/lib/types/workflows'
 
 interface WorkflowExecutionViewerProps {
   executionId: string

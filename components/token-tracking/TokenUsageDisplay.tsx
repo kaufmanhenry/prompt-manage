@@ -1,6 +1,7 @@
 'use client'
 
 import { CheckCircle, Clock, Cpu } from 'lucide-react'
+
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import type { TokenUsageDisplayProps } from '@/lib/types/token-tracking'

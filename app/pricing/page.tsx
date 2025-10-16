@@ -1,10 +1,45 @@
 'use client'
 import { Check, Clock } from 'lucide-react'
 import Link from 'next/link'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
+import { useToast } from '@/components/ui/use-toast'
 
 export default function PricingPage() {
+  const [loading, setLoading] = useState<string | null>(null)
+  const router = useRouter()
+  const { toast } = useToast()
+
+  const handleSubscribe = async (tier: 'team' | 'enterprise') => {
+    setLoading(tier)
+    try {
+      const response = await fetch('/api/billing/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tier }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create checkout session')
+      }
+
+      if (data.url) {
+        window.location.href = data.url
+      }
+    } catch (error) {
+      console.error('Checkout error:', error)
+      toast({
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to start checkout',
+        variant: 'destructive',
+      })
+      setLoading(null)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -63,12 +98,6 @@ export default function PricingPage() {
 
           {/* Team Plan */}
           <div className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 md:p-8">
-            {/* Coming Soon Badge */}
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <span className="inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-medium text-white shadow">
-                <Clock className="h-3 w-3" /> Coming Soon
-              </span>
-            </div>
             {/* Title and Price */}
             <div className="mb-4">
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Team</h3>
@@ -101,22 +130,22 @@ export default function PricingPage() {
             </ul>
             {/* CTA */}
             <div className="mt-6">
-              <Button size="lg" className="w-full" disabled variant="outline">
-                Coming Soon
+              <Button 
+                size="lg" 
+                className="w-full" 
+                onClick={() => handleSubscribe('team')}
+                disabled={loading === 'team'}
+              >
+                {loading === 'team' ? 'Loading...' : 'Subscribe to Team'}
               </Button>
               <p className="mt-2 text-center text-xs text-gray-500 dark:text-gray-400">
-                Will be available soon
+                14-day free trial • Cancel anytime
               </p>
             </div>
           </div>
 
           {/* Enterprise Plan */}
           <div className="relative rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 p-1">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <span className="inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-medium text-white shadow">
-                <Clock className="h-3 w-3" /> Coming Soon
-              </span>
-            </div>
             <div className="flex h-full flex-col rounded-[14px] bg-white p-6 dark:bg-gray-800 md:p-8">
               {/* Title and Price */}
               <div className="mb-2">
@@ -148,11 +177,16 @@ export default function PricingPage() {
               </ul>
               {/* CTA */}
               <div className="mt-6">
-                <Button size="lg" className="w-full bg-blue-600 text-white hover:bg-blue-700" disabled>
-                  Coming Soon
+                <Button 
+                  size="lg" 
+                  className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                  onClick={() => handleSubscribe('enterprise')}
+                  disabled={loading === 'enterprise'}
+                >
+                  {loading === 'enterprise' ? 'Loading...' : 'Subscribe to Enterprise'}
                 </Button>
                 <p className="mt-2 text-center text-xs text-gray-600 dark:text-gray-400">
-                  Will be available soon
+                  14-day free trial • Priority support
                 </p>
               </div>
             </div>
@@ -161,7 +195,7 @@ export default function PricingPage() {
 
         {/* Secondary reassurance */}
         <div className="mt-10 text-center text-xs text-gray-500 dark:text-gray-400">
-          Premium plans coming soon. Stay tuned for updates!
+          All plans include 14-day free trial. No credit card required to start.
         </div>
 
         {/* Minimal distraction-free footer link */}

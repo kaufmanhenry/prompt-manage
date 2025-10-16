@@ -3,7 +3,6 @@
 import {
   ArrowLeft,
   Calendar,
-  ExternalLink,
   Facebook,
   Linkedin,
   Share2,
@@ -24,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { FullPageLoading } from '@/components/ui/loading'
 import { useToast } from '@/components/ui/use-toast'
+import { generateAudienceDescription, generateCTA } from '@/lib/promptAudienceGenerator'
 import type { PublicPrompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -101,39 +101,30 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
     }
   }, [prompt])
 
-  // Inferred audience based on tags/name
-  const inferredAudiences = useMemo(() => {
-    if (!prompt) return [] as string[]
-    const tags = (prompt.tags || []).map((t) => t.toLowerCase())
-    const name = (prompt.name || '').toLowerCase()
-    const audienceMap: Record<string, string> = {
-      marketing: 'Marketers',
-      marketer: 'Marketers',
-      sales: 'Sales teams',
-      founder: 'Founders',
-      startup: 'Startup teams',
-      product: 'Product managers',
-      engineering: 'Engineers',
-      developer: 'Developers',
-      dev: 'Developers',
-      recruiter: 'Recruiters',
-      hr: 'HR teams',
-      student: 'Students',
-      research: 'Researchers',
-      content: 'Content creators',
-      writing: 'Writers',
-      writer: 'Writers',
-      tiktok: 'Social media managers',
-      twitter: 'Social media managers',
-      linkedin: 'Social media managers',
-      youtube: 'YouTubers',
-    }
-    const found = new Set<string>()
-    for (const [key, label] of Object.entries(audienceMap)) {
-      if (tags.includes(key) || name.includes(key)) found.add(label)
-    }
-    if (name.includes('business') || name.includes('idea')) found.add('Entrepreneurs')
-    return Array.from(found).slice(0, 6)
+  // AI-generated audience description (unique, SEO-optimized, human-sounding)
+  const audienceInfo = useMemo(() => {
+    if (!prompt) return null
+    
+    return generateAudienceDescription({
+      name: prompt.name,
+      description: prompt.description,
+      tags: prompt.tags || [],
+      model: prompt.model,
+      promptText: prompt.prompt_text,
+    })
+  }, [prompt])
+
+  // Generate compelling CTA
+  const ctaInfo = useMemo(() => {
+    if (!prompt) return null
+    
+    return generateCTA({
+      name: prompt.name,
+      description: prompt.description,
+      tags: prompt.tags || [],
+      model: prompt.model,
+      promptText: prompt.prompt_text,
+    })
   }, [prompt])
 
   const fetchPrompt = useCallback(async () => {
@@ -310,36 +301,50 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
             </Button>
           </Link>
 
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
+          <div className="flex items-start justify-between gap-6">
+            <div className="flex-1">
+              <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
                 {prompt.name}
               </h1>
               {prompt.description && (
-                <p className="mb-4 text-gray-600 dark:text-gray-400">{prompt.description}</p>
+                <p className="mb-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                  {prompt.description}
+                </p>
               )}
-              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <div className="flex items-center gap-1 rounded-lg bg-input/70 px-2 py-1">
+              {!prompt.description && audienceInfo && (
+                <p className="mb-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                  {audienceInfo.primary}
+                </p>
+              )}
+              <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-1 rounded-lg bg-input/70 px-3 py-1.5">
                   <User className="h-4 w-4" />
-                  <span>Shared by Community</span>
+                  <span className="font-medium">Community Shared</span>
                 </div>
                 {prompt.updated_at && (
-                  <div className="flex items-center gap-1 rounded-lg bg-input/70 px-2 py-1">
+                  <div className="flex items-center gap-1 rounded-lg bg-input/70 px-3 py-1.5">
                     <Calendar className="h-4 w-4" />
-                    <span>Updated {new Date(prompt.updated_at).toLocaleDateString()}</span>
+                    <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
                   </div>
                 )}
-                <div className="flex items-center gap-1 rounded-lg bg-input/70 px-2 py-1">
-                  <TrendingUp className="h-4 w-4" />
-                  <span>{prompt.view_count} views</span>
+                <div className="flex items-center gap-1 rounded-lg bg-green-100 px-3 py-1.5 dark:bg-green-900">
+                  <TrendingUp className="h-4 w-4 text-green-700 dark:text-green-300" />
+                  <span className="font-medium text-green-900 dark:text-green-100">
+                    {prompt.view_count.toLocaleString()} views
+                  </span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              {prompt.id && <CopyPromptButton promptId={prompt.id} promptName={prompt.name} />}
+            <div className="flex shrink-0 items-start gap-2">
+              {prompt.id && (
+                <CopyPromptButton 
+                  promptId={prompt.id} 
+                  promptName={prompt.name}
+                />
+              )}
               <Button onClick={() => setShowShareDialog(true)} variant="outline">
-                <ExternalLink className="mr-2 h-4 w-4" />
+                <Share2 className="mr-2 h-4 w-4" />
                 Share
               </Button>
             </div>
@@ -366,25 +371,36 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
             </Card>
           </div>
 
-          {/* Who is this prompt for? (autogenerated) */}
+          {/* Who is this prompt for? (AI-generated, unique, SEO-optimized) */}
           <div className="min-w-0 lg:col-span-3">
-            <Card className="gap-2 space-y-0">
+            <Card className="gap-2 space-y-0 border-blue-200 bg-blue-50/50 dark:border-blue-900 dark:bg-blue-950/30">
               <CardHeader>
-                <CardTitle>Who is this prompt for?</CardTitle>
+                <CardTitle className="text-blue-900 dark:text-blue-100">
+                  Who is this prompt for?
+                </CardTitle>
               </CardHeader>
-              <CardContent>
-                {inferredAudiences.length > 0 ? (
-                  <div className="flex flex-wrap gap-2">
-                    {inferredAudiences.map((a) => (
-                      <Badge key={a} variant="outline">
-                        {a}
+              <CardContent className="space-y-4">
+                {/* Primary description */}
+                <p className="text-base leading-relaxed text-gray-900 dark:text-gray-100">
+                  {audienceInfo?.primary || `Perfect for anyone looking to ${prompt.name.toLowerCase()} efficiently.`}
+                </p>
+                
+                {/* Secondary context (credibility/trust) */}
+                {audienceInfo?.secondary && (
+                  <p className="text-sm italic text-gray-600 dark:text-gray-400">
+                    {audienceInfo.secondary}
+                  </p>
+                )}
+                
+                {/* Persona badges */}
+                {audienceInfo && audienceInfo.personas.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {audienceInfo.personas.map((persona) => (
+                      <Badge key={persona} variant="secondary" className="bg-blue-100 dark:bg-blue-900">
+                        {persona}
                       </Badge>
                     ))}
                   </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    Anyone who wants to {prompt.name.toLowerCase()} quickly and consistently.
-                  </p>
                 )}
               </CardContent>
             </Card>
@@ -459,6 +475,43 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
           {/* Derivative Prompts */}
           {prompt.id && <DerivativePrompts promptId={prompt.id} />}
         </div>
+
+        {/* Call-to-Action Section (AI-generated, unique) */}
+        {ctaInfo && (
+          <div className="mt-12">
+            <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 dark:border-purple-900 dark:from-purple-950 dark:to-blue-950">
+              <CardContent className="p-8 text-center">
+                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
+                  {ctaInfo.text}
+                </h3>
+                {ctaInfo.emphasis && (
+                  <p className="mb-6 text-lg text-gray-700 dark:text-gray-300">
+                    {ctaInfo.emphasis}
+                  </p>
+                )}
+                <div className="flex flex-wrap justify-center gap-3">
+                  {prompt.id && (
+                    <CopyPromptButton 
+                      promptId={prompt.id} 
+                      promptName={prompt.name}
+                      size="lg"
+                    />
+                  )}
+                  <Link href="/dashboard/lab">
+                    <Button size="lg" variant="outline">
+                      Try in Prompt Lab
+                    </Button>
+                  </Link>
+                  <Link href="/p">
+                    <Button size="lg" variant="ghost">
+                      Explore More Prompts
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {/* Related Prompts */}
         <div className="mt-12">

@@ -1,292 +1,307 @@
-import { ArrowLeft, Globe, Lock, Users, Zap } from 'lucide-react'
+import { ArrowRight,Building2, CheckCircle, Shield, Sparkles, Users } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const metadata: Metadata = {
-  title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
-  description: 'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
-  keywords:
-    'about Prompt Manage, AI prompt management, prompt sharing platform, ChatGPT prompts, Claude prompts',
-  authors: [{ name: 'Prompt Manage' }],
-  creator: 'Prompt Manage',
-  publisher: 'Prompt Manage',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL('https://promptmanage.com'),
-  alternates: {
-    canonical: '/about',
-  },
+  title: 'About Us — Prompt Manage',
+  description: 'Learn about Prompt Manage\'s mission to make AI prompt management secure, collaborative, and reliable for teams and enterprises.',
+  keywords: ['about', 'company', 'mission', 'values', 'team', 'prompt management'],
   openGraph: {
-    title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
-    description: 'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
-    url: 'https://promptmanage.com/about',
-    siteName: 'Prompt Manage',
-    images: [
-      {
-        url: 'https://promptmanage.com/og-image.svg',
-        width: 1200,
-        height: 630,
-        alt: 'About Prompt Manage',
-      },
-    ],
-    locale: 'en_US',
+    title: 'About Us — Prompt Manage',
+    description: 'Making AI prompt management secure, collaborative, and reliable.',
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'About - Prompt Manage | Create, manage, and run AI prompts. All in one place.',
-    description: 'Learn about Prompt Manage. Create, manage, and run AI prompts all in one place.',
-    images: ['https://promptmanage.com/og-image.svg'],
-    creator: '@promptmanage',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
   },
 }
 
 export default function AboutPage() {
-  const organizationSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Prompt Manage',
-    url: 'https://promptmanage.com',
-    logo: 'https://promptmanage.com/logo.svg',
-    description:
-      'Professional prompt management platform for marketing teams, agencies, and enterprises. Organize, test, and collaborate on AI prompts for ChatGPT, Claude, Gemini, and more.',
-    sameAs: [
-      'https://x.com/promptmanage',
-      'https://www.linkedin.com/company/prompt-manage/',
-    ],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'Customer Service',
-      url: 'https://promptmanage.com/about',
+  const values = [
+    {
+      icon: Shield,
+      title: 'Transparency',
+      description:
+        'We believe in open, honest communication. Our policies, pricing, and practices are clear and accessible. No hidden fees, no data tricks.',
     },
-  }
+    {
+      icon: CheckCircle,
+      title: 'Security',
+      description:
+        'Your data and intellectual property are sacred. We build with security first — from encryption to compliance to infrastructure design.',
+    },
+    {
+      icon: Users,
+      title: 'Collaboration',
+      description:
+        'Great ideas happen when teams work together. We design for teamwork, shared knowledge, and collective progress.',
+    },
+    {
+      icon: Sparkles,
+      title: 'Simplicity',
+      description:
+        'AI is complex. Your tools shouldn\'t be. We prioritize intuitive design, clear workflows, and reducing cognitive load.',
+    },
+  ]
 
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://promptmanage.com',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'About',
-        item: 'https://promptmanage.com/about',
-      },
-    ],
-  }
+  const contacts = [
+    {
+      title: 'Legal & Compliance',
+      email: 'legal@promptmanage.com',
+      description: 'For contracts, DPAs, and compliance inquiries',
+    },
+    {
+      title: 'General Support',
+      email: 'support@promptmanage.com',
+      description: 'For product questions and technical help',
+    },
+    {
+      title: 'Enterprise Sales',
+      email: 'enterprise@promptmanage.com',
+      description: 'For custom plans and partnership opportunities',
+    },
+  ]
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <Link href="/">
-            <Button variant="ghost" className="mb-6">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
-            </Button>
-          </Link>
-          <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">
-            About Prompt Manage
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            Create, manage, and run AI prompts.
-            <br />
-            All in one place.
-          </p>
+    <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Hero Section */}
+      <section className="border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div className="container mx-auto px-4 py-20 md:py-28">
+          <div className="mx-auto max-w-4xl text-center">
+            <Badge className="mb-4 bg-white text-blue-600">About Prompt Manage</Badge>
+            <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">
+              Making AI prompt management secure, collaborative, and reliable.
+            </h1>
+            <p className="text-xl leading-relaxed md:text-2xl">
+              We&apos;re building the infrastructure for teams and enterprises to manage their most valuable AI
+              assets — prompts — with confidence and control.
+            </p>
+          </div>
         </div>
+      </section>
 
-        {/* Mission */}
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">Our Mission</h2>
-          <p className="mb-6 text-lg text-gray-600 dark:text-gray-400">
-            We believe that AI prompts are the new programming language of the future, and effective
-            prompt engineering is critical for leveraging AI at scale. As AI becomes more integrated
-            into enterprise workflows, having a reliable platform to manage, share, and discover
-            high-quality prompts is essential.
-          </p>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            Prompt Manage was built to solve this challenge. We provide a secure platform where you
-            can centralize your prompt libraries, collaborate seamlessly with your team, and
-            accelerate prompt engineering workflows.
-          </p>
-        </div>
+      {/* Our Story */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl">
+            <h2 className="mb-8 text-3xl font-bold md:text-4xl">Why We Built Prompt Manage</h2>
 
-        {/* Features */}
-        <div className="mb-16">
-          <h2 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">
-            What Makes Us Different
-          </h2>
-          <div className="grid gap-8 md:grid-cols-2">
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 rounded-lg bg-blue-100 p-3 dark:bg-blue-900">
-                <Lock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-              </div>
-              <div>
-                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                  Enterprise-Grade Privacy & Security
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  All your prompt libraries are private by default. You maintain granular control
-                  over access permissions and what content is shared, ensuring data governance and
-                  compliance.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 rounded-lg bg-green-100 p-3 dark:bg-green-900">
-                <Globe className="h-6 w-6 text-green-600 dark:text-green-400" />
-              </div>
-              <div>
-                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                  Collaborative Prompt Sharing
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Publish and share individual prompts or entire prompt collections with colleagues,
-                  departments, or external partners. Each prompt gets its own dedicated page for
-                  easy access and version control. COMING SOON: Comprehensive Prompt Collection
-                  Management.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 rounded-lg bg-purple-100 p-3 dark:bg-purple-900">
-                <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-              </div>
-              <div>
-                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                  Best Practice Sharing
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Discover and leverage best-in-class prompts shared by our network of AI
-                  professionals. Our curated directory is continually expanding with optimized
-                  prompt engineering examples.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 rounded-lg bg-orange-100 p-3 dark:bg-orange-900">
-                <Zap className="h-6 w-6 text-orange-600 dark:text-orange-400" />
-              </div>
-              <div>
-                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                  Built for Prompt Engineering Productivity
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Organize prompts with advanced tagging, full-text search, and one-click copy
-                  functionality. Every feature is engineered for speed, efficiency, and seamless
-                  integration into your prompt development lifecycle.
-                </p>
-              </div>
+            <div className="space-y-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+              <p>
+                In early 2024, we saw a pattern emerging across organizations adopting AI: teams were
+                struggling to manage their prompts.
+              </p>
+
+              <p>
+                Engineers stored prompts in scattered Slack threads. Marketing teams copy-pasted from Google
+                Docs. Product managers lost track of which prompt version worked best. There was no version
+                control, no collaboration, no security — just chaos.
+              </p>
+
+              <p className="font-semibold text-gray-900 dark:text-gray-100">
+                Prompts were becoming critical business assets, but there was no reliable way to manage
+                them.
+              </p>
+
+              <p>
+                We built Prompt Manage to solve this. A platform designed specifically for storing,
+                versioning, sharing, and collaborating on AI prompts — with the security and reliability
+                enterprises demand.
+              </p>
+
+              <p>
+                Today, Prompt Manage helps teams across marketing, engineering, product, and operations
+                organize their AI workflows, protect their intellectual property, and scale their use of AI
+                with confidence.
+              </p>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Team */}
-        <div className="mb-16">
-          <h2 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">
-            Developed by AI Engineering Experts
-          </h2>
-          <p className="mb-6 text-lg text-gray-600 dark:text-gray-400">
-            Prompt Manage was created by a team of developers and AI engineers who deeply understand
-            the complexities of managing AI prompts and prompt libraries in today&apos;s rapidly
-            evolving technological landscape.
-          </p>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            We are committed to building the leading platform for prompt management, with a focus on
-            security, scalability, and enhanced team collaboration.
-          </p>
-        </div>
-
-        {/* Social Media */}
-        <div className="mb-16 text-center">
-          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">Connect With Us</h2>
-          <p className="mb-8 text-lg text-gray-600 dark:text-gray-400">
-            Follow us for updates, prompt engineering best practices, and the latest in AI prompt
-            management solutions
-          </p>
-          <div className="flex items-center justify-center gap-6">
-            <Link
-              href="https://x.com/promptmanage"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
-            >
-              <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-              <span className="font-medium">X</span>
-            </Link>
-            <Link
-              href="https://www.linkedin.com/company/prompt-manage/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
-            >
-              <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-              <span className="font-medium">LinkedIn</span>
-            </Link>
+      {/* Founder Quote */}
+      <section className="bg-gradient-to-r from-blue-600 to-purple-600 py-16 text-white">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <blockquote className="text-2xl font-medium italic leading-relaxed md:text-3xl">
+              &quot;Prompts are the new code. They deserve the same level of version control, collaboration, and
+              security that we give to our software. That&apos;s what we&apos;re building.&quot;
+            </blockquote>
+            <p className="mt-6 text-lg">
+              — <strong>Mike Moloney</strong>, Founder & CEO, Prompt Manage
+            </p>
           </div>
         </div>
+      </section>
 
-        {/* CTA */}
-        <div className="text-center">
-          <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
-            Ready to get started?
-          </h2>
-          <p className="mb-6 text-gray-600 dark:text-gray-400">
-            Join leading enterprises in streamlining their AI prompt management
-          </p>
-          <div className="flex items-center justify-center gap-4">
-            <Link href="/?redirect=/dashboard">
-              <Button size="lg">Create Your Account</Button>
-            </Link>
-            <Link href="/p">
-              <Button variant="outline" size="lg">
-                Explore Sample Prompts
-              </Button>
-            </Link>
-            <Link href="/models">
-              <Button variant="outline" size="lg">
-                View Supported Models
-              </Button>
-            </Link>
+      {/* Core Values */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Our Core Values</h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300">
+                The principles that guide everything we build
+              </p>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-2">
+              {values.map((value) => (
+                <Card
+                  key={value.title}
+                  className="border-blue-200 transition-all hover:border-blue-400 hover:shadow-lg dark:border-blue-900"
+                >
+                  <CardHeader>
+                    <div className="mb-4 w-fit rounded-lg bg-blue-100 p-3 dark:bg-blue-950">
+                      <value.icon className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <CardTitle className="text-2xl">{value.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-700 dark:text-gray-300">{value.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Company Info */}
+      <section className="bg-gray-50 py-16 dark:bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl">
+            <div className="mb-8 flex items-center justify-center gap-3">
+              <Building2 className="h-10 w-10 text-blue-600" />
+              <h2 className="text-3xl font-bold">Company Information</h2>
+            </div>
+
+            <Card className="mx-auto max-w-2xl">
+              <CardContent className="space-y-6 pt-6">
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                    Prompt Manage LLC
+                  </p>
+                  <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">Boston, Massachusetts</p>
+                </div>
+
+                <div className="border-t pt-6">
+                  <h3 className="mb-4 text-center text-lg font-semibold">Leadership</h3>
+                  <div className="text-center">
+                    <p className="font-medium">Mike Moloney</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Founder & CEO</p>
+                  </div>
+                </div>
+
+                <div className="border-t pt-6">
+                  <h3 className="mb-4 text-center text-lg font-semibold">Get in Touch</h3>
+                  <div className="space-y-4">
+                    {contacts.map((contact) => (
+                      <div key={contact.email} className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+                        <p className="mb-1 font-semibold">{contact.title}</p>
+                        <a
+                          href={`mailto:${contact.email}`}
+                          className="text-blue-600 hover:underline dark:text-blue-400"
+                        >
+                          {contact.email}
+                        </a>
+                        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                          {contact.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Security & Compliance */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="mb-8 text-center text-3xl font-bold">Security & Compliance</h2>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              <Card className="text-center">
+                <CardHeader>
+                  <CardTitle className="text-lg">GDPR Compliant</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Full compliance with EU data protection regulations
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="text-center">
+                <CardHeader>
+                  <CardTitle className="text-lg">SOC 2 Type II</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Badge variant="outline" className="mb-2">
+                    In Progress
+                  </Badge>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Third-party security audit expected Q2 2025
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="text-center">
+                <CardHeader>
+                  <CardTitle className="text-lg">CCPA Ready</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    California privacy rights fully supported
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="mt-8 text-center">
+              <Link href="/security">
+                <Button variant="outline">
+                  View Full Security Overview
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="border-t bg-gradient-to-r from-blue-600 to-purple-600 py-20 text-white">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="mb-6 text-3xl font-bold md:text-4xl">
+              Explore how Prompt Manage can power your AI workflows.
+            </h2>
+            <p className="mb-8 text-xl">
+              Join teams and enterprises using Prompt Manage to organize, secure, and scale their AI
+              operations.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link href="/pricing">
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+                  Get Started Free
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="/product">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                  Learn More
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-    </>
   )
 }

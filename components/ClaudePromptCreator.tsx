@@ -1,17 +1,17 @@
 'use client'
 
 import {
+  AlertCircle,
   Brain,
   Copy,
   Lightbulb,
   Save,
   Sparkles,
-  User,
-  AlertCircle
-} from 'lucide-react'
+  User} from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -25,7 +25,6 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { useFreeTool } from '@/hooks/useFreeTool'
 
 interface ClaudePrompt {

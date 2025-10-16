@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect,useState } from 'react'
+
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/utils/supabase/client'
 
-interface UseFreeTool Options {
+interface UseFreeToolOptions {
   toolName: string // 'claude-creator', 'cursor-creator', 'optimizer'
 }
 

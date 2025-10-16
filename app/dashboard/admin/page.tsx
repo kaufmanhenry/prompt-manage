@@ -6,26 +6,25 @@ import {
   AlertCircle, 
   Brain, 
   Code, 
+  Database,
+  Download,
+  Eye,
   FileText, 
   Sparkles, 
   TrendingUp, 
-  Users,
-  Database,
-  Eye,
-  Download
-} from 'lucide-react'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+  Users} from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { isAdminEmail } from '@/lib/admin'
 
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { isAdminEmail } from '@/lib/admin'
 import { createClient } from '@/utils/supabase/client'
 
 export default function AdminDashboard() {

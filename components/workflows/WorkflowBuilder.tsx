@@ -2,7 +2,7 @@
 
 import '@xyflow/react/dist/style.css'
 
-import ReactFlow, {
+import {
   addEdge,
   Background,
   type Connection,
@@ -10,6 +10,7 @@ import ReactFlow, {
   type Edge,
   MiniMap,
   type Node,
+  ReactFlow,
   useEdgesState,
   useNodesState,
 } from '@xyflow/react'
@@ -17,7 +18,7 @@ import { useCallback, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import type { WorkflowBuilderProps, WorkflowEdge as WorkflowEdgeType,WorkflowNodeDefinition } from '@/lib/types/workflows'
+import type { NodeConfig, NodeType, WorkflowBuilderProps, WorkflowEdge as WorkflowEdgeType,WorkflowNodeDefinition } from '@/lib/types/workflows'
 
 /**
  * WorkflowBuilder Component
@@ -58,7 +59,7 @@ export function WorkflowBuilder({
   const onConnect = useCallback(
     (connection: Connection) => {
       if (readOnly) return
-      setEdges((eds) => addEdge(connection, eds))
+      setEdges((eds: Edge[]) => addEdge(connection, eds))
     },
     [setEdges, readOnly]
   )
@@ -171,7 +172,7 @@ export function WorkflowBuilder({
                 size="sm"
                 className="w-full"
                 onClick={() => {
-                  setNodes((nds) => nds.filter((n) => n.id !== selectedNode))
+                  setNodes((nds: Node[]) => nds.filter((n: Node) => n.id !== selectedNode))
                   setSelectedNode(null)
                 }}
               >
@@ -205,9 +206,9 @@ function nodeToReactFlowNode(node: WorkflowNodeDefinition): Node {
 function reactFlowNodeToNode(node: Node): WorkflowNodeDefinition {
   return {
     id: node.id,
-    type: node.data.nodeType,
-    label: node.data.label,
-    config: node.data.config,
+    type: node.data.nodeType as NodeType,
+    label: node.data.label as string,
+    config: node.data.config as NodeConfig,
     position: node.position,
   }
 }
@@ -229,8 +230,8 @@ function reactFlowEdgeToEdge(edge: Edge): WorkflowEdgeType {
     id: edge.id,
     source: edge.source,
     target: edge.target,
-    label: edge.label,
-    condition: edge.data?.condition,
+    label: typeof edge.label === 'string' ? edge.label : undefined,
+    condition: edge.data?.condition as string | undefined,
   }
 }
 

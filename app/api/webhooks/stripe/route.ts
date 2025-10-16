@@ -88,21 +88,21 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Promise<void> {
   const supabase = createServerSideClient()
-  const userId = subscription.metadata.userId
+  const userId = subscription.metadata?.userId
 
   if (!userId) {
     console.error('No userId in subscription metadata')
     return
   }
 
-  const periodEnd = new Date(subscription.current_period_end * 1000)
+  const periodEnd = new Date((subscription as Stripe.Subscription & { current_period_end: number }).current_period_end * 1000)
 
   await supabase
     .from('user_profiles')
     .update({
       subscription_status: subscription.status,
       subscription_period_end: periodEnd.toISOString(),
-      subscription_tier: subscription.metadata.tier || 'team',
+      subscription_tier: subscription.metadata?.tier || 'team',
     })
     .eq('id', userId)
 
@@ -111,7 +111,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Promise<void> {
   const supabase = createServerSideClient()
-  const userId = subscription.metadata.userId
+  const userId = subscription.metadata?.userId
 
   if (!userId) {
     console.error('No userId in subscription metadata')
@@ -137,11 +137,11 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
   const supabase = createServerSideClient()
 
-  if (!invoice.subscription) return
+  const subscriptionId = (invoice as Stripe.Invoice & { subscription: string }).subscription
+  if (!subscriptionId) return
 
-  const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription.id
   const subscription = await stripe.subscriptions.retrieve(subscriptionId)
-  const userId = subscription.metadata.userId
+  const userId = subscription.metadata?.userId
 
   if (!userId) return
 

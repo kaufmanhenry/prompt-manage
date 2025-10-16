@@ -227,11 +227,11 @@ const USE_CASES = [
 ]
 
 type UseCase = {
-  icon: React.ComponentType<{ className?: string }>
   title: string
   description: string
+  example: string
   tags: string[]
-  prompt: string
+  promptTemplate: string
 }
 
 export default function UseCasesClient() {

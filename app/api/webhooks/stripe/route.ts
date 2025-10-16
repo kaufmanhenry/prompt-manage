@@ -29,24 +29,24 @@ export async function POST(req: NextRequest) {
   try {
     switch (event.type) {
       case 'checkout.session.completed':
-        await handleCheckoutCompleted(event.data.object as Stripe.Checkout.Session)
+        await handleCheckoutCompleted(event.data.object)
         break
 
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
-        await handleSubscriptionUpdated(event.data.object as Stripe.Subscription)
+        await handleSubscriptionUpdated(event.data.object)
         break
 
       case 'customer.subscription.deleted':
-        await handleSubscriptionDeleted(event.data.object as Stripe.Subscription)
+        await handleSubscriptionDeleted(event.data.object)
         break
 
       case 'invoice.paid':
-        await handleInvoicePaid(event.data.object as Stripe.Invoice)
+        await handleInvoicePaid(event.data.object)
         break
 
       case 'invoice.payment_failed':
-        await handleInvoicePaymentFailed(event.data.object as Stripe.Invoice)
+        await handleInvoicePaymentFailed(event.data.object)
         break
 
       default:
@@ -72,10 +72,12 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
   const tier = session.metadata?.tier || 'team'
 
   // Update user profile with subscription info
+  const customerId = typeof session.customer === 'string' ? session.customer : session.customer?.id
+
   await supabase
     .from('user_profiles')
     .update({
-      stripe_customer_id: session.customer as string,
+      stripe_customer_id: customerId,
       subscription_tier: tier,
       subscription_status: 'active',
     })
@@ -137,7 +139,8 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
 
   if (!invoice.subscription) return
 
-  const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string)
+  const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription.id
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId)
   const userId = subscription.metadata.userId
 
   if (!userId) return

@@ -23,7 +23,7 @@ export default function TermsPage() {
             Legal terms governing your use of Prompt Manage.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: January 16, 2025
+            Last updated: October 16, 2025
           </p>
         </div>
       </div>

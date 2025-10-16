@@ -28,7 +28,7 @@ export default function DataErasurePage() {
             Your right to delete your data and account.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Effective: January 1, 2025 | Updated: January 16, 2025
+            Effective: January 1, 2025 | Updated: October 16, 2025
           </p>
         </div>
       </div>

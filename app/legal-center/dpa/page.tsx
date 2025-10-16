@@ -37,7 +37,7 @@ export default function DPAPage() {
                 </div>
                 <h1 className="mb-2 text-3xl font-bold md:text-4xl">Data Protection Addendum (DPA)</h1>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Effective Date: January 1, 2025 | Last Updated: January 16, 2025
+                  Effective Date: January 1, 2025 | Last Updated: October 16, 2025
                 </p>
               </div>
               <Button variant="outline">

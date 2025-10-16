@@ -30,7 +30,7 @@ export default function PrivacyPage() {
             How we collect, use, and protect your information.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: January 16, 2025
+            Last updated: October 16, 2025
           </p>
         </div>
       </div>

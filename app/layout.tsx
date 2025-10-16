@@ -8,7 +8,6 @@ import { Suspense } from 'react'
 import { Layout } from '@/components/Layout'
 import { PromptProvider } from '@/components/PromptContext'
 import { Providers } from '@/components/providers'
-import { ThemeHtmlScript } from '@/components/ThemeHtmlScript'
 import { Toaster } from '@/components/ui/toaster'
 import { cn } from '@/lib/utils'
 
@@ -90,9 +89,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.className, 'antialiased')}>
-        <ThemeHtmlScript />
         <Providers>
           <PromptProvider>
             <Suspense fallback={null}>

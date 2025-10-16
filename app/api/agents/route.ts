@@ -75,7 +75,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: adminCheck.error }, { status: adminCheck.status })
     }
 
-    const { name, description, strategy, config } = await request.json()
+    const body = await request.json()
+    const { name, description, strategy, department, config } = body
     
     if (!name || !strategy) {
       return NextResponse.json({ error: 'Name and strategy required' }, { status: 400 })
@@ -83,13 +84,34 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient()
 
+    // Merge all config fields into the config object
+    const agentConfig = {
+      ...(config || {}),
+      // Include all the advanced fields from the form
+      output_type: body.output_type,
+      target_audience: body.target_audience,
+      tone: body.tone,
+      length_preference: body.length_preference,
+      output_format: body.output_format,
+      brand_guidelines: body.brand_guidelines,
+      quality_standards: body.quality_standards,
+      required_elements: body.required_elements,
+      key_phrases: body.key_phrases,
+      forbidden_phrases: body.forbidden_phrases,
+      style_guide: body.style_guide,
+      examples: body.examples,
+      review_required: body.review_required,
+      min_quality_score: body.min_quality_score,
+    }
+
     const { data, error } = await supabase
       .from('agents')
       .insert({
         name,
         description,
         strategy,
-        config: config || {},
+        department: department || 'general',
+        config: agentConfig,
         is_active: true,
       })
       .select()
@@ -97,14 +119,14 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Error creating agent:', error)
-      return NextResponse.json({ error: 'Database error' }, { status: 500 })
+      return NextResponse.json({ error: 'Database error', details: error.message }, { status: 500 })
     }
 
     return NextResponse.json({ agent: data })
   } catch (error) {
     console.error('Agent creation error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     )
   }

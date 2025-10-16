@@ -6,8 +6,10 @@ import {
   Lightbulb,
   Save,
   Sparkles,
-  User
+  User,
+  AlertCircle
 } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -23,6 +25,8 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useFreeTool } from '@/hooks/useFreeTool'
 
 interface ClaudePrompt {
   prompt: string
@@ -41,7 +45,11 @@ export default function ClaudePromptCreator() {
   const [taskType, setTaskType] = useState('')
   const [generatedPrompt, setGeneratedPrompt] = useState<ClaudePrompt | null>(null)
   const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
   const { toast } = useToast()
+  const { isLoggedIn, rateLimit, checkRateLimit, logUsage, saveToLibrary } = useFreeTool({ 
+    toolName: 'claude-creator' 
+  })
 
   const generatePrompt = async () => {
     if (!requirements.trim()) {
@@ -50,6 +58,12 @@ export default function ClaudePromptCreator() {
         description: 'Please describe what you want Claude to help you with.',
         variant: 'destructive',
       })
+      return
+    }
+
+    // Check rate limit for non-logged-in users
+    const allowed = await checkRateLimit()
+    if (!allowed) {
       return
     }
 
@@ -75,6 +89,16 @@ export default function ClaudePromptCreator() {
 
       const data = await response.json()
       setGeneratedPrompt(data)
+
+      // Log usage
+      await logUsage(data.prompt)
+
+      toast({
+        title: 'Prompt Generated!',
+        description: isLoggedIn 
+          ? 'Your Claude prompt is ready.' 
+          : `Generated! You have ${rateLimit?.remaining || 0} free uses remaining today.`,
+      })
     } catch (error) {
       console.error('Error generating prompt:', error)
       toast({
@@ -101,21 +125,30 @@ export default function ClaudePromptCreator() {
     }
   }
 
-  const saveToLibrary = () => {
-    // Redirect to signup/login with the prompt data
-    const promptData = {
-      name: `Claude: ${requirements.slice(0, 50)}...`,
-      prompt_text: generatedPrompt?.prompt || '',
-      model: 'claude-3-5-sonnet-20241022',
-      tags: [domain, complexity, taskType].filter(Boolean),
-      description: `Generated Claude prompt for ${requirements}`,
+  const handleSaveToLibrary = async () => {
+    if (!generatedPrompt?.prompt) return
+
+    setSaving(true)
+    try {
+      const promptData = {
+        name: `Claude: ${requirements.slice(0, 50)}${requirements.length > 50 ? '...' : ''}`,
+        prompt_text: generatedPrompt.prompt,
+        model: 'claude-3-5-sonnet-20241022',
+        tags: [domain, complexity, taskType].filter(Boolean),
+        description: `Generated Claude prompt for: ${requirements.slice(0, 100)}`,
+      }
+
+      const result = await saveToLibrary(promptData)
+
+      if (result.success) {
+        // Optionally redirect to the saved prompt
+        // router.push(`/dashboard?prompt=${result.promptId}`)
+      }
+    } catch (error) {
+      console.error('Error saving prompt:', error)
+    } finally {
+      setSaving(false)
     }
-    
-    // Store in sessionStorage for after login
-    sessionStorage.setItem('pendingPrompt', JSON.stringify(promptData))
-    
-    // Redirect to signup
-    window.location.href = '/?redirect=/dashboard'
   }
 
   return (
@@ -281,11 +314,38 @@ export default function ClaudePromptCreator() {
                     <Copy className="mr-2 h-4 w-4" />
                     Copy Prompt
                   </Button>
-                  <Button onClick={saveToLibrary} size="sm" className="bg-purple-600 hover:bg-purple-700">
-                    <Save className="mr-2 h-4 w-4" />
-                    Save to Library
+                  <Button 
+                    onClick={handleSaveToLibrary} 
+                    size="sm" 
+                    className="bg-purple-600 hover:bg-purple-700"
+                    disabled={saving}
+                  >
+                    {saving ? (
+                      <>
+                        <Skeleton className="mr-2 h-4 w-4" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="mr-2 h-4 w-4" />
+                        {isLoggedIn ? 'Save to Library' : 'Sign Up to Save'}
+                      </>
+                    )}
                   </Button>
                 </div>
+                
+                {!isLoggedIn && rateLimit && rateLimit.remaining !== null && (
+                  <Alert className="mt-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      <strong>{rateLimit.remaining} free uses remaining</strong> today. 
+                      {' '}
+                      <Link href="/?redirect=/dashboard" className="font-semibold text-blue-600 hover:underline">
+                        Sign up free
+                      </Link> for unlimited access.
+                    </AlertDescription>
+                  </Alert>
+                )}
 
                 <div className="rounded-lg bg-purple-50 p-3 dark:bg-purple-900/20">
                   <div className="flex items-start gap-2">

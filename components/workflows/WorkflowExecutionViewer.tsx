@@ -53,12 +53,12 @@ export function WorkflowExecutionViewer({
       }
     }
 
-    fetchExecution()
+    void fetchExecution()
 
     // Poll for updates if execution is running
     const interval = setInterval(() => {
       if (execution?.status === 'running' || execution?.status === 'queued') {
-        fetchExecution()
+        void fetchExecution()
       }
     }, 2000)
 

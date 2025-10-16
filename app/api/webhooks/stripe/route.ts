@@ -1,7 +1,7 @@
+import { headers } from 'next/headers'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { headers } from 'next/headers'
-import Stripe from 'stripe'
+import type Stripe from 'stripe'
 
 import { stripe } from '@/lib/stripe/client'
 import { createServerSideClient } from '@/utils/supabase/server'

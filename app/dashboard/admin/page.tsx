@@ -407,7 +407,7 @@ export default function AdminDashboard() {
                               {item.tool_name === 'claude-creator' && <Brain className="mr-1 h-3 w-3" />}
                               {item.tool_name === 'cursor-creator' && <Code className="mr-1 h-3 w-3" />}
                               {item.tool_name === 'optimizer' && <Sparkles className="mr-1 h-3 w-3" />}
-                              {item.tool_name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                              {item.tool_name.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                             </Badge>
                           </TableCell>
                           <TableCell>

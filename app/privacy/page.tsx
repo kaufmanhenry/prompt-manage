@@ -145,7 +145,49 @@ export default function PrivacyPage() {
           </section>
 
           <section className="border-t pt-12">
-            <h2 className="mb-4 text-2xl font-semibold">9. Contact</h2>
+            <h2 className="mb-4 text-2xl font-semibold">9. Related Pages</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Link href="/terms" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Terms of Service</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Terms governing your use of Prompt Manage
+                </p>
+              </Link>
+              <Link href="/security" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Security Overview</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Data encryption, infrastructure, and compliance
+                </p>
+              </Link>
+              <Link href="/legal-center/dpa" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Data Protection Addendum</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  GDPR compliance and data processing agreements
+                </p>
+              </Link>
+              <Link href="/legal-center/data-erasure" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Data Erasure Policy</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  How to request deletion of your account and data
+                </p>
+              </Link>
+              <Link href="/legal-center/subprocessors" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Subprocessors</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Third-party service providers we work with
+                </p>
+              </Link>
+              <Link href="/accessibility" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Accessibility</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Our commitment to WCAG 2.1 compliance
+                </p>
+              </Link>
+            </div>
+          </section>
+
+          <section className="border-t pt-12">
+            <h2 className="mb-4 text-2xl font-semibold">10. Contact</h2>
             <div>
               <p className="mb-1 text-sm text-gray-600 dark:text-gray-400">Privacy Questions</p>
               <a
@@ -155,12 +197,9 @@ export default function PrivacyPage() {
                 legal@promptmanage.com
               </a>
             </div>
-            <div className="mt-8 flex gap-4 text-sm">
+            <div className="mt-8 text-sm">
               <Link href="/legal-center" className="underline hover:text-gray-600 dark:hover:text-gray-300">
-                Legal Trust Center
-              </Link>
-              <Link href="/terms" className="underline hover:text-gray-600 dark:hover:text-gray-300">
-                Terms of Service
+                ← Back to Legal Trust Center
               </Link>
             </div>
           </section>

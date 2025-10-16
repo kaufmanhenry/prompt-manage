@@ -239,25 +239,22 @@ export default function AboutPage() {
 
               <Card className="text-center">
                 <CardHeader>
-                  <CardTitle className="text-lg">SOC 2 Type II</CardTitle>
+                  <CardTitle className="text-lg">CCPA Compliant</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Badge variant="outline" className="mb-2">
-                    In Progress
-                  </Badge>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
-                    Third-party security audit expected Q2 2025
+                    California privacy rights fully supported
                   </p>
                 </CardContent>
               </Card>
 
               <Card className="text-center">
                 <CardHeader>
-                  <CardTitle className="text-lg">CCPA Ready</CardTitle>
+                  <CardTitle className="text-lg">Enterprise Infrastructure</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
-                    California privacy rights fully supported
+                    Built on certified platforms (Vercel, Supabase, Stripe)
                   </p>
                 </CardContent>
               </Card>

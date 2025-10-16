@@ -161,6 +161,49 @@ export default function AccessibilityPage() {
             </p>
           </section>
 
+          {/* Related Pages */}
+          <section className="border-t pt-16">
+            <h2 className="mb-6 text-2xl font-semibold">Related Pages</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Link href="/support" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Support Center</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Help articles and contact information
+                </p>
+              </Link>
+              <Link href="/privacy" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Privacy Policy</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  How we protect your personal information
+                </p>
+              </Link>
+              <Link href="/security" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Security Overview</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Platform security and infrastructure
+                </p>
+              </Link>
+              <Link href="/terms" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Terms of Service</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Platform usage terms and conditions
+                </p>
+              </Link>
+              <Link href="/legal-center" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Legal Trust Center</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  All legal documentation and compliance
+                </p>
+              </Link>
+              <Link href="/about" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">About Us</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Our mission and values
+                </p>
+              </Link>
+            </div>
+          </section>
+
           {/* Contact */}
           <section className="border-t pt-16">
             <h2 className="mb-6 text-2xl font-semibold">Contact</h2>
@@ -172,14 +215,6 @@ export default function AccessibilityPage() {
               >
                 support@promptmanage.com
               </a>
-            </div>
-            <div className="mt-8 flex gap-4 text-sm">
-              <Link href="/support" className="underline hover:text-gray-600 dark:hover:text-gray-300">
-                Support Center
-              </Link>
-              <Link href="/legal-center" className="underline hover:text-gray-600 dark:hover:text-gray-300">
-                Legal Trust Center
-              </Link>
             </div>
           </section>
         </div>

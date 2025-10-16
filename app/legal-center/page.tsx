@@ -80,7 +80,7 @@ export default function LegalCenterPage() {
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Enterprise-grade encryption, infrastructure security, access controls, and compliance certifications.
                   </p>
-                  <p className="mt-2 text-xs text-gray-500">SOC 2 In Progress</p>
+                  <p className="mt-2 text-xs text-gray-500">Enterprise Infrastructure</p>
                 </Link>
               </div>
 
@@ -98,18 +98,14 @@ export default function LegalCenterPage() {
           {/* Compliance */}
           <section>
             <h2 className="mb-8 text-2xl font-semibold">Compliance</h2>
-            <div className="grid gap-6 sm:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2">
               <div>
                 <h3 className="mb-1 text-base font-medium">GDPR</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">EU Data Protection</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">EU Data Protection Compliant</p>
               </div>
               <div>
                 <h3 className="mb-1 text-base font-medium">CCPA</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">California Privacy Rights</p>
-              </div>
-              <div>
-                <h3 className="mb-1 text-base font-medium">SOC 2 Type II</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Expected Q2 2025</p>
               </div>
             </div>
           </section>

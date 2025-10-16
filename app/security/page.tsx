@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Security & Privacy — Prompt Manage',
   description: 'Learn how Prompt Manage protects your data, prompts, and intellectual property with enterprise-grade security, encryption, and compliance.',
-  keywords: ['security', 'privacy', 'data protection', 'encryption', 'GDPR', 'SOC 2', 'compliance'],
+  keywords: ['security', 'privacy', 'data protection', 'encryption', 'GDPR', 'CCPA', 'compliance'],
   openGraph: {
     title: 'Security & Privacy — Prompt Manage',
     description: 'Enterprise-grade security and privacy protection for your AI prompts and data.',
@@ -56,7 +56,7 @@ export default function SecurityPage() {
               <div>
                 <h3 className="mb-2 text-base font-medium">Hosting</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Hosted on Vercel and Supabase with SOC 2 and ISO 27001 certifications. Multi-region deployment in US and EU for compliance and performance.
+                  Hosted on enterprise-grade infrastructure (Vercel and Supabase) with industry-leading security certifications. Multi-region deployment in US and EU for compliance and performance.
                 </p>
               </div>
               <div>
@@ -116,15 +116,13 @@ export default function SecurityPage() {
                 </p>
               </div>
               <div>
-                <h3 className="mb-2 text-base font-medium">SOC 2 Type II</h3>
+                <h3 className="mb-2 text-base font-medium">Infrastructure Security</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Currently undergoing SOC 2 Type II audit. Expected completion Q2 2025.
-                </p>
-              </div>
-              <div>
-                <h3 className="mb-2 text-base font-medium">HIPAA Ready</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Infrastructure supports HIPAA compliance. Business Associate Agreements available for Enterprise healthcare customers.
+                  Built on certified infrastructure providers (Vercel, Supabase, Stripe) that maintain SOC 2 Type II, ISO 27001, and other industry certifications. See our{' '}
+                  <Link href="/legal-center/subprocessors" className="underline hover:text-gray-900 dark:hover:text-gray-100">
+                    subprocessors page
+                  </Link>
+                  {' '}for details.
                 </p>
               </div>
             </div>
@@ -144,6 +142,49 @@ export default function SecurityPage() {
                 </Link>
                 .
               </p>
+            </div>
+          </section>
+
+          {/* Related Pages */}
+          <section className="border-t pt-16">
+            <h2 className="mb-6 text-2xl font-semibold">Related Pages</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Link href="/legal-center" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Legal Trust Center</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  All legal documentation and compliance certifications
+                </p>
+              </Link>
+              <Link href="/privacy" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Privacy Policy</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  How we collect, use, and protect your information
+                </p>
+              </Link>
+              <Link href="/legal-center/dpa" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Data Protection Addendum</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  GDPR compliance and data processing agreements
+                </p>
+              </Link>
+              <Link href="/legal-center/data-erasure" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Data Erasure Policy</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  How to request deletion of your account and data
+                </p>
+              </Link>
+              <Link href="/legal-center/subprocessors" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Subprocessors</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Third-party service providers we work with
+                </p>
+              </Link>
+              <Link href="/accessibility" className="group">
+                <h3 className="mb-1 font-medium group-hover:underline">Accessibility</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Our commitment to WCAG 2.1 compliance
+                </p>
+              </Link>
             </div>
           </section>
 
@@ -169,14 +210,6 @@ export default function SecurityPage() {
                   security@promptmanage.com
                 </a>
               </div>
-            </div>
-            <div className="mt-8 flex gap-4 text-sm">
-              <Link href="/legal-center" className="underline hover:text-gray-600 dark:hover:text-gray-300">
-                Legal Trust Center
-              </Link>
-              <Link href="/privacy" className="underline hover:text-gray-600 dark:hover:text-gray-300">
-                Privacy Policy
-              </Link>
             </div>
           </section>
         </div>

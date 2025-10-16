@@ -1,148 +1,121 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'DMCA Policy - Prompt Manage',
+  title: 'DMCA Policy — Prompt Manage',
   description: 'Digital Millennium Copyright Act (DMCA) policy and procedures for Prompt Manage.',
 }
 
 export default function DmcaPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <h1 className="mb-8 text-4xl font-bold text-gray-900 dark:text-white">
-          DMCA Policy
-        </h1>
-        <p className="mb-6 text-gray-700 dark:text-gray-300">
-          <strong>Last Updated: June 24, 2025</strong>
-        </p>
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+      {/* Hero */}
+      <div className="border-b">
+        <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+          <Link href="/legal-center" className="mb-6 inline-block text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">
+            ← Legal Trust Center
+          </Link>
+          <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">
+            DMCA Policy
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            Copyright infringement notification and takedown procedures.
+          </p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
+            Last updated: June 24, 2025
+          </p>
+        </div>
+      </div>
 
-        <div className="prose prose-gray dark:prose-invert max-w-none">
-          <p className="mb-6 text-gray-700 dark:text-gray-300">
-            Prompt Manage is a platform for organizing, sharing, and managing AI prompts. This website
-            qualifies as a &ldquo;Service Provider&rdquo; within the meaning of 17 U.S. Code § 512 of
-            the Digital Millennium Copyright Act (&ldquo;DMCA&rdquo;). As a service provider, Prompt
-            Manage is entitled to certain protections from claims of copyright infringement under the
-            DMCA, commonly referred to as the &ldquo;safe harbor&rdquo; provisions. We respect the
-            intellectual property of others and ask all users to do the same. Accordingly, we observe
-            and comply with the DMCA, and have adopted the following Copyright Infringement Notice and
-            Takedown Policy relating to claims of copyright infringement by our users.
-          </p>
+      {/* Content */}
+      <div className="mx-auto max-w-4xl px-6 py-16">
+        <div className="space-y-12">
+          <section>
+            <p className="text-gray-900 dark:text-gray-100">
+              Prompt Manage respects the intellectual property of others and asks all users to do the same. We comply with the Digital Millennium Copyright Act (DMCA) and have adopted the following Copyright Infringement Notice and Takedown Policy.
+            </p>
+          </section>
 
-          <h2 className="mb-4 mt-8 text-2xl font-semibold text-gray-900 dark:text-white">
-            Copyright Infringement Notification
-          </h2>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            If you believe that content available on or through Prompt Manage, LLC (&ldquo;Prompt
-            Manage&rdquo;) infringes one or more of your copyrights, please immediately notify Prompt
-            Manage&rsquo;s Designated Copyright Agent by mail or email (&ldquo;Notification&rdquo;)
-            providing the information described below, as set forth in the Digital Millennium
-            Copyright Act of 1998 (&ldquo;DMCA&rdquo;). A copy of your Notification will be sent to
-            the person responsible for the material addressed in the Notification.
-          </p>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            Please be advised that you may be held liable for damages if you make material
-            misrepresentations pursuant to federal law in a Notification. If you are not sure content
-            located on, embedded on, or linked-to by the website infringes your copyright, you should
-            consider first contacting an attorney.
-          </p>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            All Notifications should include the following:
-          </p>
-          <ul className="mb-6 list-decimal space-y-2 pl-6 text-gray-700 dark:text-gray-300">
-            <li>
-              A physical or electronic signature of a person authorized to act on behalf of the owner
-              of an exclusive right that is allegedly infringed.
-            </li>
-            <li>
-              Identification of the copyrighted work claimed to have been infringed, or, if multiple
-              copyrighted works at a single online site are covered by a single notification, a
-              representative list of such works at that site.
-            </li>
-            <li>
-              Identification of the material that is claimed to be infringing or to be the subject of
-              infringing activity and that is to be removed or access to which is to be disabled, and
-              information reasonably sufficient to permit the service provider to locate the material.
-            </li>
-            <li>
-              Information reasonably sufficient to permit the service provider to contact the
-              complaining party, such as an address, telephone number, and, if available, an
-              electronic mail address at which the complaining party may be contacted.
-            </li>
-            <li>
-              A statement that the complaining party has a good faith belief that use of the material
-              in the manner complained of is not authorized by the copyright owner, its agent, or the
-              law.
-            </li>
-            <li>
-              A statement that the information in the notification is accurate, and under penalty of
-              perjury, that the complaining party is authorized to act on behalf of the owner of an
-              exclusive right that is allegedly infringed.
-            </li>
-          </ul>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            Please do not send other inquiries or information to our Designated Agent.
-          </p>
-          <h3 className="mb-2 mt-8 text-lg font-semibold text-gray-900 dark:text-white">
-            Notifications should be sent to the following:
-          </h3>
-          <p className="mb-2 text-gray-700 dark:text-gray-300">
-            Address: Prompt Manage LLC, 125 Stoughton Street, Unit 2, Boston, MA 02125
-            <br />
-            Email:{' '}
-            <a
-              href="mailto:dmca@promptmanage.com"
-              className="text-blue-600 underline dark:text-blue-400"
-            >
-              dmca@promptmanage.com
-            </a>
-          </p>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            Only DMCA notices mailed to the address above or emailed to dmca@promptmanage.com will be
-            accepted. All other inquiries or requests will be discarded. Upon receiving a DMCA
-            notification or complaint related to copyright infringement, Prompt Manage may remove the
-            content identified as being infringing, as long as we receive all of the required
-            information for a DMCA request, and we are able to verify the validity of the request. In
-            addition, Prompt Manage may terminate the account of the user that appears to be the
-            infringer.
-          </p>
+          <section className="border-t pt-12">
+            <h2 className="mb-4 text-2xl font-semibold">Copyright Infringement Notification</h2>
+            <p className="mb-4 text-gray-900 dark:text-gray-100">
+              If you believe that content on Prompt Manage infringes your copyright, please notify our Designated Copyright Agent by mail or email.
+            </p>
+            <p className="mb-4 text-gray-900 dark:text-gray-100">
+              Please be advised that you may be held liable for damages if you make material misrepresentations in a DMCA notice.
+            </p>
+          </section>
 
-          <h2 className="mb-4 mt-8 text-2xl font-semibold text-gray-900 dark:text-white">
-            Counter-Notification
-          </h2>
-          <p className="mb-6 text-gray-700 dark:text-gray-300">
-            If the recipient of a DMCA Takedown (&ldquo;Notice&rdquo;) believes that the Notice is
-            erroneous or false, and/or that allegedly infringing material has been wrongly removed in
-            accordance with the procedures outlined above, the recipient is permitted to submit a
-            counter-notification pursuant to Section 512(g)(2)&(3) of the DMCA. A counter-notification
-            is the proper method for the recipient to dispute the removal or disabling of material
-            pursuant to a Notice. The information that a recipient provides in a counter-notification
-            must be accurate and truthful, and the recipient will be liable for any misrepresentations
-            which may cause any claims to be brought against Prompt Manage relating to the actions
-            taken in response to the counter-notification. This counter-notification will be forwarded
-            to the original party that submitted the DMCA claim. If we have not received notice
-            (within 14 days) that the original claimant has filed an action seeking a court order to
-            restrain the recipient from engaging in infringing activity relating to the material on
-            Prompt Manage&rsquo;s system or network, we will re-instate the content.
-          </p>
+          <section className="border-t pt-12">
+            <h2 className="mb-4 text-2xl font-semibold">Required Information</h2>
+            <p className="mb-4 text-gray-900 dark:text-gray-100">All DMCA notifications must include:</p>
+            <ol className="space-y-2 text-gray-900 dark:text-gray-100">
+              <li>1. A physical or electronic signature of the copyright owner or authorized agent</li>
+              <li>2. Identification of the copyrighted work claimed to have been infringed</li>
+              <li>3. Identification of the infringing material and information to locate it</li>
+              <li>4. Your contact information (address, telephone, email)</li>
+              <li>5. A statement of good faith belief that the use is not authorized</li>
+              <li>6. A statement that the information is accurate, under penalty of perjury</li>
+            </ol>
+          </section>
 
-          <hr className="my-8" />
-          <div className="mt-8">
-            <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
-              Related Policies
-            </h3>
-            <ul className="list-disc space-y-1 pl-6 text-gray-700 dark:text-gray-300">
-              <li>
-                <a href="/terms" className="text-blue-600 underline dark:text-blue-400">
-                  Terms of Service
-                </a>
-              </li>
-              <li>
-                <a href="/privacy" className="text-blue-600 underline dark:text-blue-400">
-                  Privacy Policy
-                </a>
-              </li>
-            </ul>
-          </div>
+          <section className="border-t pt-12">
+            <h2 className="mb-4 text-2xl font-semibold">Send Notifications To</h2>
+            <div>
+              <p className="mb-1 text-sm text-gray-600 dark:text-gray-400">Prompt Manage LLC</p>
+              <p className="mb-1 text-sm text-gray-600 dark:text-gray-400">DMCA Agent</p>
+              <p className="mb-1 text-sm text-gray-600 dark:text-gray-400">125 Stoughton Street, Unit 2</p>
+              <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">Boston, MA 02125</p>
+              <a
+                href="mailto:dmca@promptmanage.com"
+                className="text-base underline hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                dmca@promptmanage.com
+              </a>
+            </div>
+          </section>
+
+          <section className="border-t pt-12">
+            <h2 className="mb-4 text-2xl font-semibold">Counter-Notification</h2>
+            <p className="mb-4 text-gray-900 dark:text-gray-100">
+              If you believe your content was removed by mistake or misidentification, you may file a counter-notification containing:
+            </p>
+            <ol className="space-y-2 text-gray-900 dark:text-gray-100">
+              <li>1. Your physical or electronic signature</li>
+              <li>2. Identification of the material that was removed</li>
+              <li>3. A statement under penalty of perjury that the material was removed by mistake</li>
+              <li>4. Your name, address, and telephone number</li>
+              <li>5. Consent to jurisdiction of the federal court</li>
+            </ol>
+          </section>
+
+          <section className="border-t pt-12">
+            <h2 className="mb-4 text-2xl font-semibold">Repeat Infringers</h2>
+            <p className="text-gray-900 dark:text-gray-100">
+              We will terminate the accounts of users who are repeat copyright infringers.
+            </p>
+          </section>
+
+          <section className="border-t pt-12">
+            <h2 className="mb-4 text-2xl font-semibold">Contact</h2>
+            <div>
+              <p className="mb-1 text-sm text-gray-600 dark:text-gray-400">DMCA Notifications Only</p>
+              <a
+                href="mailto:dmca@promptmanage.com"
+                className="text-base underline hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                dmca@promptmanage.com
+              </a>
+            </div>
+            <div className="mt-8 flex gap-4 text-sm">
+              <Link href="/legal-center" className="underline hover:text-gray-600 dark:hover:text-gray-300">
+                Legal Trust Center
+              </Link>
+              <Link href="/terms" className="underline hover:text-gray-600 dark:hover:text-gray-300">
+                Terms of Service
+              </Link>
+            </div>
+          </section>
         </div>
       </div>
     </div>

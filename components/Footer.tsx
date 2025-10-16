@@ -112,6 +112,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/accessibility" className="text-gray-600 hover:underline dark:text-gray-300">
+                Accessibility
+              </Link>
+            </li>
+            <li>
               <Link href="/dmca" className="text-gray-600 hover:underline dark:text-gray-300">
                 DMCA
               </Link>

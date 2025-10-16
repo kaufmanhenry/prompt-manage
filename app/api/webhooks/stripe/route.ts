@@ -1,7 +1,7 @@
 import { headers } from 'next/headers'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import Stripe from 'stripe'
+import type Stripe from 'stripe'
 
 import { stripe } from '@/lib/stripe/client'
 import { createServerSideClient } from '@/utils/supabase/server'
@@ -95,7 +95,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
     return
   }
 
-  const periodEnd = new Date((subscription as any).current_period_end * 1000)
+  const periodEnd = new Date((subscription as Stripe.Subscription & { current_period_end: number }).current_period_end * 1000)
 
   await supabase
     .from('user_profiles')
@@ -137,7 +137,7 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
   const supabase = createServerSideClient()
 
-  const subscriptionId = (invoice as any).subscription
+  const subscriptionId = (invoice as Stripe.Invoice & { subscription: string }).subscription
   if (!subscriptionId) return
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId)

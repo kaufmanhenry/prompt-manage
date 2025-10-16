@@ -100,8 +100,17 @@ CREATE POLICY "Users can insert their own profile"
 -- PART 2: TEAMS & COLLABORATION
 -- ========================================
 
-CREATE TYPE IF NOT EXISTS team_role AS ENUM ('owner', 'admin', 'editor', 'viewer');
-CREATE TYPE IF NOT EXISTS invitation_status AS ENUM ('pending', 'accepted', 'rejected', 'expired');
+DO $$ BEGIN
+  CREATE TYPE team_role AS ENUM ('owner', 'admin', 'editor', 'viewer');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+  CREATE TYPE invitation_status AS ENUM ('pending', 'accepted', 'rejected', 'expired');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
 
 CREATE TABLE IF NOT EXISTS public.teams (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -282,8 +291,17 @@ GROUP BY user_id, DATE_TRUNC('month', created_at);
 -- PART 5: AI AGENTS SYSTEM
 -- ========================================
 
-CREATE TYPE IF NOT EXISTS agent_status AS ENUM ('active', 'paused', 'error', 'completed');
-CREATE TYPE IF NOT EXISTS generation_status AS ENUM ('pending', 'processing', 'completed', 'failed');
+DO $$ BEGIN
+  CREATE TYPE agent_status AS ENUM ('active', 'paused', 'error', 'completed');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+  CREATE TYPE generation_status AS ENUM ('pending', 'processing', 'completed', 'failed');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
 
 CREATE TABLE IF NOT EXISTS public.agents (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

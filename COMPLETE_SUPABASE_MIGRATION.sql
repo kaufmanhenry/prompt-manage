@@ -81,15 +81,18 @@ CREATE TRIGGER update_user_profiles_updated_at
 
 ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY IF NOT EXISTS "Anyone can read user profiles"
+DROP POLICY IF EXISTS "Anyone can read user profiles" ON public.user_profiles;
+CREATE POLICY "Anyone can read user profiles"
   ON public.user_profiles FOR SELECT
   USING (true);
 
-CREATE POLICY IF NOT EXISTS "Users can update their own profile"
+DROP POLICY IF EXISTS "Users can update their own profile" ON public.user_profiles;
+CREATE POLICY "Users can update their own profile"
   ON public.user_profiles FOR UPDATE
   USING (auth.uid() = id);
 
-CREATE POLICY IF NOT EXISTS "Users can insert their own profile"
+DROP POLICY IF EXISTS "Users can insert their own profile" ON public.user_profiles;
+CREATE POLICY "Users can insert their own profile"
   ON public.user_profiles FOR INSERT
   WITH CHECK (auth.uid() = id);
 
@@ -187,23 +190,28 @@ CREATE INDEX IF NOT EXISTS prompts_created_at_idx ON public.prompts(created_at D
 
 ALTER TABLE public.prompts ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY IF NOT EXISTS "Public prompts are viewable by everyone"
+DROP POLICY IF EXISTS "Public prompts are viewable by everyone" ON public.prompts;
+CREATE POLICY "Public prompts are viewable by everyone"
   ON public.prompts FOR SELECT
   USING (is_public = true);
 
-CREATE POLICY IF NOT EXISTS "Users can view their own prompts"
+DROP POLICY IF EXISTS "Users can view their own prompts" ON public.prompts;
+CREATE POLICY "Users can view their own prompts"
   ON public.prompts FOR SELECT
   USING (auth.uid() = user_id);
 
-CREATE POLICY IF NOT EXISTS "Users can create prompts"
+DROP POLICY IF EXISTS "Users can create prompts" ON public.prompts;
+CREATE POLICY "Users can create prompts"
   ON public.prompts FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY IF NOT EXISTS "Users can update their own prompts"
+DROP POLICY IF EXISTS "Users can update their own prompts" ON public.prompts;
+CREATE POLICY "Users can update their own prompts"
   ON public.prompts FOR UPDATE
   USING (auth.uid() = user_id);
 
-CREATE POLICY IF NOT EXISTS "Users can delete their own prompts"
+DROP POLICY IF EXISTS "Users can delete their own prompts" ON public.prompts;
+CREATE POLICY "Users can delete their own prompts"
   ON public.prompts FOR DELETE
   USING (auth.uid() = user_id);
 
@@ -421,66 +429,81 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Admin policies for agents
-CREATE POLICY IF NOT EXISTS "Admins can view all agents"
+DROP POLICY IF EXISTS "Admins can view all agents" ON public.agents;
+CREATE POLICY "Admins can view all agents"
   ON public.agents FOR SELECT
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Admins can insert agents"
+DROP POLICY IF EXISTS "Admins can insert agents" ON public.agents;
+CREATE POLICY "Admins can insert agents"
   ON public.agents FOR INSERT
   WITH CHECK (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Admins can update agents"
+DROP POLICY IF EXISTS "Admins can update agents" ON public.agents;
+CREATE POLICY "Admins can update agents"
   ON public.agents FOR UPDATE
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Admins can delete agents"
+DROP POLICY IF EXISTS "Admins can delete agents" ON public.agents;
+CREATE POLICY "Admins can delete agents"
   ON public.agents FOR DELETE
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
 -- Admin policies for agent generations
-CREATE POLICY IF NOT EXISTS "Admins can view all agent generations"
+DROP POLICY IF EXISTS "Admins can view all agent generations" ON public.agent_generations;
+CREATE POLICY "Admins can view all agent generations"
   ON public.agent_generations FOR SELECT
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Admins can insert agent generations"
+DROP POLICY IF EXISTS "Admins can insert agent generations" ON public.agent_generations;
+CREATE POLICY "Admins can insert agent generations"
   ON public.agent_generations FOR INSERT
   WITH CHECK (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Admins can update agent generations"
+DROP POLICY IF EXISTS "Admins can update agent generations" ON public.agent_generations;
+CREATE POLICY "Admins can update agent generations"
   ON public.agent_generations FOR UPDATE
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Admins can delete agent generations"
+DROP POLICY IF EXISTS "Admins can delete agent generations" ON public.agent_generations;
+CREATE POLICY "Admins can delete agent generations"
   ON public.agent_generations FOR DELETE
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
 -- Admin policies for agent metrics
-CREATE POLICY IF NOT EXISTS "Admins can view all agent metrics"
+DROP POLICY IF EXISTS "Admins can view all agent metrics" ON public.agent_metrics;
+CREATE POLICY "Admins can view all agent metrics"
   ON public.agent_metrics FOR SELECT
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Admins can insert agent metrics"
+DROP POLICY IF EXISTS "Admins can insert agent metrics" ON public.agent_metrics;
+CREATE POLICY "Admins can insert agent metrics"
   ON public.agent_metrics FOR INSERT
   WITH CHECK (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Admins can update agent metrics"
+DROP POLICY IF EXISTS "Admins can update agent metrics" ON public.agent_metrics;
+CREATE POLICY "Admins can update agent metrics"
   ON public.agent_metrics FOR UPDATE
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Admins can delete agent metrics"
+DROP POLICY IF EXISTS "Admins can delete agent metrics" ON public.agent_metrics;
+CREATE POLICY "Admins can delete agent metrics"
   ON public.agent_metrics FOR DELETE
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
 -- Admin policies for free tool usage
-CREATE POLICY IF NOT EXISTS "Admins can view all free tool usage"
+DROP POLICY IF EXISTS "Admins can view all free tool usage" ON public.free_tool_usage;
+CREATE POLICY "Admins can view all free tool usage"
   ON public.free_tool_usage FOR SELECT
   USING (auth.role() = 'authenticated' AND public.is_admin_user());
 
-CREATE POLICY IF NOT EXISTS "Users can view their own free tool usage"
+DROP POLICY IF EXISTS "Users can view their own free tool usage" ON public.free_tool_usage;
+CREATE POLICY "Users can view their own free tool usage"
   ON public.free_tool_usage FOR SELECT
   USING (auth.uid() = user_id);
 
-CREATE POLICY IF NOT EXISTS "Anyone can insert free tool usage"
+DROP POLICY IF EXISTS "Anyone can insert free tool usage" ON public.free_tool_usage;
+CREATE POLICY "Anyone can insert free tool usage"
   ON public.free_tool_usage FOR INSERT
   WITH CHECK (true);
 

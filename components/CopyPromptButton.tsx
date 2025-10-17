@@ -52,14 +52,15 @@ export function CopyPromptButton({
         JSON.stringify({
           promptId,
           promptName,
-          redirectUrl: window.location.href,
+          redirectUrl: typeof window !== 'undefined' ? window.location.href : '',
         }),
       )
       await createClient().auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${
-            process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+            process.env.NEXT_PUBLIC_SITE_URL ||
+            (typeof window !== 'undefined' ? window.location.origin : '')
           }/auth/callback?redirect=${encodeURIComponent(redirectAfterLogin)}`,
           queryParams: { access_type: 'offline', prompt: 'consent' },
         },

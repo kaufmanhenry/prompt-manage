@@ -35,7 +35,8 @@ export function Header() {
   const handleSignIn = async () => {
     const redirectParam = searchParams.get('redirect') || '/dashboard'
     const callbackUrl = `${
-      process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      (typeof window !== 'undefined' ? window.location.origin : '')
     }/auth/callback?redirect=${encodeURIComponent(redirectParam)}`
 
     await createClient().auth.signInWithOAuth({
@@ -49,7 +50,9 @@ export function Header() {
 
   const handleSignOut = async () => {
     await createClient().auth.signOut()
-    window.location.href = '/'
+    if (typeof window !== 'undefined') {
+      window.location.href = '/'
+    }
   }
 
   return (
@@ -95,7 +98,9 @@ export function Header() {
                   onClick={(e) => {
                     if (pathname === '/dashboard') {
                       e.preventDefault()
-                      window.location.reload()
+                      if (typeof window !== 'undefined') {
+                        window.location.reload()
+                      }
                     }
                   }}
                 >

@@ -23,7 +23,8 @@ export function GoogleSignInButton({
     setLoading(true)
     try {
       const callbackUrl = `${
-        process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+        process.env.NEXT_PUBLIC_SITE_URL ||
+        (typeof window !== 'undefined' ? window.location.origin : '')
       }/auth/callback?redirect=${encodeURIComponent(redirectPath)}`
 
       const { error } = await createClient().auth.signInWithOAuth({

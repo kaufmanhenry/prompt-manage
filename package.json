@@ -14,7 +14,8 @@
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "stripe:setup": "tsx scripts/setup-stripe-products.ts",
-    "prepare": "husky"
+    "pre-commit": "lint-staged",
+    "check-all": "npm run lint && npm run format:check && npm run type-check"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -67,11 +68,21 @@
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-tailwindcss": "3.18.2",
     "eslint-plugin-unused-imports": "4.2.0",
+    "lint-staged": "16.2.4",
     "postcss": "^8.4.35",
     "postcss-import": "^16.0.1",
     "prettier": "3.6.2",
     "tsx": "4.20.6",
     "typescript": "5.9.2",
     "typescript-eslint": "8.44.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write"
+    ]
   }
 }

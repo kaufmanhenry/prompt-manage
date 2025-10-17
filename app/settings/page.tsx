@@ -304,9 +304,11 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-3">
                     {avatarUrl ? (
                       <img
-                        src={avatarUrl.startsWith('http')
-                          ? avatarUrl
-                          : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl.replace(/^avatars\//, '')}`}
+                        src={
+                          avatarUrl.startsWith('http')
+                            ? avatarUrl
+                            : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl.replace(/^avatars\//, '')}`
+                        }
                         alt="Avatar"
                         className="h-12 w-12 rounded-full object-cover"
                       />
@@ -314,10 +316,15 @@ export default function SettingsPage() {
                       <div className="h-12 w-12 rounded-full bg-input" />
                     )}
                     <label className="inline-flex items-center gap-2">
-                      <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleAvatarChange}
+                      />
                       <Button type="button" variant="outline" disabled={avatarUploading}>
                         <Upload className="mr-2 h-4 w-4" />
-                        {avatarUploading ? 'Uploading…' : 'Upload' }
+                        {avatarUploading ? 'Uploading…' : 'Upload'}
                       </Button>
                     </label>
                   </div>

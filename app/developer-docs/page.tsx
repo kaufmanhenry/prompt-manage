@@ -3,7 +3,8 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'API Documentation — Prompt Manage',
-  description: 'Developer documentation for the Prompt Manage API. Integrate prompt management into your applications.',
+  description:
+    'Developer documentation for the Prompt Manage API. Integrate prompt management into your applications.',
   keywords: ['API', 'developer', 'documentation', 'REST API', 'integration'],
   openGraph: {
     title: 'API Documentation — Prompt Manage',
@@ -34,10 +35,15 @@ export default function DeveloperDocsPage() {
           <section>
             <h2 className="mb-6 text-2xl font-semibold">Introduction</h2>
             <p className="mb-4 text-gray-600 dark:text-gray-400">
-              The Prompt Manage API allows you to programmatically manage prompts, run AI models, and integrate prompt management into your workflows.
+              The Prompt Manage API allows you to programmatically manage prompts, run AI models,
+              and integrate prompt management into your workflows.
             </p>
             <p className="text-gray-600 dark:text-gray-400">
-              All API requests are made to <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-900">https://promptmanage.com/api</code> and require authentication.
+              All API requests are made to{' '}
+              <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-900">
+                https://promptmanage.com/api
+              </code>{' '}
+              and require authentication.
             </p>
           </section>
 
@@ -71,26 +77,42 @@ export default function DeveloperDocsPage() {
               <div>
                 <h3 className="mb-2 text-base font-medium">Prompts</h3>
                 <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                  <li>• <code>GET /api/prompts</code> - List all prompts</li>
-                  <li>• <code>POST /api/prompts</code> - Create a prompt</li>
-                  <li>• <code>GET /api/prompts/:id</code> - Get a prompt</li>
-                  <li>• <code>PUT /api/prompts/:id</code> - Update a prompt</li>
-                  <li>• <code>DELETE /api/prompts/:id</code> - Delete a prompt</li>
+                  <li>
+                    • <code>GET /api/prompts</code> - List all prompts
+                  </li>
+                  <li>
+                    • <code>POST /api/prompts</code> - Create a prompt
+                  </li>
+                  <li>
+                    • <code>GET /api/prompts/:id</code> - Get a prompt
+                  </li>
+                  <li>
+                    • <code>PUT /api/prompts/:id</code> - Update a prompt
+                  </li>
+                  <li>
+                    • <code>DELETE /api/prompts/:id</code> - Delete a prompt
+                  </li>
                 </ul>
               </div>
 
               <div>
                 <h3 className="mb-2 text-base font-medium">Teams</h3>
                 <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                  <li>• <code>GET /api/teams</code> - List teams</li>
-                  <li>• <code>GET /api/teams/:id/members</code> - List team members</li>
+                  <li>
+                    • <code>GET /api/teams</code> - List teams
+                  </li>
+                  <li>
+                    • <code>GET /api/teams/:id/members</code> - List team members
+                  </li>
                 </ul>
               </div>
 
               <div>
                 <h3 className="mb-2 text-base font-medium">Audit Logs</h3>
                 <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                  <li>• <code>GET /api/audit-logs</code> - List audit logs (Enterprise only)</li>
+                  <li>
+                    • <code>GET /api/audit-logs</code> - List audit logs (Enterprise only)
+                  </li>
                 </ul>
               </div>
             </div>
@@ -122,7 +144,10 @@ export default function DeveloperDocsPage() {
               </a>
             </div>
             <div className="mt-8">
-              <Link href="/docs" className="text-sm underline hover:text-gray-600 dark:hover:text-gray-300">
+              <Link
+                href="/docs"
+                className="text-sm underline hover:text-gray-600 dark:hover:text-gray-300"
+              >
                 View Full Documentation
               </Link>
             </div>

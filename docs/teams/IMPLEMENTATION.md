@@ -33,23 +33,23 @@ export const TEAM_STRUCTURE = {
   backend: {
     lead: 1,
     engineers: 2,
-    responsibilities: ['API', 'Database', 'Security']
+    responsibilities: ['API', 'Database', 'Security'],
   },
   frontend: {
     lead: 1,
     engineers: 2,
-    responsibilities: ['UI', 'State Management', 'Components']
+    responsibilities: ['UI', 'State Management', 'Components'],
   },
   devops: {
     engineers: 1,
-    responsibilities: ['Infrastructure', 'CI/CD', 'Monitoring']
+    responsibilities: ['Infrastructure', 'CI/CD', 'Monitoring'],
   },
   qa: {
     engineers: 1,
-    responsibilities: ['Testing', 'Security Audits', 'Performance']
+    responsibilities: ['Testing', 'Security Audits', 'Performance'],
   },
   productManager: 1,
-  totalHeadcount: 9
+  totalHeadcount: 9,
 }
 ```
 
@@ -62,6 +62,7 @@ export const TEAM_STRUCTURE = {
 #### Week 1: Database & Infrastructure
 
 **Objectives:**
+
 - ✅ Database schema implementation
 - ✅ RLS policies configured
 - ✅ Development environment setup
@@ -77,9 +78,9 @@ const week1Tasks = [
       'Create Supabase project',
       'Run initial migration: 20250115000000_teams_core.sql',
       'Verify tables created correctly',
-      'Test RLS policies manually'
+      'Test RLS policies manually',
     ],
-    assignee: 'Backend Lead'
+    assignee: 'Backend Lead',
   },
   {
     day: 'Tuesday',
@@ -87,9 +88,9 @@ const week1Tasks = [
       'Run permissions migration: 20250115000001_teams_permissions.sql',
       'Implement has_team_permission function',
       'Test permission checks',
-      'Document permission matrix'
+      'Document permission matrix',
     ],
-    assignee: 'Backend Engineer 1'
+    assignee: 'Backend Engineer 1',
   },
   {
     day: 'Wednesday',
@@ -97,9 +98,9 @@ const week1Tasks = [
       'Run resources migration: 20250115000002_teams_resources.sql',
       'Set up full-text search',
       'Create test data seed scripts',
-      'Verify indexes performance'
+      'Verify indexes performance',
     ],
-    assignee: 'Backend Engineer 2'
+    assignee: 'Backend Engineer 2',
   },
   {
     day: 'Thursday',
@@ -107,9 +108,9 @@ const week1Tasks = [
       'Run billing migration: 20250115000003_teams_billing.sql',
       'Set up Stripe test account',
       'Create products in Stripe Dashboard',
-      'Test webhook endpoints locally'
+      'Test webhook endpoints locally',
     ],
-    assignee: 'Backend Lead'
+    assignee: 'Backend Lead',
   },
   {
     day: 'Friday',
@@ -117,14 +118,15 @@ const week1Tasks = [
       'Run audit migration: 20250115000004_teams_audit.sql',
       'Set up Redis (Upstash)',
       'Configure environment variables',
-      'End-to-end database testing'
+      'End-to-end database testing',
     ],
-    assignee: 'Backend Engineer 1'
-  }
+    assignee: 'Backend Engineer 1',
+  },
 ]
 ```
 
 **Deliverables:**
+
 - ✅ All database tables created and tested
 - ✅ RLS policies verified
 - ✅ Stripe products configured
@@ -132,6 +134,7 @@ const week1Tasks = [
 - ✅ Seed data for development
 
 **Success Criteria:**
+
 ```sql
 -- Verify all tables exist
 select count(*) from information_schema.tables
@@ -156,6 +159,7 @@ where schemaname = 'public'
 #### Week 2: Core API Layer
 
 **Objectives:**
+
 - ✅ Team CRUD endpoints
 - ✅ Member management endpoints
 - ✅ Authentication middleware
@@ -170,23 +174,24 @@ const week2Priorities = {
     'GET /api/v1/teams - List teams',
     'GET /api/v1/teams/:id - Get team details',
     'withAuth middleware',
-    'checkPermission middleware'
+    'checkPermission middleware',
   ],
   high: [
     'POST /api/v1/teams/:id/members/invite - Invite member',
     'GET /api/v1/teams/:id/members - List members',
     'PATCH /api/v1/teams/:id/members/:memberId - Update role',
-    'DELETE /api/v1/teams/:id/members/:memberId - Remove member'
+    'DELETE /api/v1/teams/:id/members/:memberId - Remove member',
   ],
   medium: [
     'PATCH /api/v1/teams/:id - Update team',
     'DELETE /api/v1/teams/:id - Delete team',
-    'Rate limiting middleware'
-  ]
+    'Rate limiting middleware',
+  ],
 }
 ```
 
 **Testing Checklist:**
+
 ```bash
 # API Testing Script
 # Save as: scripts/test-api-week2.sh
@@ -232,6 +237,7 @@ echo "✅ Week 2 API tests complete"
 ```
 
 **Deliverables:**
+
 - ✅ 8 API endpoints functional
 - ✅ Authentication working
 - ✅ Permission checks enforced
@@ -245,6 +251,7 @@ echo "✅ Week 2 API tests complete"
 #### Week 3: Shared Resources & Usage Tracking
 
 **Objectives:**
+
 - ✅ Team prompts CRUD
 - ✅ Team datasets upload
 - ✅ Usage tracking implementation
@@ -266,7 +273,7 @@ const week3Endpoints = [
   'DELETE /api/v1/teams/:id/datasets/:datasetId',
 
   'GET /api/v1/teams/:id/usage',
-  'GET /api/v1/teams/:id/usage/export'
+  'GET /api/v1/teams/:id/usage/export',
 ]
 
 // Usage tracking integration
@@ -274,11 +281,12 @@ const integrationPoints = [
   'Hook into existing prompt execution',
   'Track token usage per team',
   'Calculate costs automatically',
-  'Enforce spending limits'
+  'Enforce spending limits',
 ]
 ```
 
 **Database Performance Testing:**
+
 ```sql
 -- Test prompt search performance
 explain (analyze, buffers)
@@ -300,6 +308,7 @@ select * from get_team_usage_stats(
 ```
 
 **Deliverables:**
+
 - ✅ Prompt management fully functional
 - ✅ Dataset upload working
 - ✅ Usage tracking active
@@ -309,6 +318,7 @@ select * from get_team_usage_stats(
 #### Week 4: Frontend Foundation
 
 **Objectives:**
+
 - ✅ Team switcher component
 - ✅ Team dashboard page
 - ✅ Create team flow
@@ -323,26 +333,27 @@ const week4Components = {
     '✓ CreateTeamDialog - Team creation',
     '✓ TeamDashboard - Main dashboard',
     '✓ TeamCard - Display card',
-    '□ TeamLayout - Page layout'
+    '□ TeamLayout - Page layout',
   ],
   members: [
     '✓ InviteMemberDialog - Invitation modal',
     '✓ MemberList - Members table',
     '✓ MemberCard - Member display',
     '✓ RoleBadge - Role indicator',
-    '□ MemberSettings - Role management'
+    '□ MemberSettings - Role management',
   ],
   hooks: [
     '✓ useTeams - Team queries',
     '✓ useTeam - Single team',
     '✓ useTeamMembers - Member list',
     '✓ useTeamPermission - Permission checks',
-    '□ useRealtimeTeamUpdates - Live updates'
-  ]
+    '□ useRealtimeTeamUpdates - Live updates',
+  ],
 }
 ```
 
 **UI/UX Testing:**
+
 ```typescript
 // Cypress E2E tests
 describe('Teams UI Flow', () => {
@@ -369,6 +380,7 @@ describe('Teams UI Flow', () => {
 ```
 
 **Deliverables:**
+
 - ✅ Team creation flow complete
 - ✅ Team switcher functional
 - ✅ Dashboard with stats
@@ -383,6 +395,7 @@ describe('Teams UI Flow', () => {
 #### Week 5: Stripe Billing Integration
 
 **Objectives:**
+
 - ✅ Checkout flow implementation
 - ✅ Webhook processing
 - ✅ Subscription management
@@ -395,28 +408,28 @@ const week5Tasks = [
   {
     day: 1,
     task: 'Set up Stripe webhook endpoint',
-    testing: 'Use Stripe CLI to test locally'
+    testing: 'Use Stripe CLI to test locally',
   },
   {
     day: 2,
     task: 'Implement checkout session creation',
-    testing: 'Complete test checkout flow'
+    testing: 'Complete test checkout flow',
   },
   {
     day: 3,
     task: 'Build webhook event handlers',
-    testing: 'Test all webhook events'
+    testing: 'Test all webhook events',
   },
   {
     day: 4,
     task: 'Create billing dashboard UI',
-    testing: 'User acceptance testing'
+    testing: 'User acceptance testing',
   },
   {
     day: 5,
     task: 'Implement customer portal',
-    testing: 'End-to-end billing flow'
-  }
+    testing: 'End-to-end billing flow',
+  },
 ]
 
 // Critical test cases
@@ -425,11 +438,12 @@ const billingTestCases = [
   'Add additional seats → Verify proration',
   'Cancel subscription → Verify downgrade to Free',
   'Payment failure → Verify status update',
-  'Trial period → Verify delayed charge'
+  'Trial period → Verify delayed charge',
 ]
 ```
 
 **Stripe Testing Checklist:**
+
 ```bash
 # Stripe webhook testing
 stripe listen --forward-to localhost:3000/api/webhooks/stripe
@@ -444,6 +458,7 @@ curl https://dashboard.stripe.com/test/webhooks
 ```
 
 **Deliverables:**
+
 - ✅ Checkout flow functional
 - ✅ All webhooks handling correctly
 - ✅ Subscription lifecycle working
@@ -453,6 +468,7 @@ curl https://dashboard.stripe.com/test/webhooks
 #### Week 6: Security & Audit
 
 **Objectives:**
+
 - ✅ Encryption implementation
 - ✅ Audit logging active
 - ✅ MFA setup (optional)
@@ -466,24 +482,25 @@ const week6Security = {
     'Deploy EncryptionService',
     'Encrypt all existing prompts',
     'Test encryption/decryption performance',
-    'Document key rotation procedure'
+    'Document key rotation procedure',
   ],
   audit: [
     'Verify all actions logged',
     'Test audit log queries',
     'Set up log retention policy',
-    'Create audit dashboard'
+    'Create audit dashboard',
   ],
   compliance: [
     'GDPR data export',
     'GDPR right to erasure',
     'SOC 2 evidence collection',
-    'Security documentation'
-  ]
+    'Security documentation',
+  ],
 }
 ```
 
 **Security Testing:**
+
 ```bash
 # Penetration testing checklist
 □ SQL injection attempts
@@ -500,6 +517,7 @@ docker run -t owasp/zap2docker-stable \
 ```
 
 **Deliverables:**
+
 - ✅ All sensitive data encrypted
 - ✅ Complete audit trail
 - ✅ Security audit passed
@@ -513,6 +531,7 @@ docker run -t owasp/zap2docker-stable \
 #### Week 7: Performance & Polish
 
 **Objectives:**
+
 - ✅ Performance optimization
 - ✅ Caching implementation
 - ✅ Load testing
@@ -526,24 +545,25 @@ const week7Optimizations = {
     'Add missing indexes',
     'Optimize slow queries',
     'Enable connection pooling',
-    'Set up materialized views'
+    'Set up materialized views',
   ],
   caching: [
     'Implement Redis caching',
     'Configure cache TTLs',
     'Test cache invalidation',
-    'Monitor cache hit rates'
+    'Monitor cache hit rates',
   ],
   frontend: [
     'Code splitting',
     'Image optimization',
     'Bundle size reduction',
-    'Lazy loading implementation'
-  ]
+    'Lazy loading implementation',
+  ],
 }
 ```
 
 **Load Testing:**
+
 ```bash
 # K6 load test
 k6 run --vus 100 --duration 5m scripts/load-test.ts
@@ -556,6 +576,7 @@ k6 run --vus 100 --duration 5m scripts/load-test.ts
 ```
 
 **Deliverables:**
+
 - ✅ All performance targets met
 - ✅ Caching operational (>80% hit rate)
 - ✅ Load testing passed
@@ -565,6 +586,7 @@ k6 run --vus 100 --duration 5m scripts/load-test.ts
 #### Week 8: Beta Launch & Monitoring
 
 **Objectives:**
+
 - ✅ Beta launch to 10-20 teams
 - ✅ Real-world testing
 - ✅ Documentation finalized
@@ -577,17 +599,17 @@ const betaLaunchPlan = {
   phase1: {
     teams: 5,
     duration: '3 days',
-    criteria: 'Internal company teams'
+    criteria: 'Internal company teams',
   },
   phase2: {
     teams: 10,
     duration: '4 days',
-    criteria: 'Trusted customers (Pro tier)'
+    criteria: 'Trusted customers (Pro tier)',
   },
   phase3: {
     teams: 20,
     duration: '7 days',
-    criteria: 'General beta signup'
+    criteria: 'General beta signup',
   },
   monitoring: {
     metrics: [
@@ -595,21 +617,18 @@ const betaLaunchPlan = {
       'Response times',
       'User feedback (NPS)',
       'Feature usage',
-      'Billing conversions'
+      'Billing conversions',
     ],
-    alerts: [
-      'Error rate > 1%',
-      'Response time > 500ms',
-      'Payment failure',
-      'Security incident'
-    ]
-  }
+    alerts: ['Error rate > 1%', 'Response time > 500ms', 'Payment failure', 'Security incident'],
+  },
 }
 ```
 
 **Launch Day Checklist:**
+
 ```markdown
 ## Pre-Launch (Day -1)
+
 - [ ] All tests passing
 - [ ] Staging environment verified
 - [ ] Production database backed up
@@ -618,6 +637,7 @@ const betaLaunchPlan = {
 - [ ] Rollback plan documented
 
 ## Launch (Day 0)
+
 - [ ] Deploy to production (9 AM)
 - [ ] Verify deployment successful
 - [ ] Run smoke tests
@@ -626,6 +646,7 @@ const betaLaunchPlan = {
 - [ ] Enable beta signups
 
 ## Post-Launch (Day +1)
+
 - [ ] Review metrics from Day 0
 - [ ] Address any critical issues
 - [ ] Collect beta user feedback
@@ -634,6 +655,7 @@ const betaLaunchPlan = {
 ```
 
 **Deliverables:**
+
 - ✅ Beta launch successful
 - ✅ 20+ teams actively using
 - ✅ All documentation complete
@@ -672,7 +694,7 @@ describe('checkTeamPermission', () => {
   it('returns true for owner on any resource', async () => {
     const result = await checkPermission('team-id', 'owner-id', {
       resourceType: 'prompt',
-      action: 'delete'
+      action: 'delete',
     })
     expect(result).toBe(true)
   })
@@ -680,7 +702,7 @@ describe('checkTeamPermission', () => {
   it('returns false for viewer on write action', async () => {
     const result = await checkPermission('team-id', 'viewer-id', {
       resourceType: 'prompt',
-      action: 'write'
+      action: 'write',
     })
     expect(result).toBe(false)
   })
@@ -689,11 +711,11 @@ describe('checkTeamPermission', () => {
     // Custom permission: viewers can read but not export
     const canRead = await checkPermission('team-id', 'viewer-id', {
       resourceType: 'dataset',
-      action: 'read'
+      action: 'read',
     })
     const canExport = await checkPermission('team-id', 'viewer-id', {
       resourceType: 'dataset',
-      action: 'export'
+      action: 'export',
     })
 
     expect(canRead).toBe(true)
@@ -713,7 +735,7 @@ describe('POST /api/v1/teams', () => {
       .set('Authorization', `Bearer ${userToken}`)
       .send({
         name: 'Engineering',
-        description: 'Product engineering team'
+        description: 'Product engineering team',
       })
 
     expect(response.status).toBe(201)
@@ -801,21 +823,21 @@ const deploymentStrategy = {
       name: 'staging',
       url: 'https://staging.promptmanage.com',
       autoTest: true,
-      requiresApproval: false
+      requiresApproval: false,
     },
     {
       name: 'production-canary',
       traffic: '5%',
       duration: '2 hours',
       rollbackOnError: true,
-      errorThreshold: 1 // %
+      errorThreshold: 1, // %
     },
     {
       name: 'production-full',
       traffic: '100%',
-      requiresApproval: true // Manual approval after canary
-    }
-  ]
+      requiresApproval: true, // Manual approval after canary
+    },
+  ],
 }
 ```
 
@@ -918,8 +940,8 @@ const postLaunchPlan = {
       'Review beta feedback',
       'Fix reported bugs',
       'Optimize slow queries',
-      'Improve UI/UX based on usage data'
-    ]
+      'Improve UI/UX based on usage data',
+    ],
   },
   week10: {
     focus: 'Advanced features',
@@ -927,8 +949,8 @@ const postLaunchPlan = {
       'Custom roles (Enterprise)',
       'SSO integration (Enterprise)',
       'Advanced permissions',
-      'API key management'
-    ]
+      'API key management',
+    ],
   },
   week11: {
     focus: 'Scaling preparation',
@@ -936,8 +958,8 @@ const postLaunchPlan = {
       'Implement database sharding',
       'Set up read replicas',
       'Optimize caching strategy',
-      'Load test at 10x scale'
-    ]
+      'Load test at 10x scale',
+    ],
   },
   week12: {
     focus: 'General Availability (GA)',
@@ -945,9 +967,9 @@ const postLaunchPlan = {
       'Public launch announcement',
       'Marketing campaign',
       'Customer success onboarding',
-      'Documentation finalization'
-    ]
-  }
+      'Documentation finalization',
+    ],
+  },
 }
 ```
 
@@ -958,42 +980,42 @@ const successMetrics = {
   adoption: {
     target: '100 teams in first month',
     current: 0,
-    tracking: 'daily'
+    tracking: 'daily',
   },
   retention: {
     target: '80% 30-day retention',
     current: 0,
-    tracking: 'weekly'
+    tracking: 'weekly',
   },
   conversion: {
     target: '20% free → pro conversion',
     current: 0,
-    tracking: 'monthly'
+    tracking: 'monthly',
   },
   performance: {
     p95ResponseTime: {
       target: '<200ms',
       current: 0,
-      tracking: 'real-time'
+      tracking: 'real-time',
     },
     errorRate: {
       target: '<0.1%',
       current: 0,
-      tracking: 'real-time'
-    }
+      tracking: 'real-time',
+    },
   },
   satisfaction: {
     nps: {
       target: '>50',
       current: 0,
-      tracking: 'monthly'
+      tracking: 'monthly',
     },
     csat: {
       target: '>4.5/5',
       current: 0,
-      tracking: 'weekly'
-    }
-  }
+      tracking: 'weekly',
+    },
+  },
 }
 ```
 
@@ -1003,16 +1025,16 @@ const successMetrics = {
 
 ### Identified Risks & Mitigation
 
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| **Database migration failure** | High | Low | Comprehensive backup, staged rollout, rollback plan |
-| **Stripe integration issues** | High | Medium | Extensive testing, test mode first, webhook retry logic |
-| **Performance degradation** | High | Medium | Load testing, caching, monitoring, auto-scaling |
-| **Security vulnerability** | Critical | Low | Security audit, pen testing, bug bounty program |
-| **Data loss** | Critical | Very Low | Daily backups, point-in-time recovery, replication |
-| **Timeline slippage** | Medium | Medium | Buffer time, parallel work streams, clear priorities |
-| **Team member unavailability** | Medium | Medium | Cross-training, documentation, backup resources |
-| **Third-party service outage** | Medium | Low | Multi-region deployment, fallback strategies |
+| Risk                           | Impact   | Probability | Mitigation                                              |
+| ------------------------------ | -------- | ----------- | ------------------------------------------------------- |
+| **Database migration failure** | High     | Low         | Comprehensive backup, staged rollout, rollback plan     |
+| **Stripe integration issues**  | High     | Medium      | Extensive testing, test mode first, webhook retry logic |
+| **Performance degradation**    | High     | Medium      | Load testing, caching, monitoring, auto-scaling         |
+| **Security vulnerability**     | Critical | Low         | Security audit, pen testing, bug bounty program         |
+| **Data loss**                  | Critical | Very Low    | Daily backups, point-in-time recovery, replication      |
+| **Timeline slippage**          | Medium   | Medium      | Buffer time, parallel work streams, clear priorities    |
+| **Team member unavailability** | Medium   | Medium      | Cross-training, documentation, backup resources         |
+| **Third-party service outage** | Medium   | Low         | Multi-region deployment, fallback strategies            |
 
 ### Rollback Plan
 
@@ -1022,7 +1044,7 @@ const rollbackPlan = {
     'Error rate > 5%',
     'Critical security vulnerability',
     'Data corruption detected',
-    'Service unavailability > 5 minutes'
+    'Service unavailability > 5 minutes',
   ],
   steps: [
     '1. Halt new deployments immediately',
@@ -1030,14 +1052,14 @@ const rollbackPlan = {
     '3. Restore database from latest backup if needed',
     '4. Notify all team members and stakeholders',
     '5. Investigate root cause',
-    '6. Implement fix and re-deploy'
+    '6. Implement fix and re-deploy',
   ],
   estimatedTime: '< 15 minutes',
   responsibilities: {
     decision: 'Backend Lead or on-call engineer',
     execution: 'DevOps Engineer',
-    communication: 'Product Manager'
-  }
+    communication: 'Product Manager',
+  },
 }
 ```
 
@@ -1052,6 +1074,7 @@ const rollbackPlan = {
 **Team Size:** 9 people
 
 **Budget Estimate:**
+
 - Development: $180K (9 people × 12 weeks × $1.5K/week)
 - Infrastructure: $5K (12 weeks × $400/month)
 - Third-party services: $2K (Stripe, monitoring, etc.)
@@ -1072,6 +1095,7 @@ const rollbackPlan = {
 
 ```markdown
 ## Technical
+
 - [x] All migrations tested
 - [x] API endpoints functional
 - [x] Frontend components complete
@@ -1081,6 +1105,7 @@ const rollbackPlan = {
 - [x] Monitoring operational
 
 ## Business
+
 - [x] Pricing finalized
 - [x] Billing integration tested
 - [x] Legal documents reviewed
@@ -1088,6 +1113,7 @@ const rollbackPlan = {
 - [x] Marketing materials prepared
 
 ## Operations
+
 - [x] CI/CD pipeline configured
 - [x] Backup/restore tested
 - [x] Rollback plan documented
@@ -1099,7 +1125,8 @@ const rollbackPlan = {
 
 ---
 
-*For detailed implementation of each component, refer to the companion documents:*
+_For detailed implementation of each component, refer to the companion documents:_
+
 - [Database Schema](./TEAMS_ARCHITECTURE.md)
 - [API Layer](./API_LAYER.md)
 - [Frontend](./FRONTEND.md)

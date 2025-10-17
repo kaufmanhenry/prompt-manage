@@ -104,7 +104,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
   // AI-generated audience description (unique, SEO-optimized, human-sounding)
   const audienceInfo = useMemo(() => {
     if (!prompt) return null
-    
+
     return generateAudienceDescription({
       name: prompt.name,
       description: prompt.description,
@@ -117,7 +117,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
   // Generate compelling CTA
   const ctaInfo = useMemo(() => {
     if (!prompt) return null
-    
+
     return generateCTA({
       name: prompt.name,
       description: prompt.description,
@@ -291,324 +291,327 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
         />
       )}
       <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl p-6">
-        {/* Header */}
-        <div className="mb-8">
-          <Link href="/p">
-            <Button variant="ghost" className="mb-4">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Directory
-            </Button>
-          </Link>
-
-          <div className="flex items-start justify-between gap-6">
-            <div className="flex-1">
-              <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
-                {prompt.name}
-              </h1>
-              {prompt.description && (
-                <p className="mb-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-                  {prompt.description}
-                </p>
-              )}
-              {!prompt.description && audienceInfo && (
-                <p className="mb-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-                  {audienceInfo.primary}
-                </p>
-              )}
-              <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                <div className="flex items-center gap-1 rounded-lg bg-input/70 px-3 py-1.5">
-                  <User className="h-4 w-4" />
-                  <span className="font-medium">Community Shared</span>
-                </div>
-                {prompt.updated_at && (
-                  <div className="flex items-center gap-1 rounded-lg bg-input/70 px-3 py-1.5">
-                    <Calendar className="h-4 w-4" />
-                    <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
-                  </div>
-                )}
-                <div className="flex items-center gap-1 rounded-lg bg-green-100 px-3 py-1.5 dark:bg-green-900">
-                  <TrendingUp className="h-4 w-4 text-green-700 dark:text-green-300" />
-                  <span className="font-medium text-green-900 dark:text-green-100">
-                    {prompt.view_count.toLocaleString()} views
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex shrink-0 items-start gap-2">
-              {prompt.id && (
-                <CopyPromptButton 
-                  promptId={prompt.id} 
-                  promptName={prompt.name}
-                />
-              )}
-              <Button onClick={() => setShowShareDialog(true)} variant="outline">
-                <Share2 className="mr-2 h-4 w-4" />
-                Share
+        <div className="mx-auto max-w-4xl p-6">
+          {/* Header */}
+          <div className="mb-8">
+            <Link href="/p">
+              <Button variant="ghost" className="mb-4">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Directory
               </Button>
-            </div>
-          </div>
-        </div>
+            </Link>
 
-        {/* Prompt Content */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="min-w-0 lg:col-span-3">
-            <Card className="gap-2 space-y-0">
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>Prompt</span>
-                  <CopyButton text={prompt.prompt_text} />
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="rounded-lg bg-accent p-4">
-                  <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
-                    {prompt.prompt_text}
-                  </pre>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Who is this prompt for? (AI-generated, unique, SEO-optimized) */}
-          <div className="min-w-0 lg:col-span-3">
-            <Card className="gap-2 space-y-0 border-blue-200 bg-blue-50/50 dark:border-blue-900 dark:bg-blue-950/30">
-              <CardHeader>
-                <CardTitle className="text-blue-900 dark:text-blue-100">
-                  Who is this prompt for?
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Primary description */}
-                <p className="text-base leading-relaxed text-gray-900 dark:text-gray-100">
-                  {audienceInfo?.primary || `Perfect for anyone looking to ${prompt.name.toLowerCase()} efficiently.`}
-                </p>
-                
-                {/* Secondary context (credibility/trust) */}
-                {audienceInfo?.secondary && (
-                  <p className="text-sm italic text-gray-600 dark:text-gray-400">
-                    {audienceInfo.secondary}
+            <div className="flex items-start justify-between gap-6">
+              <div className="flex-1">
+                <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  {prompt.name}
+                </h1>
+                {prompt.description && (
+                  <p className="mb-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                    {prompt.description}
                   </p>
                 )}
-                
-                {/* Persona badges */}
-                {audienceInfo && audienceInfo.personas.length > 0 && (
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {audienceInfo.personas.map((persona) => (
-                      <Badge key={persona} variant="secondary" className="bg-blue-100 dark:bg-blue-900">
-                        {persona}
-                      </Badge>
+                {!prompt.description && audienceInfo && (
+                  <p className="mb-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                    {audienceInfo.primary}
+                  </p>
+                )}
+                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="flex items-center gap-1 rounded-lg bg-input/70 px-3 py-1.5">
+                    <User className="h-4 w-4" />
+                    <span className="font-medium">Community Shared</span>
+                  </div>
+                  {prompt.updated_at && (
+                    <div className="flex items-center gap-1 rounded-lg bg-input/70 px-3 py-1.5">
+                      <Calendar className="h-4 w-4" />
+                      <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-1 rounded-lg bg-green-100 px-3 py-1.5 dark:bg-green-900">
+                    <TrendingUp className="h-4 w-4 text-green-700 dark:text-green-300" />
+                    <span className="font-medium text-green-900 dark:text-green-100">
+                      {prompt.view_count.toLocaleString()} views
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex shrink-0 items-start gap-2">
+                {prompt.id && <CopyPromptButton promptId={prompt.id} promptName={prompt.name} />}
+                <Button onClick={() => setShowShareDialog(true)} variant="outline">
+                  <Share2 className="mr-2 h-4 w-4" />
+                  Share
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Prompt Content */}
+          <div className="grid gap-6 lg:grid-cols-3">
+            <div className="min-w-0 lg:col-span-3">
+              <Card className="gap-2 space-y-0">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span>Prompt</span>
+                    <CopyButton text={prompt.prompt_text} />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="rounded-lg bg-accent p-4">
+                    <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
+                      {prompt.prompt_text}
+                    </pre>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Who is this prompt for? (AI-generated, unique, SEO-optimized) */}
+            <div className="min-w-0 lg:col-span-3">
+              <Card className="gap-2 space-y-0 border-blue-200 bg-blue-50/50 dark:border-blue-900 dark:bg-blue-950/30">
+                <CardHeader>
+                  <CardTitle className="text-blue-900 dark:text-blue-100">
+                    Who is this prompt for?
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Primary description */}
+                  <p className="text-base leading-relaxed text-gray-900 dark:text-gray-100">
+                    {audienceInfo?.primary ||
+                      `Perfect for anyone looking to ${prompt.name.toLowerCase()} efficiently.`}
+                  </p>
+
+                  {/* Secondary context (credibility/trust) */}
+                  {audienceInfo?.secondary && (
+                    <p className="text-sm italic text-gray-600 dark:text-gray-400">
+                      {audienceInfo.secondary}
+                    </p>
+                  )}
+
+                  {/* Persona badges */}
+                  {audienceInfo && audienceInfo.personas.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {audienceInfo.personas.map((persona) => (
+                        <Badge
+                          key={persona}
+                          variant="secondary"
+                          className="bg-blue-100 dark:bg-blue-900"
+                        >
+                          {persona}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Model Info */}
+            <Card className="gap-2 space-y-0">
+              <CardHeader>
+                <CardTitle>Model</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Link
+                  href={`/prompts/${encodeURIComponent(prompt.model)}`}
+                  className="transition-opacity hover:opacity-80"
+                >
+                  <Badge variant="secondary" className="cursor-pointer">
+                    {prompt.model}
+                  </Badge>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Tags */}
+            {prompt.tags && prompt.tags.length > 0 && (
+              <Card className="gap-2 space-y-0">
+                <CardHeader>
+                  <CardTitle>Tags</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {prompt.tags.map((tag) => (
+                      <Link
+                        key={tag}
+                        href={`/p/tags/${encodeURIComponent(tag)}`}
+                        className="transition-opacity hover:opacity-80"
+                      >
+                        <Badge variant="outline" className="cursor-pointer">
+                          {tag}
+                        </Badge>
+                      </Link>
                     ))}
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
+            )}
 
-          {/* Model Info */}
-          <Card className="gap-2 space-y-0">
-            <CardHeader>
-              <CardTitle>Model</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Link 
-                href={`/p?model=${encodeURIComponent(prompt.model)}`}
-                className="transition-opacity hover:opacity-80"
-              >
-                <Badge variant="secondary" className="cursor-pointer">
-                  {prompt.model}
-                </Badge>
-              </Link>
-            </CardContent>
-          </Card>
-
-          {/* Tags */}
-          {prompt.tags && prompt.tags.length > 0 && (
+            {/* Stats */}
             <Card className="gap-2 space-y-0">
               <CardHeader>
-                <CardTitle>Tags</CardTitle>
+                <CardTitle>Stats</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {prompt.tags.map((tag) => (
-                    <Link 
-                      key={tag} 
-                      href={`/p?tag=${encodeURIComponent(tag)}`}
-                      className="transition-opacity hover:opacity-80"
-                    >
-                      <Badge variant="outline" className="cursor-pointer">
-                        {tag}
-                      </Badge>
-                    </Link>
-                  ))}
+              <CardContent className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Views</span>
+                  <span className="font-medium">{prompt.view_count}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Created</span>
+                  <span className="font-medium">
+                    {prompt.inserted_at ? new Date(prompt.inserted_at).toLocaleDateString() : '—'}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Last Updated</span>
+                  <span className="font-medium">
+                    {prompt.updated_at ? new Date(prompt.updated_at).toLocaleDateString() : '—'}
+                  </span>
                 </div>
               </CardContent>
             </Card>
+
+            {/* Derivative Prompts */}
+            {prompt.id && <DerivativePrompts promptId={prompt.id} />}
+          </div>
+
+          {/* Call-to-Action Section (AI-generated, unique) */}
+          {ctaInfo && (
+            <div className="mt-12">
+              <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 dark:border-purple-900 dark:from-purple-950 dark:to-blue-950">
+                <CardContent className="p-8 text-center">
+                  <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
+                    {ctaInfo.text}
+                  </h3>
+                  {ctaInfo.emphasis && (
+                    <p className="mb-6 text-lg text-gray-700 dark:text-gray-300">
+                      {ctaInfo.emphasis}
+                    </p>
+                  )}
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {prompt.id && (
+                      <CopyPromptButton promptId={prompt.id} promptName={prompt.name} size="lg" />
+                    )}
+                    <Link href="/dashboard/lab">
+                      <Button size="lg" variant="outline">
+                        Try in Prompt Lab
+                      </Button>
+                    </Link>
+                    <Link href="/p">
+                      <Button size="lg" variant="ghost">
+                        Explore More Prompts
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           )}
 
-          {/* Stats */}
-          <Card className="gap-2 space-y-0">
-            <CardHeader>
-              <CardTitle>Stats</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Views</span>
-                <span className="font-medium">{prompt.view_count}</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Created</span>
-                <span className="font-medium">
-                  {prompt.inserted_at ? new Date(prompt.inserted_at).toLocaleDateString() : '—'}
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Last Updated</span>
-                <span className="font-medium">
-                  {prompt.updated_at ? new Date(prompt.updated_at).toLocaleDateString() : '—'}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Derivative Prompts */}
-          {prompt.id && <DerivativePrompts promptId={prompt.id} />}
-        </div>
-
-        {/* Call-to-Action Section (AI-generated, unique) */}
-        {ctaInfo && (
+          {/* Related Prompts */}
           <div className="mt-12">
-            <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 dark:border-purple-900 dark:from-purple-950 dark:to-blue-950">
-              <CardContent className="p-8 text-center">
-                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
-                  {ctaInfo.text}
-                </h3>
-                {ctaInfo.emphasis && (
-                  <p className="mb-6 text-lg text-gray-700 dark:text-gray-300">
-                    {ctaInfo.emphasis}
-                  </p>
-                )}
-                <div className="flex flex-wrap justify-center gap-3">
-                  {prompt.id && (
-                    <CopyPromptButton 
-                      promptId={prompt.id} 
-                      promptName={prompt.name}
-                      size="lg"
-                    />
-                  )}
-                  <Link href="/dashboard/lab">
-                    <Button size="lg" variant="outline">
-                      Try in Prompt Lab
-                    </Button>
-                  </Link>
-                  <Link href="/p">
-                    <Button size="lg" variant="ghost">
-                      Explore More Prompts
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
+            <RelatedPrompts currentPrompt={prompt} />
           </div>
-        )}
 
-        {/* Related Prompts */}
-        <div className="mt-12">
-          <RelatedPrompts currentPrompt={prompt} />
+          {/* Directory Footer Blurb */}
+          <div className="mt-12 text-sm text-muted-foreground">
+            <h3 className="mb-2 text-center text-base font-semibold text-foreground">
+              About the Prompt Manage Directory
+            </h3>
+            <p>
+              The{' '}
+              <Link href="/p" className="underline">
+                Public Prompt Directory
+              </Link>{' '}
+              from{' '}
+              <Link href="/" className="underline">
+                Prompt Manage
+              </Link>{' '}
+              features over <span className="font-semibold">{publicCount ?? 325}</span>{' '}
+              <span className="font-semibold">prompts</span> for{' '}
+              <Link href="/models" className="underline">
+                AI chatbots
+              </Link>
+              , including ChatGPT, Google Gemini, Claude, Grok, and more. This page highlights{' '}
+              <span className="font-medium">“{prompt.name}”</span>
+              {primaryCategory && <>, a {primaryCategory} prompt</>}
+              {relatedTasks.length > 0 && <> that helps with {relatedTasks.join(', ')} tasks</>}.
+              {primaryCategory && (
+                <>
+                  {' '}
+                  Explore more{' '}
+                  <Link
+                    href={`/p/tags/${encodeURIComponent(primaryCategory)}`}
+                    className="underline"
+                  >
+                    {primaryCategory}
+                  </Link>{' '}
+                  prompts
+                </>
+              )}{' '}
+              or browse the full directory to discover new ways to write, code, brainstorm, and
+              create with AI.
+              {creatorId && (
+                <>
+                  {' '}
+                  View the creator’s profile at{' '}
+                  <Link href={`/u/${creatorId}`} className="underline">
+                    /u/{creatorId}
+                  </Link>
+                </>
+              )}
+              .{' '}
+              <Link href="/p" className="underline">
+                View all prompts
+              </Link>
+              .
+            </p>
+          </div>
+
+          {/* Share Modal */}
+          <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Share this Prompt</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Button onClick={handleCopyLink} className="flex w-full items-center gap-2">
+                  <Share2 className="h-4 w-4" /> Copy Link
+                </Button>
+                <Button
+                  onClick={handleShareToX}
+                  className="flex w-full items-center gap-2"
+                  variant="outline"
+                >
+                  <Twitter className="h-4 w-4 text-blue-500" /> Share to X
+                </Button>
+                <Button
+                  onClick={handleShareToLinkedIn}
+                  className="flex w-full items-center gap-2"
+                  variant="outline"
+                >
+                  <Linkedin className="h-4 w-4 text-blue-700" /> Share to LinkedIn
+                </Button>
+                <Button
+                  onClick={handleShareToFacebook}
+                  className="flex w-full items-center gap-2"
+                  variant="outline"
+                >
+                  <Facebook className="h-4 w-4 text-blue-600" /> Share to Facebook
+                </Button>
+                <Button
+                  onClick={handleShareToReddit}
+                  className="flex w-full items-center gap-2"
+                  variant="outline"
+                >
+                  <Share2 className="h-4 w-4 text-orange-500" /> Share to Reddit
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
-
-        {/* Directory Footer Blurb */}
-        <div className="mt-12 text-sm text-muted-foreground">
-          <h3 className="mb-2 text-center text-base font-semibold text-foreground">
-            About the Prompt Manage Directory
-          </h3>
-          <p>
-            The{' '}
-            <Link href="/p" className="underline">
-              Public Prompt Directory
-            </Link>{' '}
-            from{' '}
-            <Link href="/" className="underline">
-              Prompt Manage
-            </Link>{' '}
-            features over <span className="font-semibold">{publicCount ?? 325}</span>{' '}
-            <span className="font-semibold">prompts</span> for{' '}
-            <Link href="/models" className="underline">
-              AI chatbots
-            </Link>
-            , including ChatGPT, Google Gemini, Claude, Grok, and more. This page highlights
-            {' '}
-            <span className="font-medium">“{prompt.name}”</span>
-            {primaryCategory && (
-              <>
-                , a {primaryCategory} prompt
-              </>
-            )}
-            {relatedTasks.length > 0 && (
-              <> that helps with {relatedTasks.join(', ')} tasks</>
-            )}
-            .
-            {primaryCategory && (
-              <>
-                {' '}Explore more <Link href={`/p?tag=${encodeURIComponent(primaryCategory)}`} className="underline">{primaryCategory}</Link> prompts
-              </>
-            )}
-            {' '}or browse the full directory to discover new ways to write, code, brainstorm, and create with AI.
-            {creatorId && (
-              <>
-                {' '}View the creator’s profile at{' '}
-                <Link href={`/u/${creatorId}`} className="underline">/u/{creatorId}</Link>
-              </>
-            )}
-            .{' '}
-            <Link href="/p" className="underline">View all prompts</Link>.
-          </p>
-        </div>
-
-        {/* Share Modal */}
-        <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Share this Prompt</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <Button onClick={handleCopyLink} className="flex w-full items-center gap-2">
-                <Share2 className="h-4 w-4" /> Copy Link
-              </Button>
-              <Button
-                onClick={handleShareToX}
-                className="flex w-full items-center gap-2"
-                variant="outline"
-              >
-                <Twitter className="h-4 w-4 text-blue-500" /> Share to X
-              </Button>
-              <Button
-                onClick={handleShareToLinkedIn}
-                className="flex w-full items-center gap-2"
-                variant="outline"
-              >
-                <Linkedin className="h-4 w-4 text-blue-700" /> Share to LinkedIn
-              </Button>
-              <Button
-                onClick={handleShareToFacebook}
-                className="flex w-full items-center gap-2"
-                variant="outline"
-              >
-                <Facebook className="h-4 w-4 text-blue-600" /> Share to Facebook
-              </Button>
-              <Button
-                onClick={handleShareToReddit}
-                className="flex w-full items-center gap-2"
-                variant="outline"
-              >
-                <Share2 className="h-4 w-4 text-orange-500" /> Share to Reddit
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
       </div>
-    </div>
     </>
   )
 }

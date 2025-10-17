@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { getValidatedUserId } from '@/lib/auth-utils'
 import { stripe, stripeConfig } from '@/lib/stripe/client'
 import { createClient } from '@/utils/supabase/server'
 
@@ -13,8 +14,10 @@ export async function POST(req: NextRequest) {
       data: { user },
       error: authError,
     } = await supabase.auth.getUser()
+    if (authError) throw authError
 
-    if (authError || !user) {
+    const userId = getValidatedUserId(user)
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -30,23 +33,31 @@ export async function POST(req: NextRequest) {
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('stripe_customer_id')
-      .eq('id', user.id)
+      .eq('id', userId)
       .single()
 
     if (profile?.stripe_customer_id) {
       customerId = profile.stripe_customer_id
     } else {
+      // Get user email from Supabase auth
+      const {
+        data: { user: authUser },
+      } = await supabase.auth.getUser()
+      if (!authUser?.email) {
+        return NextResponse.json({ error: 'User email not found' }, { status: 400 })
+      }
+
       const customer = await stripe.customers.create({
-        email: user.email,
+        email: authUser.email,
         metadata: {
-          userId: user.id,
+          userId: userId,
         },
       })
       customerId = customer.id
 
       // Save customer ID
       await supabase.from('user_profiles').upsert({
-        id: user.id,
+        id: userId,
         stripe_customer_id: customerId,
       })
     }
@@ -68,12 +79,12 @@ export async function POST(req: NextRequest) {
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/dashboard?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/pricing`,
       metadata: {
-        userId: user.id,
+        userId: userId,
         tier,
       },
       subscription_data: {
         metadata: {
-          userId: user.id,
+          userId: userId,
           tier,
         },
         trial_period_days: 14, // 14-day free trial
@@ -87,4 +98,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 })
   }
 }
-

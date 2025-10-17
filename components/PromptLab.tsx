@@ -1,15 +1,6 @@
 'use client'
 
-import {
-  ChevronDown,
-  ChevronRight,
-  Copy,
-  Loader2,
-  MoreVertical,
-  Rocket,
-  Sparkles,
-  Zap,
-} from 'lucide-react'
+import { ChevronDown, ChevronRight, Copy, MoreVertical, Rocket, Sparkles, Zap } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -71,7 +62,12 @@ const QUICK_TEMPLATES: Array<{
   {
     name: 'Marketing Copy',
     prompt: 'Write {type} for {product} targeting {audience}. Tone: {tone}.',
-    vars: { type: 'ad copy', product: 'SaaS tool', audience: 'small businesses', tone: 'professional' },
+    vars: {
+      type: 'ad copy',
+      product: 'SaaS tool',
+      audience: 'small businesses',
+      tone: 'professional',
+    },
   },
   {
     name: 'Email',
@@ -228,7 +224,7 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
     }
   }
 
-  function loadTemplate(template: typeof QUICK_TEMPLATES[0]) {
+  function loadTemplate(template: (typeof QUICK_TEMPLATES)[0]) {
     setPrompt(template.prompt)
     setVarValues(template.vars)
   }
@@ -236,7 +232,11 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
   async function savePrompt() {
     if (!onSavePrompt) return
     if (!promptName.trim()) {
-      toast({ title: 'Error', description: 'Please enter a name for your prompt.', variant: 'destructive' })
+      toast({
+        title: 'Error',
+        description: 'Please enter a name for your prompt.',
+        variant: 'destructive',
+      })
       return
     }
 
@@ -306,7 +306,11 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
           </Select>
 
           <Button onClick={runPrompt} disabled={isRunning || !prompt.trim()} size="sm">
-            {isRunning ? <Loader2 className="h-4 w-4 animate-spin" /> : <Rocket className="h-4 w-4" />}
+            {isRunning ? (
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+            ) : (
+              <Rocket className="h-4 w-4" />
+            )}
             Run
           </Button>
 
@@ -371,7 +375,9 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
               {/* Inline variables */}
               {detectedVars.length > 0 && (
                 <div className="space-y-3 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900">
-                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400">Variables</div>
+                  <div className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                    Variables
+                  </div>
                   <div className="space-y-2">
                     {detectedVars.map((varName) => (
                       <div key={varName} className="flex items-center gap-2">
@@ -477,7 +483,9 @@ export function PromptLab({ initialPrompt, onSavePrompt, className = '' }: Promp
                               <span className="text-xs text-gray-500">{run.tokens}t</span>
                             )}
                             {run.latencyMs != null && (
-                              <span className="text-xs text-gray-500">{Math.round(run.latencyMs)}ms</span>
+                              <span className="text-xs text-gray-500">
+                                {Math.round(run.latencyMs)}ms
+                              </span>
                             )}
                           </div>
                           <Button

@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
+import { getValidatedUserId } from '@/lib/auth-utils'
 import { createClient } from '@/utils/supabase/server'
 
 // Initialize OpenAI client only when needed
@@ -16,6 +17,7 @@ function getOpenAIClient() {
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
+  let userId: string | null = null
 
   try {
     // Check if OpenAI API key is configured
@@ -30,7 +32,10 @@ export async function POST(request: NextRequest) {
       data: { user },
       error: authError,
     } = await supabase.auth.getUser()
-    if (authError || !user) {
+    if (authError) throw authError
+
+    userId = getValidatedUserId(user)
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -45,7 +50,7 @@ export async function POST(request: NextRequest) {
       .from('prompts')
       .select('*')
       .eq('id', promptId)
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .single()
 
     if (fetchError || !prompt) {
@@ -59,7 +64,7 @@ export async function POST(request: NextRequest) {
         .from('prompts')
         .update({ prompt_text: promptText })
         .eq('id', promptId)
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .select('*')
         .single()
 
@@ -140,7 +145,7 @@ export async function POST(request: NextRequest) {
             .from('prompts')
             .select('prompt_text, model')
             .eq('id', promptId)
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .single()
 
           if (prompt) {

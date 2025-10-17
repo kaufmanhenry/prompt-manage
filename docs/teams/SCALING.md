@@ -47,7 +47,7 @@ export const PERFORMANCE_TARGETS = {
 
   // Availability
   uptime: 99.9, // %
-  errorRate: 0.1 // %
+  errorRate: 0.1, // %
 } as const
 ```
 
@@ -108,7 +108,7 @@ import { Redis } from '@upstash/redis'
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 })
 
 export const CACHE_TTL = {
@@ -116,7 +116,7 @@ export const CACHE_TTL = {
   members: 3 * 60, // 3 minutes
   permissions: 10 * 60, // 10 minutes
   usage: 1 * 60, // 1 minute (more volatile)
-  billing: 5 * 60 // 5 minutes
+  billing: 5 * 60, // 5 minutes
 } as const
 
 export class CacheService {
@@ -172,11 +172,7 @@ export class CacheService {
   /**
    * Cache wrapper with automatic get/set
    */
-  async wrap<T>(
-    key: string,
-    ttl: number,
-    fetcher: () => Promise<T>
-  ): Promise<T> {
+  async wrap<T>(key: string, ttl: number, fetcher: () => Promise<T>): Promise<T> {
     // Try cache first
     const cached = await this.get<T>(key)
     if (cached !== null) {
@@ -212,7 +208,7 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
     // Fetch from database
     const supabase = await createClient()
     const { data, error } = await supabase.rpc('get_team_with_stats', {
-      p_team_id: teamId
+      p_team_id: teamId,
     })
 
     if (error) throw error
@@ -232,7 +228,7 @@ import { cache } from './redis'
 export async function invalidateTeamCache(teamId: string): Promise<void> {
   await Promise.all([
     cache.deletePattern(`team:${teamId}:*`),
-    cache.deletePattern(`teams:user:*`) // Invalidate user's team lists
+    cache.deletePattern(`teams:user:*`), // Invalidate user's team lists
   ])
 }
 
@@ -247,10 +243,7 @@ export async function invalidateTeamPromptsCache(teamId: string): Promise<void> 
 // Trigger invalidation on updates
 // In your mutation handlers:
 export const updateTeam = async (teamId: string, updates: any) => {
-  const result = await supabase
-    .from('teams')
-    .update(updates)
-    .eq('id', teamId)
+  const result = await supabase.from('teams').update(updates).eq('id', teamId)
 
   await invalidateTeamCache(teamId)
 
@@ -351,16 +344,16 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 export const supabaseAdmin = createClient(supabaseUrl, supabaseKey, {
   auth: {
     persistSession: false,
-    autoRefreshToken: false
+    autoRefreshToken: false,
   },
   db: {
-    schema: 'public'
+    schema: 'public',
   },
   global: {
     headers: {
-      'x-application-name': 'prompt-manage-teams'
-    }
-  }
+      'x-application-name': 'prompt-manage-teams',
+    },
+  },
 })
 
 // Connection pool limits
@@ -379,7 +372,7 @@ import { createClient } from '@supabase/supabase-js'
 // Primary (write)
 export const supabasePrimary = createClient(
   process.env.SUPABASE_PRIMARY_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 )
 
 // Read replica (read-heavy queries)
@@ -387,8 +380,8 @@ export const supabaseReplica = createClient(
   process.env.SUPABASE_REPLICA_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
   {
-    db: { schema: 'public' }
-  }
+    db: { schema: 'public' },
+  },
 )
 
 // Smart query router
@@ -508,7 +501,7 @@ const nextConfig = {
   images: {
     domains: ['supabase.co', 'avatars.githubusercontent.com'],
     formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 60 * 60 * 24 * 30 // 30 days
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
 
   // Enable SWC minification
@@ -519,8 +512,8 @@ const nextConfig = {
 
   // Asset optimization
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production'
-  }
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 }
 ```
 
@@ -585,7 +578,7 @@ Sentry.init({
       delete event.user.ip_address
     }
     return event
-  }
+  },
 })
 
 // Custom transaction tracking
@@ -594,8 +587,8 @@ export function trackTransaction(name: string, operation: string) {
     name,
     op: operation,
     tags: {
-      feature: 'teams'
-    }
+      feature: 'teams',
+    },
   })
 }
 
@@ -652,7 +645,7 @@ import { Redis } from '@upstash/redis'
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 })
 
 export class MetricsService {
@@ -769,12 +762,12 @@ export const options = {
     { duration: '5m', target: 100 }, // Stay at 100 users
     { duration: '2m', target: 200 }, // Ramp up to 200 users
     { duration: '5m', target: 200 }, // Stay at 200 users
-    { duration: '2m', target: 0 }    // Ramp down to 0 users
+    { duration: '2m', target: 0 }, // Ramp down to 0 users
   ],
   thresholds: {
     http_req_duration: ['p(95)<200'], // 95% of requests should be below 200ms
-    http_req_failed: ['rate<0.01']    // Error rate should be below 1%
-  }
+    http_req_failed: ['rate<0.01'], // Error rate should be below 1%
+  },
 }
 
 export default function () {
@@ -782,7 +775,7 @@ export default function () {
 
   check(res, {
     'status is 200': (r) => r.status === 200,
-    'response time < 200ms': (r) => r.timings.duration < 200
+    'response time < 200ms': (r) => r.timings.duration < 200,
   })
 }
 ```
@@ -814,28 +807,33 @@ select * from get_team_with_stats('some-team-id');
 ### Scaling Capabilities
 
 ✅ **Performance**
+
 - Sub-200ms API responses (p95)
 - 10K+ concurrent users
 - 10K+ teams supported
 
 ✅ **Caching**
+
 - Multi-layer caching (CDN, Redis, Client)
 - 5-15 minute TTL with smart invalidation
 - 80%+ cache hit rate target
 
 ✅ **Database**
+
 - Strategic indexing
 - Materialized views
 - Connection pooling
 - Read replicas
 
 ✅ **Monitoring**
+
 - APM with Sentry
 - Custom metrics with Redis
 - Real-time dashboards
 - Automated alerting
 
 ✅ **Horizontal Scaling**
+
 - Stateless API design
 - Auto-scaling configuration
 - Load balancing
@@ -843,13 +841,13 @@ select * from get_team_with_stats('some-team-id');
 
 ### Cost Efficiency
 
-| Component | Monthly Cost (10K teams) |
-|-----------|--------------------------|
-| Supabase | $299 (Pro + Read Replica) |
-| Upstash Redis | $49 (Pay-as-you-go) |
-| Vercel | $20 per seat (5 seats) |
-| Sentry | $29 (Team) |
-| **Total** | **~$477/month** |
+| Component     | Monthly Cost (10K teams)  |
+| ------------- | ------------------------- |
+| Supabase      | $299 (Pro + Read Replica) |
+| Upstash Redis | $49 (Pay-as-you-go)       |
+| Vercel        | $20 per seat (5 seats)    |
+| Sentry        | $29 (Team)                |
+| **Total**     | **~$477/month**           |
 
 **Per-Team Cost:** $0.048/month
 

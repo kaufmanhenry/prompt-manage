@@ -54,6 +54,7 @@
 ### 1. Teams Management
 
 #### `POST /api/v1/teams`
+
 **Create a new team**
 
 ```typescript
@@ -67,7 +68,7 @@ import { logAction } from '@/lib/audit'
 const createTeamSchema = z.object({
   name: z.string().min(3).max(100),
   description: z.string().optional(),
-  tier: z.enum(['free', 'pro', 'enterprise']).default('free')
+  tier: z.enum(['free', 'pro', 'enterprise']).default('free'),
 })
 
 export const POST = withAuth(async (req: NextRequest, { user }) => {
@@ -83,7 +84,7 @@ export const POST = withAuth(async (req: NextRequest, { user }) => {
       .insert({
         name: validated.name,
         description: validated.description,
-        tier: validated.tier
+        tier: validated.tier,
       })
       .select()
       .single()
@@ -93,14 +94,12 @@ export const POST = withAuth(async (req: NextRequest, { user }) => {
     }
 
     // Add creator as owner
-    const { error: memberError } = await supabase
-      .from('team_members')
-      .insert({
-        team_id: team.id,
-        user_id: user.id,
-        role: 'owner',
-        invited_by: user.id
-      })
+    const { error: memberError } = await supabase.from('team_members').insert({
+      team_id: team.id,
+      user_id: user.id,
+      role: 'owner',
+      invited_by: user.id,
+    })
 
     if (memberError) {
       // Rollback team creation
@@ -112,7 +111,7 @@ export const POST = withAuth(async (req: NextRequest, { user }) => {
     await supabase.from('team_billing').insert({
       team_id: team.id,
       billing_email: user.email,
-      current_tier: validated.tier
+      current_tier: validated.tier,
     })
 
     // Log action
@@ -130,6 +129,7 @@ export const POST = withAuth(async (req: NextRequest, { user }) => {
 ```
 
 #### `GET /api/v1/teams`
+
 **List user's teams**
 
 ```typescript
@@ -138,7 +138,8 @@ export const GET = withAuth(async (req: NextRequest, { user }) => {
 
   const { data: teams, error } = await supabase
     .from('team_members')
-    .select(`
+    .select(
+      `
       team_id,
       role,
       joined_at,
@@ -151,7 +152,8 @@ export const GET = withAuth(async (req: NextRequest, { user }) => {
         tier,
         created_at
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .eq('is_active', true)
     .order('joined_at', { ascending: false })
@@ -165,6 +167,7 @@ export const GET = withAuth(async (req: NextRequest, { user }) => {
 ```
 
 #### `GET /api/v1/teams/:id`
+
 **Get team details**
 
 ```typescript
@@ -186,8 +189,7 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
   }
 
   // Get team with stats
-  const { data: team, error } = await supabase
-    .rpc('get_team_with_stats', { p_team_id: teamId })
+  const { data: team, error } = await supabase.rpc('get_team_with_stats', { p_team_id: teamId })
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 400 })
@@ -198,6 +200,7 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
 ```
 
 #### `PATCH /api/v1/teams/:id`
+
 **Update team**
 
 ```typescript
@@ -212,7 +215,7 @@ export const PATCH = withAuth(async (req: NextRequest, { params, user }) => {
     p_team_id: teamId,
     p_user_id: user.id,
     p_resource_type: 'team_settings',
-    p_action: 'write'
+    p_action: 'write',
   })
 
   if (!hasPermission) {
@@ -223,7 +226,7 @@ export const PATCH = withAuth(async (req: NextRequest, { params, user }) => {
     name: z.string().min(3).max(100).optional(),
     description: z.string().optional(),
     avatar_url: z.string().url().optional(),
-    settings: z.record(z.unknown()).optional()
+    settings: z.record(z.unknown()).optional(),
   })
 
   const validated = updateSchema.parse(body)
@@ -246,6 +249,7 @@ export const PATCH = withAuth(async (req: NextRequest, { params, user }) => {
 ```
 
 #### `DELETE /api/v1/teams/:id`
+
 **Delete team (owner only)**
 
 ```typescript
@@ -278,10 +282,7 @@ export const DELETE = withAuth(async (req: NextRequest, { params, user }) => {
   }
 
   // Soft delete (deactivate)
-  const { error } = await supabase
-    .from('teams')
-    .update({ is_active: false })
-    .eq('id', teamId)
+  const { error } = await supabase.from('teams').update({ is_active: false }).eq('id', teamId)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 400 })
@@ -298,6 +299,7 @@ export const DELETE = withAuth(async (req: NextRequest, { params, user }) => {
 ### 2. Team Members
 
 #### `GET /api/v1/teams/:id/members`
+
 **List team members**
 
 ```typescript
@@ -307,7 +309,8 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
 
   const { data: members, error } = await supabase
     .from('team_members')
-    .select(`
+    .select(
+      `
       id,
       role,
       joined_at,
@@ -321,7 +324,8 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
           avatar_url
         )
       )
-    `)
+    `,
+    )
     .eq('team_id', teamId)
     .eq('is_active', true)
     .order('joined_at', { ascending: true })
@@ -335,6 +339,7 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
 ```
 
 #### `POST /api/v1/teams/:id/members/invite`
+
 **Invite member**
 
 ```typescript
@@ -344,7 +349,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
 
   const inviteSchema = z.object({
     email: z.string().email(),
-    role: z.enum(['admin', 'editor', 'viewer']).default('viewer')
+    role: z.enum(['admin', 'editor', 'viewer']).default('viewer'),
   })
 
   const validated = inviteSchema.parse(body)
@@ -355,7 +360,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
     p_team_id: teamId,
     p_user_id: user.id,
     p_resource_type: 'team_settings',
-    p_action: 'manage_members'
+    p_action: 'manage_members',
   })
 
   if (!hasPermission) {
@@ -370,9 +375,12 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
     .single()
 
   if (billing && billing.seats_used >= billing.seats_included) {
-    return NextResponse.json({
-      error: 'Seat limit reached. Upgrade to add more members.'
-    }, { status: 400 })
+    return NextResponse.json(
+      {
+        error: 'Seat limit reached. Upgrade to add more members.',
+      },
+      { status: 400 },
+    )
   }
 
   // Create invitation
@@ -382,7 +390,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
       team_id: teamId,
       email: validated.email,
       role: validated.role,
-      invited_by: user.id
+      invited_by: user.id,
     })
     .select()
     .single()
@@ -401,6 +409,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
 ```
 
 #### `PATCH /api/v1/teams/:id/members/:memberId`
+
 **Update member role**
 
 ```typescript
@@ -409,7 +418,7 @@ export const PATCH = withAuth(async (req: NextRequest, { params, user }) => {
   const body = await req.json()
 
   const updateSchema = z.object({
-    role: z.enum(['admin', 'editor', 'viewer'])
+    role: z.enum(['admin', 'editor', 'viewer']),
   })
 
   const validated = updateSchema.parse(body)
@@ -420,7 +429,7 @@ export const PATCH = withAuth(async (req: NextRequest, { params, user }) => {
     p_team_id: teamId,
     p_user_id: user.id,
     p_resource_type: 'team_settings',
-    p_action: 'manage_members'
+    p_action: 'manage_members',
   })
 
   if (!hasPermission) {
@@ -457,6 +466,7 @@ export const PATCH = withAuth(async (req: NextRequest, { params, user }) => {
 ```
 
 #### `DELETE /api/v1/teams/:id/members/:memberId`
+
 **Remove member**
 
 ```typescript
@@ -478,7 +488,7 @@ export const DELETE = withAuth(async (req: NextRequest, { params, user }) => {
       p_team_id: teamId,
       p_user_id: user.id,
       p_resource_type: 'team_settings',
-      p_action: 'manage_members'
+      p_action: 'manage_members',
     })
 
     if (!hasPermission) {
@@ -515,6 +525,7 @@ export const DELETE = withAuth(async (req: NextRequest, { params, user }) => {
 ### 3. Team Prompts
 
 #### `GET /api/v1/teams/:id/prompts`
+
 **List team prompts**
 
 ```typescript
@@ -539,12 +550,11 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
 
   // Full-text search
   if (search) {
-    const { data: searchResults } = await supabase
-      .rpc('search_team_prompts', {
-        p_team_id: teamId,
-        p_query: search,
-        p_limit: limit
-      })
+    const { data: searchResults } = await supabase.rpc('search_team_prompts', {
+      p_team_id: teamId,
+      p_query: search,
+      p_limit: limit,
+    })
 
     return NextResponse.json({ prompts: searchResults, total: searchResults?.length || 0 })
   }
@@ -564,12 +574,13 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
     prompts,
     total: count,
     page,
-    limit
+    limit,
   })
 })
 ```
 
 #### `POST /api/v1/teams/:id/prompts`
+
 **Create team prompt**
 
 ```typescript
@@ -583,7 +594,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
     prompt_text: z.string().min(1),
     model: z.string(),
     tags: z.array(z.string()).default([]),
-    is_public: z.boolean().default(false)
+    is_public: z.boolean().default(false),
   })
 
   const validated = promptSchema.parse(body)
@@ -594,7 +605,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
     p_team_id: teamId,
     p_user_id: user.id,
     p_resource_type: 'prompt',
-    p_action: 'write'
+    p_action: 'write',
   })
 
   if (!hasPermission) {
@@ -606,7 +617,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
     .insert({
       team_id: teamId,
       created_by: user.id,
-      ...validated
+      ...validated,
     })
     .select()
     .single()
@@ -626,6 +637,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
 ### 4. Team Usage & Analytics
 
 #### `GET /api/v1/teams/:id/usage`
+
 **Get usage statistics**
 
 ```typescript
@@ -633,7 +645,8 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
   const teamId = params.id
   const { searchParams } = new URL(req.url)
 
-  const startDate = searchParams.get('start_date') || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+  const startDate =
+    searchParams.get('start_date') || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
   const endDate = searchParams.get('end_date') || new Date().toISOString()
   const groupBy = searchParams.get('group_by') || 'day' // day, week, month
 
@@ -655,7 +668,7 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
   const { data: stats, error } = await supabase.rpc('get_team_usage_stats', {
     p_team_id: teamId,
     p_start_date: startDate,
-    p_end_date: endDate
+    p_end_date: endDate,
   })
 
   if (error) {
@@ -667,18 +680,19 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
     p_team_id: teamId,
     p_start_date: startDate,
     p_end_date: endDate,
-    p_interval: groupBy
+    p_interval: groupBy,
   })
 
   return NextResponse.json({
     stats,
     timeSeries,
-    period: { start: startDate, end: endDate }
+    period: { start: startDate, end: endDate },
   })
 })
 ```
 
 #### `GET /api/v1/teams/:id/usage/export`
+
 **Export usage data (CSV/JSON)**
 
 ```typescript
@@ -717,8 +731,8 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
     return new Response(csv, {
       headers: {
         'Content-Type': 'text/csv',
-        'Content-Disposition': `attachment; filename="team-${teamId}-usage.csv"`
-      }
+        'Content-Disposition': `attachment; filename="team-${teamId}-usage.csv"`,
+      },
     })
   }
 
@@ -731,6 +745,7 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
 ### 5. Team Billing
 
 #### `GET /api/v1/teams/:id/billing`
+
 **Get billing information**
 
 ```typescript
@@ -768,12 +783,13 @@ export const GET = withAuth(async (req: NextRequest, { params, user }) => {
 
   return NextResponse.json({
     billing,
-    upcoming_invoice: upcomingInvoice
+    upcoming_invoice: upcomingInvoice,
   })
 })
 ```
 
 #### `POST /api/v1/teams/:id/billing/upgrade`
+
 **Upgrade team tier**
 
 ```typescript
@@ -783,7 +799,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
 
   const upgradeSchema = z.object({
     tier: z.enum(['pro', 'enterprise']),
-    seats: z.number().min(1).optional()
+    seats: z.number().min(1).optional(),
   })
 
   const validated = upgradeSchema.parse(body)
@@ -825,11 +841,11 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
     seats: validated.seats,
     teamId,
     successUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/teams/${teamId}/billing/success`,
-    cancelUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/teams/${teamId}/billing`
+    cancelUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/teams/${teamId}/billing`,
   })
 
   return NextResponse.json({
-    checkout_url: checkoutSession.url
+    checkout_url: checkoutSession.url,
   })
 })
 ```
@@ -942,22 +958,19 @@ export type AuthenticatedRequest = NextRequest & {
 export function withAuth(
   handler: (
     req: AuthenticatedRequest,
-    context: { params: Record<string, string>; user: any }
-  ) => Promise<NextResponse>
+    context: { params: Record<string, string>; user: any },
+  ) => Promise<NextResponse>,
 ) {
   return async (req: NextRequest, { params }: { params: Record<string, string> }) => {
     const supabase = await createClient()
 
     const {
       data: { user },
-      error
+      error,
     } = await supabase.auth.getUser()
 
     if (error || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     return handler(req as AuthenticatedRequest, { params, user })
@@ -975,7 +988,7 @@ export async function checkTeamPermission(
   teamId: string,
   userId: string,
   resourceType: string,
-  action: string
+  action: string,
 ): Promise<boolean> {
   const supabase = await createClient()
 
@@ -983,7 +996,7 @@ export async function checkTeamPermission(
     p_team_id: teamId,
     p_user_id: userId,
     p_resource_type: resourceType,
-    p_action: action
+    p_action: action,
   })
 
   if (error) {
@@ -994,29 +1007,16 @@ export async function checkTeamPermission(
   return data
 }
 
-export function withTeamPermission(
-  resourceType: string,
-  action: string
-) {
-  return function (
-    handler: (req: any, context: any) => Promise<NextResponse>
-  ) {
+export function withTeamPermission(resourceType: string, action: string) {
+  return function (handler: (req: any, context: any) => Promise<NextResponse>) {
     return async (req: any, context: any) => {
       const { params, user } = context
       const teamId = params.id
 
-      const hasPermission = await checkTeamPermission(
-        teamId,
-        user.id,
-        resourceType,
-        action
-      )
+      const hasPermission = await checkTeamPermission(teamId, user.id, resourceType, action)
 
       if (!hasPermission) {
-        return NextResponse.json(
-          { error: 'Insufficient permissions' },
-          { status: 403 }
-        )
+        return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 })
       }
 
       return handler(req, context)
@@ -1038,7 +1038,7 @@ import { Redis } from '@upstash/redis'
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 })
 
 // Per-user rate limit: 100 requests per minute
@@ -1046,7 +1046,7 @@ export const userRateLimit = new Ratelimit({
   redis,
   limiter: Ratelimit.slidingWindow(100, '1 m'),
   analytics: true,
-  prefix: '@upstash/ratelimit:user'
+  prefix: '@upstash/ratelimit:user',
 })
 
 // Per-team rate limit: 1000 requests per minute
@@ -1054,12 +1054,12 @@ export const teamRateLimit = new Ratelimit({
   redis,
   limiter: Ratelimit.slidingWindow(1000, '1 m'),
   analytics: true,
-  prefix: '@upstash/ratelimit:team'
+  prefix: '@upstash/ratelimit:team',
 })
 
 export async function checkRateLimit(
   identifier: string,
-  limit: Ratelimit
+  limit: Ratelimit,
 ): Promise<{ success: boolean; remaining: number }> {
   const { success, limit: maxLimit, remaining, reset } = await limit.limit(identifier)
 
@@ -1079,9 +1079,9 @@ export function withRateLimit(limiter: Ratelimit, getKey: (req: any) => string) 
           {
             status: 429,
             headers: {
-              'X-RateLimit-Remaining': remaining.toString()
-            }
-          }
+              'X-RateLimit-Remaining': remaining.toString(),
+            },
+          },
         )
       }
 
@@ -1098,10 +1098,10 @@ export function withRateLimit(limiter: Ratelimit, getKey: (req: any) => string) 
 export const POST = withAuth(
   withRateLimit(
     teamRateLimit,
-    (req) => `team:${req.params.id}`
+    (req) => `team:${req.params.id}`,
   )(async (req, context) => {
     // Handler implementation
-  })
+  }),
 )
 ```
 
@@ -1118,7 +1118,7 @@ export class APIError extends Error {
     public statusCode: number,
     public code: string,
     message: string,
-    public details?: any
+    public details?: any,
   ) {
     super(message)
     this.name = 'APIError'
@@ -1145,7 +1145,7 @@ export const ErrorCodes = {
   RATE_LIMIT_EXCEEDED: { code: 'RATE_LIMIT_EXCEEDED', status: 429 },
 
   // Server
-  INTERNAL_ERROR: { code: 'INTERNAL_ERROR', status: 500 }
+  INTERNAL_ERROR: { code: 'INTERNAL_ERROR', status: 500 },
 }
 
 export function handleAPIError(error: any): NextResponse {
@@ -1155,10 +1155,10 @@ export function handleAPIError(error: any): NextResponse {
         error: {
           code: error.code,
           message: error.message,
-          details: error.details
-        }
+          details: error.details,
+        },
       },
-      { status: error.statusCode }
+      { status: error.statusCode },
     )
   }
 
@@ -1169,10 +1169,10 @@ export function handleAPIError(error: any): NextResponse {
     {
       error: {
         code: 'INTERNAL_ERROR',
-        message: 'An unexpected error occurred'
-      }
+        message: 'An unexpected error occurred',
+      },
     },
-    { status: 500 }
+    { status: 500 },
   )
 }
 ```
@@ -1184,6 +1184,7 @@ export function handleAPIError(error: any): NextResponse {
 ### API Endpoints Implemented
 
 ✅ **Teams** (5 endpoints)
+
 - POST `/api/v1/teams` - Create team
 - GET `/api/v1/teams` - List teams
 - GET `/api/v1/teams/:id` - Get team details
@@ -1191,12 +1192,14 @@ export function handleAPIError(error: any): NextResponse {
 - DELETE `/api/v1/teams/:id` - Delete team
 
 ✅ **Members** (4 endpoints)
+
 - GET `/api/v1/teams/:id/members` - List members
 - POST `/api/v1/teams/:id/members/invite` - Invite member
 - PATCH `/api/v1/teams/:id/members/:memberId` - Update role
 - DELETE `/api/v1/teams/:id/members/:memberId` - Remove member
 
 ✅ **Prompts** (6 endpoints)
+
 - GET `/api/v1/teams/:id/prompts` - List prompts
 - POST `/api/v1/teams/:id/prompts` - Create prompt
 - GET `/api/v1/teams/:id/prompts/:promptId` - Get prompt
@@ -1205,10 +1208,12 @@ export function handleAPIError(error: any): NextResponse {
 - GET `/api/v1/teams/:id/prompts/search` - Search prompts
 
 ✅ **Usage & Analytics** (2 endpoints)
+
 - GET `/api/v1/teams/:id/usage` - Get usage stats
 - GET `/api/v1/teams/:id/usage/export` - Export data
 
 ✅ **Billing** (3 endpoints)
+
 - GET `/api/v1/teams/:id/billing` - Get billing info
 - POST `/api/v1/teams/:id/billing/upgrade` - Upgrade tier
 - POST `/api/v1/teams/:id/billing/portal` - Billing portal

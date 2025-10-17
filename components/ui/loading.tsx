@@ -1,5 +1,3 @@
-import { Loader2 } from 'lucide-react'
-
 import { cn } from '@/lib/utils'
 
 interface SpinnerProps {
@@ -15,7 +13,13 @@ export function Spinner({ size = 'md', className }: SpinnerProps) {
   }
 
   return (
-    <Loader2 className={cn('animate-spin text-muted-foreground', sizeClasses[size], className)} />
+    <div
+      className={cn(
+        'animate-spin rounded-full border-2 border-gray-300 border-t-gray-600 text-muted-foreground',
+        sizeClasses[size],
+        className,
+      )}
+    />
   )
 }
 

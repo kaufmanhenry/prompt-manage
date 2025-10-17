@@ -1,13 +1,13 @@
 'use client'
 
-import { AlertTriangle, CheckCircle, Clock, RefreshCw,XCircle } from 'lucide-react'
+import { AlertTriangle, CheckCircle, Clock, RefreshCw, XCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import type { ExecutionStatus,NodeExecution, WorkflowExecution } from '@/lib/types/workflows'
+import type { ExecutionStatus, NodeExecution, WorkflowExecution } from '@/lib/types/workflows'
 
 interface WorkflowExecutionViewerProps {
   executionId: string
@@ -16,11 +16,11 @@ interface WorkflowExecutionViewerProps {
 
 /**
  * WorkflowExecutionViewer Component
- * 
+ *
  * Displays real-time execution progress and results for a workflow run.
  * Shows node-by-node execution status, timing, and costs.
  * Supports re-running workflows.
- * 
+ *
  * @example
  * ```tsx
  * <WorkflowExecutionViewer
@@ -29,10 +29,7 @@ interface WorkflowExecutionViewerProps {
  * />
  * ```
  */
-export function WorkflowExecutionViewer({
-  executionId,
-  onRerun,
-}: WorkflowExecutionViewerProps) {
+export function WorkflowExecutionViewer({ executionId, onRerun }: WorkflowExecutionViewerProps) {
   const [execution, setExecution] = useState<WorkflowExecution | null>(null)
   const [nodeExecutions, setNodeExecutions] = useState<NodeExecution[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -43,7 +40,7 @@ export function WorkflowExecutionViewer({
         // TODO: Replace with actual API call
         const response = await fetch(`/api/workflows/executions/${executionId}`)
         const data = await response.json()
-        
+
         setExecution(data.execution)
         setNodeExecutions(data.nodeExecutions)
       } catch (error) {
@@ -238,4 +235,3 @@ function NodeExecutionItem({ nodeExecution }: { nodeExecution: NodeExecution }) 
     </div>
   )
 }
-

@@ -3,7 +3,7 @@ import OpenAI from 'openai'
 import { createClient } from '@/utils/supabase/server'
 
 import { agentConfigCache } from './agent-config-cache'
-import { type QualityConfig,QualityControlService } from './quality-control-service'
+import { type QualityConfig, QualityControlService } from './quality-control-service'
 import { withRetry } from './retry-utils'
 
 // Agent strategies and their configurations
@@ -54,7 +54,7 @@ export class AutonomousAgent {
         key_phrases: agent.key_phrases as string[],
         forbidden_phrases: agent.forbidden_phrases as string[],
         style_guide: agent.style_guide as string,
-        examples: agent.examples as QualityConfig['examples']
+        examples: agent.examples as QualityConfig['examples'],
       })
 
       const strategy = agent.strategy
@@ -62,12 +62,18 @@ export class AutonomousAgent {
       const tone = (agent.tone as string) || 'professional'
       const targetAudience = (agent.target_audience as string) || 'general users'
       const lengthPreference = (agent.length_preference as string) || 'medium'
-      
+
       let generation: AgentGeneration
 
       // Generate based on output type if not a standard prompt
       if (outputType !== 'prompt') {
-        generation = await this.generateCustomOutput(agent, outputType, tone, targetAudience, lengthPreference)
+        generation = await this.generateCustomOutput(
+          agent,
+          outputType,
+          tone,
+          targetAudience,
+          lengthPreference,
+        )
       } else {
         // Standard prompt generation by strategy
         switch (strategy) {
@@ -100,15 +106,15 @@ export class AutonomousAgent {
 
   // Generate custom output types (blog posts, docs, emails, etc.)
   private async generateCustomOutput(
-    agent: AgentConfig & { topics?: string[]; industries?: string[]; subjects?: string[]; }, 
-    outputType: string, 
-    tone: string, 
+    agent: AgentConfig & { topics?: string[]; industries?: string[]; subjects?: string[] },
+    outputType: string,
+    tone: string,
     targetAudience: string,
-    lengthPreference: string
+    lengthPreference: string,
   ): Promise<AgentGeneration> {
     const topics = agent.topics || agent.industries || agent.subjects || ['general']
     const randomTopic = topics[Math.floor(Math.random() * topics.length)]
-    
+
     let systemPrompt = ''
     let userPrompt = ''
     let maxTokens = 500
@@ -121,7 +127,8 @@ export class AutonomousAgent {
 
     switch (outputType) {
       case 'blog_post':
-        maxTokens = lengthPreference === 'comprehensive' ? 1500 : lengthPreference === 'detailed' ? 1000 : 600
+        maxTokens =
+          lengthPreference === 'comprehensive' ? 1500 : lengthPreference === 'detailed' ? 1000 : 600
         systemPrompt = `You are an expert blog writer creating SEO-optimized content for ${targetAudience}. Write in a ${tone} tone.${qualityInstructions}`
         userPrompt = `Create a complete blog post about ${randomTopic}. Include:
         - Compelling headline
@@ -233,27 +240,28 @@ export class AutonomousAgent {
 
     // Call OpenAI with retry logic for transient failures
     const response = await withRetry(
-      () => this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        max_tokens: maxTokens,
-        temperature: 0.7,
-      }),
-      { maxRetries: 3, retryableErrors: ['rate_limit_exceeded', 'ECONNRESET', 'ETIMEDOUT'] }
+      () =>
+        this.openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt },
+          ],
+          max_tokens: maxTokens,
+          temperature: 0.7,
+        }),
+      { maxRetries: 3, retryableErrors: ['rate_limit_exceeded', 'ECONNRESET', 'ETIMEDOUT'] },
     )
 
     const content = response.choices[0]?.message?.content || ''
 
     // Post-generation quality check using optimized service
-    const qualityResult = this.qualityService?.validate(content) || { 
-      issues: [], 
-      score: 0.8, 
-      passed: true 
+    const qualityResult = this.qualityService?.validate(content) || {
+      issues: [],
+      score: 0.8,
+      passed: true,
     }
-    
+
     // Log quality issues for review
     if (qualityResult.issues.length > 0) {
       console.warn(`Quality issues detected in ${outputType}:`, qualityResult.issues)
@@ -271,7 +279,9 @@ export class AutonomousAgent {
   }
 
   // Trending topics strategy with persona support
-  private async generateTrendingPrompt(config: AgentConfig & Record<string, unknown>): Promise<AgentGeneration> {
+  private async generateTrendingPrompt(
+    config: AgentConfig & Record<string, unknown>,
+  ): Promise<AgentGeneration> {
     const topics = config.topics || ['AI', 'productivity', 'marketing']
     const platforms = (config.platforms as string[]) || []
     const persona = (config.persona as string) || 'professional'
@@ -330,7 +340,9 @@ export class AutonomousAgent {
   }
 
   // Niche industry strategy with persona support
-  private async generateNichePrompt(config: AgentConfig & Record<string, unknown>): Promise<AgentGeneration> {
+  private async generateNichePrompt(
+    config: AgentConfig & Record<string, unknown>,
+  ): Promise<AgentGeneration> {
     const industries = config.industries || ['healthcare', 'finance', 'education']
     const topics = config.topics || []
     const persona = (config.persona as string) || 'professional'
@@ -380,7 +392,12 @@ export class AutonomousAgent {
 
       name = `${randomIndustry} Small Business Owner Prompt`
       description = `Specialized business prompt for ${randomIndustry} small business owners`
-      tags = [randomIndustry.toLowerCase(), 'small-business', 'operations', randomTopic.toLowerCase()]
+      tags = [
+        randomIndustry.toLowerCase(),
+        'small-business',
+        'operations',
+        randomTopic.toLowerCase(),
+      ]
     } else {
       // Default niche generation
       prompt = `Create a specialized prompt for ${randomIndustry} professionals. 
@@ -416,7 +433,9 @@ export class AutonomousAgent {
   }
 
   // Educational strategy with persona support
-  private async generateEducationalPrompt(config: AgentConfig & Record<string, unknown>): Promise<AgentGeneration> {
+  private async generateEducationalPrompt(
+    config: AgentConfig & Record<string, unknown>,
+  ): Promise<AgentGeneration> {
     const subjects = config.subjects || ['prompt engineering', 'AI tools', 'workflow optimization']
     const industries = config.industries || []
     const persona = (config.persona as string) || 'learner'
@@ -479,12 +498,24 @@ export class AutonomousAgent {
   }
 
   // Seasonal strategy
-  private async generateSeasonalPrompt(_config: AgentConfig & Record<string, unknown>): Promise<AgentGeneration> {
+  private async generateSeasonalPrompt(
+    _config: AgentConfig & Record<string, unknown>,
+  ): Promise<AgentGeneration> {
     const currentMonth = new Date().getMonth()
     const seasons = ['spring', 'summer', 'fall', 'winter']
     const season = seasons[Math.floor(currentMonth / 3)]
-    
-    const holidays = ['New Year', 'Valentine\'s Day', 'Easter', 'Mother\'s Day', 'Father\'s Day', 'Independence Day', 'Halloween', 'Thanksgiving', 'Christmas']
+
+    const holidays = [
+      'New Year',
+      "Valentine's Day",
+      'Easter',
+      "Mother's Day",
+      "Father's Day",
+      'Independence Day',
+      'Halloween',
+      'Thanksgiving',
+      'Christmas',
+    ]
     const currentHoliday = holidays[Math.floor(Math.random() * holidays.length)]
 
     const prompt = `Create a seasonal prompt related to ${season} or ${currentHoliday}. 
@@ -508,7 +539,7 @@ export class AutonomousAgent {
       description: `Seasonal prompt for ${currentHoliday} and ${season} activities`,
       prompt_text: content,
       model: 'gpt-4o-mini',
-      tags: [season, currentHoliday.toLowerCase().replace('\'', ''), 'seasonal'],
+      tags: [season, currentHoliday.toLowerCase().replace("'", ''), 'seasonal'],
       strategy_context: `Generated for season: ${season}, holiday: ${currentHoliday}`,
       quality_score: 0.8,
     }
@@ -543,7 +574,7 @@ export class AutonomousAgent {
   }
 
   // Get agent configuration from database with caching
-  private async getAgentConfig(): Promise<AgentConfig & Record<string, unknown> | null> {
+  private async getAgentConfig(): Promise<(AgentConfig & Record<string, unknown>) | null> {
     // Check cache first
     const cached = agentConfigCache.get(this.agentId)
     if (cached) {
@@ -617,7 +648,11 @@ export class AutonomousAgent {
   }
 
   // Update agent metrics
-  async updateMetrics(promptsGenerated: number, costUsd: number, qualityScore: number): Promise<void> {
+  async updateMetrics(
+    promptsGenerated: number,
+    costUsd: number,
+    qualityScore: number,
+  ): Promise<void> {
     try {
       const supabase = await this.supabase
       await supabase.rpc('update_agent_metrics', {

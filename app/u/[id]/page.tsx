@@ -86,9 +86,11 @@ export default async function PublicProfilePage({ params, searchParams }: Public
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700">
             {profile.avatar_url ? (
               <img
-                src={profile.avatar_url.startsWith('http')
-                  ? profile.avatar_url
-                  : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${profile.avatar_url.replace(/^avatars\//, '')}`}
+                src={
+                  profile.avatar_url.startsWith('http')
+                    ? profile.avatar_url
+                    : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${profile.avatar_url.replace(/^avatars\//, '')}`
+                }
                 alt={profile.display_name || 'User'}
                 width={96}
                 height={96}
@@ -118,9 +120,8 @@ export default async function PublicProfilePage({ params, searchParams }: Public
           <h2 className="mb-4 text-2xl font-semibold">Public Prompts</h2>
           <p className="mb-6 text-sm text-muted-foreground [&_a]:underline [&_a]:underline-offset-4">
             {profile.display_name || 'This creator'} has published{' '}
-            <span className="font-semibold">{total}</span>{' '}AI prompts in the{' '}
-            <Link href="/p">Public Prompt Directory</Link> on{' '}
-            <Link href="/">Prompt Manage</Link>.
+            <span className="font-semibold">{total}</span> AI prompts in the{' '}
+            <Link href="/p">Public Prompt Directory</Link> on <Link href="/">Prompt Manage</Link>.
           </p>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {(prompts as PublicPrompt[])?.map((prompt) => (
@@ -153,7 +154,8 @@ export default async function PublicProfilePage({ params, searchParams }: Public
             <div className="text-sm text-gray-600 dark:text-gray-400">
               {total > 0 ? (
                 <span>
-                  Showing {from + 1}–{Math.min(from + ((prompts || []).length || 0), total)} of {total}
+                  Showing {from + 1}–{Math.min(from + ((prompts || []).length || 0), total)} of{' '}
+                  {total}
                 </span>
               ) : (
                 <span>No public prompts yet.</span>
@@ -174,35 +176,40 @@ export default async function PublicProfilePage({ params, searchParams }: Public
           </div>
           {/* Creator Footer Auto-Text (no card styling) */}
           <div className="mt-12 border-t pt-8">
-            <h3 className="mb-2 text-center text-base font-semibold text-foreground">About This Creator</h3>
+            <h3 className="mb-2 text-center text-base font-semibold text-foreground">
+              About This Creator
+            </h3>
             <div className="mx-auto max-w-3xl text-base leading-7 text-muted-foreground">
               <p className="[&_a]:underline [&_a]:underline-offset-4">
-                <span className="font-semibold">{profile.display_name || 'This creator'}</span> has published
-                {' '}<span className="font-semibold">{total}</span> AI prompts in the{' '}
+                <span className="font-semibold">{profile.display_name || 'This creator'}</span> has
+                published <span className="font-semibold">{total}</span> AI prompts in the{' '}
                 <Link href="/p">Public Prompt Directory</Link> on{' '}
-                <Link href="/">Prompt Manage</Link>, covering ChatGPT, Google Gemini, Claude, Grok, and more.
-                {' '}
+                <Link href="/">Prompt Manage</Link>, covering ChatGPT, Google Gemini, Claude, Grok,
+                and more.{' '}
                 {creatorCategories.length > 0 && (
                   <>
                     They often publish in categories like{' '}
                     {creatorCategories.map((cat, i) => (
                       <span key={cat}>
-                        <Link href={`/p?tag=${encodeURIComponent(cat)}`}>{cat}</Link>
+                        <Link href={`/p/tags/${encodeURIComponent(cat)}`}>{cat}</Link>
                         {i < creatorCategories.length - 1 ? ', ' : ''}
                       </span>
                     ))}
                     .
                   </>
-                )}
-                {' '}<Link href={`/u/${id}`}>Explore more prompts</Link> from {profile.display_name || 'this creator'}
-                {' '}or <Link href="/p">browse the full directory</Link> to discover new ways to write, brainstorm,
-                {' '}code, and create with AI.
+                )}{' '}
+                <Link href={`/u/${id}`}>Explore more prompts</Link> from{' '}
+                {profile.display_name || 'this creator'} or{' '}
+                <Link href="/p">browse the full directory</Link> to discover new ways to write,
+                brainstorm, code, and create with AI.
               </p>
 
               {creatorCategories.length > 0 && (
                 <div className="mt-4 flex flex-wrap justify-center gap-2">
                   {creatorCategories.map((cat) => (
-                    <Badge key={cat} variant="outline">{cat}</Badge>
+                    <Badge key={cat} variant="outline">
+                      {cat}
+                    </Badge>
                   ))}
                 </div>
               )}

@@ -47,16 +47,20 @@ export default function DashboardPage() {
   const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(null)
 
   const { data: prompts = [], isLoading } = useQuery({
-    queryKey: ['prompts'],
+    queryKey: ['prompts', session?.user?.id],
     queryFn: async () => {
       const { data, error } = await createClient()
         .from('prompts')
         .select('*')
         .eq('user_id', session?.user?.id)
         .order('updated_at', { ascending: false })
+        .limit(100) // Limit for performance
       if (error) throw error
       return data as Prompt[]
     },
+    enabled: !!session?.user?.id,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   })
 
   // Redirect to /auth/copy-prompt if there's a pending prompt copy

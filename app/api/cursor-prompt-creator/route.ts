@@ -1,4 +1,4 @@
-import type { NextRequest} from 'next/server';
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
@@ -36,22 +36,22 @@ export async function POST(request: NextRequest) {
   try {
     // Rate limiting
     const clientId = getClientIdentifier(request)
-    const rateLimit = checkRateLimit(clientId)
-    
+    const rateLimit = await checkRateLimit(clientId)
+
     if (!rateLimit.allowed) {
       return NextResponse.json(
-        { 
+        {
           error: 'Rate limit exceeded. Please try again later.',
-          resetTime: rateLimit.resetTime
+          resetTime: rateLimit.resetTime.getTime(),
         },
-        { 
+        {
           status: 429,
           headers: {
             'X-RateLimit-Limit': '10',
-            'X-RateLimit-Remaining': '0',
-            'X-RateLimit-Reset': rateLimit.resetTime.toString()
-          }
-        }
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.resetTime.getTime().toString(),
+          },
+        },
       )
     }
 
@@ -59,33 +59,30 @@ export async function POST(request: NextRequest) {
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
         { error: 'Service temporarily unavailable. Please try again later.' },
-        { status: 503 }
+        { status: 503 },
       )
     }
 
-    const { 
-      task, 
-      context = '', 
-      language = 'javascript', 
-      framework = '', 
+    const {
+      task,
+      context = '',
+      language = 'javascript',
+      framework = '',
       complexity = 'intermediate',
       includeComments = true,
       includeTests = false,
-      includeDocs = false
+      includeDocs = false,
     }: CursorPromptRequest = await request.json()
 
     if (!task || task.trim().length === 0) {
-      return NextResponse.json(
-        { error: 'Task description is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Task description is required' }, { status: 400 })
     }
 
     // Input validation
     if (task.length > 5000) {
       return NextResponse.json(
         { error: 'Task description is too long. Please keep it under 5,000 characters.' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -98,16 +95,13 @@ export async function POST(request: NextRequest) {
       complexity,
       includeComments,
       includeTests,
-      includeDocs
+      includeDocs,
     })
 
     return NextResponse.json(cursorPrompt)
   } catch (error) {
     console.error('Cursor prompt generation error:', error)
-    return NextResponse.json(
-      { error: 'Failed to generate Cursor prompt' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to generate Cursor prompt' }, { status: 500 })
   }
 }
 
@@ -120,7 +114,7 @@ async function generateCursorPrompt(params: CursorPromptRequest): Promise<Cursor
     complexity,
     includeComments,
     includeTests,
-    includeDocs
+    includeDocs,
   } = params
 
   const systemPrompt = `You are an expert at creating prompts for Cursor AI, a code editor with AI assistance. Generate a highly effective prompt that will help Cursor understand exactly what the developer wants to accomplish.
@@ -159,44 +153,50 @@ Generate a comprehensive Cursor prompt that will produce high-quality code.`
     const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
 
     const openai = getOpenAIClient()
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      temperature: 0.7,
-      max_tokens: 1000
-    }, {
-      signal: controller.signal
-    })
+    const response = await openai.chat.completions.create(
+      {
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt },
+        ],
+        temperature: 0.7,
+        max_tokens: 1000,
+      },
+      {
+        signal: controller.signal,
+      },
+    )
 
     clearTimeout(timeoutId)
 
     const generatedContent = response.choices[0]?.message?.content || ''
-    
+
     // Parse the response to extract prompt, explanation, tips, and examples
-    const lines = generatedContent.split('\n').filter(line => line.trim())
-    
+    const lines = generatedContent.split('\n').filter((line) => line.trim())
+
     let prompt = ''
     let explanation = ''
     const tips: string[] = []
     const examples: string[] = []
-    
+
     let currentSection = 'prompt'
-    
+
     for (const line of lines) {
       if (line.toLowerCase().includes('explanation') || line.toLowerCase().includes('why')) {
         currentSection = 'explanation'
         continue
-      } else if (line.toLowerCase().includes('tip') || line.toLowerCase().includes('best practice')) {
+      } else if (
+        line.toLowerCase().includes('tip') ||
+        line.toLowerCase().includes('best practice')
+      ) {
         currentSection = 'tips'
         continue
       } else if (line.toLowerCase().includes('example')) {
         currentSection = 'examples'
         continue
       }
-      
+
       if (currentSection === 'prompt') {
         prompt += line + '\n'
       } else if (currentSection === 'explanation') {
@@ -211,23 +211,32 @@ Generate a comprehensive Cursor prompt that will produce high-quality code.`
     // Fallback if parsing didn't work well
     if (!prompt.trim()) {
       prompt = generatedContent
-      explanation = 'This prompt is designed to help Cursor AI understand your coding requirements and generate appropriate code.'
+      explanation =
+        'This prompt is designed to help Cursor AI understand your coding requirements and generate appropriate code.'
     }
 
     return {
       prompt: prompt.trim(),
-      explanation: explanation.trim() || 'This prompt is optimized for Cursor AI to understand your coding task.',
-      tips: tips.length > 0 ? tips : [
-        'Be specific about the programming language and framework',
-        'Include clear requirements and constraints',
-        'Specify the desired output format',
-        'Mention any specific patterns or conventions to follow'
-      ],
-      examples: examples.length > 0 ? examples : [
-        'React component with TypeScript',
-        'API endpoint with error handling',
-        'Database query with proper validation'
-      ]
+      explanation:
+        explanation.trim() ||
+        'This prompt is optimized for Cursor AI to understand your coding task.',
+      tips:
+        tips.length > 0
+          ? tips
+          : [
+              'Be specific about the programming language and framework',
+              'Include clear requirements and constraints',
+              'Specify the desired output format',
+              'Mention any specific patterns or conventions to follow',
+            ],
+      examples:
+        examples.length > 0
+          ? examples
+          : [
+              'React component with TypeScript',
+              'API endpoint with error handling',
+              'Database query with proper validation',
+            ],
     }
   } catch (error) {
     console.error('OpenAI API error:', error)

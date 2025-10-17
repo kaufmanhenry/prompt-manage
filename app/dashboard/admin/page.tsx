@@ -1,18 +1,19 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { 
-  Activity, 
-  AlertCircle, 
-  Brain, 
-  Code, 
+import {
+  Activity,
+  AlertCircle,
+  Brain,
+  Code,
   Database,
   Download,
   Eye,
-  FileText, 
-  Sparkles, 
-  TrendingUp, 
-  Users} from 'lucide-react'
+  FileText,
+  Sparkles,
+  TrendingUp,
+  Users,
+} from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -22,7 +23,14 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { isAdminEmail } from '@/lib/admin'
 import { createClient } from '@/utils/supabase/client'
@@ -36,8 +44,10 @@ export default function AdminDashboard() {
   // Check admin access
   useEffect(() => {
     const checkAdmin = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+
       if (!user || !isAdminEmail(user.email)) {
         router.push('/dashboard')
         return
@@ -63,7 +73,7 @@ export default function AdminDashboard() {
       if (error) throw error
       return data
     },
-    enabled: isAdmin
+    enabled: isAdmin,
   })
 
   // Fetch agents data
@@ -72,17 +82,19 @@ export default function AdminDashboard() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('agents')
-        .select(`
+        .select(
+          `
           *,
           agent_generations(count),
           agent_metrics(*)
-        `)
+        `,
+        )
         .order('created_at', { ascending: false })
 
       if (error) throw error
       return data
     },
-    enabled: isAdmin
+    enabled: isAdmin,
   })
 
   // Fetch user statistics
@@ -96,13 +108,13 @@ export default function AdminDashboard() {
       if (error) throw error
 
       const total = data.length
-      const free = data.filter(u => u.subscription_tier === 'free').length
-      const team = data.filter(u => u.subscription_tier === 'team').length
-      const enterprise = data.filter(u => u.subscription_tier === 'enterprise').length
+      const free = data.filter((u) => u.subscription_tier === 'free').length
+      const team = data.filter((u) => u.subscription_tier === 'team').length
+      const enterprise = data.filter((u) => u.subscription_tier === 'enterprise').length
 
       return { total, free, team, enterprise }
     },
-    enabled: isAdmin
+    enabled: isAdmin,
   })
 
   // Fetch detailed user list
@@ -111,7 +123,9 @@ export default function AdminDashboard() {
     queryFn: async () => {
       const { data: profiles, error: profilesError } = await supabase
         .from('user_profiles')
-        .select('id, email, full_name, subscription_tier, subscription_status, subscription_period_end, created_at')
+        .select(
+          'id, email, full_name, subscription_tier, subscription_status, subscription_period_end, created_at',
+        )
         .order('created_at', { ascending: false })
 
       if (profilesError) throw profilesError
@@ -128,31 +142,29 @@ export default function AdminDashboard() {
             ...profile,
             prompt_count: promptCount || 0,
           }
-        })
+        }),
       )
 
       return usersWithCounts
     },
-    enabled: isAdmin
+    enabled: isAdmin,
   })
 
   // Fetch prompt statistics
   const { data: promptStats, isLoading: promptStatsLoading } = useQuery({
     queryKey: ['admin-prompt-stats'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('prompts')
-        .select('id, is_public, created_at')
+      const { data, error } = await supabase.from('prompts').select('id, is_public, created_at')
 
       if (error) throw error
 
       const total = data.length
-      const publicPrompts = data.filter(p => p.is_public).length
+      const publicPrompts = data.filter((p) => p.is_public).length
       const privatePrompts = total - publicPrompts
 
       return { total, public: publicPrompts, private: privatePrompts }
     },
-    enabled: isAdmin
+    enabled: isAdmin,
   })
 
   // Export free tool data as CSV
@@ -160,18 +172,15 @@ export default function AdminDashboard() {
     if (!freeToolData) return
 
     const headers = ['Tool Name', 'User ID', 'IP Address', 'Saved to Library', 'Created At']
-    const rows = freeToolData.map(item => [
+    const rows = freeToolData.map((item) => [
       item.tool_name,
       item.user_id || 'Anonymous',
       item.ip_address,
       item.saved_to_library ? 'Yes' : 'No',
-      new Date(item.created_at).toLocaleString()
+      new Date(item.created_at).toLocaleString(),
     ])
 
-    const csv = [
-      headers.join(','),
-      ...rows.map(row => row.join(','))
-    ].join('\n')
+    const csv = [headers.join(','), ...rows.map((row) => row.join(','))].join('\n')
 
     const blob = new Blob([csv], { type: 'text/csv' })
     const url = window.URL.createObjectURL(blob)
@@ -196,11 +205,11 @@ export default function AdminDashboard() {
   // Calculate free tool stats
   const freeToolStats = {
     total: freeToolData?.length || 0,
-    claudeCreator: freeToolData?.filter(item => item.tool_name === 'claude-creator').length || 0,
-    cursorCreator: freeToolData?.filter(item => item.tool_name === 'cursor-creator').length || 0,
-    optimizer: freeToolData?.filter(item => item.tool_name === 'optimizer').length || 0,
-    saved: freeToolData?.filter(item => item.saved_to_library).length || 0,
-    loggedIn: freeToolData?.filter(item => item.user_id !== null).length || 0,
+    claudeCreator: freeToolData?.filter((item) => item.tool_name === 'claude-creator').length || 0,
+    cursorCreator: freeToolData?.filter((item) => item.tool_name === 'cursor-creator').length || 0,
+    optimizer: freeToolData?.filter((item) => item.tool_name === 'optimizer').length || 0,
+    saved: freeToolData?.filter((item) => item.saved_to_library).length || 0,
+    loggedIn: freeToolData?.filter((item) => item.user_id !== null).length || 0,
   }
 
   return (
@@ -208,12 +217,8 @@ export default function AdminDashboard() {
       <div className="container mx-auto max-w-7xl px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-            Admin Dashboard
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            System overview and data management
-          </p>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
+          <p className="text-gray-600 dark:text-gray-400">System overview and data management</p>
         </div>
 
         {/* Stats Overview */}
@@ -286,7 +291,7 @@ export default function AdminDashboard() {
               ) : (
                 <>
                   <div className="text-2xl font-bold">
-                    {agentsData?.filter(a => a.is_active).length || 0}
+                    {agentsData?.filter((a) => a.is_active).length || 0}
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {agentsData?.length || 0} total agents
@@ -400,19 +405,28 @@ export default function AdminDashboard() {
                                 item.tool_name === 'claude-creator'
                                   ? 'bg-purple-100 text-purple-800'
                                   : item.tool_name === 'cursor-creator'
-                                  ? 'bg-blue-100 text-blue-800'
-                                  : 'bg-green-100 text-green-800'
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : 'bg-green-100 text-green-800'
                               }
                             >
-                              {item.tool_name === 'claude-creator' && <Brain className="mr-1 h-3 w-3" />}
-                              {item.tool_name === 'cursor-creator' && <Code className="mr-1 h-3 w-3" />}
-                              {item.tool_name === 'optimizer' && <Sparkles className="mr-1 h-3 w-3" />}
-                              {item.tool_name.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                              {item.tool_name === 'claude-creator' && (
+                                <Brain className="mr-1 h-3 w-3" />
+                              )}
+                              {item.tool_name === 'cursor-creator' && (
+                                <Code className="mr-1 h-3 w-3" />
+                              )}
+                              {item.tool_name === 'optimizer' && (
+                                <Sparkles className="mr-1 h-3 w-3" />
+                              )}
+                              {item.tool_name
+                                .split('-')
+                                .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(' ')}
                             </Badge>
                           </TableCell>
                           <TableCell>
                             {item.user_id ? (
-                              <Link 
+                              <Link
                                 href={`/u/${item.user_id}`}
                                 className="text-blue-600 hover:underline"
                               >
@@ -431,7 +445,8 @@ export default function AdminDashboard() {
                             )}
                           </TableCell>
                           <TableCell className="text-sm text-gray-600">
-                            {new Date(item.created_at).toLocaleDateString()} {new Date(item.created_at).toLocaleTimeString()}
+                            {new Date(item.created_at).toLocaleDateString()}{' '}
+                            {new Date(item.created_at).toLocaleTimeString()}
                           </TableCell>
                           <TableCell>
                             <Button
@@ -628,9 +643,7 @@ export default function AdminDashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle>AI Agents</CardTitle>
-                    <CardDescription>
-                      Autonomous agents generating prompts
-                    </CardDescription>
+                    <CardDescription>Autonomous agents generating prompts</CardDescription>
                   </div>
                   <Link href="/dashboard/agents">
                     <Button variant="outline" size="sm">
@@ -678,9 +691,7 @@ export default function AdminDashboard() {
                               <Badge variant="outline">Inactive</Badge>
                             )}
                           </TableCell>
-                          <TableCell>
-                            {agent.agent_generations?.[0]?.count || 0}
-                          </TableCell>
+                          <TableCell>{agent.agent_generations?.[0]?.count || 0}</TableCell>
                           <TableCell>
                             <Link href={`/dashboard/agents?id=${agent.id}`}>
                               <Button variant="ghost" size="sm">
@@ -723,7 +734,9 @@ export default function AdminDashboard() {
                         <CardTitle className="text-sm">Free</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="text-3xl font-bold text-gray-600">{userStats?.free || 0}</div>
+                        <div className="text-3xl font-bold text-gray-600">
+                          {userStats?.free || 0}
+                        </div>
                       </CardContent>
                     </Card>
                     <Card>
@@ -731,7 +744,9 @@ export default function AdminDashboard() {
                         <CardTitle className="text-sm">Team</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="text-3xl font-bold text-blue-600">{userStats?.team || 0}</div>
+                        <div className="text-3xl font-bold text-blue-600">
+                          {userStats?.team || 0}
+                        </div>
                       </CardContent>
                     </Card>
                     <Card>
@@ -739,7 +754,9 @@ export default function AdminDashboard() {
                         <CardTitle className="text-sm">Enterprise</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="text-3xl font-bold text-purple-600">{userStats?.enterprise || 0}</div>
+                        <div className="text-3xl font-bold text-purple-600">
+                          {userStats?.enterprise || 0}
+                        </div>
                       </CardContent>
                     </Card>
                   </div>
@@ -801,8 +818,8 @@ export default function AdminDashboard() {
                                   user.subscription_tier === 'enterprise'
                                     ? 'bg-purple-100 text-purple-800'
                                     : user.subscription_tier === 'team'
-                                    ? 'bg-blue-100 text-blue-800'
-                                    : 'bg-gray-100 text-gray-800'
+                                      ? 'bg-blue-100 text-blue-800'
+                                      : 'bg-gray-100 text-gray-800'
                                 }
                               >
                                 {user.subscription_tier || 'free'}
@@ -844,11 +861,14 @@ export default function AdminDashboard() {
                             <TableCell>
                               {user.subscription_period_end ? (
                                 <span className="text-sm">
-                                  {new Date(user.subscription_period_end).toLocaleDateString('en-US', {
-                                    month: 'short',
-                                    day: 'numeric',
-                                    year: 'numeric',
-                                  })}
+                                  {new Date(user.subscription_period_end).toLocaleDateString(
+                                    'en-US',
+                                    {
+                                      month: 'short',
+                                      day: 'numeric',
+                                      year: 'numeric',
+                                    },
+                                  )}
                                 </span>
                               ) : (
                                 <span className="text-muted-foreground">—</span>
@@ -860,9 +880,7 @@ export default function AdminDashboard() {
                     </Table>
                   </div>
                 ) : (
-                  <div className="py-8 text-center text-muted-foreground">
-                    No users found
-                  </div>
+                  <div className="py-8 text-center text-muted-foreground">No users found</div>
                 )}
               </CardContent>
             </Card>
@@ -919,4 +937,3 @@ export default function AdminDashboard() {
     </div>
   )
 }
-

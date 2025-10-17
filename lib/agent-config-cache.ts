@@ -47,7 +47,7 @@ class AgentConfigCache {
    */
   get(agentId: string): AgentConfig | null {
     const entry = this.cache.get(agentId)
-    
+
     if (!entry) return null
 
     // Check if expired
@@ -75,7 +75,7 @@ class AgentConfigCache {
 
     this.cache.set(agentId, {
       data,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     })
   }
 
@@ -103,7 +103,7 @@ class AgentConfigCache {
       size: this.cache.size,
       maxSize: this.maxSize,
       ttlMs: this.ttlMs,
-      hitRate: this.calculateHitRate()
+      hitRate: this.calculateHitRate(),
     }
   }
 
@@ -127,4 +127,3 @@ class AgentConfigCache {
 
 // Singleton instance
 export const agentConfigCache = new AgentConfigCache()
-

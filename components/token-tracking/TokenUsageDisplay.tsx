@@ -8,11 +8,11 @@ import type { TokenUsageDisplayProps } from '@/lib/types/token-tracking'
 
 /**
  * TokenUsageDisplay Component
- * 
+ *
  * Displays actual token usage and cost after prompt execution.
  * Shows input/output breakdown, total cost, and execution time.
  * Tier-specific visibility (Free vs Teams/Enterprise).
- * 
+ *
  * @example
  * ```tsx
  * <TokenUsageDisplay
@@ -94,4 +94,3 @@ export function TokenUsageDisplay({
     </Card>
   )
 }
-

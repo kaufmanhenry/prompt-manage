@@ -18,15 +18,21 @@ import { useCallback, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import type { NodeConfig, NodeType, WorkflowBuilderProps, WorkflowEdge as WorkflowEdgeType,WorkflowNodeDefinition } from '@/lib/types/workflows'
+import type {
+  NodeConfig,
+  NodeType,
+  WorkflowBuilderProps,
+  WorkflowEdge as WorkflowEdgeType,
+  WorkflowNodeDefinition,
+} from '@/lib/types/workflows'
 
 /**
  * WorkflowBuilder Component
- * 
+ *
  * Visual drag-and-drop workflow editor using ReactFlow.
  * Supports adding nodes, connecting edges, and configuring workflow logic.
  * Real-time validation and error checking.
- * 
+ *
  * @example
  * ```tsx
  * <WorkflowBuilder
@@ -46,10 +52,10 @@ export function WorkflowBuilder({
 }: WorkflowBuilderProps) {
   // Convert workflow definition to ReactFlow nodes/edges
   const [nodes, setNodes, onNodesChange] = useNodesState(
-    initialDefinition?.nodes?.map(nodeToReactFlowNode) || []
+    initialDefinition?.nodes?.map(nodeToReactFlowNode) || [],
   )
   const [edges, setEdges, onEdgesChange] = useEdgesState(
-    initialDefinition?.edges?.map(edgeToReactFlowEdge) || []
+    initialDefinition?.edges?.map(edgeToReactFlowEdge) || [],
   )
 
   const [selectedNode, setSelectedNode] = useState<string | null>(null)
@@ -61,7 +67,7 @@ export function WorkflowBuilder({
       if (readOnly) return
       setEdges((eds: Edge[]) => addEdge(connection, eds))
     },
-    [setEdges, readOnly]
+    [setEdges, readOnly],
   )
 
   // Handle node selection
@@ -110,20 +116,18 @@ export function WorkflowBuilder({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-semibold">Workflow Builder</h2>
-            {readOnly && (
-              <span className="text-sm text-gray-500">(Read-only)</span>
-            )}
+            {readOnly && <span className="text-sm text-gray-500">(Read-only)</span>}
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={() => {
-              // TODO: Open node palette
-            }}>
+            <Button
+              variant="outline"
+              onClick={() => {
+                // TODO: Open node palette
+              }}
+            >
               Add Node
             </Button>
-            <Button
-              onClick={handleSave}
-              disabled={readOnly || isSaving}
-            >
+            <Button onClick={handleSave} disabled={readOnly || isSaving}>
               {isSaving ? 'Saving...' : 'Save'}
             </Button>
           </div>
@@ -234,4 +238,3 @@ function reactFlowEdgeToEdge(edge: Edge): WorkflowEdgeType {
     condition: edge.data?.condition as string | undefined,
   }
 }
-

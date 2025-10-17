@@ -178,4 +178,3 @@ export function getTierColor(tier: SubscriptionTier): string {
       return 'gray'
   }
 }
-

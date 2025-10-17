@@ -1,4 +1,4 @@
-import type { NextRequest} from 'next/server';
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { isAdminEmail } from '@/lib/admin'
@@ -12,15 +12,15 @@ async function checkAdminAccess(_request: NextRequest) {
     data: { user },
     error: authError,
   } = await supabase.auth.getUser()
-  
+
   if (authError || !user) {
     return { error: 'Unauthorized', status: 401 }
   }
-  
+
   if (!isAdminEmail(user.email)) {
     return { error: 'Admin access required', status: 403 }
   }
-  
+
   return { user }
 }
 
@@ -38,7 +38,8 @@ export async function GET(request: NextRequest) {
     // Get all agents with their metrics
     const { data: agents, error } = await supabase
       .from('agents')
-      .select(`
+      .select(
+        `
         *,
         agent_generations(count),
         agent_metrics(
@@ -49,7 +50,8 @@ export async function GET(request: NextRequest) {
           prompts_published,
           total_views
         )
-      `)
+      `,
+      )
       .order('created_at', { ascending: false })
 
     if (error) {
@@ -60,10 +62,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ agents })
   } catch (error) {
     console.error('Agent management error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -77,7 +76,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
     const { name, description, strategy, department, config } = body
-    
+
     if (!name || !strategy) {
       return NextResponse.json({ error: 'Name and strategy required' }, { status: 400 })
     }
@@ -126,8 +125,11 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Agent creation error:', error)
     return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
+      {
+        error: 'Internal server error',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 },
     )
   }
 }
@@ -141,7 +143,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const { id, ...updates } = await request.json()
-    
+
     if (!id) {
       return NextResponse.json({ error: 'Agent ID required' }, { status: 400 })
     }
@@ -166,10 +168,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ agent: data })
   } catch (error) {
     console.error('Agent update error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
@@ -183,17 +182,14 @@ export async function DELETE(request: NextRequest) {
 
     const url = new URL(request.url)
     const id = url.searchParams.get('id')
-    
+
     if (!id) {
       return NextResponse.json({ error: 'Agent ID required' }, { status: 400 })
     }
 
     const supabase = await createClient()
 
-    const { error } = await supabase
-      .from('agents')
-      .delete()
-      .eq('id', id)
+    const { error } = await supabase.from('agents').delete().eq('id', id)
 
     if (error) {
       console.error('Error deleting agent:', error)
@@ -206,9 +202,6 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Agent deletion error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

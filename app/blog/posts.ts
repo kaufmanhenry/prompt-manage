@@ -12,6 +12,389 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'getting-started-guide',
+    title: 'Getting Started with Prompt Manage: Your Complete Guide to AI Prompt Management',
+    summary:
+      'Learn how to sign up, organize your prompts, and master the Prompt Lab to maximize your AI productivity. A comprehensive guide for new users.',
+    date: '2025-01-15',
+    author: 'Prompt Manage Team',
+    tags: ['getting started', 'tutorial', 'prompt management', 'AI productivity', 'guide'],
+    category: 'Getting Started',
+    html: `
+      <h2>Getting Started with Prompt Manage: Your Complete Guide to AI Prompt Management</h2>
+      
+      <p>Welcome to Prompt Manage! Whether you're new to AI or looking to organize your existing prompt collection, this comprehensive guide will help you get the most out of our platform. We'll walk you through everything from creating your account to mastering advanced features like the Prompt Lab.</p>
+      
+      <p>By the end of this guide, you'll know how to:</p>
+      <ul>
+        <li>Set up your account and profile</li>
+        <li>Create, organize, and manage your prompts</li>
+        <li>Use the Prompt Lab for testing and optimization</li>
+        <li>Collaborate with team members</li>
+        <li>Access our extensive public prompt library</li>
+        <li>Track your AI usage and costs</li>
+      </ul>
+      
+      <h2>Step 1: Creating Your Account</h2>
+      
+      <h3>Sign Up Process</h3>
+      
+      <p>Getting started with Prompt Manage is quick and easy:</p>
+      
+      <ol>
+        <li><strong>Visit our homepage</strong> at <a href="/">promptmanage.com</a></li>
+        <li><strong>Click "Get Started Free"</strong> in the top navigation</li>
+        <li><strong>Choose your sign-up method:</strong>
+          <ul>
+            <li>Google account (recommended for quick setup)</li>
+            <li>Email and password</li>
+          </ul>
+        </li>
+        <li><strong>Complete your profile</strong> with your name and basic information</li>
+      </ol>
+      
+      <p>That's it! You're now ready to start managing your AI prompts like a pro.</p>
+      
+      <h3>Setting Up Your Profile</h3>
+      
+      <p>After signing up, take a moment to complete your profile:</p>
+      
+      <ul>
+        <li><strong>Display Name:</strong> How you'll appear to team members</li>
+        <li><strong>Bio:</strong> Brief description of your role or interests</li>
+        <li><strong>Profile Picture:</strong> Optional but helps with team collaboration</li>
+      </ul>
+      
+      <p>You can always update these settings later in your <a href="/settings">account settings</a>.</p>
+      
+      <h2>Step 2: Understanding the Dashboard</h2>
+      
+      <p>Your dashboard is your command center for all prompt management activities. Here's what you'll find:</p>
+      
+      <h3>Main Navigation</h3>
+      
+      <ul>
+        <li><strong>Dashboard:</strong> Overview of your prompts, recent activity, and quick stats</li>
+        <li><strong>Prompts:</strong> Your personal prompt library</li>
+        <li><strong>Prompt Lab:</strong> Testing and optimization workspace</li>
+        <li><strong>Teams:</strong> Collaboration features (if you're part of a team)</li>
+        <li><strong>Public Directory:</strong> Browse community-shared prompts</li>
+      </ul>
+      
+      <h3>Quick Actions</h3>
+      
+      <p>From your dashboard, you can quickly:</p>
+      <ul>
+        <li>Create a new prompt</li>
+        <li>Access your most recent prompts</li>
+        <li>View your usage statistics</li>
+        <li>Jump to the Prompt Lab</li>
+      </ul>
+      
+      <h2>Step 3: Creating Your First Prompt</h2>
+      
+      <h3>Basic Prompt Creation</h3>
+      
+      <p>Let's create your first prompt:</p>
+      
+      <ol>
+        <li><strong>Click "Create New Prompt"</strong> from your dashboard</li>
+        <li><strong>Fill in the basic information:</strong>
+          <ul>
+            <li><strong>Title:</strong> Clear, descriptive name for your prompt</li>
+            <li><strong>Description:</strong> What this prompt does and when to use it</li>
+            <li><strong>Model:</strong> Which AI model this prompt is designed for</li>
+            <li><strong>Tags:</strong> Keywords to help you find it later</li>
+          </ul>
+        </li>
+        <li><strong>Write your prompt text:</strong> This is the actual prompt you'll use with AI</li>
+        <li><strong>Set visibility:</strong> Private (just you) or Public (share with community)</li>
+        <li><strong>Save your prompt</strong></li>
+      </ol>
+      
+      <h3>Prompt Best Practices</h3>
+      
+      <p>Here are some tips for creating effective prompts:</p>
+      
+      <ul>
+        <li><strong>Be specific:</strong> Include context, desired output format, and any constraints</li>
+        <li><strong>Use examples:</strong> Show the AI what good output looks like</li>
+        <li><strong>Set clear boundaries:</strong> Define what you don't want</li>
+        <li><strong>Test and iterate:</strong> Use the Prompt Lab to refine your prompts</li>
+      </ul>
+      
+      <h3>Example: A Marketing Email Prompt</h3>
+      
+      <div style="background-color: #f8f9fa; border-left: 4px solid #007bff; padding: 1rem; margin: 1rem 0; border-radius: 4px;">
+        <p><strong>Title:</strong> Product Launch Email</p>
+        <p><strong>Description:</strong> Generate compelling product launch emails for SaaS companies</p>
+        <p><strong>Model:</strong> GPT-4o</p>
+        <p><strong>Tags:</strong> marketing, email, product launch, saas</p>
+        <p><strong>Prompt Text:</strong></p>
+        <p>You are a professional email marketing copywriter specializing in SaaS product launches. Write a compelling product launch email that:</p>
+        <ul>
+          <li>Creates excitement about the new product</li>
+          <li>Clearly explains the key benefits</li>
+          <li>Includes a strong call-to-action</li>
+          <li>Maintains a professional yet enthusiastic tone</li>
+        </ul>
+        <p>Product: [Product Name]<br>
+        Key Features: [List 3-5 key features]<br>
+        Target Audience: [Describe your ideal customer]<br>
+        Launch Date: [Date]</p>
+      </div>
+      
+      <h2>Step 4: Organizing Your Prompts</h2>
+      
+      <h3>Using Tags Effectively</h3>
+      
+      <p>Tags are your best friend for organization. Use them to:</p>
+      
+      <ul>
+        <li><strong>Categorize by use case:</strong> marketing, coding, writing, analysis</li>
+        <li><strong>Mark by project:</strong> project-alpha, q4-campaign, website-redesign</li>
+        <li><strong>Indicate status:</strong> draft, tested, production-ready</li>
+        <li><strong>Specify audience:</strong> internal, client-facing, public</li>
+      </ul>
+      
+      <h3>Creating Collections</h3>
+      
+      <p>For larger projects, consider creating collections:</p>
+      
+      <ol>
+        <li>Go to your Prompts page</li>
+        <li>Click "Create Collection"</li>
+        <li>Name your collection (e.g., "Q4 Marketing Campaign")</li>
+        <li>Add relevant prompts to the collection</li>
+      </ol>
+      
+      <h3>Search and Filter</h3>
+      
+      <p>Use our powerful search to find prompts quickly:</p>
+      <ul>
+        <li><strong>Search by title or description</strong></li>
+        <li><strong>Filter by model</strong></li>
+        <li><strong>Filter by tags</strong></li>
+        <li><strong>Sort by date created or last used</strong></li>
+      </ul>
+      
+      <h2>Step 5: Mastering the Prompt Lab</h2>
+      
+      <p>The Prompt Lab is where the magic happens. It's your testing environment for refining prompts and getting the best results from AI.</p>
+      
+      <h3>Getting Started with Prompt Lab</h3>
+      
+      <ol>
+        <li><strong>Navigate to Prompt Lab</strong> from your dashboard</li>
+        <li><strong>Choose your AI model</strong> (GPT-4o, Claude, Gemini, etc.)</li>
+        <li><strong>Paste your prompt</strong> or select one from your library</li>
+        <li><strong>Add your input variables</strong> (the specific information for this run)</li>
+        <li><strong>Run the prompt</strong> and see the results</li>
+      </ol>
+      
+      <h3>Advanced Lab Features</h3>
+      
+      <p>The Prompt Lab offers several powerful features:</p>
+      
+      <ul>
+        <li><strong>A/B Testing:</strong> Compare different versions of your prompt</li>
+        <li><strong>Variable Testing:</strong> Test with different inputs to ensure consistency</li>
+        <li><strong>Model Comparison:</strong> See how your prompt performs across different AI models</li>
+        <li><strong>Performance Metrics:</strong> Track response quality and token usage</li>
+        <li><strong>Iteration History:</strong> Keep track of all your prompt variations</li>
+      </ul>
+      
+      <h3>Lab Best Practices</h3>
+      
+      <p>To get the most out of the Prompt Lab:</p>
+      
+      <ul>
+        <li><strong>Test with real data:</strong> Use actual examples from your work</li>
+        <li><strong>Try edge cases:</strong> Test with unusual or challenging inputs</li>
+        <li><strong>Compare models:</strong> Different models excel at different tasks</li>
+        <li><strong>Document results:</strong> Note what works and what doesn't</li>
+        <li><strong>Iterate quickly:</strong> Make small changes and test immediately</li>
+      </ul>
+      
+      <h2>Step 6: Exploring the Public Directory</h2>
+      
+      <p>One of Prompt Manage's greatest features is our extensive public prompt library. With thousands of community-shared prompts, you can find inspiration and ready-to-use templates for almost any task.</p>
+      
+      <h3>Browsing Public Prompts</h3>
+      
+      <p>Visit our <a href="/p">Public Directory</a> to explore:</p>
+      
+      <ul>
+        <li><strong>By Category:</strong> Marketing, coding, writing, analysis, and more</li>
+        <li><strong>By Model:</strong> Find prompts optimized for specific AI models</li>
+        <li><strong>By Popularity:</strong> See what's working for other users</li>
+        <li><strong>By Tags:</strong> Search for specific use cases or industries</li>
+      </ul>
+      
+      <h3>Using Public Prompts</h3>
+      
+      <p>When you find a useful public prompt:</p>
+      
+      <ol>
+        <li><strong>Click to view the full prompt</strong></li>
+        <li><strong>Test it in the Prompt Lab</strong> with your specific data</li>
+        <li><strong>Copy and customize</strong> it for your needs</li>
+        <li><strong>Save it to your library</strong> for future use</li>
+      </ol>
+      
+      <h3>Contributing to the Community</h3>
+      
+      <p>Consider sharing your best prompts with the community:</p>
+      
+      <ul>
+        <li><strong>Set visibility to "Public"</strong> when creating prompts</li>
+        <li><strong>Add helpful descriptions</strong> and tags</li>
+        <li><strong>Include usage examples</strong> in your prompt descriptions</li>
+        <li><strong>Respond to feedback</strong> from other users</li>
+      </ul>
+      
+      <h2>Step 7: Team Collaboration</h2>
+      
+      <p>If you're working with a team, Prompt Manage offers powerful collaboration features.</p>
+      
+      <h3>Creating a Team</h3>
+      
+      <ol>
+        <li>Go to the Teams section</li>
+        <li>Click "Create Team"</li>
+        <li>Invite team members via email</li>
+        <li>Set up roles and permissions</li>
+      </ol>
+      
+      <h3>Team Features</h3>
+      
+      <ul>
+        <li><strong>Shared Prompt Libraries:</strong> Team-wide access to prompts</li>
+        <li><strong>Collaborative Editing:</strong> Multiple people can work on prompts</li>
+        <li><strong>Review Workflows:</strong> Approve prompts before they go live</li>
+        <li><strong>Usage Analytics:</strong> Track team-wide AI usage and costs</li>
+        <li><strong>Role-based Access:</strong> Control who can see and edit what</li>
+      </ul>
+      
+      <h2>Step 8: Tracking Usage and Costs</h2>
+      
+      <p>Understanding your AI usage helps you optimize costs and performance.</p>
+      
+      <h3>Usage Dashboard</h3>
+      
+      <p>Your usage dashboard shows:</p>
+      
+      <ul>
+        <li><strong>Token consumption</strong> by model and time period</li>
+        <li><strong>Cost breakdown</strong> by project or team member</li>
+        <li><strong>Most-used prompts</strong> and their performance</li>
+        <li><strong>Trends and patterns</strong> in your AI usage</li>
+      </ul>
+      
+      <h3>Cost Optimization Tips</h3>
+      
+      <ul>
+        <li><strong>Use appropriate models:</strong> Don't use GPT-4 for simple tasks</li>
+        <li><strong>Optimize prompt length:</strong> Shorter prompts use fewer tokens</li>
+        <li><strong>Cache results:</strong> Save outputs for repeated use</li>
+        <li><strong>Set usage limits:</strong> Prevent runaway costs</li>
+      </ul>
+      
+      <h2>Step 9: Advanced Features</h2>
+      
+      <h3>Prompt Optimization</h3>
+      
+      <p>Use our built-in optimizer to improve your prompts:</p>
+      
+      <ol>
+        <li>Select a prompt in your library</li>
+        <li>Click "Optimize"</li>
+        <li>Review suggested improvements</li>
+        <li>Test the optimized version</li>
+        <li>Save the best version</li>
+      </ol>
+      
+      <h3>API Integration</h3>
+      
+      <p>For developers, Prompt Manage offers API access:</p>
+      
+      <ul>
+        <li><strong>RESTful API</strong> for programmatic access</li>
+        <li><strong>Webhook support</strong> for real-time updates</li>
+        <li><strong>SDK libraries</strong> for popular programming languages</li>
+        <li><strong>Documentation and examples</strong> to get you started</li>
+      </ul>
+      
+      <h3>Workflow Automation</h3>
+      
+      <p>Create automated workflows:</p>
+      
+      <ul>
+        <li><strong>Trigger prompts</strong> based on external events</li>
+        <li><strong>Chain prompts together</strong> for complex tasks</li>
+        <li><strong>Schedule regular runs</strong> for routine tasks</li>
+        <li><strong>Integrate with other tools</strong> via webhooks</li>
+      </ul>
+      
+      <h2>Step 10: Best Practices and Tips</h2>
+      
+      <h3>Prompt Management Best Practices</h3>
+      
+      <ul>
+        <li><strong>Version control:</strong> Keep track of prompt changes and improvements</li>
+        <li><strong>Documentation:</strong> Add clear descriptions and usage examples</li>
+        <li><strong>Regular testing:</strong> Periodically test your prompts to ensure they still work well</li>
+        <li><strong>Backup important prompts:</strong> Export your library regularly</li>
+        <li><strong>Stay updated:</strong> Keep up with new AI models and capabilities</li>
+      </ul>
+      
+      <h3>Common Mistakes to Avoid</h3>
+      
+      <ul>
+        <li><strong>Overly complex prompts:</strong> Sometimes simpler is better</li>
+        <li><strong>Ignoring context:</strong> Always provide relevant background information</li>
+        <li><strong>Not testing thoroughly:</strong> Test with various inputs before deploying</li>
+        <li><strong>Poor organization:</strong> Use tags and collections effectively</li>
+        <li><strong>Forgetting to iterate:</strong> Continuously improve your prompts</li>
+      </ul>
+      
+      <h2>Getting Help and Support</h2>
+      
+      <p>If you need help along the way, we're here for you:</p>
+      
+      <ul>
+        <li><strong>Help Center:</strong> Comprehensive documentation and FAQs</li>
+        <li><strong>Community Forum:</strong> Connect with other users and share tips</li>
+        <li><strong>Email Support:</strong> Get personalized help from our team</li>
+        <li><strong>Live Chat:</strong> Real-time assistance during business hours</li>
+        <li><strong>Video Tutorials:</strong> Step-by-step guides for common tasks</li>
+      </ul>
+      
+      <h2>Next Steps</h2>
+      
+      <p>Now that you understand the basics, here's what to do next:</p>
+      
+      <ol>
+        <li><strong>Create your first prompt</strong> using the examples in this guide</li>
+        <li><strong>Test it in the Prompt Lab</strong> with real data</li>
+        <li><strong>Explore the public directory</strong> for inspiration</li>
+        <li><strong>Set up your organization system</strong> with tags and collections</li>
+        <li><strong>Invite team members</strong> if you're working collaboratively</li>
+        <li><strong>Start tracking your usage</strong> to optimize costs</li>
+      </ol>
+      
+      <h2>Conclusion</h2>
+      
+      <p>Prompt Manage is designed to transform how you work with AI. By following this guide, you'll be well on your way to becoming a prompt management expert. Remember, the key to success is practice and iteration – start simple, test frequently, and continuously improve your prompts.</p>
+      
+      <p>Ready to get started? <a href="/dashboard">Log into your dashboard</a> and create your first prompt today!</p>
+      
+      <p>Have questions or need help? Don't hesitate to reach out to our support team or check out our <a href="/docs">comprehensive documentation</a>.</p>
+      
+      <p>Happy prompting! 🚀</p>
+    `,
+  },
+  {
     slug: 'top-gpt5-prompts-for-marketers',
     title: 'Top 10 GPT-5 Prompts for Marketers (2025 Edition)',
     summary:

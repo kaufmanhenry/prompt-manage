@@ -20,7 +20,6 @@
   background-clip: text;
   color: transparent;
 }
-@plugin '@tailwindcss/typography';
 
 @theme inline {
   --color-background: var(--background);

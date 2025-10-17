@@ -1,4 +1,4 @@
-import { ArrowRight,Building2, CheckCircle, Shield, Sparkles, Users } from 'lucide-react'
+import { ArrowRight, Building2, CheckCircle, Shield, Sparkles, Users } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -8,7 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const metadata: Metadata = {
   title: 'About Us — Prompt Manage',
-  description: 'Learn about Prompt Manage\'s mission to make AI prompt management secure, collaborative, and reliable for teams and enterprises.',
+  description:
+    "Learn about Prompt Manage's mission to make AI prompt management secure, collaborative, and reliable for teams and enterprises.",
   keywords: ['about', 'company', 'mission', 'values', 'team', 'prompt management'],
   openGraph: {
     title: 'About Us — Prompt Manage',
@@ -41,7 +42,7 @@ export default function AboutPage() {
       icon: Sparkles,
       title: 'Simplicity',
       description:
-        'AI is complex. Your tools shouldn\'t be. We prioritize intuitive design, clear workflows, and reducing cognitive load.',
+        "AI is complex. Your tools shouldn't be. We prioritize intuitive design, clear workflows, and reducing cognitive load.",
     },
   ]
 
@@ -74,8 +75,8 @@ export default function AboutPage() {
               Making AI prompt management secure, collaborative, and reliable.
             </h1>
             <p className="text-xl leading-relaxed md:text-2xl">
-              We&apos;re building the infrastructure for teams and enterprises to manage their most valuable AI
-              assets — prompts — with confidence and control.
+              We&apos;re building the infrastructure for teams and enterprises to manage their most
+              valuable AI assets — prompts — with confidence and control.
             </p>
           </div>
         </div>
@@ -89,31 +90,31 @@ export default function AboutPage() {
 
             <div className="space-y-6 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
               <p>
-                In early 2024, we saw a pattern emerging across organizations adopting AI: teams were
-                struggling to manage their prompts.
+                In early 2024, we saw a pattern emerging across organizations adopting AI: teams
+                were struggling to manage their prompts.
               </p>
 
               <p>
-                Engineers stored prompts in scattered Slack threads. Marketing teams copy-pasted from Google
-                Docs. Product managers lost track of which prompt version worked best. There was no version
-                control, no collaboration, no security — just chaos.
+                Engineers stored prompts in scattered Slack threads. Marketing teams copy-pasted
+                from Google Docs. Product managers lost track of which prompt version worked best.
+                There was no version control, no collaboration, no security — just chaos.
               </p>
 
               <p className="font-semibold text-gray-900 dark:text-gray-100">
-                Prompts were becoming critical business assets, but there was no reliable way to manage
-                them.
+                Prompts were becoming critical business assets, but there was no reliable way to
+                manage them.
               </p>
 
               <p>
                 We built Prompt Manage to solve this. A platform designed specifically for storing,
-                versioning, sharing, and collaborating on AI prompts — with the security and reliability
-                enterprises demand.
+                versioning, sharing, and collaborating on AI prompts — with the security and
+                reliability enterprises demand.
               </p>
 
               <p>
-                Today, Prompt Manage helps teams across marketing, engineering, product, and operations
-                organize their AI workflows, protect their intellectual property, and scale their use of AI
-                with confidence.
+                Today, Prompt Manage helps teams across marketing, engineering, product, and
+                operations organize their AI workflows, protect their intellectual property, and
+                scale their use of AI with confidence.
               </p>
             </div>
           </div>
@@ -125,8 +126,9 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <blockquote className="text-2xl font-medium italic leading-relaxed md:text-3xl">
-              &quot;Prompts are the new code. They deserve the same level of version control, collaboration, and
-              security that we give to our software. That&apos;s what we&apos;re building.&quot;
+              &quot;Prompts are the new code. They deserve the same level of version control,
+              collaboration, and security that we give to our software. That&apos;s what we&apos;re
+              building.&quot;
             </blockquote>
             <p className="mt-6 text-lg">
               — <strong>Mike Moloney</strong>, Founder & CEO, Prompt Manage
@@ -183,7 +185,9 @@ export default function AboutPage() {
                   <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                     Prompt Manage LLC
                   </p>
-                  <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">Boston, Massachusetts</p>
+                  <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+                    Boston, Massachusetts
+                  </p>
                 </div>
 
                 <div className="border-t pt-6">
@@ -198,7 +202,10 @@ export default function AboutPage() {
                   <h3 className="mb-4 text-center text-lg font-semibold">Get in Touch</h3>
                   <div className="space-y-4">
                     {contacts.map((contact) => (
-                      <div key={contact.email} className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+                      <div
+                        key={contact.email}
+                        className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800"
+                      >
                         <p className="mb-1 font-semibold">{contact.title}</p>
                         <a
                           href={`mailto:${contact.email}`}
@@ -291,7 +298,11 @@ export default function AboutPage() {
                 </Button>
               </Link>
               <Link href="/product">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-white text-white hover:bg-white/10"
+                >
                   Learn More
                 </Button>
               </Link>

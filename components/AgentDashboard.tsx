@@ -7,10 +7,22 @@ import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
@@ -83,13 +95,19 @@ const OUTPUT_TYPES = [
 ] as const
 
 const TONE_OPTIONS = [
-  'professional', 'casual', 'friendly', 'formal', 'conversational',
-  'authoritative', 'empathetic', 'persuasive', 'educational', 'entertaining'
+  'professional',
+  'casual',
+  'friendly',
+  'formal',
+  'conversational',
+  'authoritative',
+  'empathetic',
+  'persuasive',
+  'educational',
+  'entertaining',
 ] as const
 
-const LENGTH_OPTIONS = [
-  'concise', 'medium', 'detailed', 'comprehensive'
-] as const
+const LENGTH_OPTIONS = ['concise', 'medium', 'detailed', 'comprehensive'] as const
 
 export function AgentDashboard() {
   const { toast } = useToast()
@@ -115,7 +133,7 @@ export function AgentDashboard() {
     examples: {},
     review_required: false,
     min_quality_score: 0.7,
-    config: {}
+    config: {},
   })
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [showQualityControl, setShowQualityControl] = useState(false)
@@ -185,7 +203,7 @@ export function AgentDashboard() {
         examples: {},
         review_required: false,
         min_quality_score: 0.7,
-        config: {}
+        config: {},
       })
     },
     onError: () => {
@@ -203,7 +221,7 @@ export function AgentDashboard() {
     onSuccess: (data) => {
       toast({
         title: 'Prompt generated!',
-        description: `Quality score: ${data.generation.quality_score.toFixed(2)}`
+        description: `Quality score: ${data.generation.quality_score.toFixed(2)}`,
       })
       void queryClient.invalidateQueries({ queryKey: ['agents'] })
     },
@@ -216,16 +234,19 @@ export function AgentDashboard() {
 
   // Filter agents by department
   const filteredAgents = selectedDepartment
-    ? agents.filter(agent => agent.department === selectedDepartment)
+    ? agents.filter((agent) => agent.department === selectedDepartment)
     : agents
 
   // Group agents by department
-  const agentsByDepartment = agents.reduce((acc, agent) => {
-    const dept = agent.department || 'general'
-    if (!acc[dept]) acc[dept] = []
-    acc[dept].push(agent)
-    return acc
-  }, {} as Record<string, Agent[]>)
+  const agentsByDepartment = agents.reduce(
+    (acc, agent) => {
+      const dept = agent.department || 'general'
+      if (!acc[dept]) acc[dept] = []
+      acc[dept].push(agent)
+      return acc
+    },
+    {} as Record<string, Agent[]>,
+  )
 
   if (isLoading) {
     return (
@@ -298,7 +319,7 @@ export function AgentDashboard() {
               <CardContent>
                 <div className="text-2xl font-bold">{agents.length}</div>
                 <p className="text-xs text-muted-foreground">
-                  {agents.filter(a => a.is_active).length} active
+                  {agents.filter((a) => a.is_active).length} active
                 </p>
               </CardContent>
             </Card>
@@ -310,13 +331,9 @@ export function AgentDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {agents.reduce((sum, agent) => 
-                    sum + (agent.agent_generations[0]?.count || 0), 0
-                  )}
+                  {agents.reduce((sum, agent) => sum + (agent.agent_generations[0]?.count || 0), 0)}
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  All time
-                </p>
+                <p className="text-xs text-muted-foreground">All time</p>
               </CardContent>
             </Card>
 
@@ -327,14 +344,14 @@ export function AgentDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {agents.reduce((sum, agent) => 
-                    sum + (agent.agent_metrics.reduce((mSum, metric) => 
-                      mSum + metric.total_views, 0)), 0
+                  {agents.reduce(
+                    (sum, agent) =>
+                      sum +
+                      agent.agent_metrics.reduce((mSum, metric) => mSum + metric.total_views, 0),
+                    0,
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Generated prompts
-                </p>
+                <p className="text-xs text-muted-foreground">Generated prompts</p>
               </CardContent>
             </Card>
 
@@ -345,17 +362,20 @@ export function AgentDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {agents.length > 0 ? (
-                    agents.reduce((sum, agent) => {
-                      const avgScore = agent.agent_metrics.reduce((mSum, metric) => 
-                        mSum + metric.avg_quality_score, 0) / agent.agent_metrics.length || 0
-                      return sum + avgScore
-                    }, 0) / agents.length
-                  ).toFixed(2) : '0.00'}
+                  {agents.length > 0
+                    ? (
+                        agents.reduce((sum, agent) => {
+                          const avgScore =
+                            agent.agent_metrics.reduce(
+                              (mSum, metric) => mSum + metric.avg_quality_score,
+                              0,
+                            ) / agent.agent_metrics.length || 0
+                          return sum + avgScore
+                        }, 0) / agents.length
+                      ).toFixed(2)
+                    : '0.00'}
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Out of 1.0
-                </p>
+                <p className="text-xs text-muted-foreground">Out of 1.0</p>
               </CardContent>
             </Card>
           </div>
@@ -372,25 +392,25 @@ export function AgentDashboard() {
                       {agent.is_active ? 'Active' : 'Inactive'}
                     </Badge>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    {agent.description}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{agent.description}</p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge variant="outline">{agent.strategy}</Badge>
                     {agent.department && (
                       <Badge variant="secondary">
-                        {DEPARTMENTS.find(d => d.value === agent.department)?.icon} {DEPARTMENTS.find(d => d.value === agent.department)?.label}
+                        {DEPARTMENTS.find((d) => d.value === agent.department)?.icon}{' '}
+                        {DEPARTMENTS.find((d) => d.value === agent.department)?.label}
                       </Badge>
                     )}
                     {agent.output_type && agent.output_type !== 'prompt' && (
                       <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                        {OUTPUT_TYPES.find(t => t.value === agent.output_type)?.icon} {OUTPUT_TYPES.find(t => t.value === agent.output_type)?.label}
+                        {OUTPUT_TYPES.find((t) => t.value === agent.output_type)?.icon}{' '}
+                        {OUTPUT_TYPES.find((t) => t.value === agent.output_type)?.label}
                       </Badge>
                     )}
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <div className="font-medium">Generated</div>
@@ -401,9 +421,12 @@ export function AgentDashboard() {
                     <div>
                       <div className="font-medium">Quality</div>
                       <div className="text-muted-foreground">
-                        {agent.agent_metrics.length > 0 ? 
-                          (agent.agent_metrics.reduce((sum, m) => sum + m.avg_quality_score, 0) / 
-                           agent.agent_metrics.length).toFixed(2) : 'N/A'}
+                        {agent.agent_metrics.length > 0
+                          ? (
+                              agent.agent_metrics.reduce((sum, m) => sum + m.avg_quality_score, 0) /
+                              agent.agent_metrics.length
+                            ).toFixed(2)
+                          : 'N/A'}
                       </div>
                     </div>
                   </div>
@@ -412,10 +435,12 @@ export function AgentDashboard() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => toggleAgentMutation.mutate({ 
-                        id: agent.id, 
-                        is_active: !agent.is_active 
-                      })}
+                      onClick={() =>
+                        toggleAgentMutation.mutate({
+                          id: agent.id,
+                          is_active: !agent.is_active,
+                        })
+                      }
                       disabled={toggleAgentMutation.isPending}
                     >
                       {agent.is_active ? (
@@ -470,7 +495,7 @@ export function AgentDashboard() {
               <Input
                 id="name"
                 value={createForm.name}
-                onChange={(e) => setCreateForm(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) => setCreateForm((prev) => ({ ...prev, name: e.target.value }))}
                 placeholder="e.g., Marketing Manager Agent"
               />
             </div>
@@ -479,13 +504,18 @@ export function AgentDashboard() {
               <Textarea
                 id="description"
                 value={createForm.description}
-                onChange={(e) => setCreateForm(prev => ({ ...prev, description: e.target.value }))}
+                onChange={(e) =>
+                  setCreateForm((prev) => ({ ...prev, description: e.target.value }))
+                }
                 placeholder="Describe what this agent will generate prompts for"
               />
             </div>
             <div>
               <Label htmlFor="strategy">Strategy</Label>
-              <Select value={createForm.strategy} onValueChange={(value) => setCreateForm(prev => ({ ...prev, strategy: value }))}>
+              <Select
+                value={createForm.strategy}
+                onValueChange={(value) => setCreateForm((prev) => ({ ...prev, strategy: value }))}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select strategy" />
                 </SelectTrigger>
@@ -499,7 +529,10 @@ export function AgentDashboard() {
             </div>
             <div>
               <Label htmlFor="department">Department</Label>
-              <Select value={createForm.department} onValueChange={(value) => setCreateForm(prev => ({ ...prev, department: value }))}>
+              <Select
+                value={createForm.department}
+                onValueChange={(value) => setCreateForm((prev) => ({ ...prev, department: value }))}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select department" />
                 </SelectTrigger>
@@ -514,7 +547,12 @@ export function AgentDashboard() {
             </div>
             <div>
               <Label htmlFor="output_type">Output Type</Label>
-              <Select value={createForm.output_type} onValueChange={(value) => setCreateForm(prev => ({ ...prev, output_type: value }))}>
+              <Select
+                value={createForm.output_type}
+                onValueChange={(value) =>
+                  setCreateForm((prev) => ({ ...prev, output_type: value }))
+                }
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select output type" />
                 </SelectTrigger>
@@ -548,13 +586,18 @@ export function AgentDashboard() {
                   <Input
                     id="target_audience"
                     value={createForm.target_audience}
-                    onChange={(e) => setCreateForm(prev => ({ ...prev, target_audience: e.target.value }))}
+                    onChange={(e) =>
+                      setCreateForm((prev) => ({ ...prev, target_audience: e.target.value }))
+                    }
                     placeholder="e.g., marketing professionals, developers"
                   />
                 </div>
                 <div>
                   <Label htmlFor="tone">Tone</Label>
-                  <Select value={createForm.tone} onValueChange={(value) => setCreateForm(prev => ({ ...prev, tone: value }))}>
+                  <Select
+                    value={createForm.tone}
+                    onValueChange={(value) => setCreateForm((prev) => ({ ...prev, tone: value }))}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select tone" />
                     </SelectTrigger>
@@ -569,7 +612,12 @@ export function AgentDashboard() {
                 </div>
                 <div>
                   <Label htmlFor="length_preference">Length Preference</Label>
-                  <Select value={createForm.length_preference} onValueChange={(value) => setCreateForm(prev => ({ ...prev, length_preference: value }))}>
+                  <Select
+                    value={createForm.length_preference}
+                    onValueChange={(value) =>
+                      setCreateForm((prev) => ({ ...prev, length_preference: value }))
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select length" />
                     </SelectTrigger>
@@ -604,7 +652,9 @@ export function AgentDashboard() {
                   <Textarea
                     id="style_guide"
                     value={createForm.style_guide}
-                    onChange={(e) => setCreateForm(prev => ({ ...prev, style_guide: e.target.value }))}
+                    onChange={(e) =>
+                      setCreateForm((prev) => ({ ...prev, style_guide: e.target.value }))
+                    }
                     placeholder="e.g., Use active voice. Keep paragraphs under 4 sentences. Include examples."
                     rows={3}
                   />
@@ -616,13 +666,20 @@ export function AgentDashboard() {
                   <Input
                     id="key_phrases"
                     value={createForm.key_phrases.join(', ')}
-                    onChange={(e) => setCreateForm(prev => ({ 
-                      ...prev, 
-                      key_phrases: e.target.value.split(',').map(p => p.trim()).filter(Boolean)
-                    }))}
+                    onChange={(e) =>
+                      setCreateForm((prev) => ({
+                        ...prev,
+                        key_phrases: e.target.value
+                          .split(',')
+                          .map((p) => p.trim())
+                          .filter(Boolean),
+                      }))
+                    }
                     placeholder="e.g., proven strategies, data-backed, actionable insights"
                   />
-                  <p className="mt-1 text-xs text-muted-foreground">Phrases to include in content</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Phrases to include in content
+                  </p>
                 </div>
 
                 <div>
@@ -630,10 +687,15 @@ export function AgentDashboard() {
                   <Input
                     id="forbidden_phrases"
                     value={createForm.forbidden_phrases.join(', ')}
-                    onChange={(e) => setCreateForm(prev => ({ 
-                      ...prev, 
-                      forbidden_phrases: e.target.value.split(',').map(p => p.trim()).filter(Boolean)
-                    }))}
+                    onChange={(e) =>
+                      setCreateForm((prev) => ({
+                        ...prev,
+                        forbidden_phrases: e.target.value
+                          .split(',')
+                          .map((p) => p.trim())
+                          .filter(Boolean),
+                      }))
+                    }
                     placeholder="e.g., click here, buy now, guaranteed results"
                   />
                   <p className="mt-1 text-xs text-muted-foreground">Phrases to never use</p>
@@ -649,7 +711,12 @@ export function AgentDashboard() {
                       max="1"
                       step="0.05"
                       value={createForm.min_quality_score}
-                      onChange={(e) => setCreateForm(prev => ({ ...prev, min_quality_score: parseFloat(e.target.value) }))}
+                      onChange={(e) =>
+                        setCreateForm((prev) => ({
+                          ...prev,
+                          min_quality_score: parseFloat(e.target.value),
+                        }))
+                      }
                     />
                     <p className="mt-1 text-xs text-muted-foreground">0.0 - 1.0 (0.7 = good)</p>
                   </div>
@@ -658,7 +725,9 @@ export function AgentDashboard() {
                       <input
                         type="checkbox"
                         checked={createForm.review_required}
-                        onChange={(e) => setCreateForm(prev => ({ ...prev, review_required: e.target.checked }))}
+                        onChange={(e) =>
+                          setCreateForm((prev) => ({ ...prev, review_required: e.target.checked }))
+                        }
                         className="h-4 w-4"
                       />
                       <span className="text-sm">Require manual review</span>
@@ -672,7 +741,7 @@ export function AgentDashboard() {
               <Button variant="outline" onClick={() => setShowCreateDialog(false)}>
                 Cancel
               </Button>
-              <Button 
+              <Button
                 onClick={() => createAgentMutation.mutate(createForm)}
                 disabled={!createForm.name || !createForm.strategy || createAgentMutation.isPending}
               >

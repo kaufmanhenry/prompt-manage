@@ -1,14 +1,15 @@
 'use client'
 
-import { 
-  AlertCircle, 
-  CheckCircle, 
-  Copy, 
+import {
+  AlertCircle,
+  CheckCircle,
+  Copy,
   FileText,
-  Lightbulb, 
+  Lightbulb,
   Sparkles,
   Target,
-  TrendingUp} from 'lucide-react'
+  TrendingUp,
+} from 'lucide-react'
 import { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -27,14 +28,14 @@ interface PromptAnalysis {
 }
 
 const _examplePrompts = [
-  "Write a blog post about AI",
-  "Create a marketing email for our new product launch",
-  "Help me write a professional email to my boss about working from home",
-  "Generate ideas for a startup business",
-  "Explain quantum computing in simple terms",
-  "Write a Python function to sort a list",
+  'Write a blog post about AI',
+  'Create a marketing email for our new product launch',
+  'Help me write a professional email to my boss about working from home',
+  'Generate ideas for a startup business',
+  'Explain quantum computing in simple terms',
+  'Write a Python function to sort a list',
   "Create a social media post for our company's anniversary",
-  "Help me write a cover letter for a software engineer position"
+  'Help me write a cover letter for a software engineer position',
 ]
 
 export default function PromptOptimizer() {
@@ -48,7 +49,7 @@ export default function PromptOptimizer() {
       toast({
         title: 'Error',
         description: 'Please enter a prompt to analyze',
-        variant: 'destructive'
+        variant: 'destructive',
       })
       return
     }
@@ -60,9 +61,9 @@ export default function PromptOptimizer() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           prompt: prompt.trim(),
-          generateOptimized: true 
+          generateOptimized: true,
         }),
       })
 
@@ -71,7 +72,7 @@ export default function PromptOptimizer() {
           toast({
             title: 'Rate limit exceeded',
             description: 'Please wait a moment before trying again.',
-            variant: 'destructive'
+            variant: 'destructive',
           })
           return
         }
@@ -80,7 +81,7 @@ export default function PromptOptimizer() {
 
       const result = await response.json()
       setAnalysis(result)
-      
+
       toast({
         title: 'Analysis Complete!',
         description: `Your prompt scored ${result.score}/100. Check the suggestions below.`,
@@ -90,7 +91,7 @@ export default function PromptOptimizer() {
       toast({
         title: 'Error',
         description: 'Failed to analyze prompt. Please try again.',
-        variant: 'destructive'
+        variant: 'destructive',
       })
     } finally {
       setLoading(false)
@@ -124,12 +125,11 @@ export default function PromptOptimizer() {
       <div className="space-y-4 text-center">
         <div className="flex items-center justify-center gap-2">
           <Sparkles className="h-8 w-8 text-blue-600" />
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Prompt Optimizer
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Prompt Optimizer</h1>
         </div>
         <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
-          Get 3x better results from AI with optimized prompts. Analyze your prompt and get specific suggestions for improvement.
+          Get 3x better results from AI with optimized prompts. Analyze your prompt and get specific
+          suggestions for improvement.
         </p>
       </div>
 
@@ -149,11 +149,9 @@ export default function PromptOptimizer() {
             className="min-h-[120px] resize-none"
           />
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-500">
-              {prompt.length} characters
-            </span>
-            <Button 
-              onClick={analyzePrompt} 
+            <span className="text-sm text-gray-500">{prompt.length} characters</span>
+            <Button
+              onClick={analyzePrompt}
               disabled={loading || !prompt.trim()}
               className="bg-blue-600 hover:bg-blue-700"
             >
@@ -212,10 +210,13 @@ export default function PromptOptimizer() {
                     </Badge>
                   </div>
                   <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
-                    <div 
+                    <div
                       className={`h-2 rounded-full transition-all duration-500 ${
-                        analysis.score >= 80 ? 'bg-green-500' : 
-                        analysis.score >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                        analysis.score >= 80
+                          ? 'bg-green-500'
+                          : analysis.score >= 60
+                            ? 'bg-yellow-500'
+                            : 'bg-red-500'
                       }`}
                       style={{ width: `${analysis.score}%` }}
                     />
@@ -239,9 +240,7 @@ export default function PromptOptimizer() {
                   {analysis.strengths.map((strength, index) => (
                     <li key={index} className="flex items-start gap-2">
                       <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">
-                        {strength}
-                      </span>
+                      <span className="text-sm text-gray-700 dark:text-gray-300">{strength}</span>
                     </li>
                   ))}
                 </ul>
@@ -263,9 +262,7 @@ export default function PromptOptimizer() {
                   {analysis.suggestions.map((suggestion, index) => (
                     <li key={index} className="flex items-start gap-2">
                       <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-blue-500" />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">
-                        {suggestion}
-                      </span>
+                      <span className="text-sm text-gray-700 dark:text-gray-300">{suggestion}</span>
                     </li>
                   ))}
                 </ul>
@@ -317,7 +314,8 @@ export default function PromptOptimizer() {
             <div className="space-y-2">
               <h4 className="font-semibold text-blue-800 dark:text-blue-200">Be Specific</h4>
               <p className="text-blue-700 dark:text-blue-300">
-                Instead of "write about AI", try "write a 500-word blog post about AI in healthcare for medical professionals"
+                Instead of "write about AI", try "write a 500-word blog post about AI in healthcare
+                for medical professionals"
               </p>
             </div>
             <div className="space-y-2">
@@ -329,7 +327,8 @@ export default function PromptOptimizer() {
             <div className="space-y-2">
               <h4 className="font-semibold text-blue-800 dark:text-blue-200">Specify Format</h4>
               <p className="text-blue-700 dark:text-blue-300">
-                Tell the AI exactly how you want the output formatted (bullet points, paragraphs, etc.)
+                Tell the AI exactly how you want the output formatted (bullet points, paragraphs,
+                etc.)
               </p>
             </div>
             <div className="space-y-2">

@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  AlertCircle,
-  Brain,
-  Copy,
-  Lightbulb,
-  Save,
-  Sparkles,
-  User} from 'lucide-react'
+import { AlertCircle, Brain, Copy, Lightbulb, Save, Sparkles, User } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -46,8 +39,8 @@ export default function ClaudePromptCreator() {
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const { toast } = useToast()
-  const { isLoggedIn, rateLimit, checkRateLimit, logUsage, saveToLibrary } = useFreeTool({ 
-    toolName: 'claude-creator' 
+  const { isLoggedIn, rateLimit, checkRateLimit, logUsage, saveToLibrary } = useFreeTool({
+    toolName: 'claude-creator',
   })
 
   const generatePrompt = async () => {
@@ -94,8 +87,8 @@ export default function ClaudePromptCreator() {
 
       toast({
         title: 'Prompt Generated!',
-        description: isLoggedIn 
-          ? 'Your Claude prompt is ready.' 
+        description: isLoggedIn
+          ? 'Your Claude prompt is ready.'
           : `Generated! You have ${rateLimit?.remaining || 0} free uses remaining today.`,
       })
     } catch (error) {
@@ -112,7 +105,7 @@ export default function ClaudePromptCreator() {
 
   const copyPrompt = async () => {
     if (!generatedPrompt?.prompt) return
-    
+
     try {
       await navigator.clipboard.writeText(generatedPrompt.prompt)
       toast({
@@ -164,7 +157,8 @@ export default function ClaudePromptCreator() {
           Claude Prompt Creator
         </h2>
         <p className="text-lg text-gray-600 dark:text-gray-300">
-          Generate perfect prompts for Claude AI. Leverage Claude's strengths in reasoning, analysis, and creative problem-solving.
+          Generate perfect prompts for Claude AI. Leverage Claude's strengths in reasoning,
+          analysis, and creative problem-solving.
         </p>
       </div>
 
@@ -254,8 +248,8 @@ export default function ClaudePromptCreator() {
               </Select>
             </div>
 
-            <Button 
-              onClick={generatePrompt} 
+            <Button
+              onClick={generatePrompt}
               disabled={loading || !requirements.trim()}
               className="w-full"
               size="lg"
@@ -313,9 +307,9 @@ export default function ClaudePromptCreator() {
                     <Copy className="mr-2 h-4 w-4" />
                     Copy Prompt
                   </Button>
-                  <Button 
-                    onClick={handleSaveToLibrary} 
-                    size="sm" 
+                  <Button
+                    onClick={handleSaveToLibrary}
+                    size="sm"
                     className="bg-purple-600 hover:bg-purple-700"
                     disabled={saving}
                   >
@@ -332,16 +326,19 @@ export default function ClaudePromptCreator() {
                     )}
                   </Button>
                 </div>
-                
+
                 {!isLoggedIn && rateLimit && rateLimit.remaining !== null && (
                   <Alert className="mt-4">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      <strong>{rateLimit.remaining} free uses remaining</strong> today. 
-                      {' '}
-                      <Link href="/?redirect=/dashboard" className="font-semibold text-blue-600 hover:underline">
+                      <strong>{rateLimit.remaining} free uses remaining</strong> today.{' '}
+                      <Link
+                        href="/?redirect=/dashboard"
+                        className="font-semibold text-blue-600 hover:underline"
+                      >
                         Sign up free
-                      </Link> for unlimited access.
+                      </Link>{' '}
+                      for unlimited access.
                     </AlertDescription>
                   </Alert>
                 )}
@@ -354,7 +351,8 @@ export default function ClaudePromptCreator() {
                         Want to save this prompt?
                       </p>
                       <p className="text-purple-700 dark:text-purple-300">
-                        Create a free account to save prompts, organize them by project, and access 300+ templates.
+                        Create a free account to save prompts, organize them by project, and access
+                        300+ templates.
                       </p>
                     </div>
                   </div>
@@ -383,25 +381,29 @@ export default function ClaudePromptCreator() {
             <div className="space-y-2">
               <h4 className="font-medium">Leverage Claude's Strengths</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Claude excels at reasoning, analysis, and ethical considerations. Ask for detailed explanations.
+                Claude excels at reasoning, analysis, and ethical considerations. Ask for detailed
+                explanations.
               </p>
             </div>
             <div className="space-y-2">
               <h4 className="font-medium">Provide Rich Context</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Claude performs better with comprehensive background information and specific constraints.
+                Claude performs better with comprehensive background information and specific
+                constraints.
               </p>
             </div>
             <div className="space-y-2">
               <h4 className="font-medium">Ask for Reasoning</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Request Claude to explain its thought process, especially for complex problem-solving tasks.
+                Request Claude to explain its thought process, especially for complex
+                problem-solving tasks.
               </p>
             </div>
             <div className="space-y-2">
               <h4 className="font-medium">Consider Ethical Implications</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Claude is particularly good at considering ethical aspects - leverage this for responsible AI use.
+                Claude is particularly good at considering ethical aspects - leverage this for
+                responsible AI use.
               </p>
             </div>
           </div>

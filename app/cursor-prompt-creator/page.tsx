@@ -10,7 +10,8 @@ import { ScrollToToolButton } from './ScrollToToolButton'
 
 export const metadata: Metadata = {
   title: 'Free Cursor AI Prompt Creator - Generate Perfect Code Prompts | Prompt Manage',
-  description: 'Create perfect prompts for Cursor AI code editor. Generate better code with prompts tailored to your specific needs. Free tool for developers.',
+  description:
+    'Create perfect prompts for Cursor AI code editor. Generate better code with prompts tailored to your specific needs. Free tool for developers.',
   keywords: [
     'cursor ai prompts',
     'cursor prompt creator',
@@ -21,18 +22,20 @@ export const metadata: Metadata = {
     'ai programming assistant',
     'cursor ai best practices',
     'free cursor prompts',
-    'cursor ai optimization'
+    'cursor ai optimization',
   ],
   openGraph: {
     title: 'Free Cursor AI Prompt Creator - Generate Perfect Code Prompts',
-    description: 'Create perfect prompts for Cursor AI code editor. Generate better code with prompts tailored to your specific needs.',
+    description:
+      'Create perfect prompts for Cursor AI code editor. Generate better code with prompts tailored to your specific needs.',
     type: 'website',
     url: 'https://promptmanage.com/cursor-prompt-creator',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Free Cursor AI Prompt Creator - Generate Perfect Code Prompts',
-    description: 'Create perfect prompts for Cursor AI code editor. Generate better code with prompts tailored to your specific needs.',
+    description:
+      'Create perfect prompts for Cursor AI code editor. Generate better code with prompts tailored to your specific needs.',
   },
   alternates: {
     canonical: 'https://promptmanage.com/cursor-prompt-creator',
@@ -53,7 +56,7 @@ export default function CursorPromptCreatorPage() {
                 Free Developer Tool
               </div>
             </div>
-            
+
             <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
               <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 Cursor Prompt Creator
@@ -61,11 +64,13 @@ export default function CursorPromptCreatorPage() {
               <br />
               Generate Perfect Code Prompts
             </h1>
-            
+
             <p className="mx-auto mb-8 max-w-3xl text-lg text-gray-600 dark:text-gray-300 sm:text-xl">
-              Create highly effective prompts for Cursor AI code editor. Get better code generation with prompts tailored to your specific programming needs, frameworks, and complexity levels.
+              Create highly effective prompts for Cursor AI code editor. Get better code generation
+              with prompts tailored to your specific programming needs, frameworks, and complexity
+              levels.
             </p>
-            
+
             <div className="mb-8 flex flex-wrap justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center gap-1">
                 <CheckCircle className="h-4 w-4 text-green-500" />
@@ -80,7 +85,7 @@ export default function CursorPromptCreatorPage() {
                 <span>Instant Generation</span>
               </div>
             </div>
-            
+
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <ScrollToToolButton />
               <Link href="/?redirect=/dashboard">
@@ -112,7 +117,7 @@ export default function CursorPromptCreatorPage() {
               Get better results from Cursor AI with optimized prompts
             </p>
           </div>
-          
+
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6">
@@ -123,11 +128,12 @@ export default function CursorPromptCreatorPage() {
                   Framework-Specific
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Generate prompts tailored to React, Vue, Express, Django, and other popular frameworks.
+                  Generate prompts tailored to React, Vue, Express, Django, and other popular
+                  frameworks.
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/30">
@@ -137,11 +143,12 @@ export default function CursorPromptCreatorPage() {
                   Complexity-Aware
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Prompts adapt to beginner, intermediate, or advanced skill levels for optimal results.
+                  Prompts adapt to beginner, intermediate, or advanced skill levels for optimal
+                  results.
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30">
@@ -165,17 +172,27 @@ export default function CursorPromptCreatorPage() {
           <div className="grid gap-8 md:grid-cols-3">
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">50+</div>
-              <div className="text-lg font-medium text-gray-900 dark:text-white">Languages & Frameworks</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Supported for prompt generation</div>
+              <div className="text-lg font-medium text-gray-900 dark:text-white">
+                Languages & Frameworks
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Supported for prompt generation
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-green-600 dark:text-green-400">5k+</div>
-              <div className="text-lg font-medium text-gray-900 dark:text-white">Prompts Generated</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">By developers worldwide</div>
+              <div className="text-lg font-medium text-gray-900 dark:text-white">
+                Prompts Generated
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                By developers worldwide
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-purple-600 dark:text-purple-400">95%</div>
-              <div className="text-lg font-medium text-gray-900 dark:text-white">Developer Satisfaction</div>
+              <div className="text-lg font-medium text-gray-900 dark:text-white">
+                Developer Satisfaction
+              </div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Based on user feedback</div>
             </div>
           </div>
@@ -193,7 +210,7 @@ export default function CursorPromptCreatorPage() {
               From simple components to complex applications
             </p>
           </div>
-          
+
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
@@ -208,7 +225,7 @@ export default function CursorPromptCreatorPage() {
                 Generate hooks, components, and state management code
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
@@ -222,7 +239,7 @@ export default function CursorPromptCreatorPage() {
                 Create REST APIs, GraphQL schemas, and database queries
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30">
@@ -236,7 +253,7 @@ export default function CursorPromptCreatorPage() {
                 Generate unit tests, integration tests, and test utilities
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900/30">
@@ -262,10 +279,11 @@ export default function CursorPromptCreatorPage() {
               Get More Than Just Prompt Generation
             </h2>
             <p className="mx-auto max-w-3xl text-lg text-gray-600 dark:text-gray-300">
-              When you sign up for a free account, you unlock the full power of Prompt Manage's platform.
+              When you sign up for a free account, you unlock the full power of Prompt Manage's
+              platform.
             </p>
           </div>
-          
+
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
@@ -282,7 +300,7 @@ export default function CursorPromptCreatorPage() {
                 Access our curated library of proven prompts for every development task.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
@@ -296,7 +314,7 @@ export default function CursorPromptCreatorPage() {
                 Save your generated prompts, create collections, and organize them by project.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30">
@@ -313,10 +331,13 @@ export default function CursorPromptCreatorPage() {
               </p>
             </div>
           </div>
-          
+
           <div className="mt-12 text-center">
             <Link href="/?redirect=/dashboard">
-              <Button size="lg" className="bg-blue-600 px-8 py-3 text-lg text-white hover:bg-blue-700">
+              <Button
+                size="lg"
+                className="bg-blue-600 px-8 py-3 text-lg text-white hover:bg-blue-700"
+              >
                 <Users className="mr-2 h-5 w-5" />
                 Get Free Account - No Credit Card Required
               </Button>
@@ -335,7 +356,8 @@ export default function CursorPromptCreatorPage() {
             Ready to Generate Better Code?
           </h2>
           <p className="mb-8 text-lg text-gray-600 dark:text-gray-300">
-            Join thousands of developers who are already getting better results from Cursor AI with optimized prompts.
+            Join thousands of developers who are already getting better results from Cursor AI with
+            optimized prompts.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <ScrollToToolButton />
@@ -357,41 +379,74 @@ export default function CursorPromptCreatorPage() {
               Frequently Asked Questions
             </h2>
           </div>
-          
+
           <div className="space-y-8">
             <div>
               <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Is the Cursor Prompt Creator really free?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Yes! Our Cursor Prompt Creator is completely free to use. No signup required, no hidden costs, no limits on usage.
+                Yes! Our Cursor Prompt Creator is completely free to use. No signup required, no
+                hidden costs, no limits on usage.
               </p>
             </div>
-            
+
             <div>
               <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Which programming languages are supported?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                We support 50+ programming languages including JavaScript, TypeScript, Python, Java, C#, Go, Rust, PHP, Ruby, Swift, and more. <Link href="/models" className="font-semibold text-blue-600 hover:underline dark:text-blue-400">See our full list of supported languages</Link>.
+                We support 50+ programming languages including JavaScript, TypeScript, Python, Java,
+                C#, Go, Rust, PHP, Ruby, Swift, and more.{' '}
+                <Link
+                  href="/models"
+                  className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  See our full list of supported languages
+                </Link>
+                .
               </p>
             </div>
-            
+
             <div>
               <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 How does the prompt generation work?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                We analyze your requirements and generate prompts using proven patterns that work best with Cursor AI. Our prompts include specific technical details, constraints, and output requirements. <Link href="/docs/best-practices" className="font-semibold text-blue-600 hover:underline dark:text-blue-400">Learn more about our methodology</Link>.
+                We analyze your requirements and generate prompts using proven patterns that work
+                best with Cursor AI. Our prompts include specific technical details, constraints,
+                and output requirements.{' '}
+                <Link
+                  href="/docs/best-practices"
+                  className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  Learn more about our methodology
+                </Link>
+                .
               </p>
             </div>
-            
+
             <div>
               <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Can I save my generated prompts?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Yes! <Link href="/?redirect=/dashboard" className="font-semibold text-blue-600 hover:underline dark:text-blue-400">Sign up for a free account</Link> to save your generated prompts, create collections, and access additional features like <Link href="/p" className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400">300+ prompt templates</Link> and team sharing.
+                Yes!{' '}
+                <Link
+                  href="/?redirect=/dashboard"
+                  className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  Sign up for a free account
+                </Link>{' '}
+                to save your generated prompts, create collections, and access additional features
+                like{' '}
+                <Link
+                  href="/p"
+                  className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
+                >
+                  300+ prompt templates
+                </Link>{' '}
+                and team sharing.
               </p>
             </div>
           </div>
@@ -405,17 +460,24 @@ export default function CursorPromptCreatorPage() {
             Ready to Transform Your Development Workflow?
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-lg text-emerald-100">
-            Don't just generate one prompt - build a complete library of high-performing prompts that your team can use and improve over time.
+            Don't just generate one prompt - build a complete library of high-performing prompts
+            that your team can use and improve over time.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Link href="/?redirect=/dashboard">
-              <Button size="lg" className="bg-white px-8 py-3 text-lg font-semibold text-gray-900 shadow-lg hover:bg-gray-50">
+              <Button
+                size="lg"
+                className="bg-white px-8 py-3 text-lg font-semibold text-gray-900 shadow-lg hover:bg-gray-50"
+              >
                 <Users className="mr-2 h-5 w-5" />
                 Start Building Your Library
               </Button>
             </Link>
             <Link href="/p">
-              <Button size="lg" className="bg-gray-900 px-8 py-3 text-lg font-semibold text-white shadow-lg hover:bg-gray-800">
+              <Button
+                size="lg"
+                className="bg-gray-900 px-8 py-3 text-lg font-semibold text-white shadow-lg hover:bg-gray-800"
+              >
                 Browse Templates First
               </Button>
             </Link>

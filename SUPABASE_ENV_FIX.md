@@ -11,6 +11,7 @@ Your `.env.local` file is missing Supabase credentials!
 Go to: **Supabase Dashboard → Project Settings → API**
 
 You'll find:
+
 - **Project URL** (starts with `https://`)
 - **anon/public key** (starts with `eyJ...`)
 
@@ -55,6 +56,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ## 🔍 **Where to Find Your Credentials**
 
 ### Supabase Dashboard Method:
+
 1. Go to: https://supabase.com/dashboard
 2. Select your project
 3. Click **Settings** (gear icon) → **API**
@@ -67,6 +69,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ## ✅ **Verify It Works**
 
 After updating and restarting:
+
 1. Refresh your browser
 2. The error should be gone
 3. Your app should load normally
@@ -74,4 +77,3 @@ After updating and restarting:
 ---
 
 **This is blocking your entire app - fix it ASAP!** 🚨
-

@@ -2,6 +2,7 @@ import fs from 'fs'
 import type { MetadataRoute } from 'next'
 import path from 'path'
 
+import { supportedModels } from '@/lib/models'
 import { createServerSideClient } from '@/utils/supabase/server'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -21,6 +22,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.95, // Public directory is key content hub
+    },
+    {
+      url: `${baseUrl}/trending`,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.9, // Trending content
+    },
+    {
+      url: `${baseUrl}/p/tags`,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.9, // Tag directory
+    },
+    {
+      url: `${baseUrl}/categories`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9, // Categories directory
     },
     {
       url: `${baseUrl}/models`,
@@ -104,12 +123,43 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   }
 
+  // Model-specific landing pages
+  const modelPages = supportedModels.map((model) => ({
+    url: `${baseUrl}/prompts/${model.id}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }))
+
+  // Category pages
+  const categories = [
+    'coding',
+    'marketing',
+    'writing',
+    'design',
+    'business',
+    'customer-support',
+    'education',
+    'productivity',
+    'data-analysis',
+    'research',
+    'hr',
+    'sales',
+  ]
+
+  const categoryPages = categories.map((category) => ({
+    url: `${baseUrl}/categories/${category}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }))
+
   try {
     // Get public prompts using server-side client
     const supabase = createServerSideClient()
     const { data: publicPrompts } = await supabase
       .from('prompts')
-      .select('id, slug, updated_at')
+      .select('id, slug, updated_at, tags')
       .eq('is_public', true)
       .order('updated_at', { ascending: false })
       .limit(1000) // Limit to prevent sitemap from getting too large
@@ -122,6 +172,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7, // Increased priority for valuable content
     }))
 
+    // Extract unique tags from prompts
+    const uniqueTags = new Set<string>()
+    publicPrompts?.forEach((prompt) => {
+      prompt.tags?.forEach((tag: string) => uniqueTags.add(tag))
+    })
+
+    // Tag pages (limit to top 100 most common tags)
+    const tagPages = Array.from(uniqueTags)
+      .slice(0, 100)
+      .map((tag) => ({
+        url: `${baseUrl}/p/tags/${encodeURIComponent(tag)}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      }))
+
     // Get public user profiles
     const { data: publicProfiles } = await supabase
       .from('user_profiles')
@@ -129,16 +195,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .limit(1000)
 
     const profilePages = (publicProfiles || []).map((profile) => ({
-      url: `${baseUrl}/u/${profile.id}`, // Fixed: should be /u/ not /profile/
+      url: `${baseUrl}/u/${profile.id}`,
       lastModified: new Date(profile.updated_at),
       changeFrequency: 'monthly' as const,
-      priority: 0.5, // Slightly higher priority
+      priority: 0.5,
     }))
 
-    return [...staticPages, ...legalPages, ...promptPages, ...profilePages]
+    return [
+      ...staticPages,
+      ...legalPages,
+      ...modelPages,
+      ...categoryPages,
+      ...tagPages,
+      ...promptPages,
+      ...profilePages,
+    ]
   } catch (error) {
     console.error('Error generating sitemap:', error)
-    // Return static pages and legal pages only if there's an error
-    return [...staticPages, ...legalPages]
+    // Return static pages, legal pages, model pages, and category pages if there's an error
+    return [...staticPages, ...legalPages, ...modelPages, ...categoryPages]
   }
 }

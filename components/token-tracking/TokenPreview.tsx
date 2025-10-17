@@ -6,15 +6,19 @@ import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import type { CostOptimizationSuggestion,TokenEstimate, TokenPreviewProps } from '@/lib/types/token-tracking'
+import type {
+  CostOptimizationSuggestion,
+  TokenEstimate,
+  TokenPreviewProps,
+} from '@/lib/types/token-tracking'
 
 /**
  * TokenPreview Component
- * 
+ *
  * Displays real-time cost preview before executing a prompt.
  * Shows input/output token estimates and cost breakdown.
  * Provides model switching suggestions for cost optimization.
- * 
+ *
  * @example
  * ```tsx
  * <TokenPreview
@@ -65,7 +69,12 @@ export function TokenPreview({
         })
 
         // Generate optimization suggestions
-        const newSuggestions = await generateSuggestions(inputTokens, outputTokens, model, contextText)
+        const newSuggestions = await generateSuggestions(
+          inputTokens,
+          outputTokens,
+          model,
+          contextText,
+        )
         setSuggestions(newSuggestions)
       } catch (error) {
         console.error('Error estimating tokens:', error)
@@ -178,12 +187,16 @@ function estimateTokenCount(text: string): number {
   return Math.ceil(text.length / 4)
 }
 
-async function calculateCost(inputTokens: number, outputTokens: number, model: string): Promise<number> {
+async function calculateCost(
+  inputTokens: number,
+  outputTokens: number,
+  model: string,
+): Promise<number> {
   // TODO: Use actual pricing from lib/pricing.ts
   const pricing: Record<string, { input: number; output: number }> = {
-    'gpt-4o-mini': { input: 0.150, output: 0.600 },
-    'gpt-4o': { input: 2.50, output: 10.00 },
-    'gpt-4-turbo': { input: 10.00, output: 30.00 },
+    'gpt-4o-mini': { input: 0.15, output: 0.6 },
+    'gpt-4o': { input: 2.5, output: 10.0 },
+    'gpt-4-turbo': { input: 10.0, output: 30.0 },
   }
 
   const rates = pricing[model] || pricing['gpt-4o-mini']
@@ -197,7 +210,7 @@ async function generateSuggestions(
   inputTokens: number,
   outputTokens: number,
   model: string,
-  contextText: string
+  contextText: string,
 ): Promise<CostOptimizationSuggestion[]> {
   const suggestions: CostOptimizationSuggestion[] = []
 
@@ -238,4 +251,3 @@ async function generateSuggestions(
 
   return suggestions
 }
-

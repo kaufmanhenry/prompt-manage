@@ -3,6 +3,7 @@
 ## ✅ **What I Fixed**
 
 ### 1. Code Fixes (Already Done ✅)
+
 - **File:** `app/api/agents/route.ts`
 - **Changes:**
   - Added `department` field to agent creation
@@ -10,6 +11,7 @@
   - Better error messages with details
 
 ### 2. Database Migration (You Need to Run 🔄)
+
 - **File:** `supabase/migrations/20250116000001_fix_agents_rls.sql`
 - **What it does:**
   - Fixes Row Level Security policies
@@ -83,6 +85,7 @@ grant all on public.agent_metrics to authenticated;
 ```
 
 **Steps:**
+
 1. Go to Supabase Dashboard → SQL Editor
 2. Paste the SQL above
 3. Click "Run"
@@ -94,8 +97,8 @@ If you're not sure if the `agents` table exists, run this first:
 
 ```sql
 SELECT EXISTS (
-  SELECT FROM information_schema.tables 
-  WHERE table_schema = 'public' 
+  SELECT FROM information_schema.tables
+  WHERE table_schema = 'public'
   AND table_name = 'agents'
 );
 ```
@@ -126,10 +129,12 @@ After running the migration:
 ### Still getting 500 error?
 
 **Check the browser console** - you should now see more detailed error messages like:
+
 - `{ error: "Database error", details: "..." }`
 - This will tell you exactly what went wrong
 
 **Make sure you're logged in with an admin email:**
+
 - `mikemoloney.business@gmail.com`
 - `hkaufman19@gmail.com`
 - `mike@filtergrade.com`
@@ -139,6 +144,7 @@ If you're using a different email, the system will reject you (by design).
 ### "relation public.agents does not exist"
 
 You need to run the full migration first:
+
 - Open `supabase/migrations/20241220000000_autonomous_agent.sql`
 - Copy the entire file
 - Paste into Supabase SQL Editor
@@ -154,4 +160,3 @@ For full details, see: `AGENTS_FIX_GUIDE.md`
 ---
 
 **That's it! Run the SQL and you're good to go.** 🚀
-

@@ -10,7 +10,6 @@ import {
   FileText,
   Globe,
   Link as LinkIcon,
-  Loader2,
   Lock,
   MoreVertical,
   PackageOpen,
@@ -819,7 +818,7 @@ export function PromptDetails({
             >
               {runningPrompts[prompt.id as string] ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
                   Running...
                 </>
               ) : (

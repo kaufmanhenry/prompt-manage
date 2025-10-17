@@ -91,14 +91,15 @@ The terminal running `stripe listen` will show all webhook events in real-time:
 
 Use these test cards in Stripe checkout:
 
-| Card Number | Description |
-|-------------|-------------|
-| `4242 4242 4242 4242` | Successful payment |
-| `4000 0000 0000 9995` | Declined - insufficient funds |
-| `4000 0025 0000 3155` | 3D Secure authentication required |
+| Card Number           | Description                        |
+| --------------------- | ---------------------------------- |
+| `4242 4242 4242 4242` | Successful payment                 |
+| `4000 0000 0000 9995` | Declined - insufficient funds      |
+| `4000 0025 0000 3155` | 3D Secure authentication required  |
 | `4000 0000 0000 0341` | Attaches to customer, charges fail |
 
 **For all test cards:**
+
 - Use any future expiration date (e.g., `12/34`)
 - Use any 3-digit CVC (e.g., `123`)
 - Use any ZIP code (e.g., `12345`)
@@ -118,6 +119,7 @@ Use these test cards in Stripe checkout:
 **Problem:** Webhooks not being received
 
 **Solutions:**
+
 - Ensure `stripe listen` is running
 - Check that dev server is on port 3000
 - Verify `STRIPE_WEBHOOK_SECRET` is set correctly
@@ -126,6 +128,7 @@ Use these test cards in Stripe checkout:
 **Problem:** Webhook signature verification failed
 
 **Solutions:**
+
 - Copy the webhook secret from `stripe listen` output
 - Update `.env.local` with the correct secret
 - Restart dev server
@@ -168,4 +171,3 @@ For production, you'll need to:
 ---
 
 **You're all set for local Stripe testing!** 🎉
-

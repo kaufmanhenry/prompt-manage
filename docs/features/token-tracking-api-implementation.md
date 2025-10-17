@@ -5,9 +5,11 @@
 ### 1. Token Usage Tracking
 
 #### `POST /api/usage/track`
+
 Logs token usage from a prompt execution.
 
 **Request:**
+
 ```typescript
 {
   promptId?: string
@@ -20,6 +22,7 @@ Logs token usage from a prompt execution.
 ```
 
 **Response:**
+
 ```typescript
 {
   success: boolean
@@ -34,6 +37,7 @@ Logs token usage from a prompt execution.
 ```
 
 **Implementation:**
+
 ```typescript
 // app/api/usage/track/route.ts
 import { NextRequest, NextResponse } from 'next/server'
@@ -42,9 +46,12 @@ import { calculateCost, MODEL_PRICING } from '@/lib/pricing'
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
-  
+
   // Authenticate user
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser()
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
@@ -100,10 +107,10 @@ async function checkBudgetLimits(
   supabase: any,
   userId: string,
   teamId: string | null,
-  costUsd: number
+  costUsd: number,
 ) {
   const currentMonth = new Date().toISOString().slice(0, 7) + '-01'
-  
+
   // Get or create budget for current period
   const entityType = teamId ? 'team' : 'user'
   const entityId = teamId || userId
@@ -139,15 +146,42 @@ async function checkBudgetLimits(
       type: 'budget_exceeded',
       message: `Monthly budget exceeded: $${newTotal.toFixed(2)} / $${budget.monthly_budget_usd}`,
     }
-    await createAlert(supabase, budget.id, userId, 'budget_exceeded', 'critical', newTotal, budget.monthly_budget_usd, percentage)
+    await createAlert(
+      supabase,
+      budget.id,
+      userId,
+      'budget_exceeded',
+      'critical',
+      newTotal,
+      budget.monthly_budget_usd,
+      percentage,
+    )
   } else if (percentage >= budget.alert_threshold_2) {
     warning = {
       type: 'approaching_limit',
       message: `${percentage.toFixed(0)}% of monthly budget used`,
     }
-    await createAlert(supabase, budget.id, userId, 'threshold_90', 'warning', newTotal, budget.monthly_budget_usd, percentage)
+    await createAlert(
+      supabase,
+      budget.id,
+      userId,
+      'threshold_90',
+      'warning',
+      newTotal,
+      budget.monthly_budget_usd,
+      percentage,
+    )
   } else if (percentage >= budget.alert_threshold_1) {
-    await createAlert(supabase, budget.id, userId, 'threshold_75', 'info', newTotal, budget.monthly_budget_usd, percentage)
+    await createAlert(
+      supabase,
+      budget.id,
+      userId,
+      'threshold_75',
+      'info',
+      newTotal,
+      budget.monthly_budget_usd,
+      percentage,
+    )
   }
 
   return {
@@ -164,7 +198,7 @@ async function createAlert(
   alertLevel: string,
   currentUsage: number,
   budgetLimit: number,
-  percentage: number
+  percentage: number,
 ) {
   // Check if alert already exists for this threshold in current period
   const { data: existing } = await supabase
@@ -193,9 +227,11 @@ async function createAlert(
 ### 2. Usage Analytics
 
 #### `GET /api/usage/stats`
+
 Retrieves usage statistics for dashboards.
 
 **Query Parameters:**
+
 - `period`: 'day' | 'week' | 'month' | 'year'
 - `startDate`: ISO date string
 - `endDate`: ISO date string
@@ -203,6 +239,7 @@ Retrieves usage statistics for dashboards.
 - `teamId`: (optional) For team admins
 
 **Response:**
+
 ```typescript
 {
   summary: {
@@ -234,6 +271,7 @@ Retrieves usage statistics for dashboards.
 ```
 
 **Implementation:**
+
 ```typescript
 // app/api/usage/stats/route.ts
 import { NextRequest, NextResponse } from 'next/server'
@@ -241,8 +279,11 @@ import { createClient } from '@/utils/supabase/server'
 
 export async function GET(request: NextRequest) {
   const supabase = await createClient()
-  
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser()
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
@@ -305,19 +346,19 @@ export async function GET(request: NextRequest) {
     totalTokens: logs.reduce((sum, log) => sum + log.total_tokens, 0),
     totalCost: logs.reduce((sum, log) => sum + log.total_cost_usd, 0),
     totalRuns: logs.length,
-    avgCostPerRun: logs.length > 0 ? logs.reduce((sum, log) => sum + log.total_cost_usd, 0) / logs.length : 0,
+    avgCostPerRun:
+      logs.length > 0 ? logs.reduce((sum, log) => sum + log.total_cost_usd, 0) / logs.length : 0,
   }
 
   // Group by category
   const breakdown = calculateBreakdown(logs, groupBy)
-  
+
   // Calculate trends
   const trends = calculateTrends(logs, period)
-  
+
   // Top prompts (if not free tier)
-  const topPrompts = profile?.subscription_tier !== 'free' 
-    ? await getTopPrompts(supabase, logs)
-    : []
+  const topPrompts =
+    profile?.subscription_tier !== 'free' ? await getTopPrompts(supabase, logs) : []
 
   return NextResponse.json({
     summary,
@@ -329,8 +370,8 @@ export async function GET(request: NextRequest) {
 
 function calculateBreakdown(logs: any[], groupBy: string) {
   const grouped = new Map<string, { tokens: number; cost: number; runs: number }>()
-  
-  logs.forEach(log => {
+
+  logs.forEach((log) => {
     const key = log[groupBy] || 'Unknown'
     const existing = grouped.get(key) || { tokens: 0, cost: 0, runs: 0 }
     grouped.set(key, {
@@ -353,8 +394,8 @@ function calculateBreakdown(logs: any[], groupBy: string) {
 
 function calculateTrends(logs: any[], period: string) {
   const dailyData = new Map<string, { tokens: number; cost: number }>()
-  
-  logs.forEach(log => {
+
+  logs.forEach((log) => {
     const date = new Date(log.created_at).toISOString().split('T')[0]
     const existing = dailyData.get(date) || { tokens: 0, cost: 0 }
     dailyData.set(date, {
@@ -370,8 +411,8 @@ function calculateTrends(logs: any[], period: string) {
 
 async function getTopPrompts(supabase: any, logs: any[]) {
   const promptStats = new Map<string, { tokens: number; cost: number; runs: number }>()
-  
-  logs.forEach(log => {
+
+  logs.forEach((log) => {
     if (!log.prompt_id) return
     const existing = promptStats.get(log.prompt_id) || { tokens: 0, cost: 0, runs: 0 }
     promptStats.set(log.prompt_id, {
@@ -388,14 +429,11 @@ async function getTopPrompts(supabase: any, logs: any[]) {
 
   if (topPromptIds.length === 0) return []
 
-  const { data: prompts } = await supabase
-    .from('prompts')
-    .select('id, name')
-    .in('id', topPromptIds)
+  const { data: prompts } = await supabase.from('prompts').select('id, name').in('id', topPromptIds)
 
-  const promptMap = new Map(prompts?.map(p => [p.id, p.name]) || [])
+  const promptMap = new Map(prompts?.map((p) => [p.id, p.name]) || [])
 
-  return topPromptIds.map(id => ({
+  return topPromptIds.map((id) => ({
     promptId: id,
     promptName: promptMap.get(id) || 'Unknown',
     ...promptStats.get(id)!,
@@ -406,9 +444,11 @@ async function getTopPrompts(supabase: any, logs: any[]) {
 ### 3. Budget Management
 
 #### `PUT /api/usage/budget`
+
 Sets or updates budget limits.
 
 **Request:**
+
 ```typescript
 {
   entityType: 'user' | 'team'
@@ -421,6 +461,7 @@ Sets or updates budget limits.
 ```
 
 **Implementation:**
+
 ```typescript
 // app/api/usage/budget/route.ts
 import { NextRequest, NextResponse } from 'next/server'
@@ -428,14 +469,24 @@ import { createClient } from '@/utils/supabase/server'
 
 export async function PUT(request: NextRequest) {
   const supabase = await createClient()
-  
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser()
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const body = await request.json()
-  const { entityType, entityId, monthlyBudgetUsd, maxTokensPerPrompt, dailyBudgetUsd, alertThresholds } = body
+  const {
+    entityType,
+    entityId,
+    monthlyBudgetUsd,
+    maxTokensPerPrompt,
+    dailyBudgetUsd,
+    alertThresholds,
+  } = body
 
   // Verify permissions
   if (entityType === 'user' && entityId !== user.id) {
@@ -459,19 +510,22 @@ export async function PUT(request: NextRequest) {
 
   const { data, error } = await supabase
     .from('usage_budgets')
-    .upsert({
-      entity_type: entityType,
-      entity_id: entityId,
-      period_start: currentMonth,
-      monthly_budget_usd: monthlyBudgetUsd,
-      max_tokens_per_prompt: maxTokensPerPrompt,
-      daily_budget_usd: dailyBudgetUsd,
-      alert_threshold_1: alertThresholds?.[0] || 75,
-      alert_threshold_2: alertThresholds?.[1] || 90,
-      alert_threshold_3: alertThresholds?.[2] || 100,
-    }, {
-      onConflict: 'entity_type,entity_id,period_start'
-    })
+    .upsert(
+      {
+        entity_type: entityType,
+        entity_id: entityId,
+        period_start: currentMonth,
+        monthly_budget_usd: monthlyBudgetUsd,
+        max_tokens_per_prompt: maxTokensPerPrompt,
+        daily_budget_usd: dailyBudgetUsd,
+        alert_threshold_1: alertThresholds?.[0] || 75,
+        alert_threshold_2: alertThresholds?.[1] || 90,
+        alert_threshold_3: alertThresholds?.[2] || 100,
+      },
+      {
+        onConflict: 'entity_type,entity_id,period_start',
+      },
+    )
     .select()
     .single()
 
@@ -484,8 +538,11 @@ export async function PUT(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   const supabase = await createClient()
-  
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser()
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
@@ -507,5 +564,3 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ budget })
 }
 ```
-
-

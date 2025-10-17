@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronDown, ChevronRight, Copy, Loader2, Rocket, Sparkles } from 'lucide-react'
+import { ChevronDown, ChevronRight, Copy, Rocket, Sparkles } from 'lucide-react'
 import React, { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -229,7 +229,7 @@ export function InteractivePromptLab() {
         <div className="flex items-center justify-end gap-2 pt-2">
           <Button onClick={runOnce} disabled={isRunning}>
             {isRunning ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
             ) : (
               <Rocket className="h-4 w-4" />
             )}{' '}

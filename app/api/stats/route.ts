@@ -6,6 +6,10 @@ export async function GET() {
   try {
     const supabase = createServerSideClient()
 
+    // Add caching headers
+    const headers = new Headers()
+    headers.set('Cache-Control', 'public, max-age=300, s-maxage=300') // 5 minutes cache
+
     // Get total prompts (public and private)
     const { count: totalPrompts } = await supabase
       .from('prompts')
@@ -246,7 +250,7 @@ export async function GET() {
       },
     }
 
-    return NextResponse.json(stats)
+    return NextResponse.json(stats, { headers })
   } catch (error) {
     console.error('Error fetching stats:', error)
     return NextResponse.json({ error: 'Failed to fetch statistics' }, { status: 500 })

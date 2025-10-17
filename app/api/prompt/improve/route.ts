@@ -2,6 +2,8 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
+import { logAuditEvent, logError } from '@/lib/audit-log'
+import { getValidatedUserId } from '@/lib/auth-utils'
 import { checkRateLimit, getClientIdentifier } from '@/lib/rate-limit'
 
 // Initialize OpenAI client only when needed
@@ -16,23 +18,57 @@ function getOpenAIClient() {
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
+  let userId: string | null = null
+  let identifier: string = ''
 
   try {
+    const supabase = await import('@/utils/supabase/server').then((m) => m.createClient())
+
+    // Get authenticated user
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
+    if (authError) throw authError
+
+    // Validate user ID is a proper UUID, not a base64 token
+    userId = getValidatedUserId(user)
+
     // Check if OpenAI API key is configured
     if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 })
+      logError(userId, 'prompt_improve', new Error('OpenAI API key not configured'))
+      return NextResponse.json({ error: 'Service temporarily unavailable' }, { status: 503 })
     }
 
-    // Basic rate limiting for free tools
-    const identifier = getClientIdentifier(request as unknown as Request)
-    const rate = checkRateLimit(identifier)
+    // Rate limiting
+    identifier = getClientIdentifier(request as unknown as Request)
+    const rate = await checkRateLimit(identifier)
     if (!rate.allowed) {
-      return NextResponse.json({ error: 'Rate limit exceeded. Please wait a moment.' }, { status: 429 })
+      logAuditEvent(userId || 'anonymous', 'rate_limit_exceeded', 'api_call', {
+        ipAddress: identifier,
+        userAgent: request.headers.get('user-agent') || undefined,
+        metadata: { requestType: 'prompt_improve', limit: 10, window: 60 },
+      })
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded. Please try again later.',
+          resetTime: rate.resetTime.getTime(),
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '10',
+            'X-RateLimit-Remaining': rate.remaining.toString(),
+            'X-RateLimit-Reset': rate.resetTime.getTime().toString(),
+          },
+        },
+      )
     }
 
     const { prompt, context, model: requestedModel } = await request.json()
 
     if (!prompt) {
+      logError(userId, 'prompt_improve', new Error('Prompt is required'))
       return NextResponse.json({ error: 'Prompt is required' }, { status: 400 })
     }
 
@@ -76,6 +112,18 @@ Return only the improved prompt, no explanations.`
     const executionTime = Date.now() - startTime
     const tokensUsed = completion.usage?.total_tokens || null
 
+    // Log successful operation
+    logAuditEvent(userId || 'anonymous', 'prompt_improved', 'api_call', {
+      metadata: {
+        executionTime,
+        tokensUsed,
+        model: requestedModel || 'gpt-4o-mini',
+        promptLength: safePrompt.length,
+      },
+      ipAddress: identifier,
+      userAgent: request.headers.get('user-agent') || undefined,
+    })
+
     return NextResponse.json({
       success: true,
       response,
@@ -84,12 +132,20 @@ Return only the improved prompt, no explanations.`
     })
   } catch (error) {
     const executionTime = Date.now() - startTime
-    console.error('Prompt improvement error:', error)
 
+    // Log error with sanitized information
+    logError(userId, 'prompt_improve', error, {
+      executionTime,
+      requestType: 'prompt_improve',
+      ipAddress: identifier,
+      userAgent: request.headers.get('user-agent') || undefined,
+    })
+
+    // Don't expose internal error details to client
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
+        error: 'An error occurred while processing your request. Please try again.',
         execution_time_ms: executionTime,
       },
       { status: 500 },

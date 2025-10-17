@@ -16,14 +16,14 @@ const DEFAULT_OPTIONS: Required<RetryOptions> = {
   initialDelayMs: 1000,
   maxDelayMs: 10000,
   backoffMultiplier: 2,
-  retryableErrors: ['ECONNRESET', 'ETIMEDOUT', 'ENOTFOUND', 'rate_limit_exceeded']
+  retryableErrors: ['ECONNRESET', 'ETIMEDOUT', 'ENOTFOUND', 'rate_limit_exceeded'],
 }
 
 /**
  * Sleep for specified milliseconds
  */
 function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 /**
@@ -41,7 +41,7 @@ function isRetryableError(error: unknown, retryableErrors: string[]): boolean {
   if (err.code && retryableErrors.includes(err.code)) return true
 
   // Check error message
-  if (err.message && retryableErrors.some(msg => err.message?.includes(msg))) return true
+  if (err.message && retryableErrors.some((msg) => err.message?.includes(msg))) return true
 
   // Check error type
   if (err.type && retryableErrors.includes(err.type)) return true
@@ -51,17 +51,14 @@ function isRetryableError(error: unknown, retryableErrors: string[]): boolean {
 
 /**
  * Execute function with exponential backoff retry
- * 
+ *
  * @example
  * const result = await withRetry(
  *   () => openai.chat.completions.create(...),
  *   { maxRetries: 3 }
  * )
  */
-export async function withRetry<T>(
-  fn: () => Promise<T>,
-  options: RetryOptions = {}
-): Promise<T> {
+export async function withRetry<T>(fn: () => Promise<T>, options: RetryOptions = {}): Promise<T> {
   const opts = { ...DEFAULT_OPTIONS, ...options }
   let lastError: Error | null = null
 
@@ -84,7 +81,7 @@ export async function withRetry<T>(
       // Calculate delay with exponential backoff
       const delay = Math.min(
         opts.initialDelayMs * Math.pow(opts.backoffMultiplier, attempt),
-        opts.maxDelayMs
+        opts.maxDelayMs,
       )
 
       console.log(`Retry attempt ${attempt + 1}/${opts.maxRetries} after ${delay}ms...`)
@@ -99,7 +96,7 @@ export async function withRetry<T>(
 /**
  * Batch process items with concurrency limit
  * Useful for processing multiple agents without overwhelming APIs
- * 
+ *
  * @example
  * await batchProcess(
  *   agents,
@@ -110,24 +107,23 @@ export async function withRetry<T>(
 export async function batchProcess<T, R>(
   items: T[],
   fn: (item: T) => Promise<R>,
-  options: { concurrency?: number } = {}
+  options: { concurrency?: number } = {},
 ): Promise<R[]> {
   const concurrency = options.concurrency || 5
   const results: R[] = []
-  
+
   for (let i = 0; i < items.length; i += concurrency) {
     const batch = items.slice(i, i + concurrency)
     const batchResults = await Promise.all(
-      batch.map(item => 
-        fn(item).catch(error => {
+      batch.map((item) =>
+        fn(item).catch((error) => {
           console.error(`Batch item failed:`, error)
           return null as R
-        })
-      )
+        }),
+      ),
     )
     results.push(...batchResults)
   }
-  
+
   return results
 }
-

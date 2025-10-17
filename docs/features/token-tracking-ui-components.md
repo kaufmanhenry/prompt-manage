@@ -35,6 +35,7 @@ Real-time preview of estimated token usage before running a prompt.
 **Location:** Embedded in PromptLab below the prompt textarea
 
 **UI Mockup (Text):**
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │ 💰 Estimated Cost Preview                           │
@@ -51,6 +52,7 @@ Real-time preview of estimated token usage before running a prompt.
 ```
 
 **Implementation:**
+
 ```typescript
 // components/TokenPreview.tsx
 'use client'
@@ -189,6 +191,7 @@ export function TokenPreview({
 Displays actual token usage after prompt execution.
 
 **UI Mockup (Text):**
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │ ✅ Execution Complete                               │
@@ -203,6 +206,7 @@ Displays actual token usage after prompt execution.
 ```
 
 **Implementation:**
+
 ```typescript
 // components/TokenUsageDisplay.tsx
 'use client'
@@ -288,6 +292,7 @@ Alert banner when approaching or exceeding budget limits.
 **UI Mockups (Text):**
 
 **Warning (75% threshold):**
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │ ⚠️  Budget Alert                                     │
@@ -297,6 +302,7 @@ Alert banner when approaching or exceeding budget limits.
 ```
 
 **Critical (100% exceeded):**
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │ 🚨 Budget Exceeded                                   │
@@ -307,6 +313,7 @@ Alert banner when approaching or exceeding budget limits.
 ```
 
 **Implementation:**
+
 ```typescript
 // components/BudgetWarning.tsx
 'use client'
@@ -409,6 +416,7 @@ export function BudgetWarning({
 Main dashboard showing usage statistics and trends.
 
 **UI Mockup (Text):**
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ Usage Dashboard - December 2025                              │
@@ -449,6 +457,7 @@ Main dashboard showing usage statistics and trends.
 ### BudgetSettingsForm
 
 **UI Mockup (Text):**
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │ Budget & Limit Settings                                  │
@@ -478,6 +487,7 @@ Main dashboard showing usage statistics and trends.
 ## 4. Team Usage Dashboard (Enterprise)
 
 **UI Mockup (Text):**
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ Team Usage Dashboard                                         │
@@ -510,5 +520,3 @@ Main dashboard showing usage statistics and trends.
 │ [Export Team Report] [Manage Budget] [View Insights]        │
 └─────────────────────────────────────────────────────────────┘
 ```
-
-

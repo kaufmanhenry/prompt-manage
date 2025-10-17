@@ -2,7 +2,7 @@
 const ADMIN_EMAILS = [
   'mikemoloney.business@gmail.com',
   'hkaufman19@gmail.com',
-  'mike@filtergrade.com'
+  'mike@filtergrade.com',
 ]
 
 export function isAdminEmail(email: string | undefined | null): boolean {

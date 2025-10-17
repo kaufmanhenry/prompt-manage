@@ -1,11 +1,13 @@
 # Agent Quality Control & Brand Guidelines System
 
 ## Overview
+
 Ensure your agents create consistently amazing, on-brand content that meets your quality standards. Full control over style, tone, phrases, and content requirements.
 
 ## 🎯 Quality Control Features
 
 ### 1. **Brand Guidelines**
+
 Define your brand voice and values:
 
 ```json
@@ -18,6 +20,7 @@ Define your brand voice and values:
 ```
 
 ### 2. **Quality Standards**
+
 Set measurable quality requirements:
 
 ```json
@@ -34,6 +37,7 @@ Set measurable quality requirements:
 ```
 
 ### 3. **Required Elements**
+
 Specify what must be included:
 
 ```json
@@ -48,6 +52,7 @@ Specify what must be included:
 ```
 
 ### 4. **Key Phrases**
+
 Words/phrases agents should include naturally:
 
 ```
@@ -55,6 +60,7 @@ Words/phrases agents should include naturally:
 ```
 
 ### 5. **Forbidden Phrases**
+
 Words/phrases agents must NEVER use:
 
 ```
@@ -62,6 +68,7 @@ Words/phrases agents must NEVER use:
 ```
 
 ### 6. **Style Guide**
+
 Detailed writing instructions:
 
 ```
@@ -80,6 +87,7 @@ STYLE GUIDE:
 ```
 
 ### 7. **Examples**
+
 Show good vs. bad examples:
 
 ```json
@@ -92,6 +100,7 @@ Show good vs. bad examples:
 ```
 
 ### 8. **Review Controls**
+
 - `review_required`: Boolean - Require manual approval before publishing
 - `min_quality_score`: Number (0-1) - Minimum AI quality score to pass
 
@@ -102,13 +111,14 @@ Show good vs. bad examples:
 ### During Generation
 
 1. **System Prompt Enhancement**: Quality instructions added to AI prompt
+
    ```
    BRAND VOICE: Professional yet approachable, innovative
-   
+
    KEY PHRASES TO INCLUDE: proven strategies, data-backed results
-   
+
    FORBIDDEN PHRASES (never use): click here, buy now, guaranteed
-   
+
    STYLE GUIDE:
    - Use active voice
    - Keep paragraphs under 4 sentences
@@ -191,6 +201,7 @@ POST /api/agents
 ## 💡 Real-World Examples
 
 ### Example 1: Marketing Blog Writer
+
 **Goal**: High-quality, SEO-optimized blog posts that sound professional but approachable
 
 ```javascript
@@ -233,6 +244,7 @@ POST /api/agents
 ```
 
 ### Example 2: Technical Documentation
+
 **Goal**: Clear, accurate, developer-friendly docs
 
 ```javascript
@@ -278,6 +290,7 @@ POST /api/agents
 ```
 
 ### Example 3: Customer Support Content
+
 **Goal**: Friendly, helpful, empathetic support articles
 
 ```javascript
@@ -352,19 +365,20 @@ When `review_required = true` or quality score too low:
 
 ## 📊 Review Statuses
 
-| Status | Meaning |
-|--------|---------|
-| `pending` | Awaiting review |
-| `approved` | Passed review, published |
-| `rejected` | Did not meet standards |
-| `needs_revision` | Requires changes |
-| `auto_approved` | Passed all automated checks |
+| Status           | Meaning                     |
+| ---------------- | --------------------------- |
+| `pending`        | Awaiting review             |
+| `approved`       | Passed review, published    |
+| `rejected`       | Did not meet standards      |
+| `needs_revision` | Requires changes            |
+| `auto_approved`  | Passed all automated checks |
 
 ---
 
 ## 🎓 Best Practices
 
 ### 1. Start Simple, Iterate
+
 ```
 Week 1: Just forbidden phrases
 Week 2: Add key phrases
@@ -373,21 +387,25 @@ Week 4: Add full quality standards
 ```
 
 ### 2. Use Specific, Clear Guidelines
+
 ❌ Bad: "Write good content"
 ✅ Good: "Include 1 statistic per section. Bold key takeaways. 2-4 sentences per paragraph."
 
 ### 3. Provide Examples
+
 - Show good vs. bad examples
 - Include actual headlines, intros
 - Demonstrate desired style
 
 ### 4. Test and Refine
+
 1. Generate test content
 2. Review quality
 3. Adjust guidelines
 4. Test again
 
 ### 5. Balance Control vs. Creativity
+
 - Too strict = robotic content
 - Too loose = inconsistent quality
 - Find your sweet spot
@@ -397,6 +415,7 @@ Week 4: Add full quality standards
 ## 🔧 Advanced Configurations
 
 ### Multi-Brand Setup
+
 Different brands, different voices:
 
 ```javascript
@@ -414,6 +433,7 @@ Different brands, different voices:
 ```
 
 ### A/B Testing Quality Standards
+
 Create two agents with different standards:
 
 ```javascript

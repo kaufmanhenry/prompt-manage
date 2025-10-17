@@ -3,14 +3,17 @@
 ## User Personas & Use Cases
 
 ### Persona 1: Sarah - Solo Content Creator (Free Tier)
+
 **Background:** Freelance writer experimenting with AI prompts
 
 **Goals:**
+
 - Understand basic token usage
 - See simple cost estimates
 - Know when to upgrade
 
 **Workflow:**
+
 1. Opens Prompt Lab
 2. Sees basic token count estimate (~450 tokens)
 3. Runs prompt
@@ -20,14 +23,17 @@
 ---
 
 ### Persona 2: Mike - Marketing Manager (Teams Tier)
+
 **Background:** Manages content creation for a small marketing team
 
 **Goals:**
+
 - Track monthly spending
 - Stay within budget
 - Optimize costs
 
 **Workflow:**
+
 1. Sets monthly budget: $50/month
 2. Gets alert when reaching 75% ($37.50)
 3. Views breakdown by prompt type
@@ -38,15 +44,18 @@
 ---
 
 ### Persona 3: Alex - Engineering Lead (Enterprise Tier)
+
 **Background:** Manages 15-person team using AI for code reviews and documentation
 
 **Goals:**
+
 - Monitor team-wide usage
 - Allocate budgets per team member
 - Identify optimization opportunities
 - Generate executive reports
 
 **Workflow:**
+
 1. Views team dashboard: $450/month across 15 users
 2. Sees top users: John ($85), Sarah ($72)
 3. Reviews cost optimization recommendations
@@ -65,6 +74,7 @@
 **Steps:**
 
 1. **Welcome Screen**
+
    ```
    ┌─────────────────────────────────────────────────┐
    │ 🎉 Welcome to Teams!                             │
@@ -81,6 +91,7 @@
    ```
 
 2. **Budget Setup Wizard - Step 1: Estimate Usage**
+
    ```
    ┌─────────────────────────────────────────────────┐
    │ Step 1: Estimate Your Usage                     │
@@ -101,6 +112,7 @@
    ```
 
 3. **Budget Setup Wizard - Step 2: Recommended Budget**
+
    ```
    ┌─────────────────────────────────────────────────┐
    │ Step 2: Recommended Budget                      │
@@ -146,6 +158,7 @@
 **Steps:**
 
 1. **Prompt Editor with Live Preview**
+
    ```
    ┌──────────────────────────────────────────────────────┐
    │ Prompt Lab                          [gpt-4o-mini ▼] │
@@ -178,6 +191,7 @@
    ```
 
 2. **During Execution - Progress Indicator**
+
    ```
    ┌──────────────────────────────────────────────────────┐
    │ ⏳ Running your prompt...                            │
@@ -222,6 +236,7 @@
 **Steps:**
 
 1. **Alert Notification**
+
    ```
    ┌──────────────────────────────────────────────────────┐
    │ 🔔 [1]   Dashboard   Prompts   Usage   Settings      │
@@ -229,6 +244,7 @@
    ```
 
 2. **Alert Banner in Prompt Lab**
+
    ```
    ┌──────────────────────────────────────────────────────┐
    │ ⚠️  Budget Alert                                      │
@@ -240,6 +256,7 @@
    ```
 
 3. **Usage Details Modal**
+
    ```
    ┌──────────────────────────────────────────────────────┐
    │ Current Usage Details                        [✕]     │
@@ -529,6 +546,7 @@
 ### Color Contrast
 
 All color combinations meet WCAG AA standards:
+
 - Warning alerts: Amber text on light background (4.5:1 ratio)
 - Critical alerts: Red text on light background (4.5:1 ratio)
 - Success indicators: Green with sufficient contrast
@@ -587,5 +605,3 @@ All color combinations meet WCAG AA standards:
 │ └─────────────────┘                             │
 └─────────────────────────────────────────────────┘
 ```
-
-

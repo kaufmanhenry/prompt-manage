@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  Code,
-  Copy,
-  Lightbulb,
-  Save,
-  Sparkles,
-  User
-} from 'lucide-react'
+import { Code, Copy, Lightbulb, Save, Sparkles, User } from 'lucide-react'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -89,7 +82,7 @@ export default function CursorPromptCreator() {
 
   const copyPrompt = async () => {
     if (!generatedPrompt?.prompt) return
-    
+
     try {
       await navigator.clipboard.writeText(generatedPrompt.prompt)
       toast({
@@ -110,10 +103,10 @@ export default function CursorPromptCreator() {
       tags: [framework, complexity, language, taskType].filter(Boolean),
       description: `Generated Cursor prompt for ${requirements}`,
     }
-    
+
     // Store in sessionStorage for after login
     sessionStorage.setItem('pendingPrompt', JSON.stringify(promptData))
-    
+
     // Redirect to signup
     window.location.href = '/?redirect=/dashboard'
   }
@@ -132,7 +125,8 @@ export default function CursorPromptCreator() {
           Cursor Prompt Creator
         </h2>
         <p className="text-lg text-gray-600 dark:text-gray-300">
-          Generate perfect prompts for Cursor AI code editor. Get better code generation with prompts tailored to your specific needs.
+          Generate perfect prompts for Cursor AI code editor. Get better code generation with
+          prompts tailored to your specific needs.
         </p>
       </div>
 
@@ -237,8 +231,8 @@ export default function CursorPromptCreator() {
               </div>
             </div>
 
-            <Button 
-              onClick={generatePrompt} 
+            <Button
+              onClick={generatePrompt}
               disabled={loading || !requirements.trim()}
               className="w-full"
               size="lg"
@@ -296,7 +290,11 @@ export default function CursorPromptCreator() {
                     <Copy className="mr-2 h-4 w-4" />
                     Copy Prompt
                   </Button>
-                  <Button onClick={saveToLibrary} size="sm" className="bg-blue-600 hover:bg-blue-700">
+                  <Button
+                    onClick={saveToLibrary}
+                    size="sm"
+                    className="bg-blue-600 hover:bg-blue-700"
+                  >
                     <Save className="mr-2 h-4 w-4" />
                     Save to Library
                   </Button>
@@ -310,7 +308,8 @@ export default function CursorPromptCreator() {
                         Want to save this prompt?
                       </p>
                       <p className="text-blue-700 dark:text-blue-300">
-                        Create a free account to save prompts, organize them by project, and access 300+ templates.
+                        Create a free account to save prompts, organize them by project, and access
+                        300+ templates.
                       </p>
                     </div>
                   </div>

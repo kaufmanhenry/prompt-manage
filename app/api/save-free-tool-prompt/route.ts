@@ -1,4 +1,4 @@
-import type { NextRequest} from 'next/server';
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { createClient } from '@/utils/supabase/server'
@@ -7,21 +7,21 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { name, prompt_text, model, tags, description, toolName } = body
-    
+
     if (!name || !prompt_text) {
       return NextResponse.json({ error: 'Name and prompt text required' }, { status: 400 })
     }
 
     const supabase = await createClient()
-    
+
     // Get user - must be logged in to save
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
+
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'You must be logged in to save prompts' },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: 'You must be logged in to save prompts' }, { status: 401 })
     }
 
     // Save the prompt to the database
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       console.error('Error saving prompt:', insertError)
       return NextResponse.json(
         { error: 'Failed to save prompt', details: insertError.message },
-        { status: 500 }
+        { status: 500 },
       )
     }
 
@@ -59,17 +59,18 @@ export async function POST(request: NextRequest) {
         .limit(1)
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       success: true,
-      prompt: prompt
+      prompt: prompt,
     })
-
   } catch (error) {
     console.error('Save prompt error:', error)
     return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
+      {
+        error: 'Internal server error',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 },
     )
   }
 }
-

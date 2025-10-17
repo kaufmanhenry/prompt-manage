@@ -1,4 +1,4 @@
-import { ArrowLeft, Eye, Lock, Palette, Save, Settings, Share2, Trash2, User } from 'lucide-react'
+import { Eye, Lock, Palette, Save, Settings, Share2, Trash2, User } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -18,138 +18,41 @@ export const metadata: Metadata = {
 }
 
 export default function DocsPage() {
-  const howToSchemas = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'HowTo',
-      name: 'How to Create and Save AI Prompts on Prompt Manage',
-      description: 'Learn how to create, save, and organize AI prompts using Prompt Manage',
-      step: [
-        {
-          '@type': 'HowToStep',
-          name: 'Go to Dashboard',
-          text: 'Sign in and navigate to your dashboard',
-          position: 1,
-        },
-        {
-          '@type': 'HowToStep',
-          name: 'Click New Prompt',
-          text: 'Click the "New Prompt" button to create a new prompt',
-          position: 2,
-        },
-        {
-          '@type': 'HowToStep',
-          name: 'Fill in Details',
-          text: 'Add a name, description, prompt text, select an AI model, and add tags',
-          position: 3,
-        },
-        {
-          '@type': 'HowToStep',
-          name: 'Save Prompt',
-          text: 'Click Save to add the prompt to your library',
-          position: 4,
-        },
-      ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'HowTo',
-      name: 'How to Share Prompts Publicly on Prompt Manage',
-      description: 'Step-by-step guide to sharing your AI prompts with the community',
-      step: [
-        {
-          '@type': 'HowToStep',
-          name: 'Open Your Prompt',
-          text: 'Go to your dashboard and click on the prompt you want to share',
-          position: 1,
-        },
-        {
-          '@type': 'HowToStep',
-          name: 'Click Edit',
-          text: 'Click the Edit button to modify your prompt settings',
-          position: 2,
-        },
-        {
-          '@type': 'HowToStep',
-          name: 'Toggle Public',
-          text: 'Toggle the "Make this prompt public" switch to ON',
-          position: 3,
-        },
-        {
-          '@type': 'HowToStep',
-          name: 'Save and Share',
-          text: 'Save your changes. Your prompt will now appear in the public directory with its own shareable URL',
-          position: 4,
-        },
-      ],
-    },
-  ]
-
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://promptmanage.com',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Documentation',
-        item: 'https://promptmanage.com/docs',
-      },
-    ],
-  }
-
   return (
-    <>
-      {howToSchemas.map((schema, index) => (
-        <script
-          key={index}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      ))}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-          {/* Header */}
-          <div className="mb-12">
-            <Link href="/">
-              <Button variant="ghost" className="mb-6">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Home
-              </Button>
-            </Link>
-            <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">Documentation</h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
-              Everything you need to know about using Prompt Manage
-            </p>
-          </div>
+    <div className="min-h-screen bg-white dark:bg-gray-950">
+      {/* Hero */}
+      <div className="border-b">
+        <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+          <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">Documentation</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            Everything you need to know about using Prompt Manage effectively.
+          </p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
+            Last updated: October 16, 2025
+          </p>
+        </div>
+      </div>
 
+      {/* Content */}
+      <div className="mx-auto max-w-4xl px-6 py-16">
+        <div className="space-y-16">
           {/* Quick Links */}
           <div className="mb-12 grid gap-4 md:grid-cols-2">
-            <a
+            <Link
               href="#sign-up"
               className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
             >
               <User className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
               <span className="font-medium text-gray-900 dark:text-white">How to Sign Up</span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="#save-prompts"
               className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
             >
               <Save className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
               <span className="font-medium text-gray-900 dark:text-white">How to Save Prompts</span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="#share-prompts"
               className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
             >
@@ -157,8 +60,8 @@ export default function DocsPage() {
               <span className="font-medium text-gray-900 dark:text-white">
                 How to Share Prompts Publicly
               </span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="#edit-profile"
               className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
             >
@@ -166,8 +69,8 @@ export default function DocsPage() {
               <span className="font-medium text-gray-900 dark:text-white">
                 How to Edit Your Profile
               </span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="#change-password"
               className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
             >
@@ -175,8 +78,8 @@ export default function DocsPage() {
               <span className="font-medium text-gray-900 dark:text-white">
                 How to Change Password
               </span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="#dark-mode"
               className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
             >
@@ -184,8 +87,8 @@ export default function DocsPage() {
               <span className="font-medium text-gray-900 dark:text-white">
                 How to Turn on Dark Mode
               </span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="#delete-prompt"
               className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
             >
@@ -193,8 +96,8 @@ export default function DocsPage() {
               <span className="font-medium text-gray-900 dark:text-white">
                 How to Delete a Prompt
               </span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="#browse-directory"
               className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
             >
@@ -202,7 +105,7 @@ export default function DocsPage() {
               <span className="font-medium text-gray-900 dark:text-white">
                 Browse Public Prompts
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* Documentation Sections */}
@@ -221,7 +124,11 @@ export default function DocsPage() {
                 <div className="space-y-4 text-gray-600 dark:text-gray-400">
                   <ol className="list-decimal space-y-3 pl-6">
                     <li>
-                      Click <strong className="text-gray-900 dark:text-white">"Sign in with Google"</strong> on the homepage or any page
+                      Click{' '}
+                      <strong className="text-gray-900 dark:text-white">
+                        "Sign in with Google"
+                      </strong>{' '}
+                      on the homepage or any page
                     </li>
                     <li>Authorize Prompt Manage to access your Google account</li>
                     <li>You'll be automatically redirected to your dashboard</li>
@@ -261,7 +168,9 @@ export default function DocsPage() {
                     <ol className="list-decimal space-y-2 pl-6">
                       <li>Go to your Dashboard</li>
                       <li>
-                        Click the <strong className="text-gray-900 dark:text-white">"New Prompt"</strong> button
+                        Click the{' '}
+                        <strong className="text-gray-900 dark:text-white">"New Prompt"</strong>{' '}
+                        button
                       </li>
                       <li>Fill in the required fields:</li>
                       <ul className="ml-6 mt-2 list-disc space-y-1">
@@ -287,7 +196,8 @@ export default function DocsPage() {
                         </li>
                       </ul>
                       <li>
-                        Click <strong className="text-gray-900 dark:text-white">"Save Prompt"</strong>
+                        Click{' '}
+                        <strong className="text-gray-900 dark:text-white">"Save Prompt"</strong>
                       </li>
                     </ol>
                   </div>
@@ -308,7 +218,11 @@ export default function DocsPage() {
                       </li>
                       <li>Find a prompt you like</li>
                       <li>
-                        Click the <strong className="text-gray-900 dark:text-white">"Copy to My Library"</strong> button
+                        Click the{' '}
+                        <strong className="text-gray-900 dark:text-white">
+                          "Copy to My Library"
+                        </strong>{' '}
+                        button
                       </li>
                       <li>The prompt is instantly saved to your dashboard</li>
                       <li>You can edit it to customize for your needs</li>
@@ -356,7 +270,8 @@ export default function DocsPage() {
                       to <strong>ON</strong>
                     </li>
                     <li>
-                      Click <strong className="text-gray-900 dark:text-white">"Save Changes"</strong>
+                      Click{' '}
+                      <strong className="text-gray-900 dark:text-white">"Save Changes"</strong>
                     </li>
                     <li>
                       Your prompt now has a public URL like{' '}
@@ -425,7 +340,8 @@ export default function DocsPage() {
                       </li>
                     </ul>
                     <li>
-                      Click <strong className="text-gray-900 dark:text-white">"Save Changes"</strong>
+                      Click{' '}
+                      <strong className="text-gray-900 dark:text-white">"Save Changes"</strong>
                     </li>
                   </ol>
                   <div className="mt-4 rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
@@ -472,7 +388,8 @@ export default function DocsPage() {
                         </a>
                       </li>
                       <li>
-                        Click on <strong className="text-gray-900 dark:text-white">"Password"</strong>
+                        Click on{' '}
+                        <strong className="text-gray-900 dark:text-white">"Password"</strong>
                       </li>
                       <li>Follow Google's prompts to update your password</li>
                       <li>
@@ -504,9 +421,7 @@ export default function DocsPage() {
                   </h2>
                 </div>
                 <div className="space-y-4 text-gray-600 dark:text-gray-400">
-                  <p>
-                    Toggle between light and dark mode directly in Prompt Manage.
-                  </p>
+                  <p>Toggle between light and dark mode directly in Prompt Manage.</p>
 
                   <ol className="list-decimal space-y-3 pl-6">
                     <li>
@@ -517,11 +432,10 @@ export default function DocsPage() {
                       from the dropdown menu
                     </li>
                     <li>
-                      Look for the <strong className="text-gray-900 dark:text-white">"Dark Mode"</strong> toggle
+                      Look for the{' '}
+                      <strong className="text-gray-900 dark:text-white">"Dark Mode"</strong> toggle
                     </li>
-                    <li>
-                      Click the toggle to switch between light and dark mode
-                    </li>
+                    <li>Click the toggle to switch between light and dark mode</li>
                     <li>
                       Your preference is saved automatically and will apply across all your devices
                     </li>
@@ -529,7 +443,8 @@ export default function DocsPage() {
 
                   <div className="mt-4 rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
                     <p className="text-sm text-emerald-900 dark:text-emerald-200">
-                      <strong>Note:</strong> Your dark mode preference is saved to your account, so it stays consistent across all devices where you're signed in.
+                      <strong>Note:</strong> Your dark mode preference is saved to your account, so
+                      it stays consistent across all devices where you're signed in.
                     </p>
                   </div>
                 </div>
@@ -618,8 +533,11 @@ export default function DocsPage() {
                     </ul>
                     <li>Click on any prompt to view details</li>
                     <li>
-                      Click <strong className="text-gray-900 dark:text-white">"Copy to My Library"</strong> to save it (requires
-                      sign-in)
+                      Click{' '}
+                      <strong className="text-gray-900 dark:text-white">
+                        "Copy to My Library"
+                      </strong>{' '}
+                      to save it (requires sign-in)
                     </li>
                   </ol>
 
@@ -655,6 +573,6 @@ export default function DocsPage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

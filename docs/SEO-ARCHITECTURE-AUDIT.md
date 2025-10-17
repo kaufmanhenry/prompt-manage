@@ -12,6 +12,7 @@
 ### Current State: 🟢 GOOD Foundation, 🟡 GAPS in Scalability
 
 **Strengths:**
+
 - ✅ Next.js 15 with App Router (modern, SEO-friendly)
 - ✅ Dynamic sitemap generation
 - ✅ Schema.org structured data on prompt pages
@@ -19,6 +20,7 @@
 - ✅ Clean URL structure (`/p/[slug]`)
 
 **Critical Gaps:**
+
 - ❌ **No category/tag aggregation pages** (major SEO opportunity)
 - ❌ **No pagination strategy** for scale (1000 prompt limit)
 - ❌ **Missing HTML sitemap** (user-facing navigation)
@@ -98,13 +100,13 @@ promptmanage.com/
 
 ### 1.3 Why This Matters (SEO Impact)
 
-| Page Type | Current State | Recommended | SEO Benefit |
-|-----------|--------------|-------------|-------------|
-| **Category Pages** | ❌ None | ✅ `/categories/[slug]` | +300% indexable pages, topical authority |
-| **Tag Pages** | ❌ Query params only | ✅ `/tags/[slug]` | Long-tail keyword capture |
-| **Model Pages** | ⚠️ List only | ✅ Individual model hubs | Branded search (GPT-4, Claude, etc.) |
-| **Pagination** | ❌ 1000 limit | ✅ `/page/[number]` | Index all prompts (10K+) |
-| **Collections** | ❌ None | 🔮 Future feature | Viral content, backlinks |
+| Page Type          | Current State        | Recommended              | SEO Benefit                              |
+| ------------------ | -------------------- | ------------------------ | ---------------------------------------- |
+| **Category Pages** | ❌ None              | ✅ `/categories/[slug]`  | +300% indexable pages, topical authority |
+| **Tag Pages**      | ❌ Query params only | ✅ `/tags/[slug]`        | Long-tail keyword capture                |
+| **Model Pages**    | ⚠️ List only         | ✅ Individual model hubs | Branded search (GPT-4, Claude, etc.)     |
+| **Pagination**     | ❌ 1000 limit        | ✅ `/page/[number]`      | Index all prompts (10K+)                 |
+| **Collections**    | ❌ None              | 🔮 Future feature        | Viral content, backlinks                 |
 
 ---
 
@@ -180,10 +182,14 @@ export async function GET() {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemaps.map(s => `  <sitemap>
+${sitemaps
+  .map(
+    (s) => `  <sitemap>
     <loc>${s.url}</loc>
     <lastmod>${s.lastModified.toISOString()}</lastmod>
-  </sitemap>`).join('\n')}
+  </sitemap>`,
+  )
+  .join('\n')}
 </sitemapindex>`
 
   return new Response(xml, {
@@ -196,6 +202,7 @@ ${sitemaps.map(s => `  <sitemap>
 ```
 
 **Then create:**
+
 - `/app/sitemap-static.xml/route.ts` (static pages)
 - `/app/sitemap-prompts.xml/route.ts` (all prompts, paginated if needed)
 - `/app/sitemap-categories.xml/route.ts` (category pages)
@@ -217,7 +224,7 @@ const nextConfig: NextConfig = {
   // Performance optimizations
   compress: true,
   poweredByHeader: false,
-  
+
   // Image optimization
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -237,19 +244,19 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'X-DNS-Prefetch-Control',
-            value: 'on'
+            value: 'on',
           },
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
+            value: 'SAMEORIGIN',
           },
           {
             key: 'X-Content-Type-Options',
-            value: 'nosniff'
+            value: 'nosniff',
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
+            value: 'origin-when-cross-origin',
           },
         ],
       },
@@ -306,6 +313,7 @@ export default nextConfig
 ```
 
 **Impact:**
+
 - ⚡ 20-30% faster load times
 - 🖼️ Automatic image optimization
 - 🔒 Better security headers
@@ -333,7 +341,7 @@ export const metadata: Metadata = {
 
 export default async function HTMLSitemap() {
   const supabase = await createClient()
-  
+
   // Fetch aggregated data
   const [
     { data: prompts },
@@ -409,8 +417,8 @@ export default async function HTMLSitemap() {
         <h2 className="text-2xl font-semibold mb-4">Recent Prompts</h2>
         <div className="grid md:grid-cols-4 gap-3">
           {prompts?.map((prompt: any) => (
-            <Link 
-              key={prompt.slug} 
+            <Link
+              key={prompt.slug}
               href={`/p/${prompt.slug}`}
               className="text-blue-600 hover:underline text-sm"
             >
@@ -428,6 +436,7 @@ export default async function HTMLSitemap() {
 ```
 
 **Impact:**
+
 - 🔗 100+ internal links per page
 - 👤 User-friendly navigation
 - 🤖 Crawl efficiency boost
@@ -491,7 +500,7 @@ RETURNS TABLE (
   description TEXT,
   count BIGINT
 ) AS $$
-  SELECT 
+  SELECT
     c.id,
     c.slug,
     c.name,
@@ -511,7 +520,7 @@ RETURNS TABLE (
   slug TEXT,
   count BIGINT
 ) AS $$
-  SELECT 
+  SELECT
     tag,
     LOWER(REGEXP_REPLACE(tag, '[^a-zA-Z0-9]+', '-', 'g')) as slug,
     COUNT(*) as count
@@ -546,7 +555,7 @@ interface CategoryPageProps {
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params
   const supabase = await createClient()
-  
+
   const { data: category } = await supabase
     .from('categories')
     .select('*')
@@ -558,7 +567,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   }
 
   const title = category.seo_title || `${category.name} AI Prompts — Prompt Manage`
-  const description = category.seo_description || 
+  const description = category.seo_description ||
     `Browse ${category.prompt_count}+ ${category.name} prompts for ChatGPT, Claude, and more. ${category.description}`
 
   return {
@@ -638,8 +647,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
               key={num}
               href={`/categories/${slug}${num > 1 ? `/page/${num}` : ''}`}
               className={`px-4 py-2 rounded ${
-                num === pageNum 
-                  ? 'bg-blue-600 text-white' 
+                num === pageNum
+                  ? 'bg-blue-600 text-white'
                   : 'bg-gray-200 hover:bg-gray-300'
               }`}
             >
@@ -679,6 +688,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 ```
 
 **Impact:**
+
 - 📄 One page per category = 50-100+ new pages
 - 🎯 Target high-value keywords ("marketing prompts", "sales prompts")
 - 🔗 Internal linking hub
@@ -704,16 +714,14 @@ export const dynamic = 'force-static' // For category pages
 // In category/tag pages
 export async function generateStaticParams() {
   const supabase = await createClient()
-  const { data: categories } = await supabase
-    .from('categories')
-    .select('slug')
-    .limit(100)
-  
-  return categories?.map(cat => ({ slug: cat.slug })) || []
+  const { data: categories } = await supabase.from('categories').select('slug').limit(100)
+
+  return categories?.map((cat) => ({ slug: cat.slug })) || []
 }
 ```
 
 **Impact:**
+
 - ⚡ 10x faster page loads (cached at edge)
 - 💰 90% reduction in database queries
 - 📊 Better Core Web Vitals (LCP < 1.5s)
@@ -742,19 +750,20 @@ const prompts = await supabase
 **Add database indexes:**
 
 ```sql
-CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_prompts_public_views 
-ON prompts(is_public, view_count DESC) 
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_prompts_public_views
+ON prompts(is_public, view_count DESC)
 WHERE is_public = true;
 
-CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_prompts_tags_gin 
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_prompts_tags_gin
 ON prompts USING gin(tags);
 
-CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_prompts_model 
-ON prompts(model) 
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_prompts_model
+ON prompts(model)
 WHERE is_public = true;
 ```
 
 **Impact:**
+
 - ⚡ 5-10x faster query times
 - 📉 Reduced database load
 - 💰 Lower hosting costs at scale
@@ -807,7 +816,7 @@ export function Breadcrumbs({ items }: { items: Array<{label: string, href: stri
           ))}
         </ol>
       </nav>
-      
+
       {/* Schema.org */}
       <script type="application/ld+json">
         {JSON.stringify({
@@ -827,6 +836,7 @@ export function Breadcrumbs({ items }: { items: Array<{label: string, href: stri
 ```
 
 **Use on:**
+
 - `/p/[slug]` → Home > Prompts > [Category] > [Prompt Name]
 - `/categories/[slug]` → Home > Categories > [Category Name]
 - `/blog/[slug]` → Home > Blog > [Post Title]
@@ -842,15 +852,16 @@ export function Breadcrumbs({ items }: { items: Array<{label: string, href: stri
 ```typescript
 export function generatePromptMeta(prompt: any) {
   const category = prompt.categories?.[0] || 'AI'
-  
+
   return {
     title: `${prompt.name} — ${prompt.model} Prompt | Prompt Manage`,
-    description: prompt.description || 
+    description:
+      prompt.description ||
       `${prompt.name} prompt for ${prompt.model}. Perfect for ${category.toLowerCase()} professionals. Try it free.`,
     keywords: [
       prompt.name,
       prompt.model,
-      ...prompt.tags || [],
+      ...(prompt.tags || []),
       'AI prompt',
       'prompt template',
       category,
@@ -891,7 +902,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const title = searchParams.get('title') || 'Prompt Manage'
   const category = searchParams.get('category') || ''
-  
+
   return new ImageResponse(
     (
       <div
@@ -928,6 +939,7 @@ export async function GET(request: Request) {
 ```
 
 **Usage:**
+
 ```typescript
 const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&category=${category}`
 ```
@@ -937,6 +949,7 @@ const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&categ
 ## 🎯 Part 7: Implementation Roadmap
 
 ### Phase 1: Quick Wins (Week 1) ⚡
+
 - [ ] Add `robots.txt`
 - [ ] Optimize `next.config.ts`
 - [ ] Add performance headers
@@ -948,6 +961,7 @@ const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&categ
 ---
 
 ### Phase 2: Category Architecture (Week 2-3) 🏗️
+
 - [ ] Create categories database schema
 - [ ] Seed initial categories (20-30)
 - [ ] Build category page template
@@ -960,6 +974,7 @@ const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&categ
 ---
 
 ### Phase 3: Tag Pages (Week 4) 🏷️
+
 - [ ] Build tag page template
 - [ ] Build tag index/cloud
 - [ ] Generate tag pages for top 100 tags
@@ -971,6 +986,7 @@ const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&categ
 ---
 
 ### Phase 4: Advanced Features (Week 5-6) 🚀
+
 - [ ] HTML sitemap
 - [ ] Breadcrumb navigation
 - [ ] Dynamic OG images
@@ -983,6 +999,7 @@ const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&categ
 ---
 
 ### Phase 5: Automation & Scale (Week 7+) 🤖
+
 - [ ] Automated meta generation
 - [ ] Prompt embedding for semantic search
 - [ ] AI-powered related content
@@ -997,20 +1014,21 @@ const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&categ
 
 ### Track These KPIs
 
-| Metric | Current Baseline | 3-Month Target | 6-Month Target |
-|--------|-----------------|----------------|----------------|
-| **Indexed Pages** | ~1,500 | 3,000+ | 5,000+ |
-| **Organic Traffic** | Baseline | +50% | +150% |
-| **LCP** | ~2.5s | <1.5s | <1.2s |
-| **Crawl Efficiency** | 60% | 80% | 90% |
-| **Category Pages Ranking** | 0 | 20+ in top 50 | 50+ in top 20 |
-| **Backlinks** | Baseline | +30% | +100% |
+| Metric                     | Current Baseline | 3-Month Target | 6-Month Target |
+| -------------------------- | ---------------- | -------------- | -------------- |
+| **Indexed Pages**          | ~1,500           | 3,000+         | 5,000+         |
+| **Organic Traffic**        | Baseline         | +50%           | +150%          |
+| **LCP**                    | ~2.5s            | <1.5s          | <1.2s          |
+| **Crawl Efficiency**       | 60%              | 80%            | 90%            |
+| **Category Pages Ranking** | 0                | 20+ in top 50  | 50+ in top 20  |
+| **Backlinks**              | Baseline         | +30%           | +100%          |
 
 ---
 
 ## ✅ Final Recommendations Summary
 
 ### Critical (Do First):
+
 1. ✅ Add `robots.txt`
 2. ✅ Split sitemaps
 3. ✅ Optimize `next.config.ts`
@@ -1018,6 +1036,7 @@ const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&categ
 5. ✅ Create category pages
 
 ### High Impact:
+
 6. ✅ Build tag pages
 7. ✅ Add HTML sitemap
 8. ✅ Implement breadcrumbs
@@ -1025,6 +1044,7 @@ const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&categ
 10. ✅ Dynamic OG images
 
 ### Nice to Have (Future):
+
 11. 🔮 Collections feature
 12. 🔮 Semantic search
 13. 🔮 AI recommendations
@@ -1044,5 +1064,3 @@ const ogImage = `/og-image/prompt?title=${encodeURIComponent(prompt.name)}&categ
 ---
 
 **This architecture positions Prompt Manage as the most SEO-optimized AI prompt platform in the ecosystem. 🏆**
-
-

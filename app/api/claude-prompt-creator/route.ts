@@ -33,22 +33,22 @@ export async function POST(request: Request) {
   try {
     // Rate limiting
     const clientId = getClientIdentifier(request)
-    const rateLimit = checkRateLimit(clientId)
-    
+    const rateLimit = await checkRateLimit(clientId)
+
     if (!rateLimit.allowed) {
       return Response.json(
-        { 
+        {
           error: 'Rate limit exceeded. Please try again later.',
-          resetTime: rateLimit.resetTime
+          resetTime: rateLimit.resetTime.getTime(),
         },
-        { 
+        {
           status: 429,
           headers: {
             'X-RateLimit-Limit': '10',
-            'X-RateLimit-Remaining': '0',
-            'X-RateLimit-Reset': rateLimit.resetTime.toString()
-          }
-        }
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.resetTime.getTime().toString(),
+          },
+        },
       )
     }
 
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     if (!process.env.OPENAI_API_KEY) {
       return Response.json(
         { error: 'Service temporarily unavailable. Please try again later.' },
-        { status: 503 }
+        { status: 503 },
       )
     }
 
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
     if (requirements.length > 5000) {
       return Response.json(
         { error: 'Requirements are too long. Please keep it under 5,000 characters.' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -107,23 +107,26 @@ Generate a prompt optimized specifically for Claude AI.`
     const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
 
     const openai = getOpenAIClient()
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt,
-        },
-        {
-          role: 'user',
-          content: `Create a Claude-optimized prompt for: ${requirements}`,
-        },
-      ],
-      temperature: 0.7,
-      max_tokens: 1000,
-    }, {
-      signal: controller.signal
-    })
+    const completion = await openai.chat.completions.create(
+      {
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: systemPrompt,
+          },
+          {
+            role: 'user',
+            content: `Create a Claude-optimized prompt for: ${requirements}`,
+          },
+        ],
+        temperature: 0.7,
+        max_tokens: 1000,
+      },
+      {
+        signal: controller.signal,
+      },
+    )
 
     clearTimeout(timeoutId)
 
@@ -144,10 +147,7 @@ Generate a prompt optimized specifically for Claude AI.`
     return Response.json(response)
   } catch (error) {
     console.error('Error generating Claude prompt:', error)
-    return Response.json(
-      { error: 'Failed to generate prompt' },
-      { status: 500 }
-    )
+    return Response.json({ error: 'Failed to generate prompt' }, { status: 500 })
   }
 }
 
@@ -155,7 +155,7 @@ function generateSuggestions(
   requirements: string,
   complexity?: string,
   domain?: string,
-  taskType?: string
+  taskType?: string,
 ): string[] {
   const suggestions: string[] = []
 
@@ -193,7 +193,7 @@ function generateSuggestions(
   }
 
   // General Claude-specific suggestions
-  suggestions.push('Leverage Claude\'s strength in ethical reasoning when relevant')
+  suggestions.push("Leverage Claude's strength in ethical reasoning when relevant")
   suggestions.push('Ask Claude to explain its thought process for complex tasks')
   suggestions.push('Consider asking Claude to identify potential issues or limitations')
 

@@ -38,4 +38,3 @@ export async function POST(_req: NextRequest) {
     return NextResponse.json({ error: 'Failed to create portal session' }, { status: 500 })
   }
 }
-

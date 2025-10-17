@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { CreditCard, ExternalLink, Loader2 } from 'lucide-react'
+import { CreditCard, ExternalLink } from 'lucide-react'
 import { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -26,13 +26,16 @@ export default function BillingPage() {
 
       const { data, error } = await supabase
         .from('user_profiles')
-        .select('subscription_tier, subscription_status, subscription_period_end, stripe_customer_id')
+        .select(
+          'subscription_tier, subscription_status, subscription_period_end, stripe_customer_id',
+        )
         .eq('id', user.id)
         .single()
 
       if (error) throw error
       return data
     },
+    staleTime: 5 * 60 * 1000, // 5 minutes
   })
 
   const handleManageBilling = async () => {
@@ -97,7 +100,7 @@ export default function BillingPage() {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
       </div>
     )
   }
@@ -175,13 +178,19 @@ export default function BillingPage() {
                   <CreditCard className="h-5 w-5" />
                   Billing Management
                 </CardTitle>
-                <CardDescription>Update payment methods, view invoices, and manage your subscription</CardDescription>
+                <CardDescription>
+                  Update payment methods, view invoices, and manage your subscription
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button onClick={handleManageBilling} disabled={loading} className="w-full sm:w-auto">
+                <Button
+                  onClick={handleManageBilling}
+                  disabled={loading}
+                  className="w-full sm:w-auto"
+                >
                   {loading ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
                       Loading...
                     </>
                   ) : (
@@ -316,4 +325,3 @@ export default function BillingPage() {
     </div>
   )
 }
-

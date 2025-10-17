@@ -3,7 +3,8 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Support — Prompt Manage',
-  description: 'Get help with Prompt Manage. FAQs, guides, and support resources for managing your AI prompts.',
+  description:
+    'Get help with Prompt Manage. FAQs, guides, and support resources for managing your AI prompts.',
   keywords: ['support', 'help', 'FAQ', 'documentation', 'customer service'],
   openGraph: {
     title: 'Support — Prompt Manage',
@@ -18,12 +19,8 @@ export default function SupportPage() {
       {/* Hero */}
       <div className="border-b">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
-          <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">
-            Support
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            Get help with Prompt Manage.
-          </p>
+          <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">Support</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400">Get help with Prompt Manage.</p>
         </div>
       </div>
 
@@ -44,7 +41,9 @@ export default function SupportPage() {
               </li>
               <li>
                 <Link href="/docs" className="group block">
-                  <h3 className="mb-1 font-medium group-hover:underline">Creating Your First Prompt</h3>
+                  <h3 className="mb-1 font-medium group-hover:underline">
+                    Creating Your First Prompt
+                  </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Step-by-step guide to creating and saving your first prompt
                   </p>

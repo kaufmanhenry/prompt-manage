@@ -85,19 +85,19 @@ async function setupStripeProducts() {
 
     envContent = envContent.replace(
       /STRIPE_PRODUCT_TEAM_ID=.*/,
-      `STRIPE_PRODUCT_TEAM_ID=${teamProduct.id}`
+      `STRIPE_PRODUCT_TEAM_ID=${teamProduct.id}`,
     )
     envContent = envContent.replace(
       /STRIPE_PRICE_TEAM_MONTHLY_ID=.*/,
-      `STRIPE_PRICE_TEAM_MONTHLY_ID=${teamMonthlyPrice.id}`
+      `STRIPE_PRICE_TEAM_MONTHLY_ID=${teamMonthlyPrice.id}`,
     )
     envContent = envContent.replace(
       /STRIPE_PRODUCT_ENTERPRISE_ID=.*/,
-      `STRIPE_PRODUCT_ENTERPRISE_ID=${enterpriseProduct.id}`
+      `STRIPE_PRODUCT_ENTERPRISE_ID=${enterpriseProduct.id}`,
     )
     envContent = envContent.replace(
       /STRIPE_PRICE_ENTERPRISE_MONTHLY_ID=.*/,
-      `STRIPE_PRICE_ENTERPRISE_MONTHLY_ID=${enterpriseMonthlyPrice.id}`
+      `STRIPE_PRICE_ENTERPRISE_MONTHLY_ID=${enterpriseMonthlyPrice.id}`,
     )
 
     fs.writeFileSync(envPath, envContent)
@@ -125,4 +125,3 @@ async function setupStripeProducts() {
 }
 
 void setupStripeProducts()
-

@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertCircle, CheckCircle2, Copy, Download, Loader2, Sparkles, Wand2 } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Copy, Download, Sparkles, Wand2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -285,7 +285,7 @@ export default function MetaAdGenerator() {
         <div className="sticky bottom-0 -mx-5 flex items-center gap-2 border-t border-gray-200 bg-white/80 px-5 py-3 backdrop-blur dark:border-gray-800 dark:bg-gray-900/80">
           <Button onClick={handleGenerate} disabled={isGenerating}>
             {isGenerating ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
             ) : (
               <Wand2 className="h-4 w-4" />
             )}{' '}

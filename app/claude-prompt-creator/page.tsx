@@ -10,7 +10,8 @@ import { ScrollToToolButton } from './ScrollToToolButton'
 
 export const metadata: Metadata = {
   title: 'Free Claude AI Prompt Creator - Generate Perfect Prompts | Prompt Manage',
-  description: 'Create perfect prompts for Claude AI. Generate better results with prompts tailored to Claude\'s strengths in reasoning, analysis, and creative problem-solving.',
+  description:
+    "Create perfect prompts for Claude AI. Generate better results with prompts tailored to Claude's strengths in reasoning, analysis, and creative problem-solving.",
   keywords: [
     'claude ai prompts',
     'claude prompt creator',
@@ -21,18 +22,20 @@ export const metadata: Metadata = {
     'free claude prompts',
     'claude ai tips',
     'claude reasoning prompts',
-    'claude analysis prompts'
+    'claude analysis prompts',
   ],
   openGraph: {
     title: 'Free Claude AI Prompt Creator - Generate Perfect Prompts',
-    description: 'Create perfect prompts for Claude AI. Generate better results with prompts tailored to Claude\'s strengths in reasoning, analysis, and creative problem-solving.',
+    description:
+      "Create perfect prompts for Claude AI. Generate better results with prompts tailored to Claude's strengths in reasoning, analysis, and creative problem-solving.",
     type: 'website',
     url: 'https://promptmanage.com/claude-prompt-creator',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Free Claude AI Prompt Creator - Generate Perfect Prompts',
-    description: 'Create perfect prompts for Claude AI. Generate better results with prompts tailored to Claude\'s strengths in reasoning, analysis, and creative problem-solving.',
+    description:
+      "Create perfect prompts for Claude AI. Generate better results with prompts tailored to Claude's strengths in reasoning, analysis, and creative problem-solving.",
   },
   alternates: {
     canonical: 'https://promptmanage.com/claude-prompt-creator',
@@ -53,7 +56,7 @@ export default function ClaudePromptCreatorPage() {
                 Free AI Tool
               </div>
             </div>
-            
+
             <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
               <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
                 Claude Prompt Creator
@@ -61,11 +64,13 @@ export default function ClaudePromptCreatorPage() {
               <br />
               Generate Perfect Prompts
             </h1>
-            
+
             <p className="mx-auto mb-8 max-w-3xl text-lg text-gray-600 dark:text-gray-300 sm:text-xl">
-              Create highly effective prompts for Claude AI. Leverage Claude's strengths in reasoning, analysis, and creative problem-solving with prompts tailored to your specific needs.
+              Create highly effective prompts for Claude AI. Leverage Claude's strengths in
+              reasoning, analysis, and creative problem-solving with prompts tailored to your
+              specific needs.
             </p>
-            
+
             <div className="mb-8 flex flex-wrap justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center gap-1">
                 <CheckCircle className="h-4 w-4 text-green-500" />
@@ -80,7 +85,7 @@ export default function ClaudePromptCreatorPage() {
                 <span>Instant Generation</span>
               </div>
             </div>
-            
+
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <ScrollToToolButton />
               <Link href="/?redirect=/dashboard">
@@ -112,7 +117,7 @@ export default function ClaudePromptCreatorPage() {
               Get better results from Claude AI with optimized prompts
             </p>
           </div>
-          
+
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6">
@@ -123,11 +128,12 @@ export default function ClaudePromptCreatorPage() {
                   Claude-Specific Optimization
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Prompts designed to leverage Claude's strengths in reasoning, analysis, and ethical considerations.
+                  Prompts designed to leverage Claude's strengths in reasoning, analysis, and
+                  ethical considerations.
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/30">
@@ -141,7 +147,7 @@ export default function ClaudePromptCreatorPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30">
@@ -166,17 +172,25 @@ export default function ClaudePromptCreatorPage() {
             <div className="text-center">
               <div className="text-4xl font-bold text-purple-600 dark:text-purple-400">8+</div>
               <div className="text-lg font-medium text-gray-900 dark:text-white">Task Types</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Analysis, writing, problem-solving, and more</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Analysis, writing, problem-solving, and more
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-green-600 dark:text-green-400">6</div>
               <div className="text-lg font-medium text-gray-900 dark:text-white">Domains</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Creative, technical, business, academic, and more</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Creative, technical, business, academic, and more
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">95%</div>
-              <div className="text-lg font-medium text-gray-900 dark:text-white">User Satisfaction</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Based on user feedback and testing</div>
+              <div className="text-lg font-medium text-gray-900 dark:text-white">
+                User Satisfaction
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Based on user feedback and testing
+              </div>
             </div>
           </div>
         </div>
@@ -193,7 +207,7 @@ export default function ClaudePromptCreatorPage() {
               From creative writing to complex analysis
             </p>
           </div>
-          
+
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
@@ -208,7 +222,7 @@ export default function ClaudePromptCreatorPage() {
                 Market research, data analysis, and strategic planning
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
@@ -222,7 +236,7 @@ export default function ClaudePromptCreatorPage() {
                 Content creation, storytelling, and creative projects
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
@@ -236,7 +250,7 @@ export default function ClaudePromptCreatorPage() {
                 Complex reasoning, troubleshooting, and solution design
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900/30">
@@ -262,10 +276,11 @@ export default function ClaudePromptCreatorPage() {
               Get More Than Just Prompt Generation
             </h2>
             <p className="mx-auto max-w-3xl text-lg text-gray-600 dark:text-gray-300">
-              When you sign up for a free account, you unlock the full power of Prompt Manage's platform.
+              When you sign up for a free account, you unlock the full power of Prompt Manage's
+              platform.
             </p>
           </div>
-          
+
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
@@ -282,7 +297,7 @@ export default function ClaudePromptCreatorPage() {
                 Access our curated library of proven prompts for every task and domain.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
@@ -296,7 +311,7 @@ export default function ClaudePromptCreatorPage() {
                 Save your generated prompts, create collections, and organize them by project.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="mb-4 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30">
@@ -313,10 +328,13 @@ export default function ClaudePromptCreatorPage() {
               </p>
             </div>
           </div>
-          
+
           <div className="mt-12 text-center">
             <Link href="/?redirect=/dashboard">
-              <Button size="lg" className="bg-purple-600 px-8 py-3 text-lg text-white hover:bg-purple-700">
+              <Button
+                size="lg"
+                className="bg-purple-600 px-8 py-3 text-lg text-white hover:bg-purple-700"
+              >
                 <Users className="mr-2 h-5 w-5" />
                 Get Free Account - No Credit Card Required
               </Button>
@@ -335,7 +353,8 @@ export default function ClaudePromptCreatorPage() {
             Ready to Get Better Results from Claude?
           </h2>
           <p className="mb-8 text-lg text-gray-600 dark:text-gray-300">
-            Join thousands of users who are already getting better results from Claude AI with optimized prompts.
+            Join thousands of users who are already getting better results from Claude AI with
+            optimized prompts.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <ScrollToToolButton />
@@ -357,41 +376,68 @@ export default function ClaudePromptCreatorPage() {
               Frequently Asked Questions
             </h2>
           </div>
-          
+
           <div className="space-y-8">
             <div>
               <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Is the Claude Prompt Creator really free?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Yes! Our Claude Prompt Creator is completely free to use. No signup required, no hidden costs, no limits on usage.
+                Yes! Our Claude Prompt Creator is completely free to use. No signup required, no
+                hidden costs, no limits on usage.
               </p>
             </div>
-            
+
             <div>
               <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 How is this different from ChatGPT prompts?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Claude has different strengths than ChatGPT. Our prompts are specifically optimized for Claude's reasoning abilities, ethical considerations, and analytical capabilities. <Link href="/models" className="font-semibold text-blue-600 hover:underline dark:text-blue-400">Learn more about Claude's capabilities</Link>.
+                Claude has different strengths than ChatGPT. Our prompts are specifically optimized
+                for Claude's reasoning abilities, ethical considerations, and analytical
+                capabilities.{' '}
+                <Link
+                  href="/models"
+                  className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  Learn more about Claude's capabilities
+                </Link>
+                .
               </p>
             </div>
-            
+
             <div>
               <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 What makes Claude prompts different?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Claude excels at reasoning, analysis, and ethical considerations. Our prompts leverage these strengths by asking for detailed explanations, considering multiple perspectives, and incorporating ethical reasoning when relevant.
+                Claude excels at reasoning, analysis, and ethical considerations. Our prompts
+                leverage these strengths by asking for detailed explanations, considering multiple
+                perspectives, and incorporating ethical reasoning when relevant.
               </p>
             </div>
-            
+
             <div>
               <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                 Can I save my generated prompts?
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Yes! <Link href="/?redirect=/dashboard" className="font-semibold text-blue-600 hover:underline dark:text-blue-400">Sign up for a free account</Link> to save your generated prompts, create collections, and access additional features like <Link href="/p" className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400">300+ prompt templates</Link> and team sharing.
+                Yes!{' '}
+                <Link
+                  href="/?redirect=/dashboard"
+                  className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  Sign up for a free account
+                </Link>{' '}
+                to save your generated prompts, create collections, and access additional features
+                like{' '}
+                <Link
+                  href="/p"
+                  className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
+                >
+                  300+ prompt templates
+                </Link>{' '}
+                and team sharing.
               </p>
             </div>
           </div>
@@ -405,17 +451,24 @@ export default function ClaudePromptCreatorPage() {
             Ready to Transform Your AI Workflow?
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-lg text-purple-100">
-            Don't just generate one prompt - build a complete library of high-performing prompts that your team can use and improve over time.
+            Don't just generate one prompt - build a complete library of high-performing prompts
+            that your team can use and improve over time.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Link href="/?redirect=/dashboard">
-              <Button size="lg" className="bg-white px-8 py-3 text-lg font-semibold text-gray-900 shadow-lg hover:bg-gray-50">
+              <Button
+                size="lg"
+                className="bg-white px-8 py-3 text-lg font-semibold text-gray-900 shadow-lg hover:bg-gray-50"
+              >
                 <Users className="mr-2 h-5 w-5" />
                 Start Building Your Library
               </Button>
             </Link>
             <Link href="/p">
-              <Button size="lg" className="bg-gray-900 px-8 py-3 text-lg font-semibold text-white shadow-lg hover:bg-gray-800">
+              <Button
+                size="lg"
+                className="bg-gray-900 px-8 py-3 text-lg font-semibold text-white shadow-lg hover:bg-gray-800"
+              >
                 Browse Templates First
               </Button>
             </Link>

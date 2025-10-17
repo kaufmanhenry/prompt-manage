@@ -1,6 +1,7 @@
 # Stripe Integration Implementation Guide
 
 ## Current Status: NOT IMPLEMENTED
+
 **Last Updated:** January 16, 2025
 
 ---
@@ -8,11 +9,13 @@
 ## 📊 Audit Summary
 
 ### ✅ Ready
+
 - Database schema (teams table has Stripe fields)
 - Pricing structure defined ($5 Team, $27 Enterprise)
 - Documentation exists (docs/teams/BILLING.md)
 
 ### ❌ Not Implemented
+
 - Stripe npm package not installed
 - No environment variables configured
 - No Stripe client code
@@ -31,6 +34,7 @@ npm install stripe @stripe/stripe-js
 ```
 
 **Files to create after install:**
+
 - `lib/stripe/client.ts` - Server-side Stripe client
 - `lib/stripe/config.ts` - Stripe configuration
 
@@ -60,6 +64,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ```
 
 **⚠️ Important:**
+
 - Never commit `.env.local` to git
 - Add to `.gitignore` if not already there
 - Use test keys for development
@@ -69,6 +74,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ### Step 3: Create Stripe Products in Dashboard
 
 **Option A: Via Stripe Dashboard (Recommended for first time)**
+
 1. Go to https://dashboard.stripe.com/test/products
 2. Click "Create product"
 3. Create two products:
@@ -77,7 +83,6 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
      - Recurring: Monthly
      - Copy Product ID → `STRIPE_PRODUCT_TEAM_ID`
      - Copy Price ID → `STRIPE_PRICE_TEAM_MONTHLY_ID`
-   
    - **Product 2:** "Prompt Manage Enterprise"
      - Price: $27/month
      - Recurring: Monthly
@@ -85,9 +90,11 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
      - Copy Price ID → `STRIPE_PRICE_ENTERPRISE_MONTHLY_ID`
 
 **Option B: Via API (for automation)**
+
 ```bash
 npm run stripe:setup-products
 ```
+
 (Script to be created in Step 4)
 
 ---
@@ -95,6 +102,7 @@ npm run stripe:setup-products
 ### Step 4: Required Files to Create
 
 #### A. Stripe Client (`lib/stripe/client.ts`)
+
 ```typescript
 import Stripe from 'stripe'
 
@@ -129,6 +137,7 @@ export const config = {
 ```
 
 #### B. Webhook Handler (`app/api/webhooks/stripe/route.ts`)
+
 ```typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe/client'
@@ -145,11 +154,7 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    )
+    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!)
   } catch (err) {
     console.error('Webhook signature verification failed:', err)
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
@@ -189,6 +194,7 @@ export const dynamic = 'force-dynamic'
 ```
 
 #### C. Checkout API (`app/api/billing/create-checkout/route.ts`)
+
 ```typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe, config } from '@/lib/stripe/client'
@@ -197,9 +203,12 @@ import { createClient } from '@/utils/supabase/server'
 export async function POST(req: NextRequest) {
   try {
     const supabase = await createClient()
-    
+
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -212,7 +221,7 @@ export async function POST(req: NextRequest) {
 
     // Get or create Stripe customer
     let customerId: string | undefined
-    
+
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('stripe_customer_id')
@@ -231,18 +240,17 @@ export async function POST(req: NextRequest) {
       customerId = customer.id
 
       // Save customer ID
-      await supabase
-        .from('user_profiles')
-        .upsert({
-          id: user.id,
-          stripe_customer_id: customerId,
-        })
+      await supabase.from('user_profiles').upsert({
+        id: user.id,
+        stripe_customer_id: customerId,
+      })
     }
 
     // Get price ID
-    const priceId = interval === 'year'
-      ? config.products[tier].yearlyPriceId
-      : config.products[tier].monthlyPriceId
+    const priceId =
+      interval === 'year'
+        ? config.products[tier].yearlyPriceId
+        : config.products[tier].monthlyPriceId
 
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
@@ -272,15 +280,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: session.url })
   } catch (error) {
     console.error('Checkout error:', error)
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 })
   }
 }
 ```
 
 #### D. Billing Portal API (`app/api/billing/portal/route.ts`)
+
 ```typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe/client'
@@ -289,8 +295,11 @@ import { createClient } from '@/utils/supabase/server'
 export async function POST(req: NextRequest) {
   try {
     const supabase = await createClient()
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -302,10 +311,7 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (!profile?.stripe_customer_id) {
-      return NextResponse.json(
-        { error: 'No billing account found' },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: 'No billing account found' }, { status: 404 })
     }
 
     const session = await stripe.billingPortal.sessions.create({
@@ -316,10 +322,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: session.url })
   } catch (error) {
     console.error('Portal error:', error)
-    return NextResponse.json(
-      { error: 'Failed to create portal session' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to create portal session' }, { status: 500 })
   }
 }
 ```
@@ -338,12 +341,13 @@ add column if not exists subscription_tier text default 'free',
 add column if not exists subscription_status text,
 add column if not exists subscription_period_end timestamptz;
 
-create index if not exists user_profiles_stripe_customer_idx 
-  on public.user_profiles (stripe_customer_id) 
+create index if not exists user_profiles_stripe_customer_idx
+  on public.user_profiles (stripe_customer_id)
   where stripe_customer_id is not null;
 ```
 
 Run migration:
+
 ```bash
 # Create new migration file
 supabase migration new add_stripe_to_user_profiles
@@ -368,7 +372,7 @@ const handleSubscribe = async (tier: 'team' | 'enterprise') => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tier, interval: 'month' }),
     })
-    
+
     const { url } = await response.json()
     if (url) {
       window.location.href = url
@@ -379,8 +383,8 @@ const handleSubscribe = async (tier: 'team' | 'enterprise') => {
 }
 
 // Replace disabled button with:
-<Button 
-  size="lg" 
+<Button
+  size="lg"
   className="w-full"
   onClick={() => handleSubscribe('team')}
 >
@@ -393,6 +397,7 @@ const handleSubscribe = async (tier: 'team' | 'enterprise') => {
 ### Step 7: Stripe Webhook Configuration
 
 **In Stripe Dashboard:**
+
 1. Go to Developers → Webhooks
 2. Click "Add endpoint"
 3. Set URL: `https://yourdomain.com/api/webhooks/stripe`
@@ -406,6 +411,7 @@ const handleSubscribe = async (tier: 'team' | 'enterprise') => {
 5. Copy webhook signing secret → `STRIPE_WEBHOOK_SECRET`
 
 **For local testing:**
+
 ```bash
 # Install Stripe CLI
 brew install stripe/stripe-cli/stripe
@@ -422,6 +428,7 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ## 🧪 Testing Checklist
 
 ### Development Testing
+
 - [ ] Install Stripe package
 - [ ] Set up environment variables
 - [ ] Create products in Stripe Dashboard
@@ -433,6 +440,7 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 - [ ] Test subscription cancellation
 
 ### Production Testing
+
 - [ ] Use live Stripe keys
 - [ ] Configure production webhook endpoint
 - [ ] Test real card payments (use test mode first)
@@ -445,6 +453,7 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ## 📊 Pricing Configuration
 
 ### Current Tiers (from your pricing page):
+
 1. **Free**: $0/month
    - 25 prompts max
    - Cannot run prompts
@@ -488,6 +497,7 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ## 📞 Next Steps
 
 1. **Immediate:** Install Stripe package
+
    ```bash
    npm install stripe @stripe/stripe-js
    ```
@@ -519,4 +529,3 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 **Status:** Ready to implement
 **Estimated Time:** 2-4 hours for full implementation
 **Complexity:** Medium
-

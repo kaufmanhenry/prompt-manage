@@ -3,6 +3,7 @@
 ## 🐛 **The Problem**
 
 The AI Agents feature is failing with 500 errors because:
+
 1. The database tables may not exist yet (migration not run)
 2. Row Level Security (RLS) policies were too restrictive (service_role only)
 3. API was missing the `department` field in agent creation
@@ -16,6 +17,7 @@ Run two SQL migrations in your Supabase Dashboard.
 ## 📝 **Step-by-Step Fix**
 
 ### 1. Open Supabase SQL Editor
+
 1. Go to: https://supabase.com/dashboard/project/YOUR_PROJECT/sql
 2. Or: Supabase Dashboard → SQL Editor
 
@@ -29,10 +31,11 @@ Run two SQL migrations in your Supabase Dashboard.
 ```
 
 To check if tables exist, run:
+
 ```sql
 SELECT EXISTS (
-  SELECT FROM information_schema.tables 
-  WHERE table_schema = 'public' 
+  SELECT FROM information_schema.tables
+  WHERE table_schema = 'public'
   AND table_name = 'agents'
 );
 ```
@@ -60,7 +63,7 @@ declare
 begin
   -- Get current user's email
   select email into user_email from auth.users where id = auth.uid();
-  
+
   -- Check if email is in admin list
   return user_email in (
     'mikemoloney.business@gmail.com',
@@ -163,12 +166,13 @@ Run this to check if policies are correct:
 
 ```sql
 -- Check RLS policies
-SELECT schemaname, tablename, policyname 
-FROM pg_policies 
+SELECT schemaname, tablename, policyname
+FROM pg_policies
 WHERE tablename IN ('agents', 'agent_generations', 'agent_metrics');
 ```
 
 You should see policies like:
+
 - `Admins can view all agents`
 - `Admins can insert agents`
 - etc.
@@ -197,11 +201,13 @@ You should see policies like:
 **Check if you're logged in with an admin email:**
 
 Run this in SQL Editor:
+
 ```sql
 SELECT email FROM auth.users WHERE id = auth.uid();
 ```
 
 Your email must be one of:
+
 - `mikemoloney.business@gmail.com`
 - `hkaufman19@gmail.com`
 - `mike@filtergrade.com`
@@ -221,11 +227,13 @@ Re-run the RLS fix migration (step 3 above).
 ## 🎯 **What Changed**
 
 ### Before (Broken)
+
 - RLS policies only allowed `service_role` access
 - Regular authenticated users (even admins) couldn't access tables
 - API calls failed with database permission errors
 
 ### After (Fixed)
+
 - Created `is_admin_user()` function to check email
 - Updated RLS policies to allow authenticated admins
 - Admins can now create, read, update, and delete agents
@@ -234,14 +242,15 @@ Re-run the RLS fix migration (step 3 above).
 
 ## 📋 **Migration Summary**
 
-| Migration | File | Purpose |
-|-----------|------|---------|
-| 1 | `20241220000000_autonomous_agent.sql` | Creates tables, indexes, and functions |
-| 2 | `20250116000001_fix_agents_rls.sql` | Fixes RLS policies to allow admin access |
+| Migration | File                                  | Purpose                                  |
+| --------- | ------------------------------------- | ---------------------------------------- |
+| 1         | `20241220000000_autonomous_agent.sql` | Creates tables, indexes, and functions   |
+| 2         | `20250116000001_fix_agents_rls.sql`   | Fixes RLS policies to allow admin access |
 
 ## 🔧 **Code Fixes Applied**
 
 I've also fixed the API route (`/app/api/agents/route.ts`) to:
+
 - ✅ Include the `department` field when creating agents
 - ✅ Save all advanced configuration options (tone, audience, etc.)
 - ✅ Provide better error messages with details
@@ -262,4 +271,3 @@ I've also fixed the API route (`/app/api/agents/route.ts`) to:
 **After running these migrations, the AI Agents feature should work perfectly!** 🎉
 
 Need help? Check the browser console for errors or contact support.
-

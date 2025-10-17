@@ -95,7 +95,10 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
     return
   }
 
-  const periodEnd = new Date((subscription as Stripe.Subscription & { current_period_end: number }).current_period_end * 1000)
+  const periodEnd = new Date(
+    (subscription as Stripe.Subscription & { current_period_end: number }).current_period_end *
+      1000,
+  )
 
   await supabase
     .from('user_profiles')
@@ -158,4 +161,3 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
 // Required for webhooks to work with raw body
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
-

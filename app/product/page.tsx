@@ -3,7 +3,8 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Product — Prompt Manage',
-  description: 'Organize, secure, and share your AI prompts with confidence. Built for teams, professionals, and enterprises who need reliable prompt management.',
+  description:
+    'Organize, secure, and share your AI prompts with confidence. Built for teams, professionals, and enterprises who need reliable prompt management.',
   keywords: [
     'prompt management',
     'AI prompts',
@@ -57,42 +58,48 @@ export default function ProductPage() {
               <div>
                 <h3 className="mb-2 text-base font-medium">Secure Storage</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Store all your AI prompts in one encrypted workspace. AES-256 encryption at rest, TLS 1.3 in transit. Private and public prompt options with full-text search.
+                  Store all your AI prompts in one encrypted workspace. AES-256 encryption at rest,
+                  TLS 1.3 in transit. Private and public prompt options with full-text search.
                 </p>
               </div>
 
               <div>
                 <h3 className="mb-2 text-base font-medium">Team Collaboration</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Work together with granular permissions. Role-based access (Owner, Admin, Editor, Viewer) with shared workspaces and real-time sync.
+                  Work together with granular permissions. Role-based access (Owner, Admin, Editor,
+                  Viewer) with shared workspaces and real-time sync.
                 </p>
               </div>
 
               <div>
                 <h3 className="mb-2 text-base font-medium">Version Control</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Track every change and restore previous versions. Automatic versioning on every edit with change tracking and side-by-side comparison.
+                  Track every change and restore previous versions. Automatic versioning on every
+                  edit with change tracking and side-by-side comparison.
                 </p>
               </div>
 
               <div>
                 <h3 className="mb-2 text-base font-medium">Sharing & Permissions</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Share prompts publicly or privately with fine-grained control. SEO-optimized public pages, private sharing via secure links, and embeddable prompts.
+                  Share prompts publicly or privately with fine-grained control. SEO-optimized
+                  public pages, private sharing via secure links, and embeddable prompts.
                 </p>
               </div>
 
               <div>
                 <h3 className="mb-2 text-base font-medium">API Access</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Integrate with your existing workflows. RESTful API for all CRUD operations, webhook support, and SDKs coming soon.
+                  Integrate with your existing workflows. RESTful API for all CRUD operations,
+                  webhook support, and SDKs coming soon.
                 </p>
               </div>
 
               <div>
                 <h3 className="mb-2 text-base font-medium">Analytics</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Understand prompt performance. Token usage and cost tracking, execution history, team-wide dashboards for Enterprise, and exportable reports.
+                  Understand prompt performance. Token usage and cost tracking, execution history,
+                  team-wide dashboards for Enterprise, and exportable reports.
                 </p>
               </div>
             </div>
@@ -105,14 +112,16 @@ export default function ProductPage() {
               <div>
                 <h3 className="mb-2 text-base font-medium">Marketing Teams</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Centralize campaign prompts, maintain brand voice consistency, and collaborate on content generation.
+                  Centralize campaign prompts, maintain brand voice consistency, and collaborate on
+                  content generation.
                 </p>
               </div>
 
               <div>
                 <h3 className="mb-2 text-base font-medium">Development Teams</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Store code generation prompts, integrate via API, and version control your AI workflows.
+                  Store code generation prompts, integrate via API, and version control your AI
+                  workflows.
                 </p>
               </div>
 
@@ -126,7 +135,8 @@ export default function ProductPage() {
               <div>
                 <h3 className="mb-2 text-base font-medium">Enterprise</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Secure, compliant, scalable prompt management with advanced permissions and audit logs.
+                  Secure, compliant, scalable prompt management with advanced permissions and audit
+                  logs.
                 </p>
               </div>
             </div>

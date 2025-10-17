@@ -2,7 +2,7 @@
 
 **Status:** ✅ **READY FOR TESTING** (pending database migration)  
 **Date:** January 16, 2025  
-**Integration Mode:** Test Mode  
+**Integration Mode:** Test Mode
 
 ---
 
@@ -86,19 +86,22 @@
 ## ⏳ **Pending Steps**
 
 ### 1. Database Migration (Waiting on Cofounder)
+
 ```sql
 alter table public.user_profiles
 add column if not exists stripe_customer_id text unique,
-add column if not exists subscription_tier text default 'free' 
+add column if not exists subscription_tier text default 'free'
   check (subscription_tier in ('free', 'team', 'enterprise')),
 add column if not exists subscription_status text,
 add column if not exists subscription_period_end timestamptz;
 ```
 
 **Where to run:**
+
 - Supabase Dashboard → SQL Editor → Paste and Run
 
 ### 2. Local Webhook Setup (After Migration)
+
 ```bash
 # Install Stripe CLI
 brew install stripe/stripe-cli/stripe
@@ -121,6 +124,7 @@ npm run dev
 ## 🧪 **Testing Plan**
 
 ### Quick Test (5 minutes)
+
 1. Pull latest code after migration
 2. Restart dev server: `npm run dev`
 3. Go to: `http://localhost:3000/pricing`
@@ -130,6 +134,7 @@ npm run dev
 7. Verify redirect and subscription status
 
 ### Full Test Suite
+
 See: `STRIPE_TESTING_CHECKLIST.md` (10 comprehensive tests)
 
 ---
@@ -195,6 +200,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ## 💡 **How It Works**
 
 ### Subscription Flow
+
 1. User clicks "Subscribe to Team" on pricing page
 2. Frontend calls `/api/billing/create-checkout`
 3. API creates Stripe customer (if new) and checkout session
@@ -206,6 +212,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 9. User sees success message on dashboard
 
 ### Billing Management Flow
+
 1. User goes to Settings → Billing
 2. Clicks "Manage Billing"
 3. Frontend calls `/api/billing/portal`
@@ -215,6 +222,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 7. User returns to app via portal's return URL
 
 ### Webhook Flow
+
 1. Stripe sends HTTP POST to `/api/webhooks/stripe`
 2. Handler verifies signature using webhook secret
 3. Handler parses event type
@@ -240,31 +248,36 @@ console.log(subscription.tier) // 'free' | 'team' | 'enterprise'
 ```
 
 ### Feature Matrix
-| Feature | Free | Team | Enterprise |
-|---------|------|------|------------|
-| Max Prompts | 25 | ∞ | ∞ |
-| Run Prompts | ❌ | ✅ | ✅ |
-| Collaboration | ❌ | ✅ | ✅ |
-| Priority Support | ❌ | ❌ | ✅ |
-| Advanced Security | ❌ | ❌ | ✅ |
+
+| Feature           | Free | Team | Enterprise |
+| ----------------- | ---- | ---- | ---------- |
+| Max Prompts       | 25   | ∞    | ∞          |
+| Run Prompts       | ❌   | ✅   | ✅         |
+| Collaboration     | ❌   | ✅   | ✅         |
+| Priority Support  | ❌   | ❌   | ✅         |
+| Advanced Security | ❌   | ❌   | ✅         |
 
 ---
 
 ## 🚀 **Next Actions**
 
 ### Immediate (Once Migration Done)
+
 1. **Pull Latest Code**
+
    ```bash
    git pull origin main
    ```
 
 2. **Verify Environment**
+
    ```bash
    # Check .env.local exists and has all variables
    cat .env.local
    ```
 
 3. **Start Dev Server**
+
    ```bash
    npm run dev
    ```
@@ -275,6 +288,7 @@ console.log(subscription.tier) // 'free' | 'team' | 'enterprise'
    - Verify success
 
 ### Short-Term (This Week)
+
 5. **Set Up Local Webhooks**
    - Install Stripe CLI
    - Run `stripe listen`
@@ -292,6 +306,7 @@ console.log(subscription.tier) // 'free' | 'team' | 'enterprise'
    - Test cancellation flow
 
 ### Medium-Term (Before Production)
+
 8. **Production Webhook Setup**
    - Deploy to production
    - Configure webhook endpoint in Stripe Dashboard
@@ -312,6 +327,7 @@ console.log(subscription.tier) // 'free' | 'team' | 'enterprise'
 ## 📞 **Support Resources**
 
 ### Stripe Dashboard
+
 - Test Mode: https://dashboard.stripe.com/test/dashboard
 - Products: https://dashboard.stripe.com/test/products
 - Customers: https://dashboard.stripe.com/test/customers
@@ -319,6 +335,7 @@ console.log(subscription.tier) // 'free' | 'team' | 'enterprise'
 - Events: https://dashboard.stripe.com/test/events
 
 ### Documentation
+
 - Stripe Docs: https://stripe.com/docs
 - Checkout: https://stripe.com/docs/payments/checkout
 - Customer Portal: https://stripe.com/docs/billing/subscriptions/integrating-customer-portal
@@ -326,6 +343,7 @@ console.log(subscription.tier) // 'free' | 'team' | 'enterprise'
 - Test Cards: https://stripe.com/docs/testing
 
 ### Internal Docs
+
 - `STRIPE_LOCAL_TESTING.md` - Local webhook setup
 - `STRIPE_TESTING_CHECKLIST.md` - Comprehensive test plan
 - `STRIPE_IMPLEMENTATION_GUIDE.md` - Original implementation guide
@@ -335,6 +353,7 @@ console.log(subscription.tier) // 'free' | 'team' | 'enterprise'
 ## ✨ **Success Metrics**
 
 The integration is successful when:
+
 - [ ] Users can subscribe to Team and Enterprise plans
 - [ ] Webhooks update database correctly
 - [ ] Users can access billing portal
@@ -349,4 +368,3 @@ The integration is successful when:
 **Status: Ready for testing after database migration** 🎉
 
 **Questions?** Check the docs above or contact the team.
-

@@ -63,7 +63,9 @@ export default function BestPractices() {
                 </h2>
               </div>
               <div className="space-y-4 text-gray-600 dark:text-gray-400">
-                <p>A great prompt name should be descriptive, specific, and instantly recognizable.</p>
+                <p>
+                  A great prompt name should be descriptive, specific, and instantly recognizable.
+                </p>
 
                 <div>
                   <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
@@ -124,10 +126,12 @@ export default function BestPractices() {
                     <Lightbulb className="h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400" />
                     <div className="text-sm text-blue-900 dark:text-blue-200">
                       <strong>Pro Tip:</strong> Use a consistent naming pattern across your team,
-                      like <code className="rounded bg-blue-100 px-2 py-1 dark:bg-blue-800">
+                      like{' '}
+                      <code className="rounded bg-blue-100 px-2 py-1 dark:bg-blue-800">
                         [Category]: [Purpose]
                       </code>{' '}
-                      or <code className="rounded bg-blue-100 px-2 py-1 dark:bg-blue-800">
+                      or{' '}
+                      <code className="rounded bg-blue-100 px-2 py-1 dark:bg-blue-800">
                         [Model] - [Use Case]
                       </code>
                     </div>
@@ -391,9 +395,7 @@ export default function BestPractices() {
                     <li className="flex gap-2">
                       <BookOpen className="mt-0.5 h-4 w-4 flex-shrink-0 text-orange-600 dark:text-orange-400" />
                       <div>
-                        <strong className="text-gray-900 dark:text-white">
-                          Add descriptions
-                        </strong>{' '}
+                        <strong className="text-gray-900 dark:text-white">Add descriptions</strong>{' '}
                         explaining when and how to use each prompt
                       </div>
                     </li>
@@ -444,8 +446,8 @@ export default function BestPractices() {
                       Share Winning Prompts
                     </h4>
                     <p className="text-sm">
-                      When a prompt performs exceptionally well, share it publicly or with your team.
-                      Add notes on results and use cases.
+                      When a prompt performs exceptionally well, share it publicly or with your
+                      team. Add notes on results and use cases.
                     </p>
                   </div>
 
@@ -538,4 +540,3 @@ export default function BestPractices() {
     </div>
   )
 }
-

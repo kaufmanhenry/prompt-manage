@@ -128,9 +128,9 @@ export default function PricingPage() {
             </ul>
             {/* CTA */}
             <div className="mt-6">
-              <Button 
-                size="lg" 
-                className="w-full" 
+              <Button
+                size="lg"
+                className="w-full"
                 onClick={() => handleSubscribe('team')}
                 disabled={loading === 'team'}
               >
@@ -161,13 +161,17 @@ export default function PricingPage() {
               {/* Features */}
               <ul className="mt-4 flex-1 space-y-3 text-sm text-gray-800 dark:text-gray-200">
                 <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Run prompts on the latest AI models (more coming soon)
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Run prompts on the latest
+                  AI models (more coming soon)
                 </li>
                 <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Private collections, sharing, and team features with advanced security, safety, and sharing functionality/integrations
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Private collections,
+                  sharing, and team features with advanced security, safety, and sharing
+                  functionality/integrations
                 </li>
                 <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited prompts and runs
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited prompts and
+                  runs
                 </li>
                 <li className="flex items-start">
                   <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Full Prompt Lab access
@@ -175,8 +179,8 @@ export default function PricingPage() {
               </ul>
               {/* CTA */}
               <div className="mt-6">
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="w-full bg-blue-600 text-white hover:bg-blue-700"
                   onClick={() => handleSubscribe('enterprise')}
                   disabled={loading === 'enterprise'}

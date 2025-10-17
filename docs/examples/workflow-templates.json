@@ -300,9 +300,19 @@
         "edges": [
           { "id": "e1", "source": "fetch_submissions", "target": "moderate_content" },
           { "id": "e2", "source": "moderate_content", "target": "check_violation" },
-          { "id": "e3", "source": "check_violation", "target": "flag_content", "condition": "true" },
+          {
+            "id": "e3",
+            "source": "check_violation",
+            "target": "flag_content",
+            "condition": "true"
+          },
           { "id": "e4", "source": "flag_content", "target": "send_alert" },
-          { "id": "e5", "source": "check_violation", "target": "approve_content", "condition": "false" }
+          {
+            "id": "e5",
+            "source": "check_violation",
+            "target": "approve_content",
+            "condition": "false"
+          }
         ],
         "settings": {
           "maxConcurrentNodes": 10,
@@ -524,4 +534,3 @@
     }
   ]
 }
-

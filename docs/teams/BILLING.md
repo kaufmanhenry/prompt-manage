@@ -141,8 +141,8 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   typescript: true,
   appInfo: {
     name: 'Prompt Manage',
-    version: '1.0.0'
-  }
+    version: '1.0.0',
+  },
 })
 
 // Helper to get publishable key for client-side
@@ -163,8 +163,8 @@ async function setupStripeProducts() {
     name: 'Prompt Manage Pro',
     description: 'Professional team collaboration for AI workflows',
     metadata: {
-      tier: 'pro'
-    }
+      tier: 'pro',
+    },
   })
 
   // Create Pro monthly price
@@ -173,12 +173,12 @@ async function setupStripeProducts() {
     unit_amount: 2900, // $29.00
     currency: 'usd',
     recurring: {
-      interval: 'month'
+      interval: 'month',
     },
     metadata: {
       tier: 'pro',
-      interval: 'month'
-    }
+      interval: 'month',
+    },
   })
 
   // Create Pro yearly price (20% discount)
@@ -187,12 +187,12 @@ async function setupStripeProducts() {
     unit_amount: 27840, // $278.40 (20% off $348)
     currency: 'usd',
     recurring: {
-      interval: 'year'
+      interval: 'year',
     },
     metadata: {
       tier: 'pro',
-      interval: 'year'
-    }
+      interval: 'year',
+    },
   })
 
   // Create additional seat price
@@ -201,19 +201,19 @@ async function setupStripeProducts() {
     unit_amount: 1000, // $10.00 per seat
     currency: 'usd',
     recurring: {
-      interval: 'month'
+      interval: 'month',
     },
     metadata: {
       type: 'seat',
-      tier: 'pro'
-    }
+      tier: 'pro',
+    },
   })
 
   console.log('Stripe products created:', {
     proProduct: proProduct.id,
     proMonthlyPrice: proMonthlyPrice.id,
     proYearlyPrice: proYearlyPrice.id,
-    seatPrice: seatPrice.id
+    seatPrice: seatPrice.id,
   })
 }
 
@@ -242,27 +242,28 @@ export interface CheckoutSessionParams {
 }
 
 export async function createCheckoutSession(
-  params: CheckoutSessionParams
+  params: CheckoutSessionParams,
 ): Promise<Stripe.Checkout.Session> {
   const { teamId, customerId, tier, interval, seats = 10, successUrl, cancelUrl } = params
 
   const tierConfig = PRICING_TIERS[tier]
-  const priceId = interval === 'month'
-    ? process.env.STRIPE_PRICE_PRO_MONTHLY_ID
-    : process.env.STRIPE_PRICE_PRO_YEARLY_ID
+  const priceId =
+    interval === 'month'
+      ? process.env.STRIPE_PRICE_PRO_MONTHLY_ID
+      : process.env.STRIPE_PRICE_PRO_YEARLY_ID
 
   const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
     {
       price: priceId,
-      quantity: 1
-    }
+      quantity: 1,
+    },
   ]
 
   // Add additional seats if needed
   if (seats > 10) {
     lineItems.push({
       price: process.env.STRIPE_PRICE_SEAT_ID,
-      quantity: seats - 10 // Only charge for seats beyond base 10
+      quantity: seats - 10, // Only charge for seats beyond base 10
     })
   }
 
@@ -276,20 +277,20 @@ export async function createCheckoutSession(
     metadata: {
       teamId,
       tier,
-      seats: seats.toString()
+      seats: seats.toString(),
     },
     subscription_data: {
       metadata: {
         teamId,
-        tier
+        tier,
       },
-      trial_period_days: 14 // 14-day free trial
+      trial_period_days: 14, // 14-day free trial
     },
     allow_promotion_codes: true,
     billing_address_collection: 'required',
     tax_id_collection: {
-      enabled: true
-    }
+      enabled: true,
+    },
   })
 
   return session
@@ -309,7 +310,7 @@ import { z } from 'zod'
 const checkoutSchema = z.object({
   tier: z.enum(['pro', 'enterprise']),
   interval: z.enum(['month', 'year']),
-  seats: z.number().min(1).optional()
+  seats: z.number().min(1).optional(),
 })
 
 export const POST = withAuth(async (req: NextRequest, { params, user }) => {
@@ -318,7 +319,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
   // Check if user is owner
   const isOwner = await checkPermission(teamId, user.id, {
     resourceType: 'team_settings',
-    action: 'manage_billing'
+    action: 'manage_billing',
   })
 
   if (!isOwner) {
@@ -342,8 +343,8 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
       email: user.email,
       metadata: {
         teamId,
-        userId: user.id
-      }
+        userId: user.id,
+      },
     })
     customerId = customer.id
 
@@ -362,7 +363,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
     interval: validated.interval,
     seats: validated.seats,
     successUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/teams/${teamId}/billing/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancelUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/teams/${teamId}/billing`
+    cancelUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/teams/${teamId}/billing`,
   })
 
   return NextResponse.json({ checkoutUrl: session.url })
@@ -381,26 +382,24 @@ export async function updateSubscription(
   updates: {
     seats?: number
     tier?: 'pro' | 'enterprise'
-  }
+  },
 ): Promise<Stripe.Subscription> {
   const subscription = await stripe.subscriptions.retrieve(subscriptionId)
 
   // Update seat count
   if (updates.seats !== undefined) {
-    const seatItem = subscription.items.data.find(
-      item => item.price.metadata.type === 'seat'
-    )
+    const seatItem = subscription.items.data.find((item) => item.price.metadata.type === 'seat')
 
     if (seatItem) {
       await stripe.subscriptionItems.update(seatItem.id, {
-        quantity: Math.max(0, updates.seats - 10) // Only charge for seats beyond base
+        quantity: Math.max(0, updates.seats - 10), // Only charge for seats beyond base
       })
     } else if (updates.seats > 10) {
       // Add seat item if not exists
       await stripe.subscriptionItems.create({
         subscription: subscriptionId,
         price: process.env.STRIPE_PRICE_SEAT_ID!,
-        quantity: updates.seats - 10
+        quantity: updates.seats - 10,
       })
     }
   }
@@ -408,29 +407,27 @@ export async function updateSubscription(
   // Prorate by default
   return await stripe.subscriptions.update(subscriptionId, {
     proration_behavior: 'create_prorations',
-    metadata: updates
+    metadata: updates,
   })
 }
 
 export async function cancelSubscription(
   subscriptionId: string,
-  immediately: boolean = false
+  immediately: boolean = false,
 ): Promise<Stripe.Subscription> {
   if (immediately) {
     return await stripe.subscriptions.cancel(subscriptionId)
   } else {
     // Cancel at period end
     return await stripe.subscriptions.update(subscriptionId, {
-      cancel_at_period_end: true
+      cancel_at_period_end: true,
     })
   }
 }
 
-export async function reactivateSubscription(
-  subscriptionId: string
-): Promise<Stripe.Subscription> {
+export async function reactivateSubscription(subscriptionId: string): Promise<Stripe.Subscription> {
   return await stripe.subscriptions.update(subscriptionId, {
-    cancel_at_period_end: false
+    cancel_at_period_end: false,
   })
 }
 ```
@@ -459,11 +456,7 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    )
+    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!)
   } catch (err) {
     console.error('Webhook signature verification failed:', err)
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
@@ -536,7 +529,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
       stripe_customer_id: session.customer as string,
       stripe_subscription_id: session.subscription as string,
       payment_status: 'active',
-      last_payment_at: new Date().toISOString()
+      last_payment_at: new Date().toISOString(),
     })
     .eq('team_id', teamId)
 
@@ -546,7 +539,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     .from('teams')
     .update({
       tier,
-      max_members: tier === 'pro' ? 10 : 999999
+      max_members: tier === 'pro' ? 10 : 999999,
     })
     .eq('id', teamId)
 
@@ -556,8 +549,8 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     action: 'subscription_activated',
     metadata: {
       tier,
-      subscriptionId: session.subscription
-    }
+      subscriptionId: session.subscription,
+    },
   })
 }
 
@@ -577,7 +570,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription): Pro
       billing_period_start: periodStart.toISOString(),
       billing_period_end: periodEnd.toISOString(),
       payment_status: subscription.status,
-      current_tier: subscription.metadata.tier || 'pro'
+      current_tier: subscription.metadata.tier || 'pro',
     })
     .eq('team_id', teamId)
 }
@@ -595,7 +588,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
     .update({
       payment_status: subscription.status,
       billing_period_end: periodEnd.toISOString(),
-      next_billing_date: periodEnd.toISOString()
+      next_billing_date: periodEnd.toISOString(),
     })
     .eq('stripe_subscription_id', subscription.id)
 
@@ -605,8 +598,8 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
       teamId,
       action: 'subscription_cancellation_scheduled',
       metadata: {
-        cancelAt: periodEnd.toISOString()
-      }
+        cancelAt: periodEnd.toISOString(),
+      },
     })
   }
 }
@@ -622,7 +615,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
     .from('teams')
     .update({
       tier: 'free',
-      max_members: 3
+      max_members: 3,
     })
     .eq('id', teamId)
 
@@ -630,7 +623,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
     .from('team_billing')
     .update({
       payment_status: 'canceled',
-      stripe_subscription_id: null
+      stripe_subscription_id: null,
     })
     .eq('team_id', teamId)
 
@@ -638,8 +631,8 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
     teamId,
     action: 'subscription_canceled',
     metadata: {
-      reason: 'stripe_subscription_deleted'
-    }
+      reason: 'stripe_subscription_deleted',
+    },
   })
 }
 
@@ -659,7 +652,7 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
       last_payment_at: new Date().toISOString(),
       last_payment_amount: (invoice.amount_paid / 100).toFixed(2),
       payment_status: 'active',
-      current_period_cost: 0 // Reset for new period
+      current_period_cost: 0, // Reset for new period
     })
     .eq('team_id', teamId)
 
@@ -669,8 +662,8 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
     metadata: {
       invoiceId: invoice.id,
       amount: invoice.amount_paid / 100,
-      currency: invoice.currency
-    }
+      currency: invoice.currency,
+    },
   })
 }
 
@@ -687,7 +680,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
   await supabase
     .from('team_billing')
     .update({
-      payment_status: 'past_due'
+      payment_status: 'past_due',
     })
     .eq('team_id', teamId)
 
@@ -700,8 +693,8 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
     metadata: {
       invoiceId: invoice.id,
       amount: invoice.amount_due / 100,
-      attemptCount: invoice.attempt_count
-    }
+      attemptCount: invoice.attempt_count,
+    },
   })
 }
 ```
@@ -737,7 +730,7 @@ export async function trackUsage(event: UsageEvent): Promise<void> {
     tokens_used: event.tokensUsed,
     cost_usd: event.costUsd,
     model: event.model,
-    metadata: event.metadata
+    metadata: event.metadata,
   })
 
   if (error) {
@@ -748,7 +741,7 @@ export async function trackUsage(event: UsageEvent): Promise<void> {
   if (event.costUsd) {
     await supabase.rpc('increment_team_cost', {
       p_team_id: event.teamId,
-      p_cost: event.costUsd
+      p_cost: event.costUsd,
     })
   }
 }
@@ -759,7 +752,7 @@ export function calculateCost(model: string, tokensUsed: number): number {
     'gpt-4o': { input: 2.5 / 1000000, output: 10 / 1000000 },
     'gpt-4o-mini': { input: 0.15 / 1000000, output: 0.6 / 1000000 },
     'gpt-4-turbo': { input: 10 / 1000000, output: 30 / 1000000 },
-    'claude-3-5-sonnet': { input: 3 / 1000000, output: 15 / 1000000 }
+    'claude-3-5-sonnet': { input: 3 / 1000000, output: 15 / 1000000 },
   }
 
   const modelPricing = pricing[model as keyof typeof pricing] || pricing['gpt-4o-mini']
@@ -789,22 +782,16 @@ export async function checkSpendingLimits(teamId: string): Promise<void> {
   if (!billing) return
 
   // Check if approaching limit
-  if (
-    billing.spending_limit &&
-    billing.current_period_cost >= billing.spending_limit * 0.8
-  ) {
+  if (billing.spending_limit && billing.current_period_cost >= billing.spending_limit * 0.8) {
     await sendSpendingAlert(teamId, {
       current: billing.current_period_cost,
       limit: billing.spending_limit,
-      percentage: (billing.current_period_cost / billing.spending_limit) * 100
+      percentage: (billing.current_period_cost / billing.spending_limit) * 100,
     })
   }
 
   // Check if limit exceeded
-  if (
-    billing.spending_limit &&
-    billing.current_period_cost >= billing.spending_limit
-  ) {
+  if (billing.spending_limit && billing.current_period_cost >= billing.spending_limit) {
     await disableTeamUsage(teamId)
     await sendLimitExceededAlert(teamId)
   }
@@ -812,7 +799,7 @@ export async function checkSpendingLimits(teamId: string): Promise<void> {
 
 async function sendSpendingAlert(
   teamId: string,
-  data: { current: number; limit: number; percentage: number }
+  data: { current: number; limit: number; percentage: number },
 ): Promise<void> {
   // Get team owners
   const supabase = await createClient()
@@ -827,7 +814,7 @@ async function sendSpendingAlert(
       to: owner.users.email,
       subject: 'Spending Alert: Approaching Limit',
       template: 'spending-alert',
-      data
+      data,
     })
   }
 }
@@ -845,11 +832,11 @@ import { stripe } from './client'
 
 export async function createBillingPortalSession(
   customerId: string,
-  returnUrl: string
+  returnUrl: string,
 ): Promise<Stripe.BillingPortal.Session> {
   return await stripe.billingPortal.sessions.create({
     customer: customerId,
-    return_url: returnUrl
+    return_url: returnUrl,
   })
 }
 ```
@@ -865,7 +852,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
   // Check if owner
   const isOwner = await checkPermission(teamId, user.id, {
     resourceType: 'team_settings',
-    action: 'manage_billing'
+    action: 'manage_billing',
   })
 
   if (!isOwner) {
@@ -884,7 +871,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
 
   const session = await createBillingPortalSession(
     billing.stripe_customer_id,
-    `${process.env.NEXT_PUBLIC_BASE_URL}/teams/${teamId}/billing`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/teams/${teamId}/billing`,
   )
 
   return NextResponse.json({ url: session.url })
@@ -898,6 +885,7 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
 ### Billing Features Implemented
 
 ✅ **Subscription Management**
+
 - Tiered pricing (Free, Pro, Enterprise)
 - Per-seat pricing
 - Stripe Checkout integration
@@ -905,18 +893,21 @@ export const POST = withAuth(async (req: NextRequest, { params, user }) => {
 - Proration on upgrades/downgrades
 
 ✅ **Webhook Processing**
+
 - Subscription lifecycle events
 - Payment success/failure handling
 - Automatic tier updates
 - Audit logging
 
 ✅ **Usage Tracking**
+
 - Token-based metering
 - Cost calculation per model
 - Usage limits enforcement
 - Spending alerts
 
 ✅ **Customer Portal**
+
 - Self-service billing management
 - Invoice history
 - Payment method updates

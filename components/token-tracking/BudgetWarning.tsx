@@ -1,6 +1,6 @@
 'use client'
 
-import { AlertTriangle, X,XCircle } from 'lucide-react'
+import { AlertTriangle, X, XCircle } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -8,11 +8,11 @@ import type { BudgetWarningProps } from '@/lib/types/token-tracking'
 
 /**
  * BudgetWarning Component
- * 
+ *
  * Displays alert banner when budget thresholds are reached.
  * Three severity levels: info (75%), warning (90%), critical (100%+).
  * Provides actions: view details, increase budget, dismiss.
- * 
+ *
  * @example
  * ```tsx
  * <BudgetWarning
@@ -110,4 +110,3 @@ export function BudgetWarning({
     </Card>
   )
 }
-

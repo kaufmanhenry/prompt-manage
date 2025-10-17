@@ -69,21 +69,21 @@ export interface DataSource {
   id: string
   user_id: string
   team_id?: string
-  
+
   name: string
   description?: string
   type: DataSourceType
-  
+
   config: Record<string, unknown>
-  
+
   status: DataSourceStatus
   sync_frequency?: SyncFrequency
   last_sync_at?: string
   next_sync_at?: string
-  
+
   error_log?: Record<string, unknown>
   error_count: number
-  
+
   created_at: string
   updated_at: string
 }
@@ -92,20 +92,20 @@ export interface ConnectorCredentials {
   id: string
   user_id: string
   team_id?: string
-  
+
   connector_type: string
-  
+
   // Encrypted (not exposed to frontend)
   encrypted_credentials: Buffer
   encryption_key_id: string
-  
+
   oauth_token_expires_at?: string
   oauth_refresh_token_encrypted?: Buffer
-  
+
   status: 'active' | 'expired' | 'revoked' | 'error'
   last_used_at?: string
   last_refreshed_at?: string
-  
+
   created_at: string
   updated_at: string
 }
@@ -113,23 +113,23 @@ export interface ConnectorCredentials {
 export interface DataSourceSync {
   id: string
   data_source_id: string
-  
+
   status: ExecutionStatus
-  
+
   started_at: string
   completed_at?: string
-  
+
   records_fetched: number
   records_processed: number
   records_failed: number
   bytes_transferred: number
-  
+
   error_message?: string
   error_details?: Record<string, unknown>
-  
+
   sync_mode?: 'full' | 'incremental'
   sync_metadata?: Record<string, unknown>
-  
+
   created_at: string
 }
 
@@ -137,32 +137,32 @@ export interface Workflow {
   id: string
   user_id: string
   team_id?: string
-  
+
   name: string
   description?: string
-  
+
   definition: WorkflowDefinition
-  
+
   execution_mode: WorkflowExecutionMode
   schedule_config?: ScheduleConfig
   trigger_config?: TriggerConfig
-  
+
   max_concurrent_runs: number
   timeout_seconds: number
   retry_config: RetryConfig
-  
+
   status: WorkflowStatus
   version: number
   is_template: boolean
-  
+
   total_executions: number
   successful_executions: number
   failed_executions: number
   last_executed_at?: string
-  
+
   tags?: string[]
   category?: string
-  
+
   created_at: string
   updated_at: string
 }
@@ -171,15 +171,15 @@ export interface WorkflowNode {
   id: string
   workflow_id: string
   node_id: string
-  
+
   node_type: NodeType
   label: string
-  
+
   config: NodeConfig
   position?: { x: number; y: number }
-  
+
   depends_on?: string[]
-  
+
   created_at: string
 }
 
@@ -187,30 +187,30 @@ export interface WorkflowExecution {
   id: string
   workflow_id: string
   workflow_version: number
-  
+
   triggered_by: 'manual' | 'schedule' | 'api' | 'webhook' | 'event' | 'system'
   triggered_by_user_id?: string
   trigger_data?: Record<string, unknown>
-  
+
   status: ExecutionStatus
   started_at?: string
   completed_at?: string
-  
+
   total_nodes: number
   completed_nodes: number
   failed_nodes: number
   skipped_nodes: number
-  
+
   total_tokens_used: number
   total_cost_usd: number
   execution_time_ms?: number
-  
+
   error_message?: string
   error_node_id?: string
   error_details?: Record<string, unknown>
-  
+
   output_data?: Record<string, unknown>
-  
+
   created_at: string
 }
 
@@ -218,24 +218,24 @@ export interface NodeExecution {
   id: string
   workflow_execution_id: string
   node_id: string
-  
+
   status: ExecutionStatus
   started_at?: string
   completed_at?: string
-  
+
   input_data?: Record<string, unknown>
   output_data?: Record<string, unknown>
-  
+
   tokens_used?: number
   cost_usd?: number
   model?: string
   execution_time_ms?: number
-  
+
   attempt_number: number
   max_attempts: number
   error_message?: string
   error_details?: Record<string, unknown>
-  
+
   created_at: string
 }
 
@@ -243,9 +243,9 @@ export interface WorkflowPermission {
   id: string
   workflow_id: string
   user_id: string
-  
+
   permission_level: WorkflowPermissionLevel
-  
+
   granted_by_user_id: string
   granted_at: string
 }
@@ -255,17 +255,17 @@ export interface WorkflowTemplate {
   name: string
   description?: string
   category: WorkflowCategory
-  
+
   definition: WorkflowDefinition
-  
+
   is_public: boolean
   created_by_user_id?: string
-  
+
   tags?: string[]
   use_count: number
   rating?: number
   rating_count: number
-  
+
   created_at: string
   updated_at: string
 }
@@ -274,22 +274,22 @@ export interface WorkflowAlert {
   id: string
   workflow_id?: string
   workflow_execution_id?: string
-  
+
   alert_type: WorkflowAlertType
   severity: AlertSeverity
-  
+
   title: string
   message: string
   metadata?: Record<string, unknown>
-  
+
   notified_users?: string[]
   notified_via?: string[]
   notification_sent_at?: string
-  
+
   acknowledged: boolean
   acknowledged_by_user_id?: string
   acknowledged_at?: string
-  
+
   created_at: string
 }
 
@@ -634,19 +634,19 @@ export interface SyncResult {
 export interface WorkflowAnalytics {
   workflowId: string
   workflowName: string
-  
+
   totalExecutions: number
   successfulExecutions: number
   failedExecutions: number
   successRate: number
-  
+
   avgExecutionTime: number
   avgTokensUsed: number
   avgCost: number
-  
+
   totalCost: number
   totalTokens: number
-  
+
   executionsByDay: ChartDataPoint[]
   costByDay: ChartDataPoint[]
   failuresByNode: Record<string, number>
@@ -699,4 +699,3 @@ export interface WorkflowNotificationPreferences {
   webhookUrl?: string
   slackChannel?: string
 }
-

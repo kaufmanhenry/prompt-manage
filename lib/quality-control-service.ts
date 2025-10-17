@@ -57,10 +57,8 @@ export class QualityControlService {
     if (!phrases || phrases.length === 0) return null
 
     // Escape special regex characters and join with alternation
-    const pattern = phrases
-      .map(phrase => phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-      .join('|')
-    
+    const pattern = phrases.map((phrase) => phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+
     return new RegExp(pattern, 'gi')
   }
 
@@ -69,7 +67,14 @@ export class QualityControlService {
    * Previously rebuilt on every generation - now cached
    */
   buildQualityInstructions(): string {
-    const { brand_guidelines, required_elements, key_phrases, forbidden_phrases, style_guide, examples } = this.config
+    const {
+      brand_guidelines,
+      required_elements,
+      key_phrases,
+      forbidden_phrases,
+      style_guide,
+      examples,
+    } = this.config
     let instructions = ''
 
     if (brand_guidelines?.brand_voice) {
@@ -131,7 +136,7 @@ export class QualityControlService {
     if (this.forbiddenRegex) {
       const matches = content.match(this.forbiddenRegex)
       if (matches) {
-        const uniqueMatches = Array.from(new Set(matches.map(m => m.toLowerCase())))
+        const uniqueMatches = Array.from(new Set(matches.map((m) => m.toLowerCase())))
         issues.push(`Contains forbidden phrases: "${uniqueMatches.join('", "')}"`)
       }
     }
@@ -140,11 +145,11 @@ export class QualityControlService {
     const standards = this.config.quality_standards
     if (standards?.min_word_count || standards?.max_word_count) {
       const wordCount = this.countWords(content)
-      
+
       if (standards.min_word_count && wordCount < standards.min_word_count) {
         issues.push(`Content too short: ${wordCount} words (minimum: ${standards.min_word_count})`)
       }
-      
+
       if (standards.max_word_count && wordCount > standards.max_word_count) {
         issues.push(`Content too long: ${wordCount} words (maximum: ${standards.max_word_count})`)
       }
@@ -171,7 +176,10 @@ export class QualityControlService {
    * Count words in content
    */
   private countWords(content: string): number {
-    return content.trim().split(/\s+/).filter(word => word.length > 0).length
+    return content
+      .trim()
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length
   }
 
   /**
@@ -208,4 +216,3 @@ export class QualityControlService {
     return parts.length > 0 ? parts.join(', ') : 'No quality controls'
   }
 }
-

@@ -47,22 +47,22 @@ export interface TokenUsageLog {
   team_id?: string
   prompt_id?: string
   run_id?: string
-  
+
   // Token metrics
   input_tokens: number
   output_tokens: number
   total_tokens: number // computed
-  
+
   // Cost metrics
   input_cost_usd: number
   output_cost_usd: number
   total_cost_usd: number // computed
-  
+
   // Model info
   model: string
   model_version?: string
   execution_type: TokenExecutionType
-  
+
   created_at: string
 }
 
@@ -70,26 +70,26 @@ export interface UsageBudget {
   id: string
   entity_type: 'user' | 'team'
   entity_id: string
-  
+
   // Budget settings
   monthly_budget_usd?: number
   max_tokens_per_prompt?: number
   daily_budget_usd?: number
-  
+
   // Alert thresholds
   alert_threshold_1: number // default 75
   alert_threshold_2: number // default 90
   alert_threshold_3: number // default 100
-  
+
   // Current period tracking
   period_start: string // date
   period_tokens_used: number
   period_cost_usd: number
-  
+
   // Last alert
   last_alert_sent_at?: string
   last_alert_level?: number
-  
+
   created_at: string
   updated_at: string
 }
@@ -98,24 +98,24 @@ export interface UsageAlert {
   id: string
   budget_id?: string
   user_id: string
-  
+
   alert_type: AlertType
   alert_level: AlertLevel
-  
+
   title: string
   message: string
   current_usage_usd?: number
   budget_limit_usd?: number
   usage_percentage?: number
-  
+
   // Notification
   notified_via?: string[]
-  
+
   // Acknowledgment
   acknowledged: boolean
   acknowledged_by_user_id?: string
   acknowledged_at?: string
-  
+
   // Metadata
   metadata?: Record<string, unknown>
   created_at: string
@@ -396,4 +396,3 @@ export interface NotificationPreferences {
   quietHoursStart?: string
   quietHoursEnd?: string
 }
-

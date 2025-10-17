@@ -11,6 +11,7 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 **Priority: P0 (Critical)**
 
 #### Tasks
+
 1. **Database Schema Implementation**
    - [ ] Create migration for `token_usage_logs` table
    - [ ] Create migration for `usage_budgets` table
@@ -33,11 +34,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Update user profile endpoints to include tier info
 
 **Deliverables:**
+
 - ✅ Database schema fully migrated
 - ✅ Pricing calculation library with tests
 - ✅ Subscription tier infrastructure
 
 **Testing:**
+
 - Unit tests for all pricing functions
 - Migration rollback tests
 - Data integrity tests
@@ -49,6 +52,7 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 **Priority: P0 (Critical)**
 
 #### Tasks
+
 1. **Token Usage Logging**
    - [ ] Create `POST /api/usage/track` endpoint
    - [ ] Integrate token logging into `POST /api/prompt/run`
@@ -72,11 +76,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Add pagination for large datasets
 
 **Deliverables:**
+
 - ✅ Token usage tracking in all API endpoints
 - ✅ Budget management API endpoints
 - ✅ Usage analytics API with filtering
 
 **Testing:**
+
 - Integration tests for all endpoints
 - Load testing for analytics queries
 - Budget enforcement edge cases
@@ -90,6 +96,7 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 **Priority: P0 (Critical)**
 
 #### Tasks
+
 1. **Token Preview Component**
    - [ ] Create `TokenPreview` component
    - [ ] Integrate into PromptLab
@@ -112,11 +119,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Add action buttons (view details, increase budget)
 
 **Deliverables:**
+
 - ✅ Enhanced Prompt Lab with cost preview
 - ✅ Post-execution token usage display
 - ✅ Budget warning banners
 
 **Testing:**
+
 - Component unit tests
 - Visual regression tests
 - Accessibility tests
@@ -125,9 +134,10 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 
 ### Week 5: Basic Dashboard
 
-**Priority: P1 (High)
+\*\*Priority: P1 (High)
 
 #### Tasks
+
 1. **Usage Summary Cards**
    - [ ] Create summary card components
    - [ ] Display total cost, tokens, runs
@@ -147,11 +157,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Add date range selector
 
 **Deliverables:**
+
 - ✅ Basic usage dashboard page
 - ✅ Usage history with export
 - ✅ Summary statistics display
 
 **Testing:**
+
 - E2E tests for dashboard navigation
 - Export functionality tests
 - Mobile responsiveness tests
@@ -162,9 +174,10 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 
 ### Week 6: Advanced Analytics
 
-**Priority: P1 (High)
+\*\*Priority: P1 (High)
 
 #### Tasks
+
 1. **Usage Trend Charts**
    - [ ] Integrate charting library (recharts or Chart.js)
    - [ ] Create line chart for daily/weekly trends
@@ -185,11 +198,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Link to prompt edit page
 
 **Deliverables:**
+
 - ✅ Interactive usage trend charts
 - ✅ Cost breakdown visualizations
 - ✅ Top prompts analysis table
 
 **Testing:**
+
 - Chart rendering tests
 - Data accuracy tests
 - Interaction tests
@@ -198,9 +213,10 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 
 ### Week 7: Budget Management UI
 
-**Priority: P1 (High)
+\*\*Priority: P1 (High)
 
 #### Tasks
+
 1. **Budget Settings Page**
    - [ ] Create `/dashboard/budget-settings` page
    - [ ] Build budget limit form
@@ -221,11 +237,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Implement unread count badge
 
 **Deliverables:**
+
 - ✅ Budget settings interface
 - ✅ Budget progress tracking
 - ✅ Alert management system
 
 **Testing:**
+
 - Form validation tests
 - Budget update tests
 - Alert notification tests
@@ -234,9 +252,10 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 
 ### Week 8: Cost Optimization
 
-**Priority: P2 (Medium)
+\*\*Priority: P2 (Medium)
 
 #### Tasks
+
 1. **Optimization Recommendations Engine**
    - [ ] Create recommendation algorithm
    - [ ] Identify high-cost prompts
@@ -256,11 +275,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Add prompt efficiency score
 
 **Deliverables:**
+
 - ✅ Cost optimization recommendations
 - ✅ Automated suggestion system
 - ✅ Prompt efficiency tools
 
 **Testing:**
+
 - Recommendation accuracy tests
 - Savings calculation tests
 - User acceptance testing
@@ -271,9 +292,10 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 
 ### Week 9-10: Team Management
 
-**Priority: P2 (Medium) - Enterprise Only
+\*\*Priority: P2 (Medium) - Enterprise Only
 
 #### Tasks
+
 1. **Team Dashboard**
    - [ ] Create `/dashboard/team-usage` page
    - [ ] Build team member usage table
@@ -293,11 +315,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Budget approval workflows
 
 **Deliverables:**
+
 - ✅ Team usage dashboard
 - ✅ Multi-user analytics
 - ✅ Team budget management
 
 **Testing:**
+
 - Multi-tenancy tests
 - Permission tests
 - Team workflow tests
@@ -306,9 +330,10 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 
 ### Week 11: Advanced Reporting
 
-**Priority: P2 (Medium) - Enterprise Only
+\*\*Priority: P2 (Medium) - Enterprise Only
 
 #### Tasks
+
 1. **Custom Report Builder**
    - [ ] Create report configuration UI
    - [ ] Add custom date ranges
@@ -328,11 +353,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Create API documentation
 
 **Deliverables:**
+
 - ✅ Custom report builder
 - ✅ Automated report delivery
 - ✅ Usage data API
 
 **Testing:**
+
 - Report generation tests
 - Email delivery tests
 - API endpoint tests
@@ -341,9 +368,10 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 
 ### Week 12: Polish & Launch
 
-**Priority: P1 (High)
+\*\*Priority: P1 (High)
 
 #### Tasks
+
 1. **Performance Optimization**
    - [ ] Optimize database queries
    - [ ] Add caching layer (Redis)
@@ -372,11 +400,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
    - [ ] Set up alerting for system issues
 
 **Deliverables:**
+
 - ✅ Optimized and performant system
 - ✅ Complete documentation
 - ✅ Production-ready launch
 
 **Testing:**
+
 - Full system integration tests
 - Performance and load tests
 - Security audit
@@ -389,12 +419,13 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 ### Development Best Practices
 
 1. **Code Organization**
+
    ```
    /lib
      /pricing.ts           # Pricing calculations
      /token-tracking.ts    # Token tracking utilities
      /budget-enforcement.ts # Budget checking logic
-   
+
    /components
      /usage
        /TokenPreview.tsx
@@ -403,7 +434,7 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
        /UsageDashboard.tsx
        /UsageTrendChart.tsx
        /BudgetSettingsForm.tsx
-   
+
    /app/api
      /usage
        /track/route.ts
@@ -420,6 +451,7 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 
 3. **Feature Flags**
    Use feature flags for gradual rollout:
+
    ```typescript
    const FEATURE_FLAGS = {
      TOKEN_TRACKING_ENABLED: true,
@@ -440,21 +472,25 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 ## Success Metrics
 
 ### Phase 1 Success Criteria
+
 - ✅ 100% of prompt executions logged with token data
 - ✅ Budget enforcement working for 100% of users
 - ✅ <100ms overhead for token tracking
 
 ### Phase 2 Success Criteria
+
 - ✅ 80%+ of users view cost preview before running prompts
 - ✅ Dashboard loads in <2 seconds
 - ✅ CSV exports complete in <5 seconds
 
 ### Phase 3 Success Criteria
+
 - ✅ 50%+ of users set budget limits
 - ✅ Recommendations lead to 15%+ cost reduction
 - ✅ 90%+ user satisfaction score
 
 ### Phase 4 Success Criteria
+
 - ✅ 100% of Enterprise customers use team dashboards
 - ✅ Scheduled reports have 95%+ delivery success rate
 - ✅ API used by 20%+ of Enterprise customers
@@ -465,26 +501,27 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 
 ### Technical Risks
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Database performance with large usage logs | High | Add indexes, implement partitioning, archive old data |
-| Token estimation inaccuracy | Medium | Use OpenAI's tiktoken library for accurate counting |
-| Real-time budget checking latency | Medium | Cache budget data, use async processing |
-| Third-party API rate limits | Low | Implement retry logic, fallback to estimates |
+| Risk                                       | Impact | Mitigation                                            |
+| ------------------------------------------ | ------ | ----------------------------------------------------- |
+| Database performance with large usage logs | High   | Add indexes, implement partitioning, archive old data |
+| Token estimation inaccuracy                | Medium | Use OpenAI's tiktoken library for accurate counting   |
+| Real-time budget checking latency          | Medium | Cache budget data, use async processing               |
+| Third-party API rate limits                | Low    | Implement retry logic, fallback to estimates          |
 
 ### Business Risks
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
+| Risk                             | Impact | Mitigation                             |
+| -------------------------------- | ------ | -------------------------------------- |
 | User resistance to budget limits | Medium | Clear communication, generous defaults |
-| Pricing model changes | High | Make pricing configurable, version API |
-| Feature parity with competitors | Medium | Regular competitive analysis |
+| Pricing model changes            | High   | Make pricing configurable, version API |
+| Feature parity with competitors  | Medium | Regular competitive analysis           |
 
 ---
 
 ## Resource Requirements
 
 ### Team Composition
+
 - **1 Senior Full-Stack Developer** (Backend + API design)
 - **1 Frontend Developer** (UI components + dashboards)
 - **0.5 Designer** (UI/UX design and mockups)
@@ -492,12 +529,14 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 - **0.25 Product Manager** (Coordination and requirements)
 
 ### Infrastructure
+
 - PostgreSQL database (existing)
 - Redis cache (new - for budget caching)
 - Background job processor (new - for scheduled reports)
 - Email service (existing - for alerts)
 
 ### Third-Party Services
+
 - OpenAI API (existing)
 - Charting library: Recharts (free, MIT license)
 - PDF generation: jsPDF or Puppeteer
@@ -508,18 +547,19 @@ This roadmap outlines a **4-phase implementation plan** for the Token Tracking &
 ## Post-Launch Roadmap
 
 ### 3 Months Post-Launch
+
 - Advanced forecasting (predict monthly costs)
 - Budget recommendations based on usage patterns
 - Integration with billing systems
 
 ### 6 Months Post-Launch
+
 - Multi-model cost comparison
 - Token usage optimization AI assistant
 - Custom alerting rules engine
 
 ### 12 Months Post-Launch
+
 - Chargeback and cost allocation
 - Budget approval workflows
 - Advanced analytics with ML insights
-
-

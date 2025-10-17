@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/utils/supabase/client'
@@ -43,7 +43,9 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
   // Check if user is logged in
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
       setIsLoggedIn(!!user)
     }
     void checkAuth()
@@ -57,7 +59,7 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
 
     try {
       const response = await fetch(
-        `/api/free-tool-usage?tool=${encodeURIComponent(toolName)}&fingerprint=${encodeURIComponent(fingerprint)}`
+        `/api/free-tool-usage?tool=${encodeURIComponent(toolName)}&fingerprint=${encodeURIComponent(fingerprint)}`,
       )
       const data = await response.json()
 
@@ -82,8 +84,8 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
         body: JSON.stringify({
           toolName,
           promptGenerated,
-          fingerprint
-        })
+          fingerprint,
+        }),
       })
 
       const data = await response.json()
@@ -91,8 +93,8 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
       if (response.status === 429) {
         toast({
           title: 'Rate Limit Reached',
-          description: data.message || 'You\'ve used all 3 free uses. Sign up for unlimited access!',
-          variant: 'destructive'
+          description: data.message || "You've used all 3 free uses. Sign up for unlimited access!",
+          variant: 'destructive',
         })
         return false
       }
@@ -102,7 +104,7 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
           allowed: true,
           count: 3 - (data.remaining || 0),
           limit: 3,
-          remaining: data.remaining || 0
+          remaining: data.remaining || 0,
         })
         return true
       }
@@ -123,14 +125,19 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
     description?: string
   }): Promise<{ success: boolean; promptId?: string }> => {
     // Check if logged in
-    const { data: { user } } = await supabase.auth.getUser()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
     if (!user) {
       // Store in sessionStorage and redirect to login
-      sessionStorage.setItem('pendingPrompt', JSON.stringify({
-        ...promptData,
-        toolName
-      }))
+      sessionStorage.setItem(
+        'pendingPrompt',
+        JSON.stringify({
+          ...promptData,
+          toolName,
+        }),
+      )
 
       toast({
         title: 'Sign in to save',
@@ -151,8 +158,8 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...promptData,
-          toolName
-        })
+          toolName,
+        }),
       })
 
       const data = await response.json()
@@ -161,7 +168,7 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
         toast({
           title: 'Error',
           description: data.error || 'Failed to save prompt',
-          variant: 'destructive'
+          variant: 'destructive',
         })
         return { success: false }
       }
@@ -177,7 +184,7 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
       toast({
         title: 'Error',
         description: 'Failed to save prompt. Please try again.',
-        variant: 'destructive'
+        variant: 'destructive',
       })
       return { success: false }
     }
@@ -188,7 +195,6 @@ export function useFreeTool({ toolName }: UseFreeToolOptions) {
     rateLimit,
     checkRateLimit,
     logUsage,
-    saveToLibrary
+    saveToLibrary,
   }
 }
-

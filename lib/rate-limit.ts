@@ -1,31 +1,46 @@
-// Simple in-memory rate limiter for free tools
+// Simple in-memory rate limiter (temporarily until database migration is run)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 
-const RATE_LIMIT = 10 // requests per minute
-const RATE_WINDOW = 60000 // 1 minute in milliseconds
+const DEFAULT_RATE_LIMIT = 10 // requests per minute
+const DEFAULT_WINDOW_SECONDS = 60 // 1 minute
 
-export function checkRateLimit(identifier: string): { allowed: boolean; remaining: number; resetTime: number } {
+export async function checkRateLimit(
+  identifier: string,
+  _requestType: string = 'api_call',
+  limit: number = DEFAULT_RATE_LIMIT,
+  windowSeconds: number = DEFAULT_WINDOW_SECONDS,
+): Promise<{
+  allowed: boolean
+  remaining: number
+  resetTime: Date
+  currentCount: number
+}> {
+  // For now, use simple in-memory rate limiting
+  // TODO: Replace with database-backed rate limiting once migration is run
   const now = Date.now()
+  const windowMs = windowSeconds * 1000
   const userLimit = rateLimitMap.get(identifier)
 
   if (!userLimit || now > userLimit.resetTime) {
     // Reset or create new limit
     rateLimitMap.set(identifier, {
       count: 1,
-      resetTime: now + RATE_WINDOW
+      resetTime: now + windowMs,
     })
     return {
       allowed: true,
-      remaining: RATE_LIMIT - 1,
-      resetTime: now + RATE_WINDOW
+      remaining: limit - 1,
+      resetTime: new Date(now + windowMs),
+      currentCount: 1,
     }
   }
 
-  if (userLimit.count >= RATE_LIMIT) {
+  if (userLimit.count >= limit) {
     return {
       allowed: false,
       remaining: 0,
-      resetTime: userLimit.resetTime
+      resetTime: new Date(userLimit.resetTime),
+      currentCount: userLimit.count,
     }
   }
 
@@ -35,8 +50,9 @@ export function checkRateLimit(identifier: string): { allowed: boolean; remainin
 
   return {
     allowed: true,
-    remaining: RATE_LIMIT - userLimit.count,
-    resetTime: userLimit.resetTime
+    remaining: limit - userLimit.count,
+    resetTime: new Date(userLimit.resetTime),
+    currentCount: userLimit.count,
   }
 }
 
@@ -44,5 +60,9 @@ export function getClientIdentifier(request: Request): string {
   // Use IP address for rate limiting
   const forwarded = request.headers.get('x-forwarded-for')
   const ip = forwarded ? forwarded.split(',')[0] : 'unknown'
+
+  // For authenticated users, use user ID for more accurate rate limiting
+  // This will be handled in the calling code
+
   return ip
 }

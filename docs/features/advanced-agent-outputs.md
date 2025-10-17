@@ -1,34 +1,37 @@
 # Advanced Agent Output Types & Customization
 
 ## Overview
+
 Agents can now create ANY type of content - not just prompts! Blog posts, documentation, emails, code, social media, tutorials, and more.
 
 ## 🎯 17 Output Types Available
 
-| Output Type | Icon | Use Case | Max Length |
-|-------------|------|----------|------------|
-| **AI Prompt** | 💡 | Traditional prompt generation | 500 tokens |
-| **Blog Post** | 📝 | SEO-optimized articles | 500-1500 tokens |
-| **Documentation** | 📚 | Technical docs, APIs, guides | 800 tokens |
-| **Email** | 📧 | Campaigns, newsletters | 400 tokens |
-| **Social Media** | 📱 | Multi-platform posts | 300 tokens |
-| **Code** | 💻 | Code snippets, utilities | 600 tokens |
-| **Presentation** | 📊 | Slide content | 500 tokens |
-| **Script** | 🎬 | Video/podcast scripts | 800 tokens |
-| **Whitepaper** | 📄 | Long-form research | 1500 tokens |
-| **Case Study** | 📖 | Customer stories | 800 tokens |
-| **Tutorial** | 🎓 | How-to guides | 800 tokens |
-| **Newsletter** | 📰 | Email newsletters | 600 tokens |
-| **Landing Page** | 🌐 | Marketing copy | 500 tokens |
-| **Product Description** | 🏷️ | Product copy | 400 tokens |
-| **Ads** | 📢 | Ad copy | 300 tokens |
-| **Report** | 📈 | Analytics, reports | 800 tokens |
-| **Other** | 📌 | Custom types | 500 tokens |
+| Output Type             | Icon | Use Case                      | Max Length      |
+| ----------------------- | ---- | ----------------------------- | --------------- |
+| **AI Prompt**           | 💡   | Traditional prompt generation | 500 tokens      |
+| **Blog Post**           | 📝   | SEO-optimized articles        | 500-1500 tokens |
+| **Documentation**       | 📚   | Technical docs, APIs, guides  | 800 tokens      |
+| **Email**               | 📧   | Campaigns, newsletters        | 400 tokens      |
+| **Social Media**        | 📱   | Multi-platform posts          | 300 tokens      |
+| **Code**                | 💻   | Code snippets, utilities      | 600 tokens      |
+| **Presentation**        | 📊   | Slide content                 | 500 tokens      |
+| **Script**              | 🎬   | Video/podcast scripts         | 800 tokens      |
+| **Whitepaper**          | 📄   | Long-form research            | 1500 tokens     |
+| **Case Study**          | 📖   | Customer stories              | 800 tokens      |
+| **Tutorial**            | 🎓   | How-to guides                 | 800 tokens      |
+| **Newsletter**          | 📰   | Email newsletters             | 600 tokens      |
+| **Landing Page**        | 🌐   | Marketing copy                | 500 tokens      |
+| **Product Description** | 🏷️   | Product copy                  | 400 tokens      |
+| **Ads**                 | 📢   | Ad copy                       | 300 tokens      |
+| **Report**              | 📈   | Analytics, reports            | 800 tokens      |
+| **Other**               | 📌   | Custom types                  | 500 tokens      |
 
 ## 🎨 Advanced Customization Options
 
 ### 1. **Target Audience**
+
 Define who the content is for:
+
 - `marketing professionals`
 - `software developers`
 - `small business owners`
@@ -36,7 +39,9 @@ Define who the content is for:
 - `general users`
 
 ### 2. **Tone**
+
 Choose the voice and style:
+
 - `professional` - Formal and business-like
 - `casual` - Relaxed and approachable
 - `friendly` - Warm and conversational
@@ -49,13 +54,16 @@ Choose the voice and style:
 - `entertaining` - Fun and engaging
 
 ### 3. **Length Preference**
+
 Control output length:
+
 - `concise` - Short and to the point (300-500 tokens)
 - `medium` - Standard length (500-800 tokens)
 - `detailed` - More comprehensive (800-1200 tokens)
 - `comprehensive` - Very thorough (1200-1500 tokens)
 
 ### 4. **Output Format** (JSON configuration)
+
 Customize specific aspects per output type:
 
 ```json
@@ -103,6 +111,7 @@ Customize specific aspects per output type:
 ## 📋 Example Agent Configurations
 
 ### Blog Post Writer Agent
+
 ```javascript
 {
   name: "Blog Post Writer Agent",
@@ -127,6 +136,7 @@ Customize specific aspects per output type:
 ```
 
 ### Technical Documentation Agent
+
 ```javascript
 {
   name: "Technical Documentation Agent",
@@ -150,6 +160,7 @@ Customize specific aspects per output type:
 ```
 
 ### Social Media Manager Agent
+
 ```javascript
 {
   name: "Social Media Manager Agent",
@@ -173,6 +184,7 @@ Customize specific aspects per output type:
 ```
 
 ### Email Campaign Agent
+
 ```javascript
 {
   name: "Email Campaign Agent",
@@ -197,6 +209,7 @@ Customize specific aspects per output type:
 ```
 
 ### Code Snippet Agent
+
 ```javascript
 {
   name: "Code Snippet Agent",
@@ -268,6 +281,7 @@ POST /api/agents
 ### What Gets Generated
 
 **Blog Posts**:
+
 - Compelling headline
 - Introduction hook
 - 3-5 main sections with subheadings
@@ -276,6 +290,7 @@ POST /api/agents
 - SEO keywords
 
 **Documentation**:
+
 - Overview and purpose
 - Prerequisites
 - Step-by-step instructions
@@ -284,6 +299,7 @@ POST /api/agents
 - Best practices
 
 **Emails**:
+
 - 3 subject line options
 - Preview text
 - Personalized greeting
@@ -292,12 +308,14 @@ POST /api/agents
 - Professional sign-off
 
 **Social Media**:
+
 - LinkedIn post (150-200 words)
 - Twitter/X thread (5-7 tweets)
 - Instagram caption with hashtags
 - Engagement questions
 
 **Code**:
+
 - Function/class documentation
 - Type safety
 - Error handling
@@ -305,6 +323,7 @@ POST /api/agents
 - Unit test examples
 
 **Tutorials**:
+
 - Learning objectives
 - Prerequisites
 - Step-by-step instructions
@@ -314,24 +333,28 @@ POST /api/agents
 ## 💡 Best Practices
 
 ### 1. **Match Output Type to Department**
+
 - Marketing → Blog posts, emails, ads
 - Engineering → Code, documentation
 - Support → Tutorials, FAQs
 - Content → Social media, newsletters
 
 ### 2. **Configure Tone for Audience**
+
 - B2B → Professional, authoritative
 - B2C → Friendly, conversational
 - Technical → Clear, precise
 - Creative → Entertaining, engaging
 
 ### 3. **Adjust Length by Purpose**
+
 - Quick tips → Concise
 - Standard content → Medium
 - In-depth guides → Detailed
 - Whitepapers → Comprehensive
 
 ### 4. **Use Output Format for Specifics**
+
 - Define platforms for social media
 - Specify languages for code
 - Set word counts for blogs
@@ -351,6 +374,7 @@ length_preference text
 ## 📊 Monitoring & Analytics
 
 Track performance by output type:
+
 - View quality scores per type
 - Monitor engagement/views
 - Compare costs across types
@@ -359,7 +383,9 @@ Track performance by output type:
 ## 🎓 Advanced Examples
 
 ### Multi-Department Content Hub
+
 Create agents for each content type your team needs:
+
 - `Blog Writer` (Content) → SEO articles
 - `Social Manager` (Marketing) → Platform posts
 - `Doc Writer` (Engineering) → API guides
@@ -368,7 +394,9 @@ Create agents for each content type your team needs:
 - `Tutorial Creator` (Product) → User guides
 
 ### Persona-Specific Agents
+
 Create different agents for different audiences:
+
 - `Enterprise Blog` → C-level executives, formal, comprehensive
 - `SMB Blog` → Small business owners, friendly, concise
 - `Developer Docs` → Engineers, technical, detailed

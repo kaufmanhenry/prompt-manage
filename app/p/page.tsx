@@ -39,6 +39,7 @@ function PublicDirectoryContent() {
     (searchParams.get('sortBy') as 'recent' | 'popular') || 'recent',
   )
   const [availableTags, setAvailableTags] = useState<string[]>([])
+  const [totalCount, setTotalCount] = useState(0)
   const { toast } = useToast()
   const initialPage = Number(searchParams.get('page')) || 1
   const [page, setPage] = useState(initialPage)
@@ -58,15 +59,41 @@ function PublicDirectoryContent() {
 
   const fetchPublicPrompts = useCallback(async () => {
     try {
-      let query = createClient().from('prompts').select('*').eq('is_public', true)
+      setLoading(true)
 
+      // Build query with server-side filtering
+      let query = createClient()
+        .from('prompts')
+        .select('*', { count: 'exact' })
+        .eq('is_public', true)
+
+      // Apply filters
+      if (selectedModel !== 'all') {
+        query = query.eq('model', selectedModel)
+      }
+
+      if (selectedTag !== 'all') {
+        query = query.contains('tags', [selectedTag])
+      }
+
+      if (search.trim()) {
+        query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`)
+      }
+
+      // Apply sorting
       if (sortBy === 'recent') {
         query = query.order('updated_at', { ascending: false })
       } else {
         query = query.order('view_count', { ascending: false })
       }
 
-      const { data, error } = await query
+      // Apply pagination
+      const from = (page - 1) * promptsPerPage
+      const to = from + promptsPerPage - 1
+      query = query.range(from, to)
+
+      const { data, error, count } = await query
+
       if (error) throw error
 
       // Transform data to match the new schema with fallbacks
@@ -80,10 +107,17 @@ function PublicDirectoryContent() {
       }))
 
       setPrompts(transformedData as PublicPrompt[])
+      setTotalCount(count || 0)
 
-      // Extract unique tags
+      // Fetch available tags separately (cached)
+      const { data: tagData } = await createClient()
+        .from('prompts')
+        .select('tags')
+        .eq('is_public', true)
+        .limit(1000) // Limit for performance
+
       const tags = new Set<string>()
-      transformedData?.forEach((prompt) => {
+      tagData?.forEach((prompt) => {
         prompt.tags?.forEach((tag: string) => tags.add(tag))
       })
       setAvailableTags(Array.from(tags))
@@ -97,106 +131,102 @@ function PublicDirectoryContent() {
     } finally {
       setLoading(false)
     }
-  }, [sortBy, toast])
+  }, [sortBy, selectedModel, selectedTag, search, page, toast])
 
   useEffect(() => {
     void fetchPublicPrompts()
-  }, [sortBy, fetchPublicPrompts])
+  }, [fetchPublicPrompts])
 
-  // Sync filters/page with URL
+  // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams()
     if (search) params.set('search', search)
     if (selectedModel !== 'all') params.set('model', selectedModel)
     if (selectedTag !== 'all') params.set('tag', selectedTag)
     if (sortBy !== 'recent') params.set('sortBy', sortBy)
-    if (page > 1) params.set('page', String(page))
-    router.replace(`${pathname}?${params.toString()}`)
+    if (page > 1) params.set('page', page.toString())
+
+    const newUrl = `${pathname}${params.toString() ? `?${params.toString()}` : ''}`
+    router.replace(newUrl, { scroll: false })
   }, [search, selectedModel, selectedTag, sortBy, page, pathname, router])
 
-  // Reset to page 1 when filters change
-  useEffect(() => {
+  const filteredPrompts = prompts
+
+  const totalPages = Math.ceil(totalCount / promptsPerPage)
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value)
+    setPage(1) // Reset to first page when searching
+  }
+
+  const handleModelChange = (value: string) => {
+    setSelectedModel(value)
     setPage(1)
-  }, [search, selectedModel, selectedTag, sortBy])
+  }
 
-  const filteredPrompts = prompts.filter((prompt) => {
-    const matchesSearch =
-      prompt.name.toLowerCase().includes(search.toLowerCase()) ||
-      prompt.description?.toLowerCase().includes(search.toLowerCase()) ||
-      prompt.prompt_text.toLowerCase().includes(search.toLowerCase()) ||
-      prompt.tags?.some((tag) => tag.toLowerCase().includes(search.toLowerCase()))
+  const handleTagChange = (value: string) => {
+    setSelectedTag(value)
+    setPage(1)
+  }
 
-    const matchesModel = selectedModel === 'all' || prompt.model === selectedModel
-    const matchesTag = selectedTag === 'all' || prompt.tags?.includes(selectedTag)
+  const handleSortChange = (value: 'recent' | 'popular') => {
+    setSortBy(value)
+    setPage(1)
+  }
 
-    return matchesSearch && matchesModel && matchesTag
-  })
-
-  const totalPages = Math.ceil(filteredPrompts.length / promptsPerPage)
-  const paginatedPrompts = filteredPrompts.slice((page - 1) * promptsPerPage, page * promptsPerPage)
-
-  // Schema.org ItemList for SEO
-  const itemListSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    name: 'Public Prompt Directory',
-    description: 'Community-driven AI prompt database with 300+ curated prompts for ChatGPT, Claude, Gemini, Grok, and more.',
-    numberOfItems: filteredPrompts.length,
-    itemListElement: paginatedPrompts.slice(0, 10).map((prompt, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'CreativeWork',
-        name: prompt.name,
-        description: prompt.description || `AI prompt for ${prompt.model}`,
-        url: `https://promptmanage.com/p/${prompt.slug}`,
-        keywords: prompt.tags?.join(', '),
-      },
-    })),
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   if (loading) {
-    return <FullPageLoading text="Loading public prompts..." />
+    return <FullPageLoading />
   }
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
-      />
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl p-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground">
             Public Prompt Directory
           </h1>
-          <p className="text-muted-foreground">Discover and use prompts shared by the community</p>
+          <p className="text-lg text-muted-foreground">
+            Discover and use AI prompts shared by our community. Find prompts for ChatGPT, Claude,
+            Gemini, and more.
+          </p>
         </div>
 
-        {/* Search and Filters */}
-        <div className="mb-4 space-y-4">
-          <div className="flex gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-              <Input
-                placeholder="Search prompts by name, description, content, or tags..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
-              />
+        {/* Filters */}
+        <div className="mb-8 space-y-4">
+          <div className="flex flex-col gap-4 md:flex-row">
+            {/* Search */}
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  placeholder="Search prompts..."
+                  value={search}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
             </div>
-            <Select value={selectedModel} onValueChange={setSelectedModel}>
-              <SelectTrigger className="w-48">
+
+            {/* Model Filter */}
+            <Select value={selectedModel} onValueChange={handleModelChange}>
+              <SelectTrigger className="w-full md:w-48">
                 <SelectValue placeholder="Filter by model" />
               </SelectTrigger>
-              <SelectContent className="max-h-[400px]">
-                <SelectItem value="all">All Models</SelectItem>
-                {Object.entries(modelsByCompany).map(([company, companyModels]) => (
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>All Models</SelectLabel>
+                  <SelectItem value="all">All Models</SelectItem>
+                </SelectGroup>
+                {Object.entries(modelsByCompany).map(([company, models]) => (
                   <SelectGroup key={company}>
                     <SelectLabel>{company}</SelectLabel>
-                    {companyModels.map((model) => (
+                    {models.map((model) => (
                       <SelectItem key={model.id} value={model.id}>
                         {model.name}
                       </SelectItem>
@@ -205,184 +235,199 @@ function PublicDirectoryContent() {
                 ))}
               </SelectContent>
             </Select>
-            <Select value={selectedTag} onValueChange={setSelectedTag}>
-              <SelectTrigger className="w-48">
+
+            {/* Tag Filter */}
+            <Select value={selectedTag} onValueChange={handleTagChange}>
+              <SelectTrigger className="w-full md:w-48">
                 <SelectValue placeholder="Filter by tag" />
               </SelectTrigger>
-              <SelectContent className="max-h-[400px]">
-                <SelectItem value="all">All Tags</SelectItem>
-                {availableTags.map((tag) => (
-                  <SelectItem key={tag} value={tag}>
-                    {tag}
-                  </SelectItem>
-                ))}
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>All Tags</SelectLabel>
+                  <SelectItem value="all">All Tags</SelectItem>
+                </SelectGroup>
+                <SelectGroup>
+                  <SelectLabel>Popular Tags</SelectLabel>
+                  {availableTags.slice(0, 20).map((tag) => (
+                    <SelectItem key={tag} value={tag}>
+                      {tag}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
               </SelectContent>
             </Select>
-            <Select
-              value={sortBy}
-              onValueChange={(value: 'recent' | 'popular') => setSortBy(value)}
-            >
-              <SelectTrigger className="w-48">
+
+            {/* Sort */}
+            <Select value={sortBy} onValueChange={handleSortChange}>
+              <SelectTrigger className="w-full md:w-48">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="recent">Most Recent</SelectItem>
-                <SelectItem value="popular">Most Popular</SelectItem>
+                <SelectItem value="recent">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="h-4 w-4" />
+                    Most Recent
+                  </div>
+                </SelectItem>
+                <SelectItem value="popular">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="h-4 w-4" />
+                    Most Popular
+                  </div>
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
-        </div>
 
-        {/* Results Count */}
-        <div className="mb-4">
-          <p className="text-sm font-medium text-muted-foreground">
-            {filteredPrompts.length} prompt
-            {filteredPrompts.length !== 1 ? 's' : ''} found
-          </p>
+          {/* Results count */}
+          <div className="text-sm text-muted-foreground">
+            Showing {filteredPrompts.length} of {totalCount} prompts
+            {search && ` for "${search}"`}
+            {selectedModel !== 'all' && ` using ${selectedModel}`}
+            {selectedTag !== 'all' && ` tagged with "${selectedTag}"`}
+          </div>
         </div>
 
         {/* Prompts Grid */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {paginatedPrompts.map((prompt) => (
-            <Card
-              key={prompt.id}
-              className="flex h-full cursor-pointer flex-col p-4 transition-shadow hover:shadow-sm"
-              onClick={() => router.push(`/p/${prompt.slug}`)}
-            >
-              <div className="flex-grow">
-                <div className="mb-4">
-                  <div className="mb-2 flex items-start justify-between">
-                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold">{prompt.name}</h3>
-                  </div>
-                  {prompt.description && (
-                    <p className="mb-2 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
-                      {prompt.description}
-                    </p>
-                  )}
-                  <div className="flex flex-wrap gap-2">
-                    <Link 
-                      href={`/p?model=${encodeURIComponent(prompt.model)}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="transition-opacity hover:opacity-80"
-                    >
-                      <Badge variant="secondary" className="ml-2 cursor-pointer">
-                        {prompt.model}
-                      </Badge>
-                    </Link>
-                    {prompt.tags?.slice(0, 2).map((tag) => (
-                      <Link 
-                        key={tag} 
-                        href={`/p?tag=${encodeURIComponent(tag)}`}
+        {filteredPrompts.length === 0 ? (
+          <div className="py-12 text-center">
+            <p className="text-lg text-muted-foreground">
+              No prompts found matching your criteria.
+            </p>
+            <p className="text-sm text-muted-foreground">Try adjusting your search or filters.</p>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {filteredPrompts.map((prompt) => (
+                <Link key={prompt.id} href={`/p/${prompt.slug}`}>
+                  <Card className="group relative flex h-full cursor-pointer flex-col p-4 transition-all hover:border-primary hover:shadow-md">
+                    <div className="mb-3 flex items-start justify-between">
+                      <h3 className="line-clamp-2 text-lg font-semibold text-foreground group-hover:text-primary">
+                        {prompt.name}
+                      </h3>
+                      <div className="ml-2 flex-shrink-0">
+                        <CopyButton text={prompt.prompt_text} />
+                      </div>
+                    </div>
+
+                    {prompt.description && (
+                      <p className="mb-3 line-clamp-3 text-sm text-muted-foreground">
+                        {prompt.description}
+                      </p>
+                    )}
+
+                    <div className="mt-auto space-y-2">
+                      {/* Model */}
+                      <Link
+                        href={`/prompts/${encodeURIComponent(prompt.model)}`}
                         onClick={(e) => e.stopPropagation()}
                         className="transition-opacity hover:opacity-80"
                       >
-                        <Badge variant="outline" className="cursor-pointer">
-                          {tag}
+                        <Badge variant="secondary" className="ml-2 cursor-pointer">
+                          {prompt.model}
                         </Badge>
                       </Link>
-                    ))}
-                    {prompt.tags && prompt.tags.length > 2 && (
-                      <Badge variant="outline">+{prompt.tags.length - 2}</Badge>
-                    )}
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <pre className="line-clamp-3 text-wrap rounded-lg bg-accent p-2 text-xs font-medium text-muted-foreground">
-                    {prompt.prompt_text}
-                  </pre>
-                </div>
 
-                {/* Stats for public prompts */}
-                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1 rounded-lg bg-accent px-2 py-1">
-                    <TrendingUp className="h-3 w-3" />
-                    <span>{prompt.view_count} views</span>
-                  </div>
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <CopyButton text={prompt.prompt_text} />
-                  </div>
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1">
+                        {prompt.tags?.slice(0, 3).map((tag) => (
+                          <Link
+                            key={tag}
+                            href={`/p/tags/${encodeURIComponent(tag)}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="transition-opacity hover:opacity-80"
+                          >
+                            <Badge variant="outline" className="cursor-pointer">
+                              {tag}
+                            </Badge>
+                          </Link>
+                        ))}
+                        {prompt.tags && prompt.tags.length > 3 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{prompt.tags.length - 3} more
+                          </Badge>
+                        )}
+                      </div>
+
+                      {/* Stats */}
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span>{prompt.view_count || 0} views</span>
+                        <span>
+                          {prompt.inserted_at
+                            ? new Date(prompt.inserted_at).toLocaleDateString()
+                            : 'Recently'}
+                        </span>
+                      </div>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex justify-center">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Previous
+                  </button>
+
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    const pageNum = Math.max(1, Math.min(totalPages - 4, page - 2)) + i
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => handlePageChange(pageNum)}
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${
+                          pageNum === page
+                            ? 'bg-primary text-primary-foreground'
+                            : 'text-muted-foreground hover:text-foreground'
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    )
+                  })}
+
+                  <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPages}
+                    className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
-            </Card>
-          ))}
-        </div>
-
-        {filteredPrompts.length === 0 && (
-          <div className="py-12 text-center">
-            <p className="text-gray-600 dark:text-gray-400">
-              No prompts found matching your criteria.
-            </p>
-          </div>
+            )}
+          </>
         )}
 
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 py-8">
-            <button
-              className="rounded border bg-white px-3 py-1 disabled:opacity-50 dark:bg-gray-800"
-              onClick={() => setPage(page - 1)}
-              disabled={page === 1}
-            >
-              Previous
-            </button>
-            <span>
-              Page {page} of {totalPages}
-            </span>
-            <button
-              className="rounded border bg-white px-3 py-1 disabled:opacity-50 dark:bg-gray-800"
-              onClick={() => setPage(page + 1)}
-              disabled={page === totalPages}
-            >
-              Next
-            </button>
-          </div>
-        )}
-
-        {/* SEO Footer Content */}
-        <div className="mx-auto mt-16 max-w-4xl border-t pb-8 pt-12">
-          <div className="prose prose-sm dark:prose-invert max-w-none">
+        {/* Sign up CTA */}
+        {!session && (
+          <div className="mt-12 rounded-lg bg-primary/10 p-8 text-center">
             <h2 className="mb-4 text-2xl font-bold text-foreground">
-              Your Complete AI Prompt Directory
+              Ready to create your own prompts?
             </h2>
-            <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
-              <p>
-                <strong className="text-foreground">Prompt Manage</strong> is your all-in-one platform for creating, organizing, and running AI prompts across every major model. The <Link href="/p" className="text-blue-600 hover:underline dark:text-blue-400">Public Prompt Directory</Link> is our community-driven <strong>AI prompt database</strong> featuring hundreds of curated prompts ready to use with ChatGPT, Google Gemini, Claude, Grok, and more.
-              </p>
-              <p>
-                This <strong>directory of prompts</strong> serves as both a <strong>prompt marketplace</strong> and learning resource for everyone—from beginners exploring their first AI chatbot to advanced practitioners refining their <strong>prompt engineering</strong> skills. Browse <strong>popular AI prompts</strong> for content creation, coding, analysis, and automation, or dive into <strong>advanced AI prompts</strong> designed for complex reasoning and specialized workflows.
-              </p>
-              <p>
-                Want to build your own <strong>prompt collection</strong>? Simply{' '}
-                {session ? (
-                  <Link href="/dashboard" className="text-blue-600 hover:underline dark:text-blue-400">
-                    go to your dashboard
-                  </Link>
-                ) : (
-                  <GoogleSignInButton
-                    redirectPath="/dashboard"
-                    variant="link"
-                    className="h-auto p-0 text-blue-600 hover:underline dark:text-blue-400"
-                  >
-                    sign up
-                  </GoogleSignInButton>
-                )}{' '}
-                to save any prompt from the directory to your personal library, organize them with tags, and run them directly within Prompt Manage. You can also share your best work by publishing prompts to the directory for others to discover. Whether you're looking for inspiration, testing new ideas, or scaling your AI workflows, this <strong>AI prompt directory</strong> is built to help you work smarter with every model.
-              </p>
-              <p className="text-sm">
-                Explore our <Link href="/models" className="text-blue-600 hover:underline dark:text-blue-400">supported AI models</Link> to see the full range of options, or check out our <Link href="/docs" className="text-blue-600 hover:underline dark:text-blue-400">documentation</Link> to learn best practices for prompt engineering and workflow optimization.
-              </p>
-            </div>
+            <p className="mb-6 text-muted-foreground">
+              Join thousands of users who are organizing their AI prompts and boosting their
+              productivity.
+            </p>
+            <GoogleSignInButton />
           </div>
-        </div>
+        )}
       </div>
     </div>
-    </>
   )
 }
 
 export default function PublicDirectoryPage() {
   return (
-    <Suspense fallback={<FullPageLoading text="Loading public prompts..." />}>
+    <Suspense fallback={<FullPageLoading />}>
       <PublicDirectoryContent />
     </Suspense>
   )

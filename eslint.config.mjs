@@ -144,6 +144,13 @@ export default tseslint.config(
     },
     rules: {},
   },
+  // Next.js generated files
+  {
+    files: ['next-env.d.ts'],
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off',
+    },
+  },
   // Disable Prettier-conflicting rules
   prettierConfig,
 )

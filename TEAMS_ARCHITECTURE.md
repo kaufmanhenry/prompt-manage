@@ -29,6 +29,7 @@
 ### Core Value Proposition
 
 Teams enables secure, collaborative AI workflows with:
+
 - **Multi-user collaboration** on prompts, outputs, and datasets
 - **Enterprise-grade security** with encryption, audit logs, and RLS
 - **Cost transparency** with detailed usage tracking per member/project
@@ -900,6 +901,7 @@ create policy "Admins+ can view audit logs"
 ## Next: API Layer Implementation
 
 Continue to [API_LAYER.md](#) for:
+
 - REST endpoints
 - Supabase RPC functions
 - Access control middleware

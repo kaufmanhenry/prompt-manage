@@ -90,9 +90,9 @@ export const queryClient = new QueryClient({
       staleTime: 5 * 60 * 1000, // 5 minutes
       cacheTime: 10 * 60 * 1000, // 10 minutes
       refetchOnWindowFocus: true,
-      retry: 1
-    }
-  }
+      retry: 1,
+    },
+  },
 })
 
 // Query keys for consistency
@@ -102,7 +102,7 @@ export const queryKeys = {
   teamMembers: (teamId: string) => ['teams', teamId, 'members'] as const,
   teamPrompts: (teamId: string) => ['teams', teamId, 'prompts'] as const,
   teamUsage: (teamId: string) => ['teams', teamId, 'usage'] as const,
-  teamBilling: (teamId: string) => ['teams', teamId, 'billing'] as const
+  teamBilling: (teamId: string) => ['teams', teamId, 'billing'] as const,
 }
 ```
 
@@ -816,7 +816,7 @@ import * as api from '@/lib/api/teams'
 export function useTeams() {
   return useQuery({
     queryKey: queryKeys.teams,
-    queryFn: api.getTeams
+    queryFn: api.getTeams,
   })
 }
 
@@ -824,7 +824,7 @@ export function useTeam(slugOrId: string) {
   return useQuery({
     queryKey: queryKeys.team(slugOrId),
     queryFn: () => api.getTeam(slugOrId),
-    enabled: !!slugOrId
+    enabled: !!slugOrId,
   })
 }
 
@@ -832,7 +832,7 @@ export function useTeamMembers(teamId: string | undefined) {
   return useQuery({
     queryKey: queryKeys.teamMembers(teamId!),
     queryFn: () => api.getTeamMembers(teamId!),
-    enabled: !!teamId
+    enabled: !!teamId,
   })
 }
 
@@ -841,7 +841,7 @@ export function useTeamUsage(teamId: string | undefined) {
     queryKey: queryKeys.teamUsage(teamId!),
     queryFn: () => api.getTeamUsage(teamId!),
     enabled: !!teamId,
-    refetchInterval: 60000 // Refetch every minute
+    refetchInterval: 60000, // Refetch every minute
   })
 }
 ```
@@ -856,13 +856,13 @@ import { checkPermission } from '@/lib/api/teams'
 export function useTeamPermission(
   teamId: string | undefined,
   resourceType: string,
-  action: string
+  action: string,
 ) {
   return useQuery({
     queryKey: ['team-permission', teamId, resourceType, action],
     queryFn: () => checkPermission(teamId!, resourceType, action),
     enabled: !!teamId,
-    staleTime: 5 * 60 * 1000 // Cache for 5 minutes
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
   })
 }
 
@@ -973,11 +973,11 @@ export function useRealtimeTeamUpdates(teamId: string | undefined) {
           event: '*',
           schema: 'public',
           table: 'team_members',
-          filter: `team_id=eq.${teamId}`
+          filter: `team_id=eq.${teamId}`,
         },
         () => {
           queryClient.invalidateQueries({ queryKey: queryKeys.teamMembers(teamId) })
-        }
+        },
       )
       .subscribe()
 
@@ -990,11 +990,11 @@ export function useRealtimeTeamUpdates(teamId: string | undefined) {
           event: '*',
           schema: 'public',
           table: 'team_prompts',
-          filter: `team_id=eq.${teamId}`
+          filter: `team_id=eq.${teamId}`,
         },
         () => {
           queryClient.invalidateQueries({ queryKey: queryKeys.teamPrompts(teamId) })
-        }
+        },
       )
       .subscribe()
 
@@ -1013,6 +1013,7 @@ export function useRealtimeTeamUpdates(teamId: string | undefined) {
 ### Components Implemented
 
 ✅ **Core Components** (10)
+
 - TeamSwitcher - Global team selector
 - CreateTeamDialog - Team creation
 - TeamCard - Team display
@@ -1025,6 +1026,7 @@ export function useRealtimeTeamUpdates(teamId: string | undefined) {
 - UpgradeDialog - Upgrade modal
 
 ✅ **Hooks** (8)
+
 - useTeams - List teams
 - useTeam - Single team
 - useTeamMembers - Member list
@@ -1035,6 +1037,7 @@ export function useRealtimeTeamUpdates(teamId: string | undefined) {
 - useRealtimeTeamUpdates - Real-time sync
 
 ✅ **Pages** (12)
+
 - /teams - Teams list
 - /teams/new - Create team
 - /teams/[slug] - Team dashboard

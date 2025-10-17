@@ -1,16 +1,7 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  ChevronDown,
-  ChevronRight,
-  Copy,
-  Folder,
-  Loader2,
-  Rocket,
-  Save,
-  Sparkles,
-} from 'lucide-react'
+import { ChevronDown, ChevronRight, Copy, Folder, Rocket, Save, Sparkles } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -356,7 +347,8 @@ function SimplePromptLab() {
         console.error('Error running prompt:', error)
         toast({
           title: 'Oops!',
-          description: error instanceof Error ? error.message : 'Something went wrong. Please try again.',
+          description:
+            error instanceof Error ? error.message : 'Something went wrong. Please try again.',
           variant: 'destructive',
         })
       }
@@ -489,7 +481,9 @@ function SimplePromptLab() {
             <SelectContent>
               <SelectItem value="gpt-4o-mini">gpt-4o-mini (recommended)</SelectItem>
               <SelectItem value="gpt-4">GPT-4</SelectItem>
-              <SelectItem disabled value="gpt-4o">GPT-4o — Coming soon</SelectItem>
+              <SelectItem disabled value="gpt-4o">
+                GPT-4o — Coming soon
+              </SelectItem>
               <SelectItem disabled value="claude-3-5">
                 Claude 3.5 — Coming soon
               </SelectItem>
@@ -649,7 +643,7 @@ function SimplePromptLab() {
         <div className="flex items-center justify-end gap-2 pt-2">
           <Button onClick={runOnce} disabled={isRunning} size="lg">
             {isRunning ? (
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              <div className="mr-2 h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
             ) : (
               <Rocket className="mr-2 h-5 w-5" />
             )}

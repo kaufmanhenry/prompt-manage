@@ -39,7 +39,9 @@ All deliverables are production-ready and follow industry best practices.
 **Location:** `/supabase/migrations/`
 
 #### `20250115000000_token_tracking_system.sql`
+
 Complete database schema for token tracking:
+
 - `teams` - Team accounts
 - `team_members` - Team membership with RBAC
 - `token_usage_logs` - Every execution tracked
@@ -49,7 +51,9 @@ Complete database schema for token tracking:
 - RLS policies for security
 
 #### `20250115000001_workflow_system.sql`
+
 Complete database schema for workflows:
+
 - `workflows` - Workflow definitions
 - `workflow_nodes` - Individual nodes
 - `workflow_executions` - Execution history
@@ -67,6 +71,7 @@ Complete database schema for workflows:
 **Location:** `/lib/types/`
 
 #### `token-tracking.ts`
+
 - Database table types
 - API request/response types
 - UI component prop types
@@ -78,6 +83,7 @@ Complete database schema for workflows:
 **Total:** 50+ types, fully documented
 
 #### `workflows.ts`
+
 - Database table types
 - Workflow definition types
 - Node configuration types (8 node types)
@@ -94,12 +100,12 @@ Complete database schema for workflows:
 **Location:** `/components/`
 
 #### Token Tracking Components
+
 - **`TokenPreview.tsx`** - Real-time cost preview before execution
   - Model-specific pricing
   - Token estimation
   - Cost optimization suggestions
   - Model switching UI
-  
 - **`TokenUsageDisplay.tsx`** - Post-execution metrics
   - Input/output token breakdown
   - Actual cost display
@@ -113,6 +119,7 @@ Complete database schema for workflows:
   - Team-aware
 
 #### Workflow Components
+
 - **`WorkflowBuilder.tsx`** - Visual workflow editor
   - ReactFlow-based drag-and-drop
   - Node palette
@@ -154,6 +161,7 @@ Five production-ready workflows:
    - Use case: Sales enablement
 
 Each template includes:
+
 - Complete workflow definition
 - Node configurations
 - Edge connections
@@ -180,6 +188,7 @@ Comprehensive 65-page presentation deck covering:
 12. Call to Action
 
 Includes:
+
 - ASCII diagrams
 - Pricing tables
 - Revenue projections
@@ -267,7 +276,7 @@ export default function TestPage() {
   return (
     <div className="p-8 space-y-8">
       <h1>Component Tests</h1>
-      
+
       <TokenPreview
         promptText="Test prompt"
         model="gpt-4o-mini"
@@ -297,14 +306,16 @@ import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: Request) {
   const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   if (!user) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const body = await request.json()
-  
+
   // Call the log_token_usage function from migration
   const { data, error } = await supabase.rpc('log_token_usage', {
     p_user_id: user.id,
@@ -314,7 +325,7 @@ export async function POST(request: Request) {
     p_input_tokens: body.inputTokens,
     p_output_tokens: body.outputTokens,
     p_model: body.model,
-    p_execution_type: body.executionType || 'prompt_run'
+    p_execution_type: body.executionType || 'prompt_run',
   })
 
   if (error) {
@@ -334,6 +345,7 @@ export async function POST(request: Request) {
 **Goal:** Database + core API ready
 
 ✅ Tasks:
+
 1. Run database migrations
 2. Test all database functions
 3. Set up RLS policies
@@ -344,6 +356,7 @@ export async function POST(request: Request) {
    - `/api/workflows/[id]/trigger`
 
 🎯 Success Criteria:
+
 - All migrations run without errors
 - Can log token usage via API
 - Can create and trigger basic workflows
@@ -353,6 +366,7 @@ export async function POST(request: Request) {
 **Goal:** Users can see costs and set budgets
 
 ✅ Tasks:
+
 1. Integrate `TokenPreview` into existing PromptLab
 2. Add `TokenUsageDisplay` to run results
 3. Create usage dashboard page
@@ -360,6 +374,7 @@ export async function POST(request: Request) {
 5. Add `BudgetWarning` alerts
 
 🎯 Success Criteria:
+
 - Real-time cost preview working
 - Post-execution metrics displayed
 - Users can view usage dashboard
@@ -370,6 +385,7 @@ export async function POST(request: Request) {
 **Goal:** Users can create and run workflows
 
 ✅ Tasks:
+
 1. Implement workflow canvas
 2. Create node palette
 3. Build node configuration forms (8 types)
@@ -378,6 +394,7 @@ export async function POST(request: Request) {
 6. Create execution viewer
 
 🎯 Success Criteria:
+
 - Can create workflows visually
 - Can configure all node types
 - Workflows execute successfully
@@ -388,6 +405,7 @@ export async function POST(request: Request) {
 **Goal:** Connect to external data sources
 
 ✅ Tasks:
+
 1. Google Sheets connector
 2. Airtable connector
 3. Notion connector
@@ -396,6 +414,7 @@ export async function POST(request: Request) {
 6. Sync scheduling
 
 🎯 Success Criteria:
+
 - Can connect to 3+ data sources
 - Data syncs reliably
 - OAuth authentication works
@@ -406,6 +425,7 @@ export async function POST(request: Request) {
 **Goal:** Multi-user collaboration ready
 
 ✅ Tasks:
+
 1. Team creation flow
 2. Member invitation system
 3. Permission management UI
@@ -413,6 +433,7 @@ export async function POST(request: Request) {
 5. Workflow sharing
 
 🎯 Success Criteria:
+
 - Can create teams
 - Can invite members
 - Permissions enforced
@@ -423,6 +444,7 @@ export async function POST(request: Request) {
 **Goal:** Production-ready, beautiful, tested
 
 ✅ Tasks:
+
 1. UI/UX polish
 2. Performance optimization
 3. Error handling improvements
@@ -431,6 +453,7 @@ export async function POST(request: Request) {
 6. Pricing page update
 
 🎯 Success Criteria:
+
 - All major bugs fixed
 - Performance metrics met
 - User testing complete
@@ -603,8 +626,8 @@ describe('POST /api/token-tracking/log', () => {
       body: JSON.stringify({
         inputTokens: 100,
         outputTokens: 50,
-        model: 'gpt-4o-mini'
-      })
+        model: 'gpt-4o-mini',
+      }),
     })
     expect(response.status).toBe(200)
   })
@@ -617,27 +640,27 @@ describe('POST /api/token-tracking/log', () => {
 // tests/workflow-execution.spec.ts
 test('should execute a simple workflow', async ({ page }) => {
   await page.goto('/dashboard/workflows/new')
-  
+
   // Add data source node
   await page.click('[data-testid="add-node-btn"]')
   await page.click('[data-testid="node-data-source"]')
-  
+
   // Add prompt node
   await page.click('[data-testid="add-node-btn"]')
   await page.click('[data-testid="node-prompt"]')
-  
+
   // Connect nodes
   // ... (drag and drop logic)
-  
+
   // Save workflow
   await page.click('[data-testid="save-workflow-btn"]')
-  
+
   // Trigger execution
   await page.click('[data-testid="run-workflow-btn"]')
-  
+
   // Wait for completion
   await page.waitForSelector('[data-testid="execution-status-completed"]')
-  
+
   // Verify results
   const status = await page.textContent('[data-testid="execution-status"]')
   expect(status).toBe('Completed')
@@ -661,12 +684,14 @@ test('should execute a simple workflow', async ({ page }) => {
 ### Deployment Steps
 
 1. **Database**
+
    ```bash
    # Run migrations in production
    supabase db push --project-ref <prod-ref>
    ```
 
 2. **Environment Variables**
+
    ```bash
    # Set in Vercel/hosting platform
    # All API keys
@@ -675,6 +700,7 @@ test('should execute a simple workflow', async ({ page }) => {
    ```
 
 3. **Deploy Application**
+
    ```bash
    git push origin main
    # Automatic deployment via Vercel
@@ -713,6 +739,7 @@ test('should execute a simple workflow', async ({ page }) => {
 ### Contributing
 
 See `CONTRIBUTING.md` (coming soon) for:
+
 - Code style guide
 - PR process
 - Testing requirements
@@ -744,18 +771,21 @@ supabase migration list        # List all migrations
 ### Common Issues & Solutions
 
 **Issue:** Migration fails with "relation already exists"
+
 ```sql
 -- Solution: Add IF NOT EXISTS
 CREATE TABLE IF NOT EXISTS public.workflows (...)
 ```
 
 **Issue:** RLS policies blocking API calls
+
 ```sql
 -- Solution: Check service role is being used for admin operations
 -- Or adjust RLS policies for authenticated users
 ```
 
 **Issue:** TypeScript errors in components
+
 ```bash
 # Solution: Ensure all types are imported correctly
 npm run type-check
@@ -768,4 +798,3 @@ npm run type-check
 **Author:** [Your Name]
 
 **Ready to build! 🚀**
-

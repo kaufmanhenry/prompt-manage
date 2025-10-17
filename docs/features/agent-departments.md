@@ -1,47 +1,56 @@
 # Agent Department System
 
 ## Overview
+
 The agent system now supports department-based organization, making it easy to categorize and filter agents by their functional area.
 
 ## Available Departments
 
-| Department | Icon | Use Case |
-|------------|------|----------|
-| **Marketing** | 📊 | Campaigns, analytics, growth strategies, branding |
-| **Support** | 💬 | Customer service, ticket resolution, help desk |
-| **Legal** | ⚖️ | Compliance, contracts, policy documents |
-| **Design** | 🎨 | UI/UX, branding, creative assets |
-| **Engineering** | ⚙️ | Code reviews, architecture, debugging, documentation |
-| **Sales** | 💰 | Prospecting, objection handling, closing deals |
-| **Content** | ✍️ | Blog posts, social media, video scripts |
-| **Product** | 📦 | Product strategy, user research, roadmap planning |
-| **Operations** | 🔧 | Business operations, workflows, processes |
-| **General** | 📂 | Cross-functional or generic prompts |
+| Department      | Icon | Use Case                                             |
+| --------------- | ---- | ---------------------------------------------------- |
+| **Marketing**   | 📊   | Campaigns, analytics, growth strategies, branding    |
+| **Support**     | 💬   | Customer service, ticket resolution, help desk       |
+| **Legal**       | ⚖️   | Compliance, contracts, policy documents              |
+| **Design**      | 🎨   | UI/UX, branding, creative assets                     |
+| **Engineering** | ⚙️   | Code reviews, architecture, debugging, documentation |
+| **Sales**       | 💰   | Prospecting, objection handling, closing deals       |
+| **Content**     | ✍️   | Blog posts, social media, video scripts              |
+| **Product**     | 📦   | Product strategy, user research, roadmap planning    |
+| **Operations**  | 🔧   | Business operations, workflows, processes            |
+| **General**     | 📂   | Cross-functional or generic prompts                  |
 
 ## Pre-configured Department Agents
 
 ### Marketing Department
+
 - **Marketing Manager Agent**: Campaigns, analytics, growth strategies
 
 ### Content Department
+
 - **Content Creator Agent**: Social media, blogging, video content
 
 ### Operations Department
+
 - **Small Business Owner Agent**: Business operations, customer service, sales
 
 ### Support Department
+
 - **Customer Support Agent**: Ticket resolution, customer satisfaction, troubleshooting
 
 ### Sales Department
+
 - **Sales Team Agent**: Prospecting, objection handling, closing deals
 
 ### Product Department
+
 - **Product Manager Agent**: Product strategy, user research, roadmap planning
 
 ### Engineering Department
+
 - **Engineering Team Agent**: Code review, architecture, debugging, documentation
 
 ### General Department
+
 - **Trending Topics Agent**: AI, productivity, marketing, coding
 - **Niche Expert Agent**: Healthcare, finance, education, ecommerce
 - **Educational Agent**: Prompt engineering, AI tools, workflow optimization
@@ -50,17 +59,20 @@ The agent system now supports department-based organization, making it easy to c
 ## Using the Department System
 
 ### Viewing Agents by Department
+
 1. Go to `/dashboard/agents`
 2. Click on department filter buttons to view only that department's agents
 3. Click "All" to view all agents across departments
 
 ### Creating Department-Specific Agents
+
 1. Click "Create Agent"
 2. Fill in agent details
 3. Select the appropriate department from the dropdown
 4. Click "Create Agent"
 
 ### Filtering in Dashboard
+
 - Department badges appear on each agent card
 - Filter buttons show count of agents per department
 - Only departments with active agents are displayed in filter
@@ -68,6 +80,7 @@ The agent system now supports department-based organization, making it easy to c
 ## Agent Configuration by Department
 
 ### Marketing Agents
+
 ```json
 {
   "industries": ["marketing", "advertising", "growth"],
@@ -77,6 +90,7 @@ The agent system now supports department-based organization, making it easy to c
 ```
 
 ### Support Agents
+
 ```json
 {
   "industries": ["customer_service", "support", "help_desk"],
@@ -86,6 +100,7 @@ The agent system now supports department-based organization, making it easy to c
 ```
 
 ### Sales Agents
+
 ```json
 {
   "industries": ["sales", "business_development"],
@@ -95,6 +110,7 @@ The agent system now supports department-based organization, making it easy to c
 ```
 
 ### Engineering Agents
+
 ```json
 {
   "industries": ["software", "development"],
@@ -104,6 +120,7 @@ The agent system now supports department-based organization, making it easy to c
 ```
 
 ### Product Agents
+
 ```json
 {
   "subjects": ["product_strategy", "user_research", "roadmap_planning"],
@@ -118,8 +135,8 @@ The agent system now supports department-based organization, making it easy to c
 department text default 'general',
 constraint agents_department_check check (
   department in (
-    'marketing', 'support', 'legal', 'design', 
-    'engineering', 'sales', 'content', 'product', 
+    'marketing', 'support', 'legal', 'design',
+    'engineering', 'sales', 'content', 'product',
     'operations', 'general'
   )
 )
@@ -128,6 +145,7 @@ constraint agents_department_check check (
 ## API Updates
 
 ### Creating an Agent with Department
+
 ```javascript
 POST /api/agents
 {
@@ -140,6 +158,7 @@ POST /api/agents
 ```
 
 ### Filtering by Department
+
 The dashboard automatically filters agents when you select a department button. The filtering happens client-side for instant response.
 
 ## Best Practices
@@ -153,6 +172,7 @@ The dashboard automatically filters agents when you select a department button. 
 ## Migration
 
 Run the following migrations in order:
+
 1. `20241220000000_autonomous_agent.sql` - Creates tables and default agents
 2. `20241220000001_agent_departments.sql` - Adds department field (if needed as upgrade)
 

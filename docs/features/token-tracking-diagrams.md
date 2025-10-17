@@ -543,5 +543,3 @@
          └──► Manual refresh
               → refetch()
 ```
-
-

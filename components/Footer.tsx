@@ -66,7 +66,10 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/developer-docs" className="text-gray-600 hover:underline dark:text-gray-300">
+              <Link
+                href="/developer-docs"
+                className="text-gray-600 hover:underline dark:text-gray-300"
+              >
                 API
               </Link>
             </li>
@@ -84,12 +87,18 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/cursor-prompt-creator" className="text-gray-600 hover:underline dark:text-gray-300">
+              <Link
+                href="/cursor-prompt-creator"
+                className="text-gray-600 hover:underline dark:text-gray-300"
+              >
                 Cursor Creator
               </Link>
             </li>
             <li>
-              <Link href="/claude-prompt-creator" className="text-gray-600 hover:underline dark:text-gray-300">
+              <Link
+                href="/claude-prompt-creator"
+                className="text-gray-600 hover:underline dark:text-gray-300"
+              >
                 Claude Creator
               </Link>
             </li>
@@ -97,7 +106,10 @@ export function Footer() {
           <ul className="items-center space-y-2 text-sm">
             <li className="text-xs font-medium text-muted-foreground">Legal</li>
             <li>
-              <Link href="/legal-center" className="text-gray-600 hover:underline dark:text-gray-300">
+              <Link
+                href="/legal-center"
+                className="text-gray-600 hover:underline dark:text-gray-300"
+              >
                 Legal Center
               </Link>
             </li>
@@ -112,7 +124,10 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/accessibility" className="text-gray-600 hover:underline dark:text-gray-300">
+              <Link
+                href="/accessibility"
+                className="text-gray-600 hover:underline dark:text-gray-300"
+              >
                 Accessibility
               </Link>
             </li>

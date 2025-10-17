@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight,Zap } from 'lucide-react'
+import { ArrowRight, Zap } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 
@@ -10,8 +10,8 @@ export function ScrollToToolButton() {
   }
 
   return (
-    <Button 
-      size="lg" 
+    <Button
+      size="lg"
       className="bg-blue-600 px-8 py-3 text-lg text-white hover:bg-blue-700"
       onClick={scrollToTool}
     >

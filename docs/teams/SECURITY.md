@@ -30,6 +30,7 @@
 ### Threat Model
 
 **Primary Threats:**
+
 - Unauthorized access to team data
 - Data exfiltration
 - Privilege escalation
@@ -38,6 +39,7 @@
 - DDoS and rate limit abuse
 
 **Mitigation Strategy:**
+
 - Row-Level Security (RLS)
 - End-to-end encryption
 - Multi-factor authentication (MFA)
@@ -128,10 +130,7 @@ export class EncryptionService {
       cipher.setAAD(Buffer.from(additionalContext))
     }
 
-    const encrypted = Buffer.concat([
-      cipher.update(plaintext, 'utf8'),
-      cipher.final()
-    ])
+    const encrypted = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()])
 
     const tag = cipher.getAuthTag()
 
@@ -140,7 +139,7 @@ export class EncryptionService {
       salt.toString('base64'),
       iv.toString('base64'),
       tag.toString('base64'),
-      encrypted.toString('base64')
+      encrypted.toString('base64'),
     ].join(':')
   }
 
@@ -164,10 +163,7 @@ export class EncryptionService {
       decipher.setAAD(Buffer.from(additionalContext))
     }
 
-    const decrypted = Buffer.concat([
-      decipher.update(encrypted),
-      decipher.final()
-    ])
+    const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()])
 
     return decrypted.toString('utf8')
   }
@@ -190,17 +186,20 @@ export const encryption = new EncryptionService()
 // lib/api/team-prompts.ts
 import { encryption } from '@/lib/encryption'
 
-export async function createTeamPrompt(teamId: string, data: {
-  name: string
-  prompt_text: string
-  // ... other fields
-}) {
+export async function createTeamPrompt(
+  teamId: string,
+  data: {
+    name: string
+    prompt_text: string
+    // ... other fields
+  },
+) {
   const supabase = await createClient()
 
   // Encrypt sensitive fields
   const encryptedPromptText = encryption.encrypt(
     data.prompt_text,
-    `team:${teamId}` // Context binding
+    `team:${teamId}`, // Context binding
   )
 
   const { data: prompt, error } = await supabase
@@ -211,7 +210,7 @@ export async function createTeamPrompt(teamId: string, data: {
       prompt_text: encryptedPromptText,
       // Store encryption metadata
       is_encrypted: true,
-      encryption_version: 1
+      encryption_version: 1,
     })
     .select()
     .single()
@@ -234,10 +233,7 @@ export async function getTeamPrompt(promptId: string) {
 
   // Decrypt if encrypted
   if (prompt.is_encrypted) {
-    prompt.prompt_text = encryption.decrypt(
-      prompt.prompt_text,
-      `team:${prompt.team_id}`
-    )
+    prompt.prompt_text = encryption.decrypt(prompt.prompt_text, `team:${prompt.team_id}`)
   }
 
   return prompt
@@ -259,32 +255,32 @@ const nextConfig = {
         headers: [
           {
             key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
+            value: 'max-age=63072000; includeSubDomains; preload',
           },
           {
             key: 'X-Content-Type-Options',
-            value: 'nosniff'
+            value: 'nosniff',
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY'
+            value: 'DENY',
           },
           {
             key: 'X-XSS-Protection',
-            value: '1; mode=block'
+            value: '1; mode=block',
           },
           {
             key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
+            value: 'strict-origin-when-cross-origin',
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
-          }
-        ]
-      }
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
     ]
-  }
+  },
 }
 ```
 
@@ -304,22 +300,10 @@ export class APISigningService {
   /**
    * Sign API request with HMAC
    */
-  signRequest(
-    method: string,
-    path: string,
-    timestamp: number,
-    body?: string
-  ): string {
-    const message = [
-      method.toUpperCase(),
-      path,
-      timestamp.toString(),
-      body || ''
-    ].join('\n')
+  signRequest(method: string, path: string, timestamp: number, body?: string): string {
+    const message = [method.toUpperCase(), path, timestamp.toString(), body || ''].join('\n')
 
-    return createHmac('sha256', this.secretKey)
-      .update(message)
-      .digest('hex')
+    return createHmac('sha256', this.secretKey).update(message).digest('hex')
   }
 
   /**
@@ -330,7 +314,7 @@ export class APISigningService {
     method: string,
     path: string,
     timestamp: number,
-    body?: string
+    body?: string,
   ): boolean {
     // Check timestamp within 5 minutes
     const now = Date.now()
@@ -443,7 +427,7 @@ export type Permission = {
 export async function checkPermission(
   teamId: string,
   userId: string,
-  permission: Permission
+  permission: Permission,
 ): Promise<boolean> {
   const supabase = await createClient()
 
@@ -469,7 +453,7 @@ export async function checkPermission(
     p_team_id: teamId,
     p_user_id: userId,
     p_resource_type: permission.resourceType,
-    p_action: permission.action
+    p_action: permission.action,
   })
 
   return hasPermission || false
@@ -489,10 +473,10 @@ export function requirePermission(permission: Permission) {
             error: {
               code: 'FORBIDDEN',
               message: 'Insufficient permissions',
-              details: { required: permission }
-            }
+              details: { required: permission },
+            },
           },
-          { status: 403 }
+          { status: 403 },
         )
       }
 
@@ -549,7 +533,7 @@ export async function requireMFA(teamId: string, userId: string): Promise<boolea
 
   const { data: result } = await supabase.rpc('check_team_mfa_requirement', {
     p_team_id: teamId,
-    p_user_id: userId
+    p_user_id: userId,
   })
 
   return result || false
@@ -568,10 +552,10 @@ export function withMFA(handler: any) {
           error: {
             code: 'MFA_REQUIRED',
             message: 'Multi-factor authentication is required for this team',
-            action: 'setup_mfa'
-          }
+            action: 'setup_mfa',
+          },
         },
-        { status: 403 }
+        { status: 403 },
       )
     }
 
@@ -680,7 +664,7 @@ export async function logAction(entry: AuditLogEntry): Promise<void> {
     new_values: entry.newValues,
     ip_address: headersList.get('x-forwarded-for') || headersList.get('x-real-ip'),
     user_agent: headersList.get('user-agent'),
-    metadata: entry.metadata
+    metadata: entry.metadata,
   })
 
   if (error) {
@@ -698,7 +682,7 @@ export const auditLog = {
       action: 'member_added',
       resourceType: 'team_member',
       resourceId: newMember.id,
-      newValues: newMember
+      newValues: newMember,
     }),
 
   memberRemoved: (teamId: string, userId: string, memberId: string) =>
@@ -707,10 +691,16 @@ export const auditLog = {
       userId,
       action: 'member_removed',
       resourceType: 'team_member',
-      resourceId: memberId
+      resourceId: memberId,
     }),
 
-  roleChanged: (teamId: string, userId: string, memberId: string, oldRole: string, newRole: string) =>
+  roleChanged: (
+    teamId: string,
+    userId: string,
+    memberId: string,
+    oldRole: string,
+    newRole: string,
+  ) =>
     logAction({
       teamId,
       userId,
@@ -718,7 +708,7 @@ export const auditLog = {
       resourceType: 'team_member',
       resourceId: memberId,
       oldValues: { role: oldRole },
-      newValues: { role: newRole }
+      newValues: { role: newRole },
     }),
 
   promptCreated: (teamId: string, userId: string, prompt: any) =>
@@ -728,7 +718,7 @@ export const auditLog = {
       action: 'prompt_created',
       resourceType: 'team_prompt',
       resourceId: prompt.id,
-      newValues: { name: prompt.name, model: prompt.model }
+      newValues: { name: prompt.name, model: prompt.model },
     }),
 
   dataExported: (teamId: string, userId: string, exportType: string) =>
@@ -736,8 +726,8 @@ export const auditLog = {
       teamId,
       userId,
       action: 'data_exported',
-      metadata: { export_type: exportType }
-    })
+      metadata: { export_type: exportType },
+    }),
 }
 ```
 
@@ -772,25 +762,21 @@ $$ language plpgsql;
 
 #### Controls Mapping
 
-| Control | Implementation |
-|---------|----------------|
-| **Access Control** | RLS, RBAC, MFA |
-| **Data Encryption** | AES-256 at rest, TLS 1.3 in transit |
-| **Audit Logging** | Complete activity trail |
-| **Backup & Recovery** | Daily backups, 30-day retention |
-| **Incident Response** | Documented procedures |
-| **Vendor Management** | Supabase, Stripe compliance |
+| Control                 | Implementation                      |
+| ----------------------- | ----------------------------------- |
+| **Access Control**      | RLS, RBAC, MFA                      |
+| **Data Encryption**     | AES-256 at rest, TLS 1.3 in transit |
+| **Audit Logging**       | Complete activity trail             |
+| **Backup & Recovery**   | Daily backups, 30-day retention     |
+| **Incident Response**   | Documented procedures               |
+| **Vendor Management**   | Supabase, Stripe compliance         |
 | **Security Monitoring** | Error tracking, intrusion detection |
 
 #### Evidence Collection
 
 ```typescript
 // lib/compliance/soc2.ts
-export async function generateSOC2Report(
-  teamId: string,
-  startDate: Date,
-  endDate: Date
-) {
+export async function generateSOC2Report(teamId: string, startDate: Date, endDate: Date) {
   const supabase = await createClient()
 
   // Collect evidence
@@ -826,8 +812,8 @@ export async function generateSOC2Report(
     backups: await supabase.rpc('verify_backup_completion', {
       p_team_id: teamId,
       p_start_date: startDate,
-      p_end_date: endDate
-    })
+      p_end_date: endDate,
+    }),
   }
 
   return evidence
@@ -850,31 +836,15 @@ export class GDPRService {
     const supabase = await createClient()
 
     const data = {
-      profile: await supabase
-        .from('user_profiles')
-        .select('*')
-        .eq('id', userId)
-        .single(),
+      profile: await supabase.from('user_profiles').select('*').eq('id', userId).single(),
 
-      teams: await supabase
-        .from('team_members')
-        .select('*, teams(*)')
-        .eq('user_id', userId),
+      teams: await supabase.from('team_members').select('*, teams(*)').eq('user_id', userId),
 
-      prompts: await supabase
-        .from('team_prompts')
-        .select('*')
-        .eq('created_by', userId),
+      prompts: await supabase.from('team_prompts').select('*').eq('created_by', userId),
 
-      outputs: await supabase
-        .from('team_outputs')
-        .select('*')
-        .eq('created_by', userId),
+      outputs: await supabase.from('team_outputs').select('*').eq('created_by', userId),
 
-      auditLogs: await supabase
-        .from('team_audit_logs')
-        .select('*')
-        .eq('user_id', userId)
+      auditLogs: await supabase.from('team_audit_logs').select('*').eq('user_id', userId),
     }
 
     return data
@@ -893,28 +863,16 @@ export class GDPRService {
       .eq('user_id', userId)
 
     // Delete user's prompts
-    await supabase
-      .from('team_prompts')
-      .delete()
-      .eq('created_by', userId)
+    await supabase.from('team_prompts').delete().eq('created_by', userId)
 
     // Delete user's outputs
-    await supabase
-      .from('team_outputs')
-      .delete()
-      .eq('created_by', userId)
+    await supabase.from('team_outputs').delete().eq('created_by', userId)
 
     // Remove from teams
-    await supabase
-      .from('team_members')
-      .delete()
-      .eq('user_id', userId)
+    await supabase.from('team_members').delete().eq('user_id', userId)
 
     // Delete profile
-    await supabase
-      .from('user_profiles')
-      .delete()
-      .eq('id', userId)
+    await supabase.from('user_profiles').delete().eq('id', userId)
 
     // Delete auth user (triggers cascade)
     await supabase.auth.admin.deleteUser(userId)
@@ -926,10 +884,7 @@ export class GDPRService {
   async updateUserData(userId: string, updates: Record<string, any>): Promise<void> {
     const supabase = await createClient()
 
-    await supabase
-      .from('user_profiles')
-      .update(updates)
-      .eq('id', userId)
+    await supabase.from('user_profiles').update(updates).eq('id', userId)
   }
 
   /**
@@ -956,7 +911,7 @@ export enum IncidentSeverity {
   Low = 'low',
   Medium = 'medium',
   High = 'high',
-  Critical = 'critical'
+  Critical = 'critical',
 }
 
 export interface SecurityIncident {
@@ -982,7 +937,7 @@ export class IncidentResponseService {
       affected_teams: incident.affectedTeams,
       affected_users: incident.affectedUsers,
       metadata: incident.metadata,
-      status: 'open'
+      status: 'open',
     })
 
     // Alert based on severity
@@ -1002,7 +957,7 @@ export class IncidentResponseService {
       channel: 'security',
       severity: 'critical',
       message: `CRITICAL SECURITY INCIDENT: ${incident.type}`,
-      details: incident
+      details: incident,
     })
 
     // Log to external SIEM
@@ -1027,8 +982,8 @@ export class IncidentResponseService {
     if (!recentActions) return
 
     // Pattern: Too many failed attempts
-    const failedAttempts = recentActions.filter(a =>
-      a.action.includes('failed') || a.action.includes('unauthorized')
+    const failedAttempts = recentActions.filter(
+      (a) => a.action.includes('failed') || a.action.includes('unauthorized'),
     )
 
     if (failedAttempts.length > 10) {
@@ -1037,7 +992,7 @@ export class IncidentResponseService {
         severity: IncidentSeverity.High,
         description: `User ${userId} has ${failedAttempts.length} failed attempts in 1 hour`,
         affectedUsers: [userId],
-        affectedTeams: [teamId]
+        affectedTeams: [teamId],
       })
 
       // Temporarily lock account
@@ -1045,14 +1000,14 @@ export class IncidentResponseService {
     }
 
     // Pattern: Data exfiltration
-    const dataExports = recentActions.filter(a => a.action === 'data_exported')
+    const dataExports = recentActions.filter((a) => a.action === 'data_exported')
     if (dataExports.length > 5) {
       await this.logIncident({
         type: 'potential_data_exfiltration',
         severity: IncidentSeverity.Critical,
         description: `User ${userId} exported data ${dataExports.length} times in 1 hour`,
         affectedUsers: [userId],
-        affectedTeams: [teamId]
+        affectedTeams: [teamId],
       })
     }
   }
@@ -1127,24 +1082,28 @@ export class IncidentResponseService {
 ### Security Layers Implemented
 
 ✅ **Data Protection**
+
 - AES-256-GCM encryption at rest
 - TLS 1.3 in transit
 - Key rotation procedures
 - Encrypted backups
 
 ✅ **Access Control**
+
 - Row-Level Security (RLS)
 - Role-based permissions
 - Multi-factor authentication
 - Session management
 
 ✅ **Audit & Compliance**
+
 - Complete activity logging
 - GDPR compliance tools
 - SOC 2 controls
 - Data export/deletion
 
 ✅ **Incident Response**
+
 - Automated threat detection
 - Incident logging
 - Alert procedures

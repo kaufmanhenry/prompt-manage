@@ -7,12 +7,14 @@ This document summarizes the 7 professional pages created for Prompt Manage to e
 ## 📄 Pages Created
 
 ### 1. Security & Privacy Overview
+
 **Path:** `/app/security/page.tsx`  
 **URL:** `https://promptmanage.com/security`
 
 **Purpose:** Demonstrate enterprise-grade security to business and enterprise customers.
 
 **Key Sections:**
+
 - Hero with trust-building headline
 - Security Principles (Zero Trust, Encryption, Transparency)
 - Data Encryption (In Transit: TLS 1.3 | At Rest: AES-256)
@@ -29,12 +31,14 @@ This document summarizes the 7 professional pages created for Prompt Manage to e
 ---
 
 ### 2. Legal Trust Center
+
 **Path:** `/app/legal-center/page.tsx`  
 **URL:** `https://promptmanage.com/legal-center`
 
 **Purpose:** Central hub for all legal and compliance documentation.
 
 **Key Sections:**
+
 - Hero: "Trust starts with transparency"
 - 6 Legal Document Cards:
   1. Terms of Service
@@ -53,12 +57,14 @@ This document summarizes the 7 professional pages created for Prompt Manage to e
 ---
 
 ### 3. Product Overview
+
 **Path:** `/app/product/page.tsx`  
 **URL:** `https://promptmanage.com/product`
 
 **Purpose:** Landing page explaining Prompt Manage's value proposition and features.
 
 **Key Sections:**
+
 - Hero: "Organize, secure, and share your prompts with confidence"
 - Problem Statement: Managing AI prompts shouldn't be chaotic
 - 6 Core Features:
@@ -78,12 +84,14 @@ This document summarizes the 7 professional pages created for Prompt Manage to e
 ---
 
 ### 4. Developer Documentation Intro
+
 **Path:** `/app/developer-docs/page.tsx`  
 **URL:** `https://promptmanage.com/developer-docs`
 
 **Purpose:** Onboard developers to the Prompt Manage API.
 
 **Key Sections:**
+
 - Hero: "Prompt Manage API"
 - What the API Enables (Upload, Query, Automate)
 - Authentication Overview:
@@ -105,12 +113,14 @@ This document summarizes the 7 professional pages created for Prompt Manage to e
 ---
 
 ### 5. Support Center
+
 **Path:** `/app/support/page.tsx`  
 **URL:** `https://promptmanage.com/support`
 
 **Purpose:** Self-serve help center to reduce support load.
 
 **Key Sections:**
+
 - Hero: "How can we help you?" with search bar placeholder
 - 4 Top-Level Categories:
   1. Getting Started (3 sample articles)
@@ -129,12 +139,14 @@ This document summarizes the 7 professional pages created for Prompt Manage to e
 ---
 
 ### 6. About Us
+
 **Path:** `/app/about/page.tsx`  
 **URL:** `https://promptmanage.com/about`
 
 **Purpose:** Humanize the company and communicate mission/values.
 
 **Key Sections:**
+
 - Hero: "Making AI prompt management secure, collaborative, and reliable"
 - Our Story: Why We Built Prompt Manage (problem → solution narrative)
 - Founder Quote:
@@ -161,12 +173,14 @@ This document summarizes the 7 professional pages created for Prompt Manage to e
 ---
 
 ### 7. Data Protection Addendum (DPA)
+
 **Path:** `/app/legal-center/dpa/page.tsx`  
 **URL:** `https://promptmanage.com/legal-center/dpa`
 
 **Purpose:** Formal legal document for GDPR and data protection compliance.
 
 **Key Sections:**
+
 1. **Definitions** — Controller, Processor, Personal Data, Processing, Sub-processor, Data Subject, Services
 2. **Scope and Applicability** — Roles, responsibilities, data types covered
 3. **Data Processing and Sub-processing** — Instructions, lawful basis, sub-processor list (Supabase, Vercel, OpenAI)
@@ -186,6 +200,7 @@ This document summarizes the 7 professional pages created for Prompt Manage to e
 ## 🎨 Design & UX Features
 
 All pages include:
+
 - **Responsive design** (mobile, tablet, desktop)
 - **Dark mode support** (via Tailwind dark: classes)
 - **Clean visual hierarchy** (headings, cards, spacing)
@@ -201,6 +216,7 @@ All pages include:
 ## 📊 SEO & Metadata
 
 Each page includes:
+
 ```typescript
 export const metadata: Metadata = {
   title: 'Page Title — Prompt Manage',
@@ -215,6 +231,7 @@ export const metadata: Metadata = {
 ```
 
 This ensures:
+
 - Proper indexing by search engines
 - Rich social media previews
 - Semantic HTML structure
@@ -248,6 +265,7 @@ Home (/)
 ## 🚀 Next Steps
 
 ### Recommended Additions:
+
 1. **Data Erasure Policy** (`/legal-center/data-erasure`)
 2. **Subprocessors List** (`/legal-center/subprocessors`)
 3. **Full API Reference** (`/docs/api-reference`)
@@ -255,6 +273,7 @@ Home (/)
 5. **Help Articles** (populate support center categories)
 
 ### Integration Tasks:
+
 1. Add navigation links to Header component
 2. Update sitemap.ts to include new pages
 3. Add internal links from homepage to Product, About, Security
@@ -262,6 +281,7 @@ Home (/)
 5. Add schema.org structured data (Organization, WebPage)
 
 ### Testing:
+
 1. Verify all internal links work
 2. Test responsive design on mobile/tablet
 3. Validate dark mode styling
@@ -272,12 +292,12 @@ Home (/)
 
 ## 📧 Contact Information Summary
 
-| Purpose | Email | Notes |
-|---------|-------|-------|
-| **Legal & Compliance** | legal@promptmanage.com | DPAs, contracts, GDPR |
-| **Security Issues** | security@promptmanage.com | Vulnerability disclosures |
-| **General Support** | support@promptmanage.com | Product help, billing |
-| **Enterprise Sales** | enterprise@promptmanage.com | Custom plans, partnerships |
+| Purpose                | Email                       | Notes                      |
+| ---------------------- | --------------------------- | -------------------------- |
+| **Legal & Compliance** | legal@promptmanage.com      | DPAs, contracts, GDPR      |
+| **Security Issues**    | security@promptmanage.com   | Vulnerability disclosures  |
+| **General Support**    | support@promptmanage.com    | Product help, billing      |
+| **Enterprise Sales**   | enterprise@promptmanage.com | Custom plans, partnerships |
 
 ---
 
@@ -298,4 +318,3 @@ Home (/)
 **Document Created:** January 16, 2025  
 **Status:** Production-ready, lint-free  
 **Frameworks:** Next.js 14, TypeScript, Tailwind CSS, shadcn/ui
-

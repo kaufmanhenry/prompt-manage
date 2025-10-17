@@ -117,6 +117,8 @@ function SimplePromptLab() {
   // Debounced autosave (prompt, context, model, contentType)
   const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const scheduleAutosave = useCallback((data: Record<string, unknown>) => {
+    if (typeof window === 'undefined') return
+
     if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current)
     autosaveTimerRef.current = setTimeout(() => {
       try {
@@ -138,6 +140,8 @@ function SimplePromptLab() {
 
   // Load saved contexts and autosaved draft from localStorage on component mount
   useEffect(() => {
+    if (typeof window === 'undefined') return
+
     const saved = localStorage.getItem('savedContexts')
     if (saved) {
       try {
@@ -233,7 +237,9 @@ function SimplePromptLab() {
 
     const updatedContexts = [...savedContexts, newContext]
     setSavedContexts(updatedContexts)
-    localStorage.setItem('savedContexts', JSON.stringify(updatedContexts))
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('savedContexts', JSON.stringify(updatedContexts))
+    }
 
     setNewContextName('')
     setShowSaveDialog(false)
@@ -259,7 +265,9 @@ function SimplePromptLab() {
   function _deleteContext(contextId: string) {
     const updatedContexts = savedContexts.filter((c) => c.id !== contextId)
     setSavedContexts(updatedContexts)
-    localStorage.setItem('savedContexts', JSON.stringify(updatedContexts))
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('savedContexts', JSON.stringify(updatedContexts))
+    }
 
     if (selectedContextId === contextId) {
       setSelectedContextId('')
@@ -527,7 +535,7 @@ function SimplePromptLab() {
               setPrompt(e.target.value)
               setPromptTouched(true)
             }}
-            className="min-h[120px] min-h-[120px] font-mono text-sm"
+            className="min-h-[120px] font-mono text-sm"
             placeholder={
               contentType === 'Email'
                 ? 'Example: Launch email announcing our new feature...'

@@ -183,7 +183,7 @@ export function InteractivePromptLab() {
               setPrompt(e.target.value)
               setPromptTouched(true)
             }}
-            className="min-h[120px] min-h-[120px] font-mono text-sm"
+            className="min-h-[120px] font-mono text-sm"
             placeholder={
               contentType === 'Email'
                 ? 'Example: Launch email announcing our new feature...'

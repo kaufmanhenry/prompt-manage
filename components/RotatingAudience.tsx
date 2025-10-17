@@ -26,6 +26,8 @@ export default function RotatingAudience({
   const timerRef = useRef<number | null>(null)
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+
     timerRef.current = window.setInterval(() => {
       setFade(true)
       window.setTimeout(() => {

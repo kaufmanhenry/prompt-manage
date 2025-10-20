@@ -27,8 +27,8 @@ export function VersionHistory({
   onRevert, 
   canEdit = true 
 }: VersionHistoryProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [expandedVersion, setExpandedVersion] = useState<number | null>(null)
+  const [_isOpen, _setIsOpen] = useState(false)
+  const [expandedVersion, _setExpandedVersion] = useState<number | null>(null)
   const { toast } = useToast()
   const queryClient = useQueryClient()
 
@@ -67,8 +67,8 @@ export function VersionHistory({
       })
 
       // Invalidate queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ['prompt-versions', promptId] })
-      queryClient.invalidateQueries({ queryKey: ['prompts'] })
+      void queryClient.invalidateQueries({ queryKey: ['prompt-versions', promptId] })
+      void queryClient.invalidateQueries({ queryKey: ['prompts'] })
 
       onRevert(result.new_version)
     } catch (error) {
@@ -80,12 +80,12 @@ export function VersionHistory({
     }
   }
 
-  const handleVersionSelect = (version: PromptVersion) => {
+  const _handleVersionSelect = (version: PromptVersion) => {
     onVersionSelect?.(version)
   }
 
   const copyPromptText = (text: string) => {
-    navigator.clipboard.writeText(text)
+    void navigator.clipboard.writeText(text)
     toast({
       title: 'Copied',
       description: 'Prompt text copied to clipboard',
@@ -226,7 +226,7 @@ export function VersionHistory({
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation()
-                          handleRevert(version.version)
+                          void handleRevert(version.version)
                         }}
                       >
                         <RotateCcw className="h-3 w-3" />

@@ -64,7 +64,7 @@ export function usePaywall(feature?: string): UsePaywallReturn {
       }
     }
 
-    checkUsage()
+    void checkUsage()
   }, [])
 
   const showPaywall = () => setIsPaywallOpen(true)

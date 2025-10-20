@@ -65,12 +65,6 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
     }
   }, [post.slug])
 
-  const breadcrumbItems = [
-    { label: 'Blog', href: '/blog' },
-    { label: post.category, href: `/blog?category=${encodeURIComponent(post.category)}` },
-    { label: post.title }
-  ]
-
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">

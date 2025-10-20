@@ -33,7 +33,7 @@ export default function DmcaPage() {
                 href="https://www.copyright.gov/dmca/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -76,7 +76,7 @@ export default function DmcaPage() {
                 Under Section 512 of the DMCA, online service providers are protected from monetary 
                 liability for copyright infringement if they meet certain conditions, including:
               </p>
-              <ul className="ml-6 space-y-2 list-disc">
+              <ul className="ml-6 list-disc space-y-2">
                 <li>Designating an agent to receive copyright infringement notices</li>
                 <li>Implementing a notice-and-takedown system</li>
                 <li>Not having actual knowledge of infringing activity</li>
@@ -116,7 +116,7 @@ export default function DmcaPage() {
               <p className="mb-4 text-gray-600 dark:text-gray-400">
                 All Notifications must include the following information:
               </p>
-              <ol className="space-y-3 list-decimal ml-6 text-gray-600 dark:text-gray-400">
+              <ol className="ml-6 list-decimal space-y-3 text-gray-600 dark:text-gray-400">
                 <li>
                   <strong>A physical or electronic signature</strong> of a person authorized to act on 
                   behalf of the owner of an exclusive right that is allegedly infringed.
@@ -190,7 +190,7 @@ export default function DmcaPage() {
               <p>
                 Upon receiving a valid DMCA notification, Prompt Manage will:
               </p>
-              <ul className="ml-6 space-y-2 list-disc">
+              <ul className="ml-6 list-disc space-y-2">
                 <li>Review the notification for completeness and validity</li>
                 <li>Remove or disable access to the allegedly infringing material</li>
                 <li>Notify the user who posted the content about the removal</li>
@@ -226,7 +226,7 @@ export default function DmcaPage() {
               <p className="mb-4 text-gray-600 dark:text-gray-400">
                 Counter-notifications must include:
               </p>
-              <ol className="space-y-3 list-decimal ml-6 text-gray-600 dark:text-gray-400">
+              <ol className="ml-6 list-decimal space-y-3 text-gray-600 dark:text-gray-400">
                 <li>
                   <strong>A physical or electronic signature</strong> of the user who posted the content
                 </li>
@@ -253,7 +253,7 @@ export default function DmcaPage() {
               <p>
                 After receiving a valid counter-notification, Prompt Manage will:
               </p>
-              <ul className="ml-6 space-y-2 list-disc">
+              <ul className="ml-6 list-disc space-y-2">
                 <li>Forward the counter-notification to the original complainant</li>
                 <li>Wait 10-14 business days for the complainant to file a court action</li>
                 <li>Restore the content if no court action is filed within the waiting period</li>
@@ -289,7 +289,7 @@ export default function DmcaPage() {
               <p>
                 For more information about copyright law and the DMCA, please consult:
               </p>
-              <ul className="ml-6 space-y-2 list-disc">
+              <ul className="ml-6 list-disc space-y-2">
                 <li>
                   <a
                     href="https://www.copyright.gov/dmca/"

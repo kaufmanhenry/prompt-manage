@@ -66,7 +66,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
       <div className="shrink-0 space-y-1 px-4 pt-4">
         <Link
           href="/dashboard"
-          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium tab-inactive transition-colors"
+          className="tab-inactive flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Dashboard

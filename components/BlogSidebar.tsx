@@ -92,7 +92,7 @@ export function BlogSidebar({ currentPost }: BlogSidebarProps) {
       }
     }
 
-    fetchBlogData()
+    void fetchBlogData()
   }, [])
 
   return (

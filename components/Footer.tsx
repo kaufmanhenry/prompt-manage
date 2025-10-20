@@ -56,6 +56,16 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/use-cases" className="text-gray-600 hover:underline dark:text-gray-300">
+                Use Cases
+              </Link>
+            </li>
+            <li>
+              <Link href="/ai-agents" className="text-gray-600 hover:underline dark:text-gray-300">
+                AI Agents
+              </Link>
+            </li>
+            <li>
               <Link href="/models" className="text-gray-600 hover:underline dark:text-gray-300">
                 Models
               </Link>

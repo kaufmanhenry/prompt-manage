@@ -70,22 +70,6 @@ export function Header() {
             <span className="hidden sm:inline">Prompt Manage</span>
           </Link>
           <nav className="hidden items-center gap-2 md:flex">
-            <Link
-              href="/use-cases"
-              className={`text-sm ${
-                pathname === '/use-cases' ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
-              } rounded-lg px-2 py-1 font-medium transition-colors hover:text-primary`}
-            >
-              Use Cases
-            </Link>
-            <Link
-              href="/ai-agents"
-              className={`text-sm ${
-                pathname === '/ai-agents' ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
-              } rounded-lg px-2 py-1 font-medium transition-colors hover:text-primary`}
-            >
-              AI Agents
-            </Link>
             {session && (
               <>
                 <Link

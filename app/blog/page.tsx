@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { blogPosts } from './posts'
+// import { BlogSidebar } from '@/components/BlogSidebar'
+// import { Breadcrumbs } from '@/components/Breadcrumbs'
 
 export const metadata: Metadata = {
   title: 'Blog - Prompt Manage',

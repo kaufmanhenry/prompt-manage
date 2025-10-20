@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
 
+  // Temporarily disable React Strict Mode to fix development errors
+  reactStrictMode: false,
+  
+  // Disable experimental features that might cause issues
+  experimental: {
+    // optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
+  },
+
   // Image optimization
   images: {
     formats: ['image/webp', 'image/avif'],

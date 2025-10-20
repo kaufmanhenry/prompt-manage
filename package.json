@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:clean": "rm -rf .next && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -14,6 +15,7 @@
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "stripe:setup": "tsx scripts/setup-stripe-products.ts",
+    "fix-dev": "node scripts/fix-dev-errors.js",
     "pre-commit": "lint-staged",
     "check-all": "npm run lint && npm run format:check && npm run type-check"
   },
@@ -21,6 +23,7 @@
     "@hookform/resolvers": "^3.3.4",
     "@next/third-parties": "15.3.4",
     "@radix-ui/react-accordion": "1.2.11",
+    "@radix-ui/react-collapsible": "1.1.12",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-label": "^2.0.2",
@@ -38,6 +41,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
+    "date-fns": "4.1.0",
     "gray-matter": "4.0.3",
     "lucide-react": "^0.331.0",
     "next": "15.5.6",

@@ -142,30 +142,37 @@ function SimplePromptLab() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const saved = localStorage.getItem('savedContexts')
-    if (saved) {
-      try {
-        setSavedContexts(JSON.parse(saved))
-      } catch (error) {
-        console.error('Error loading saved contexts:', error)
+    // Use requestIdleCallback for better performance
+    const loadData = () => {
+      const saved = localStorage.getItem('savedContexts')
+      if (saved) {
+        try {
+          setSavedContexts(JSON.parse(saved))
+        } catch (error) {
+          console.error('Error loading saved contexts:', error)
+        }
+      }
+
+      const draft = localStorage.getItem('simplePromptLabAutosave')
+      if (draft) {
+        try {
+          const parsed = JSON.parse(draft) as {
+            prompt?: string
+            context?: string
+            model?: string
+            contentType?: ContentType
+          }
+          if (parsed.prompt) setPrompt(parsed.prompt)
+          if (parsed.context) setContext(parsed.context)
+          if (parsed.model) setModel(parsed.model)
+          if (parsed.contentType) setContentType(parsed.contentType)
+        } catch {}
       }
     }
 
-    const draft = localStorage.getItem('simplePromptLabAutosave')
-    if (draft) {
-      try {
-        const parsed = JSON.parse(draft) as {
-          prompt?: string
-          context?: string
-          model?: string
-          contentType?: ContentType
-        }
-        if (parsed.prompt) setPrompt(parsed.prompt)
-        if (parsed.context) setContext(parsed.context)
-        if (parsed.model) setModel(parsed.model)
-        if (parsed.contentType) setContentType(parsed.contentType)
-      } catch {}
-    }
+    // Delay loading to prevent hydration mismatches
+    const timeoutId = setTimeout(loadData, 0)
+    return () => clearTimeout(timeoutId)
   }, [])
 
   // Persist autosave on relevant changes (debounced)

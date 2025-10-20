@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 import { PromptCard } from '@/components/PromptCard'
+// import { BlogSidebar } from '@/components/BlogSidebar'
+// import { Breadcrumbs } from '@/components/Breadcrumbs'
+// import { RelatedPosts } from '@/components/RelatedPosts'
 import { createClient } from '@/utils/supabase/client'
 
 interface BlogPost {
@@ -28,6 +31,7 @@ declare global {
 
 export default function BlogPostClient({ post }: { post: BlogPost }) {
   const [latestPrompts, setLatestPrompts] = useState<{ name: string; slug: string }[]>([])
+  
   useEffect(() => {
     // Load Twitter widgets script
     if (!document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')) {
@@ -60,6 +64,12 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
       void fetchLatestPrompts()
     }
   }, [post.slug])
+
+  const breadcrumbItems = [
+    { label: 'Blog', href: '/blog' },
+    { label: post.category, href: `/blog?category=${encodeURIComponent(post.category)}` },
+    { label: post.title }
+  ]
 
   return (
     <div className="min-h-screen bg-background">

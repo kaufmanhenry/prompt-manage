@@ -1,7 +1,7 @@
 'use client'
 
 import type { Session } from '@supabase/supabase-js'
-import { GlobeIcon, LogOut, Settings } from 'lucide-react'
+import { GlobeIcon, LogOut, Plus, Settings } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -29,6 +29,7 @@ interface SidebarProps {
   prompts?: Prompt[]
   selectedPromptId?: string | null
   onSelectPrompt: (promptId: string) => void
+  onNewPrompt?: () => void
   isLoading?: boolean
   session?: Session | null
 }
@@ -37,6 +38,7 @@ export function Sidebar({
   prompts = [],
   selectedPromptId,
   onSelectPrompt,
+  onNewPrompt,
   isLoading = false,
   session,
 }: SidebarProps) {
@@ -82,15 +84,27 @@ export function Sidebar({
     <aside className="flex w-80 shrink-0 flex-col border-r bg-white/50 backdrop-blur-sm dark:bg-gray-800/50">
       {/* Team Name Header */}
       <div className="shrink-0 border-b p-4">
-        <div className="mb-2 flex items-center gap-2">
-          <Image
-            src="/logo.svg"
-            alt="Prompt Manage"
-            width={24}
-            height={24}
-            className="h-6 w-6 dark:invert"
-          />
-          <h1 className="text-lg font-semibold">Prompt Manage</h1>
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Image
+              src="/logo.svg"
+              alt="Prompt Manage"
+              width={24}
+              height={24}
+              className="h-6 w-6 dark:invert"
+            />
+            <h1 className="text-lg font-semibold">Prompt Manage</h1>
+          </div>
+          <Button
+            size="sm"
+            variant="default"
+            className="h-8 gap-1"
+            onClick={() => (onNewPrompt ? onNewPrompt() : onSelectPrompt('new'))}
+            data-testid="create-prompt"
+          >
+            <Plus className="h-4 w-4" />
+            <span className="hidden sm:inline">New</span>
+          </Button>
         </div>
         <p className="text-xs text-muted-foreground">
           {session?.user?.user_metadata?.display_name || 'My Workspace'}

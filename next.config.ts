@@ -8,13 +8,7 @@ const nextConfig: NextConfig = {
   // Temporarily disable React Strict Mode to fix development errors
   reactStrictMode: false,
   
-  // Disable experimental features that might cause issues
-  experimental: {
-    // optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
-    esmExternals: false,
-  },
-
-  // Webpack configuration to fix module loading issues
+  // Webpack configuration for Node.js polyfills
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -24,27 +18,7 @@ const nextConfig: NextConfig = {
         tls: false,
       }
     }
-    
-    // Fix for webpack module loading issues during hydration
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    }
-    
-    // Additional configuration to fix webpack call errors
-    config.optimization = {
-      ...config.optimization,
-      splitChunks: {
-        ...config.optimization.splitChunks,
-        cacheGroups: {
-          ...config.optimization.splitChunks?.cacheGroups,
-          default: {
-            ...config.optimization.splitChunks?.cacheGroups?.default,
-            minChunks: 1,
-          },
-        },
-      },
-    }
-    
+
     return config
   },
 

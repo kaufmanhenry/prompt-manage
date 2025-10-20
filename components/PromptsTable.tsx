@@ -781,7 +781,7 @@ export function PromptDetails({
         {/* Left side - Prompt Input */}
         <div className="flex flex-col overflow-hidden border-r">
           {/* Fixed header for left side */}
-          <div className="flex shrink-0 items-center justify-between border-b px-4 py-3">
+          <div className="flex h-[60px] shrink-0 items-center justify-between border-b px-4">
             <p className="text-sm font-medium text-muted-foreground">Prompt Text</p>
             <div className="flex items-center gap-2">
               <Select
@@ -854,7 +854,7 @@ export function PromptDetails({
         {/* Right side - Run Output */}
         <div className="flex flex-col overflow-hidden">
           {/* Fixed header for right side */}
-          <div className="flex shrink-0 items-center gap-2 border-b px-4 py-3">
+          <div className="flex h-[60px] shrink-0 items-center gap-2 border-b px-4">
             <p className="text-sm font-medium text-muted-foreground">
               {selectedRun ? 'Selected Run Output' : 'Latest Output'}
             </p>

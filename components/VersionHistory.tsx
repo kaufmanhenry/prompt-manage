@@ -1,26 +1,24 @@
 'use client'
 
-import React, { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
 import { 
-  History, 
-  GitBranch, 
-  RotateCcw, 
-  Edit3, 
-  Plus,
   ChevronDown,
   ChevronRight,
   Copy,
-  Eye
-} from 'lucide-react'
+  Edit3,
+  GitBranch, 
+  History, 
+  Plus,
+  RotateCcw} from 'lucide-react'
+import React, { useState } from 'react'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { useToast } from '@/components/ui/use-toast'
-import { PromptVersion, VersionHistoryProps } from '@/lib/types/prompt-versions'
+import type { PromptVersion, VersionHistoryProps } from '@/lib/types/prompt-versions'
 
 export function VersionHistory({ 
   promptId, 
@@ -177,7 +175,7 @@ export function VersionHistory({
         {versions.map((version: PromptVersion) => (
           <Collapsible key={version.id}>
             <CollapsibleTrigger asChild>
-              <div className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 cursor-pointer">
+              <div className="flex cursor-pointer items-center justify-between rounded-lg border p-3 hover:bg-muted/50">
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
                     {expandedVersion === version.version ? (
@@ -207,7 +205,7 @@ export function VersionHistory({
                 </div>
                 <div className="flex items-center gap-2">
                   {version.change_summary && (
-                    <span className="text-xs text-muted-foreground max-w-48 truncate">
+                    <span className="max-w-48 truncate text-xs text-muted-foreground">
                       {version.change_summary}
                     </span>
                   )}
@@ -239,7 +237,7 @@ export function VersionHistory({
               </div>
             </CollapsibleTrigger>
             <CollapsibleContent>
-              <div className="p-3 bg-muted/30 rounded-lg mt-2">
+              <div className="mt-2 rounded-lg bg-muted/30 p-3">
                 <div className="space-y-3">
                   <div>
                     <label className="text-xs font-medium text-muted-foreground">Model</label>
@@ -248,7 +246,7 @@ export function VersionHistory({
                   {version.tags.length > 0 && (
                     <div>
                       <label className="text-xs font-medium text-muted-foreground">Tags</label>
-                      <div className="flex flex-wrap gap-1 mt-1">
+                      <div className="mt-1 flex flex-wrap gap-1">
                         {version.tags.map((tag) => (
                           <Badge key={tag} variant="secondary" className="text-xs">
                             {tag}
@@ -259,7 +257,7 @@ export function VersionHistory({
                   )}
                   <div>
                     <label className="text-xs font-medium text-muted-foreground">Prompt Text</label>
-                    <div className="mt-1 p-2 bg-background rounded border text-sm font-mono whitespace-pre-wrap max-h-32 overflow-y-auto">
+                    <div className="mt-1 max-h-32 overflow-y-auto whitespace-pre-wrap rounded border bg-background p-2 font-mono text-sm">
                       {version.prompt_text}
                     </div>
                   </div>

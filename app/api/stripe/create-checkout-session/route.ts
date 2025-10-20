@@ -1,14 +1,21 @@
-import { NextRequest, NextResponse } from 'next/server'
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server'
+
 import { stripe } from '@/lib/stripe'
-import { createClient } from '@/utils/supabase/server'
 import { STRIPE_CONFIG } from '@/lib/stripe'
+import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: NextRequest) {
   try {
     const { plan } = await request.json()
-    
+
     if (!plan || !STRIPE_CONFIG.plans[plan as keyof typeof STRIPE_CONFIG.plans]) {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 })
+    }
+
+    // Free plan doesn't need checkout
+    if (plan === 'free') {
+      return NextResponse.json({ error: 'Free plan does not require checkout' }, { status: 400 })
     }
 
     const supabase = await createClient()
@@ -38,12 +45,19 @@ export async function POST(request: NextRequest) {
     }
 
     // Create checkout session
+    const planConfig = STRIPE_CONFIG.plans[plan as keyof typeof STRIPE_CONFIG.plans]
+    const priceId = 'priceId' in planConfig ? planConfig.priceId : null
+
+    if (!priceId) {
+      return NextResponse.json({ error: 'Plan does not have a price ID' }, { status: 400 })
+    }
+
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: customer.id,
       payment_method_types: ['card'],
       line_items: [
         {
-          price: STRIPE_CONFIG.plans[plan as keyof typeof STRIPE_CONFIG.plans].priceId,
+          price: priceId,
           quantity: 1,
         },
       ],

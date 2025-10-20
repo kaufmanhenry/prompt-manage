@@ -1,9 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { z } from 'zod'
 
 import { createClient } from '@/utils/supabase/server'
-import { forkPromptRequestSchema, revertPromptRequestSchema } from '@/lib/types/prompt-versions'
 
 // GET /api/prompts/[id]/versions - Get version history for a prompt
 export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {

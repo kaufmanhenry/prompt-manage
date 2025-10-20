@@ -1,8 +1,8 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { createClient } from '@/utils/supabase/server'
 import { revertPromptRequestSchema } from '@/lib/types/prompt-versions'
+import { createClient } from '@/utils/supabase/server'
 
 // POST /api/prompts/[id]/revert - Revert prompt to a previous version
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {

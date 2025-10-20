@@ -1,9 +1,10 @@
 'use client'
 
+import { Check, Crown,Users, Zap } from 'lucide-react'
 import { useState } from 'react'
-import { Check, X, Zap, Users, Crown } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -11,7 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { STRIPE_CONFIG, PlanType } from '@/lib/stripe'
+import type { PlanType} from '@/lib/stripe';
+import {STRIPE_CONFIG } from '@/lib/stripe'
 
 interface PaywallProps {
   isOpen: boolean
@@ -68,9 +70,9 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">
+          <DialogTitle className="text-center text-2xl font-bold">
             {feature ? `Unlock ${feature}` : 'Upgrade Your Plan'}
           </DialogTitle>
           <DialogDescription className="text-center">
@@ -82,7 +84,7 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
         </DialogHeader>
 
         {usage && (
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
+          <div className="mb-6 rounded-lg bg-gray-50 p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">Current Usage</p>
@@ -98,7 +100,7 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {Object.entries(STRIPE_CONFIG.plans).map(([planKey, plan]) => {
             const planType = planKey as PlanType
             const isCurrentPlan = planType === currentPlan
@@ -112,13 +114,13 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
                 } ${isCurrentPlan ? 'opacity-75' : ''}`}
               >
                 {isCurrentPlan && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
                     <Badge className="bg-green-500">Current Plan</Badge>
                   </div>
                 )}
                 
-                <div className="text-center mb-4">
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full mb-3 ${getPlanColor(planType)}`}>
+                <div className="mb-4 text-center">
+                  <div className={`mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full ${getPlanColor(planType)}`}>
                     {getPlanIcon(planType)}
                   </div>
                   <h3 className="text-xl font-semibold">{plan.name}</h3>
@@ -128,10 +130,10 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
                   </div>
                 </div>
 
-                <ul className="space-y-3 mb-6">
+                <ul className="mb-6 space-y-3">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
-                      <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <Check className="mr-2 mt-0.5 h-5 w-5 flex-shrink-0 text-green-500" />
                       <span className="text-sm">{feature}</span>
                     </li>
                   ))}

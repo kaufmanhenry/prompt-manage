@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { Calendar, Tag } from 'lucide-react'
+import Link from 'next/link'
 
 interface RelatedPost {
   slug: string
@@ -83,9 +83,9 @@ export function RelatedPosts({ currentPostSlug, currentPostCategory, currentPost
   }
 
   return (
-    <section className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+    <section className="mt-16 border-t border-gray-200 pt-8 dark:border-gray-700">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+        <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
           Related Articles
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
@@ -97,27 +97,27 @@ export function RelatedPosts({ currentPostSlug, currentPostCategory, currentPost
         {relatedPosts.map((post) => (
           <article
             key={post.slug}
-            className="group bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow duration-200"
+            className="group overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow duration-200 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
           >
             <div className="p-6">
               <div className="mb-3 flex items-center space-x-2">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
                   {post.category}
                 </span>
                 <span className="text-gray-400">•</span>
                 <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                  <Calendar className="w-3 h-3 mr-1" />
+                  <Calendar className="mr-1 h-3 w-3" />
                   {new Date(post.date).toLocaleDateString()}
                 </div>
               </div>
 
-              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+              <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
                 <Link href={`/blog/${post.slug}`}>
                   {post.title}
                 </Link>
               </h3>
 
-              <p className="mb-4 text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+              <p className="mb-4 line-clamp-3 text-sm text-gray-600 dark:text-gray-400">
                 {post.summary}
               </p>
 
@@ -125,9 +125,9 @@ export function RelatedPosts({ currentPostSlug, currentPostCategory, currentPost
                 {post.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
+                    className="inline-flex items-center rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-400"
                   >
-                    <Tag className="w-3 h-3 mr-1" />
+                    <Tag className="mr-1 h-3 w-3" />
                     {tag}
                   </span>
                 ))}
@@ -144,7 +144,7 @@ export function RelatedPosts({ currentPostSlug, currentPostCategory, currentPost
                 </span>
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                  className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                 >
                   Read more →
                 </Link>
@@ -157,10 +157,10 @@ export function RelatedPosts({ currentPostSlug, currentPostCategory, currentPost
       <div className="mt-8 text-center">
         <Link
           href="/blog"
-          className="inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
         >
           View All Articles
-          <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </Link>

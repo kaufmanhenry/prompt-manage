@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { getUserSubscription, getUserUsage, canUserCreatePrompt } from '@/lib/subscription'
-import { PlanType } from '@/lib/stripe'
+import { useEffect,useState } from 'react'
+
 import Paywall from '@/components/Paywall'
+import type { PlanType } from '@/lib/stripe'
+import { canUserCreatePrompt,getUserSubscription, getUserUsage } from '@/lib/subscription'
+import { createClient } from '@/utils/supabase/client'
 
 interface UsePaywallReturn {
   canCreatePrompt: boolean

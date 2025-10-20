@@ -1,12 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { headers } from 'next/headers'
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server'
+
 import { stripe } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/server'
-import { headers } from 'next/headers'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.text()
-    const signature = headers().get('stripe-signature')
+    const headersList = await headers()
+    const signature = headersList.get('stripe-signature')
 
     if (!signature || !process.env.STRIPE_WEBHOOK_SECRET) {
       return NextResponse.json({ error: 'Missing signature' }, { status: 400 })
@@ -25,7 +28,8 @@ export async function POST(request: NextRequest) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object
-        const { userId, plan } = session.metadata
+        const userId = session.metadata?.userId
+        const plan = session.metadata?.plan
 
         if (!userId || !plan) {
           console.error('Missing metadata in checkout session')
@@ -34,6 +38,8 @@ export async function POST(request: NextRequest) {
 
         // Get subscription details
         const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const currentPeriodEnd = (subscription as any).current_period_end as number
 
         // Update or create subscription in database
         await supabase
@@ -42,7 +48,7 @@ export async function POST(request: NextRequest) {
             user_id: userId,
             plan,
             status: subscription.status,
-            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+            current_period_end: new Date(currentPeriodEnd * 1000).toISOString(),
             stripe_customer_id: session.customer as string,
             stripe_subscription_id: subscription.id,
             updated_at: new Date().toISOString(),
@@ -54,6 +60,8 @@ export async function POST(request: NextRequest) {
       case 'customer.subscription.updated': {
         const subscription = event.data.object
         const customerId = subscription.customer as string
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const currentPeriodEnd = (subscription as any).current_period_end as number
 
         // Get user from customer ID
         const { data: userSub } = await supabase
@@ -67,7 +75,7 @@ export async function POST(request: NextRequest) {
             .from('user_subscriptions')
             .update({
               status: subscription.status,
-              current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+              current_period_end: new Date(currentPeriodEnd * 1000).toISOString(),
               updated_at: new Date().toISOString(),
             })
             .eq('user_id', userSub.user_id)

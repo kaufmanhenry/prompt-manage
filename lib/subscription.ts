@@ -1,5 +1,6 @@
+import type { PlanType} from '@/lib/stripe';
+import {STRIPE_CONFIG } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/server'
-import { STRIPE_CONFIG, PlanType } from '@/lib/stripe'
 
 export interface UserSubscription {
   id: string

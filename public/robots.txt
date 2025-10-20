@@ -20,8 +20,6 @@ Allow: /models
 Allow: /docs
 Allow: /docs/*
 Allow: /about
-Allow: /blog
-Allow: /blog/*
 Allow: /u/*
 
 # Sitemap

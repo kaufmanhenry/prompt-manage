@@ -146,7 +146,7 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
                   onClick={() => {
                     if (!isCurrentPlan) {
                       setSelectedPlan(planType)
-                      handleSubscribe(planType)
+                      void handleSubscribe(planType)
                     }
                   }}
                 >

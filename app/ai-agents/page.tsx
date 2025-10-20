@@ -279,7 +279,7 @@ export default function AIAgentsPage() {
       setEmail('')
       setCompany('')
       setUseCase('')
-    } catch (error) {
+    } catch (_error) {
       toast({
         title: 'Error',
         description: 'Failed to submit request. Please try again.',
@@ -341,14 +341,14 @@ export default function AIAgentsPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/70"
+                  className="border-white/20 bg-white/10 text-white placeholder:text-white/70"
                 />
                 <Input
                   type="text"
                   placeholder="Company name"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/70"
+                  className="border-white/20 bg-white/10 text-white placeholder:text-white/70"
                 />
               </div>
               <Textarea

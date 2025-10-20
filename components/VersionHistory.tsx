@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useToast } from '@/components/ui/use-toast'
 import type { PromptVersion, VersionHistoryProps } from '@/lib/types/prompt-versions'
 
@@ -27,8 +28,11 @@ export function VersionHistory({
   onRevert, 
   canEdit = true 
 }: VersionHistoryProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [expandedVersion, setExpandedVersion] = useState<number | null>(null)
+  const [_isOpen, _setIsOpen] = useState(false)
+  const [_expandedVersion, _setExpandedVersion] = useState<number | null>(null)
+  const [showRevertDialog, setShowRevertDialog] = useState(false)
+  const [versionToRevert, setVersionToRevert] = useState<number | null>(null)
+  const [reverting, setReverting] = useState(false)
   const { toast } = useToast()
   const queryClient = useQueryClient()
 
@@ -44,14 +48,21 @@ export function VersionHistory({
     enabled: !!promptId,
   })
 
-  const handleRevert = async (version: number) => {
+  const handleRevert = (version: number) => {
     if (!onRevert) return
+    setVersionToRevert(version)
+    setShowRevertDialog(true)
+  }
 
+  const confirmRevert = async () => {
+    if (!versionToRevert || !onRevert) return
+
+    setReverting(true)
     try {
       const response = await fetch(`/api/prompts/${promptId}/revert`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ target_version: version }),
+        body: JSON.stringify({ target_version: versionToRevert }),
       })
 
       if (!response.ok) {
@@ -63,29 +74,33 @@ export function VersionHistory({
       
       toast({
         title: 'Version Reverted',
-        description: `Reverted to version ${version}`,
+        description: `Reverted to version ${versionToRevert}`,
       })
 
       // Invalidate queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ['prompt-versions', promptId] })
-      queryClient.invalidateQueries({ queryKey: ['prompts'] })
+      void queryClient.invalidateQueries({ queryKey: ['prompt-versions', promptId] })
+      void queryClient.invalidateQueries({ queryKey: ['prompts'] })
 
       onRevert(result.new_version)
+      setShowRevertDialog(false)
+      setVersionToRevert(null)
     } catch (error) {
       toast({
         title: 'Error',
         description: error instanceof Error ? error.message : 'Failed to revert version',
         variant: 'destructive',
       })
+    } finally {
+      setReverting(false)
     }
   }
 
-  const handleVersionSelect = (version: PromptVersion) => {
+  const _handleVersionSelect = (version: PromptVersion) => {
     onVersionSelect?.(version)
   }
 
   const copyPromptText = (text: string) => {
-    navigator.clipboard.writeText(text)
+    void navigator.clipboard.writeText(text)
     toast({
       title: 'Copied',
       description: 'Prompt text copied to clipboard',
@@ -178,7 +193,7 @@ export function VersionHistory({
               <div className="flex cursor-pointer items-center justify-between rounded-lg border p-3 hover:bg-muted/50">
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
-                    {expandedVersion === version.version ? (
+                    {_expandedVersion === version.version ? (
                       <ChevronDown className="h-4 w-4" />
                     ) : (
                       <ChevronRight className="h-4 w-4" />
@@ -279,6 +294,48 @@ export function VersionHistory({
           </div>
         )}
       </CardContent>
+
+      {/* Revert Confirmation Dialog */}
+      <Dialog open={showRevertDialog} onOpenChange={setShowRevertDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Revert to Version {versionToRevert}</DialogTitle>
+            <DialogDescription>
+              You are about to revert this prompt to version {versionToRevert}. This will replace the current prompt content.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="rounded-lg bg-orange-50 p-4 dark:bg-orange-900/20">
+              <h4 className="font-semibold text-orange-800 dark:text-orange-200">⚠️ Important Warning</h4>
+              <ul className="mt-2 space-y-1 text-sm text-orange-700 dark:text-orange-300">
+                <li>• This will replace your current prompt content with version {versionToRevert}</li>
+                <li>• Any changes made since version {versionToRevert} will be lost</li>
+                <li>• This action cannot be undone</li>
+                <li>• A new version will be created with the reverted content</li>
+              </ul>
+            </div>
+            <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+              <h4 className="font-semibold text-blue-800 dark:text-blue-200">💡 Recommendation</h4>
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                Consider copying the content from version {versionToRevert} instead of reverting, 
+                so you don't lose your recent changes.
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowRevertDialog(false)}>
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={confirmRevert}
+              disabled={reverting}
+            >
+              {reverting ? 'Reverting...' : `Yes, Revert to Version ${versionToRevert}`}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Card>
   )
 }

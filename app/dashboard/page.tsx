@@ -248,7 +248,7 @@ export default function DashboardHomePage() {
                             )}
                           </div>
                           {prompt.description && (
-                            <p className="text-xs text-muted-foreground line-clamp-1">
+                            <p className="line-clamp-1 text-xs text-muted-foreground">
                               {prompt.description}
                             </p>
                           )}

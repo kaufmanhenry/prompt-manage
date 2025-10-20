@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { SettingsSidebar } from '@/components/SettingsSidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -20,6 +21,8 @@ export default function SettingsPage() {
   const { toast } = useToast()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [user, setUser] = useState<AuthUser | null>(null)
 
   // Profile form state
@@ -163,13 +166,9 @@ export default function SettingsPage() {
   }
 
   const handleDeleteAccount = async () => {
-    if (
-      !user ||
-      !confirm('Are you sure you want to delete your account? This action cannot be undone.')
-    ) {
-      return
-    }
+    if (!user) return
 
+    setDeleting(true)
     try {
       const supabase = createClient()
       const { error } = await supabase.rpc('delete_user')
@@ -193,6 +192,9 @@ export default function SettingsPage() {
         description: 'An error occurred while deleting your account.',
         variant: 'destructive',
       })
+    } finally {
+      setDeleting(false)
+      setShowDeleteDialog(false)
     }
   }
 
@@ -446,7 +448,7 @@ export default function SettingsPage() {
                 </div>
                 <Button
                   variant="destructive"
-                  onClick={handleDeleteAccount}
+                  onClick={() => setShowDeleteDialog(true)}
                   className="flex items-center gap-2"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -458,6 +460,51 @@ export default function SettingsPage() {
         </div>
         </div>
       </div>
+
+      {/* Account Deletion Confirmation Dialog */}
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Account</DialogTitle>
+            <DialogDescription>
+              You are about to permanently delete your Prompt Manage account and all associated data.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
+              <h4 className="font-semibold text-red-800 dark:text-red-200">⚠️ Critical Warning</h4>
+              <ul className="mt-2 space-y-1 text-sm text-red-700 dark:text-red-300">
+                <li>• This action will permanently delete your entire account</li>
+                <li>• All your prompts, settings, and account history will be lost forever</li>
+                <li>• This action cannot be undone or reversed</li>
+                <li>• You will lose access to all paid features and subscriptions</li>
+                <li>• Public prompts you've shared will be removed from the public directory</li>
+                <li>• All your data will be permanently erased from our servers</li>
+              </ul>
+            </div>
+            <div className="rounded-lg bg-yellow-50 p-4 dark:bg-yellow-900/20">
+              <h4 className="font-semibold text-yellow-800 dark:text-yellow-200">💡 Alternative Options</h4>
+              <ul className="mt-2 space-y-1 text-sm text-yellow-700 dark:text-yellow-300">
+                <li>• Consider exporting your data before deletion</li>
+                <li>• You can disable your account instead of deleting it</li>
+                <li>• Contact support if you're having issues with your account</li>
+              </ul>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleDeleteAccount}
+              disabled={deleting}
+            >
+              {deleting ? 'Deleting Account...' : 'Yes, Delete My Account'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -11,7 +11,6 @@ const nextConfig: NextConfig = {
   // Disable experimental features that might cause issues
   experimental: {
     // optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
-    esmExternals: false,
   },
 
   // Webpack configuration to fix module loading issues

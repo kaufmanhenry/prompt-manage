@@ -53,7 +53,7 @@ export default function AgentAdminPage() {
           selectedPromptId={null}
           onSelectPrompt={() => {}}
           session={null}
-          currentPage="agents"
+          currentPage="home"
         />
         <main className="flex flex-1 items-center justify-center bg-accent/50">
           <div className="text-center">
@@ -75,7 +75,7 @@ export default function AgentAdminPage() {
           selectedPromptId={null}
           onSelectPrompt={() => {}}
           session={session}
-          currentPage="agents"
+          currentPage="home"
         />
         <main className="flex flex-1 items-center justify-center bg-accent/50">
           <div className="text-center">
@@ -100,7 +100,7 @@ export default function AgentAdminPage() {
         onSelectPrompt={handleSelectPrompt}
         isLoading={isLoading}
         session={session}
-        currentPage="agents"
+        currentPage="home"
       />
       <main className="dashboard-main">
         <div className="dashboard-container">

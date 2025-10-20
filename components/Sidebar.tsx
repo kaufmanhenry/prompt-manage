@@ -1,7 +1,7 @@
 'use client'
 
 import type { Session } from '@supabase/supabase-js'
-import { Bot, GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
+import { GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,7 +16,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { isAdminEmail } from '@/lib/admin'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -33,7 +32,7 @@ interface SidebarProps {
   onNewPrompt?: () => void
   isLoading?: boolean
   session?: Session | null
-  currentPage?: 'home' | 'prompts' | 'lab' | 'agents' | 'public'
+  currentPage?: 'home' | 'prompts' | 'lab' | 'public'
 }
 
 export function Sidebar({
@@ -52,8 +51,8 @@ export function Sidebar({
   const uniqueModels = Array.from(new Set(prompts.map((p) => p.model).filter(Boolean)))
   const uniqueTags = Array.from(new Set(prompts.flatMap((p) => p.tags)))
 
-  // Check if user is admin
-  const isAdmin = isAdminEmail(session?.user?.email)
+  // Check if user is admin (removed since AI Agents tab is no longer shown)
+  // const isAdmin = isAdminEmail(session?.user?.email)
 
   // Filtering logic
   const filteredPrompts = prompts.filter((p) => {
@@ -137,17 +136,6 @@ export function Sidebar({
           <GlobeIcon className="h-4 w-4" />
           Public Directory
         </Link>
-        {isAdmin && (
-          <Link
-            href="/dashboard/agents"
-            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-              currentPage === 'agents' ? 'tab-active' : 'tab-inactive'
-            }`}
-          >
-            <Bot className="h-4 w-4" />
-            AI Agents
-          </Link>
-        )}
       </div>
 
       {/* Search and Filters */}

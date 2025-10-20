@@ -322,12 +322,12 @@ export default async function Home() {
               <h2 className="mb-12 text-center text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">
                 How teams ship campaigns faster
               </h2>
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid-feature-cards">
                 {/* Campaign Manager Workflow */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <div className="card-base">
                   <div className="mb-4 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
-                      <Megaphone className="h-5 w-5 text-emerald-600 dark:text-emerald-300" />
+                    <div className="icon-container">
+                      <Megaphone className="icon-feature" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 dark:text-white">
@@ -353,10 +353,10 @@ export default async function Home() {
                 </div>
 
                 {/* Content Creator Workflow */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <div className="card-base">
                   <div className="mb-4 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
-                      <Rocket className="h-5 w-5 text-emerald-600 dark:text-emerald-300" />
+                    <div className="icon-container">
+                      <Rocket className="icon-feature" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 dark:text-white">
@@ -382,10 +382,10 @@ export default async function Home() {
                 </div>
 
                 {/* Team Lead Workflow */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <div className="card-base">
                   <div className="mb-4 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
-                      <Users className="h-5 w-5 text-emerald-600 dark:text-emerald-300" />
+                    <div className="icon-container">
+                      <Users className="icon-feature" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 dark:text-white">Team Lead</h3>

@@ -211,8 +211,8 @@ function PublicDirectoryContent() {
         session={session}
         currentPage="public"
       />
-      <main className="flex-1 overflow-y-auto bg-accent/50 p-8">
-        <div className="mx-auto max-w-7xl space-y-8">
+      <main className="dashboard-main">
+        <div className="dashboard-container">
           {/* Header */}
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Public Directory</h1>

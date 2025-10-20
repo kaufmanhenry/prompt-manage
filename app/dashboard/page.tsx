@@ -139,8 +139,8 @@ export default function DashboardHomePage() {
         session={session}
         currentPage="home"
       />
-      <main className="flex-1 overflow-y-auto bg-accent/50 p-8">
-        <div className="mx-auto max-w-7xl space-y-8">
+      <main className="dashboard-main">
+        <div className="dashboard-container">
           {/* Header */}
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
@@ -150,7 +150,7 @@ export default function DashboardHomePage() {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid-stat-cards">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Prompts</CardTitle>
@@ -211,7 +211,7 @@ export default function DashboardHomePage() {
             </Card>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2">
             {/* Recent Prompts */}
             <Card>
               <CardHeader>
@@ -312,7 +312,7 @@ export default function DashboardHomePage() {
             </Card>
 
             {/* Top Tags */}
-            <Card className="lg:col-span-2">
+            <Card className="md:col-span-2">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Sparkles className="h-5 w-5" />

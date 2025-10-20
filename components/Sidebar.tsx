@@ -122,9 +122,7 @@ export function Sidebar({
         <Link
           href="/dashboard"
           className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-            currentPage === 'home'
-              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+            currentPage === 'home' ? 'tab-active' : 'tab-inactive'
           }`}
         >
           <Home className="h-4 w-4" />
@@ -133,9 +131,7 @@ export function Sidebar({
         <Link
           href="/dashboard/public"
           className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-            currentPage === 'public'
-              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+            currentPage === 'public' ? 'tab-active' : 'tab-inactive'
           }`}
         >
           <GlobeIcon className="h-4 w-4" />
@@ -145,9 +141,7 @@ export function Sidebar({
           <Link
             href="/dashboard/agents"
             className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-              currentPage === 'agents'
-                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-                : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+              currentPage === 'agents' ? 'tab-active' : 'tab-inactive'
             }`}
           >
             <Bot className="h-4 w-4" />
@@ -296,9 +290,7 @@ export function Sidebar({
               <button
                 key={prompt.id}
                 className={`flex h-auto w-full flex-col items-start gap-1 rounded-lg px-3 py-2 text-left transition-colors ${
-                  prompt.id === selectedPromptId
-                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-                    : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                  prompt.id === selectedPromptId ? 'tab-active' : 'tab-inactive'
                 }`}
                 onClick={() => onSelectPrompt(prompt.id as string)}
               >

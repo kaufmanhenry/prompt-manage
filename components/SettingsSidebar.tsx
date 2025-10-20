@@ -66,7 +66,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
       <div className="shrink-0 space-y-1 px-4 pt-4">
         <Link
           href="/dashboard"
-          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium tab-inactive transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Dashboard
@@ -78,9 +78,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
               key={item.href}
               href={item.href}
               className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                item.active
-                  ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-                  : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                item.active ? 'tab-active' : 'tab-inactive'
               }`}
             >
               <Icon className="h-4 w-4" />

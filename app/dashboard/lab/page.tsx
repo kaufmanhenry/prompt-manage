@@ -125,8 +125,8 @@ export default function LabPage() {
         session={session}
         currentPage="lab"
       />
-      <main className="flex-1 overflow-y-auto bg-accent/50 p-8">
-        <div className="mx-auto max-w-7xl space-y-8">
+      <main className="dashboard-main">
+        <div className="dashboard-container">
           <SimplePromptLab />
         </div>
       </main>

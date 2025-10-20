@@ -1,6 +1,27 @@
-import { ArrowLeft } from 'lucide-react'
+import {
+  ArrowLeft,
+  BarChart3,
+  BookOpen,
+  CheckCircle2,
+  Clock,
+  ExternalLink,
+  FileText,
+  Folder,
+  Search,
+  Settings,
+  Shield,
+  Star,
+  Tag,
+  Trash2,
+  TrendingUp,
+  Users,
+  Zap,
+} from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const metadata: Metadata = {
   title: 'Best Practices — Prompt Manage',
@@ -42,6 +63,7 @@ export default function BestPractices() {
 
       {/* Content */}
       <div className="mx-auto max-w-4xl px-6 py-16">
+        <div className="space-y-16">
           {/* Naming Your Prompts */}
           <section>
             <h2 className="mb-6 text-2xl font-semibold">Naming Your Prompts</h2>

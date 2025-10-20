@@ -267,7 +267,16 @@ export default function SettingsPage() {
 
   return (
     <div className="flex h-screen">
-      <SettingsSidebar session={{ user } as any} />
+      <SettingsSidebar
+        session={{
+          user,
+          access_token: '',
+          refresh_token: '',
+          expires_in: 0,
+          expires_at: 0,
+          token_type: 'bearer',
+        }}
+      />
       <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
         <div className="mx-auto max-w-4xl">
         <div className="mb-4">

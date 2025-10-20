@@ -279,7 +279,7 @@ export default function AIAgentsPage() {
       setEmail('')
       setCompany('')
       setUseCase('')
-    } catch (_error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to submit request. Please try again.',

@@ -51,9 +51,9 @@ export default function LegalSettingsPage() {
         title: 'Deletion Request Submitted',
         description: 'Your data deletion request has been sent to our legal team. You will receive a response within 30 days.',
       })
-      
+
       setShowDeleteDialog(false)
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to submit deletion request. Please try again or contact legal@promptmanage.com directly.',

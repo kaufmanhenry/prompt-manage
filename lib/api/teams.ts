@@ -37,31 +37,15 @@ export async function createTeam(input: CreateTeamInput) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Not authenticated')
 
-  // Create team
-  const { data: team, error: teamError } = await supabase
-    .from('teams')
-    .insert({
-      name: input.name,
-      description: input.description || null,
-      tier: 'free',
-      is_active: true,
-    })
-    .select()
-    .single()
-
-  if (teamError) throw teamError
-
-  // Add user as owner
-  const { error: memberError } = await supabase
-    .from('team_members')
-    .insert({
-      team_id: team.id,
-      user_id: user.id,
-      role: 'owner',
-      is_active: true,
+  // Use RPC function to create team and add user as owner
+  // This bypasses RLS using security definer
+  const { data: team, error } = await supabase
+    .rpc('create_team_with_owner', {
+      p_name: input.name,
+      p_description: input.description || null,
     })
 
-  if (memberError) throw memberError
+  if (error) throw error
 
   return { team }
 }

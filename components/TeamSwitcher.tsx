@@ -3,6 +3,7 @@
 import { Check, ChevronsUpDown, Plus } from 'lucide-react'
 import { useState } from 'react'
 
+import { CreateTeamDialog } from '@/components/CreateTeamDialog'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -24,6 +25,7 @@ import { cn } from '@/lib/utils'
 
 export function TeamSwitcher() {
   const [open, setOpen] = useState(false)
+  const [createDialogOpen, setCreateDialogOpen] = useState(false)
   const { data: teams, isLoading } = useUserTeams()
   const { currentTeamId, setCurrentTeamId } = useTeamContext()
 
@@ -44,72 +46,75 @@ export function TeamSwitcher() {
   }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="ghost"
-          role="combobox"
-          aria-expanded={open}
-          aria-label="Select team"
-          className="h-auto w-full justify-between px-2 py-1 font-normal hover:bg-accent"
-        >
-          <div className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden">
-            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-primary/10 text-xs font-medium text-primary">
-              {currentTeam?.teams.name?.charAt(0).toUpperCase() || 'T'}
+    <>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="ghost"
+            role="combobox"
+            aria-expanded={open}
+            aria-label="Select team"
+            className="h-auto w-full justify-between rounded-lg border px-2 py-1 font-normal hover:bg-accent"
+          >
+            <div className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden">
+              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-primary/10 text-xs font-medium text-primary">
+                {currentTeam?.teams.name?.charAt(0).toUpperCase() || 'T'}
+              </div>
+              <span className="truncate text-xs text-muted-foreground">
+                {currentTeam?.teams.name || 'Select team...'}
+              </span>
             </div>
-            <span className="truncate text-xs text-muted-foreground">
-              {currentTeam?.teams.name || 'Select team...'}
-            </span>
-          </div>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[280px] p-0" align="start">
-        <Command>
-          <CommandInput placeholder="Search teams..." />
-          <CommandEmpty>No team found.</CommandEmpty>
-          <CommandList>
-            <CommandGroup heading="Your Teams">
-              {teams?.map((team) => (
-                <CommandItem
-                  key={team.team_id}
-                  onSelect={() => handleSelectTeam(team.team_id)}
-                  className="cursor-pointer text-sm"
-                >
-                  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-primary/10 text-xs font-medium text-primary">
-                    {team.teams.name.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="ml-2 truncate">{team.teams.name}</span>
-                  {team.is_personal && (
-                    <span className="ml-2 text-xs text-muted-foreground">(Personal)</span>
-                  )}
-                  <Check
-                    className={cn(
-                      'ml-auto h-4 w-4',
-                      currentTeamId === team.team_id ? 'opacity-100' : 'opacity-0'
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[280px] p-0" align="start">
+          <Command>
+            <CommandInput placeholder="Search teams..." />
+            <CommandEmpty>No team found.</CommandEmpty>
+            <CommandList>
+              <CommandGroup heading="Your Teams">
+                {teams?.map((team) => (
+                  <CommandItem
+                    key={team.team_id}
+                    onSelect={() => handleSelectTeam(team.team_id)}
+                    className="cursor-pointer text-sm"
+                  >
+                    <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-primary/10 text-xs font-medium text-primary">
+                      {team.teams.name.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="ml-2 truncate">{team.teams.name}</span>
+                    {team.is_personal && (
+                      <span className="ml-2 text-xs text-muted-foreground">(Personal)</span>
                     )}
-                  />
+                    <Check
+                      className={cn(
+                        'ml-auto h-4 w-4',
+                        currentTeamId === team.team_id ? 'opacity-100' : 'opacity-0'
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+            <CommandSeparator />
+            <CommandList>
+              <CommandGroup>
+                <CommandItem
+                  onSelect={() => {
+                    setOpen(false)
+                    setCreateDialogOpen(true)
+                  }}
+                  className="cursor-pointer"
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create Team
                 </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-          <CommandSeparator />
-          <CommandList>
-            <CommandGroup>
-              <CommandItem
-                onSelect={() => {
-                  // TODO: Implement create team dialog
-                  setOpen(false)
-                }}
-                className="cursor-pointer"
-              >
-                <Plus className="mr-2 h-4 w-4" />
-                Create Team
-              </CommandItem>
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+      <CreateTeamDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+    </>
   )
 }

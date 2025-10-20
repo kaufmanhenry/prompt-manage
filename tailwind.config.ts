@@ -19,6 +19,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        mono: ['"DM Mono"', 'monospace'],
+      },
       boxShadow: {
         xs: 'var(--shadow-1)',
         sm: 'var(--shadow-1)',

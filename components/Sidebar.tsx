@@ -1,7 +1,7 @@
 'use client'
 
 import type { Session } from '@supabase/supabase-js'
-import { GlobeIcon, LogOut, Plus, Settings } from 'lucide-react'
+import { Bot, GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { isAdminEmail } from '@/lib/admin'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -32,6 +33,7 @@ interface SidebarProps {
   onNewPrompt?: () => void
   isLoading?: boolean
   session?: Session | null
+  currentPage?: 'home' | 'prompts' | 'lab' | 'agents' | 'public'
 }
 
 export function Sidebar({
@@ -41,6 +43,7 @@ export function Sidebar({
   onNewPrompt,
   isLoading = false,
   session,
+  currentPage = 'prompts',
 }: SidebarProps) {
   // Local state for model and tag filters and search
   const [modelFilters, setModelFilters] = useState<string[]>([])
@@ -48,6 +51,9 @@ export function Sidebar({
   const [search, setSearch] = useState('')
   const uniqueModels = Array.from(new Set(prompts.map((p) => p.model).filter(Boolean)))
   const uniqueTags = Array.from(new Set(prompts.flatMap((p) => p.tags)))
+
+  // Check if user is admin
+  const isAdmin = isAdminEmail(session?.user?.email)
 
   // Filtering logic
   const filteredPrompts = prompts.filter((p) => {
@@ -111,16 +117,55 @@ export function Sidebar({
         </p>
       </div>
 
+      {/* Navigation */}
+      <div className="shrink-0 space-y-1 px-4 pt-4">
+        <Link
+          href="/dashboard"
+          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+            currentPage === 'home'
+              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+          }`}
+        >
+          <Home className="h-4 w-4" />
+          Home
+        </Link>
+        <Link
+          href="/dashboard/public"
+          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+            currentPage === 'public'
+              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+          }`}
+        >
+          <GlobeIcon className="h-4 w-4" />
+          Public Directory
+        </Link>
+        {isAdmin && (
+          <Link
+            href="/dashboard/agents"
+            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              currentPage === 'agents'
+                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+            }`}
+          >
+            <Bot className="h-4 w-4" />
+            AI Agents
+          </Link>
+        )}
+      </div>
+
       {/* Search and Filters */}
       <div className="shrink-0 px-4 pb-2 pt-4">
-        <div className="mb-2 flex flex-wrap items-center gap-2">
         <input
           type="text"
           placeholder="Search prompts..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 rounded-md border bg-white px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-900"
+          className="mb-2 w-full rounded-md border bg-white px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-900"
         />
+        <div className="flex flex-wrap items-center gap-2">
         {/* Model filter button */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -248,36 +293,43 @@ export function Sidebar({
             <div className="p-4 text-sm text-muted-foreground">No prompts found.</div>
           ) : (
             filteredPrompts.map((prompt) => (
-              <Button
+              <button
                 key={prompt.id}
-                variant={prompt.id === selectedPromptId ? 'secondary' : 'ghost'}
-                className="h-auto w-full flex-wrap justify-start rounded-lg px-2 py-2 text-left"
+                className={`flex h-auto w-full flex-col items-start gap-1 rounded-lg px-3 py-2 text-left transition-colors ${
+                  prompt.id === selectedPromptId
+                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                    : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
                 onClick={() => onSelectPrompt(prompt.id as string)}
               >
-                <div className="flex w-full justify-between">
-                  <div className="line-clamp-3 truncate whitespace-normal font-medium">
-                    {prompt.name}
+                <div className="flex w-full min-w-0 items-center justify-between gap-2">
+                  <div className="min-w-0 flex-1 break-words text-sm font-medium">
+                    <div className="line-clamp-2 break-words">{prompt.name}</div>
                   </div>
                   {prompt.is_public && (
-                    <div className="ml-auto text-right">
-                      <GlobeIcon className="h-4 w-4" />
-                    </div>
+                    <GlobeIcon className="h-4 w-4 shrink-0 text-muted-foreground" />
                   )}
                 </div>
                 {prompt.description && (
-                  <div className="truncate text-xs text-muted-foreground">{prompt.description}</div>
-                )}
-                {prompt.model && (
-                  <Badge className="text-xs" variant="outline">
-                    {prompt.model}
-                  </Badge>
-                )}
-                {prompt.tags.length > 0 && (
-                  <div className="line-clamp-2 w-full truncate whitespace-normal text-xs text-muted-foreground">
-                    {prompt.tags.join(', ')}
+                  <div className="w-full min-w-0 break-words text-xs text-muted-foreground">
+                    <div className="truncate">{prompt.description}</div>
                   </div>
                 )}
-              </Button>
+                {(prompt.model || prompt.tags.length > 0) && (
+                  <div className="flex w-full min-w-0 items-center gap-1 overflow-hidden">
+                    {prompt.model && (
+                      <Badge className="shrink-0 text-xs" variant="outline">
+                        {prompt.model}
+                      </Badge>
+                    )}
+                    {prompt.tags.length > 0 && (
+                      <div className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
+                        {prompt.tags.join(', ')}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </button>
             ))
           )}
         </div>

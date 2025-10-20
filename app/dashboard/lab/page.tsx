@@ -116,15 +116,17 @@ export default function LabPage() {
   }
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen">
       <Sidebar
         prompts={prompts}
         selectedPromptId={selectedPromptId}
         onSelectPrompt={handleSelectPrompt}
         isLoading={isLoading}
+        session={session}
+        currentPage="lab"
       />
-      <main className="flex-1 overflow-auto">
-        <div className="mx-auto max-w-7xl p-6">
+      <main className="flex-1 overflow-y-auto bg-accent/50 p-8">
+        <div className="mx-auto max-w-7xl space-y-8">
           <SimplePromptLab />
         </div>
       </main>

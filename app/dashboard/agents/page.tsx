@@ -46,13 +46,21 @@ export default function AgentAdminPage() {
   // Show loading while checking admin access
   if (!session) {
     return (
-      <div className="flex h-screen bg-background">
-        <div className="flex flex-1 items-center justify-center">
+      <div className="flex h-screen">
+        <Sidebar
+          isLoading={true}
+          prompts={[]}
+          selectedPromptId={null}
+          onSelectPrompt={() => {}}
+          session={null}
+          currentPage="agents"
+        />
+        <main className="flex flex-1 items-center justify-center bg-accent/50">
           <div className="text-center">
             <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-emerald-500"></div>
             <p className="text-muted-foreground">Loading...</p>
           </div>
-        </div>
+        </main>
       </div>
     )
   }
@@ -60,13 +68,21 @@ export default function AgentAdminPage() {
   // Redirect non-admin users
   if (!isAdminEmail(session.user.email)) {
     return (
-      <div className="flex h-screen bg-background">
-        <div className="flex flex-1 items-center justify-center">
+      <div className="flex h-screen">
+        <Sidebar
+          isLoading={isLoading}
+          prompts={prompts}
+          selectedPromptId={null}
+          onSelectPrompt={() => {}}
+          session={session}
+          currentPage="agents"
+        />
+        <main className="flex flex-1 items-center justify-center bg-accent/50">
           <div className="text-center">
             <h1 className="mb-2 text-2xl font-bold text-red-600">Access Denied</h1>
             <p className="text-muted-foreground">You don't have permission to access this page.</p>
           </div>
-        </div>
+        </main>
       </div>
     )
   }
@@ -77,15 +93,17 @@ export default function AgentAdminPage() {
   }
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen">
       <Sidebar
         prompts={prompts}
         selectedPromptId={null}
         onSelectPrompt={handleSelectPrompt}
         isLoading={isLoading}
+        session={session}
+        currentPage="agents"
       />
-      <main className="flex-1 overflow-auto">
-        <div className="mx-auto max-w-7xl p-6">
+      <main className="flex-1 overflow-y-auto bg-accent/50 p-8">
+        <div className="mx-auto max-w-7xl space-y-8">
           <AgentDashboard />
         </div>
       </main>

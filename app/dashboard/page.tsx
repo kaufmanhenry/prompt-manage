@@ -1,30 +1,29 @@
 'use client'
 
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Trash2 } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import {
+  ArrowUpRight,
+  BarChart3,
+  Clock,
+  Eye,
+  FileText,
+  Globe,
+  Sparkles,
+  TrendingUp,
+} from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useMemo } from 'react'
 
-import { PromptForm } from '@/components/PromptForm'
-import { PromptDetails } from '@/components/PromptsTable'
 import { Sidebar } from '@/components/Sidebar'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { useToast } from '@/components/ui/use-toast'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
-export default function DashboardPage() {
-  const searchParams = useSearchParams()
+export default function DashboardHomePage() {
   const router = useRouter()
-  const queryClient = useQueryClient()
-  const { toast } = useToast()
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -36,16 +35,6 @@ export default function DashboardPage() {
     },
   })
 
-  const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null)
-  const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null)
-  const [showEditForm, setShowEditForm] = useState(false)
-  const [showCreateForm, setShowCreateForm] = useState(false)
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-  const [promptToDelete, setPromptToDelete] = useState<Prompt | null>(null)
-  const [deleting, setDeleting] = useState(false)
-
-  const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(null)
-
   const { data: prompts = [], isLoading } = useQuery({
     queryKey: ['prompts', session?.user?.id],
     queryFn: async () => {
@@ -54,136 +43,90 @@ export default function DashboardPage() {
         .select('*')
         .eq('user_id', session?.user?.id)
         .order('updated_at', { ascending: false })
-        .limit(100) // Limit for performance
       if (error) throw error
       return data as Prompt[]
     },
     enabled: !!session?.user?.id,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   })
 
-  // Redirect to /auth/copy-prompt if there's a pending prompt copy
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const pendingCopy = localStorage.getItem('pendingPromptCopy')
-      if (pendingCopy) {
-        router.replace('/auth/copy-prompt')
+  // Calculate statistics
+  const stats = useMemo(() => {
+    if (!prompts.length) {
+      return {
+        totalPrompts: 0,
+        publicPrompts: 0,
+        totalViews: 0,
+        recentPrompts: [],
+        topModels: [],
+        topTags: [],
       }
     }
-  }, [router])
 
-  // Handle URL parameter for selected prompt
-  useEffect(() => {
-    const promptIdFromUrl = searchParams.get('prompt')
-    if (promptIdFromUrl && promptIdFromUrl !== 'new') {
-      setSelectedPromptId(promptIdFromUrl)
-    }
-  }, [searchParams])
+    const totalPrompts = prompts.length
+    const publicPrompts = prompts.filter((p) => p.is_public).length
+    const totalViews = prompts.reduce((sum, p) => sum + (p.view_count || 0), 0)
 
-  const selectedPrompt = prompts.find((p) => p.id === selectedPromptId) || null
+    // Get 5 most recent prompts
+    const recentPrompts = prompts.slice(0, 5)
 
-  // Fetch original prompt slug when viewing a derivative prompt
-  useEffect(() => {
-    const fetchOriginalPromptSlug = async () => {
-      if (selectedPrompt?.parent_prompt_id) {
-        try {
-          const { data, error } = await createClient()
-            .from('prompts')
-            .select('slug')
-            .eq('id', selectedPrompt.parent_prompt_id)
-            .single()
-
-          if (!error && data?.slug) {
-            setOriginalPromptSlug(data.slug)
-          }
-        } catch (err) {
-          console.error('Error fetching original prompt slug:', err)
+    // Calculate top models
+    const modelCounts = prompts.reduce(
+      (acc, p) => {
+        if (p.model) {
+          acc[p.model] = (acc[p.model] || 0) + 1
         }
-      } else {
-        setOriginalPromptSlug(null)
-      }
+        return acc
+      },
+      {} as Record<string, number>,
+    )
+    const topModels = Object.entries(modelCounts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5)
+      .map(([model, count]) => ({ model, count }))
+
+    // Calculate top tags
+    const tagCounts = prompts.reduce(
+      (acc, p) => {
+        p.tags.forEach((tag) => {
+          acc[tag] = (acc[tag] || 0) + 1
+        })
+        return acc
+      },
+      {} as Record<string, number>,
+    )
+    const topTags = Object.entries(tagCounts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5)
+      .map(([tag, count]) => ({ tag, count }))
+
+    return {
+      totalPrompts,
+      publicPrompts,
+      totalViews,
+      recentPrompts,
+      topModels,
+      topTags,
     }
+  }, [prompts])
 
-    void fetchOriginalPromptSlug()
-  }, [selectedPrompt?.parent_prompt_id])
-
-  const handleSelectPrompt = (promptId: string) => {
-    if (promptId === 'new') {
-      setShowCreateForm(true)
-      setSelectedPromptId(null)
-      // Update URL to remove prompt parameter
-      router.replace('/dashboard')
-    } else {
-      setSelectedPromptId(promptId)
-      // Update URL to include the selected prompt
-      router.replace(`/dashboard?prompt=${promptId}`)
-    }
-  }
-
-  const handleEditPrompt = (prompt: Prompt) => {
-    setEditingPrompt(prompt)
-    setShowEditForm(true)
-  }
-
-  const handleCloseEditForm = () => {
-    setShowEditForm(false)
-    setEditingPrompt(null)
-  }
-
-  const handleCloseCreateForm = () => {
-    setShowCreateForm(false)
-  }
-
-  const handleDeletePrompt = (prompt: Prompt) => {
-    setPromptToDelete(prompt)
-    setShowDeleteDialog(true)
-  }
-
-  const handleClosePromptDetails = () => {
-    setSelectedPromptId(null)
-    router.replace('/dashboard')
-  }
-
-  const confirmDelete = async () => {
-    if (!promptToDelete) return
-
-    setDeleting(true)
-    try {
-      const { error } = await createClient()
-        .from('prompts')
-        .delete()
-        .eq('id', promptToDelete.id)
-        .eq('user_id', promptToDelete.user_id)
-
-      if (error) throw error
-
-      // Invalidate and refetch
-      await queryClient.invalidateQueries({ queryKey: ['prompts'] })
-
-      toast({
-        title: 'Prompt Deleted',
-        description: `"${promptToDelete.name}" has been permanently deleted.`,
-      })
-
-      setShowDeleteDialog(false)
-      setPromptToDelete(null)
-
-      // Close the detailed view if it's open
-      if (selectedPrompt?.id === promptToDelete.id) {
-        setSelectedPromptId(null)
-        router.replace('/dashboard')
-      }
-    } catch (error) {
-      console.error('Delete prompt error:', error)
-      toast({
-        title: 'Error',
-        description: 'Failed to delete prompt. Please try again.',
-        variant: 'destructive',
-      })
-    } finally {
-      setDeleting(false)
-    }
+  if (isLoading) {
+    return (
+      <div className="flex h-screen">
+        <Sidebar isLoading={true} prompts={[]} selectedPromptId={null} onSelectPrompt={() => {}} session={session} />
+        <main className="flex-1 overflow-y-auto bg-accent/50 p-8">
+          <div className="mx-auto max-w-7xl space-y-8">
+            <Skeleton className="h-10 w-64" />
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-32" />
+              ))}
+            </div>
+          </div>
+        </main>
+      </div>
+    )
   }
 
   return (
@@ -191,73 +134,216 @@ export default function DashboardPage() {
       <Sidebar
         isLoading={isLoading}
         prompts={prompts}
-        selectedPromptId={selectedPromptId}
-        onSelectPrompt={handleSelectPrompt}
+        selectedPromptId={null}
+        onSelectPrompt={(id) => router.push(`/dashboard/prompts?prompt=${id}`)}
         session={session}
+        currentPage="home"
       />
-      <main className="flex-1 overflow-y-auto bg-accent/50">
-        <PromptDetails
-          prompt={selectedPrompt}
-          onEdit={handleEditPrompt}
-          onDelete={handleDeletePrompt}
-          onUpdatePrompt={(updatedPrompt) => {
-            // Update the prompts query cache with the updated prompt
-            queryClient.setQueryData(['prompts'], (oldPrompts: Prompt[] | undefined) => {
-              if (!oldPrompts) return oldPrompts
-              return oldPrompts.map((p) => (p.id === updatedPrompt.id ? updatedPrompt : p))
-            })
-          }}
-          originalPromptSlug={originalPromptSlug}
-          onClose={handleClosePromptDetails}
-        />
-      </main>
-
-      {/* Create Prompt Form */}
-      <PromptForm prompt={null} open={showCreateForm} onOpenChange={handleCloseCreateForm} />
-
-      {/* Edit Prompt Form */}
-      <PromptForm prompt={editingPrompt} open={showEditForm} onOpenChange={handleCloseEditForm} />
-
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete Prompt</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete &quot;{promptToDelete?.name}
-              &quot;? This action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="rounded-lg border bg-red-50 p-4 dark:bg-red-950">
-              <h4 className="mb-2 flex items-center gap-2 font-medium text-red-800 dark:text-red-200">
-                <Trash2 className="h-4 w-4" />
-                Permanent Deletion
-              </h4>
-              <p className="text-sm text-red-600 dark:text-red-300">
-                This prompt will be permanently deleted and cannot be recovered. If this prompt is
-                public, it will also be removed from the public directory.
-              </p>
-            </div>
-
-            <div className="flex justify-end gap-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setShowDeleteDialog(false)
-                  setPromptToDelete(null)
-                }}
-                disabled={deleting}
-              >
-                Cancel
-              </Button>
-              <Button variant="destructive" onClick={confirmDelete} disabled={deleting}>
-                {deleting ? 'Deleting...' : 'Delete Prompt'}
-              </Button>
-            </div>
+      <main className="flex-1 overflow-y-auto bg-accent/50 p-8">
+        <div className="mx-auto max-w-7xl space-y-8">
+          {/* Header */}
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+            <p className="text-muted-foreground">
+              Welcome back, {session?.user?.user_metadata?.display_name || 'User'}!
+            </p>
           </div>
-        </DialogContent>
-      </Dialog>
+
+          {/* Stats Cards */}
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Prompts</CardTitle>
+                <FileText className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.totalPrompts}</div>
+                <p className="text-xs text-muted-foreground">
+                  {stats.publicPrompts} public, {stats.totalPrompts - stats.publicPrompts} private
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Public Prompts</CardTitle>
+                <Globe className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.publicPrompts}</div>
+                <p className="text-xs text-muted-foreground">
+                  {stats.totalPrompts > 0
+                    ? Math.round((stats.publicPrompts / stats.totalPrompts) * 100)
+                    : 0}
+                  % of total
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Views</CardTitle>
+                <Eye className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.totalViews.toLocaleString()}</div>
+                <p className="text-xs text-muted-foreground">
+                  Across all public prompts
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Avg Views</CardTitle>
+                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {stats.publicPrompts > 0
+                    ? Math.round(stats.totalViews / stats.publicPrompts)
+                    : 0}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Per public prompt
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* Recent Prompts */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="h-5 w-5" />
+                  Recent Prompts
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {stats.recentPrompts.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-8 text-center">
+                    <Sparkles className="mb-4 h-12 w-12 text-muted-foreground" />
+                    <h3 className="mb-2 font-medium">No prompts yet</h3>
+                    <p className="mb-4 text-sm text-muted-foreground">
+                      Create your first prompt to get started
+                    </p>
+                    <Button onClick={() => router.push('/dashboard/prompts')}>
+                      Create Prompt
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {stats.recentPrompts.map((prompt) => (
+                      <Link
+                        key={prompt.id}
+                        href={`/dashboard/prompts?prompt=${prompt.id}`}
+                        className="flex items-start justify-between rounded-lg border bg-card p-3 transition-colors hover:bg-accent"
+                      >
+                        <div className="flex-1 space-y-1">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium">{prompt.name}</p>
+                            {prompt.is_public && (
+                              <Globe className="h-3 w-3 text-muted-foreground" />
+                            )}
+                          </div>
+                          {prompt.description && (
+                            <p className="text-xs text-muted-foreground line-clamp-1">
+                              {prompt.description}
+                            </p>
+                          )}
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            {prompt.model && <span>{prompt.model}</span>}
+                            {prompt.view_count !== undefined && prompt.view_count > 0 && (
+                              <>
+                                <span>•</span>
+                                <span>{prompt.view_count} views</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Top Models */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
+                  Top Models
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {stats.topModels.length === 0 ? (
+                  <div className="py-8 text-center text-sm text-muted-foreground">
+                    No model data available
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {stats.topModels.map(({ model, count }, index) => (
+                      <div key={model} className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-sm font-medium text-primary">
+                          {index + 1}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <p className="font-medium">{model}</p>
+                            <p className="text-sm text-muted-foreground">{count} prompts</p>
+                          </div>
+                          <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-accent">
+                            <div
+                              className="h-full bg-primary"
+                              style={{
+                                width: `${(count / stats.totalPrompts) * 100}%`,
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Top Tags */}
+            <Card className="lg:col-span-2">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Sparkles className="h-5 w-5" />
+                  Top Tags
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {stats.topTags.length === 0 ? (
+                  <div className="py-8 text-center text-sm text-muted-foreground">
+                    No tags found. Add tags to your prompts to organize them better.
+                  </div>
+                ) : (
+                  <div className="flex flex-wrap gap-2">
+                    {stats.topTags.map(({ tag, count }) => (
+                      <div
+                        key={tag}
+                        className="flex items-center gap-2 rounded-full border bg-card px-4 py-2"
+                      >
+                        <span className="font-medium">{tag}</span>
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                          {count}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </main>
     </div>
   )
 }

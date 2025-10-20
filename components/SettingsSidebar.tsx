@@ -63,34 +63,35 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4">
-        <div className="space-y-1">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
-          </Link>
-          {navItems.map((item) => {
-            const Icon = item.icon
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
-                  item.active
-                    ? 'bg-primary/10 text-primary font-medium'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                {item.label}
-              </Link>
-            )
-          })}
-        </div>
-      </nav>
+      <div className="shrink-0 space-y-1 px-4 pt-4">
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Dashboard
+        </Link>
+        {navItems.map((item) => {
+          const Icon = item.icon
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                item.active
+                  ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                  : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+              }`}
+            >
+              <Icon className="h-4 w-4" />
+              {item.label}
+            </Link>
+          )
+        })}
+      </div>
+
+      {/* Spacer */}
+      <div className="flex-1"></div>
 
       {/* User Profile Footer */}
       <div className="shrink-0 border-t bg-background p-3">

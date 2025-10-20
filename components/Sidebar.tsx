@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Bot, FlaskConical, GlobeIcon, Home, Plus } from 'lucide-react'
+import { FlaskConical, GlobeIcon, Home, Plus } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -27,7 +27,7 @@ interface SidebarProps {
   onSelectPrompt: (promptId: string) => void
   onNewPrompt?: () => void
   isLoading?: boolean
-  currentPage?: 'dashboard' | 'lab' | 'agents'
+  currentPage?: 'dashboard' | 'lab'
 }
 
 export function Sidebar({
@@ -108,19 +108,6 @@ export function Sidebar({
           <FlaskConical className="h-4 w-4" />
           Prompt Lab
         </Link>
-        {isAdmin && (
-          <Link
-            href="/dashboard/agents"
-            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-              currentPage === 'agents'
-                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-                : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
-            }`}
-          >
-            <Bot className="h-4 w-4" />
-            AI Agents
-          </Link>
-        )}
       </div>
 
       {/* Top filter row */}

@@ -15,13 +15,23 @@ export function PromptProvider({ children }: { children: React.ReactNode }) {
   const { data: prompts = [], isLoading } = useQuery({
     queryKey: ['allPrompts'],
     queryFn: async () => {
-      const { data, error } = await createClient()
-        .from('prompts')
-        .select('*')
-        .order('updated_at', { ascending: false })
-      if (error) throw error
-      return data as Prompt[]
+      try {
+        const { data, error } = await createClient()
+          .from('prompts')
+          .select('*')
+          .order('updated_at', { ascending: false })
+        if (error) {
+          console.error('Error fetching prompts:', error)
+          return []
+        }
+        return data as Prompt[]
+      } catch (error) {
+        console.error('Error in PromptProvider:', error)
+        return []
+      }
     },
+    retry: false, // Disable retries to prevent infinite loops
+    staleTime: 5 * 60 * 1000, // 5 minutes
   })
   return <PromptContext.Provider value={{ prompts, isLoading }}>{children}</PromptContext.Provider>
 }

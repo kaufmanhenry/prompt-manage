@@ -17,6 +17,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useToast } from '@/components/ui/use-toast'
+import { useTeamContext } from '@/contexts/team-context'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -25,6 +26,7 @@ export default function DashboardPage() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { toast } = useToast()
+  const { currentTeamId } = useTeamContext()
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -47,18 +49,19 @@ export default function DashboardPage() {
   const [originalPromptSlug, setOriginalPromptSlug] = useState<string | null>(null)
 
   const { data: prompts = [], isLoading } = useQuery({
-    queryKey: ['prompts', session?.user?.id],
+    queryKey: ['prompts', currentTeamId],
     queryFn: async () => {
+      if (!currentTeamId) return []
       const { data, error } = await createClient()
         .from('prompts')
         .select('*')
-        .eq('user_id', session?.user?.id)
+        .eq('team_id', currentTeamId)
         .order('updated_at', { ascending: false })
         .limit(100) // Limit for performance
       if (error) throw error
       return data as Prompt[]
     },
-    enabled: !!session?.user?.id,
+    enabled: !!currentTeamId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
   })

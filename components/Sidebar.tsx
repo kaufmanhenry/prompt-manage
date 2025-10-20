@@ -20,6 +20,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
+import { TeamSwitcher } from './TeamSwitcher'
 import { Badge } from './ui/badge'
 import {
   DropdownMenuCheckboxItem,
@@ -133,9 +134,7 @@ export function Sidebar({
             <span className="hidden sm:inline">New</span>
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground">
-          {session?.user?.user_metadata?.display_name || 'My Workspace'}
-        </p>
+        <TeamSwitcher />
       </div>
 
       {/* Search and Filters */}

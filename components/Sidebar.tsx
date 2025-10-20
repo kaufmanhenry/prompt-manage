@@ -98,8 +98,8 @@ export function Sidebar({
       </div>
 
       {/* Search and Filters */}
-      <div className="shrink-0 px-4 pb-2">
-        <div className="mb-4 flex flex-wrap items-center gap-2">
+      <div className="shrink-0 px-4 pb-2 pt-4">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
         <input
           type="text"
           placeholder="Search prompts..."
@@ -218,7 +218,7 @@ export function Sidebar({
       </div>
 
       {/* Scrollable Prompts List */}
-      <ScrollArea className="flex-1 px-4 pt-2">
+      <ScrollArea className="flex-1 px-4">
         <div className="flex flex-col gap-1">
           {isLoading ? (
             <div className="space-y-2">

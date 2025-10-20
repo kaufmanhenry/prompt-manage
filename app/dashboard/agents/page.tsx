@@ -76,20 +76,13 @@ export default function AgentAdminPage() {
     console.log('Selected prompt:', promptId)
   }
 
-  const handleNewPrompt = () => {
-    // Navigate to new prompt creation
-    console.log('New prompt')
-  }
-
   return (
     <div className="flex h-screen bg-background">
       <Sidebar
         prompts={prompts}
         selectedPromptId={null}
         onSelectPrompt={handleSelectPrompt}
-        onNewPrompt={handleNewPrompt}
         isLoading={isLoading}
-        currentPage="agents"
       />
       <main className="flex-1 overflow-auto">
         <div className="mx-auto max-w-7xl p-6">

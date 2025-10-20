@@ -5,6 +5,7 @@ import { Globe, MapPin, Save, Settings, Trash2, Upload, User } from 'lucide-reac
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useState } from 'react'
 
+import { SettingsSidebar } from '@/components/SettingsSidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -251,9 +252,10 @@ export default function SettingsPage() {
 
   if (loading || !user) {
     return (
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="space-y-6">
+      <div className="flex h-screen">
+        <SettingsSidebar session={null} />
+        <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
+          <div className="mx-auto max-w-4xl space-y-6">
             <Skeleton className="mb-8 h-8 w-1/4" />
             <Skeleton className="h-64" />
             <Skeleton className="h-64" />
@@ -264,8 +266,10 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
+    <div className="flex h-screen">
+      <SettingsSidebar session={{ user } as any} />
+      <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
+        <div className="mx-auto max-w-4xl">
         <div className="mb-4">
           <h1 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
             Account Settings
@@ -442,6 +446,7 @@ export default function SettingsPage() {
               </div>
             </CardContent>
           </Card>
+        </div>
         </div>
       </div>
     </div>

@@ -110,11 +110,6 @@ export default function LabPage() {
     }
   }
 
-  const handleNewPrompt = () => {
-    setSelectedPromptId(null)
-    router.push('/dashboard/lab')
-  }
-
   const handleSelectPrompt = (promptId: string) => {
     setSelectedPromptId(promptId)
     router.push(`/dashboard/lab?prompt=${promptId}`)
@@ -126,9 +121,7 @@ export default function LabPage() {
         prompts={prompts}
         selectedPromptId={selectedPromptId}
         onSelectPrompt={handleSelectPrompt}
-        onNewPrompt={handleNewPrompt}
         isLoading={isLoading}
-        currentPage="lab"
       />
       <main className="flex-1 overflow-auto">
         <div className="mx-auto max-w-7xl p-6">

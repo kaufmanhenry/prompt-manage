@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { CreditCard, ExternalLink } from 'lucide-react'
 import { useState } from 'react'
 
+import { SettingsSidebar } from '@/components/SettingsSidebar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -15,7 +16,17 @@ export default function BillingPage() {
   const { toast } = useToast()
   const supabase = createClient()
 
-  // Fetch user profile with subscription data
+  // Fetch user session and profile with subscription data
+  const { data: session } = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      return session
+    },
+  })
+
   const { data: profile, isLoading } = useQuery({
     queryKey: ['user-profile-billing'],
     queryFn: async () => {
@@ -99,8 +110,11 @@ export default function BillingPage() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+      <div className="flex h-screen">
+        <SettingsSidebar session={session} />
+        <div className="flex flex-1 items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+        </div>
       </div>
     )
   }
@@ -111,8 +125,10 @@ export default function BillingPage() {
   const hasActiveSubscription = profile?.stripe_customer_id && tier !== 'free'
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl px-4 py-16">
+    <div className="flex h-screen">
+      <SettingsSidebar session={session} />
+      <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
+        <div className="mx-auto max-w-4xl">
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold">Billing & Subscription</h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -320,6 +336,7 @@ export default function BillingPage() {
               </ul>
             </CardContent>
           </Card>
+        </div>
         </div>
       </div>
     </div>

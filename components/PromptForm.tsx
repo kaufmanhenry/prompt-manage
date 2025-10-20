@@ -282,27 +282,29 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="prompt_text"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Prompt Text</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Enter your prompt text here..."
-                      className="min-h-[200px] font-mono"
-                      data-testid="prompt-text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    The actual prompt that will be sent to the AI model.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {!prompt && (
+              <FormField
+                control={form.control}
+                name="prompt_text"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Prompt Text</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Enter your prompt text here..."
+                        className="min-h-[200px] font-mono"
+                        data-testid="prompt-text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      The actual prompt that will be sent to the AI model.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="tags"

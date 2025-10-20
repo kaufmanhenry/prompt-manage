@@ -1,23 +1,27 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
-import { FlaskConical, GlobeIcon, Home, Plus } from 'lucide-react'
+import type { Session } from '@supabase/supabase-js'
+import { GlobeIcon, LogOut, Settings } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { isAdminEmail } from '@/lib/admin'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
 import { Badge } from './ui/badge'
 import {
-  DropdownMenu,
   DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 import { Skeleton } from './ui/skeleton'
 
@@ -25,18 +29,16 @@ interface SidebarProps {
   prompts?: Prompt[]
   selectedPromptId?: string | null
   onSelectPrompt: (promptId: string) => void
-  onNewPrompt?: () => void
   isLoading?: boolean
-  currentPage?: 'dashboard' | 'lab'
+  session?: Session | null
 }
 
 export function Sidebar({
   prompts = [],
   selectedPromptId,
   onSelectPrompt,
-  onNewPrompt,
   isLoading = false,
-  currentPage = 'dashboard',
+  session,
 }: SidebarProps) {
   // Local state for model and tag filters and search
   const [modelFilters, setModelFilters] = useState<string[]>([])
@@ -44,19 +46,6 @@ export function Sidebar({
   const [search, setSearch] = useState('')
   const uniqueModels = Array.from(new Set(prompts.map((p) => p.model).filter(Boolean)))
   const uniqueTags = Array.from(new Set(prompts.flatMap((p) => p.tags)))
-
-  // Check if user is admin
-  const { data: session } = useQuery({
-    queryKey: ['session'],
-    queryFn: async () => {
-      const {
-        data: { session },
-      } = await createClient().auth.getSession()
-      return session
-    },
-  })
-
-  const isAdmin = isAdminEmail(session?.user?.email)
 
   // Filtering logic
   const filteredPrompts = prompts.filter((p) => {
@@ -82,48 +71,35 @@ export function Sidebar({
     setSearch('')
   }
 
+  const handleSignOut = async () => {
+    await createClient().auth.signOut()
+    if (typeof window !== 'undefined') {
+      window.location.href = '/'
+    }
+  }
+
   return (
-    <aside className="flex w-80 shrink-0 flex-col border-r bg-white/50 p-4 backdrop-blur-sm dark:bg-gray-800/50">
-      {/* Navigation */}
-      <div className="mb-4 space-y-2">
-        <Link
-          href="/dashboard"
-          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-            currentPage === 'dashboard'
-              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
-          }`}
-        >
-          <Home className="h-4 w-4" />
-          Dashboard
-        </Link>
-        <Link
-          href="/dashboard/lab"
-          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-            currentPage === 'lab'
-              ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
-          }`}
-        >
-          <FlaskConical className="h-4 w-4" />
-          Prompt Lab
-        </Link>
+    <aside className="flex w-80 shrink-0 flex-col border-r bg-white/50 backdrop-blur-sm dark:bg-gray-800/50">
+      {/* Team Name Header */}
+      <div className="shrink-0 border-b p-4">
+        <div className="mb-2 flex items-center gap-2">
+          <Image
+            src="/logo.svg"
+            alt="Prompt Manage"
+            width={24}
+            height={24}
+            className="h-6 w-6 dark:invert"
+          />
+          <h1 className="text-lg font-semibold">Prompt Manage</h1>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          {session?.user?.user_metadata?.display_name || 'My Workspace'}
+        </p>
       </div>
 
-      {/* Top filter row */}
-      <div className="mb-4 flex items-center justify-between gap-2">
-        <h2 className="text-lg font-medium">Prompts</h2>
-        <Button
-          size="sm"
-          variant="outline"
-          className="px-2 py-1"
-          onClick={() => (onNewPrompt ? onNewPrompt() : onSelectPrompt('new'))}
-          data-testid="create-prompt"
-        >
-          <Plus className="h-4 w-4" />
-        </Button>
-      </div>
-      <div className="mb-4 flex flex-wrap items-center gap-2">
+      {/* Search and Filters */}
+      <div className="shrink-0 px-4 pb-2">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
         <input
           type="text"
           placeholder="Search prompts..."
@@ -194,7 +170,7 @@ export function Sidebar({
       </div>
       {/* Active filter chips */}
       {(modelFilters.length > 0 || tagFilters.length > 0 || search) && (
-        <div className="mb-2 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2">
           {search && (
             <Badge variant="secondary" className="flex items-center gap-1">
               Search: &quot;{search}&quot;
@@ -239,7 +215,10 @@ export function Sidebar({
           </Button>
         </div>
       )}
-      <ScrollArea className="flex-1">
+      </div>
+
+      {/* Scrollable Prompts List */}
+      <ScrollArea className="flex-1 px-4 pt-2">
         <div className="flex flex-col gap-1">
           {isLoading ? (
             <div className="space-y-2">
@@ -289,6 +268,43 @@ export function Sidebar({
           )}
         </div>
       </ScrollArea>
+
+      {/* User Profile Footer */}
+      <div className="shrink-0 border-t bg-background p-3">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="h-auto w-full justify-start gap-3 px-2 py-2 hover:bg-accent"
+            >
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                {session?.user?.email?.[0].toUpperCase() || 'U'}
+              </div>
+              <div className="flex min-w-0 flex-1 flex-col items-start text-left">
+                <span className="truncate text-sm font-medium">
+                  {session?.user?.user_metadata?.display_name || 'User'}
+                </span>
+                <span className="truncate text-xs text-muted-foreground">
+                  {session?.user?.email || ''}
+                </span>
+              </div>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" side="top" className="w-56">
+            <DropdownMenuItem asChild>
+              <Link href="/settings" className="flex items-center">
+                <Settings className="mr-2 h-4 w-4" />
+                Settings
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleSignOut} className="flex items-center">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </aside>
   )
 }

@@ -187,14 +187,13 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-64px)]">
+    <div className="flex h-screen">
       <Sidebar
         isLoading={isLoading}
         prompts={prompts}
         selectedPromptId={selectedPromptId}
         onSelectPrompt={handleSelectPrompt}
-        onNewPrompt={() => setShowCreateForm(true)}
-        currentPage="dashboard"
+        session={session}
       />
       <main className="flex-1 overflow-y-auto bg-accent/50">
         <PromptDetails

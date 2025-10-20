@@ -493,7 +493,7 @@ function PromptDetailHeader({
   onMore: (action: string) => void
 }) {
   return (
-    <div className="flex items-center justify-between border-b pb-4">
+    <div className="flex items-center justify-between">
       <div>
         <h2 className="mb-1 text-xl font-semibold">{prompt.name}</h2>
         <div className="mb-1 flex flex-wrap items-center gap-2">
@@ -513,11 +513,14 @@ function PromptDetailHeader({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => onMore('edit')}>
+              <Edit className="mr-2 h-4 w-4" /> Edit
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onMore('share')}>
               <Share2 className="mr-2 h-4 w-4" /> Share
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onMore('copy')}>
-              <Copy className="mr-2 h-4 w-4" /> Copy Prompt
+              <Copy className="mr-2 h-4 w-4" /> Copy Link
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onMore('delete')} className="text-red-600">
               <Trash2 className="mr-2 h-4 w-4" /> Delete
@@ -534,6 +537,7 @@ function PromptDetailHeader({
 
 export function PromptDetails({
   prompt,
+  onEdit,
   onDelete,
   onUpdatePrompt,
   originalPromptSlug,
@@ -682,7 +686,8 @@ export function PromptDetails({
 
   // Handler for More dropdown
   const handleMore = (action: string) => {
-    if (action === 'share') handleSharePrompt()
+    if (action === 'edit') onEdit?.(prompt)
+    else if (action === 'share') handleSharePrompt()
     else if (action === 'copy') void handleCopyLink()
     else if (action === 'delete') onDelete?.(prompt)
     else if (action === 'close') onClose()
@@ -723,10 +728,18 @@ export function PromptDetails({
   // 4. Implement handleCopyPrompt
   const handleCopyLink = async () => {
     try {
+      if (!prompt.slug) {
+        toast({
+          title: 'Cannot copy link',
+          description: 'This prompt needs to be public to generate a shareable link.',
+          variant: 'destructive',
+        })
+        return
+      }
       await navigator.clipboard.writeText(`${window.location.origin}/p/${prompt.slug}`)
       toast({
-        title: 'Copied!',
-        description: 'Prompt text copied to clipboard.',
+        title: 'Link copied!',
+        description: 'Shareable link copied to clipboard.',
       })
     } catch {
       toast({
@@ -738,36 +751,37 @@ export function PromptDetails({
   }
 
   return (
-    <Card className="m-2 gap-6 rounded-lg p-4">
-      <PromptDetailHeader prompt={prompt} onMore={handleMore} />
-      {prompt.parent_prompt_id && (
-        <div className="mb-4 rounded-lg bg-blue-50 p-2 dark:bg-blue-950">
-          <div className="flex items-center gap-1">
-            <LinkIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-            <span className="text-sm font-medium text-blue-800 dark:text-blue-200">
-              Derivative Prompt
-            </span>
+    <div className="flex h-full flex-col">
+      {/* Fixed Header */}
+      <div className="shrink-0 border-b bg-background p-4">
+        <PromptDetailHeader prompt={prompt} onMore={handleMore} />
+        {prompt.parent_prompt_id && (
+          <div className="mt-3 flex items-center justify-between rounded border-l-2 border-blue-500 bg-blue-50/50 px-3 py-2 dark:bg-blue-950/30">
+            <div className="flex items-center gap-2 text-sm text-blue-700 dark:text-blue-300">
+              <LinkIcon className="h-3.5 w-3.5" />
+              <span>Copied from public prompt</span>
+            </div>
             {originalPromptSlug && (
               <Button
-                variant="link"
+                variant="ghost"
                 size="sm"
+                className="h-7 gap-1 text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400"
                 onClick={() => window.open(`/p/${originalPromptSlug}`, '_blank')}
               >
-                <ExternalLink className="mr-1 h-4 w-4" /> View Original
+                View original
+                <ExternalLink className="h-3 w-3" />
               </Button>
             )}
           </div>
-          <p className="mt-1 text-sm text-blue-800 dark:text-blue-200">
-            This prompt was copied from a public prompt and can be customized for your needs.
-          </p>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Prompt Input and Output Section */}
-      <div className="mb-4 grid gap-4 lg:grid-cols-2">
+      {/* Prompt Input and Output Section with independent scrolling */}
+      <div className="grid flex-1 overflow-hidden lg:grid-cols-2">
         {/* Left side - Prompt Input */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
+        <div className="flex flex-col overflow-hidden border-r">
+          {/* Fixed header for left side */}
+          <div className="flex shrink-0 items-center justify-between border-b px-4 py-3">
             <p className="text-sm font-medium text-muted-foreground">Prompt Text</p>
             <div className="flex items-center gap-2">
               <Select
@@ -787,7 +801,7 @@ export function PromptDetails({
                   }
                 }}
               >
-                <SelectTrigger size="sm" className="w-[320px]">
+                <SelectTrigger size="sm" className="w-[240px]">
                   <SelectValue placeholder="Select version" />
                 </SelectTrigger>
                 <SelectContent>
@@ -801,16 +815,22 @@ export function PromptDetails({
               </Select>
             </div>
           </div>
-          <textarea
-            value={currentPromptText}
-            onChange={(e) => {
-              setCurrentPromptText(e.target.value)
-              setIsUserEditing(true)
-            }}
-            className="min-h-[200px] w-full rounded-lg border bg-background p-3 font-mono text-sm"
-            placeholder="Enter your prompt here..."
-          />
-          <div className="flex justify-end gap-2">
+
+          {/* Scrollable textarea */}
+          <div className="flex-1 overflow-y-auto px-4 py-4">
+            <textarea
+              value={currentPromptText}
+              onChange={(e) => {
+                setCurrentPromptText(e.target.value)
+                setIsUserEditing(true)
+              }}
+              className="min-h-full w-full resize-none rounded-lg border bg-background p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              placeholder="Enter your prompt here..."
+            />
+          </div>
+
+          {/* Fixed footer with buttons */}
+          <div className="mt-4 flex shrink-0 justify-end gap-2 border-t px-4 pb-4 pt-3">
             <CopyButton text={currentPromptText} />
             <Button
               onClick={() => handleRunPrompt({ ...prompt, prompt_text: currentPromptText })}
@@ -832,8 +852,9 @@ export function PromptDetails({
         </div>
 
         {/* Right side - Run Output */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col overflow-hidden">
+          {/* Fixed header for right side */}
+          <div className="flex shrink-0 items-center gap-2 border-b px-4 py-3">
             <p className="text-sm font-medium text-muted-foreground">
               {selectedRun ? 'Selected Run Output' : 'Latest Output'}
             </p>
@@ -844,30 +865,34 @@ export function PromptDetails({
                     {formatTimestamp(displayRun.created_at)}
                   </span>
                 </div>
-                <div className="flex flex-1 items-center justify-end">
+                <div className="ml-auto flex items-center gap-1">
                   {getStatusBadge(displayRun.status)}
                   <CopyButton text={displayRun.response} />
                 </div>
               </>
             )}
           </div>
-          <div className="min-h-[200px] rounded-lg border bg-muted/50 p-3">
-            {displayRun ? (
-              <div className="space-y-3">
-                <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
-                  {displayRun.response}
-                </pre>
-                {displayRun.error_message && (
-                  <div className="rounded bg-red-50 p-2 text-xs text-red-600 dark:bg-red-950">
-                    Error: {displayRun.error_message}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-                No runs yet. Click "Run Prompt" to execute.
-              </div>
-            )}
+
+          {/* Scrollable output */}
+          <div className="flex-1 overflow-y-auto px-4 py-4">
+            <div className="min-h-full rounded-lg border bg-muted/50 p-3">
+              {displayRun ? (
+                <div className="space-y-3">
+                  <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
+                    {displayRun.response}
+                  </pre>
+                  {displayRun.error_message && (
+                    <div className="rounded bg-red-50 p-2 text-xs text-red-600 dark:bg-red-950">
+                      Error: {displayRun.error_message}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex min-h-full items-center justify-center text-sm text-muted-foreground">
+                  No runs yet. Click "Run Prompt" to execute.
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -932,6 +957,6 @@ export function PromptDetails({
           </div>
         </DialogContent>
       </Dialog>
-    </Card>
+    </div>
   )
 }

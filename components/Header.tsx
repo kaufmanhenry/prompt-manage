@@ -1,11 +1,13 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Globe, LogOut, Settings, User2 } from 'lucide-react'
+import { Globe, LogOut, Plus, Settings, User2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 
+import { PromptForm } from '@/components/PromptForm'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -18,6 +20,7 @@ import { createClient } from '@/utils/supabase/client'
 
 export function Header() {
   const pathname = usePathname()
+  const [showCreateForm, setShowCreateForm] = useState(false)
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
@@ -105,6 +108,16 @@ export function Header() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
+          {session && (
+            <Button
+              onClick={() => setShowCreateForm(true)}
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              <span className="hidden sm:inline">Create Prompt</span>
+            </Button>
+          )}
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -174,6 +187,9 @@ export function Header() {
           )}
         </div>
       </div>
+
+      {/* Create Prompt Form Dialog */}
+      <PromptForm prompt={null} open={showCreateForm} onOpenChange={setShowCreateForm} />
     </header>
   )
 }

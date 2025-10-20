@@ -44,7 +44,7 @@ export function Sidebar({
   onNewPrompt,
   isLoading = false,
   session,
-  currentPage: _currentPage = 'prompts',
+  currentPage = 'prompts',
 }: SidebarProps) {
   const searchParams = useSearchParams()
 
@@ -137,14 +137,11 @@ export function Sidebar({
             <span className="hidden sm:inline">New</span>
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground">
-          {session?.user?.user_metadata?.display_name || 'My Workspace'}
-        </p>
+        <TeamSwitcher />
       </div>
 
       {/* Navigation */}
       <div className="shrink-0 space-y-1 px-4 pt-4">
-        <TeamSwitcher />
         <Link
           href="/dashboard"
           className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${

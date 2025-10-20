@@ -8,6 +8,7 @@ import { Layout } from '@/components/Layout'
 import { PromptProvider } from '@/components/PromptContext'
 import { Providers } from '@/components/providers'
 import { Toaster } from '@/components/ui/toaster'
+import { TeamProvider } from '@/contexts/team-context'
 import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
@@ -97,12 +98,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={cn('font-sans antialiased')}>
         <Providers>
-          <PromptProvider>
-            <Suspense fallback={null}>
-              <Layout>{children}</Layout>
-            </Suspense>
-            <Toaster />
-          </PromptProvider>
+          <TeamProvider>
+            <PromptProvider>
+              <Suspense fallback={null}>
+                <Layout>{children}</Layout>
+              </Suspense>
+              <Toaster />
+            </PromptProvider>
+          </TeamProvider>
         </Providers>
         <GoogleAnalytics gaId="G-J61N380PQS" />
       </body>

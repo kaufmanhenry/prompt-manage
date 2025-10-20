@@ -5,7 +5,8 @@ import { GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -19,6 +20,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
+import { TeamSwitcher } from './TeamSwitcher'
 import { Badge } from './ui/badge'
 import {
   DropdownMenuCheckboxItem,
@@ -42,8 +44,10 @@ export function Sidebar({
   onNewPrompt,
   isLoading = false,
   session,
-  currentPage = 'prompts',
+  currentPage: _currentPage = 'prompts',
 }: SidebarProps) {
+  const searchParams = useSearchParams()
+
   // Local state for model and tag filters and search
   const [modelFilters, setModelFilters] = useState<string[]>([])
   const [tagFilters, setTagFilters] = useState<string[]>([])
@@ -53,6 +57,28 @@ export function Sidebar({
 
   // Check if user is admin (removed since AI Agents tab is no longer shown)
   // const isAdmin = isAdminEmail(session?.user?.email)
+
+  // Read tag filter from URL parameters
+  useEffect(() => {
+    const tagFromUrl = searchParams.get('tag')
+    if (tagFromUrl) {
+      // Only update if the current filters don't match the URL
+      setTagFilters((current) => {
+        if (current.length === 1 && current[0] === tagFromUrl) {
+          return current
+        }
+        return [tagFromUrl]
+      })
+    } else {
+      // Clear tag filters if no tag in URL
+      setTagFilters((current) => {
+        if (current.length === 0) {
+          return current
+        }
+        return []
+      })
+    }
+  }, [searchParams])
 
   // Filtering logic
   const filteredPrompts = prompts.filter((p) => {
@@ -90,7 +116,7 @@ export function Sidebar({
       {/* Team Name Header */}
       <div className="shrink-0 border-b p-4">
         <div className="mb-2 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
+          <Link href="/dashboard" className="flex items-center gap-2 transition-opacity hover:opacity-80">
             <Image
               src="/logo.svg"
               alt="Prompt Manage"
@@ -99,7 +125,7 @@ export function Sidebar({
               className="h-6 w-6 dark:invert"
             />
             <h1 className="text-lg font-semibold">Prompt Manage</h1>
-          </div>
+          </Link>
           <Button
             size="sm"
             variant="default"
@@ -118,6 +144,7 @@ export function Sidebar({
 
       {/* Navigation */}
       <div className="shrink-0 space-y-1 px-4 pt-4">
+        <TeamSwitcher />
         <Link
           href="/dashboard"
           className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${

@@ -241,7 +241,7 @@ export function VersionHistory({
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation()
-                          handleRevert(version.version)
+                          void handleRevert(version.version)
                         }}
                       >
                         <RotateCcw className="h-3 w-3" />

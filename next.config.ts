@@ -23,27 +23,7 @@ const nextConfig: NextConfig = {
         tls: false,
       }
     }
-    
-    // Fix for webpack module loading issues during hydration
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    }
-    
-    // Additional configuration to fix webpack call errors
-    config.optimization = {
-      ...config.optimization,
-      splitChunks: {
-        ...config.optimization.splitChunks,
-        cacheGroups: {
-          ...config.optimization.splitChunks?.cacheGroups,
-          default: {
-            ...config.optimization.splitChunks?.cacheGroups?.default,
-            minChunks: 1,
-          },
-        },
-      },
-    }
-    
+
     return config
   },
 

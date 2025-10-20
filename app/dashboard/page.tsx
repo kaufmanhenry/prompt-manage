@@ -327,15 +327,16 @@ export default function DashboardHomePage() {
                 ) : (
                   <div className="flex flex-wrap gap-2">
                     {stats.topTags.map(({ tag, count }) => (
-                      <div
+                      <Link
                         key={tag}
-                        className="flex items-center gap-2 rounded-full border bg-card px-4 py-2"
+                        href={`/dashboard/prompts?tag=${encodeURIComponent(tag)}`}
+                        className="flex items-center gap-2 rounded-full border bg-card px-4 py-2 transition-colors hover:border-emerald-300 hover:bg-emerald-50 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/20"
                       >
                         <span className="font-medium">{tag}</span>
                         <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
                           {count}
                         </span>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 )}

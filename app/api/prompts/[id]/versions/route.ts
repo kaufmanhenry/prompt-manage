@@ -79,7 +79,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     }
 
     const body = await request.json()
-    const { change_summary } = body
+    const { change_summary: _change_summary } = body
 
     // Verify the prompt belongs to the user
     const { data: prompt, error: promptError } = await supabase

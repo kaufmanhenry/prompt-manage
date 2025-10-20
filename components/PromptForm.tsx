@@ -37,6 +37,7 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
+import { useTeamContext } from '@/contexts/team-context'
 import { getModelsByCompany } from '@/lib/models'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { promptSchema } from '@/lib/schemas/prompt'
@@ -54,6 +55,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const [loading, setLoading] = useState(false)
   const queryClient = useQueryClient()
   const { toast } = useToast()
+  const { currentTeamId } = useTeamContext()
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -135,6 +137,15 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       return
     }
 
+    if (!currentTeamId) {
+      toast({
+        title: 'Team Required',
+        description: 'Please select a team to save prompts.',
+        variant: 'destructive',
+      })
+      return
+    }
+
     setLoading(true)
     try {
       // Only save the fields that exist in the current database schema
@@ -144,6 +155,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         model: values.model,
         tags: values.tags,
         user_id: session.user.id,
+        team_id: currentTeamId,
         is_public: values.is_public,
         // Note: description, slug, view_count are not included
         // until the database migration is run

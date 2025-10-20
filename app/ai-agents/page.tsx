@@ -355,7 +355,7 @@ export default function AIAgentsPage() {
                 placeholder="Tell us about your content needs (optional)"
                 value={useCase}
                 onChange={(e) => setUseCase(e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/70"
+                className="border-white/20 bg-white/10 text-white placeholder:text-white/70"
                 rows={3}
               />
               <Button

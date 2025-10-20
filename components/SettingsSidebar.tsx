@@ -1,7 +1,7 @@
 'use client'
 
 import type { Session } from '@supabase/supabase-js'
-import { ArrowLeft, CreditCard, FileText, LogOut, Settings, User } from 'lucide-react'
+import { ArrowLeft, CreditCard, FileText, LogOut, Settings, User, Users } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -14,6 +14,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useTeamContext } from '@/contexts/team-context'
+import { useUserTeams } from '@/lib/hooks/use-teams'
 import { createClient } from '@/utils/supabase/client'
 
 interface SettingsSidebarProps {
@@ -22,6 +24,10 @@ interface SettingsSidebarProps {
 
 export function SettingsSidebar({ session }: SettingsSidebarProps) {
   const pathname = usePathname()
+  const { currentTeamId } = useTeamContext()
+  const { data: teams } = useUserTeams()
+
+  const currentTeam = teams?.find((t) => t.team_id === currentTeamId)
 
   const handleSignOut = async () => {
     await createClient().auth.signOut()
@@ -30,7 +36,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
     }
   }
 
-  const navItems = [
+  const personalNavItems = [
     {
       href: '/settings',
       label: 'Account',
@@ -48,6 +54,21 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
       label: 'Legal',
       icon: FileText,
       active: pathname === '/settings/legal',
+    },
+  ]
+
+  const teamNavItems = [
+    {
+      href: '/settings/team',
+      label: 'Team Settings',
+      icon: Settings,
+      active: pathname === '/settings/team',
+    },
+    {
+      href: '/settings/team/members',
+      label: 'Team Members',
+      icon: Users,
+      active: pathname === '/settings/team/members',
     },
   ]
 
@@ -69,7 +90,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
       </div>
 
       {/* Navigation */}
-      <div className="shrink-0 space-y-1 px-4 pt-4">
+      <div className="flex-1 space-y-4 overflow-y-auto px-4 pt-4">
         <Link
           href="/dashboard"
           className="tab-inactive flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
@@ -77,21 +98,56 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
           <ArrowLeft className="h-4 w-4" />
           Back to Dashboard
         </Link>
-        {navItems.map((item) => {
-          const Icon = item.icon
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                item.active ? 'tab-active' : 'tab-inactive'
-              }`}
-            >
-              <Icon className="h-4 w-4" />
-              {item.label}
-            </Link>
-          )
-        })}
+
+        {/* Personal Settings */}
+        <div>
+          <h3 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Personal
+          </h3>
+          <div className="space-y-1">
+            {personalNavItems.map((item) => {
+              const Icon = item.icon
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                    item.active ? 'tab-active' : 'tab-inactive'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Team Settings */}
+        {currentTeam && (
+          <div>
+            <h3 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Team: {currentTeam.teams.name}
+            </h3>
+            <div className="space-y-1">
+              {teamNavItems.map((item) => {
+                const Icon = item.icon
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                      item.active ? 'tab-active' : 'tab-inactive'
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Spacer */}

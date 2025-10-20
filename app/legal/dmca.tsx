@@ -20,13 +20,11 @@ export default function DmcaPage() {
       <div className="mx-auto max-w-4xl px-6 py-16">
         <div className="space-y-16">
 
-          {/* Official DMCA Information */}
+          {/* Official Government Resources */}
           <section>
-            <div className="rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
-              <h2 className="mb-3 text-xl font-semibold text-blue-900 dark:text-blue-100">
-                Official DMCA Information
-              </h2>
-              <p className="mb-4 text-blue-800 dark:text-blue-200">
+            <h2 className="mb-6 text-2xl font-semibold">Official Government Resources</h2>
+            <div className="space-y-4">
+              <p className="text-gray-600 dark:text-gray-400">
                 For comprehensive information about the Digital Millennium Copyright Act, please visit the official U.S. Copyright Office website:
               </p>
               <a

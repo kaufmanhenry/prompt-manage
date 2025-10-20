@@ -106,6 +106,15 @@ export default function DocsPage() {
                 Browse Public Prompts
               </span>
             </Link>
+            <Link
+              href="/docs/account-management"
+              className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+            >
+              <User className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium text-gray-900 dark:text-white">
+                Complete Account Management Guide
+              </span>
+            </Link>
           </div>
 
           {/* Documentation Sections */}

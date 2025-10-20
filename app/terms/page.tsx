@@ -571,6 +571,26 @@ export default function TermsPage() {
             </div>
           </section>
 
+          {/* Official Government Resources */}
+          <section className="border-t pt-12">
+            <h2 className="mb-6 text-2xl font-semibold">19. Official Government Resources</h2>
+            <div className="space-y-4">
+              <p className="text-gray-600 dark:text-gray-400">
+                For more information about privacy laws and data protection regulations, please consult our Privacy Policy:
+              </p>
+              <div className="space-y-3">
+                <a
+                  href="/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                >
+                  Prompt Manage Privacy Policy
+                </a>
+              </div>
+            </div>
+          </section>
+
           <section className="border-t pt-12">
             <h2 className="mb-4 text-2xl font-semibold">20. Contact</h2>
             <div>

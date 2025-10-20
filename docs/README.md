@@ -8,6 +8,7 @@ Welcome to the Prompt Manage documentation! This directory contains comprehensiv
 
 - **[Quick Start Guide](./getting-started/quick-start-guide.md)** - Get up and running quickly with the project
 - **[Development Setup](./getting-started/development-setup.md)** - Complete development environment setup
+- **[Account Management](./getting-started/account-management.md)** - Complete guide to account creation, settings, and data management
 
 ### 🏗️ Architecture & Methodology
 

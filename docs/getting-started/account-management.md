@@ -6,6 +6,9 @@ This comprehensive guide covers everything you need to know about managing your 
 
 - [Creating an Account](#creating-an-account)
 - [Signing In](#signing-in)
+- [Viewing Your Profile](#viewing-your-profile)
+- [Editing Your Profile](#editing-your-profile)
+- [Viewing Public Prompts](#viewing-public-prompts)
 - [Account Settings](#account-settings)
 - [Data Management](#data-management)
 - [Account Deletion](#account-deletion)
@@ -85,6 +88,242 @@ After verification, you'll be prompted to:
 #### "Too many attempts"
 - **Solution**: Wait 15 minutes before trying again
 - **Prevention**: Don't request multiple codes rapidly
+
+## 👤 Viewing Your Profile
+
+### Accessing Your Profile
+
+#### Method 1: Through Navigation
+1. Sign in to your account
+2. Click your profile picture/avatar in the top-right corner
+3. Select **"View Profile"** from the dropdown menu
+4. Or navigate directly to `/profile`
+
+#### Method 2: Direct URL
+- Visit `https://promptmanage.com/profile` while signed in
+
+### What You'll See on Your Profile
+
+#### Profile Information
+- **Display Name**: How your name appears to others
+- **Bio**: Your personal or professional description
+- **Website**: Your personal or professional website
+- **Join Date**: When you created your account
+- **Location**: Your general location (if set)
+
+#### Activity Overview
+- **Total Prompts**: Number of prompts you've created
+- **Public Prompts**: Number of prompts visible to others
+- **Private Prompts**: Number of prompts only you can see
+- **Last Active**: When you were last active on the platform
+
+#### Public Prompts Section
+- **Recently Created**: Your latest public prompts
+- **Most Popular**: Your prompts with the most views/likes
+- **All Public Prompts**: Complete list of your public content
+
+### Profile Visibility Settings
+
+#### Public Profile
+- **Visible to everyone**: Anyone can see your profile
+- **Searchable**: Your profile appears in user searches
+- **Social features**: Others can follow your public prompts
+
+#### Private Profile
+- **Only you can see**: Profile is not visible to others
+- **Not searchable**: Won't appear in user searches
+- **Limited social features**: Reduced interaction options
+
+## ✏️ Editing Your Profile
+
+### Accessing Profile Settings
+
+#### Method 1: Through Profile Page
+1. Go to your profile page (`/profile`)
+2. Click the **"Edit Profile"** button
+3. Make your changes
+4. Click **"Save Changes"**
+
+#### Method 2: Through Settings
+1. Go to **Settings** (`/settings`)
+2. Click on **"Profile"** in the sidebar
+3. Edit your information
+4. Click **"Save Changes"**
+
+### What You Can Edit
+
+#### Personal Information
+- **Display Name**: 
+  - How your name appears to other users
+  - Can be changed at any time
+  - Must be between 2-50 characters
+  - Cannot contain special characters or profanity
+
+- **Bio**: 
+  - Brief description about yourself
+  - Maximum 500 characters
+  - Supports basic formatting (line breaks)
+  - Can include links to your work
+
+- **Website**: 
+  - Your personal or professional website
+  - Must be a valid URL
+  - Will be displayed as a clickable link
+  - Optional field
+
+- **Location**: 
+  - Your general location (city, country)
+  - Helps others find local users
+  - Optional field
+  - Can be as specific or general as you prefer
+
+#### Profile Preferences
+- **Profile Visibility**: 
+  - Choose between public or private
+  - Public: visible to everyone
+  - Private: only you can see
+
+- **Show Activity Status**: 
+  - Display when you're online
+  - Helps others know when you're active
+  - Can be disabled for privacy
+
+### Profile Picture Management
+
+#### Adding a Profile Picture
+1. Go to **Settings** → **Profile**
+2. Click on the profile picture area
+3. Upload an image file (JPG, PNG, GIF)
+4. Crop/resize as needed
+5. Click **"Save"**
+
+#### Profile Picture Requirements
+- **File size**: Maximum 5MB
+- **Dimensions**: Recommended 400x400 pixels
+- **Formats**: JPG, PNG, GIF supported
+- **Content**: Must be appropriate and not copyrighted
+
+#### Removing Profile Picture
+1. Go to **Settings** → **Profile**
+2. Click **"Remove Picture"**
+3. Confirm removal
+4. Default avatar will be used
+
+### Profile Customization
+
+#### Theme Preferences
+- **Light Mode**: Clean, bright interface
+- **Dark Mode**: Dark interface for low-light use
+- **System**: Automatically matches your device setting
+
+#### Language Settings
+- **English**: Default language
+- **Additional languages**: Available based on your region
+- **Interface language**: Affects menus and buttons
+- **Content language**: Affects prompt suggestions
+
+## 🌐 Viewing Public Prompts
+
+### Accessing the Public Directory
+
+#### Method 1: Through Navigation
+1. Sign in to your account
+2. Click **"Explore"** in the top navigation
+3. Or navigate directly to `/p`
+
+#### Method 2: Direct URL
+- Visit `https://promptmanage.com/p` while signed in
+
+### Browsing Public Prompts
+
+#### Featured Prompts
+- **Trending**: Most popular prompts this week
+- **Recently Added**: Latest prompts from the community
+- **Editor's Choice**: Curated high-quality prompts
+- **Popular Categories**: Most active prompt categories
+
+#### Search and Filter Options
+- **Search Bar**: Search by prompt name, description, or tags
+- **Category Filter**: Filter by prompt type (Marketing, Coding, Writing, etc.)
+- **Model Filter**: Filter by AI model (GPT-4, Claude, Gemini, etc.)
+- **Tag Filter**: Filter by specific tags
+- **Sort Options**: Sort by date, popularity, or relevance
+
+#### Prompt Cards Display
+Each prompt card shows:
+- **Prompt Name**: Title of the prompt
+- **Description**: Brief description of what the prompt does
+- **Author**: Who created the prompt
+- **Model**: Which AI model it's designed for
+- **Tags**: Relevant categories and keywords
+- **Usage Count**: How many times it's been used
+- **Rating**: Community rating (if available)
+
+### Viewing Individual Prompts
+
+#### Clicking on a Prompt
+1. Click on any prompt card
+2. View the full prompt content
+3. See detailed information about the prompt
+4. Access usage instructions
+
+#### What You'll See
+- **Full Prompt Text**: Complete prompt content
+- **Usage Instructions**: How to use the prompt effectively
+- **Author Information**: Creator's profile and other prompts
+- **Related Prompts**: Similar prompts you might like
+- **Comments**: Community feedback and tips
+- **Usage Statistics**: How popular the prompt is
+
+#### Interacting with Prompts
+- **Copy Prompt**: Copy the prompt text to your clipboard
+- **Save to Favorites**: Add to your personal favorites
+- **Share**: Share the prompt with others
+- **Report**: Report inappropriate content
+- **Follow Author**: Follow the creator for updates
+
+### Finding Specific Types of Prompts
+
+#### By Category
+- **Marketing**: Email campaigns, social media, ads
+- **Content Creation**: Blog posts, articles, copywriting
+- **Coding**: Code generation, debugging, documentation
+- **Creative Writing**: Stories, poetry, scripts
+- **Business**: Presentations, reports, analysis
+- **Education**: Learning materials, explanations
+
+#### By AI Model
+- **GPT-4**: OpenAI's latest model
+- **Claude**: Anthropic's AI assistant
+- **Gemini**: Google's AI model
+- **Custom Models**: Specialized or fine-tuned models
+
+#### By Use Case
+- **Professional**: Business and work-related prompts
+- **Personal**: Individual productivity and creativity
+- **Educational**: Learning and teaching prompts
+- **Entertainment**: Fun and creative prompts
+
+### Managing Your Public Prompts
+
+#### Making Prompts Public
+1. Go to **Dashboard** → **Prompts**
+2. Click on a prompt to edit it
+3. Toggle **"Make Public"** to ON
+4. Add a description for the public directory
+5. Save your changes
+
+#### Public Prompt Requirements
+- **Appropriate Content**: Must be suitable for all audiences
+- **Clear Description**: Help others understand what it does
+- **Proper Tags**: Use relevant tags for discoverability
+- **No Sensitive Data**: Don't include personal or confidential information
+
+#### Managing Public Visibility
+- **Make Public**: Share with the community
+- **Make Private**: Only you can see and use
+- **Edit Description**: Update how it appears publicly
+- **Update Tags**: Improve discoverability
 
 ## ⚙️ Account Settings
 

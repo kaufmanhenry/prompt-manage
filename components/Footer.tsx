@@ -76,14 +76,6 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link
-                href="/developer-docs"
-                className="text-gray-600 hover:underline dark:text-gray-300"
-              >
-                API
-              </Link>
-            </li>
-            <li>
               <Link href="/support" className="text-gray-600 hover:underline dark:text-gray-300">
                 Support
               </Link>

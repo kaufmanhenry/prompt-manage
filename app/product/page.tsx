@@ -11,7 +11,6 @@ export const metadata: Metadata = {
     'team collaboration',
     'version control',
     'prompt sharing',
-    'API access',
   ],
   openGraph: {
     title: 'Product — Prompt Manage',
@@ -88,14 +87,6 @@ export default function ProductPage() {
               </div>
 
               <div>
-                <h3 className="mb-2 text-base font-medium">API Access</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Integrate with your existing workflows. RESTful API for all CRUD operations,
-                  webhook support, and SDKs coming soon.
-                </p>
-              </div>
-
-              <div>
                 <h3 className="mb-2 text-base font-medium">Analytics</h3>
                 <p className="text-gray-600 dark:text-gray-400">
                   Understand prompt performance. Token usage and cost tracking, execution history,
@@ -120,7 +111,7 @@ export default function ProductPage() {
               <div>
                 <h3 className="mb-2 text-base font-medium">Development Teams</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Store code generation prompts, integrate via API, and version control your AI
+                  Store code generation prompts, version control your AI
                   workflows.
                 </p>
               </div>

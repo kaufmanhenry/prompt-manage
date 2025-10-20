@@ -1,21 +1,10 @@
-import { ArrowLeft, Download, FileText } from 'lucide-react'
-import type { Metadata } from 'next'
+'use client'
+
+import { ArrowLeft, FileText } from 'lucide-react'
 import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-
-export const metadata: Metadata = {
-  title: 'Data Protection Addendum (DPA) — Prompt Manage',
-  description:
-    'Formal data processing agreement supplement for Prompt Manage customers requiring GDPR-compliant data processing clarity.',
-  keywords: ['DPA', 'data protection addendum', 'GDPR', 'data processing agreement', 'compliance'],
-  openGraph: {
-    title: 'Data Protection Addendum (DPA) — Prompt Manage',
-    description: 'GDPR-compliant data processing agreement.',
-    type: 'website',
-  },
-}
 
 export default function DPAPage() {
   return (
@@ -30,23 +19,17 @@ export default function DPAPage() {
                 Back to Legal Trust Center
               </Button>
             </Link>
-            <div className="flex items-start justify-between">
-              <div>
-                <div className="mb-2 flex items-center gap-3">
-                  <FileText className="h-8 w-8 text-blue-600" />
-                  <Badge>Legal Document</Badge>
-                </div>
-                <h1 className="mb-2 text-3xl font-bold md:text-4xl">
-                  Data Protection Addendum (DPA)
-                </h1>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Effective Date: January 1, 2025 | Last Updated: October 16, 2025
-                </p>
+            <div>
+              <div className="mb-2 flex items-center gap-3">
+                <FileText className="h-8 w-8 text-blue-600" />
+                <Badge>Legal Document</Badge>
               </div>
-              <Button variant="outline">
-                <Download className="mr-2 h-4 w-4" />
-                Download PDF
-              </Button>
+              <h1 className="mb-2 text-3xl font-bold md:text-4xl">
+                Data Protection Addendum (DPA)
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                Effective Date: January 1, 2025 | Last Updated: October 16, 2025
+              </p>
             </div>
           </div>
         </div>
@@ -55,7 +38,7 @@ export default function DPAPage() {
       {/* Document Content */}
       <section className="py-12">
         <div className="container mx-auto px-4">
-          <div className="prose prose-lg dark:prose-invert mx-auto max-w-4xl">
+          <div id="dpa-content" className="prose prose-lg dark:prose-invert mx-auto max-w-4xl">
             {/* Preamble */}
             <div className="mb-8 rounded-lg border border-blue-200 bg-blue-50 p-6 dark:border-blue-900 dark:bg-blue-950">
               <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">

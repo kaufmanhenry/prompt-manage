@@ -273,29 +273,7 @@ export default function TermsPage() {
           </section>
 
           <section className="border-t pt-12">
-            <h2 className="mb-4 text-2xl font-semibold">8. API Terms and Usage</h2>
-            <div className="space-y-4 text-gray-900 dark:text-gray-100">
-              <p>
-                <strong>API Access:</strong> If you access our API, you agree to comply with our API
-                documentation and usage guidelines. API access may be subject to rate limits and
-                usage quotas based on your subscription tier.
-              </p>
-              <p>
-                <strong>API Keys:</strong> You are responsible for maintaining the confidentiality
-                of your API keys. Do not share your API keys publicly or with unauthorized third
-                parties.
-              </p>
-              <p>
-                <strong>API Restrictions:</strong> You may not use our API to: (a) replicate or
-                compete with the Platform; (b) exceed rate limits or attempt to circumvent usage
-                restrictions; (c) access data you are not authorized to access; or (d) resell or
-                redistribute API access.
-              </p>
-            </div>
-          </section>
-
-          <section className="border-t pt-12">
-            <h2 className="mb-4 text-2xl font-semibold">9. Data Privacy and Security</h2>
+            <h2 className="mb-4 text-2xl font-semibold">8. Data Privacy and Security</h2>
             <p className="text-gray-900 dark:text-gray-100">
               Your use of the Platform is governed by our Privacy Policy, which is incorporated into
               these Terms by reference. By using the Platform, you consent to our collection, use,

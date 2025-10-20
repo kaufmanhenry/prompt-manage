@@ -247,7 +247,7 @@ export class AutonomousAgent {
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt },
           ],
-          max_tokens: maxTokens,
+          max_completion_tokens: maxTokens,
           temperature: 0.7,
         }),
       { maxRetries: 3, retryableErrors: ['rate_limit_exceeded', 'ECONNRESET', 'ETIMEDOUT'] },
@@ -322,7 +322,7 @@ export class AutonomousAgent {
     const response = await this.openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 300,
+      max_completion_tokens: 300,
       temperature: 0.7,
     })
 
@@ -415,7 +415,7 @@ export class AutonomousAgent {
     const response = await this.openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 400,
+      max_completion_tokens: 400,
       temperature: 0.6,
     })
 
@@ -480,7 +480,7 @@ export class AutonomousAgent {
     const response = await this.openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 500,
+      max_completion_tokens: 500,
       temperature: 0.5,
     })
 
@@ -528,7 +528,7 @@ export class AutonomousAgent {
     const response = await this.openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 350,
+      max_completion_tokens: 350,
       temperature: 0.7,
     })
 
@@ -561,7 +561,7 @@ export class AutonomousAgent {
       const response = await this.openai.chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [{ role: 'user', content: scoringPrompt }],
-        max_tokens: 10,
+        max_completion_tokens: 10,
         temperature: 0.1,
       })
 

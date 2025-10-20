@@ -161,7 +161,7 @@ Generate a comprehensive Cursor prompt that will produce high-quality code.`
           { role: 'user', content: userPrompt },
         ],
         temperature: 0.7,
-        max_tokens: 1000,
+        max_completion_tokens: 1000,
       },
       {
         signal: controller.signal,

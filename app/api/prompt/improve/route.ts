@@ -104,7 +104,7 @@ Return only the improved prompt, no explanations.`
           content: promptImprovementRequest,
         },
       ],
-      max_tokens: 400,
+      max_completion_tokens: 400,
       temperature: 0.5,
     })
 

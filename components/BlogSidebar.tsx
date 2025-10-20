@@ -71,7 +71,7 @@ export function BlogSidebar({ currentPost }: BlogSidebarProps) {
         setRecentPosts(staticPosts.slice(0, 5))
         
         // Extract unique categories
-        const uniqueCategories = [...new Set(staticPosts.map(post => post.category))]
+        const uniqueCategories = Array.from(new Set(staticPosts.map(post => post.category)))
         setCategories(uniqueCategories)
         
         // Extract and count tags

@@ -60,41 +60,6 @@ export const versionHistoryResponseSchema = z.object({
 })
 
 // UI component prop types
-export interface PromptVersion {
-  id: string
-  prompt_id: string
-  version: number
-  name: string
-  description: string | null
-  prompt_text: string
-  model: string
-  tags: string[]
-  change_type: 'create' | 'edit' | 'fork' | 'revert'
-  change_summary: string | null
-  created_by: string
-  created_at: string
-}
-
-export interface PromptWithVersions {
-  id: string
-  user_id: string
-  name: string
-  description: string | null
-  prompt_text: string
-  model: string
-  tags: string[]
-  is_public: boolean
-  slug: string | null
-  view_count: number
-  version: number
-  parent_id: string | null
-  is_forked: boolean
-  fork_count: number
-  inserted_at: string
-  updated_at: string
-  last_edited_at: string
-}
-
 export interface VersionHistoryProps {
   promptId: string
   currentVersion: number
@@ -150,7 +115,7 @@ export interface RevertPromptResponse {
   error?: string
 }
 
-export interface VersionHistoryResponse {
+export interface VersionHistoryApiResponse {
   success: boolean
   versions?: PromptVersion[]
   current_version?: number

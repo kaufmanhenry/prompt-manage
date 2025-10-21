@@ -7,7 +7,14 @@ import { useEffect, useState } from 'react'
 import { SettingsSidebar } from '@/components/SettingsSidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/utils/supabase/client'
@@ -45,18 +52,20 @@ export default function LegalSettingsPage() {
     setIsSubmitting(true)
     try {
       // Simulate API call to legal team
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       toast({
         title: 'Deletion Request Submitted',
-        description: 'Your data deletion request has been sent to our legal team. You will receive a response within 30 days.',
+        description:
+          'Your data deletion request has been sent to our legal team. You will receive a response within 30 days.',
       })
 
       setShowDeleteDialog(false)
     } catch {
       toast({
         title: 'Error',
-        description: 'Failed to submit deletion request. Please try again or contact legal@promptmanage.com directly.',
+        description:
+          'Failed to submit deletion request. Please try again or contact legal@promptmanage.com directly.',
         variant: 'destructive',
       })
     } finally {
@@ -266,7 +275,8 @@ export default function LegalSettingsPage() {
               <CardContent>
                 <div className="space-y-2">
                   <p className="text-sm text-muted-foreground">
-                    If you have questions about our legal policies or need to exercise your data rights, please contact us:
+                    If you have questions about our legal policies or need to exercise your data
+                    rights, please contact us:
                   </p>
                   <div className="space-y-1">
                     <p className="text-sm">
@@ -289,7 +299,8 @@ export default function LegalSettingsPage() {
           <DialogHeader>
             <DialogTitle>Request Data Deletion</DialogTitle>
             <DialogDescription>
-              You are about to request the permanent deletion of all your personal data from Prompt Manage.
+              You are about to request the permanent deletion of all your personal data from Prompt
+              Manage.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -304,7 +315,9 @@ export default function LegalSettingsPage() {
               </ul>
             </div>
             <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-              <h4 className="font-semibold text-blue-800 dark:text-blue-200">ℹ️ What happens next?</h4>
+              <h4 className="font-semibold text-blue-800 dark:text-blue-200">
+                ℹ️ What happens next?
+              </h4>
               <ul className="mt-2 space-y-1 text-sm text-blue-700 dark:text-blue-300">
                 <li>• Your request will be reviewed by our legal team</li>
                 <li>• You'll receive a response within 30 days</li>
@@ -317,11 +330,7 @@ export default function LegalSettingsPage() {
             <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
               Cancel
             </Button>
-            <Button 
-              variant="destructive" 
-              onClick={handleRequestDeletion}
-              disabled={isSubmitting}
-            >
+            <Button variant="destructive" onClick={handleRequestDeletion} disabled={isSubmitting}>
               {isSubmitting ? 'Submitting Request...' : 'Yes, Request Deletion'}
             </Button>
           </DialogFooter>

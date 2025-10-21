@@ -548,18 +548,18 @@
     .reading-progress {
       display: none !important;
     }
-    
+
     .blog-content {
       font-size: 12pt;
       line-height: 1.6;
     }
-    
+
     .blog-content h1,
     .blog-content h2,
     .blog-content h3 {
       page-break-after: avoid;
     }
-    
+
     .blog-content blockquote,
     .blog-content pre {
       page-break-inside: avoid;

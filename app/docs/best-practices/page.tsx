@@ -1,27 +1,6 @@
-import {
-  ArrowLeft,
-  BarChart3,
-  BookOpen,
-  CheckCircle2,
-  Clock,
-  ExternalLink,
-  FileText,
-  Folder,
-  Search,
-  Settings,
-  Shield,
-  Star,
-  Tag,
-  Trash2,
-  TrendingUp,
-  Users,
-  Zap,
-} from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const metadata: Metadata = {
   title: 'Best Practices — Prompt Manage',
@@ -48,15 +27,17 @@ export default function BestPractices() {
       {/* Hero */}
       <div className="border-b">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
-          <Link href="/docs" className="mb-8 inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">
+          <Link
+            href="/docs"
+            className="mb-8 inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+          >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Documentation
           </Link>
-          <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">
-            Best Practices
-          </h1>
+          <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">Best Practices</h1>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            Master prompt engineering with proven strategies for organization, writing, and team collaboration.
+            Master prompt engineering with proven strategies for organization, writing, and team
+            collaboration.
           </p>
         </div>
       </div>
@@ -69,7 +50,8 @@ export default function BestPractices() {
             <h2 className="mb-6 text-2xl font-semibold">Naming Your Prompts</h2>
             <div className="space-y-6">
               <p className="text-gray-600 dark:text-gray-400">
-                A great prompt name should be descriptive, specific, and instantly recognizable. Think of it as the title of a book—it should tell you exactly what's inside.
+                A great prompt name should be descriptive, specific, and instantly recognizable.
+                Think of it as the title of a book—it should tell you exactly what's inside.
               </p>
 
               <div>
@@ -111,10 +93,18 @@ export default function BestPractices() {
               <div>
                 <h3 className="mb-4 text-lg font-medium">Naming Patterns</h3>
                 <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                  <p><strong>[Category]: [Purpose]</strong> — Email: Welcome Series</p>
-                  <p><strong>[Model] - [Use Case]</strong> — GPT-4 - Code Review</p>
-                  <p><strong>[Channel] [Format] [Audience]</strong> — LinkedIn Post B2B</p>
-                  <p><strong>[Campaign] [Type]</strong> — Q1-Launch Headlines</p>
+                  <p>
+                    <strong>[Category]: [Purpose]</strong> — Email: Welcome Series
+                  </p>
+                  <p>
+                    <strong>[Model] - [Use Case]</strong> — GPT-4 - Code Review
+                  </p>
+                  <p>
+                    <strong>[Channel] [Format] [Audience]</strong> — LinkedIn Post B2B
+                  </p>
+                  <p>
+                    <strong>[Campaign] [Type]</strong> — Q1-Launch Headlines
+                  </p>
                 </div>
               </div>
             </div>
@@ -125,7 +115,8 @@ export default function BestPractices() {
             <h2 className="mb-6 text-2xl font-semibold">Using Tags Effectively</h2>
             <div className="space-y-6">
               <p className="text-gray-600 dark:text-gray-400">
-                Tags are the backbone of prompt organization. Use them strategically to create a searchable, filterable library that scales with your team.
+                Tags are the backbone of prompt organization. Use them strategically to create a
+                searchable, filterable library that scales with your team.
               </p>
 
               <div>
@@ -134,37 +125,69 @@ export default function BestPractices() {
                   <div className="rounded border p-4">
                     <h4 className="mb-2 font-medium">Use Case</h4>
                     <div className="flex flex-wrap gap-1">
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">marketing</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">sales</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">content</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">coding</span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        marketing
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        sales
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        content
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        coding
+                      </span>
                     </div>
                   </div>
                   <div className="rounded border p-4">
                     <h4 className="mb-2 font-medium">Channel</h4>
                     <div className="flex flex-wrap gap-1">
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">email</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">social</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">linkedin</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">blog</span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        email
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        social
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        linkedin
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        blog
+                      </span>
                     </div>
                   </div>
                   <div className="rounded border p-4">
                     <h4 className="mb-2 font-medium">Format</h4>
                     <div className="flex flex-wrap gap-1">
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">short-form</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">long-form</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">listicle</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">headline</span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        short-form
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        long-form
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        listicle
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        headline
+                      </span>
                     </div>
                   </div>
                   <div className="rounded border p-4">
                     <h4 className="mb-2 font-medium">Audience</h4>
                     <div className="flex flex-wrap gap-1">
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">b2b</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">b2c</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">enterprise</span>
-                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">smb</span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        b2b
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        b2c
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        enterprise
+                      </span>
+                      <span className="rounded bg-gray-100 px-2 py-1 text-xs dark:bg-gray-800">
+                        smb
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -198,7 +221,8 @@ export default function BestPractices() {
             <h2 className="mb-6 text-2xl font-semibold">Writing Effective Prompts</h2>
             <div className="space-y-6">
               <p className="text-gray-600 dark:text-gray-400">
-                The quality of your output depends on the quality of your prompt. Follow these proven principles to create prompts that consistently deliver great results.
+                The quality of your output depends on the quality of your prompt. Follow these
+                proven principles to create prompts that consistently deliver great results.
               </p>
 
               <div>
@@ -206,35 +230,45 @@ export default function BestPractices() {
                 <div className="space-y-4">
                   <div>
                     <h4 className="mb-2 font-medium">1. Clear</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Be specific about what you want. Avoid ambiguity.</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Be specific about what you want. Avoid ambiguity.
+                    </p>
                     <div className="mt-1 rounded bg-gray-50 p-2 text-xs dark:bg-gray-900">
                       <code>Write a 500-word blog post about sustainable energy</code>
                     </div>
                   </div>
                   <div>
                     <h4 className="mb-2 font-medium">2. Contextual</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Provide background, constraints, and requirements.</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Provide background, constraints, and requirements.
+                    </p>
                     <div className="mt-1 rounded bg-gray-50 p-2 text-xs dark:bg-gray-900">
                       <code>For B2B SaaS audience, include industry statistics</code>
                     </div>
                   </div>
                   <div>
                     <h4 className="mb-2 font-medium">3. Concise</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Remove unnecessary words without losing meaning.</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Remove unnecessary words without losing meaning.
+                    </p>
                     <div className="mt-1 rounded bg-gray-50 p-2 text-xs dark:bg-gray-900">
                       <code>Use active voice, avoid jargon</code>
                     </div>
                   </div>
                   <div>
                     <h4 className="mb-2 font-medium">4. Complete</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Include examples, tone, length, and format requirements.</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Include examples, tone, length, and format requirements.
+                    </p>
                     <div className="mt-1 rounded bg-gray-50 p-2 text-xs dark:bg-gray-900">
                       <code>Include 3 bullet points, use conversational tone</code>
                     </div>
                   </div>
                   <div>
                     <h4 className="mb-2 font-medium">5. Consistent</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Use similar structure and terminology across related prompts.</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Use similar structure and terminology across related prompts.
+                    </p>
                     <div className="mt-1 rounded bg-gray-50 p-2 text-xs dark:bg-gray-900">
                       <code>Follow the same template structure for all email prompts</code>
                     </div>
@@ -248,14 +282,22 @@ export default function BestPractices() {
                   <div className="rounded bg-gray-50 p-3 dark:bg-gray-900">
                     <code className="text-sm">Write a blog post about marketing</code>
                   </div>
-                  <p className="mt-1 text-xs text-gray-500">Too vague, no context, no specifications</p>
+                  <p className="mt-1 text-xs text-gray-500">
+                    Too vague, no context, no specifications
+                  </p>
                 </div>
                 <div>
                   <h3 className="mb-4 text-lg font-medium">Good Example</h3>
                   <div className="rounded bg-gray-50 p-3 dark:bg-gray-900">
-                    <code className="text-sm">Write a 1000-word blog post for B2B SaaS marketers on "How to Build a Content Calendar." Include 3 actionable tips, use a conversational tone, and include section headers for readability.</code>
+                    <code className="text-sm">
+                      Write a 1000-word blog post for B2B SaaS marketers on "How to Build a Content
+                      Calendar." Include 3 actionable tips, use a conversational tone, and include
+                      section headers for readability.
+                    </code>
                   </div>
-                  <p className="mt-1 text-xs text-gray-500">Clear, contextual, complete specifications</p>
+                  <p className="mt-1 text-xs text-gray-500">
+                    Clear, contextual, complete specifications
+                  </p>
                 </div>
               </div>
             </div>
@@ -266,22 +308,28 @@ export default function BestPractices() {
             <h2 className="mb-6 text-2xl font-semibold">Organizing Your Library</h2>
             <div className="space-y-6">
               <p className="text-gray-600 dark:text-gray-400">
-                A well-organized prompt library saves time and ensures consistency. Here's how to build one that scales with your team.
+                A well-organized prompt library saves time and ensures consistency. Here's how to
+                build one that scales with your team.
               </p>
 
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Organization Strategies</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Organization Strategies
+                  </h3>
                   <div className="space-y-3">
                     {[
-                      "Use descriptive names so you can find prompts without opening them",
+                      'Use descriptive names so you can find prompts without opening them',
                       "Tag by campaign or project (e.g., 'Q1-2025,' 'Product-Launch')",
-                      "Archive or delete outdated prompts to reduce clutter",
-                      "Add descriptions explaining when and how to use each prompt",
-                      "Use date prefixes for time-sensitive prompts",
-                      "Mark high-performing prompts as favorites"
+                      'Archive or delete outdated prompts to reduce clutter',
+                      'Add descriptions explaining when and how to use each prompt',
+                      'Use date prefixes for time-sensitive prompts',
+                      'Mark high-performing prompts as favorites',
                     ].map((strategy, index) => (
-                      <div key={index} className="flex gap-3 rounded-lg border border-gray-200 p-3 dark:border-gray-700">
+                      <div
+                        key={index}
+                        className="flex gap-3 rounded-lg border border-gray-200 p-3 dark:border-gray-700"
+                      >
                         <span className="text-sm text-gray-700 dark:text-gray-300">{strategy}</span>
                       </div>
                     ))}
@@ -289,10 +337,14 @@ export default function BestPractices() {
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Library Maintenance</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Library Maintenance
+                  </h3>
                   <div className="space-y-3">
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Monthly Review</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Monthly Review
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Delete unused prompts (3+ months old)</li>
                         <li>• Update high-value prompts</li>
@@ -301,7 +353,9 @@ export default function BestPractices() {
                       </ul>
                     </div>
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Quarterly Audit</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Quarterly Audit
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Analyze prompt performance</li>
                         <li>• Identify top performers</li>
@@ -314,12 +368,20 @@ export default function BestPractices() {
               </div>
 
               <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
-                <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Organization Tools</h4>
+                <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                  Organization Tools
+                </h4>
                 <div className="flex flex-wrap gap-2">
-                  <Link href="/dashboard/prompts" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/dashboard/prompts"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Prompt Library
                   </Link>
-                  <Link href="/docs/prompt-editing#organization" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/docs/prompt-editing#organization"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Organization Guide
                   </Link>
                 </div>
@@ -332,36 +394,50 @@ export default function BestPractices() {
             <h2 className="mb-6 text-2xl font-semibold">Team Collaboration</h2>
             <div className="space-y-6">
               <p className="text-gray-600 dark:text-gray-400">
-                Effective team collaboration on prompts requires structure, communication, and shared standards. Here's how to build a collaborative prompt culture.
+                Effective team collaboration on prompts requires structure, communication, and
+                shared standards. Here's how to build a collaborative prompt culture.
               </p>
 
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Team Standards</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Team Standards
+                  </h3>
                   <div className="space-y-3">
                     {[
                       {
-                        title: "Naming Convention",
-                        description: "Create a shared document outlining how prompts should be named and tagged. Onboard new team members with this guide."
+                        title: 'Naming Convention',
+                        description:
+                          'Create a shared document outlining how prompts should be named and tagged. Onboard new team members with this guide.',
                       },
                       {
-                        title: "Tag Dictionary",
-                        description: "Maintain a master list of approved tags with definitions. Update it quarterly based on team feedback."
+                        title: 'Tag Dictionary',
+                        description:
+                          'Maintain a master list of approved tags with definitions. Update it quarterly based on team feedback.',
                       },
                       {
-                        title: "Quality Guidelines",
-                        description: "Define what makes a 'good' prompt for your team. Include examples and anti-patterns."
+                        title: 'Quality Guidelines',
+                        description:
+                          "Define what makes a 'good' prompt for your team. Include examples and anti-patterns.",
                       },
                       {
-                        title: "Review Process",
-                        description: "Establish a peer review process for high-impact prompts. Include feedback templates."
-                      }
+                        title: 'Review Process',
+                        description:
+                          'Establish a peer review process for high-impact prompts. Include feedback templates.',
+                      },
                     ].map((standard, index) => (
-                      <div key={index} className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+                      <div
+                        key={index}
+                        className="rounded-lg border border-gray-200 p-4 dark:border-gray-700"
+                      >
                         <div className="flex items-start gap-3">
                           <div>
-                            <h4 className="font-semibold text-gray-900 dark:text-white">{standard.title}</h4>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">{standard.description}</p>
+                            <h4 className="font-semibold text-gray-900 dark:text-white">
+                              {standard.title}
+                            </h4>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                              {standard.description}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -370,10 +446,14 @@ export default function BestPractices() {
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Collaboration Workflows</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Collaboration Workflows
+                  </h3>
                   <div className="space-y-3">
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Sharing Winning Prompts</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Sharing Winning Prompts
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Share high-performing prompts publicly</li>
                         <li>• Add notes on results and use cases</li>
@@ -382,7 +462,9 @@ export default function BestPractices() {
                       </ul>
                     </div>
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Version Control</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Version Control
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Save copies before major changes</li>
                         <li>• Use version numbers (v1, v2, etc.)</li>
@@ -391,7 +473,9 @@ export default function BestPractices() {
                       </ul>
                     </div>
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Regular Audits</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Regular Audits
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Schedule quarterly prompt reviews</li>
                         <li>• Clean up outdated content</li>
@@ -406,10 +490,16 @@ export default function BestPractices() {
               <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
                 <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Team Resources</h4>
                 <div className="flex flex-wrap gap-2">
-                  <Link href="/docs/teams" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/docs/teams"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Teams Documentation
                   </Link>
-                  <Link href="/p" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/p"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Public Prompt Library
                   </Link>
                 </div>
@@ -422,20 +512,23 @@ export default function BestPractices() {
             <h2 className="mb-6 text-2xl font-semibold">Testing & Iteration</h2>
             <div className="space-y-6">
               <p className="text-gray-600 dark:text-gray-400">
-                The best prompts are refined through experimentation. Here's a systematic approach to testing and improving your prompts.
+                The best prompts are refined through experimentation. Here's a systematic approach
+                to testing and improving your prompts.
               </p>
 
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">A/B Testing Framework</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    A/B Testing Framework
+                  </h3>
                   <div className="space-y-3">
                     {[
-                      "Create 2-3 variations of the same prompt",
-                      "Test them with identical inputs",
-                      "Compare outputs for quality, tone, and accuracy",
-                      "Keep the winner and iterate on it",
-                      "Delete or archive the losing variants",
-                      "Document what made the winner successful"
+                      'Create 2-3 variations of the same prompt',
+                      'Test them with identical inputs',
+                      'Compare outputs for quality, tone, and accuracy',
+                      'Keep the winner and iterate on it',
+                      'Delete or archive the losing variants',
+                      'Document what made the winner successful',
                     ].map((step, index) => (
                       <div key={index} className="flex gap-3">
                         <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-bold text-gray-700 dark:bg-gray-900/40 dark:text-gray-400">
@@ -448,10 +541,14 @@ export default function BestPractices() {
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Optimization Strategies</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Optimization Strategies
+                  </h3>
                   <div className="space-y-3">
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Small Tweaks, Big Impact</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Small Tweaks, Big Impact
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Change tone: "professional" → "conversational"</li>
                         <li>• Adjust length: add or remove words</li>
@@ -460,7 +557,9 @@ export default function BestPractices() {
                       </ul>
                     </div>
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Performance Tracking</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Performance Tracking
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Track usage frequency</li>
                         <li>• Monitor output quality scores</li>
@@ -475,10 +574,16 @@ export default function BestPractices() {
               <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
                 <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Testing Tools</h4>
                 <div className="flex flex-wrap gap-2">
-                  <Link href="/docs/prompt-run-history" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/docs/prompt-run-history"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Run History Tracking
                   </Link>
-                  <Link href="/docs/derivative-prompts" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/docs/derivative-prompts"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Derivative Prompts
                   </Link>
                 </div>
@@ -491,15 +596,20 @@ export default function BestPractices() {
             <h2 className="mb-6 text-2xl font-semibold">Security & Privacy</h2>
             <div className="space-y-6">
               <p className="text-gray-600 dark:text-gray-400">
-                Security and privacy are crucial when working with AI prompts. Follow these guidelines to protect sensitive information and maintain data security.
+                Security and privacy are crucial when working with AI prompts. Follow these
+                guidelines to protect sensitive information and maintain data security.
               </p>
 
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Data Protection</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Data Protection
+                  </h3>
                   <div className="space-y-3">
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">⚠️ Never Include</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        ⚠️ Never Include
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Passwords or API keys</li>
                         <li>• Personal identification numbers</li>
@@ -510,7 +620,9 @@ export default function BestPractices() {
                       </ul>
                     </div>
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">✅ Safe to Include</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        ✅ Safe to Include
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• General industry knowledge</li>
                         <li>• Public company information</li>
@@ -523,10 +635,14 @@ export default function BestPractices() {
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Privacy Best Practices</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Privacy Best Practices
+                  </h3>
                   <div className="space-y-3">
                     <div className="rounded-lg border p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Access Control</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Access Control
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Use private prompts for sensitive content</li>
                         <li>• Share only what's necessary</li>
@@ -548,15 +664,26 @@ export default function BestPractices() {
               </div>
 
               <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
-                <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Security Resources</h4>
+                <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                  Security Resources
+                </h4>
                 <div className="flex flex-wrap gap-2">
-                  <Link href="/security" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/security"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Security Overview
                   </Link>
-                  <Link href="/privacy" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/privacy"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Privacy Policy
                   </Link>
-                  <Link href="/docs/account-management#privacy-security" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/docs/account-management#privacy-security"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Account Security Guide
                   </Link>
                 </div>
@@ -569,12 +696,15 @@ export default function BestPractices() {
             <h2 className="mb-6 text-2xl font-semibold">Scaling Strategies</h2>
             <div className="space-y-6">
               <p className="text-gray-600 dark:text-gray-400">
-                As your prompt library grows, you need strategies to maintain quality and efficiency. Here's how to scale your prompt operations.
+                As your prompt library grows, you need strategies to maintain quality and
+                efficiency. Here's how to scale your prompt operations.
               </p>
 
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Library Management</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Library Management
+                  </h3>
                   <div className="space-y-3">
                     <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
                       <h4 className="font-semibold text-gray-900 dark:text-white">Automation</h4>
@@ -586,7 +716,9 @@ export default function BestPractices() {
                       </ul>
                     </div>
                     <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Quality Control</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Quality Control
+                      </h4>
                       <ul className="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                         <li>• Implement review processes</li>
                         <li>• Use performance metrics</li>
@@ -598,7 +730,9 @@ export default function BestPractices() {
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Team Scaling</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Team Scaling
+                  </h3>
                   <div className="space-y-3">
                     <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
                       <h4 className="font-semibold text-gray-900 dark:text-white">Processes</h4>
@@ -623,15 +757,26 @@ export default function BestPractices() {
               </div>
 
               <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
-                <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">Scaling Resources</h4>
+                <h4 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                  Scaling Resources
+                </h4>
                 <div className="flex flex-wrap gap-2">
-                  <Link href="/docs/teams" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/docs/teams"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     AI Agents Guide
                   </Link>
-                  <Link href="/docs/workflows" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/docs/workflows"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Workflow Engine
                   </Link>
-                  <Link href="/docs/teams/scaling" className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400">
+                  <Link
+                    href="/docs/teams/scaling"
+                    className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                  >
                     Team Scaling
                   </Link>
                 </div>
@@ -644,30 +789,50 @@ export default function BestPractices() {
             <h2 className="mb-6 text-2xl font-semibold">Tools & Resources</h2>
             <div className="space-y-6">
               <p className="text-gray-600 dark:text-gray-400">
-                Essential tools and resources to help you implement these best practices effectively.
+                Essential tools and resources to help you implement these best practices
+                effectively.
               </p>
 
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                  <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Built-in Features</h3>
+                  <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">
+                    Built-in Features
+                  </h3>
                   <div className="space-y-2">
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      <Link href="/dashboard" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Prompt Library</Link>
+                      <Link
+                        href="/dashboard"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                      >
+                        Prompt Library
+                      </Link>
                       <span className="ml-2">— Organize and manage prompts</span>
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      <Link href="/docs/version-history" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Version Control</Link>
+                      <Link
+                        href="/docs/version-history"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                      >
+                        Version Control
+                      </Link>
                       <span className="ml-2">— Track changes and revert</span>
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      <Link href="/docs/teams" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Team Collaboration</Link>
+                      <Link
+                        href="/docs/teams"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                      >
+                        Team Collaboration
+                      </Link>
                       <span className="ml-2">— Share and collaborate</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                  <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">External Tools</h3>
+                  <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">
+                    External Tools
+                  </h3>
                   <div className="space-y-2">
                     <div className="text-sm text-gray-600 dark:text-gray-400">
                       <strong>Notion</strong> — Document templates and guidelines
@@ -682,18 +847,35 @@ export default function BestPractices() {
                 </div>
 
                 <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                  <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">Learning Resources</h3>
+                  <h3 className="mb-3 font-semibold text-gray-900 dark:text-white">
+                    Learning Resources
+                  </h3>
                   <div className="space-y-2">
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      <Link href="/docs" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Documentation</Link>
+                      <Link
+                        href="/docs"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                      >
+                        Documentation
+                      </Link>
                       <span className="ml-2">— Complete guides</span>
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      <Link href="/p" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Public Library</Link>
+                      <Link
+                        href="/p"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                      >
+                        Public Library
+                      </Link>
                       <span className="ml-2">— Examples and inspiration</span>
                     </div>
                     <div className="text-sm text-gray-600 dark:text-blue-400">
-                      <Link href="/support" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Support</Link>
+                      <Link
+                        href="/support"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                      >
+                        Support
+                      </Link>
                       <span className="ml-2">— Get help when needed</span>
                     </div>
                   </div>
@@ -701,7 +883,9 @@ export default function BestPractices() {
               </div>
 
               <div className="rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 p-6 dark:from-blue-900/20 dark:to-purple-900/20">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Quick Start Checklist</h3>
+                <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+                  Quick Start Checklist
+                </h3>
                 <div className="grid gap-2 md:grid-cols-2">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm">
@@ -747,7 +931,9 @@ export default function BestPractices() {
 
         {/* CTA Section */}
         <div className="mt-16 rounded-lg border border-gray-200 bg-white p-8 text-center dark:border-gray-800 dark:bg-gray-900">
-          <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">Ready to Master Prompt Management?</h2>
+          <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+            Ready to Master Prompt Management?
+          </h2>
           <p className="mb-6 text-gray-600 dark:text-gray-400">
             Start applying these best practices today and transform your AI workflow
           </p>

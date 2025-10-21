@@ -326,7 +326,9 @@ function PublicDirectoryContent() {
             </div>
           ) : filteredPrompts.length === 0 ? (
             <div className="py-12 text-center">
-              <p className="text-lg text-muted-foreground">No prompts found matching your criteria.</p>
+              <p className="text-lg text-muted-foreground">
+                No prompts found matching your criteria.
+              </p>
               <p className="text-sm text-muted-foreground">Try adjusting your search or filters.</p>
             </div>
           ) : (

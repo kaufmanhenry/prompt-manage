@@ -1,5 +1,5 @@
 import { headers } from 'next/headers'
-import type { NextRequest} from 'next/server';
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { stripe } from '@/lib/stripe'
@@ -42,17 +42,15 @@ export async function POST(request: NextRequest) {
         const currentPeriodEnd = (subscription as any).current_period_end as number
 
         // Update or create subscription in database
-        await supabase
-          .from('user_subscriptions')
-          .upsert({
-            user_id: userId,
-            plan,
-            status: subscription.status,
-            current_period_end: new Date(currentPeriodEnd * 1000).toISOString(),
-            stripe_customer_id: session.customer as string,
-            stripe_subscription_id: subscription.id,
-            updated_at: new Date().toISOString(),
-          })
+        await supabase.from('user_subscriptions').upsert({
+          user_id: userId,
+          plan,
+          status: subscription.status,
+          current_period_end: new Date(currentPeriodEnd * 1000).toISOString(),
+          stripe_customer_id: session.customer as string,
+          stripe_subscription_id: subscription.id,
+          updated_at: new Date().toISOString(),
+        })
 
         break
       }

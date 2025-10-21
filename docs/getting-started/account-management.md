@@ -28,6 +28,7 @@ This comprehensive guide covers everything you need to know about managing your 
 Prompt Manage offers multiple ways to create an account:
 
 #### Option A: Email Sign-Up (Recommended)
+
 1. Enter your email address
 2. Click **"Send Verification Code"**
 3. Check your email for a 6-digit verification code
@@ -35,6 +36,7 @@ Prompt Manage offers multiple ways to create an account:
 5. Complete your profile setup
 
 #### Option B: Google Sign-In
+
 1. Click **"Continue with Google"**
 2. Select your Google account
 3. Grant necessary permissions
@@ -78,14 +80,17 @@ After verification, you'll be prompted to:
 ### Troubleshooting Sign-In Issues
 
 #### "Invalid verification code"
+
 - **Solution**: Request a new code (codes expire after 10 minutes)
 - **Prevention**: Check your spam folder for the email
 
 #### "Account not found"
+
 - **Solution**: Verify you're using the correct email address
 - **Alternative**: Try signing up with a new account
 
 #### "Too many attempts"
+
 - **Solution**: Wait 15 minutes before trying again
 - **Prevention**: Don't request multiple codes rapidly
 
@@ -94,17 +99,20 @@ After verification, you'll be prompted to:
 ### Accessing Your Profile
 
 #### Method 1: Through Navigation
+
 1. Sign in to your account
 2. Click your profile picture/avatar in the top-right corner
 3. Select **"View Profile"** from the dropdown menu
 4. Or navigate directly to `/profile`
 
 #### Method 2: Direct URL
+
 - Visit `https://promptmanage.com/profile` while signed in
 
 ### What You'll See on Your Profile
 
 #### Profile Information
+
 - **Display Name**: How your name appears to others
 - **Bio**: Your personal or professional description
 - **Website**: Your personal or professional website
@@ -112,12 +120,14 @@ After verification, you'll be prompted to:
 - **Location**: Your general location (if set)
 
 #### Activity Overview
+
 - **Total Prompts**: Number of prompts you've created
 - **Public Prompts**: Number of prompts visible to others
 - **Private Prompts**: Number of prompts only you can see
 - **Last Active**: When you were last active on the platform
 
 #### Public Prompts Section
+
 - **Recently Created**: Your latest public prompts
 - **Most Popular**: Your prompts with the most views/likes
 - **All Public Prompts**: Complete list of your public content
@@ -125,11 +135,13 @@ After verification, you'll be prompted to:
 ### Profile Visibility Settings
 
 #### Public Profile
+
 - **Visible to everyone**: Anyone can see your profile
 - **Searchable**: Your profile appears in user searches
 - **Social features**: Others can follow your public prompts
 
 #### Private Profile
+
 - **Only you can see**: Profile is not visible to others
 - **Not searchable**: Won't appear in user searches
 - **Limited social features**: Reduced interaction options
@@ -139,12 +151,14 @@ After verification, you'll be prompted to:
 ### Accessing Profile Settings
 
 #### Method 1: Through Profile Page
+
 1. Go to your profile page (`/profile`)
 2. Click the **"Edit Profile"** button
 3. Make your changes
 4. Click **"Save Changes"**
 
 #### Method 2: Through Settings
+
 1. Go to **Settings** (`/settings`)
 2. Click on **"Profile"** in the sidebar
 3. Edit your information
@@ -153,37 +167,39 @@ After verification, you'll be prompted to:
 ### What You Can Edit
 
 #### Personal Information
-- **Display Name**: 
+
+- **Display Name**:
   - How your name appears to other users
   - Can be changed at any time
   - Must be between 2-50 characters
   - Cannot contain special characters or profanity
 
-- **Bio**: 
+- **Bio**:
   - Brief description about yourself
   - Maximum 500 characters
   - Supports basic formatting (line breaks)
   - Can include links to your work
 
-- **Website**: 
+- **Website**:
   - Your personal or professional website
   - Must be a valid URL
   - Will be displayed as a clickable link
   - Optional field
 
-- **Location**: 
+- **Location**:
   - Your general location (city, country)
   - Helps others find local users
   - Optional field
   - Can be as specific or general as you prefer
 
 #### Profile Preferences
-- **Profile Visibility**: 
+
+- **Profile Visibility**:
   - Choose between public or private
   - Public: visible to everyone
   - Private: only you can see
 
-- **Show Activity Status**: 
+- **Show Activity Status**:
   - Display when you're online
   - Helps others know when you're active
   - Can be disabled for privacy
@@ -191,6 +207,7 @@ After verification, you'll be prompted to:
 ### Profile Picture Management
 
 #### Adding a Profile Picture
+
 1. Go to **Settings** → **Profile**
 2. Click on the profile picture area
 3. Upload an image file (JPG, PNG, GIF)
@@ -198,12 +215,14 @@ After verification, you'll be prompted to:
 5. Click **"Save"**
 
 #### Profile Picture Requirements
+
 - **File size**: Maximum 5MB
 - **Dimensions**: Recommended 400x400 pixels
 - **Formats**: JPG, PNG, GIF supported
 - **Content**: Must be appropriate and not copyrighted
 
 #### Removing Profile Picture
+
 1. Go to **Settings** → **Profile**
 2. Click **"Remove Picture"**
 3. Confirm removal
@@ -212,11 +231,13 @@ After verification, you'll be prompted to:
 ### Profile Customization
 
 #### Theme Preferences
+
 - **Light Mode**: Clean, bright interface
 - **Dark Mode**: Dark interface for low-light use
 - **System**: Automatically matches your device setting
 
 #### Language Settings
+
 - **English**: Default language
 - **Additional languages**: Available based on your region
 - **Interface language**: Affects menus and buttons
@@ -227,22 +248,26 @@ After verification, you'll be prompted to:
 ### Accessing the Public Directory
 
 #### Method 1: Through Navigation
+
 1. Sign in to your account
 2. Click **"Explore"** in the top navigation
 3. Or navigate directly to `/p`
 
 #### Method 2: Direct URL
+
 - Visit `https://promptmanage.com/p` while signed in
 
 ### Browsing Public Prompts
 
 #### Featured Prompts
+
 - **Trending**: Most popular prompts this week
 - **Recently Added**: Latest prompts from the community
 - **Editor's Choice**: Curated high-quality prompts
 - **Popular Categories**: Most active prompt categories
 
 #### Search and Filter Options
+
 - **Search Bar**: Search by prompt name, description, or tags
 - **Category Filter**: Filter by prompt type (Marketing, Coding, Writing, etc.)
 - **Model Filter**: Filter by AI model (GPT-4, Claude, Gemini, etc.)
@@ -250,7 +275,9 @@ After verification, you'll be prompted to:
 - **Sort Options**: Sort by date, popularity, or relevance
 
 #### Prompt Cards Display
+
 Each prompt card shows:
+
 - **Prompt Name**: Title of the prompt
 - **Description**: Brief description of what the prompt does
 - **Author**: Who created the prompt
@@ -262,12 +289,14 @@ Each prompt card shows:
 ### Viewing Individual Prompts
 
 #### Clicking on a Prompt
+
 1. Click on any prompt card
 2. View the full prompt content
 3. See detailed information about the prompt
 4. Access usage instructions
 
 #### What You'll See
+
 - **Full Prompt Text**: Complete prompt content
 - **Usage Instructions**: How to use the prompt effectively
 - **Author Information**: Creator's profile and other prompts
@@ -276,6 +305,7 @@ Each prompt card shows:
 - **Usage Statistics**: How popular the prompt is
 
 #### Interacting with Prompts
+
 - **Copy Prompt**: Copy the prompt text to your clipboard
 - **Save to Favorites**: Add to your personal favorites
 - **Share**: Share the prompt with others
@@ -285,6 +315,7 @@ Each prompt card shows:
 ### Finding Specific Types of Prompts
 
 #### By Category
+
 - **Marketing**: Email campaigns, social media, ads
 - **Content Creation**: Blog posts, articles, copywriting
 - **Coding**: Code generation, debugging, documentation
@@ -293,12 +324,14 @@ Each prompt card shows:
 - **Education**: Learning materials, explanations
 
 #### By AI Model
+
 - **GPT-4**: OpenAI's latest model
 - **Claude**: Anthropic's AI assistant
 - **Gemini**: Google's AI model
 - **Custom Models**: Specialized or fine-tuned models
 
 #### By Use Case
+
 - **Professional**: Business and work-related prompts
 - **Personal**: Individual productivity and creativity
 - **Educational**: Learning and teaching prompts
@@ -307,6 +340,7 @@ Each prompt card shows:
 ### Managing Your Public Prompts
 
 #### Making Prompts Public
+
 1. Go to **Dashboard** → **Prompts**
 2. Click on a prompt to edit it
 3. Toggle **"Make Public"** to ON
@@ -314,12 +348,14 @@ Each prompt card shows:
 5. Save your changes
 
 #### Public Prompt Requirements
+
 - **Appropriate Content**: Must be suitable for all audiences
 - **Clear Description**: Help others understand what it does
 - **Proper Tags**: Use relevant tags for discoverability
 - **No Sensitive Data**: Don't include personal or confidential information
 
 #### Managing Public Visibility
+
 - **Make Public**: Share with the community
 - **Make Private**: Only you can see and use
 - **Edit Description**: Update how it appears publicly
@@ -337,17 +373,20 @@ Each prompt card shows:
 ### Profile Settings
 
 #### Personal Information
+
 - **Display Name**: How your name appears to other users
 - **Bio**: A brief description about yourself
 - **Website**: Your personal or professional website
 - **Location**: Your general location (optional)
 
 #### Account Preferences
+
 - **Theme**: Choose between light, dark, or system theme
 - **Language**: Select your preferred language
 - **Timezone**: Set your timezone for accurate timestamps
 
 #### Notification Settings
+
 - **Email Notifications**: Receive updates about your prompts
 - **Marketing Emails**: Optional promotional content
 - **Security Alerts**: Important account security notifications
@@ -355,11 +394,13 @@ Each prompt card shows:
 ### Privacy Settings
 
 #### Data Processing
+
 - **Analytics**: Help improve Prompt Manage by sharing anonymous usage data
 - **Personalization**: Allow personalized content recommendations
 - **Public Profile**: Control what information is visible to other users
 
 #### Content Visibility
+
 - **Public Prompts**: Make your prompts discoverable by others
 - **Profile Visibility**: Control who can see your profile
 - **Activity Status**: Show when you're online
@@ -371,18 +412,21 @@ Each prompt card shows:
 Prompt Manage stores the following data for your account:
 
 #### Personal Information
+
 - Email address
 - Display name and bio
 - Profile preferences
 - Account settings
 
 #### Content Data
+
 - All prompts you create
 - Prompt versions and edit history
 - Tags and categories
 - Usage statistics
 
 #### Activity Data
+
 - Sign-in history
 - Feature usage
 - Performance metrics
@@ -391,6 +435,7 @@ Prompt Manage stores the following data for your account:
 ### Exporting Your Data
 
 #### Request Data Export
+
 1. Go to **Settings** → **Legal & Privacy**
 2. Scroll to **"Your Data Rights"** section
 3. Click **"Request Export"**
@@ -398,6 +443,7 @@ Prompt Manage stores the following data for your account:
 5. Download your data within 30 days
 
 #### What's Included in Export
+
 - All your prompts in JSON format
 - Account information
 - Usage statistics
@@ -406,6 +452,7 @@ Prompt Manage stores the following data for your account:
 ### Data Portability
 
 #### Transferring to Another Service
+
 1. Export your data using the steps above
 2. Use the exported JSON files to import into other services
 3. Contact support if you need assistance with specific formats
@@ -419,6 +466,7 @@ Prompt Manage stores the following data for your account:
 ### What Happens When You Delete Your Account
 
 #### Data That Will Be Permanently Lost
+
 - **All your prompts** and their versions
 - **Account settings** and preferences
 - **Usage history** and statistics
@@ -428,6 +476,7 @@ Prompt Manage stores the following data for your account:
 - **All associated data** stored on our servers
 
 #### Data That Cannot Be Recovered
+
 - **Prompt content** and versions
 - **Personal settings** and customizations
 - **Usage statistics** and history
@@ -436,6 +485,7 @@ Prompt Manage stores the following data for your account:
 ### How to Delete Your Account
 
 #### Method 1: Through Settings (Recommended)
+
 1. Sign in to your account
 2. Go to **Settings** → **Account**
 3. Scroll to the **"Delete Account"** section
@@ -447,6 +497,7 @@ Prompt Manage stores the following data for your account:
 9. Confirm deletion one final time
 
 #### Method 2: Contact Support
+
 1. Email **support@promptmanage.com**
 2. Include your account email address
 3. Request account deletion
@@ -456,12 +507,14 @@ Prompt Manage stores the following data for your account:
 ### Before Deleting Your Account
 
 #### Export Your Data First
+
 1. **Always export your data** before deletion
 2. **Save important prompts** to external files
 3. **Download any public prompts** you want to keep
 4. **Cancel subscriptions** if applicable
 
 #### Alternative Options
+
 - **Disable notifications** instead of deleting
 - **Make prompts private** instead of deleting
 - **Contact support** if you're having issues
@@ -470,18 +523,21 @@ Prompt Manage stores the following data for your account:
 ### Account Deletion Process
 
 #### Immediate Effects
+
 - Account becomes inaccessible
 - All prompts are marked for deletion
 - Public prompts are removed from directory
 - Billing is cancelled (if applicable)
 
 #### Data Removal Timeline
+
 - **Immediate**: Account access revoked
 - **24 hours**: Public content removed
 - **30 days**: Personal data deleted
 - **90 days**: All traces removed from backups
 
 #### Recovery Period
+
 - **No recovery possible** after deletion
 - **No grace period** for account restoration
 - **Create new account** if you change your mind
@@ -491,12 +547,14 @@ Prompt Manage stores the following data for your account:
 ### Data Protection
 
 #### How We Protect Your Data
+
 - **Encryption**: All data encrypted in transit and at rest
 - **Access Controls**: Strict access controls and authentication
 - **Regular Audits**: Security audits and vulnerability assessments
 - **Compliance**: GDPR and CCPA compliant data handling
 
 #### Your Privacy Rights
+
 - **Right to Access**: View all data we have about you
 - **Right to Rectification**: Correct inaccurate information
 - **Right to Erasure**: Request data deletion
@@ -506,6 +564,7 @@ Prompt Manage stores the following data for your account:
 ### Security Best Practices
 
 #### Account Security
+
 - **Use a strong password** (if applicable)
 - **Enable two-factor authentication** when available
 - **Don't share your verification codes**
@@ -513,6 +572,7 @@ Prompt Manage stores the following data for your account:
 - **Report suspicious activity** immediately
 
 #### Data Security
+
 - **Be careful with public prompts** - they're visible to everyone
 - **Don't include sensitive information** in prompts
 - **Regularly review** your privacy settings
@@ -523,6 +583,7 @@ Prompt Manage stores the following data for your account:
 ### Common Account Issues
 
 #### "Can't sign in"
+
 1. **Check your email** for verification codes
 2. **Check spam folder** for emails
 3. **Try a different browser** or incognito mode
@@ -530,17 +591,20 @@ Prompt Manage stores the following data for your account:
 5. **Contact support** if issues persist
 
 #### "Account locked"
+
 1. **Wait 15 minutes** before trying again
 2. **Check email** for security notifications
 3. **Contact support** if you believe it's an error
 
 #### "Data missing"
+
 1. **Check if you're signed in** to the correct account
 2. **Look in different sections** of the dashboard
 3. **Check if prompts are private** vs public
 4. **Contact support** if data appears to be lost
 
 #### "Can't delete account"
+
 1. **Make sure you're signed in** to the correct account
 2. **Try the support method** if settings don't work
 3. **Check if you have active subscriptions** that need cancellation
@@ -549,16 +613,19 @@ Prompt Manage stores the following data for your account:
 ### Getting Help
 
 #### Self-Service Options
+
 - **Check this documentation** for common issues
 - **Review our FAQ** section
 - **Search our help center** for specific topics
 
 #### Contact Support
+
 - **Email**: support@promptmanage.com
 - **Response Time**: Within 24 hours
 - **Include**: Your email address and detailed description of the issue
 
 #### Legal Inquiries
+
 - **Email**: legal@promptmanage.com
 - **Response Time**: Within 30 days
 - **For**: Data deletion requests, privacy concerns, legal matters
@@ -566,6 +633,7 @@ Prompt Manage stores the following data for your account:
 ## 📋 Quick Reference
 
 ### Important Links
+
 - **Sign Up**: https://promptmanage.com/auth/signup
 - **Sign In**: https://promptmanage.com/auth/signin
 - **Settings**: https://promptmanage.com/settings
@@ -573,11 +641,13 @@ Prompt Manage stores the following data for your account:
 - **Terms of Service**: https://promptmanage.com/terms
 
 ### Contact Information
+
 - **General Support**: support@promptmanage.com
 - **Legal Inquiries**: legal@promptmanage.com
 - **Security Issues**: security@promptmanage.com
 
 ### Emergency Contacts
+
 - **Account Compromise**: security@promptmanage.com
 - **Data Breach Concerns**: privacy@promptmanage.com
 - **Urgent Account Issues**: support@promptmanage.com (mark as urgent)
@@ -587,6 +657,7 @@ Prompt Manage stores the following data for your account:
 ## ⚠️ Final Reminders
 
 ### Before You Delete Your Account
+
 1. **Export all your data** - this is your only chance
 2. **Save important prompts** to external files
 3. **Cancel any subscriptions** to avoid charges
@@ -594,6 +665,7 @@ Prompt Manage stores the following data for your account:
 5. **Understand the consequences** - deletion is permanent
 
 ### Data Safety Tips
+
 1. **Regular backups** - export your data monthly
 2. **Be careful with public prompts** - they're visible to everyone
 3. **Review privacy settings** regularly
@@ -601,6 +673,7 @@ Prompt Manage stores the following data for your account:
 5. **Use strong security practices** for your account
 
 ### Need More Help?
+
 - **Documentation**: Check our comprehensive guides
 - **Community**: Join our user community for tips and support
 - **Support**: Contact us directly for personalized assistance

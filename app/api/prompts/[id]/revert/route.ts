@@ -20,14 +20,17 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     }
 
     const body = await request.json()
-    
+
     // Validate request body
     const validationResult = revertPromptRequestSchema.safeParse(body)
     if (!validationResult.success) {
-      return NextResponse.json({ 
-        error: 'Invalid request data',
-        details: validationResult.error.errors 
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Invalid request data',
+          details: validationResult.error.errors,
+        },
+        { status: 400 },
+      )
     }
 
     const { target_version } = validationResult.data
@@ -46,24 +49,29 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
 
     // Check if trying to revert to current version
     if (target_version === prompt.version) {
-      return NextResponse.json({ 
-        error: 'Already at the specified version' 
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Already at the specified version',
+        },
+        { status: 400 },
+      )
     }
 
     // Check if trying to revert to a future version
     if (target_version > prompt.version) {
-      return NextResponse.json({ 
-        error: 'Cannot revert to a future version' 
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Cannot revert to a future version',
+        },
+        { status: 400 },
+      )
     }
 
     // Use the database function to revert the prompt
-    const { data: success, error: revertError } = await supabase
-      .rpc('revert_prompt_to_version', {
-        prompt_id: id,
-        target_version
-      })
+    const { data: success, error: revertError } = await supabase.rpc('revert_prompt_to_version', {
+      prompt_id: id,
+      target_version,
+    })
 
     if (revertError) {
       console.error('Revert error:', revertError)

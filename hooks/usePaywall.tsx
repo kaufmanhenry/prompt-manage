@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Paywall from '@/components/Paywall'
 import type { PlanType } from '@/lib/stripe'
-import { canUserCreatePrompt,getUserSubscription, getUserUsage } from '@/lib/subscription'
+import { canUserCreatePrompt, getUserSubscription, getUserUsage } from '@/lib/subscription'
 import { createClient } from '@/utils/supabase/client'
 
 interface UsePaywallReturn {
@@ -27,14 +27,18 @@ export function usePaywall(feature?: string): UsePaywallReturn {
   const [isPaywallOpen, setIsPaywallOpen] = useState(false)
   const [canCreatePrompt, setCanCreatePrompt] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
-  const [usage, setUsage] = useState<{ promptsThisMonth: number; promptsTotal: number } | null>(null)
+  const [usage, setUsage] = useState<{ promptsThisMonth: number; promptsTotal: number } | null>(
+    null,
+  )
   const [subscription, setSubscription] = useState<{ plan: PlanType; status: string } | null>(null)
 
   useEffect(() => {
     async function checkUsage() {
       const supabase = createClient()
-      const { data: { session } } = await supabase.auth.getSession()
-      
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+
       if (!session?.user) {
         setIsLoading(false)
         return
@@ -47,13 +51,17 @@ export function usePaywall(feature?: string): UsePaywallReturn {
         ])
 
         setUsage(userUsage)
-        setSubscription(userSubscription ? {
-          plan: userSubscription.plan,
-          status: userSubscription.status,
-        } : {
-          plan: 'free',
-          status: 'active',
-        })
+        setSubscription(
+          userSubscription
+            ? {
+                plan: userSubscription.plan,
+                status: userSubscription.status,
+              }
+            : {
+                plan: 'free',
+                status: 'active',
+              },
+        )
 
         const canCreate = canUserCreatePrompt(userSubscription, userUsage)
         setCanCreatePrompt(canCreate)

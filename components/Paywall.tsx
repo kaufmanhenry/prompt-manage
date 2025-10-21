@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, Crown,Users, Zap } from 'lucide-react'
+import { Check, Crown, Users, Zap } from 'lucide-react'
 import { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -12,8 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import type { PlanType} from '@/lib/stripe';
-import {STRIPE_CONFIG } from '@/lib/stripe'
+import type { PlanType } from '@/lib/stripe'
+import { STRIPE_CONFIG } from '@/lib/stripe'
 
 interface PaywallProps {
   isOpen: boolean
@@ -32,7 +32,7 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
 
   const handleSubscribe = async (plan: PlanType) => {
     if (plan === 'free') return
-    
+
     setIsLoading(true)
     try {
       const response = await fetch('/api/stripe/create-checkout-session', {
@@ -40,7 +40,7 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ plan }),
       })
-      
+
       const { url } = await response.json()
       if (url) {
         window.location.href = url
@@ -54,17 +54,23 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
 
   const getPlanIcon = (plan: PlanType) => {
     switch (plan) {
-      case 'free': return <Zap className="h-5 w-5" />
-      case 'pro': return <Crown className="h-5 w-5" />
-      case 'team': return <Users className="h-5 w-5" />
+      case 'free':
+        return <Zap className="h-5 w-5" />
+      case 'pro':
+        return <Crown className="h-5 w-5" />
+      case 'team':
+        return <Users className="h-5 w-5" />
     }
   }
 
   const getPlanColor = (plan: PlanType) => {
     switch (plan) {
-      case 'free': return 'bg-gray-100 text-gray-800'
-      case 'pro': return 'bg-blue-100 text-blue-800'
-      case 'team': return 'bg-purple-100 text-purple-800'
+      case 'free':
+        return 'bg-gray-100 text-gray-800'
+      case 'pro':
+        return 'bg-blue-100 text-blue-800'
+      case 'team':
+        return 'bg-purple-100 text-purple-800'
     }
   }
 
@@ -76,10 +82,9 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
             {feature ? `Unlock ${feature}` : 'Upgrade Your Plan'}
           </DialogTitle>
           <DialogDescription className="text-center">
-            {feature 
+            {feature
               ? `This feature requires a Pro or Team subscription.`
-              : 'Choose the plan that works best for your team.'
-            }
+              : 'Choose the plan that works best for your team.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -88,9 +93,7 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">Current Usage</p>
-                <p className="text-sm text-gray-600">
-                  {usage.promptsThisMonth} prompts this month
-                </p>
+                <p className="text-sm text-gray-600">{usage.promptsThisMonth} prompts this month</p>
               </div>
               <Badge variant="outline" className={getPlanColor(currentPlan)}>
                 {getPlanIcon(currentPlan)}
@@ -105,7 +108,7 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
             const planType = planKey as PlanType
             const isCurrentPlan = planType === currentPlan
             const isSelected = planType === selectedPlan
-            
+
             return (
               <div
                 key={planKey}
@@ -118,9 +121,11 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
                     <Badge className="bg-green-500">Current Plan</Badge>
                   </div>
                 )}
-                
+
                 <div className="mb-4 text-center">
-                  <div className={`mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full ${getPlanColor(planType)}`}>
+                  <div
+                    className={`mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full ${getPlanColor(planType)}`}
+                  >
                     {getPlanIcon(planType)}
                   </div>
                   <h3 className="text-xl font-semibold">{plan.name}</h3>
@@ -160,7 +165,10 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
         <div className="mt-6 text-center text-sm text-gray-600">
           <p>All plans include a 14-day free trial. Cancel anytime.</p>
           <p className="mt-1">
-            Need help? <a href="mailto:support@promptmanage.com" className="text-blue-600 hover:underline">Contact support</a>
+            Need help?{' '}
+            <a href="mailto:support@promptmanage.com" className="text-blue-600 hover:underline">
+              Contact support
+            </a>
           </p>
         </div>
       </DialogContent>

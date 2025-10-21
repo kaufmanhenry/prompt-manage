@@ -237,21 +237,24 @@ const TESTIMONIALS = [
     name: 'Sarah Chen',
     role: 'Marketing Director',
     company: 'TechFlow SaaS',
-    content: 'AI agents have transformed our content strategy. We went from 2 blog posts per week to 10, with better quality and zero additional headcount.',
+    content:
+      'AI agents have transformed our content strategy. We went from 2 blog posts per week to 10, with better quality and zero additional headcount.',
     avatar: '👩‍💼',
   },
   {
     name: 'Marcus Rodriguez',
     role: 'E-commerce Manager',
     company: 'StyleHub',
-    content: 'Our product description agent writes 50+ descriptions daily. Conversion rates increased 23% and we saved $8,000/month on freelance writers.',
+    content:
+      'Our product description agent writes 50+ descriptions daily. Conversion rates increased 23% and we saved $8,000/month on freelance writers.',
     avatar: '👨‍💻',
   },
   {
     name: 'Dr. Emily Watson',
     role: 'Content Lead',
     company: 'HealthFirst Clinic',
-    content: 'Patient education content that used to take our team 20 hours per week now generates automatically. Quality is consistent and patients love it.',
+    content:
+      'Patient education content that used to take our team 20 hours per week now generates automatically. Quality is consistent and patients love it.',
     avatar: '👩‍⚕️',
   },
 ]
@@ -269,13 +272,13 @@ export default function AIAgentsPage() {
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       toast({
         title: 'Request Submitted!',
-        description: 'We\'ll notify you when AI Agents are available. Expected launch: Q2 2025.',
+        description: "We'll notify you when AI Agents are available. Expected launch: Q2 2025.",
       })
-      
+
       setEmail('')
       setCompany('')
       setUseCase('')
@@ -307,7 +310,12 @@ export default function AIAgentsPage() {
               and department organization.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" onClick={() => document.getElementById('request-access')?.scrollIntoView({ behavior: 'smooth' })}>
+              <Button
+                size="lg"
+                onClick={() =>
+                  document.getElementById('request-access')?.scrollIntoView({ behavior: 'smooth' })
+                }
+              >
                 Request Early Access
               </Button>
               <Link href="/use-cases">
@@ -324,12 +332,13 @@ export default function AIAgentsPage() {
       </section>
 
       {/* Request Access Form */}
-      <section id="request-access" className="bg-gradient-to-r from-purple-600 to-blue-600 py-16 text-white">
+      <section
+        id="request-access"
+        className="bg-gradient-to-r from-purple-600 to-blue-600 py-16 text-white"
+      >
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-              Be the First to Know
-            </h2>
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">Be the First to Know</h2>
             <p className="mb-8 text-xl opacity-90">
               Join our waitlist and get early access to AI Agents when they launch
             </p>
@@ -633,7 +642,8 @@ export default function AIAgentsPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 dark:text-gray-300">
-                  We're targeting Q2 2025 for the full launch. Early access will be available to waitlist members starting Q1 2025.
+                  We're targeting Q2 2025 for the full launch. Early access will be available to
+                  waitlist members starting Q1 2025.
                 </p>
               </CardContent>
             </Card>
@@ -643,7 +653,8 @@ export default function AIAgentsPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Pricing will start at $29/month for basic agents, with enterprise plans available. Early access members get 50% off for the first year.
+                  Pricing will start at $29/month for basic agents, with enterprise plans available.
+                  Early access members get 50% off for the first year.
                 </p>
               </CardContent>
             </Card>
@@ -653,7 +664,9 @@ export default function AIAgentsPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Agents can create 17+ content types including blog posts, emails, social media, documentation, product descriptions, ads, and more. Custom output types are also supported.
+                  Agents can create 17+ content types including blog posts, emails, social media,
+                  documentation, product descriptions, ads, and more. Custom output types are also
+                  supported.
                 </p>
               </CardContent>
             </Card>
@@ -663,7 +676,9 @@ export default function AIAgentsPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Our quality control system includes brand voice guidelines, forbidden phrase detection, required keyword inclusion, and automatic quality scoring. You can also enable manual review before publishing.
+                  Our quality control system includes brand voice guidelines, forbidden phrase
+                  detection, required keyword inclusion, and automatic quality scoring. You can also
+                  enable manual review before publishing.
                 </p>
               </CardContent>
             </Card>
@@ -673,7 +688,9 @@ export default function AIAgentsPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Yes! AI Agents will integrate with popular platforms like WordPress, HubSpot, Mailchimp, Slack, and more. API access will also be available for custom integrations.
+                  Yes! AI Agents will integrate with popular platforms like WordPress, HubSpot,
+                  Mailchimp, Slack, and more. API access will also be available for custom
+                  integrations.
                 </p>
               </CardContent>
             </Card>
@@ -688,13 +705,16 @@ export default function AIAgentsPage() {
             Ready to Transform Your Content Strategy?
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-xl">
-            Join the waitlist and be among the first to experience the future of automated content creation.
+            Join the waitlist and be among the first to experience the future of automated content
+            creation.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button
               size="lg"
               variant="secondary"
-              onClick={() => document.getElementById('request-access')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() =>
+                document.getElementById('request-access')?.scrollIntoView({ behavior: 'smooth' })
+              }
             >
               Request Early Access
             </Button>

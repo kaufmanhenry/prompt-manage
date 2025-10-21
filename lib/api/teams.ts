@@ -8,8 +8,7 @@ import { createClient } from '@/utils/supabase/client'
 export async function getUserTeams(): Promise<TeamWithMembership[]> {
   const supabase = createClient()
 
-  const { data, error } = await supabase
-    .rpc('get_user_teams')
+  const { data, error } = await supabase.rpc('get_user_teams')
 
   if (error) throw error
   return data || []
@@ -21,8 +20,7 @@ export async function getUserTeams(): Promise<TeamWithMembership[]> {
 export async function getUserDefaultTeamId(): Promise<string | null> {
   const supabase = createClient()
 
-  const { data, error } = await supabase
-    .rpc('get_user_default_team')
+  const { data, error } = await supabase.rpc('get_user_default_team')
 
   if (error) throw error
   return data
@@ -34,16 +32,17 @@ export async function getUserDefaultTeamId(): Promise<string | null> {
 export async function createTeam(input: CreateTeamInput) {
   const supabase = createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error('Not authenticated')
 
   // Use RPC function to create team and add user as owner
   // This bypasses RLS using security definer
-  const { data: team, error } = await supabase
-    .rpc('create_team_with_owner', {
-      p_name: input.name,
-      p_description: input.description || null,
-    })
+  const { data: team, error } = await supabase.rpc('create_team_with_owner', {
+    p_name: input.name,
+    p_description: input.description || null,
+  })
 
   if (error) throw error
 
@@ -75,10 +74,12 @@ export async function getTeamMembers(teamId: string) {
 
   const { data, error } = await supabase
     .from('team_members')
-    .select(`
+    .select(
+      `
       *,
       user_profiles(display_name, avatar_url)
-    `)
+    `,
+    )
     .eq('team_id', teamId)
     .eq('is_active', true)
     .order('created_at', { ascending: true })
@@ -93,7 +94,9 @@ export async function getTeamMembers(teamId: string) {
 export async function inviteTeamMember(teamId: string, input: InviteMemberInput) {
   const supabase = createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) throw new Error('Not authenticated')
 
   // Check if team has reached member limit
@@ -154,10 +157,7 @@ export async function updateTeam(teamId: string, updates: Partial<CreateTeamInpu
 export async function deleteTeam(teamId: string) {
   const supabase = createClient()
 
-  const { error } = await supabase
-    .from('teams')
-    .update({ is_active: false })
-    .eq('id', teamId)
+  const { error } = await supabase.from('teams').update({ is_active: false }).eq('id', teamId)
 
   if (error) throw error
 }

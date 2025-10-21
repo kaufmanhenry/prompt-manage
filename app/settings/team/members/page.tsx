@@ -171,9 +171,7 @@ export default function TeamMembersPage() {
                           <SelectContent>
                             <SelectItem value="viewer">Viewer - Can view prompts</SelectItem>
                             <SelectItem value="editor">Editor - Can edit prompts</SelectItem>
-                            <SelectItem value="admin">
-                              Admin - Can manage team settings
-                            </SelectItem>
+                            <SelectItem value="admin">Admin - Can manage team settings</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -247,9 +245,7 @@ export default function TeamMembersPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="py-8 text-center text-muted-foreground">
-                    No members found
-                  </div>
+                  <div className="py-8 text-center text-muted-foreground">No members found</div>
                 )}
               </CardContent>
             </Card>

@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
 
   // Temporarily disable React Strict Mode to fix development errors
   reactStrictMode: false,
-  
+
   // Disable experimental features that might cause issues
   experimental: {
     // optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],

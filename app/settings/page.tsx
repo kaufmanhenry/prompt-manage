@@ -8,7 +8,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { SettingsSidebar } from '@/components/SettingsSidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -281,183 +288,185 @@ export default function SettingsPage() {
       />
       <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
         <div className="mx-auto max-w-4xl">
-        <div className="mb-4">
-          <h1 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-            Account Settings
-          </h1>
-        </div>
+          <div className="mb-4">
+            <h1 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+              Account Settings
+            </h1>
+          </div>
 
-        <div className="space-y-4">
-          {/* Profile Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base font-medium">
-                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
-                  <User className="size-4 text-muted-foreground" />
-                </div>
-                <span className="text-base font-medium">Profile Information</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="displayName">Display Name</Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="displayName"
-                      value={displayName}
-                      onChange={(e) => setDisplayName(e.target.value)}
-                      className="pl-10"
-                      placeholder="Enter your display name"
-                    />
+          <div className="space-y-4">
+            {/* Profile Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base font-medium">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
+                    <User className="size-4 text-muted-foreground" />
                   </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Profile Image</Label>
-                  <div className="flex items-center gap-3">
-                    {avatarUrl ? (
-                      <img
-                        src={
-                          avatarUrl.startsWith('http')
-                            ? avatarUrl
-                            : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl.replace(/^avatars\//, '')}`
-                        }
-                        alt="Avatar"
-                        className="h-12 w-12 rounded-full object-cover"
+                  <span className="text-base font-medium">Profile Information</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="displayName">Display Name</Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="displayName"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        className="pl-10"
+                        placeholder="Enter your display name"
                       />
-                    ) : (
-                      <div className="h-12 w-12 rounded-full bg-input" />
-                    )}
-                    <label className="inline-flex items-center gap-2">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={handleAvatarChange}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Profile Image</Label>
+                    <div className="flex items-center gap-3">
+                      {avatarUrl ? (
+                        <img
+                          src={
+                            avatarUrl.startsWith('http')
+                              ? avatarUrl
+                              : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl.replace(/^avatars\//, '')}`
+                          }
+                          alt="Avatar"
+                          className="h-12 w-12 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="h-12 w-12 rounded-full bg-input" />
+                      )}
+                      <label className="inline-flex items-center gap-2">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleAvatarChange}
+                        />
+                        <Button type="button" variant="outline" disabled={avatarUploading}>
+                          <Upload className="mr-2 h-4 w-4" />
+                          {avatarUploading ? 'Uploading…' : 'Upload'}
+                        </Button>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="bio">Bio</Label>
+                  <Textarea
+                    id="bio"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    placeholder="Tell us about yourself..."
+                    rows={3}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="website">Website</Label>
+                    <div className="relative">
+                      <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="website"
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                        className="pl-10"
+                        placeholder="https://yourwebsite.com"
                       />
-                      <Button type="button" variant="outline" disabled={avatarUploading}>
-                        <Upload className="mr-2 h-4 w-4" />
-                        {avatarUploading ? 'Uploading…' : 'Upload'}
-                      </Button>
-                    </label>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="bio">Bio</Label>
-                <Textarea
-                  id="bio"
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  placeholder="Tell us about yourself..."
-                  rows={3}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="website">Website</Label>
-                  <div className="relative">
-                    <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="website"
-                      value={website}
-                      onChange={(e) => setWebsite(e.target.value)}
-                      className="pl-10"
-                      placeholder="https://yourwebsite.com"
-                    />
+                  <div className="space-y-2">
+                    <Label htmlFor="location">Location</Label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="location"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        className="pl-10"
+                        placeholder="City, Country"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="location">Location</Label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="location"
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      className="pl-10"
-                      placeholder="City, Country"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <Button onClick={handleSaveProfile} disabled={saving} className="w-full md:w-auto">
-                <Save className="size-4" />
-                {saving ? 'Saving...' : 'Save'}
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Preferences */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base font-medium">
-                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
-                  <Settings className="size-4 text-muted-foreground" />
-                </div>
-                <span className="text-base font-medium">Preferences</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Email Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Receive email updates about your account
-                  </p>
-                </div>
-                <Switch
-                  checked={emailNotifications}
-                  onCheckedChange={handleEmailNotificationsChange}
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Dark Mode</Label>
-                  <p className="text-sm text-muted-foreground">Use dark theme for the interface</p>
-                </div>
-                <Switch checked={darkMode} onCheckedChange={handleThemeChange} />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Danger Zone */}
-          <Card className="border-red-200 dark:border-red-800">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base font-medium">
-                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
-                  <Trash2 className="size-4 text-muted-foreground" />
-                </div>
-                <span className="text-base font-medium">Danger Zone</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Delete Account</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Permanently delete your account and all associated data
-                  </p>
-                </div>
-                <Button
-                  variant="destructive"
-                  onClick={() => setShowDeleteDialog(true)}
-                  className="flex items-center gap-2"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Delete Account
+                <Button onClick={handleSaveProfile} disabled={saving} className="w-full md:w-auto">
+                  <Save className="size-4" />
+                  {saving ? 'Saving...' : 'Save'}
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
+
+            {/* Preferences */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base font-medium">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
+                    <Settings className="size-4 text-muted-foreground" />
+                  </div>
+                  <span className="text-base font-medium">Preferences</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Email Notifications</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive email updates about your account
+                    </p>
+                  </div>
+                  <Switch
+                    checked={emailNotifications}
+                    onCheckedChange={handleEmailNotificationsChange}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Dark Mode</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Use dark theme for the interface
+                    </p>
+                  </div>
+                  <Switch checked={darkMode} onCheckedChange={handleThemeChange} />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Danger Zone */}
+            <Card className="border-red-200 dark:border-red-800">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base font-medium">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
+                    <Trash2 className="size-4 text-muted-foreground" />
+                  </div>
+                  <span className="text-base font-medium">Danger Zone</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Delete Account</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Permanently delete your account and all associated data
+                    </p>
+                  </div>
+                  <Button
+                    variant="destructive"
+                    onClick={() => setShowDeleteDialog(true)}
+                    className="flex items-center gap-2"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    Delete Account
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
 
@@ -467,7 +476,8 @@ export default function SettingsPage() {
           <DialogHeader>
             <DialogTitle>Delete Account</DialogTitle>
             <DialogDescription>
-              You are about to permanently delete your Prompt Manage account and all associated data.
+              You are about to permanently delete your Prompt Manage account and all associated
+              data.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -483,7 +493,9 @@ export default function SettingsPage() {
               </ul>
             </div>
             <div className="rounded-lg bg-yellow-50 p-4 dark:bg-yellow-900/20">
-              <h4 className="font-semibold text-yellow-800 dark:text-yellow-200">💡 Alternative Options</h4>
+              <h4 className="font-semibold text-yellow-800 dark:text-yellow-200">
+                💡 Alternative Options
+              </h4>
               <ul className="mt-2 space-y-1 text-sm text-yellow-700 dark:text-yellow-300">
                 <li>• Consider exporting your data before deletion</li>
                 <li>• You can disable your account instead of deleting it</li>
@@ -495,11 +507,7 @@ export default function SettingsPage() {
             <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
               Cancel
             </Button>
-            <Button 
-              variant="destructive" 
-              onClick={handleDeleteAccount}
-              disabled={deleting}
-            >
+            <Button variant="destructive" onClick={handleDeleteAccount} disabled={deleting}>
               {deleting ? 'Deleting Account...' : 'Yes, Delete My Account'}
             </Button>
           </DialogFooter>

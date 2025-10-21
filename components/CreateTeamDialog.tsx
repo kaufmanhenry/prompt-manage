@@ -26,7 +26,11 @@ interface CreateTeamDialogProps {
   onOpenChange?: (open: boolean) => void
 }
 
-export function CreateTeamDialog({ children, open: externalOpen, onOpenChange }: CreateTeamDialogProps) {
+export function CreateTeamDialog({
+  children,
+  open: externalOpen,
+  onOpenChange,
+}: CreateTeamDialogProps) {
   const [internalOpen, setInternalOpen] = useState(false)
 
   // Use external control if provided, otherwise use internal state

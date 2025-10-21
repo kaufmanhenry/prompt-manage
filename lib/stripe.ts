@@ -27,11 +27,7 @@ export const STRIPE_CONFIG = {
     free: {
       name: 'Free',
       price: 0,
-      features: [
-        '5 prompts per month',
-        'Basic templates',
-        'Community support',
-      ],
+      features: ['5 prompts per month', 'Basic templates', 'Community support'],
       limits: {
         promptsPerMonth: 5,
         maxPrompts: 10,

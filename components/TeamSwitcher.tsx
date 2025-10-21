@@ -14,11 +14,7 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useTeamContext } from '@/contexts/team-context'
 import { useUserTeams } from '@/lib/hooks/use-teams'
 import { cn } from '@/lib/utils'
@@ -89,7 +85,7 @@ export function TeamSwitcher() {
                     <Check
                       className={cn(
                         'ml-auto h-4 w-4',
-                        currentTeamId === team.team_id ? 'opacity-100' : 'opacity-0'
+                        currentTeamId === team.team_id ? 'opacity-100' : 'opacity-0',
                       )}
                     />
                   </CommandItem>

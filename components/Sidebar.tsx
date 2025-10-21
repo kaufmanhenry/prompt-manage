@@ -22,9 +22,7 @@ import { createClient } from '@/utils/supabase/client'
 
 import { TeamSwitcher } from './TeamSwitcher'
 import { Badge } from './ui/badge'
-import {
-  DropdownMenuCheckboxItem,
-} from './ui/dropdown-menu'
+import { DropdownMenuCheckboxItem } from './ui/dropdown-menu'
 import { Skeleton } from './ui/skeleton'
 
 interface SidebarProps {
@@ -116,7 +114,10 @@ export function Sidebar({
       {/* Team Name Header */}
       <div className="shrink-0 border-b p-4">
         <div className="mb-2 flex items-center justify-between gap-2">
-          <Link href="/dashboard" className="flex items-center gap-2 transition-opacity hover:opacity-80">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 transition-opacity hover:opacity-80"
+          >
             <Image
               src="/logo.svg"
               alt="Prompt Manage"
@@ -172,114 +173,124 @@ export function Sidebar({
           className="mb-2 w-full rounded-md border bg-white px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-900"
         />
         <div className="flex flex-wrap items-center gap-2">
-        {/* Model filter button */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="outline" className="px-2 py-1" aria-label="Filter by model">
-              <FilterIcon className="mr-1 h-4 w-4" /> Model
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <div className="flex flex-col gap-2">
-              {uniqueModels.length === 0 ? (
-                <div className="text-sm text-muted-foreground">No models found.</div>
-              ) : (
-                uniqueModels.map((model) => (
-                  <DropdownMenuCheckboxItem
-                    key={model}
-                    checked={modelFilters.includes(model)}
-                    onCheckedChange={() => toggleModel(model)}
-                  >
-                    {model}
-                  </DropdownMenuCheckboxItem>
-                ))
-              )}
-            </div>
-            {modelFilters.length > 0 && (
-              <Button variant="ghost" size="sm" className="mt-3 w-full" onClick={clearModelFilters}>
-                <XIcon className="mr-1 h-4 w-4" /> Clear Model Filters
+          {/* Model filter button */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="sm"
+                variant="outline"
+                className="px-2 py-1"
+                aria-label="Filter by model"
+              >
+                <FilterIcon className="mr-1 h-4 w-4" /> Model
               </Button>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        {/* Tag filter button */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="outline" className="px-2 py-1" aria-label="Filter by tag">
-              <TagIcon className="mr-1 h-4 w-4" /> Tag
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <div className="flex max-h-48 flex-col gap-2 overflow-y-auto">
-              {uniqueTags.length === 0 ? (
-                <div className="text-sm text-muted-foreground">No tags found.</div>
-              ) : (
-                uniqueTags.map((tag) => (
-                  <DropdownMenuCheckboxItem
-                    key={tag}
-                    checked={tagFilters.includes(tag)}
-                    onCheckedChange={() => toggleTag(tag)}
-                  >
-                    {tag}
-                  </DropdownMenuCheckboxItem>
-                ))
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <div className="flex flex-col gap-2">
+                {uniqueModels.length === 0 ? (
+                  <div className="text-sm text-muted-foreground">No models found.</div>
+                ) : (
+                  uniqueModels.map((model) => (
+                    <DropdownMenuCheckboxItem
+                      key={model}
+                      checked={modelFilters.includes(model)}
+                      onCheckedChange={() => toggleModel(model)}
+                    >
+                      {model}
+                    </DropdownMenuCheckboxItem>
+                  ))
+                )}
+              </div>
+              {modelFilters.length > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="mt-3 w-full"
+                  onClick={clearModelFilters}
+                >
+                  <XIcon className="mr-1 h-4 w-4" /> Clear Model Filters
+                </Button>
               )}
-            </div>
-            {tagFilters.length > 0 && (
-              <Button variant="ghost" size="sm" className="mt-3 w-full" onClick={clearTagFilters}>
-                <XIcon className="mr-1 h-4 w-4" /> Clear Tag Filters
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {/* Tag filter button */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" variant="outline" className="px-2 py-1" aria-label="Filter by tag">
+                <TagIcon className="mr-1 h-4 w-4" /> Tag
               </Button>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      {/* Active filter chips */}
-      {(modelFilters.length > 0 || tagFilters.length > 0 || search) && (
-        <div className="flex flex-wrap gap-2">
-          {search && (
-            <Badge variant="secondary" className="flex items-center gap-1">
-              Search: &quot;{search}&quot;
-              <button
-                type="button"
-                className="ml-1 focus:outline-none"
-                onClick={() => setSearch('')}
-                aria-label="Remove search filter"
-              >
-                <XIcon className="h-3 w-3" />
-              </button>
-            </Badge>
-          )}
-          {modelFilters.map((model) => (
-            <Badge key={model} variant="secondary" className="flex items-center gap-1">
-              {model}
-              <button
-                type="button"
-                className="ml-1 focus:outline-none"
-                onClick={() => toggleModel(model)}
-                aria-label={`Remove filter ${model}`}
-              >
-                <XIcon className="h-3 w-3" />
-              </button>
-            </Badge>
-          ))}
-          {tagFilters.map((tag) => (
-            <Badge key={tag} variant="secondary" className="flex items-center gap-1">
-              {tag}
-              <button
-                type="button"
-                className="ml-1 focus:outline-none"
-                onClick={() => toggleTag(tag)}
-                aria-label={`Remove tag filter ${tag}`}
-              >
-                <XIcon className="h-3 w-3" />
-              </button>
-            </Badge>
-          ))}
-          <Button variant="ghost" size="sm" onClick={clearAllFilters}>
-            Clear all
-          </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <div className="flex max-h-48 flex-col gap-2 overflow-y-auto">
+                {uniqueTags.length === 0 ? (
+                  <div className="text-sm text-muted-foreground">No tags found.</div>
+                ) : (
+                  uniqueTags.map((tag) => (
+                    <DropdownMenuCheckboxItem
+                      key={tag}
+                      checked={tagFilters.includes(tag)}
+                      onCheckedChange={() => toggleTag(tag)}
+                    >
+                      {tag}
+                    </DropdownMenuCheckboxItem>
+                  ))
+                )}
+              </div>
+              {tagFilters.length > 0 && (
+                <Button variant="ghost" size="sm" className="mt-3 w-full" onClick={clearTagFilters}>
+                  <XIcon className="mr-1 h-4 w-4" /> Clear Tag Filters
+                </Button>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-      )}
+        {/* Active filter chips */}
+        {(modelFilters.length > 0 || tagFilters.length > 0 || search) && (
+          <div className="flex flex-wrap gap-2">
+            {search && (
+              <Badge variant="secondary" className="flex items-center gap-1">
+                Search: &quot;{search}&quot;
+                <button
+                  type="button"
+                  className="ml-1 focus:outline-none"
+                  onClick={() => setSearch('')}
+                  aria-label="Remove search filter"
+                >
+                  <XIcon className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            {modelFilters.map((model) => (
+              <Badge key={model} variant="secondary" className="flex items-center gap-1">
+                {model}
+                <button
+                  type="button"
+                  className="ml-1 focus:outline-none"
+                  onClick={() => toggleModel(model)}
+                  aria-label={`Remove filter ${model}`}
+                >
+                  <XIcon className="h-3 w-3" />
+                </button>
+              </Badge>
+            ))}
+            {tagFilters.map((tag) => (
+              <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                {tag}
+                <button
+                  type="button"
+                  className="ml-1 focus:outline-none"
+                  onClick={() => toggleTag(tag)}
+                  aria-label={`Remove tag filter ${tag}`}
+                >
+                  <XIcon className="h-3 w-3" />
+                </button>
+              </Badge>
+            ))}
+            <Button variant="ghost" size="sm" onClick={clearAllFilters}>
+              Clear all
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Scrollable Prompts List */}

@@ -1,0 +1,74 @@
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+
+import { createServerSideClient } from '@/utils/supabase/server'
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const search = searchParams.get('search') || ''
+    const model = searchParams.get('model') || 'all'
+    const tag = searchParams.get('tag') || 'all'
+    const sortBy = searchParams.get('sortBy') || 'recent'
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = parseInt(searchParams.get('limit') || '21')
+
+    const supabase = createServerSideClient()
+
+    // Build query
+    let query = supabase.from('prompts').select('*', { count: 'exact' }).eq('is_public', true)
+
+    // Apply filters
+    if (model !== 'all') {
+      query = query.eq('model', model)
+    }
+
+    if (tag !== 'all') {
+      query = query.contains('tags', [tag])
+    }
+
+    if (search.trim()) {
+      query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`)
+    }
+
+    // Apply sorting
+    if (sortBy === 'recent') {
+      query = query.order('updated_at', { ascending: false })
+    } else {
+      query = query.order('view_count', { ascending: false })
+    }
+
+    // Apply pagination
+    const from = (page - 1) * limit
+    const to = from + limit - 1
+    query = query.range(from, to)
+
+    const { data, error, count } = await query
+
+    if (error) {
+      console.error('Database error:', error)
+      return NextResponse.json({ error: 'Failed to fetch prompts' }, { status: 500 })
+    }
+
+    // Transform data to ensure all required fields exist
+    const transformedData = (data || []).map((prompt) => ({
+      ...prompt,
+      description: prompt.description || null,
+      is_public: prompt.is_public || false,
+      slug: prompt.slug || prompt.id, // Fallback to ID if no slug
+      view_count: prompt.view_count || 0,
+      inserted_at: prompt.inserted_at || prompt.created_at || null,
+    }))
+
+    return NextResponse.json({
+      prompts: transformedData,
+      totalCount: count || 0,
+      page,
+      limit,
+      totalPages: Math.ceil((count || 0) / limit),
+    })
+  } catch (error) {
+    console.error('API error:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}

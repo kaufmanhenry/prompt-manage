@@ -2,31 +2,39 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { formatDistanceToNow } from 'date-fns'
-import { 
+import {
   ChevronDown,
   ChevronRight,
   Copy,
   Edit3,
-  GitBranch, 
-  History, 
+  GitBranch,
+  History,
   Plus,
-  RotateCcw} from 'lucide-react'
+  RotateCcw,
+} from 'lucide-react'
 import React, { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { useToast } from '@/components/ui/use-toast'
 import type { PromptVersion, VersionHistoryProps } from '@/lib/types/prompt-versions'
 
-export function VersionHistory({ 
-  promptId, 
-  currentVersion, 
-  onVersionSelect, 
-  onRevert, 
-  canEdit = true 
+export function VersionHistory({
+  promptId,
+  currentVersion,
+  onVersionSelect,
+  onRevert,
+  canEdit = true,
 }: VersionHistoryProps) {
   const [_isOpen, _setIsOpen] = useState(false)
   const [_expandedVersion, _setExpandedVersion] = useState<number | null>(null)
@@ -36,7 +44,11 @@ export function VersionHistory({
   const { toast } = useToast()
   const queryClient = useQueryClient()
 
-  const { data: versionData, isLoading, error } = useQuery({
+  const {
+    data: versionData,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['prompt-versions', promptId],
     queryFn: async () => {
       const response = await fetch(`/api/prompts/${promptId}/versions`)
@@ -71,7 +83,7 @@ export function VersionHistory({
       }
 
       const result = await response.json()
-      
+
       toast({
         title: 'Version Reverted',
         description: `Reverted to version ${versionToRevert}`,
@@ -166,9 +178,7 @@ export function VersionHistory({
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
-            <div className="text-sm text-muted-foreground">
-              Failed to load version history
-            </div>
+            <div className="text-sm text-muted-foreground">Failed to load version history</div>
           </div>
         </CardContent>
       </Card>
@@ -198,15 +208,13 @@ export function VersionHistory({
                     ) : (
                       <ChevronRight className="h-4 w-4" />
                     )}
-                    <Badge 
-                      variant={version.version === currentVersion ? "default" : "outline"}
+                    <Badge
+                      variant={version.version === currentVersion ? 'default' : 'outline'}
                       className="font-mono"
                     >
                       v{version.version}
                     </Badge>
-                    <Badge 
-                      className={`${getChangeTypeColor(version.change_type)} border-0`}
-                    >
+                    <Badge className={`${getChangeTypeColor(version.change_type)} border-0`}>
                       {getChangeTypeIcon(version.change_type)}
                       <span className="ml-1 capitalize">{version.change_type}</span>
                     </Badge>
@@ -278,7 +286,9 @@ export function VersionHistory({
                   </div>
                   {version.description && (
                     <div>
-                      <label className="text-xs font-medium text-muted-foreground">Description</label>
+                      <label className="text-xs font-medium text-muted-foreground">
+                        Description
+                      </label>
                       <div className="text-sm">{version.description}</div>
                     </div>
                   )}
@@ -287,7 +297,7 @@ export function VersionHistory({
             </CollapsibleContent>
           </Collapsible>
         ))}
-        
+
         {versions.length === 0 && (
           <div className="flex items-center justify-center py-8">
             <div className="text-sm text-muted-foreground">No version history available</div>
@@ -301,14 +311,19 @@ export function VersionHistory({
           <DialogHeader>
             <DialogTitle>Revert to Version {versionToRevert}</DialogTitle>
             <DialogDescription>
-              You are about to revert this prompt to version {versionToRevert}. This will replace the current prompt content.
+              You are about to revert this prompt to version {versionToRevert}. This will replace
+              the current prompt content.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="rounded-lg bg-orange-50 p-4 dark:bg-orange-900/20">
-              <h4 className="font-semibold text-orange-800 dark:text-orange-200">⚠️ Important Warning</h4>
+              <h4 className="font-semibold text-orange-800 dark:text-orange-200">
+                ⚠️ Important Warning
+              </h4>
               <ul className="mt-2 space-y-1 text-sm text-orange-700 dark:text-orange-300">
-                <li>• This will replace your current prompt content with version {versionToRevert}</li>
+                <li>
+                  • This will replace your current prompt content with version {versionToRevert}
+                </li>
                 <li>• Any changes made since version {versionToRevert} will be lost</li>
                 <li>• This action cannot be undone</li>
                 <li>• A new version will be created with the reverted content</li>
@@ -317,8 +332,8 @@ export function VersionHistory({
             <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
               <h4 className="font-semibold text-blue-800 dark:text-blue-200">💡 Recommendation</h4>
               <p className="text-sm text-blue-700 dark:text-blue-300">
-                Consider copying the content from version {versionToRevert} instead of reverting, 
-                so you don't lose your recent changes.
+                Consider copying the content from version {versionToRevert} instead of reverting, so
+                you don't lose your recent changes.
               </p>
             </div>
           </div>
@@ -326,11 +341,7 @@ export function VersionHistory({
             <Button variant="outline" onClick={() => setShowRevertDialog(false)}>
               Cancel
             </Button>
-            <Button 
-              variant="destructive" 
-              onClick={confirmRevert}
-              disabled={reverting}
-            >
+            <Button variant="destructive" onClick={confirmRevert} disabled={reverting}>
               {reverting ? 'Reverting...' : `Yes, Revert to Version ${versionToRevert}`}
             </Button>
           </DialogFooter>

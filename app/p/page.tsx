@@ -33,6 +33,7 @@ function PublicDirectoryContent() {
   const [prompts, setPrompts] = useState<PublicPrompt[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState(searchParams.get('search') || '')
+  const [debouncedSearch, setDebouncedSearch] = useState(searchParams.get('search') || '')
   const [selectedModel, setSelectedModel] = useState<string>(searchParams.get('model') || 'all')
   const [selectedTag, setSelectedTag] = useState<string>(searchParams.get('tag') || 'all')
   const [sortBy, setSortBy] = useState<'recent' | 'popular'>(
@@ -45,6 +46,15 @@ function PublicDirectoryContent() {
   const [page, setPage] = useState(initialPage)
   const promptsPerPage = 21
   const modelsByCompany = getModelsByCompany()
+
+  // Debounce search input to prevent excessive API calls
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search)
+    }, 300) // 300ms delay
+
+    return () => clearTimeout(timer)
+  }, [search])
 
   // Get user session
   const { data: session } = useQuery({
@@ -61,53 +71,25 @@ function PublicDirectoryContent() {
     try {
       setLoading(true)
 
-      // Build query with server-side filtering
-      let query = createClient()
-        .from('prompts')
-        .select('*', { count: 'exact' })
-        .eq('is_public', true)
+      // Build query parameters
+      const params = new URLSearchParams()
+      if (debouncedSearch.trim()) params.set('search', debouncedSearch)
+      if (selectedModel !== 'all') params.set('model', selectedModel)
+      if (selectedTag !== 'all') params.set('tag', selectedTag)
+      if (sortBy !== 'recent') params.set('sortBy', sortBy)
+      params.set('page', page.toString())
+      params.set('limit', promptsPerPage.toString())
 
-      // Apply filters
-      if (selectedModel !== 'all') {
-        query = query.eq('model', selectedModel)
+      const response = await fetch(`/api/prompts/public?${params.toString()}`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      if (selectedTag !== 'all') {
-        query = query.contains('tags', [selectedTag])
-      }
+      const result = await response.json()
 
-      if (search.trim()) {
-        query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`)
-      }
-
-      // Apply sorting
-      if (sortBy === 'recent') {
-        query = query.order('updated_at', { ascending: false })
-      } else {
-        query = query.order('view_count', { ascending: false })
-      }
-
-      // Apply pagination
-      const from = (page - 1) * promptsPerPage
-      const to = from + promptsPerPage - 1
-      query = query.range(from, to)
-
-      const { data, error, count } = await query
-
-      if (error) throw error
-
-      // Transform data to match the new schema with fallbacks
-      const transformedData = (data || []).map((prompt) => ({
-        ...prompt,
-        description: prompt.description || null,
-        is_public: prompt.is_public || false,
-        slug: prompt.slug || null,
-        view_count: prompt.view_count || 0,
-        inserted_at: prompt.inserted_at || prompt.created_at || null,
-      }))
-
-      setPrompts(transformedData as PublicPrompt[])
-      setTotalCount(count || 0)
+      setPrompts(result.prompts || [])
+      setTotalCount(result.totalCount || 0)
 
       // Fetch available tags separately (cached)
       const { data: tagData } = await createClient()
@@ -131,24 +113,25 @@ function PublicDirectoryContent() {
     } finally {
       setLoading(false)
     }
-  }, [sortBy, selectedModel, selectedTag, search, page, toast])
+  }, [sortBy, selectedModel, selectedTag, debouncedSearch, page, toast])
 
   useEffect(() => {
     void fetchPublicPrompts()
   }, [fetchPublicPrompts])
 
-  // Update URL when filters change
+  // Update URL when filters change (debounced to prevent excessive updates)
   useEffect(() => {
     const params = new URLSearchParams()
-    if (search) params.set('search', search)
+    if (debouncedSearch) params.set('search', debouncedSearch)
     if (selectedModel !== 'all') params.set('model', selectedModel)
     if (selectedTag !== 'all') params.set('tag', selectedTag)
     if (sortBy !== 'recent') params.set('sortBy', sortBy)
     if (page > 1) params.set('page', page.toString())
 
     const newUrl = `${pathname}${params.toString() ? `?${params.toString()}` : ''}`
+    // Use shallow routing to prevent page refresh
     router.replace(newUrl, { scroll: false })
-  }, [search, selectedModel, selectedTag, sortBy, page, pathname, router])
+  }, [debouncedSearch, selectedModel, selectedTag, sortBy, page, pathname, router])
 
   const filteredPrompts = prompts
 
@@ -319,29 +302,33 @@ function PublicDirectoryContent() {
 
                     <div className="mt-auto space-y-2">
                       {/* Model */}
-                      <Link
-                        href={`/prompts/${encodeURIComponent(prompt.model)}`}
-                        onClick={(e) => e.stopPropagation()}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          router.push(`/prompts/${encodeURIComponent(prompt.model)}`)
+                        }}
                         className="transition-opacity hover:opacity-80"
                       >
                         <Badge variant="secondary" className="ml-2 cursor-pointer">
                           {prompt.model}
                         </Badge>
-                      </Link>
+                      </button>
 
                       {/* Tags */}
                       <div className="flex flex-wrap gap-1">
                         {prompt.tags?.slice(0, 3).map((tag) => (
-                          <Link
+                          <button
                             key={tag}
-                            href={`/p/tags/${encodeURIComponent(tag)}`}
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              router.push(`/p/tags/${encodeURIComponent(tag)}`)
+                            }}
                             className="transition-opacity hover:opacity-80"
                           >
                             <Badge variant="outline" className="cursor-pointer">
                               {tag}
                             </Badge>
-                          </Link>
+                          </button>
                         ))}
                         {prompt.tags && prompt.tags.length > 3 && (
                           <Badge variant="outline" className="text-xs">

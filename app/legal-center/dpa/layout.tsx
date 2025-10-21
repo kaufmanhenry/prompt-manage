@@ -12,10 +12,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function DPALayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function DPALayout({ children }: { children: React.ReactNode }) {
   return children
 }

@@ -114,7 +114,13 @@ export default function DashboardHomePage() {
   if (isLoading) {
     return (
       <div className="flex h-screen">
-        <Sidebar isLoading={true} prompts={[]} selectedPromptId={null} onSelectPrompt={() => {}} session={session} />
+        <Sidebar
+          isLoading={true}
+          prompts={[]}
+          selectedPromptId={null}
+          onSelectPrompt={() => {}}
+          session={session}
+        />
         <main className="flex-1 overflow-y-auto bg-accent/50 p-8">
           <div className="mx-auto max-w-7xl space-y-8">
             <Skeleton className="h-10 w-64" />
@@ -187,9 +193,7 @@ export default function DashboardHomePage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalViews.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground">
-                  Across all public prompts
-                </p>
+                <p className="text-xs text-muted-foreground">Across all public prompts</p>
               </CardContent>
             </Card>
 
@@ -200,13 +204,9 @@ export default function DashboardHomePage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {stats.publicPrompts > 0
-                    ? Math.round(stats.totalViews / stats.publicPrompts)
-                    : 0}
+                  {stats.publicPrompts > 0 ? Math.round(stats.totalViews / stats.publicPrompts) : 0}
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Per public prompt
-                </p>
+                <p className="text-xs text-muted-foreground">Per public prompt</p>
               </CardContent>
             </Card>
           </div>
@@ -228,9 +228,7 @@ export default function DashboardHomePage() {
                     <p className="mb-4 text-sm text-muted-foreground">
                       Create your first prompt to get started
                     </p>
-                    <Button onClick={() => router.push('/dashboard/prompts')}>
-                      Create Prompt
-                    </Button>
+                    <Button onClick={() => router.push('/dashboard/prompts')}>Create Prompt</Button>
                   </div>
                 ) : (
                   <div className="space-y-3">

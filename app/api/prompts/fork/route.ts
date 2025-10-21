@@ -19,14 +19,17 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    
+
     // Validate request body
     const validationResult = forkPromptRequestSchema.safeParse(body)
     if (!validationResult.success) {
-      return NextResponse.json({ 
-        error: 'Invalid request data',
-        details: validationResult.error.errors 
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Invalid request data',
+          details: validationResult.error.errors,
+        },
+        { status: 400 },
+      )
     }
 
     const { source_prompt_id, new_name, new_description } = validationResult.data
@@ -48,18 +51,20 @@ export async function POST(request: NextRequest) {
 
     // Check if user is trying to fork their own prompt
     if (sourcePrompt.user_id === user.id) {
-      return NextResponse.json({ 
-        error: 'You cannot fork your own prompt. Edit it directly instead.' 
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'You cannot fork your own prompt. Edit it directly instead.',
+        },
+        { status: 400 },
+      )
     }
 
     // Use the database function to fork the prompt
-    const { data: newPromptId, error: forkError } = await supabase
-      .rpc('fork_public_prompt', {
-        source_prompt_id,
-        new_name,
-        new_description: new_description || null
-      })
+    const { data: newPromptId, error: forkError } = await supabase.rpc('fork_public_prompt', {
+      source_prompt_id,
+      new_name,
+      new_description: new_description || null,
+    })
 
     if (forkError) {
       console.error('Fork error:', forkError)

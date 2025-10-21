@@ -1,5 +1,5 @@
-import type { PlanType} from '@/lib/stripe';
-import {STRIPE_CONFIG } from '@/lib/stripe'
+import type { PlanType } from '@/lib/stripe'
+import { STRIPE_CONFIG } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/server'
 
 export interface UserSubscription {
@@ -22,7 +22,7 @@ export interface UsageStats {
 
 export async function getUserSubscription(userId: string): Promise<UserSubscription | null> {
   const supabase = await createClient()
-  
+
   const { data, error } = await supabase
     .from('user_subscriptions')
     .select('*')
@@ -36,10 +36,10 @@ export async function getUserSubscription(userId: string): Promise<UserSubscript
 
 export async function getUserUsage(userId: string): Promise<UsageStats> {
   const supabase = await createClient()
-  
+
   const now = new Date()
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-  
+
   // Get prompts this month
   const { count: promptsThisMonth } = await supabase
     .from('prompts')
@@ -69,7 +69,10 @@ export async function getUserUsage(userId: string): Promise<UsageStats> {
   }
 }
 
-export function canUserCreatePrompt(subscription: UserSubscription | null, usage: UsageStats): boolean {
+export function canUserCreatePrompt(
+  subscription: UserSubscription | null,
+  usage: UsageStats,
+): boolean {
   if (!subscription) {
     // Free tier
     const plan = STRIPE_CONFIG.plans.free
@@ -77,10 +80,10 @@ export function canUserCreatePrompt(subscription: UserSubscription | null, usage
   }
 
   const plan = STRIPE_CONFIG.plans[subscription.plan]
-  
+
   // Unlimited plans
   if (plan.limits.promptsPerMonth === -1) return true
-  
+
   // Limited plans
   return usage.promptsThisMonth < plan.limits.promptsPerMonth
 }

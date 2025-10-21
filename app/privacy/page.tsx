@@ -620,7 +620,8 @@ export default function PrivacyPage() {
             <h2 className="mb-6 text-2xl font-semibold">15. Official Government Resources</h2>
             <div className="space-y-4">
               <p className="text-gray-600 dark:text-gray-400">
-                For more information about privacy laws and data protection regulations, please consult these official government resources:
+                For more information about privacy laws and data protection regulations, please
+                consult these official government resources:
               </p>
               <div className="space-y-3">
                 <a

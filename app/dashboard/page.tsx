@@ -10,11 +10,13 @@ import {
   Globe,
   Sparkles,
   TrendingUp,
+  Activity,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
+import { PromptForm } from '@/components/PromptForm'
 import { Sidebar } from '@/components/Sidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -24,6 +26,7 @@ import { createClient } from '@/utils/supabase/client'
 
 export default function DashboardHomePage() {
   const router = useRouter()
+  const [showCreateForm, setShowCreateForm] = useState(false)
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -119,6 +122,7 @@ export default function DashboardHomePage() {
           prompts={[]}
           selectedPromptId={null}
           onSelectPrompt={() => {}}
+          onNewPrompt={() => setShowCreateForm(true)}
           session={session}
         />
         <main className="flex-1 overflow-y-auto bg-accent/50 p-8">
@@ -142,6 +146,7 @@ export default function DashboardHomePage() {
         prompts={prompts}
         selectedPromptId={null}
         onSelectPrompt={(id) => router.push(`/dashboard/prompts?prompt=${id}`)}
+        onNewPrompt={() => setShowCreateForm(true)}
         session={session}
         currentPage="home"
       />
@@ -160,7 +165,9 @@ export default function DashboardHomePage() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Prompts</CardTitle>
-                <FileText className="h-4 w-4 text-muted-foreground" />
+                <div title="Total Prompts">
+                  <FileText className="h-4 w-4 text-muted-foreground" />
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalPrompts}</div>
@@ -173,7 +180,13 @@ export default function DashboardHomePage() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Public Prompts</CardTitle>
-                <Globe className="h-4 w-4 text-muted-foreground" />
+                <div 
+                  title="View your public profile"
+                  className="cursor-pointer hover:text-primary transition-colors"
+                  onClick={() => window.open(`/u/${session?.user?.user_metadata?.username || session?.user?.id}`, '_blank')}
+                >
+                  <Globe className="h-4 w-4 text-muted-foreground" />
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.publicPrompts}</div>
@@ -189,7 +202,9 @@ export default function DashboardHomePage() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Views</CardTitle>
-                <Eye className="h-4 w-4 text-muted-foreground" />
+                <div title="Total Views">
+                  <Eye className="h-4 w-4 text-muted-foreground" />
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalViews.toLocaleString()}</div>
@@ -197,16 +212,19 @@ export default function DashboardHomePage() {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Avg Views</CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {stats.publicPrompts > 0 ? Math.round(stats.totalViews / stats.publicPrompts) : 0}
-                </div>
-                <p className="text-xs text-muted-foreground">Per public prompt</p>
+            <Card className="flex items-center justify-center">
+              <CardContent className="flex flex-col items-center justify-center py-8">
+                <Sparkles className="mb-4 h-8 w-8 text-primary" />
+                <h3 className="mb-2 text-lg font-semibold">Create New Prompt</h3>
+                <p className="mb-4 text-center text-sm text-muted-foreground">
+                  Start building your next AI prompt
+                </p>
+                <Button 
+                  onClick={() => setShowCreateForm(true)}
+                  className="w-full"
+                >
+                  Create Prompt
+                </Button>
               </CardContent>
             </Card>
           </div>
@@ -228,7 +246,7 @@ export default function DashboardHomePage() {
                     <p className="mb-4 text-sm text-muted-foreground">
                       Create your first prompt to get started
                     </p>
-                    <Button onClick={() => router.push('/dashboard/prompts')}>Create Prompt</Button>
+                    <Button onClick={() => setShowCreateForm(true)}>Create Prompt</Button>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -343,6 +361,13 @@ export default function DashboardHomePage() {
           </div>
         </div>
       </main>
+
+      {/* Create Prompt Form */}
+      <PromptForm 
+        prompt={null} 
+        open={showCreateForm} 
+        onOpenChange={setShowCreateForm} 
+      />
     </div>
   )
 }

@@ -235,6 +235,9 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                     <Input
                       placeholder="Enter a name for your prompt"
                       data-testid="prompt-name"
+                      autoComplete="off"
+                      data-1p-ignore
+                      data-lpignore="true"
                       {...field}
                     />
                   </FormControl>
@@ -306,6 +309,9 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                         placeholder="Enter your prompt text here..."
                         className="min-h-[200px] font-mono"
                         data-testid="prompt-text"
+                        autoComplete="off"
+                        data-1p-ignore
+                        data-lpignore="true"
                         {...field}
                       />
                     </FormControl>
@@ -341,6 +347,11 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                         }
                         defaultOptions={tagOptions}
                         data-testid="prompt-tags"
+                        inputProps={{
+                          autoComplete: "off",
+                          "data-1p-ignore": true,
+                          "data-lpignore": "true"
+                        }}
                       />
                     )}
                   />

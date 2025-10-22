@@ -9,14 +9,21 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
 import { useAcceptTeamInvitation } from '@/lib/hooks/use-teams'
+import type { TeamInvitation } from '@/lib/types/teams'
 import { createClient } from '@/utils/supabase/client'
+
+interface InvitationWithTeam extends TeamInvitation {
+  teams: {
+    name: string
+  }
+}
 
 export default function InvitePage() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
   const token = params.token as string
-  const [invitationData, setInvitationData] = useState<any>(null)
+  const [invitationData, setInvitationData] = useState<InvitationWithTeam | null>(null)
   const [loadingInvitation, setLoadingInvitation] = useState(true)
 
   const acceptInvitation = useAcceptTeamInvitation()
@@ -66,15 +73,17 @@ export default function InvitePage() {
     }
 
     if (token) {
-      fetchInvitation()
+      void fetchInvitation()
     }
   }, [token, toast])
 
   const handleAccept = async () => {
-    if (!session) {
+    if (!session || !invitationData) {
       // Store token and redirect to login
-      sessionStorage.setItem('invitation_token', token)
-      router.push(`/login?redirect=/invite/${token}`)
+      if (!session) {
+        sessionStorage.setItem('invitation_token', token)
+        router.push(`/login?redirect=/invite/${token}`)
+      }
       return
     }
 

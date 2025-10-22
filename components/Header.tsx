@@ -1,10 +1,10 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Globe, LogOut, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -18,6 +18,8 @@ import { createClient } from '@/utils/supabase/client'
 
 export function Header() {
   const pathname = usePathname()
+  const router = useRouter()
+  const queryClient = useQueryClient()
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
@@ -49,9 +51,21 @@ export function Header() {
   }
 
   const handleSignOut = async () => {
-    await createClient().auth.signOut()
-    if (typeof window !== 'undefined') {
-      window.location.href = '/'
+    try {
+      const { error } = await createClient().auth.signOut()
+      if (error) throw error
+
+      // Clear all React Query cache
+      queryClient.clear()
+
+      // Redirect to home page
+      router.push('/')
+      router.refresh()
+    } catch (error) {
+      console.error('Error signing out:', error)
+      // Even if sign out fails, try to redirect
+      router.push('/')
+      router.refresh()
     }
   }
 

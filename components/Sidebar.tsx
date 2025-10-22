@@ -1,11 +1,12 @@
 'use client'
 
 import type { Session } from '@supabase/supabase-js'
+import { useQueryClient } from '@tanstack/react-query'
 import { GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -45,6 +46,8 @@ export function Sidebar({
   currentPage = 'prompts',
 }: SidebarProps) {
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const queryClient = useQueryClient()
 
   // Local state for model and tag filters and search
   const [modelFilters, setModelFilters] = useState<string[]>([])
@@ -103,9 +106,21 @@ export function Sidebar({
   }
 
   const handleSignOut = async () => {
-    await createClient().auth.signOut()
-    if (typeof window !== 'undefined') {
-      window.location.href = '/'
+    try {
+      const { error } = await createClient().auth.signOut()
+      if (error) throw error
+
+      // Clear all React Query cache
+      queryClient.clear()
+
+      // Redirect to home page
+      router.push('/')
+      router.refresh()
+    } catch (error) {
+      console.error('Error signing out:', error)
+      // Even if sign out fails, try to redirect
+      router.push('/')
+      router.refresh()
     }
   }
 

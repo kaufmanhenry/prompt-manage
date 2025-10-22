@@ -16,6 +16,8 @@ export interface Team {
   max_storage_gb: number
   stripe_customer_id: string | null
   stripe_subscription_id: string | null
+  subscription_status: string | null
+  subscription_period_end: string | null
   is_active: boolean
   is_verified: boolean
   settings: Record<string, unknown>
@@ -36,6 +38,10 @@ export interface TeamMember {
   settings: Record<string, unknown>
   created_at: string
   updated_at: string
+  user_profiles?: {
+    display_name: string | null
+    avatar_url: string | null
+  }
 }
 
 export interface TeamInvitation {

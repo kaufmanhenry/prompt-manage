@@ -4,38 +4,78 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
-interface TooltipProps {
-  children: React.ReactNode
-  content: React.ReactNode
-  className?: string
+// Context to manage tooltip state
+const TooltipContext = React.createContext<{
+  isOpen: boolean
+  setIsOpen: (open: boolean) => void
+}>({
+  isOpen: false,
+  setIsOpen: () => {},
+})
+
+export function TooltipProvider({ children }: { children: React.ReactNode }) {
+  return <>{children}</>
 }
 
-export function Tooltip({ children, content, className }: TooltipProps) {
-  const [isVisible, setIsVisible] = React.useState(false)
+export function Tooltip({ children }: { children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  return (
+    <TooltipContext.Provider value={{ isOpen, setIsOpen }}>{children}</TooltipContext.Provider>
+  )
+}
+
+interface TooltipTriggerProps {
+  children: React.ReactNode
+  asChild?: boolean
+}
+
+export function TooltipTrigger({ children, asChild }: TooltipTriggerProps) {
+  const { setIsOpen } = React.useContext(TooltipContext)
+
+  const handleMouseEnter = () => setIsOpen(true)
+  const handleMouseLeave = () => setIsOpen(false)
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(
+      children as React.ReactElement<{ onMouseEnter?: () => void; onMouseLeave?: () => void }>,
+      {
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+      },
+    )
+  }
 
   return (
     <div
-      className="relative inline-block"
-      onMouseEnter={() => setIsVisible(true)}
-      onMouseLeave={() => setIsVisible(false)}
+      className="inline-block"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {children}
-      {isVisible && (
-        <div
-          className={cn(
-            'absolute z-50 px-2 py-1 text-sm text-white bg-gray-900 rounded shadow-lg whitespace-nowrap',
-            'transform -translate-x-1/2 left-1/2 -top-8',
-            className,
-          )}
-        >
-          {content}
-          <div className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 transform bg-gray-900" />
-        </div>
-      )}
     </div>
   )
 }
 
-export const TooltipProvider = ({ children }: { children: React.ReactNode }) => <>{children}</>
-export const TooltipTrigger = ({ children }: { children: React.ReactNode }) => <>{children}</>
-export const TooltipContent = ({ children }: { children: React.ReactNode }) => <>{children}</>
+interface TooltipContentProps {
+  children: React.ReactNode
+  className?: string
+}
+
+export function TooltipContent({ children, className }: TooltipContentProps) {
+  const { isOpen } = React.useContext(TooltipContext)
+
+  if (!isOpen) return null
+
+  return (
+    <div
+      className={cn(
+        'absolute z-50 mt-2 rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md',
+        'animate-in fade-in-0 zoom-in-95',
+        className,
+      )}
+    >
+      {children}
+    </div>
+  )
+}

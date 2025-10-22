@@ -1,10 +1,11 @@
 'use client'
 
 import type { Session } from '@supabase/supabase-js'
+import { useQueryClient } from '@tanstack/react-query'
 import { ArrowLeft, CreditCard, FileText, LogOut, Settings, User, Users } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -24,15 +25,29 @@ interface SettingsSidebarProps {
 
 export function SettingsSidebar({ session }: SettingsSidebarProps) {
   const pathname = usePathname()
+  const router = useRouter()
+  const queryClient = useQueryClient()
   const { currentTeamId } = useTeamContext()
   const { data: teams } = useUserTeams()
 
   const currentTeam = teams?.find((t) => t.team_id === currentTeamId)
 
   const handleSignOut = async () => {
-    await createClient().auth.signOut()
-    if (typeof window !== 'undefined') {
-      window.location.href = '/'
+    try {
+      const { error } = await createClient().auth.signOut()
+      if (error) throw error
+
+      // Clear all React Query cache
+      queryClient.clear()
+
+      // Redirect to home page
+      router.push('/')
+      router.refresh()
+    } catch (error) {
+      console.error('Error signing out:', error)
+      // Even if sign out fails, try to redirect
+      router.push('/')
+      router.refresh()
     }
   }
 

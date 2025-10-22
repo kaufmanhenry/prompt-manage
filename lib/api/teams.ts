@@ -89,6 +89,22 @@ export async function getTeamMembers(teamId: string) {
 }
 
 /**
+ * Get team invitations
+ */
+export async function getTeamInvitations(teamId: string) {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('team_invitations')
+    .select('*, teams(name)')
+    .eq('team_id', teamId)
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+  return data
+}
+
+/**
  * Invite member to team
  */
 export async function inviteTeamMember(teamId: string, input: InviteMemberInput) {
@@ -132,6 +148,51 @@ export async function inviteTeamMember(teamId: string, input: InviteMemberInput)
 
   if (error) throw error
   return data
+}
+
+/**
+ * Accept team invitation
+ */
+export async function acceptTeamInvitation(token: string) {
+  const supabase = createClient()
+
+  const { data, error } = await supabase.rpc('accept_team_invitation', {
+    p_token: token,
+  })
+
+  if (error) throw error
+  return data
+}
+
+/**
+ * Resend team invitation (extends expiration)
+ */
+export async function resendTeamInvitation(invitationId: string) {
+  const supabase = createClient()
+
+  // Extend expiration by 7 days from now
+  const newExpiresAt = new Date()
+  newExpiresAt.setDate(newExpiresAt.getDate() + 7)
+
+  const { error } = await supabase
+    .from('team_invitations')
+    .update({
+      expires_at: newExpiresAt.toISOString(),
+    })
+    .eq('id', invitationId)
+
+  if (error) throw error
+}
+
+/**
+ * Cancel/delete team invitation
+ */
+export async function cancelTeamInvitation(invitationId: string) {
+  const supabase = createClient()
+
+  const { error } = await supabase.from('team_invitations').delete().eq('id', invitationId)
+
+  if (error) throw error
 }
 
 /**

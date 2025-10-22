@@ -49,7 +49,12 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Tooltip } from '@/components/ui/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/use-toast'
 import type { Prompt } from '@/lib/schemas/prompt'
 import type { PromptRunHistory } from '@/lib/schemas/prompt-run-history'
@@ -377,18 +382,23 @@ export function PromptsTable({
               >
                 <div className="flex items-center gap-2">
                   <CopyButton text={prompt.prompt_text} />
-                  <Tooltip content="Run Prompt">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => {
-                        // TODO: Implement run prompt functionality for grid view
-                      }}
-                      disabled={false} // Temporarily disable the disabled state for testing
-                    >
-                      <Play className="h-5 w-5" />
-                    </Button>
-                  </Tooltip>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => {
+                            // TODO: Implement run prompt functionality for grid view
+                          }}
+                          disabled={false} // Temporarily disable the disabled state for testing
+                        >
+                          <Play className="h-5 w-5" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Run Prompt</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
                 <div className="flex items-center gap-2">
                   <DropdownMenu>

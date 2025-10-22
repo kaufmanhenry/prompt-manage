@@ -8,52 +8,41 @@ import { SettingsSidebar } from '@/components/SettingsSidebar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/use-toast'
+import { useTeamContext } from '@/contexts/team-context'
+import { useUserTeams } from '@/lib/hooks/use-teams'
 import { createClient } from '@/utils/supabase/client'
 
 export default function BillingPage() {
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
-  const supabase = createClient()
+  const { currentTeamId } = useTeamContext()
+  const { data: teams, isLoading } = useUserTeams()
+  const currentTeam = teams?.find((t) => t.team_id === currentTeamId)
 
-  // Fetch user session and profile with subscription data
+  // Fetch user session
   const { data: session } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
       const {
         data: { session },
-      } = await supabase.auth.getSession()
+      } = await createClient().auth.getSession()
       return session
     },
   })
 
-  const { data: profile, isLoading } = useQuery({
-    queryKey: ['user-profile-billing'],
-    queryFn: async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not authenticated')
-
-      const { data, error } = await supabase
-        .from('user_profiles')
-        .select(
-          'subscription_tier, subscription_status, subscription_period_end, stripe_customer_id',
-        )
-        .eq('id', user.id)
-        .single()
-
-      if (error) throw error
-      return data
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  })
-
   const handleManageBilling = async () => {
+    if (!currentTeamId) return
+
     setLoading(true)
     try {
       const response = await fetch('/api/billing/portal', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ teamId: currentTeamId }),
       })
 
       const data = await response.json()
@@ -108,40 +97,58 @@ export default function BillingPage() {
     })
   }
 
-  if (isLoading) {
+  if (isLoading || !currentTeamId || !currentTeam) {
     return (
       <div className="flex h-screen">
         <SettingsSidebar session={session} />
-        <div className="flex flex-1 items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+        <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
+          <div className="mx-auto max-w-4xl space-y-6">
+            <Skeleton className="mb-8 h-8 w-1/4" />
+            <Skeleton className="h-64" />
+          </div>
         </div>
       </div>
     )
   }
 
-  const tier = profile?.subscription_tier || 'free'
-  const status = profile?.subscription_status
-  const periodEnd = profile?.subscription_period_end
-  const hasActiveSubscription = profile?.stripe_customer_id && tier !== 'free'
+  const tier = currentTeam.teams.tier || 'free'
+  const status = currentTeam.teams.subscription_status
+  const periodEnd = currentTeam.teams.subscription_period_end
+  const hasActiveSubscription = currentTeam.teams.stripe_customer_id && tier !== 'free'
+  const isOwnerOrAdmin = currentTeam.role === 'owner' || currentTeam.role === 'admin'
 
   return (
     <div className="flex h-screen">
       <SettingsSidebar session={session} />
       <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
         <div className="mx-auto max-w-4xl">
-          <div className="mb-8">
-            <h1 className="mb-2 text-3xl font-bold">Billing & Subscription</h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Manage your subscription and billing information
+          <div className="mb-4">
+            <h1 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+              Billing & Subscription
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Manage subscription and billing for {currentTeam.teams.name}
             </p>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
+            {/* Permission warning for non-owners/admins */}
+            {!isOwnerOrAdmin && (
+              <Card className="border-yellow-200 bg-yellow-50 dark:border-yellow-900 dark:bg-yellow-950">
+                <CardContent className="pt-6">
+                  <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                    Only team owners and admins can manage billing. Contact your team owner to
+                    upgrade or manage subscriptions.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
             {/* Current Plan */}
             <Card>
               <CardHeader>
-                <CardTitle>Current Plan</CardTitle>
-                <CardDescription>Your active subscription tier</CardDescription>
+                <CardTitle className="text-base font-medium">Current Plan</CardTitle>
+                <CardDescription>Active subscription tier for this team</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center justify-between">
@@ -158,10 +165,10 @@ export default function BillingPage() {
                     </div>
                     {tier === 'free' && (
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        You're currently on the free plan
+                        This team is currently on the free plan
                       </p>
                     )}
-                    {tier === 'team' && (
+                    {tier === 'pro' && (
                       <p className="text-sm text-gray-600 dark:text-gray-400">
                         $5/month • Unlimited prompts and collaboration
                       </p>
@@ -177,7 +184,7 @@ export default function BillingPage() {
                       </p>
                     )}
                   </div>
-                  {tier === 'free' && (
+                  {tier === 'free' && isOwnerOrAdmin && (
                     <Button asChild>
                       <a href="/pricing">Upgrade Plan</a>
                     </Button>
@@ -187,12 +194,14 @@ export default function BillingPage() {
             </Card>
 
             {/* Billing Management */}
-            {hasActiveSubscription && (
+            {hasActiveSubscription && isOwnerOrAdmin && (
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CreditCard className="h-5 w-5" />
-                    Billing Management
+                  <CardTitle className="flex items-center gap-2 text-base font-medium">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
+                      <CreditCard className="size-4 text-muted-foreground" />
+                    </div>
+                    <span className="text-base font-medium">Billing Management</span>
                   </CardTitle>
                   <CardDescription>
                     Update payment methods, view invoices, and manage your subscription
@@ -244,8 +253,8 @@ export default function BillingPage() {
             {/* Plan Features */}
             <Card>
               <CardHeader>
-                <CardTitle>Plan Features</CardTitle>
-                <CardDescription>What's included in your current plan</CardDescription>
+                <CardTitle className="text-base font-medium">Plan Features</CardTitle>
+                <CardDescription>What's included in this team's plan</CardDescription>
               </CardHeader>
               <CardContent>
                 {tier === 'free' && (
@@ -268,7 +277,7 @@ export default function BillingPage() {
                     </li>
                   </ul>
                 )}
-                {tier === 'team' && (
+                {tier === 'pro' && (
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
                       <span className="text-green-500">✓</span>
@@ -292,7 +301,7 @@ export default function BillingPage() {
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
                       <span className="text-green-500">✓</span>
-                      <span>Everything in Team</span>
+                      <span>Everything in Pro</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-green-500">✓</span>

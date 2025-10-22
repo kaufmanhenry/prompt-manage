@@ -21,23 +21,47 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { tier } = await req.json()
+    const { tier, teamId } = await req.json()
 
-    if (!['team', 'enterprise'].includes(tier)) {
+    if (!['pro', 'enterprise'].includes(tier)) {
       return NextResponse.json({ error: 'Invalid tier' }, { status: 400 })
     }
 
-    // Get or create Stripe customer
-    let customerId: string | undefined
+    if (!teamId) {
+      return NextResponse.json({ error: 'Team ID is required' }, { status: 400 })
+    }
 
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('stripe_customer_id')
-      .eq('id', userId)
+    // Verify user has permission (owner or admin)
+    const { data: membership } = await supabase
+      .from('team_members')
+      .select('role')
+      .eq('team_id', teamId)
+      .eq('user_id', userId)
+      .eq('is_active', true)
       .single()
 
-    if (profile?.stripe_customer_id) {
-      customerId = profile.stripe_customer_id
+    if (!membership || !['owner', 'admin'].includes(membership.role)) {
+      return NextResponse.json(
+        { error: 'Only team owners and admins can manage billing' },
+        { status: 403 },
+      )
+    }
+
+    // Get or create Stripe customer for the team
+    let customerId: string | undefined
+
+    const { data: team } = await supabase
+      .from('teams')
+      .select('stripe_customer_id, name')
+      .eq('id', teamId)
+      .single()
+
+    if (!team) {
+      return NextResponse.json({ error: 'Team not found' }, { status: 404 })
+    }
+
+    if (team.stripe_customer_id) {
+      customerId = team.stripe_customer_id
     } else {
       // Get user email from Supabase auth
       const {
@@ -49,17 +73,15 @@ export async function POST(req: NextRequest) {
 
       const customer = await stripe.customers.create({
         email: authUser.email,
+        name: team.name,
         metadata: {
-          userId: userId,
+          teamId: teamId,
         },
       })
       customerId = customer.id
 
-      // Save customer ID
-      await supabase.from('user_profiles').upsert({
-        id: userId,
-        stripe_customer_id: customerId,
-      })
+      // Save customer ID to team
+      await supabase.from('teams').update({ stripe_customer_id: customerId }).eq('id', teamId)
     }
 
     // Get price ID
@@ -76,15 +98,15 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/dashboard?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/settings/billing?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/pricing`,
       metadata: {
-        userId: userId,
+        teamId: teamId,
         tier,
       },
       subscription_data: {
         metadata: {
-          userId: userId,
+          teamId: teamId,
           tier,
         },
         trial_period_days: 14, // 14-day free trial

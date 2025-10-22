@@ -79,10 +79,24 @@ export default function TeamMembersPage() {
     }
 
     try {
-      await inviteMember.mutateAsync({
+      const invitation = await inviteMember.mutateAsync({
         email: inviteEmail.trim().toLowerCase(),
         role: inviteRole,
       })
+
+      // Send invitation email
+      try {
+        await fetch('/api/teams/invite/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ invitationId: invitation.id }),
+        })
+      } catch (emailError) {
+        console.error('Failed to send invitation email:', emailError)
+        // Don't fail the whole operation if email fails
+      }
 
       toast({
         title: 'Invitation Sent',
@@ -288,6 +302,21 @@ export default function TeamMembersPage() {
                                 onClick={async () => {
                                   try {
                                     await resendInvitation.mutateAsync(invitation.id)
+
+                                    // Send invitation email
+                                    try {
+                                      await fetch('/api/teams/invite/send-email', {
+                                        method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ invitationId: invitation.id }),
+                                      })
+                                    } catch (emailError) {
+                                      console.error('Failed to send invitation email:', emailError)
+                                      // Don't fail the whole operation if email fails
+                                    }
+
                                     toast({
                                       title: 'Invitation Resent',
                                       description: `Invitation to ${invitation.email} has been resent`,

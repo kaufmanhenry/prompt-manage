@@ -208,18 +208,20 @@ export default async function Home() {
             <div className="text-left">
               <h1 className="mb-6 text-[clamp(1.75rem,5vw,3.1rem)] font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white md:text-[clamp(2rem,4.4vw,3.4rem)] xl:text-[clamp(2.125rem,3.6vw,3.5rem)]">
                 <span className="block">Prompt Management</span>
-                <span className="block">for </span>
-                <RotatingAudience
-                  className="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-500 bg-clip-text text-transparent"
-                  intervalMs={3000}
-                  items={[
-                    'Marketing Teams',
-                    'Creative Studios',
-                    'Advertising Agencies',
-                    'Editorial Teams',
-                    'Customer Support',
-                  ]}
-                />
+                <span className="block">
+                  for{' '}
+                  <RotatingAudience
+                    className="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-500 bg-clip-text text-transparent"
+                    intervalMs={3000}
+                    items={[
+                      'Marketing Teams',
+                      'Creative Studios',
+                      'Advertising Agencies',
+                      'Editorial Teams',
+                      'Customer Support',
+                    ]}
+                  />
+                </span>
               </h1>
               <p className="mb-3 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
                 Create, manage, and run AI prompts. All in one place. With the Prompt Lab you can

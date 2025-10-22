@@ -1,6 +1,6 @@
 'use client'
 
-import { useQuery } from '@tantml:parameter>
+import { useQuery } from '@tanstack/react-query'
 import { CheckCircle, Loader2, UserPlus, XCircle } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'

@@ -62,36 +62,39 @@ export async function POST(req: NextRequest) {
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promise<void> {
   const supabase = createServerSideClient()
-  const userId = session.metadata?.userId
+  const teamId = session.metadata?.teamId
 
-  if (!userId) {
-    console.error('No userId in checkout session metadata')
+  if (!teamId) {
+    console.error('No teamId in checkout session metadata')
     return
   }
 
-  const tier = session.metadata?.tier || 'team'
+  const tier = session.metadata?.tier || 'pro'
 
-  // Update user profile with subscription info
+  // Update team with subscription info
   const customerId = typeof session.customer === 'string' ? session.customer : session.customer?.id
+  const subscriptionId =
+    typeof session.subscription === 'string' ? session.subscription : session.subscription?.id
 
   await supabase
-    .from('user_profiles')
+    .from('teams')
     .update({
       stripe_customer_id: customerId,
-      subscription_tier: tier,
+      stripe_subscription_id: subscriptionId,
+      tier: tier,
       subscription_status: 'active',
     })
-    .eq('id', userId)
+    .eq('id', teamId)
 
-  console.log(`✅ Checkout completed for user ${userId}, tier: ${tier}`)
+  console.log(`✅ Checkout completed for team ${teamId}, tier: ${tier}`)
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Promise<void> {
   const supabase = createServerSideClient()
-  const userId = subscription.metadata?.userId
+  const teamId = subscription.metadata?.teamId
 
-  if (!userId) {
-    console.error('No userId in subscription metadata')
+  if (!teamId) {
+    console.error('No teamId in subscription metadata')
     return
   }
 
@@ -101,36 +104,36 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
   )
 
   await supabase
-    .from('user_profiles')
+    .from('teams')
     .update({
       subscription_status: subscription.status,
       subscription_period_end: periodEnd.toISOString(),
-      subscription_tier: subscription.metadata?.tier || 'team',
+      tier: subscription.metadata?.tier || 'pro',
     })
-    .eq('id', userId)
+    .eq('id', teamId)
 
-  console.log(`✅ Subscription updated for user ${userId}, status: ${subscription.status}`)
+  console.log(`✅ Subscription updated for team ${teamId}, status: ${subscription.status}`)
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Promise<void> {
   const supabase = createServerSideClient()
-  const userId = subscription.metadata?.userId
+  const teamId = subscription.metadata?.teamId
 
-  if (!userId) {
-    console.error('No userId in subscription metadata')
+  if (!teamId) {
+    console.error('No teamId in subscription metadata')
     return
   }
 
   // Downgrade to free tier
   await supabase
-    .from('user_profiles')
+    .from('teams')
     .update({
-      subscription_tier: 'free',
+      tier: 'free',
       subscription_status: 'canceled',
     })
-    .eq('id', userId)
+    .eq('id', teamId)
 
-  console.log(`✅ Subscription canceled for user ${userId}`)
+  console.log(`✅ Subscription canceled for team ${teamId}`)
 }
 
 async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
@@ -144,18 +147,18 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
   if (!subscriptionId) return
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId)
-  const userId = subscription.metadata?.userId
+  const teamId = subscription.metadata?.teamId
 
-  if (!userId) return
+  if (!teamId) return
 
   await supabase
-    .from('user_profiles')
+    .from('teams')
     .update({
       subscription_status: 'past_due',
     })
-    .eq('id', userId)
+    .eq('id', teamId)
 
-  console.log(`❌ Payment failed for user ${userId}`)
+  console.log(`❌ Payment failed for team ${teamId}`)
 }
 
 // Required for webhooks to work with raw body

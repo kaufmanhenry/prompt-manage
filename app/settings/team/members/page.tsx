@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Mail, Shield, Trash2, UserPlus, Users } from 'lucide-react'
+import { Info, Mail, RefreshCw, Trash2, UserPlus, Users } from 'lucide-react'
 import { useState } from 'react'
 
 import { SettingsSidebar } from '@/components/SettingsSidebar'
@@ -18,9 +18,22 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/use-toast'
 import { useTeamContext } from '@/contexts/team-context'
-import { useInviteTeamMember, useTeamMembers, useUserTeams } from '@/lib/hooks/use-teams'
+import {
+  useCancelTeamInvitation,
+  useInviteTeamMember,
+  useResendTeamInvitation,
+  useTeamInvitations,
+  useTeamMembers,
+  useUserTeams,
+} from '@/lib/hooks/use-teams'
 import type { TeamRole } from '@/lib/types/teams'
 import { createClient } from '@/utils/supabase/client'
 
@@ -30,10 +43,15 @@ export default function TeamMembersPage() {
   const { data: teams } = useUserTeams()
   const currentTeam = teams?.find((t) => t.team_id === currentTeamId)
   const { data: members, isLoading: membersLoading } = useTeamMembers(currentTeamId ?? undefined)
+  const { data: invitations, isLoading: invitationsLoading } = useTeamInvitations(
+    currentTeamId ?? undefined,
+  )
 
   const [inviteEmail, setInviteEmail] = useState('')
   const [inviteRole, setInviteRole] = useState<TeamRole>('viewer')
   const inviteMember = useInviteTeamMember(currentTeamId ?? '')
+  const cancelInvitation = useCancelTeamInvitation(currentTeamId ?? '')
+  const resendInvitation = useResendTeamInvitation(currentTeamId ?? '')
 
   // Fetch user session
   const { data: session } = useQuery({
@@ -86,13 +104,13 @@ export default function TeamMembersPage() {
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
       case 'owner':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-200'
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-200 hover:bg-purple-100 dark:hover:bg-purple-950'
       case 'admin':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200'
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200 hover:bg-blue-100 dark:hover:bg-blue-950'
       case 'editor':
-        return 'bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200'
+        return 'bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200 hover:bg-green-100 dark:hover:bg-green-950'
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
     }
   }
 
@@ -161,19 +179,55 @@ export default function TeamMembersPage() {
 
                       <div className="space-y-2">
                         <Label htmlFor="role">Role</Label>
-                        <Select
-                          value={inviteRole}
-                          onValueChange={(value) => setInviteRole(value as TeamRole)}
-                        >
-                          <SelectTrigger id="role">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="viewer">Viewer - Can view prompts</SelectItem>
-                            <SelectItem value="editor">Editor - Can edit prompts</SelectItem>
-                            <SelectItem value="admin">Admin - Can manage team settings</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <div className="flex items-center gap-2">
+                          <Select
+                            value={inviteRole}
+                            onValueChange={(value) => setInviteRole(value as TeamRole)}
+                          >
+                            <SelectTrigger id="role">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="viewer">Viewer - Can view prompts</SelectItem>
+                              <SelectItem value="editor">Editor - Can edit prompts</SelectItem>
+                              <SelectItem value="admin">Admin - Can manage team settings</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <div className="relative">
+                                <TooltipTrigger asChild>
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center justify-center"
+                                  >
+                                    <Info className="h-4 w-4 cursor-help text-muted-foreground" />
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent className="w-80">
+                                  <div className="space-y-2 text-sm">
+                                    <div>
+                                      <span className="font-semibold">Owner:</span> Full control
+                                      including team deletion and billing
+                                    </div>
+                                    <div>
+                                      <span className="font-semibold">Admin:</span> Can manage team
+                                      settings and invite members
+                                    </div>
+                                    <div>
+                                      <span className="font-semibold">Editor:</span> Can create and
+                                      edit prompts
+                                    </div>
+                                    <div>
+                                      <span className="font-semibold">Viewer:</span> Can view prompts
+                                      but cannot edit
+                                    </div>
+                                  </div>
+                                </TooltipContent>
+                              </div>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </div>
                       </div>
                     </div>
 
@@ -182,6 +236,108 @@ export default function TeamMembersPage() {
                       {inviteMember.isPending ? 'Sending...' : 'Send Invitation'}
                     </Button>
                   </form>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Pending Invitations */}
+            {!isPersonalTeam && canInvite && invitations && invitations.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-base font-medium">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
+                      <Mail className="size-4 text-muted-foreground" />
+                    </div>
+                    <span className="text-base font-medium">Pending Invitations</span>
+                  </CardTitle>
+                  <CardDescription>Invitations that haven't been accepted yet</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {invitationsLoading ? (
+                    <div className="space-y-3">
+                      <Skeleton className="h-16" />
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {invitations
+                        .filter((inv) => inv.status === 'pending')
+                        .map((invitation) => (
+                          <div
+                            key={invitation.id}
+                            className="flex items-center justify-between rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-950"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                <Mail className="h-5 w-5" />
+                              </div>
+                              <div>
+                                <p className="font-medium">{invitation.email}</p>
+                                <p className="text-sm text-muted-foreground">
+                                  Invited {new Date(invitation.created_at).toLocaleDateString()} •
+                                  Expires {new Date(invitation.expires_at).toLocaleDateString()}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Badge className={getRoleBadgeColor(invitation.role)}>
+                                {invitation.role}
+                              </Badge>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={async () => {
+                                  try {
+                                    await resendInvitation.mutateAsync(invitation.id)
+                                    toast({
+                                      title: 'Invitation Resent',
+                                      description: `Invitation to ${invitation.email} has been resent`,
+                                    })
+                                  } catch (error) {
+                                    toast({
+                                      title: 'Error',
+                                      description:
+                                        error instanceof Error
+                                          ? error.message
+                                          : 'Failed to resend invitation',
+                                      variant: 'destructive',
+                                    })
+                                  }
+                                }}
+                                disabled={resendInvitation.isPending}
+                              >
+                                <RefreshCw className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-destructive"
+                                onClick={async () => {
+                                  try {
+                                    await cancelInvitation.mutateAsync(invitation.id)
+                                    toast({
+                                      title: 'Invitation Canceled',
+                                      description: `Invitation to ${invitation.email} has been canceled`,
+                                    })
+                                  } catch (error) {
+                                    toast({
+                                      title: 'Error',
+                                      description:
+                                        error instanceof Error
+                                          ? error.message
+                                          : 'Failed to cancel invitation',
+                                      variant: 'destructive',
+                                    })
+                                  }
+                                }}
+                                disabled={cancelInvitation.isPending}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )}
@@ -229,7 +385,6 @@ export default function TeamMembersPage() {
                         </div>
                         <div className="flex items-center gap-2">
                           <Badge className={getRoleBadgeColor(member.role)}>
-                            <Shield className="mr-1 h-3 w-3" />
                             {member.role}
                           </Badge>
                           {!isPersonalTeam &&
@@ -250,30 +405,6 @@ export default function TeamMembersPage() {
               </CardContent>
             </Card>
 
-            {/* Role Permissions Info */}
-            <Card className="border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950">
-              <CardHeader>
-                <CardTitle className="text-base font-medium text-blue-900 dark:text-blue-100">
-                  Role Permissions
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm text-blue-800 dark:text-blue-200">
-                <div>
-                  <span className="font-medium">Owner:</span> Full control including team deletion
-                  and billing
-                </div>
-                <div>
-                  <span className="font-medium">Admin:</span> Can manage team settings and invite
-                  members
-                </div>
-                <div>
-                  <span className="font-medium">Editor:</span> Can create and edit prompts
-                </div>
-                <div>
-                  <span className="font-medium">Viewer:</span> Can view prompts but cannot edit
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>

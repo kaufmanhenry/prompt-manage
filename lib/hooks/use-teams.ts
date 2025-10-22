@@ -13,6 +13,7 @@ export const teamKeys = {
   details: () => [...teamKeys.all, 'detail'] as const,
   detail: (id: string) => [...teamKeys.details(), id] as const,
   members: (teamId: string) => [...teamKeys.all, 'members', teamId] as const,
+  invitations: (teamId: string) => [...teamKeys.all, 'invitations', teamId] as const,
   defaultTeam: () => [...teamKeys.all, 'default'] as const,
 }
 
@@ -54,6 +55,17 @@ export function useTeamMembers(teamId: string | undefined) {
   return useQuery({
     queryKey: teamKeys.members(teamId || ''),
     queryFn: () => api.getTeamMembers(teamId!),
+    enabled: !!teamId,
+  })
+}
+
+/**
+ * Get team invitations
+ */
+export function useTeamInvitations(teamId: string | undefined) {
+  return useQuery({
+    queryKey: teamKeys.invitations(teamId || ''),
+    queryFn: () => api.getTeamInvitations(teamId!),
     enabled: !!teamId,
   })
 }
@@ -111,6 +123,48 @@ export function useDeleteTeam() {
     mutationFn: (teamId: string) => api.deleteTeam(teamId),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: teamKeys.lists() })
+    },
+  })
+}
+
+/**
+ * Accept team invitation mutation
+ */
+export function useAcceptTeamInvitation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (token: string) => api.acceptTeamInvitation(token),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: teamKeys.lists() })
+    },
+  })
+}
+
+/**
+ * Resend team invitation mutation
+ */
+export function useResendTeamInvitation(teamId: string) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (invitationId: string) => api.resendTeamInvitation(invitationId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: teamKeys.invitations(teamId) })
+    },
+  })
+}
+
+/**
+ * Cancel team invitation mutation
+ */
+export function useCancelTeamInvitation(teamId: string) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (invitationId: string) => api.cancelTeamInvitation(invitationId),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: teamKeys.invitations(teamId) })
     },
   })
 }

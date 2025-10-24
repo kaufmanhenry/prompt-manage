@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
@@ -55,7 +55,15 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const [loading, setLoading] = useState(false)
   const queryClient = useQueryClient()
   const { toast } = useToast()
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const { currentTeamId } = useTeamContext()
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.setAttribute('data-1p-ignore', 'true')
+      textareaRef.current.setAttribute('data-lpignore', 'true')
+    }
+  }, [open])
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -236,8 +244,6 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       placeholder="Enter a name for your prompt"
                       data-testid="prompt-name"
                       autoComplete="off"
-                      data-1p-ignore
-                      data-lpignore="true"
                       {...field}
                     />
                   </FormControl>
@@ -310,9 +316,8 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                         className="min-h-[200px] font-mono"
                         data-testid="prompt-text"
                         autoComplete="off"
-                        data-1p-ignore
-                        data-lpignore="true"
                         {...field}
+                        ref={textareaRef}
                       />
                     </FormControl>
                     <FormDescription>
@@ -348,9 +353,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                         defaultOptions={tagOptions}
                         data-testid="prompt-tags"
                         inputProps={{
-                          autoComplete: "off",
-                          "data-1p-ignore": true,
-                          "data-lpignore": "true"
+                          autoComplete: 'off',
                         }}
                       />
                     )}

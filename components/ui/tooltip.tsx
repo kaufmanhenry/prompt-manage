@@ -20,9 +20,7 @@ export function TooltipProvider({ children }: { children: React.ReactNode }) {
 export function Tooltip({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = React.useState(false)
 
-  return (
-    <TooltipContext.Provider value={{ isOpen, setIsOpen }}>{children}</TooltipContext.Provider>
-  )
+  return <TooltipContext.Provider value={{ isOpen, setIsOpen }}>{children}</TooltipContext.Provider>
 }
 
 interface TooltipTriggerProps {
@@ -47,11 +45,7 @@ export function TooltipTrigger({ children, asChild }: TooltipTriggerProps) {
   }
 
   return (
-    <div
-      className="inline-block"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className="inline-block" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {children}
     </div>
   )

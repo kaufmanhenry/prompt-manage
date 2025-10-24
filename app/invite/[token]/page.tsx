@@ -171,7 +171,8 @@ export default function InvitePage() {
           </div>
           <CardTitle className="text-center">You're Invited!</CardTitle>
           <CardDescription className="text-center">
-            You've been invited to join <span className="font-semibold">{invitationData.teams.name}</span>
+            You've been invited to join{' '}
+            <span className="font-semibold">{invitationData.teams.name}</span>
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -197,16 +198,15 @@ export default function InvitePage() {
               <p className="text-center text-sm text-muted-foreground">
                 You need to be signed in to accept this invitation
               </p>
-              <Button onClick={() => router.push(`/login?redirect=/invite/${token}`)} className="w-full">
+              <Button
+                onClick={() => router.push(`/login?redirect=/invite/${token}`)}
+                className="w-full"
+              >
                 Sign In to Accept
               </Button>
             </div>
           ) : (
-            <Button
-              onClick={handleAccept}
-              disabled={acceptInvitation.isPending}
-              className="w-full"
-            >
+            <Button onClick={handleAccept} disabled={acceptInvitation.isPending} className="w-full">
               {acceptInvitation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

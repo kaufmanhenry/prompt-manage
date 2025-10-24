@@ -38,7 +38,7 @@ async function simulatePromptImprovement(
   let improvedPrompt = prompt
 
   // Add context if provided
-  if (context && context.trim()) {
+  if (context?.trim()) {
     improvedPrompt = `Context: ${context.trim()}\n\nTask: ${prompt}`
   }
 

@@ -394,9 +394,50 @@ function PublicDirectoryContent() {
           </>
         )}
 
+        {/* Share Your Prompts CTA */}
+        <div className="mt-12 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 text-center">
+          <div className="mb-4">
+            <span className="text-4xl">🚀</span>
+          </div>
+          <h2 className="mb-4 text-2xl font-bold text-foreground">
+            Share Your Best Prompts with the Community
+          </h2>
+          <p className="mb-6 text-muted-foreground">
+            Have you created amazing prompts that others would love? Share them with our community
+            and help fellow creators discover new possibilities. Join thousands of prompt engineers
+            building the future of AI together.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            {session ? (
+              <Link href="/dashboard">
+                <button className="rounded-lg bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90">
+                  Share Your Prompts
+                </button>
+              </Link>
+            ) : (
+              <GoogleSignInButton />
+            )}
+            <Link href="/tools">
+              <button className="rounded-lg border border-gray-300 px-6 py-3 text-foreground hover:bg-accent dark:border-gray-600">
+                Explore AI Tools
+              </button>
+            </Link>
+          </div>
+          <div className="mt-4 flex items-center justify-center gap-6 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              <span>Join 40+ creators</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Search className="h-4 w-4" />
+              <span>Share & discover prompts</span>
+            </div>
+          </div>
+        </div>
+
         {/* Sign up CTA */}
         {!session && (
-          <div className="mt-12 rounded-lg bg-primary/10 p-8 text-center">
+          <div className="mt-8 rounded-lg bg-primary/10 p-8 text-center">
             <h2 className="mb-4 text-2xl font-bold text-foreground">
               Ready to create your own prompts?
             </h2>

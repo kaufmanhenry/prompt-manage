@@ -92,8 +92,8 @@ export default function ProductPage() {
               <div>
                 <h3 className="mb-2 text-base font-medium">Cost Analysis</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Reliable prompt cost forecasting showing how much a prompt will cost to run on each model,
-                  including input/output costs and usage patterns.
+                  Reliable prompt cost forecasting showing how much a prompt will cost to run on
+                  each model, including input/output costs and usage patterns.
                 </p>
               </div>
             </div>
@@ -112,29 +112,41 @@ export default function ProductPage() {
                     Complete Visibility & Control Over AI Spending
                   </h3>
                   <p className="mb-6 text-lg text-gray-600 dark:text-gray-300">
-                    Real-time cost preview, detailed token tracking, budget management, and optimization 
-                    recommendations. Never be surprised by AI costs again.
+                    Real-time cost preview, detailed token tracking, budget management, and
+                    optimization recommendations. Never be surprised by AI costs again.
                   </p>
                   <div className="space-y-4">
                     <div className="flex items-start">
                       <CheckCircle className="mr-3 mt-1 h-5 w-5 text-emerald-600" />
                       <div>
-                        <h4 className="font-semibold text-gray-900 dark:text-white">Real-time Cost Preview</h4>
-                        <p className="text-gray-600 dark:text-gray-300">See exact costs before executing any prompt</p>
+                        <h4 className="font-semibold text-gray-900 dark:text-white">
+                          Real-time Cost Preview
+                        </h4>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          See exact costs before executing any prompt
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start">
                       <CheckCircle className="mr-3 mt-1 h-5 w-5 text-emerald-600" />
                       <div>
-                        <h4 className="font-semibold text-gray-900 dark:text-white">Detailed Token Analytics</h4>
-                        <p className="text-gray-600 dark:text-gray-300">Input/output breakdown with usage patterns</p>
+                        <h4 className="font-semibold text-gray-900 dark:text-white">
+                          Detailed Token Analytics
+                        </h4>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          Input/output breakdown with usage patterns
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start">
                       <CheckCircle className="mr-3 mt-1 h-5 w-5 text-emerald-600" />
                       <div>
-                        <h4 className="font-semibold text-gray-900 dark:text-white">Budget Management</h4>
-                        <p className="text-gray-600 dark:text-gray-300">Monthly limits with proactive alerts and reports</p>
+                        <h4 className="font-semibold text-gray-900 dark:text-white">
+                          Budget Management
+                        </h4>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          Monthly limits with proactive alerts and reports
+                        </p>
                       </div>
                     </div>
                   </div>

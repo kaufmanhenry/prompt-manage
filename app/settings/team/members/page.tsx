@@ -18,12 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/use-toast'
 import { useTeamContext } from '@/contexts/team-context'
 import {
@@ -204,7 +199,9 @@ export default function TeamMembersPage() {
                             <SelectContent>
                               <SelectItem value="viewer">Viewer - Can view prompts</SelectItem>
                               <SelectItem value="editor">Editor - Can edit prompts</SelectItem>
-                              <SelectItem value="admin">Admin - Can manage team settings</SelectItem>
+                              <SelectItem value="admin">
+                                Admin - Can manage team settings
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <TooltipProvider>
@@ -233,8 +230,8 @@ export default function TeamMembersPage() {
                                       edit prompts
                                     </div>
                                     <div>
-                                      <span className="font-semibold">Viewer:</span> Can view prompts
-                                      but cannot edit
+                                      <span className="font-semibold">Viewer:</span> Can view
+                                      prompts but cannot edit
                                     </div>
                                   </div>
                                 </TooltipContent>
@@ -413,9 +410,7 @@ export default function TeamMembersPage() {
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Badge className={getRoleBadgeColor(member.role)}>
-                            {member.role}
-                          </Badge>
+                          <Badge className={getRoleBadgeColor(member.role)}>{member.role}</Badge>
                           {!isPersonalTeam &&
                             canInvite &&
                             member.role !== 'owner' &&
@@ -433,7 +428,6 @@ export default function TeamMembersPage() {
                 )}
               </CardContent>
             </Card>
-
           </div>
         </div>
       </div>

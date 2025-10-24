@@ -1,17 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import {
-  ArrowUpRight,
-  BarChart3,
-  Clock,
-  Eye,
-  FileText,
-  Globe,
-  Sparkles,
-  TrendingUp,
-  Activity,
-} from 'lucide-react'
+import { ArrowUpRight, BarChart3, Clock, Eye, FileText, Globe, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
@@ -180,10 +170,15 @@ export default function DashboardHomePage() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Public Prompts</CardTitle>
-                <div 
+                <div
                   title="View your public profile"
-                  className="cursor-pointer hover:text-primary transition-colors"
-                  onClick={() => window.open(`/u/${session?.user?.user_metadata?.username || session?.user?.id}`, '_blank')}
+                  className="cursor-pointer transition-colors hover:text-primary"
+                  onClick={() =>
+                    window.open(
+                      `/u/${session?.user?.user_metadata?.username || session?.user?.id}`,
+                      '_blank',
+                    )
+                  }
                 >
                   <Globe className="h-4 w-4 text-muted-foreground" />
                 </div>
@@ -219,10 +214,7 @@ export default function DashboardHomePage() {
                 <p className="mb-4 text-center text-sm text-muted-foreground">
                   Start building your next AI prompt
                 </p>
-                <Button 
-                  onClick={() => setShowCreateForm(true)}
-                  className="w-full"
-                >
+                <Button onClick={() => setShowCreateForm(true)} className="w-full">
                   Create Prompt
                 </Button>
               </CardContent>
@@ -363,11 +355,7 @@ export default function DashboardHomePage() {
       </main>
 
       {/* Create Prompt Form */}
-      <PromptForm 
-        prompt={null} 
-        open={showCreateForm} 
-        onOpenChange={setShowCreateForm} 
-      />
+      <PromptForm prompt={null} open={showCreateForm} onOpenChange={setShowCreateForm} />
     </div>
   )
 }

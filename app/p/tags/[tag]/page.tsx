@@ -1,12 +1,31 @@
 import { TagIcon, TrendingUp } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 import CopyButton from '@/components/CopyButton'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { createServerSideClient } from '@/utils/supabase/server'
+
+// Tool tag mappings to their dedicated landing pages
+const toolTagMappings: Record<string, string> = {
+  suno: '/tools/suno',
+  runway: '/tools/runway',
+  veo: '/tools/google-veo',
+  'google-veo': '/tools/google-veo',
+  opus: '/tools/opus',
+  'opus-clip': '/tools/opus',
+  'ai-image': '/tools/ai-image',
+  'ai-video': '/tools/ai-video',
+  'ai-audio': '/tools/ai-audio',
+  'dall-e': '/tools/ai-image',
+  midjourney: '/tools/ai-image',
+  'stable-diffusion': '/tools/ai-image',
+  pika: '/tools/ai-video',
+  elevenlabs: '/tools/ai-audio',
+  mubert: '/tools/ai-audio',
+}
 
 interface TagPageProps {
   params: Promise<{
@@ -17,6 +36,16 @@ interface TagPageProps {
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const resolvedParams = await params
   const tag = decodeURIComponent(resolvedParams.tag)
+
+  // Check if this tag should redirect to a dedicated tool page
+  const toolPage = toolTagMappings[tag.toLowerCase()]
+  if (toolPage) {
+    // Return metadata that will be replaced by the redirect
+    return {
+      title: `Redirecting to ${tag}...`,
+      description: `Redirecting to the dedicated ${tag} page.`,
+    }
+  }
 
   const supabase = createServerSideClient()
   const { data: prompts } = await supabase
@@ -89,6 +118,12 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 export default async function TagPage({ params }: TagPageProps) {
   const resolvedParams = await params
   const tag = decodeURIComponent(resolvedParams.tag)
+
+  // Check if this tag should redirect to a dedicated tool page
+  const toolPage = toolTagMappings[tag.toLowerCase()]
+  if (toolPage) {
+    redirect(toolPage)
+  }
 
   const supabase = createServerSideClient()
 
@@ -509,6 +544,44 @@ export default async function TagPage({ params }: TagPageProps) {
                       Find prompts organized by use case and industry
                     </p>
                   </Link>
+                </div>
+              </div>
+
+              {/* Share Your Prompts CTA */}
+              <div className="mb-8 rounded-lg bg-gradient-to-r from-green-500/10 to-blue-500/10 p-6 text-center">
+                <div className="mb-4">
+                  <span className="text-4xl">💡</span>
+                </div>
+                <h3 className="mb-3 text-xl font-semibold text-foreground">
+                  Share Your {tag} Prompts with the Community
+                </h3>
+                <p className="mb-4 text-sm text-muted-foreground">
+                  Have you created amazing {tag.toLowerCase()} prompts? Share them with our
+                  community and help other creators discover new possibilities.
+                </p>
+                <div className="flex flex-wrap justify-center gap-3">
+                  <Link
+                    href="/dashboard"
+                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                  >
+                    Share Your Prompts
+                  </Link>
+                  <Link
+                    href="/tools"
+                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-foreground hover:bg-accent dark:border-gray-600"
+                  >
+                    Explore AI Tools
+                  </Link>
+                </div>
+                <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3" />
+                    <span>Join 40+ creators</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <TagIcon className="h-3 w-3" />
+                    <span>Share & discover prompts</span>
+                  </div>
                 </div>
               </div>
 

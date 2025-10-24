@@ -24,7 +24,8 @@ export default function GlobalError({
               Application Error
             </h1>
             <p className="mb-6 text-gray-600 dark:text-gray-400">
-              Something went wrong with the application. Please try again or go back to the home page.
+              Something went wrong with the application. Please try again or go back to the home
+              page.
             </p>
             <div className="flex justify-center gap-4">
               <Button onClick={reset} className="inline-flex items-center gap-2">

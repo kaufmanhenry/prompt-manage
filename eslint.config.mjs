@@ -3,6 +3,7 @@
  * - Uses typescript-eslint flat config with type-aware rules
  * - Keeps Prettier as the formatter (no double-format via ESLint)
  * - Focuses on unused imports, import sorting, and React Hooks safety
+ * - Includes Next.js specific rules and accessibility checks
  */
 import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
@@ -116,6 +117,9 @@ export default tseslint.config(
         },
       ],
       '@typescript-eslint/consistent-type-exports': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/prefer-nullish-coalescing': 'off', // Disabled to avoid large refactoring
+      '@typescript-eslint/prefer-optional-chain': 'warn',
 
       // Relax strict unsafe rules to avoid churn
       '@typescript-eslint/no-unsafe-assignment': 'off',

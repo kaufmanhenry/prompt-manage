@@ -514,8 +514,44 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
             <RelatedPrompts currentPrompt={prompt} />
           </div>
 
+          {/* Share Your Prompts CTA */}
+          <div className="mt-12 rounded-lg bg-gradient-to-r from-green-500/10 to-blue-500/10 p-6 text-center">
+            <div className="mb-4">
+              <span className="text-4xl">💡</span>
+            </div>
+            <h3 className="mb-3 text-xl font-semibold text-foreground">
+              Inspired by This Prompt? Share Your Own!
+            </h3>
+            <p className="mb-4 text-sm text-muted-foreground">
+              Have you created similar or improved prompts? Share them with our community and help
+              other creators discover new possibilities.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link href="/dashboard">
+                <Button size="sm" className="bg-primary hover:bg-primary/90">
+                  Share Your Prompts
+                </Button>
+              </Link>
+              <Link href="/tools">
+                <Button size="sm" variant="outline">
+                  Explore AI Tools
+                </Button>
+              </Link>
+            </div>
+            <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <TrendingUp className="h-3 w-3" />
+                <span>Join 40+ creators</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Share2 className="h-3 w-3" />
+                <span>Share & discover prompts</span>
+              </div>
+            </div>
+          </div>
+
           {/* Directory Footer Blurb */}
-          <div className="mt-12 text-sm text-muted-foreground">
+          <div className="mt-8 text-sm text-muted-foreground">
             <h3 className="mb-2 text-center text-base font-semibold text-foreground">
               About the Prompt Manage Directory
             </h3>

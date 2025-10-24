@@ -34,6 +34,7 @@ function PublicDirectoryContent() {
   const [prompts, setPrompts] = useState<PublicPrompt[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState(searchParams.get('search') || '')
+  const [debouncedSearch, setDebouncedSearch] = useState(searchParams.get('search') || '')
   const [selectedModel, setSelectedModel] = useState<string>(searchParams.get('model') || 'all')
   const [selectedTag, setSelectedTag] = useState<string>(searchParams.get('tag') || 'all')
   const [sortBy, setSortBy] = useState<'recent' | 'popular'>(
@@ -46,6 +47,15 @@ function PublicDirectoryContent() {
   const [page, setPage] = useState(initialPage)
   const promptsPerPage = 21
   const modelsByCompany = getModelsByCompany()
+
+  // Debounce search input to prevent excessive API calls
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search)
+    }, 300) // 300ms delay
+
+    return () => clearTimeout(timer)
+  }, [search])
 
   // Get user session
   const { data: session } = useQuery({
@@ -94,8 +104,8 @@ function PublicDirectoryContent() {
         query = query.contains('tags', [selectedTag])
       }
 
-      if (search.trim()) {
-        query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`)
+      if (debouncedSearch.trim()) {
+        query = query.or(`name.ilike.%${debouncedSearch}%,description.ilike.%${debouncedSearch}%`)
       }
 
       // Apply sorting
@@ -149,16 +159,16 @@ function PublicDirectoryContent() {
     } finally {
       setLoading(false)
     }
-  }, [sortBy, selectedModel, selectedTag, search, page, toast])
+  }, [sortBy, selectedModel, selectedTag, debouncedSearch, page, toast])
 
   useEffect(() => {
     void fetchPublicPrompts()
   }, [fetchPublicPrompts])
 
-  // Update URL when filters change
+  // Update URL when filters change (debounced to prevent excessive updates)
   useEffect(() => {
     const params = new URLSearchParams()
-    if (search) params.set('search', search)
+    if (debouncedSearch) params.set('search', debouncedSearch)
     if (selectedModel !== 'all') params.set('model', selectedModel)
     if (selectedTag !== 'all') params.set('tag', selectedTag)
     if (sortBy !== 'recent') params.set('sortBy', sortBy)
@@ -166,7 +176,7 @@ function PublicDirectoryContent() {
 
     const newUrl = `${pathname}${params.toString() ? `?${params.toString()}` : ''}`
     router.replace(newUrl, { scroll: false })
-  }, [search, selectedModel, selectedTag, sortBy, page, pathname, router])
+  }, [debouncedSearch, selectedModel, selectedTag, sortBy, page, pathname, router])
 
   const filteredPrompts = prompts
 

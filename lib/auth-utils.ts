@@ -35,7 +35,7 @@ export function validateUserId(userId: string | undefined | null): string | null
  * @returns The validated user ID or null if invalid/not authenticated
  */
 export function getValidatedUserId(user: { id?: string } | null | undefined): string | null {
-  if (!user || !user.id) {
+  if (!user?.id) {
     return null
   }
 

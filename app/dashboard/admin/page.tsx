@@ -7,7 +7,6 @@ import {
   CheckCircle,
   Database,
   Download,
-  Eye,
   FileText,
   Globe,
   RefreshCw,
@@ -20,21 +19,20 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell,
 } from 'recharts'
 
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -47,7 +45,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { isAdminEmail } from '@/lib/admin'
 import { createClient } from '@/utils/supabase/client'
 
@@ -156,7 +153,7 @@ export default function AdminDashboard() {
   // Initial health check
   useEffect(() => {
     if (isAdmin) {
-      performHealthCheck()
+      void performHealthCheck()
     }
   }, [isAdmin])
 
@@ -183,15 +180,15 @@ export default function AdminDashboard() {
       const weeklySignups = data.filter((u) => new Date(u.created_at) > lastWeek).length
       const monthlySignups = data.filter((u) => new Date(u.created_at) > lastMonth).length
 
-      return { 
-        total, 
-        free, 
-        team, 
-        enterprise, 
-        weeklySignups, 
+      return {
+        total,
+        free,
+        team,
+        enterprise,
+        weeklySignups,
         monthlySignups,
         weeklyGrowth: weeklySignups,
-        monthlyGrowth: monthlySignups
+        monthlyGrowth: monthlySignups,
       }
     },
     enabled: isAdmin,
@@ -214,7 +211,7 @@ export default function AdminDashboard() {
   })
 
   // Fetch platform activity data
-  const { data: platformActivity, isLoading: platformActivityLoading } = useQuery({
+  const { data: _platformActivity, isLoading: _platformActivityLoading } = useQuery({
     queryKey: ['admin-platform-activity'],
     queryFn: async () => {
       const { data: prompts, error: promptsError } = await supabase
@@ -267,12 +264,12 @@ export default function AdminDashboard() {
       const weeklyPrompts = data.filter((p) => new Date(p.created_at) > lastWeek).length
       const monthlyPrompts = data.filter((p) => new Date(p.created_at) > lastMonth).length
 
-      return { 
-        total, 
-        public: publicPrompts, 
+      return {
+        total,
+        public: publicPrompts,
         private: privatePrompts,
         weeklyPrompts,
-        monthlyPrompts
+        monthlyPrompts,
       }
     },
     enabled: isAdmin,
@@ -407,9 +404,7 @@ export default function AdminDashboard() {
                 <Skeleton className="h-8 w-20" />
               ) : (
                 <>
-                  <div className="text-2xl font-bold text-blue-600">
-                    {userStats?.team || 0}
-                  </div>
+                  <div className="text-2xl font-bold text-blue-600">{userStats?.team || 0}</div>
                   <p className="text-xs text-muted-foreground">
                     {userStats?.enterprise || 0} enterprise
                   </p>
@@ -425,11 +420,11 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-2">
-                <StatusIndicator 
-                  status={systemHealth.length > 0 ? systemHealth[0]?.status || 'ok' : 'ok'} 
+                <StatusIndicator
+                  status={systemHealth.length > 0 ? systemHealth[0]?.status || 'ok' : 'ok'}
                 />
                 <div className="text-sm">
-                  {systemHealth.filter(s => s.status === 'ok').length}/{systemHealth.length} OK
+                  {systemHealth.filter((s) => s.status === 'ok').length}/{systemHealth.length} OK
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">
@@ -442,7 +437,7 @@ export default function AdminDashboard() {
         {/* Main Dashboard Grid */}
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Left Column - User Overview & Activity */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="space-y-6 lg:col-span-2">
             {/* User Growth Chart */}
             <Card>
               <CardHeader>
@@ -457,17 +452,17 @@ export default function AdminDashboard() {
                       <XAxis dataKey="month" />
                       <YAxis />
                       <Tooltip />
-                      <Line 
-                        type="monotone" 
-                        dataKey="users" 
-                        stroke="#3b82f6" 
+                      <Line
+                        type="monotone"
+                        dataKey="users"
+                        stroke="#3b82f6"
                         strokeWidth={2}
                         name="Total Users"
                       />
-                      <Line 
-                        type="monotone" 
-                        dataKey="signups" 
-                        stroke="#10b981" 
+                      <Line
+                        type="monotone"
+                        dataKey="signups"
+                        stroke="#10b981"
                         strokeWidth={2}
                         name="New Signups"
                       />
@@ -548,9 +543,7 @@ export default function AdminDashboard() {
                               {user.subscription_tier || 'free'}
                             </Badge>
                           </TableCell>
-                          <TableCell>
-                            {new Date(user.created_at).toLocaleDateString()}
-                          </TableCell>
+                          <TableCell>{new Date(user.created_at).toLocaleDateString()}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -588,13 +581,18 @@ export default function AdminDashboard() {
                     </div>
                     <Badge
                       variant={
-                        check.status === 'ok' ? 'default' : 
-                        check.status === 'warning' ? 'secondary' : 'destructive'
+                        check.status === 'ok'
+                          ? 'default'
+                          : check.status === 'warning'
+                            ? 'secondary'
+                            : 'destructive'
                       }
                       className={
-                        check.status === 'ok' ? 'bg-green-100 text-green-800' :
-                        check.status === 'warning' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
+                        check.status === 'ok'
+                          ? 'bg-green-100 text-green-800'
+                          : check.status === 'warning'
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : 'bg-red-100 text-red-800'
                       }
                     >
                       {check.status}
@@ -635,8 +633,8 @@ export default function AdminDashboard() {
                   {planDistributionData.map((plan) => (
                     <div key={plan.name} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div 
-                          className="h-3 w-3 rounded-full" 
+                        <div
+                          className="h-3 w-3 rounded-full"
                           style={{ backgroundColor: plan.color }}
                         />
                         <span className="text-sm">{plan.name}</span>
@@ -667,8 +665,8 @@ export default function AdminDashboard() {
                     Public Prompts
                   </Button>
                 </Link>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full justify-start"
                   onClick={() => window.open('https://supabase.com/dashboard', '_blank')}
                 >

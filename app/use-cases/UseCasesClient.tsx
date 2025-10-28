@@ -255,8 +255,8 @@ export default function UseCasesClient() {
               Use Cases & Examples
             </h1>
             <p className="mb-8 text-xl leading-8 text-gray-600 dark:text-gray-400">
-              See how professionals across industries use Prompt Manage to organize their AI prompts and streamline
-              their workflow.
+              See how professionals across industries use Prompt Manage to organize their AI prompts
+              and streamline their workflow.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/dashboard">
@@ -309,8 +309,12 @@ export default function UseCasesClient() {
             <div className="mb-4 flex items-center gap-4">
               <div className="text-4xl">{selectedRole.icon}</div>
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{selectedRole.role}</h2>
-                <p className="mt-2 text-base text-gray-600 dark:text-gray-400">{selectedRole.description}</p>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {selectedRole.role}
+                </h2>
+                <p className="mt-2 text-base text-gray-600 dark:text-gray-400">
+                  {selectedRole.description}
+                </p>
               </div>
             </div>
           </div>
@@ -328,12 +332,16 @@ export default function UseCasesClient() {
                   }
                 >
                   <div className="mb-3 flex items-start justify-between">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{useCase.title}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {useCase.title}
+                    </h3>
                     <span className="ml-4 text-lg font-normal text-gray-400 group-hover:text-gray-600">
                       {selectedUseCase?.title === useCase.title ? '−' : '+'}
                     </span>
                   </div>
-                  <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">{useCase.description}</p>
+                  <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                    {useCase.description}
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {useCase.tags.map((tag) => (
                       <Badge key={tag} variant="outline" className="text-xs">
@@ -348,7 +356,9 @@ export default function UseCasesClient() {
                         <h4 className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
                           Example:
                         </h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{useCase.example}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {useCase.example}
+                        </p>
                       </div>
                       <div>
                         <h4 className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
@@ -415,7 +425,8 @@ export default function UseCasesClient() {
                 Ready to organize your AI prompts?
               </h2>
               <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-300">
-                Create a free account to start organizing, tagging, and securely storing all your AI prompts in one place.
+                Create a free account to start organizing, tagging, and securely storing all your AI
+                prompts in one place.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link href="/dashboard">
@@ -424,7 +435,11 @@ export default function UseCasesClient() {
                   </Button>
                 </Link>
                 <Link href="/pricing">
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-white text-white hover:bg-white hover:text-gray-900"
+                  >
                     View Pricing
                   </Button>
                 </Link>

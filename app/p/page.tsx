@@ -206,25 +206,26 @@ function PublicDirectoryContent() {
                   <SelectLabel>All Models</SelectLabel>
                   <SelectItem value="all">All Models</SelectItem>
                 </SelectGroup>
-                {Object.entries(modelsByCategory).map(([category, models]) => (
-                  models.length > 0 && (
-                    <SelectGroup key={category}>
-                      <SelectLabel>
-                        {category === 'LLM' && 'Language Models'}
-                        {category === 'Music' && 'Music Generation'}
-                        {category === 'Video' && 'Video Generation'}
-                        {category === 'Image' && 'Image Generation'}
-                        {category === 'Voice' && 'Voice Synthesis'}
-                        {category === 'Code' && 'Code Assistants'}
-                      </SelectLabel>
-                      {models.map((model) => (
-                        <SelectItem key={model.id} value={model.id}>
-                          {model.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  )
-                ))}
+                {Object.entries(modelsByCategory).map(
+                  ([category, models]) =>
+                    models.length > 0 && (
+                      <SelectGroup key={category}>
+                        <SelectLabel>
+                          {category === 'LLM' && 'Language Models'}
+                          {category === 'Music' && 'Music Generation'}
+                          {category === 'Video' && 'Video Generation'}
+                          {category === 'Image' && 'Image Generation'}
+                          {category === 'Voice' && 'Voice Synthesis'}
+                          {category === 'Code' && 'Code Assistants'}
+                        </SelectLabel>
+                        {models.map((model) => (
+                          <SelectItem key={model.id} value={model.id}>
+                            {model.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    ),
+                )}
               </SelectContent>
             </Select>
 
@@ -406,36 +407,35 @@ function PublicDirectoryContent() {
         )}
 
         {/* Share Your Prompts CTA */}
-        <div className="mt-12 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8 text-center">
-          <div className="mb-4">
-            <span className="text-4xl">🚀</span>
-          </div>
-          <h2 className="mb-4 text-2xl font-bold text-foreground">
+        <div className="mt-16 rounded-xl border border-gray-200 bg-white p-12 text-center dark:border-gray-800 dark:bg-gray-900">
+          <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             Share Your Best Prompts with the Community
           </h2>
-          <p className="mb-6 text-muted-foreground">
-            Share your AI prompts with thousands of creators and get discovered. Build your reputation
-            as a prompt engineer while helping others achieve better results. Join our community of
-            professionals sharing cutting-edge prompts for ChatGPT, Claude, Gemini, Midjourney, Suno,
-            Runway, and more.
+          <p className="mx-auto mb-8 max-w-2xl text-lg leading-7 text-gray-600 dark:text-gray-400">
+            Share your AI prompts with thousands of creators and get discovered. Build your
+            reputation as a prompt engineer while helping others achieve better results. Join our
+            community of professionals sharing cutting-edge prompts for ChatGPT, Claude, Gemini,
+            Midjourney, Suno, Runway, and more.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             {session ? (
-              <Link href="/dashboard">
-                <button className="rounded-lg bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90">
-                  Share Your Prompts
-                </button>
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600"
+              >
+                Share Your Prompts
               </Link>
             ) : (
               <GoogleSignInButton />
             )}
-            <Link href="/tools">
-              <button className="rounded-lg border border-gray-300 px-6 py-3 text-foreground hover:bg-accent dark:border-gray-600">
-                Explore AI Tools
-              </button>
+            <Link
+              href="/tools"
+              className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-900 transition-all hover:border-gray-400 hover:bg-gray-50 dark:border-gray-700 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-800"
+            >
+              Explore AI Tools
             </Link>
           </div>
-          <div className="mt-4 flex items-center justify-center gap-6 text-sm text-muted-foreground">
+          <div className="mt-8 flex items-center justify-center gap-8 text-sm text-gray-500 dark:text-gray-400">
             <div className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
               <span>Join 60+ creators</span>
@@ -449,11 +449,11 @@ function PublicDirectoryContent() {
 
         {/* Sign up CTA */}
         {!session && (
-          <div className="mt-8 rounded-lg bg-primary/10 p-8 text-center">
-            <h2 className="mb-4 text-2xl font-bold text-foreground">
+          <div className="mt-8 rounded-xl border border-gray-200 bg-white p-12 text-center dark:border-gray-800 dark:bg-gray-900">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
               Ready to create your own prompts?
             </h2>
-            <p className="mb-6 text-muted-foreground">
+            <p className="mx-auto mb-8 max-w-xl text-lg leading-7 text-gray-600 dark:text-gray-400">
               Join thousands of users who are organizing their AI prompts and boosting their
               productivity.
             </p>

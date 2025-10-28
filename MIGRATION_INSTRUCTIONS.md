@@ -7,28 +7,33 @@ I've added support for image generation tools (Midjourney, DALL-E 3, Stable Diff
 ## What's Been Done
 
 ### 1. Updated `/app/tools/page.tsx`
+
 - Added Midjourney, DALL-E 3, and Stable Diffusion to the tools list
 - Updated to support querying prompts by `model_id` and fallback to tags
 - Organized tools by category (Music, Video, Image, Audio)
 
 ### 2. Created New Tool Pages
+
 - `/app/tools/midjourney/page.tsx` - Complete Midjourney prompt library page
 - `/app/tools/dall-e/page.tsx` - Placeholder (needs content customization)
 - `/app/tools/stable-diffusion/page.tsx` - Placeholder (needs content customization)
 
 ### 3. Created Migration File
+
 - Location: `supabase/migrations/20250124000000_finalize_model_categorization.sql`
 - This migration will normalize all model names and categorize them properly
 
 ## How to Run the Migration
 
 ### Option 1: Using Supabase CLI (Recommended)
+
 ```bash
 # If you have Supabase CLI installed
 supabase db push
 ```
 
 ### Option 2: Using Supabase SQL Editor
+
 1. Go to your Supabase Dashboard
 2. Navigate to SQL Editor
 3. Create a new query
@@ -69,7 +74,7 @@ supabase db push
 After running the migration, you can verify it worked by running this query in the SQL Editor:
 
 ```sql
-SELECT 
+SELECT
   model_category,
   COUNT(*) as count
 FROM prompts
@@ -78,6 +83,7 @@ ORDER BY count DESC;
 ```
 
 You should see results like:
+
 ```
 model_category | count
 ---------------|------
@@ -114,9 +120,9 @@ Video          | 25
 ## Troubleshooting
 
 If you encounter any issues:
+
 1. Check the Supabase logs in the dashboard
 2. Verify the migration ran successfully: `SELECT * FROM prompts WHERE model_category IS NULL LIMIT 10;`
 3. If you see NULL values, run the migration again
 
 The migration is designed to be safe and non-destructive. It won't break anything.
-

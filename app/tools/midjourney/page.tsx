@@ -227,7 +227,9 @@ export default async function MidjourneyPromptsPage() {
           </div>
         ) : (
           <div className="mb-12 text-center">
-            <p className="text-muted-foreground">No prompts available yet. Be the first to share!</p>
+            <p className="text-muted-foreground">
+              No prompts available yet. Be the first to share!
+            </p>
           </div>
         )}
 
@@ -256,8 +258,8 @@ export default async function MidjourneyPromptsPage() {
             Share Your Best Midjourney Prompts
           </h2>
           <p className="mb-6 text-muted-foreground">
-            Help fellow creators achieve amazing results with Midjourney. Share your prompt expertise
-            and build your reputation in the AI art community.
+            Help fellow creators achieve amazing results with Midjourney. Share your prompt
+            expertise and build your reputation in the AI art community.
           </p>
           <Link href="/dashboard">
             <Button size="lg">Share Your Prompts</Button>
@@ -267,4 +269,3 @@ export default async function MidjourneyPromptsPage() {
     </div>
   )
 }
-

@@ -88,14 +88,14 @@ export default function AboutPage() {
 
           <div className="space-y-4 text-base leading-7 text-gray-600 dark:text-gray-400">
             <p>
-              In early 2024, we saw a pattern emerging across organizations adopting AI: teams
-              were struggling to manage their prompts.
+              In early 2024, we saw a pattern emerging across organizations adopting AI: teams were
+              struggling to manage their prompts.
             </p>
 
             <p>
-              Engineers stored prompts in scattered Slack threads. Marketing teams copy-pasted
-              from Google Docs. Product managers lost track of which prompt version worked best.
-              There was no version control, no collaboration, no security — just chaos.
+              Engineers stored prompts in scattered Slack threads. Marketing teams copy-pasted from
+              Google Docs. Product managers lost track of which prompt version worked best. There
+              was no version control, no collaboration, no security — just chaos.
             </p>
 
             <p className="font-semibold text-gray-900 dark:text-gray-100">
@@ -111,8 +111,8 @@ export default function AboutPage() {
 
             <p>
               Today, Prompt Manage helps teams across marketing, engineering, product, and
-              operations organize their AI workflows, protect their intellectual property, and
-              scale their use of AI with confidence.
+              operations organize their AI workflows, protect their intellectual property, and scale
+              their use of AI with confidence.
             </p>
           </div>
         </div>
@@ -128,7 +128,9 @@ export default function AboutPage() {
               building.&quot;
             </blockquote>
             <p className="mt-6 text-base text-gray-600 dark:text-gray-400">
-              — <strong className="font-semibold text-gray-900 dark:text-white">Mike Moloney</strong>, Founder & CEO, Prompt Manage
+              —{' '}
+              <strong className="font-semibold text-gray-900 dark:text-white">Mike Moloney</strong>,
+              Founder & CEO, Prompt Manage
             </p>
           </div>
         </div>

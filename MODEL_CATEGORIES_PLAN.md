@@ -1,6 +1,7 @@
 # Model Categories Implementation Plan
 
 ## Problem Statement
+
 Currently when users create Suno prompts, they're forced to select "GPT-5" or similar LLM models, which is inaccurate. We need to support different model types (Music, Video, Image, Voice, etc.) as first-class citizens.
 
 ## Solution Architecture
@@ -8,6 +9,7 @@ Currently when users create Suno prompts, they're forced to select "GPT-5" or si
 ### 1. Database Schema Changes
 
 **Add new fields to prompts table:**
+
 ```sql
 ALTER TABLE public.prompts
 ADD COLUMN IF NOT EXISTS model_category TEXT, -- 'LLM', 'Music', 'Video', 'Image', 'Voice', etc.
@@ -21,6 +23,7 @@ CREATE INDEX IF NOT EXISTS prompts_model_id_idx ON public.prompts(model_id);
 ### 2. Model Categories
 
 We'll organize models by category:
+
 - **LLM** (Language Models) - GPT, Claude, Gemini, Llama, etc.
 - **Music** - Suno, Udio, Mubert, AIVA
 - **Video** - Runway, Pika, Sora
@@ -31,6 +34,7 @@ We'll organize models by category:
 ### 3. Update lib/models.ts
 
 Add category field and group by category:
+
 - Add `category: 'LLM' | 'Music' | 'Video' | 'Image' | 'Voice' | 'Code'` to Model interface
 - Group Suno, Udio under Music category
 - Group Runway, Pika under Video category
@@ -39,11 +43,13 @@ Add category field and group by category:
 ### 4. Update UI Components
 
 **PromptForm.tsx:**
+
 - Change from flat model list to categorized/grouped dropdown
 - Show categories: LLMs, Music Models, Video Models, etc.
 - Each category has its own section in the dropdown
 
 **Public Directory:**
+
 - Add category filtering
 - Show model category badges
 - Filter by model type
@@ -65,4 +71,3 @@ Add category field and group by category:
 5. ✅ Update public directory filtering
 6. ✅ Test with Suno/Udio prompts
 7. ✅ Data migration for existing prompts
-

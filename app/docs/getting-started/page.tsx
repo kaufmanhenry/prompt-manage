@@ -34,7 +34,8 @@ const gettingStartedSteps = [
   },
   {
     title: 'Explore the Library',
-    description: 'Browse 300+ community-shared prompts in our public directory. Free to copy and customize.',
+    description:
+      'Browse 300+ community-shared prompts in our public directory. Free to copy and customize.',
     icon: BookOpen,
     links: [
       { href: '/p', text: 'Browse Public Directory' },
@@ -43,7 +44,8 @@ const gettingStartedSteps = [
   },
   {
     title: 'Save Your First Prompt',
-    description: 'Create a prompt from scratch or copy one from the public directory to your library.',
+    description:
+      'Create a prompt from scratch or copy one from the public directory to your library.',
     icon: CheckCircle2,
     links: [
       { href: '/docs', text: 'Learn How to Save' },
@@ -52,7 +54,8 @@ const gettingStartedSteps = [
   },
   {
     title: 'Organize with Tags',
-    description: 'Add tags to categorize your prompts for easy discovery. Tag by use case, model, or project.',
+    description:
+      'Add tags to categorize your prompts for easy discovery. Tag by use case, model, or project.',
     icon: Globe,
     links: [
       { href: '/docs/best-practices', text: 'Best Practices' },
@@ -71,8 +74,8 @@ export default function GettingStarted() {
             Getting Started
           </h1>
           <p className="mb-4 text-xl leading-8 text-gray-600 dark:text-gray-400">
-            Start managing your AI prompts effectively in minutes. Everything you need to know to get the most out of
-            Prompt Manage.
+            Start managing your AI prompts effectively in minutes. Everything you need to know to
+            get the most out of Prompt Manage.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link href="/">
@@ -90,7 +93,9 @@ export default function GettingStarted() {
       {/* Quick Start Steps */}
       <div className="mx-auto max-w-6xl px-6 py-20">
         <div className="mb-16 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Quick Start in 4 Steps</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Quick Start in 4 Steps
+          </h2>
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
             Get up and running with Prompt Manage in under 5 minutes
           </p>
@@ -107,7 +112,9 @@ export default function GettingStarted() {
                   <step.icon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                 </div>
                 <div className="flex-1">
-                  <div className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">Step {index + 1}</div>
+                  <div className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+                    Step {index + 1}
+                  </div>
                   <h3 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     {step.title}
                   </h3>
@@ -140,21 +147,27 @@ export default function GettingStarted() {
           <div className="grid gap-8 md:grid-cols-3">
             <div className="text-center">
               <div className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">300+</div>
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Ready-to-Use Prompts</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Ready-to-Use Prompts
+              </div>
               <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 Community-shared prompts for every use case
               </div>
             </div>
             <div className="text-center">
               <div className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">20+</div>
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">AI Models Supported</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                AI Models Supported
+              </div>
               <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 ChatGPT, Claude, Gemini, and all major models
               </div>
             </div>
             <div className="text-center">
               <div className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">100%</div>
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">Secure Storage</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Secure Storage
+              </div>
               <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 Your prompts are encrypted and protected
               </div>
@@ -172,22 +185,26 @@ export default function GettingStarted() {
           {[
             {
               title: 'Content Marketing',
-              description: 'Create email sequences, social posts, ad copy, and blog content at scale with consistent voice.',
+              description:
+                'Create email sequences, social posts, ad copy, and blog content at scale with consistent voice.',
               examples: ['Email marketing', 'Social media posts', 'Ad copy', 'Blog articles'],
             },
             {
               title: 'Software Development',
-              description: 'Generate code snippets, write documentation, create tests, and debug with AI assistance.',
+              description:
+                'Generate code snippets, write documentation, create tests, and debug with AI assistance.',
               examples: ['Code generation', 'Documentation', 'Testing', 'Code review'],
             },
             {
               title: 'Product Development',
-              description: 'Write product descriptions, user stories, requirement docs, and technical specifications.',
+              description:
+                'Write product descriptions, user stories, requirement docs, and technical specifications.',
               examples: ['Product descriptions', 'User stories', 'Requirements', 'Technical specs'],
             },
             {
               title: 'Customer Support',
-              description: 'Create help articles, FAQ responses, email templates, and escalation workflows.',
+              description:
+                'Create help articles, FAQ responses, email templates, and escalation workflows.',
               examples: ['Help articles', 'FAQ responses', 'Email templates', 'Support workflows'],
             },
           ].map((useCase) => (
@@ -195,7 +212,9 @@ export default function GettingStarted() {
               key={useCase.title}
               className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900"
             >
-              <h3 className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">{useCase.title}</h3>
+              <h3 className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
+                {useCase.title}
+              </h3>
               <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">{useCase.description}</p>
               <div className="flex flex-wrap gap-2">
                 {useCase.examples.map((example) => (
@@ -238,4 +257,3 @@ export default function GettingStarted() {
     </div>
   )
 }
-

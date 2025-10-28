@@ -390,7 +390,8 @@ export default function ModelsPage() {
               Ready to elevate your prompt engineering?
             </h2>
             <p className="mb-6 text-gray-600 dark:text-gray-400">
-              Create your account and start creating, managing, and securely storing your AI prompts for all supported models
+              Create your account and start creating, managing, and securely storing your AI prompts
+              for all supported models
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link href="/dashboard">

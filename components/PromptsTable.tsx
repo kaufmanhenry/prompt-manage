@@ -181,7 +181,8 @@ export function PromptsTable({
       filters.selectedTags.some((tag) => prompt.tags?.includes(tag))
 
     const matchesModels =
-      filters.selectedModels.length === 0 || (prompt.model && filters.selectedModels.includes(prompt.model))
+      filters.selectedModels.length === 0 ||
+      (prompt.model && filters.selectedModels.includes(prompt.model))
 
     return matchesSearch && matchesTags && matchesModels
   })

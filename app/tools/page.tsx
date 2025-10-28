@@ -241,10 +241,7 @@ export default async function ToolsPage() {
   const toolStats = await Promise.all(
     aiTools.map(async (tool) => {
       // Build query - check both tags (backward compatibility) and model_id (new system)
-      let query = supabase
-        .from('prompts')
-        .select('id')
-        .eq('is_public', true)
+      let query = supabase.from('prompts').select('id').eq('is_public', true)
 
       // If tool has a modelId, query by that OR by tags
       if (tool.modelId) {
@@ -332,7 +329,9 @@ export default async function ToolsPage() {
               <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                 <span className="inline-flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                  <span className="font-medium text-gray-900 dark:text-gray-100">{toolStats.length} tools</span>
+                  <span className="font-medium text-gray-900 dark:text-gray-100">
+                    {toolStats.length} tools
+                  </span>
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
@@ -348,56 +347,62 @@ export default async function ToolsPage() {
 
           {/* Tools by Category */}
           {['Music', 'Video', 'Image', 'Audio']
-            .filter(cat => toolStats.some(tool => tool.category === cat))
+            .filter((cat) => toolStats.some((tool) => tool.category === cat))
             .map((category) => {
               const categoryTools = toolStats.filter((tool) => tool.category === category)
               if (!categoryTools || categoryTools.length === 0) return null
 
               return (
                 <section key={category} className="mb-20">
-                <div className="mb-12 text-center">
-                  <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-                    {category} Generation
-                  </h2>
-                </div>
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                  {categoryTools.map((tool) => (
-                    <Link key={tool.name} href={tool.url}>
-                      <div className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 transition-all hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
-                        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
-                        <div className="relative">
-                          <div className="mb-6 inline-flex items-center justify-center">
-                            <div className={`${tool.color} rounded-lg p-3`}>
-                              <span className="text-2xl">{tool.icon}</span>
+                  <div className="mb-12 text-center">
+                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                      {category} Generation
+                    </h2>
+                  </div>
+                  <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    {categoryTools.map((tool) => (
+                      <Link key={tool.name} href={tool.url}>
+                        <div className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 transition-all hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
+                          <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
+                          <div className="relative">
+                            <div className="mb-6 inline-flex items-center justify-center">
+                              <div className={`${tool.color} rounded-lg p-3`}>
+                                <span className="text-2xl">{tool.icon}</span>
+                              </div>
+                            </div>
+                            <div className="mb-3 flex items-center gap-2">
+                              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                {tool.name}
+                              </h3>
+                              <Badge variant="secondary" className="text-xs font-medium">
+                                {tool.promptCount}
+                              </Badge>
+                            </div>
+                            <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                              {tool.company}
+                            </p>
+                            <p className="mb-4 line-clamp-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                              {tool.description}
+                            </p>
+                            <div className="flex flex-wrap gap-1.5">
+                              {tool.capabilities.slice(0, 3).map((capability) => (
+                                <Badge
+                                  key={capability}
+                                  variant="outline"
+                                  className="text-xs font-normal"
+                                >
+                                  {capability}
+                                </Badge>
+                              ))}
                             </div>
                           </div>
-                          <div className="mb-3 flex items-center gap-2">
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                              {tool.name}
-                            </h3>
-                            <Badge variant="secondary" className="text-xs font-medium">
-                              {tool.promptCount}
-                            </Badge>
-                          </div>
-                          <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">{tool.company}</p>
-                          <p className="mb-4 line-clamp-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
-                            {tool.description}
-                          </p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {tool.capabilities.slice(0, 3).map((capability) => (
-                              <Badge key={capability} variant="outline" className="text-xs font-normal">
-                                {capability}
-                              </Badge>
-                            ))}
-                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            )
-          })}
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              )
+            })}
 
           {/* Understanding AI Model Types - Educational Section */}
           <section className="mx-auto mb-20 max-w-6xl border-t border-gray-200 pt-16 dark:border-gray-800">
@@ -406,7 +411,8 @@ export default async function ToolsPage() {
                 Understanding Different AI Models & Tools
               </h2>
               <p className="text-lg text-muted-foreground">
-                Learn the difference between LLMs, image generators, video creators, and other AI tools
+                Learn the difference between LLMs, image generators, video creators, and other AI
+                tools
               </p>
             </div>
 
@@ -423,15 +429,23 @@ export default async function ToolsPage() {
                   <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                     Large Language Models (LLMs)
                   </h3>
-                  <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">GPT, Claude, Gemini</p>
+                  <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                    GPT, Claude, Gemini
+                  </p>
                   <p className="mb-4 text-sm leading-6 text-gray-600 dark:text-gray-400">
                     Text-based AI models that understand and generate human language. Designed for
                     conversation, writing, analysis, and text-based tasks.
                   </p>
                   <div className="space-y-2">
-                    <Badge variant="secondary" className="mr-2 text-xs font-normal">Text generation</Badge>
-                    <Badge variant="secondary" className="mr-2 text-xs font-normal">Conversation</Badge>
-                    <Badge variant="secondary" className="mr-2 text-xs font-normal">Code assistance</Badge>
+                    <Badge variant="secondary" className="mr-2 text-xs font-normal">
+                      Text generation
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2 text-xs font-normal">
+                      Conversation
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2 text-xs font-normal">
+                      Code assistance
+                    </Badge>
                   </div>
                 </div>
               </div>
@@ -440,28 +454,41 @@ export default async function ToolsPage() {
               <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent dark:from-purple-950/50" />
                 <div className="relative">
-                <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900">
-                    <span className="text-2xl">🎨</span>
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900">
+                      <span className="text-2xl">🎨</span>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-foreground">
+                        Image Generation Models
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Midjourney, DALL-E, Stable Diffusion
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground">Image Generation Models</h3>
-                    <p className="text-sm text-muted-foreground">Midjourney, DALL-E, Stable Diffusion</p>
+                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                    Image generators create visual art from text descriptions. These models
+                    specialize in transforming your ideas into stunning artwork, photos,
+                    illustrations, and designs.
+                  </p>
+                  <div className="space-y-2">
+                    <Badge variant="secondary" className="mr-2">
+                      Digital art
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2">
+                      Illustrations
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2">
+                      Photorealistic
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2">
+                      Design assets
+                    </Badge>
                   </div>
-                </div>
-                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                  Image generators create visual art from text descriptions. These models specialize in
-                  transforming your ideas into stunning artwork, photos, illustrations, and designs.
-                </p>
-                <div className="space-y-2">
-                  <Badge variant="secondary" className="mr-2">Digital art</Badge>
-                  <Badge variant="secondary" className="mr-2">Illustrations</Badge>
-                  <Badge variant="secondary" className="mr-2">Photorealistic</Badge>
-                  <Badge variant="secondary" className="mr-2">Design assets</Badge>
-                </div>
-                <p className="mt-4 text-xs font-medium text-muted-foreground">
-                  Best for: Art creation, marketing visuals, concept art, social media graphics
-                </p>
+                  <p className="mt-4 text-xs font-medium text-muted-foreground">
+                    Best for: Art creation, marketing visuals, concept art, social media graphics
+                  </p>
                 </div>
               </div>
 
@@ -469,29 +496,40 @@ export default async function ToolsPage() {
               <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
                 <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent dark:from-rose-950/50" />
                 <div className="relative">
-                <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-100 dark:bg-rose-900">
-                    <span className="text-2xl">🎬</span>
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-100 dark:bg-rose-900">
+                      <span className="text-2xl">🎬</span>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-foreground">
+                        Video Generation Tools
+                      </h3>
+                      <p className="text-sm text-muted-foreground">Runway, Pika, Google Veo</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground">Video Generation Tools</h3>
-                    <p className="text-sm text-muted-foreground">Runway, Pika, Google Veo</p>
+                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                    Video generators create dynamic video content from text prompts. They can
+                    produce short video clips, animations, and even realistic scenes for marketing,
+                    entertainment, and creative projects.
+                  </p>
+                  <div className="space-y-2">
+                    <Badge variant="secondary" className="mr-2">
+                      Animated clips
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2">
+                      Marketing videos
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2">
+                      Visual effects
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2">
+                      Storytelling
+                    </Badge>
                   </div>
-                </div>
-                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                  Video generators create dynamic video content from text prompts. They can produce
-                  short video clips, animations, and even realistic scenes for marketing, entertainment,
-                  and creative projects.
-                </p>
-                <div className="space-y-2">
-                  <Badge variant="secondary" className="mr-2">Animated clips</Badge>
-                  <Badge variant="secondary" className="mr-2">Marketing videos</Badge>
-                  <Badge variant="secondary" className="mr-2">Visual effects</Badge>
-                  <Badge variant="secondary" className="mr-2">Storytelling</Badge>
-                </div>
-                <p className="mt-4 text-xs font-medium text-muted-foreground">
-                  Best for: Marketing content, social media, creative projects, visual storytelling
-                </p>
+                  <p className="mt-4 text-xs font-medium text-muted-foreground">
+                    Best for: Marketing content, social media, creative projects, visual
+                    storytelling
+                  </p>
                 </div>
               </div>
 
@@ -499,29 +537,39 @@ export default async function ToolsPage() {
               <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-transparent dark:from-indigo-950/50" />
                 <div className="relative">
-                <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900">
-                    <span className="text-2xl">🎵</span>
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900">
+                      <span className="text-2xl">🎵</span>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-foreground">
+                        Music Generation Models
+                      </h3>
+                      <p className="text-sm text-muted-foreground">Suno, Udio</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground">Music Generation Models</h3>
-                    <p className="text-sm text-muted-foreground">Suno, Udio</p>
+                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                    Music generators create original compositions, melodies, and songs from text
+                    descriptions. They can produce complete tracks with vocals, instrumentals, and
+                    various music styles.
+                  </p>
+                  <div className="space-y-2">
+                    <Badge variant="secondary" className="mr-2">
+                      Song creation
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2">
+                      Background music
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2">
+                      Podcast audio
+                    </Badge>
+                    <Badge variant="secondary" className="mr-2">
+                      All genres
+                    </Badge>
                   </div>
-                </div>
-                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                  Music generators create original compositions, melodies, and songs from text
-                  descriptions. They can produce complete tracks with vocals, instrumentals, and
-                  various music styles.
-                </p>
-                <div className="space-y-2">
-                  <Badge variant="secondary" className="mr-2">Song creation</Badge>
-                  <Badge variant="secondary" className="mr-2">Background music</Badge>
-                  <Badge variant="secondary" className="mr-2">Podcast audio</Badge>
-                  <Badge variant="secondary" className="mr-2">All genres</Badge>
-                </div>
-                <p className="mt-4 text-xs font-medium text-muted-foreground">
-                  Best for: Background music, podcast content, jingles, creative compositions
-                </p>
+                  <p className="mt-4 text-xs font-medium text-muted-foreground">
+                    Best for: Background music, podcast content, jingles, creative compositions
+                  </p>
                 </div>
               </div>
             </div>
@@ -571,17 +619,21 @@ export default async function ToolsPage() {
 
             {/* Why Use Tool-Specific Prompts */}
             <div className="mt-12 rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
-              <h3 className="mb-4 text-xl font-semibold text-foreground">Why Each Tool Needs Different Prompts</h3>
+              <h3 className="mb-4 text-xl font-semibold text-foreground">
+                Why Each Tool Needs Different Prompts
+              </h3>
               <div className="space-y-4 text-sm leading-relaxed text-muted-foreground">
                 <p>
-                  <strong className="font-semibold text-foreground">Different architectures:</strong> Each
-                  model type uses a different underlying technology. LLMs process language patterns,
-                  while image models understand visual concepts and artistic styles.
+                  <strong className="font-semibold text-foreground">
+                    Different architectures:
+                  </strong>{' '}
+                  Each model type uses a different underlying technology. LLMs process language
+                  patterns, while image models understand visual concepts and artistic styles.
                 </p>
                 <p>
-                  <strong className="font-semibold text-foreground">Optimized parameters:</strong> What
-                  works for generating text won't work for creating music. Each tool has specific
-                  parameters, keywords, and formatting requirements for best results.
+                  <strong className="font-semibold text-foreground">Optimized parameters:</strong>{' '}
+                  What works for generating text won't work for creating music. Each tool has
+                  specific parameters, keywords, and formatting requirements for best results.
                 </p>
                 <p>
                   <strong className="font-semibold text-foreground">Result quality:</strong> Using

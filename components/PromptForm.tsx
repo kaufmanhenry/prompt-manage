@@ -286,25 +286,26 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="max-h-[400px]">
-                      {Object.entries(modelsByCategory).map(([category, models]) => (
-                        models.length > 0 && (
-                          <SelectGroup key={category}>
-                            <SelectLabel>
-                              {category === 'LLM' && 'Language Models'}
-                              {category === 'Music' && 'Music Generation'}
-                              {category === 'Video' && 'Video Generation'}
-                              {category === 'Image' && 'Image Generation'}
-                              {category === 'Voice' && 'Voice Synthesis'}
-                              {category === 'Code' && 'Code Assistants'}
-                            </SelectLabel>
-                            {models.map((model) => (
-                              <SelectItem key={model.id} value={model.id}>
-                                {model.name}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        )
-                      ))}
+                      {Object.entries(modelsByCategory).map(
+                        ([category, models]) =>
+                          models.length > 0 && (
+                            <SelectGroup key={category}>
+                              <SelectLabel>
+                                {category === 'LLM' && 'Language Models'}
+                                {category === 'Music' && 'Music Generation'}
+                                {category === 'Video' && 'Video Generation'}
+                                {category === 'Image' && 'Image Generation'}
+                                {category === 'Voice' && 'Voice Synthesis'}
+                                {category === 'Code' && 'Code Assistants'}
+                              </SelectLabel>
+                              {models.map((model) => (
+                                <SelectItem key={model.id} value={model.id}>
+                                  {model.name}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          ),
+                      )}
                     </SelectContent>
                   </Select>
                   <FormDescription>Choose the AI model that will use this prompt.</FormDescription>

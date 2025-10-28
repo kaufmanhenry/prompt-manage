@@ -223,8 +223,8 @@ export default async function Home() {
                 </span>
               </h1>
               <p className="mb-3 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
-                Create, manage, and run AI prompts. All in one place. Build your secure prompt library 
-                with our{' '}
+                Create, manage, and run AI prompts. All in one place. Build your secure prompt
+                library with our{' '}
                 <Link
                   href="/p"
                   className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
@@ -234,8 +234,8 @@ export default async function Home() {
                 with 300+ ready-to-use templates.
               </p>
               <p className="mb-6 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
-                Tag, sort, and filter prompts to organize your workspace. Private collections coming soon. 
-                Works with{' '}
+                Tag, sort, and filter prompts to organize your workspace. Private collections coming
+                soon. Works with{' '}
                 <Link
                   href="/models"
                   className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
@@ -250,7 +250,8 @@ export default async function Home() {
                   libraries
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
-                  <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Secure & private
+                  <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Secure
+                  & private
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
                   <Search className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Tag & filter
@@ -323,7 +324,8 @@ export default async function Home() {
                   Organize and manage your prompt library
                 </h2>
                 <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-400">
-                  A secure, high-quality prompt management tool with tagging, sorting, and filtering capabilities.
+                  A secure, high-quality prompt management tool with tagging, sorting, and filtering
+                  capabilities.
                 </p>
               </div>
 
@@ -341,7 +343,8 @@ export default async function Home() {
                       Organize & Tag
                     </h3>
                     <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
-                      Create libraries, add tags, and categorize prompts for easy discovery and quick access.
+                      Create libraries, add tags, and categorize prompts for easy discovery and
+                      quick access.
                     </p>
                   </div>
                 </div>
@@ -358,7 +361,8 @@ export default async function Home() {
                       Search & Filter
                     </h3>
                     <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
-                      Quickly find prompts by tag, keyword, category, or model. Instant access to exactly what you need.
+                      Quickly find prompts by tag, keyword, category, or model. Instant access to
+                      exactly what you need.
                     </p>
                   </div>
                 </div>
@@ -375,7 +379,8 @@ export default async function Home() {
                       Secure & Private
                     </h3>
                     <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
-                      Keep your prompts secure. Private collections with enhanced permissions coming soon.
+                      Keep your prompts secure. Private collections with enhanced permissions coming
+                      soon.
                     </p>
                   </div>
                 </div>
@@ -384,20 +389,36 @@ export default async function Home() {
               {/* Metrics */}
               <div className="mt-20 grid grid-cols-2 gap-6 border-t border-gray-200 pt-16 dark:border-gray-800 sm:grid-cols-4">
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">100%</div>
-                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Secure Storage</div>
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    100%
+                  </div>
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Secure Storage
+                  </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">Tag & Filter</div>
-                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Easy Discovery</div>
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    Tag & Filter
+                  </div>
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Easy Discovery
+                  </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">Private</div>
-                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Collections Soon</div>
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    Private
+                  </div>
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Collections Soon
+                  </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">1000s</div>
-                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Prompts Organized</div>
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    1000s
+                  </div>
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Prompts Organized
+                  </div>
                 </div>
               </div>
             </div>
@@ -411,10 +432,11 @@ export default async function Home() {
                   How it works
                 </h2>
                 <p className="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-300">
-                  Get started in minutes. Organize your prompts with tags, search with filters, and maintain version control.
+                  Get started in minutes. Organize your prompts with tags, search with filters, and
+                  maintain version control.
                 </p>
               </div>
-              
+
               <div className="mx-auto mt-12 max-w-4xl">
                 <div className="grid gap-8 md:grid-cols-3">
                   {[
@@ -468,9 +490,9 @@ export default async function Home() {
             <div className="absolute inset-0 -z-10 bg-gradient-to-b from-gray-50 via-transparent to-gray-50 dark:from-gray-950 dark:via-transparent dark:to-gray-950" />
             <div className="mx-auto max-w-3xl px-4 text-center">
               <blockquote className="text-2xl font-medium leading-relaxed text-gray-900 dark:text-white">
-                "Prompt Manage turned our scattered prompt docs into a well-organized library. Tagging 
-                and filtering make it easy to find exactly what we need, and version control keeps 
-                everything in sync."
+                "Prompt Manage turned our scattered prompt docs into a well-organized library.
+                Tagging and filtering make it easy to find exactly what we need, and version control
+                keeps everything in sync."
               </blockquote>
               <div className="mt-8">
                 <div className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
@@ -488,115 +510,115 @@ export default async function Home() {
             </div>
           </section>
 
-        {/* Learn More / Internal Links Section */}
-        <section className="mx-auto mt-32 max-w-5xl border-t pb-16 pt-12">
-          <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
-            Explore Prompt Manage
-          </h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            <Link
-              href="/p"
-              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
-            >
-              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                Public Prompt Directory →
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Browse 300+ community-shared AI prompts for ChatGPT, Claude, Gemini, and more. Free
-                to use and copy.
-              </p>
-            </Link>
-            <Link
-              href="/trending"
-              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
-            >
-              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                Trending Prompts →
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Discover the most popular and recently added AI prompt templates used by thousands
-                of creators.
-              </p>
-            </Link>
-            <Link
-              href="/categories"
-              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
-            >
-              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                Browse by Category →
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Find prompts organized by use case: coding, marketing, writing, design, business,
-                and more.
-              </p>
-            </Link>
-          </div>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
-            <Link
-              href="/p/tags"
-              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
-            >
-              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                Browse by Tag →
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Explore prompts by specific tags and keywords to find exactly what you need.
-              </p>
-            </Link>
-            <Link
-              href="/models"
-              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
-            >
-              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                Supported AI Models →
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                See the complete list of 20+ AI models we support, including GPT-5, Claude 4, Gemini
-                2.5 Pro, and more.
-              </p>
-            </Link>
-            <Link
-              href="/docs/best-practices"
-              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
-            >
-              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                Prompt Best Practices →
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Learn expert tips for writing effective prompts, organizing your library, and
-                scaling team workflows.
-              </p>
-            </Link>
-          </div>
-          <div className="mt-6 grid gap-6 md:grid-cols-2">
-            <Link
-              href="/docs"
-              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
-            >
-              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                Documentation →
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Complete guides on how to use Prompt Manage, from creating your first prompt to
-                advanced team collaboration.
-              </p>
-            </Link>
-            <Link
-              href="/about"
-              className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
-            >
-              <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                About Prompt Manage →
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Learn about our mission to help teams organize, test, and collaborate on AI prompts
-                at scale.
-              </p>
-            </Link>
-          </div>
-        </section>
+          {/* Learn More / Internal Links Section */}
+          <section className="mx-auto mt-32 max-w-5xl border-t pb-16 pt-12">
+            <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
+              Explore Prompt Manage
+            </h2>
+            <div className="grid gap-6 md:grid-cols-3">
+              <Link
+                href="/p"
+                className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+              >
+                <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                  Public Prompt Directory →
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Browse 300+ community-shared AI prompts for ChatGPT, Claude, Gemini, and more.
+                  Free to use and copy.
+                </p>
+              </Link>
+              <Link
+                href="/trending"
+                className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+              >
+                <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                  Trending Prompts →
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Discover the most popular and recently added AI prompt templates used by thousands
+                  of creators.
+                </p>
+              </Link>
+              <Link
+                href="/categories"
+                className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+              >
+                <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                  Browse by Category →
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Find prompts organized by use case: coding, marketing, writing, design, business,
+                  and more.
+                </p>
+              </Link>
+            </div>
+            <div className="mt-6 grid gap-6 md:grid-cols-3">
+              <Link
+                href="/p/tags"
+                className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+              >
+                <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                  Browse by Tag →
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Explore prompts by specific tags and keywords to find exactly what you need.
+                </p>
+              </Link>
+              <Link
+                href="/models"
+                className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+              >
+                <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                  Supported AI Models →
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  See the complete list of 20+ AI models we support, including GPT-5, Claude 4,
+                  Gemini 2.5 Pro, and more.
+                </p>
+              </Link>
+              <Link
+                href="/docs/best-practices"
+                className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+              >
+                <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                  Prompt Best Practices →
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Learn expert tips for writing effective prompts, organizing your library, and
+                  scaling team workflows.
+                </p>
+              </Link>
+            </div>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <Link
+                href="/docs"
+                className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+              >
+                <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                  Documentation →
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Complete guides on how to use Prompt Manage, from creating your first prompt to
+                  advanced team collaboration.
+                </p>
+              </Link>
+              <Link
+                href="/about"
+                className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700"
+              >
+                <h3 className="mb-2 font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                  About Prompt Manage →
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Learn about our mission to help teams organize, test, and collaborate on AI
+                  prompts at scale.
+                </p>
+              </Link>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
     </>
   )
 }

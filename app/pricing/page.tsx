@@ -10,13 +10,13 @@ export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null)
   const { toast } = useToast()
 
-  const handleSubscribe = async (tier: 'team' | 'enterprise') => {
+  const handleSubscribe = async (tier: 'team' | 'pro') => {
     setLoading(tier)
     try {
-      const response = await fetch('/api/billing/create-checkout', {
+      const response = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier }),
+        body: JSON.stringify({ plan: tier }),
       })
 
       const data = await response.json()
@@ -48,7 +48,7 @@ export default function PricingPage() {
             Choose your plan
           </h1>
           <p className="text-base text-gray-600 dark:text-gray-300 md:text-lg">
-            Start free. Choose Team ($5/user/month) or Enterprise ($27/user/month).
+            Start free. Choose the plan that works best for you and your team.
           </p>
         </div>
 
@@ -67,18 +67,20 @@ export default function PricingPage() {
             {/* Features */}
             <ul className="mt-4 flex-1 space-y-3 text-sm text-gray-700 dark:text-gray-300">
               <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> 25 prompts max storage
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Store up to 5 prompts per
+                month
               </li>
               <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Cannot run prompts
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Secure cloud storage
               </li>
               <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Public sharing only (no
-                team sharing)
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Tag & organize your prompts
               </li>
               <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Prompt Lab access (limited
-                beta only)
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Share to public directory
+              </li>
+              <li className="flex items-start">
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Export prompts
               </li>
             </ul>
             {/* CTA */}
@@ -100,30 +102,35 @@ export default function PricingPage() {
             <div className="mb-4">
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Team</h3>
               <div className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                $5
+                $20
                 <span className="text-base font-medium text-gray-600 dark:text-gray-300">
-                  /mo per user
+                  /month
                 </span>
               </div>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                Best for teams who need collaboration and shared libraries.
+                Perfect for small teams who need secure storage and collaboration.
               </p>
             </div>
             {/* Features */}
             <ul className="mt-4 flex-1 space-y-3 text-sm text-gray-700 dark:text-gray-300">
               <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited prompts and runs
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited secure storage
               </li>
               <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Full Prompt Lab access
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Up to 5 team members
               </li>
               <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Shared libraries and
-                collaboration
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Private team collections
               </li>
               <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Role-based access and
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Advanced sharing &
                 permissions
+              </li>
+              <li className="flex items-start">
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Export & backup options
+              </li>
+              <li className="flex items-start">
+                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Priority support
               </li>
             </ul>
             {/* CTA */}
@@ -142,53 +149,57 @@ export default function PricingPage() {
             </div>
           </div>
 
-          {/* Enterprise Plan */}
-          <div className="relative rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 p-1">
+          {/* Pro Plan */}
+          <div className="relative rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 p-1">
             <div className="flex h-full flex-col rounded-[14px] bg-white p-6 dark:bg-gray-800 md:p-8">
               {/* Title and Price */}
               <div className="mb-2">
-                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Enterprise</h3>
+                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Pro</h3>
                 <div className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                  $27
+                  $99
                   <span className="text-base font-medium text-gray-600 dark:text-gray-300">
-                    /mo per user
+                    /month
                   </span>
                 </div>
                 <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
-                  Advanced features for teams requiring enterprise-grade security and collaboration.
+                  Advanced features for growing teams and enterprises.
                 </p>
               </div>
               {/* Features */}
               <ul className="mt-4 flex-1 space-y-3 text-sm text-gray-800 dark:text-gray-200">
                 <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Run prompts on the latest
-                  AI models (more coming soon)
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Everything in Team
                 </li>
                 <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Private collections,
-                  sharing, and team features with advanced security, safety, and sharing
-                  functionality/integrations
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Up to 25 team members
                 </li>
                 <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited prompts and
-                  runs
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Advanced analytics &
+                  insights
                 </li>
                 <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Full Prompt Lab access
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Enterprise-grade security
+                </li>
+                <li className="flex items-start">
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Custom integrations
+                  (coming soon)
+                </li>
+                <li className="flex items-start">
+                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Dedicated support
                 </li>
               </ul>
               {/* CTA */}
               <div className="mt-6">
                 <Button
                   size="lg"
-                  className="w-full bg-blue-600 text-white hover:bg-blue-700"
-                  onClick={() => handleSubscribe('enterprise')}
-                  disabled={loading === 'enterprise'}
+                  className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+                  onClick={() => handleSubscribe('pro')}
+                  disabled={loading === 'pro'}
                 >
-                  {loading === 'enterprise' ? 'Loading...' : 'Subscribe to Enterprise'}
+                  {loading === 'pro' ? 'Loading...' : 'Subscribe to Pro'}
                 </Button>
                 <p className="mt-2 text-center text-xs text-gray-600 dark:text-gray-400">
-                  14-day free trial • Priority support
+                  14-day free trial • Dedicated support
                 </p>
               </div>
             </div>

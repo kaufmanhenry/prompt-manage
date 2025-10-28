@@ -2,7 +2,7 @@ import { headers } from 'next/headers'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: NextRequest) {
@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing signature' }, { status: 400 })
     }
 
+    const stripe = getStripe()
     let event
     try {
       event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET)
@@ -116,3 +117,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Webhook error' }, { status: 500 })
   }
 }
+
+// Required for webhooks to work with raw body
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'

@@ -35,10 +35,10 @@ export const STRIPE_CONFIG = {
         canExport: false,
       },
     },
-    pro: {
-      name: 'Pro',
-      price: 29,
-      priceId: 'price_pro_monthly', // You'll get this from Stripe Dashboard
+    team: {
+      name: 'Team',
+      price: 20,
+      priceId: process.env.STRIPE_PRICE_TEAM_MONTHLY_ID || '',
       features: [
         'Unlimited prompts',
         'All AI models',
@@ -51,15 +51,16 @@ export const STRIPE_CONFIG = {
         maxPrompts: -1,
         canShare: true,
         canExport: true,
+        teamMembers: 5,
       },
     },
-    team: {
-      name: 'Team',
+    pro: {
+      name: 'Pro',
       price: 99,
-      priceId: 'price_team_monthly', // You'll get this from Stripe Dashboard
+      priceId: process.env.STRIPE_PRICE_PRO_MONTHLY_ID || '',
       features: [
-        'Everything in Pro',
-        'Up to 10 team members',
+        'Everything in Team',
+        'Up to 25 team members',
         'Advanced analytics',
         'Custom integrations',
         'Dedicated support',
@@ -69,7 +70,7 @@ export const STRIPE_CONFIG = {
         maxPrompts: -1,
         canShare: true,
         canExport: true,
-        teamMembers: 10,
+        teamMembers: 25,
       },
     },
   },

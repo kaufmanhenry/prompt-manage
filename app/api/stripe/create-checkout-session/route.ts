@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
 
     // Get or create Stripe customer
     let customer
+    let customerId
     const { data: existingSubscription } = await supabase
       .from('user_subscriptions')
       .select('stripe_customer_id')
@@ -37,6 +38,7 @@ export async function POST(request: NextRequest) {
 
     if (existingSubscription?.stripe_customer_id) {
       customer = await stripe.customers.retrieve(existingSubscription.stripe_customer_id)
+      customerId = customer.id
     } else {
       customer = await stripe.customers.create({
         email: session.user.email,
@@ -44,18 +46,38 @@ export async function POST(request: NextRequest) {
           userId: session.user.id,
         },
       })
+      customerId = customer.id
+
+      // Store customer ID in database
+      await supabase.from('user_subscriptions').upsert({
+        user_id: session.user.id,
+        plan: 'free',
+        status: 'active',
+        current_period_end: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        stripe_customer_id: customerId,
+        updated_at: new Date().toISOString(),
+      })
     }
 
     // Create checkout session
     const planConfig = STRIPE_CONFIG.plans[plan as keyof typeof STRIPE_CONFIG.plans]
     const priceId = 'priceId' in planConfig ? planConfig.priceId : null
 
-    if (!priceId) {
-      return NextResponse.json({ error: 'Plan does not have a price ID' }, { status: 400 })
+    if (!priceId || priceId === '') {
+      return NextResponse.json(
+        {
+          error:
+            'Plan does not have a price ID configured. Please add Stripe price IDs to environment variables.',
+        },
+        { status: 400 },
+      )
     }
 
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+
     const checkoutSession = await stripe.checkout.sessions.create({
-      customer: customer.id,
+      customer: customerId,
       payment_method_types: ['card'],
       line_items: [
         {
@@ -64,8 +86,8 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: 'subscription',
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing?canceled=true`,
+      success_url: `${baseUrl}/dashboard?success=true`,
+      cancel_url: `${baseUrl}/pricing?canceled=true`,
       metadata: {
         userId: session.user.id,
         plan,

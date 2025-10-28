@@ -576,7 +576,7 @@ export default async function TagPage({ params }: TagPageProps) {
                 <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <TrendingUp className="h-3 w-3" />
-                    <span>Join 40+ creators</span>
+                    <span>Join 60+ creators</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <TagIcon className="h-3 w-3" />

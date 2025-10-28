@@ -1,44 +1,61 @@
 import { z } from 'zod'
 
+export const modelCategorySchema = z.enum(['LLM', 'Music', 'Video', 'Image', 'Voice', 'Code'])
+
 export const modelSchema = z.enum([
-  // OpenAI
+  // LLM Models - OpenAI
   'gpt-5',
   'gpt-4o',
   'gpt-4o-mini',
   'gpt-4',
   'gpt-3.5-turbo',
-  // Anthropic
+  // LLM Models - Anthropic
   'claude-4-opus',
   'claude-4-sonnet',
   'claude-3.5-sonnet',
   'claude-3-haiku',
   'claude-3-sonnet',
-  // Google
+  // LLM Models - Google
   'gemini-2-5-pro',
   'gemini-1-5-pro',
   'gemma-3-27b',
-  // Meta
+  // LLM Models - Meta
   'llama-3.1-70b-instruct',
-  // DeepSeek
+  // LLM Models - DeepSeek
   'deepseek-r1-v3',
-  // Mistral
+  // LLM Models - Mistral
   'mistral-large',
   'mixtral-8x22b-instruct',
   'mistral-small',
-  // xAI
+  // LLM Models - xAI
   'grok-4',
-  // Alibaba/Qwen
+  // LLM Models - Alibaba/Qwen
   'qwen2.5-72b-instruct',
-  // Cohere
+  // LLM Models - Cohere
   'command-r-plus',
+  // Music Generation
+  'suno-v4',
+  'udio',
+  // Video Generation
+  'runway-gen-3',
+  'pika-2',
+  'google-veo',
+  // Image Generation
+  'dall-e-3',
+  'midjourney',
+  'stable-diffusion',
 ])
+
+export const modelIdSchema = z.string().min(1)
 
 export const promptSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, 'Name is required').max(120, 'Name must be 120 characters or less'),
   description: z.string().optional(),
   prompt_text: z.string().min(1, 'Prompt text is required'),
-  model: modelSchema,
+  model: modelSchema.optional(), // Keep for backward compatibility
+  model_category: modelCategorySchema.optional(), // New field for category
+  model_id: modelIdSchema.optional(), // New field for specific model
   tags: z.array(z.string()).default([]),
   is_public: z.boolean().default(false),
   slug: z.string().optional(),

@@ -1,26 +1,27 @@
-import { ArrowRight, Sparkles, TrendingUp, Users } from 'lucide-react'
+import { Sparkles, TrendingUp, Users } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { createServerSideClient } from '@/utils/supabase/server'
 
+type AITool = {
+  name: string
+  company: string
+  description: string
+  icon: string
+  color: string
+  textColor: string
+  tag: string
+  modelId: string | null
+  url: string
+  capabilities: string[]
+  category: string
+}
+
 // AI Tools data
-const aiTools = [
-  {
-    name: 'Google Veo',
-    company: 'Google DeepMind',
-    description:
-      'AI video generation model that creates high-quality, realistic videos from text prompts.',
-    icon: '🎬',
-    color: 'bg-blue-100 dark:bg-blue-900',
-    textColor: 'text-blue-600 dark:text-blue-400',
-    tag: 'veo',
-    url: '/tools/google-veo',
-    capabilities: ['Video Generation', 'Text-to-Video', 'High Quality Output'],
-  },
+const aiTools: AITool[] = [
   {
     name: 'Suno',
     company: 'Suno AI',
@@ -30,8 +31,38 @@ const aiTools = [
     color: 'bg-purple-100 dark:bg-purple-900',
     textColor: 'text-purple-600 dark:text-purple-400',
     tag: 'suno',
+    modelId: 'suno-v4',
     url: '/tools/suno',
     capabilities: ['Music Generation', 'Song Creation', 'Melody Composition'],
+    category: 'Music',
+  },
+  {
+    name: 'Udio',
+    company: 'Udio AI',
+    description:
+      'Advanced AI music creation platform for generating high-quality music compositions.',
+    icon: '🎶',
+    color: 'bg-indigo-100 dark:bg-indigo-900',
+    textColor: 'text-indigo-600 dark:text-indigo-400',
+    tag: 'udio',
+    modelId: 'udio',
+    url: '/tools/udio',
+    capabilities: ['Music Generation', 'Composition', 'Studio Quality'],
+    category: 'Music',
+  },
+  {
+    name: 'Pika',
+    company: 'Pika AI',
+    description:
+      'AI video generation platform for creating high-quality video content from text prompts.',
+    icon: '🎬',
+    color: 'bg-rose-100 dark:bg-rose-900',
+    textColor: 'text-rose-600 dark:text-rose-400',
+    tag: 'pika',
+    modelId: 'pika-2',
+    url: '/tools/pika',
+    capabilities: ['Video Generation', 'Text-to-Video', 'Video Editing'],
+    category: 'Video',
   },
   {
     name: 'Runway',
@@ -42,20 +73,24 @@ const aiTools = [
     color: 'bg-indigo-100 dark:bg-indigo-900',
     textColor: 'text-indigo-600 dark:text-indigo-400',
     tag: 'runway',
+    modelId: 'runway-gen-3',
     url: '/tools/runway',
     capabilities: ['Video Generation', 'Video Editing', 'Visual Effects'],
+    category: 'Video',
   },
   {
-    name: 'Opus',
-    company: 'Opus Clip',
+    name: 'Google Veo',
+    company: 'Google DeepMind',
     description:
-      'AI-powered video clipping platform that creates engaging short-form content from long videos.',
-    icon: '✂️',
-    color: 'bg-violet-100 dark:bg-violet-900',
-    textColor: 'text-violet-600 dark:text-violet-400',
-    tag: 'opus',
-    url: '/tools/opus',
-    capabilities: ['Video Clipping', 'Content Optimization', 'Auto-Editing'],
+      'AI video generation model that creates high-quality, realistic videos from text prompts.',
+    icon: '🎬',
+    color: 'bg-blue-100 dark:bg-blue-900',
+    textColor: 'text-blue-600 dark:text-blue-400',
+    tag: 'veo',
+    modelId: 'google-veo',
+    url: '/tools/google-veo',
+    capabilities: ['Video Generation', 'Text-to-Video', 'High Quality Output'],
+    category: 'Video',
   },
   {
     name: 'AI Image',
@@ -66,8 +101,10 @@ const aiTools = [
     color: 'bg-emerald-100 dark:bg-emerald-900',
     textColor: 'text-emerald-600 dark:text-emerald-400',
     tag: 'ai-image',
+    modelId: null,
     url: '/tools/ai-image',
     capabilities: ['Image Generation', 'Art Creation', 'Visual Design'],
+    category: 'Image',
   },
   {
     name: 'AI Video',
@@ -78,8 +115,10 @@ const aiTools = [
     color: 'bg-red-100 dark:bg-red-900',
     textColor: 'text-red-600 dark:text-red-400',
     tag: 'ai-video',
+    modelId: null,
     url: '/tools/ai-video',
     capabilities: ['Video Generation', 'Animation Creation', 'Motion Graphics'],
+    category: 'Video',
   },
   {
     name: 'AI Audio',
@@ -90,8 +129,52 @@ const aiTools = [
     color: 'bg-orange-100 dark:bg-orange-900',
     textColor: 'text-orange-600 dark:text-orange-400',
     tag: 'ai-audio',
+    modelId: null,
     url: '/tools/ai-audio',
     capabilities: ['Audio Generation', 'Music Creation', 'Sound Effects'],
+    category: 'Audio',
+  },
+  {
+    name: 'Midjourney',
+    company: 'Midjourney',
+    description:
+      'AI image generation with stunning artistic quality and creative control over style and composition.',
+    icon: '🎨',
+    color: 'bg-purple-100 dark:bg-purple-900',
+    textColor: 'text-purple-600 dark:text-purple-400',
+    tag: 'midjourney',
+    modelId: 'midjourney',
+    url: '/tools/midjourney',
+    capabilities: ['Image Generation', 'Art Creation', 'Style Control'],
+    category: 'Image',
+  },
+  {
+    name: 'DALL-E 3',
+    company: 'OpenAI',
+    description:
+      'Advanced AI image generation with precise prompt interpretation and high-quality output.',
+    icon: '🖼️',
+    color: 'bg-green-100 dark:bg-green-900',
+    textColor: 'text-green-600 dark:text-green-400',
+    tag: 'dall-e',
+    modelId: 'dall-e-3',
+    url: '/tools/dall-e',
+    capabilities: ['Image Generation', 'Natural Language Understanding', 'High Quality'],
+    category: 'Image',
+  },
+  {
+    name: 'Stable Diffusion',
+    company: 'Stability AI',
+    description:
+      'Open-source AI image generation with extensive customization and community-driven models.',
+    icon: '🌈',
+    color: 'bg-cyan-100 dark:bg-cyan-900',
+    textColor: 'text-cyan-600 dark:text-cyan-400',
+    tag: 'stable-diffusion',
+    modelId: 'stable-diffusion',
+    url: '/tools/stable-diffusion',
+    capabilities: ['Image Generation', 'Custom Models', 'ControlNet'],
+    category: 'Image',
   },
 ]
 
@@ -157,11 +240,21 @@ export default async function ToolsPage() {
   // Get prompt counts for each tool
   const toolStats = await Promise.all(
     aiTools.map(async (tool) => {
-      const { data: prompts } = await supabase
+      // Build query - check both tags (backward compatibility) and model_id (new system)
+      let query = supabase
         .from('prompts')
         .select('id')
         .eq('is_public', true)
-        .contains('tags', [tool.tag])
+
+      // If tool has a modelId, query by that OR by tags
+      if (tool.modelId) {
+        query = query.or(`tags.cs.{${tool.tag}},model_id.eq.${tool.modelId}`)
+      } else {
+        // For legacy tools without modelId, use tags only
+        query = query.contains('tags', [tool.tag])
+      }
+
+      const { data: prompts } = await query
 
       return {
         ...tool,
@@ -215,137 +308,291 @@ export default async function ToolsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-7xl p-6">
+      <div className="min-h-screen bg-white dark:bg-gray-950">
+        <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
           {/* Breadcrumbs */}
-          <nav className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground">
+          <nav className="mb-6 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <Link href="/" className="hover:text-gray-900 dark:hover:text-gray-100">
               Home
             </Link>
             <span>/</span>
-            <span className="text-foreground">AI Tools</span>
+            <span className="text-gray-900 dark:text-gray-100">AI Tools</span>
           </nav>
 
           {/* Hero Section */}
-          <div className="mb-12">
-            <div className="mb-8">
-              <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground">
+          <section className="mb-20 border-b border-gray-200 pb-16 dark:border-gray-800 md:pb-20">
+            <div className="mx-auto max-w-3xl">
+              <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white md:text-5xl">
                 AI Tools & Prompt Collections
               </h1>
-              <p className="mb-6 text-xl text-muted-foreground">
+              <p className="mb-8 text-lg leading-7 text-gray-600 dark:text-gray-400 md:text-xl">
                 Discover curated prompt collections for the most popular AI tools. Find ready-to-use
                 prompts for video generation, music creation, image generation, and more.
               </p>
-              <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4" />
-                  <span className="font-medium text-foreground">{toolStats.length} AI tools</span>
-                  <span>covered</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4" />
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                <span className="inline-flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  <span className="font-medium text-gray-900 dark:text-gray-100">{toolStats.length} tools</span>
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                   <span>Community curated</span>
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>Updated daily</span>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* Tools by Category */}
+          {['Music', 'Video', 'Image', 'Audio']
+            .filter(cat => toolStats.some(tool => tool.category === cat))
+            .map((category) => {
+              const categoryTools = toolStats.filter((tool) => tool.category === category)
+              if (!categoryTools || categoryTools.length === 0) return null
+
+              return (
+                <section key={category} className="mb-20">
+                <div className="mb-12 text-center">
+                  <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                    {category} Generation
+                  </h2>
                 </div>
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4" />
-                  <span>Always updated</span>
+                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                  {categoryTools.map((tool) => (
+                    <Link key={tool.name} href={tool.url}>
+                      <div className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 transition-all hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
+                        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
+                        <div className="relative">
+                          <div className="mb-6 inline-flex items-center justify-center">
+                            <div className={`${tool.color} rounded-lg p-3`}>
+                              <span className="text-2xl">{tool.icon}</span>
+                            </div>
+                          </div>
+                          <div className="mb-3 flex items-center gap-2">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                              {tool.name}
+                            </h3>
+                            <Badge variant="secondary" className="text-xs font-medium">
+                              {tool.promptCount}
+                            </Badge>
+                          </div>
+                          <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">{tool.company}</p>
+                          <p className="mb-4 line-clamp-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                            {tool.description}
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {tool.capabilities.slice(0, 3).map((capability) => (
+                              <Badge key={capability} variant="outline" className="text-xs font-normal">
+                                {capability}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )
+          })}
+
+          {/* Understanding AI Model Types - Educational Section */}
+          <section className="mx-auto mb-20 max-w-6xl border-t border-gray-200 pt-16 dark:border-gray-800">
+            <div className="mb-8 text-center">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground">
+                Understanding Different AI Models & Tools
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Learn the difference between LLMs, image generators, video creators, and other AI tools
+              </p>
+            </div>
+
+            <div className="grid gap-8 sm:grid-cols-2">
+              {/* LLMs Card */}
+              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-950/50" />
+                <div className="relative">
+                  <div className="mb-6 inline-flex items-center justify-center">
+                    <div className="rounded-lg border-2 border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-800">
+                      <span className="text-2xl">🤖</span>
+                    </div>
+                  </div>
+                  <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                    Large Language Models (LLMs)
+                  </h3>
+                  <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">GPT, Claude, Gemini</p>
+                  <p className="mb-4 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                    Text-based AI models that understand and generate human language. Designed for
+                    conversation, writing, analysis, and text-based tasks.
+                  </p>
+                  <div className="space-y-2">
+                    <Badge variant="secondary" className="mr-2 text-xs font-normal">Text generation</Badge>
+                    <Badge variant="secondary" className="mr-2 text-xs font-normal">Conversation</Badge>
+                    <Badge variant="secondary" className="mr-2 text-xs font-normal">Code assistance</Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Image Models Card */}
+              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent dark:from-purple-950/50" />
+                <div className="relative">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900">
+                    <span className="text-2xl">🎨</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground">Image Generation Models</h3>
+                    <p className="text-sm text-muted-foreground">Midjourney, DALL-E, Stable Diffusion</p>
+                  </div>
+                </div>
+                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                  Image generators create visual art from text descriptions. These models specialize in
+                  transforming your ideas into stunning artwork, photos, illustrations, and designs.
+                </p>
+                <div className="space-y-2">
+                  <Badge variant="secondary" className="mr-2">Digital art</Badge>
+                  <Badge variant="secondary" className="mr-2">Illustrations</Badge>
+                  <Badge variant="secondary" className="mr-2">Photorealistic</Badge>
+                  <Badge variant="secondary" className="mr-2">Design assets</Badge>
+                </div>
+                <p className="mt-4 text-xs font-medium text-muted-foreground">
+                  Best for: Art creation, marketing visuals, concept art, social media graphics
+                </p>
+                </div>
+              </div>
+
+              {/* Video Models Card */}
+              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent dark:from-rose-950/50" />
+                <div className="relative">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-100 dark:bg-rose-900">
+                    <span className="text-2xl">🎬</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground">Video Generation Tools</h3>
+                    <p className="text-sm text-muted-foreground">Runway, Pika, Google Veo</p>
+                  </div>
+                </div>
+                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                  Video generators create dynamic video content from text prompts. They can produce
+                  short video clips, animations, and even realistic scenes for marketing, entertainment,
+                  and creative projects.
+                </p>
+                <div className="space-y-2">
+                  <Badge variant="secondary" className="mr-2">Animated clips</Badge>
+                  <Badge variant="secondary" className="mr-2">Marketing videos</Badge>
+                  <Badge variant="secondary" className="mr-2">Visual effects</Badge>
+                  <Badge variant="secondary" className="mr-2">Storytelling</Badge>
+                </div>
+                <p className="mt-4 text-xs font-medium text-muted-foreground">
+                  Best for: Marketing content, social media, creative projects, visual storytelling
+                </p>
+                </div>
+              </div>
+
+              {/* Music Models Card */}
+              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-transparent dark:from-indigo-950/50" />
+                <div className="relative">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900">
+                    <span className="text-2xl">🎵</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground">Music Generation Models</h3>
+                    <p className="text-sm text-muted-foreground">Suno, Udio</p>
+                  </div>
+                </div>
+                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                  Music generators create original compositions, melodies, and songs from text
+                  descriptions. They can produce complete tracks with vocals, instrumentals, and
+                  various music styles.
+                </p>
+                <div className="space-y-2">
+                  <Badge variant="secondary" className="mr-2">Song creation</Badge>
+                  <Badge variant="secondary" className="mr-2">Background music</Badge>
+                  <Badge variant="secondary" className="mr-2">Podcast audio</Badge>
+                  <Badge variant="secondary" className="mr-2">All genres</Badge>
+                </div>
+                <p className="mt-4 text-xs font-medium text-muted-foreground">
+                  Best for: Background music, podcast content, jingles, creative compositions
+                </p>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Tools Grid */}
-          <div className="mb-12">
-            <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-foreground">Featured AI Tools</h2>
-              <Link href="/p">
-                <Button variant="outline" size="sm">
-                  Browse All Prompts
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
+            {/* Comparison Table */}
+            <div className="mt-12 rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+              <h3 className="mb-6 text-xl font-semibold text-foreground">Quick Comparison</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="pb-3 text-left font-semibold text-foreground">Model Type</th>
+                      <th className="pb-3 text-left font-semibold text-foreground">Input</th>
+                      <th className="pb-3 text-left font-semibold text-foreground">Output</th>
+                      <th className="pb-3 text-left font-semibold text-foreground">Examples</th>
+                    </tr>
+                  </thead>
+                  <tbody className="space-y-2">
+                    <tr className="border-b">
+                      <td className="py-3 font-medium">LLMs</td>
+                      <td className="py-3 text-muted-foreground">Text prompts</td>
+                      <td className="py-3 text-muted-foreground">Text responses</td>
+                      <td className="py-3 text-muted-foreground">GPT-5, Claude, Gemini</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-3 font-medium">Image Models</td>
+                      <td className="py-3 text-muted-foreground">Text descriptions</td>
+                      <td className="py-3 text-muted-foreground">Images/Art</td>
+                      <td className="py-3 text-muted-foreground">Midjourney, DALL-E 3</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-3 font-medium">Video Models</td>
+                      <td className="py-3 text-muted-foreground">Text or images</td>
+                      <td className="py-3 text-muted-foreground">Video clips</td>
+                      <td className="py-3 text-muted-foreground">Runway, Pika, Veo</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 font-medium">Music Models</td>
+                      <td className="py-3 text-muted-foreground">Text descriptions</td>
+                      <td className="py-3 text-muted-foreground">Audio/Songs</td>
+                      <td className="py-3 text-muted-foreground">Suno, Udio</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {toolStats.map((tool) => (
-                <Link key={tool.name} href={tool.url}>
-                  <Card className="group flex h-full cursor-pointer flex-col p-6 transition-all hover:border-primary hover:shadow-lg">
-                    <div className="flex-grow">
-                      <div className="mb-4 flex items-start gap-4">
-                        <div className={`${tool.color} rounded-lg p-3`}>
-                          <span className="text-3xl">{tool.icon}</span>
-                        </div>
-                        <div className="flex-1">
-                          <div className="mb-2 flex items-center gap-2">
-                            <h3 className="text-lg font-semibold text-foreground group-hover:text-primary">
-                              {tool.name}
-                            </h3>
-                            <Badge variant="secondary" className="text-xs">
-                              {tool.promptCount} prompts
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-muted-foreground">{tool.company}</p>
-                        </div>
-                      </div>
 
-                      <p className="mb-4 line-clamp-3 text-sm text-muted-foreground">
-                        {tool.description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-1">
-                        {tool.capabilities.slice(0, 3).map((capability) => (
-                          <Badge key={capability} variant="outline" className="text-xs">
-                            {capability}
-                          </Badge>
-                        ))}
-                        {tool.capabilities.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{tool.capabilities.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  </Card>
-                </Link>
-              ))}
+            {/* Why Use Tool-Specific Prompts */}
+            <div className="mt-12 rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+              <h3 className="mb-4 text-xl font-semibold text-foreground">Why Each Tool Needs Different Prompts</h3>
+              <div className="space-y-4 text-sm leading-relaxed text-muted-foreground">
+                <p>
+                  <strong className="font-semibold text-foreground">Different architectures:</strong> Each
+                  model type uses a different underlying technology. LLMs process language patterns,
+                  while image models understand visual concepts and artistic styles.
+                </p>
+                <p>
+                  <strong className="font-semibold text-foreground">Optimized parameters:</strong> What
+                  works for generating text won't work for creating music. Each tool has specific
+                  parameters, keywords, and formatting requirements for best results.
+                </p>
+                <p>
+                  <strong className="font-semibold text-foreground">Result quality:</strong> Using
+                  tool-specific prompts ensures you get professional, high-quality outputs. Generic
+                  prompts often produce mediocre results across different tools.
+                </p>
+              </div>
             </div>
-          </div>
+          </section>
 
-          {/* Categories Section */}
-          <div className="mb-12">
-            <h2 className="mb-6 text-2xl font-bold text-foreground">Browse by Category</h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Link href="/tools/google-veo">
-                <Card className="p-4 text-center transition-all hover:border-primary hover:shadow-md">
-                  <div className="mb-2 text-2xl">🎬</div>
-                  <h3 className="font-semibold text-foreground">Video Generation</h3>
-                  <p className="text-sm text-muted-foreground">AI video creation tools</p>
-                </Card>
-              </Link>
-              <Link href="/tools/suno">
-                <Card className="p-4 text-center transition-all hover:border-primary hover:shadow-md">
-                  <div className="mb-2 text-2xl">🎵</div>
-                  <h3 className="font-semibold text-foreground">Music Generation</h3>
-                  <p className="text-sm text-muted-foreground">AI music creation tools</p>
-                </Card>
-              </Link>
-              <Link href="/tools/ai-image">
-                <Card className="p-4 text-center transition-all hover:border-primary hover:shadow-md">
-                  <div className="mb-2 text-2xl">🖼️</div>
-                  <h3 className="font-semibold text-foreground">Image Generation</h3>
-                  <p className="text-sm text-muted-foreground">AI image creation tools</p>
-                </Card>
-              </Link>
-              <Link href="/tools/opus">
-                <Card className="p-4 text-center transition-all hover:border-primary hover:shadow-md">
-                  <div className="mb-2 text-2xl">✂️</div>
-                  <h3 className="font-semibold text-foreground">Video Editing</h3>
-                  <p className="text-sm text-muted-foreground">AI video editing tools</p>
-                </Card>
-              </Link>
-            </div>
-          </div>
-
-          {/* Educational Content */}
+          {/* Educational Content - Updated */}
           <div className="mx-auto mb-12 max-w-4xl border-t pb-8 pt-12">
             <div className="prose prose-sm dark:prose-invert max-w-none">
               <h2 className="mb-6 text-3xl font-bold text-foreground">

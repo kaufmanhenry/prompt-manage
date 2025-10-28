@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Search, TrendingUp } from 'lucide-react'
+import { BarChart3, Clock, Search } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useCallback, useEffect, useState } from 'react'
@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
-import { getModelsByCompany } from '@/lib/models'
+import { getModelsByCategory } from '@/lib/models'
 import type { PublicPrompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -45,7 +45,7 @@ function PublicDirectoryContent() {
   const initialPage = Number(searchParams.get('page')) || 1
   const [page, setPage] = useState(initialPage)
   const promptsPerPage = 21
-  const modelsByCompany = getModelsByCompany()
+  const modelsByCategory = getModelsByCategory()
 
   // Debounce search input to prevent excessive API calls
   useEffect(() => {
@@ -201,20 +201,29 @@ function PublicDirectoryContent() {
               <SelectTrigger className="w-full md:w-48">
                 <SelectValue placeholder="Filter by model" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-[400px]">
                 <SelectGroup>
                   <SelectLabel>All Models</SelectLabel>
                   <SelectItem value="all">All Models</SelectItem>
                 </SelectGroup>
-                {Object.entries(modelsByCompany).map(([company, models]) => (
-                  <SelectGroup key={company}>
-                    <SelectLabel>{company}</SelectLabel>
-                    {models.map((model) => (
-                      <SelectItem key={model.id} value={model.id}>
-                        {model.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
+                {Object.entries(modelsByCategory).map(([category, models]) => (
+                  models.length > 0 && (
+                    <SelectGroup key={category}>
+                      <SelectLabel>
+                        {category === 'LLM' && 'Language Models'}
+                        {category === 'Music' && 'Music Generation'}
+                        {category === 'Video' && 'Video Generation'}
+                        {category === 'Image' && 'Image Generation'}
+                        {category === 'Voice' && 'Voice Synthesis'}
+                        {category === 'Code' && 'Code Assistants'}
+                      </SelectLabel>
+                      {models.map((model) => (
+                        <SelectItem key={model.id} value={model.id}>
+                          {model.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  )
                 ))}
               </SelectContent>
             </Select>
@@ -224,14 +233,14 @@ function PublicDirectoryContent() {
               <SelectTrigger className="w-full md:w-48">
                 <SelectValue placeholder="Filter by tag" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-[400px]">
                 <SelectGroup>
                   <SelectLabel>All Tags</SelectLabel>
                   <SelectItem value="all">All Tags</SelectItem>
                 </SelectGroup>
                 <SelectGroup>
                   <SelectLabel>Popular Tags</SelectLabel>
-                  {availableTags.slice(0, 20).map((tag) => (
+                  {availableTags.map((tag) => (
                     <SelectItem key={tag} value={tag}>
                       {tag}
                     </SelectItem>
@@ -248,13 +257,13 @@ function PublicDirectoryContent() {
               <SelectContent>
                 <SelectItem value="recent">
                   <div className="flex items-center gap-2">
-                    <TrendingUp className="h-4 w-4" />
+                    <Clock className="h-4 w-4" />
                     Most Recent
                   </div>
                 </SelectItem>
                 <SelectItem value="popular">
                   <div className="flex items-center gap-2">
-                    <TrendingUp className="h-4 w-4" />
+                    <BarChart3 className="h-4 w-4" />
                     Most Popular
                   </div>
                 </SelectItem>
@@ -302,17 +311,19 @@ function PublicDirectoryContent() {
 
                     <div className="mt-auto space-y-2">
                       {/* Model */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          router.push(`/prompts/${encodeURIComponent(prompt.model)}`)
-                        }}
-                        className="transition-opacity hover:opacity-80"
-                      >
-                        <Badge variant="secondary" className="ml-2 cursor-pointer">
-                          {prompt.model}
-                        </Badge>
-                      </button>
+                      {prompt.model && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            router.push(`/prompts/${encodeURIComponent(prompt.model!)}`)
+                          }}
+                          className="transition-opacity hover:opacity-80"
+                        >
+                          <Badge variant="secondary" className="ml-2 cursor-pointer">
+                            {prompt.model}
+                          </Badge>
+                        </button>
+                      )}
 
                       {/* Tags */}
                       <div className="flex flex-wrap gap-1">
@@ -403,9 +414,10 @@ function PublicDirectoryContent() {
             Share Your Best Prompts with the Community
           </h2>
           <p className="mb-6 text-muted-foreground">
-            Have you created amazing prompts that others would love? Share them with our community
-            and help fellow creators discover new possibilities. Join thousands of prompt engineers
-            building the future of AI together.
+            Share your AI prompts with thousands of creators and get discovered. Build your reputation
+            as a prompt engineer while helping others achieve better results. Join our community of
+            professionals sharing cutting-edge prompts for ChatGPT, Claude, Gemini, Midjourney, Suno,
+            Runway, and more.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             {session ? (
@@ -425,8 +437,8 @@ function PublicDirectoryContent() {
           </div>
           <div className="mt-4 flex items-center justify-center gap-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
-              <span>Join 40+ creators</span>
+              <BarChart3 className="h-4 w-4" />
+              <span>Join 60+ creators</span>
             </div>
             <div className="flex items-center gap-2">
               <Search className="h-4 w-4" />

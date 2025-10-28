@@ -1,0 +1,2030 @@
+
+> prompt-manage@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.6
+   - Local:        http://localhost:3000
+   - Network:      http://169.254.130.76:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1255ms
+ ✓ Compiled /middleware in 426ms (187 modules)
+ ○ Compiling / ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (118kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ✓ Compiled / in 3.2s (1335 modules)
+ GET / 200 in 3681ms
+ ✓ Compiled in 821ms (526 modules)
+ GET / 200 in 141ms
+ ✓ Compiled /favicon.ico in 239ms (826 modules)
+ GET /favicon.ico 200 in 319ms
+ ✓ Compiled /p in 339ms (1367 modules)
+ GET /p 200 in 410ms
+ ✓ Compiled /api/prompts/public in 203ms (1369 modules)
+ GET /p 200 in 382ms
+ GET /api/prompts/public?page=1&limit=21 200 in 626ms
+ ○ Compiling /p/[slug] ...
+ ✓ Compiled /p/[slug] in 767ms (1437 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 1309ms
+ ✓ Compiled in 560ms (1409 modules)
+ ✓ Compiled in 60ms (556 modules)
+ ✓ Compiled in 256ms (556 modules)
+ ✓ Compiled in 113ms (556 modules)
+ ✓ Compiled in 72ms (556 modules)
+ ✓ Compiled in 851ms (570 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 157ms
+ ✓ Compiled in 434ms (570 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 42ms
+ ✓ Compiled in 209ms (570 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 39ms
+ ✓ Compiled in 489ms (570 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 53ms
+ ✓ Compiled in 376ms (570 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 62ms
+ ✓ Compiled in 1471ms (570 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 123ms
+ ✓ Compiled in 535ms (570 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 32ms
+ ✓ Compiled in 412ms (570 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 58ms
+ GET / 200 in 59ms
+ ✓ Compiled in 473ms (570 modules)
+ GET / 200 in 41ms
+ ✓ Compiled /p in 293ms (862 modules)
+ GET /p 200 in 382ms
+ ✓ Compiled /api/prompts/public in 134ms (879 modules)
+ GET /p 200 in 412ms
+ GET /api/prompts/public?page=1&limit=21 200 in 650ms
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 155ms
+ ✓ Compiled in 205ms (570 modules)
+ GET /p/dreamy-synth-pop-suno-prompt-d17539c0 200 in 54ms
+ GET / 200 in 56ms
+ ✓ Compiled in 571ms (570 modules)
+ GET / 200 in 41ms
+ ○ Compiling /auth/callback ...
+ ✓ Compiled /auth/callback in 502ms (1437 modules)
+ GET /auth/callback?code=04d17cff-2143-475e-ba64-254fcc87fb8a&redirect=%2Fdashboard 307 in 886ms
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 1461ms (1603 modules)
+ GET /dashboard 200 in 2068ms
+ GET /dashboard 200 in 167ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1087ms (1597 modules)
+ GET /favicon.ico 200 in 1098ms
+ GET /dashboard 200 in 81ms
+ ✓ Compiled in 382ms (1583 modules)
+ ✓ Compiled in 220ms (1583 modules)
+ ✓ Compiled in 180ms (1583 modules)
+ ✓ Compiled in 180ms (1583 modules)
+ ✓ Compiled in 252ms (1583 modules)
+ ✓ Compiled in 181ms (1583 modules)
+ ✓ Compiled in 189ms (1583 modules)
+ ✓ Compiled in 255ms (1583 modules)
+ ✓ Compiled in 201ms (1583 modules)
+ ✓ Compiled in 192ms (1583 modules)
+ ✓ Compiled in 239ms (1583 modules)
+ ✓ Compiled in 189ms (1583 modules)
+ GET /dashboard 200 in 63ms
+ ✓ Compiled in 228ms (1583 modules)
+ ✓ Compiled in 278ms (1583 modules)
+ ✓ Compiled in 250ms (1583 modules)
+ GET / 200 in 630ms
+ ✓ Compiled in 638ms (1581 modules)
+ ✓ Compiled in 342ms (1581 modules)
+ ✓ Compiled in 444ms (1581 modules)
+ ✓ Compiled in 262ms (1581 modules)
+ ✓ Compiled in 249ms (1581 modules)
+ ○ Compiling /models ...
+ ✓ Compiled /models in 580ms (1593 modules)
+ GET /models 200 in 675ms
+ ✓ Compiled in 713ms (1593 modules)
+ GET /models 200 in 119ms
+ ✓ Compiled in 1489ms (1607 modules)
+ GET /models 200 in 122ms
+ ✓ Compiled /prompts/[model] in 325ms (1603 modules)
+ GET /prompts/gemini-2-5-pro 200 in 1210ms
+ ✓ Compiled in 626ms (1600 modules)
+ GET /models 200 in 254ms
+ ✓ Compiled in 756ms (1600 modules)
+ GET /models 200 in 110ms
+ GET / 200 in 82ms
+ ○ Compiling /docs ...
+ ✓ Compiled /docs in 1273ms (1609 modules)
+ GET /docs 200 in 1418ms
+ GET /docs 200 in 55ms
+ GET /docs 200 in 40ms
+ GET / 200 in 143ms
+ ✓ Compiled in 1336ms (1578 modules)
+ GET / 200 in 117ms
+ ✓ Compiled /use-cases in 471ms (1572 modules)
+ GET /use-cases 200 in 575ms
+ GET /use-cases 200 in 40ms
+ GET /use-cases 200 in 692ms
+ ✓ Compiled in 1742ms (1773 modules)
+ ✓ Compiled in 1115ms (1499 modules)
+ ✓ Compiled in 348ms (1499 modules)
+ ✓ Compiled in 395ms (1499 modules)
+ GET / 200 in 193ms
+ GET / 200 in 97ms
+ GET / 200 in 68ms
+ GET / 200 in 67ms
+ GET / 200 in 35ms
+ ○ Compiling /tools ...
+ ✓ Compiled /tools in 563ms (1490 modules)
+ GET /tools 200 in 966ms
+ ✓ Compiled in 1020ms (1495 modules)
+ GET /tools 200 in 97ms
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:408:1]
+ [2m405[0m |           </div>
+ [2m406[0m |         </div>
+ [2m407[0m |       </section>
+ [2m408[0m |     </>
+     : [35;1m      ^[0m
+ [2m409[0m |   )
+ [2m410[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:409:1]
+ [2m406[0m |         </div>
+ [2m407[0m |       </section>
+ [2m408[0m |     </>
+ [2m409[0m |   )
+     : [35;1m  ^[0m
+ [2m410[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ ○ Compiling /_error ...
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:408:1]
+ [2m405[0m |           </div>
+ [2m406[0m |         </div>
+ [2m407[0m |       </section>
+ [2m408[0m |     </>
+     : [35;1m      ^[0m
+ [2m409[0m |   )
+ [2m410[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:409:1]
+ [2m406[0m |         </div>
+ [2m407[0m |       </section>
+ [2m408[0m |     </>
+ [2m409[0m |   )
+     : [35;1m  ^[0m
+ [2m410[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ GET /tools 500 in 3181ms
+ GET /tools 500 in 47ms
+ GET /tools 500 in 42ms
+ GET /tools 500 in 56ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:412:1]
+ [2m409[0m |           </div>
+ [2m410[0m |         </div>
+ [2m411[0m |       </section>
+ [2m412[0m |     </>
+     : [35;1m      ^[0m
+ [2m413[0m |   )
+ [2m414[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:413:1]
+ [2m410[0m |         </div>
+ [2m411[0m |       </section>
+ [2m412[0m |     </>
+ [2m413[0m |   )
+     : [35;1m  ^[0m
+ [2m414[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ GET /tools 200 in 133ms
+ GET /tools 500 in 14ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:412:1]
+ [2m409[0m |           </div>
+ [2m410[0m |         </div>
+ [2m411[0m |       </section>
+ [2m412[0m |     </>
+     : [35;1m      ^[0m
+ [2m413[0m |   )
+ [2m414[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:413:1]
+ [2m410[0m |         </div>
+ [2m411[0m |       </section>
+ [2m412[0m |     </>
+ [2m413[0m |   )
+     : [35;1m  ^[0m
+ [2m414[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:412:1]
+ [2m409[0m |           </div>
+ [2m410[0m |         </div>
+ [2m411[0m |       </section>
+ [2m412[0m |     </>
+     : [35;1m      ^[0m
+ [2m413[0m |   )
+ [2m414[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:413:1]
+ [2m410[0m |         </div>
+ [2m411[0m |       </section>
+ [2m412[0m |     </>
+ [2m413[0m |   )
+     : [35;1m  ^[0m
+ [2m414[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ GET /tools 500 in 505ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /tools 500 in 290ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:410:1]
+ [2m407[0m |           </div>
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+     : [35;1m      ^[0m
+ [2m411[0m |   )
+ [2m412[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:411:1]
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+ [2m411[0m |   )
+     : [35;1m  ^[0m
+ [2m412[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ GET /tools 200 in 128ms
+ GET /tools 500 in 22ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /tools 500 in 120ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:410:1]
+ [2m407[0m |           </div>
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+     : [35;1m      ^[0m
+ [2m411[0m |   )
+ [2m412[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:411:1]
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+ [2m411[0m |   )
+     : [35;1m  ^[0m
+ [2m412[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ GET /tools 200 in 116ms
+ GET /tools 500 in 10ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:410:1]
+ [2m407[0m |           </div>
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+     : [35;1m      ^[0m
+ [2m411[0m |   )
+ [2m412[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:411:1]
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+ [2m411[0m |   )
+     : [35;1m  ^[0m
+ [2m412[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ GET /tools 200 in 149ms
+ GET /tools 500 in 10ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /tools 500 in 367ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:410:1]
+ [2m407[0m |           </div>
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+     : [35;1m      ^[0m
+ [2m411[0m |   )
+ [2m412[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:411:1]
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+ [2m411[0m |   )
+     : [35;1m  ^[0m
+ [2m412[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ GET /tools 200 in 142ms
+ GET /tools 500 in 9ms
+ GET / 500 in 26ms
+ GET / 500 in 24ms
+ GET / 500 in 13ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:410:1]
+ [2m407[0m |           </div>
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+     : [35;1m      ^[0m
+ [2m411[0m |   )
+ [2m412[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:411:1]
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+ [2m411[0m |   )
+     : [35;1m  ^[0m
+ [2m412[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ ⨯ ./app/use-cases/UseCasesClient.tsx
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:410:1]
+ [2m407[0m |           </div>
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+     : [35;1m      ^[0m
+ [2m411[0m |   )
+ [2m412[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/mikemoloney/Documents/prompt-manage/app/use-cases/UseCasesClient.tsx[0m:411:1]
+ [2m408[0m |         </div>
+ [2m409[0m |       </section>
+ [2m410[0m |     </>
+ [2m411[0m |   )
+     : [35;1m  ^[0m
+ [2m412[0m | }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/use-cases/UseCasesClient.tsx
+./app/use-cases/page.tsx
+ GET / 500 in 376ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 500 in 441ms
+ ✓ Compiled /favicon.ico in 1577ms (1838 modules)
+ GET / 200 in 617ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 158ms
+ ✓ Compiled in 579ms (1852 modules)
+ GET / 200 in 112ms
+ ○ Compiling /p ...
+ ✓ Compiled /p in 542ms (1071 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/p'
+}
+ ⨯ [Error: Cannot find module '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/p'
+}
+ ⨯ [Error: Cannot find module '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET /p 500 in 1266ms
+ GET /p 500 in 29ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/p'
+}
+ ⨯ [Error: Cannot find module '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/p'
+}
+ ⨯ [Error: Cannot find module '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET /p 500 in 534ms
+ GET /p 500 in 31ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/p'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/p'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET /p 500 in 738ms
+ GET /p 500 in 29ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 37ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 90ms
+ GET / 500 in 27ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 32ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 79ms
+ GET / 500 in 29ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 52ms
+ ✓ Compiled in 582ms (1865 modules)
+ ✓ Compiled in 422ms (1865 modules)
+ ✓ Compiled in 800ms (794 modules)
+ ✓ Compiled in 661ms (794 modules)
+ ✓ Compiled in 914ms (794 modules)
+ ✓ Compiled in 682ms (780 modules)
+ ✓ Compiled in 91ms (780 modules)
+ ✓ Compiled in 67ms (780 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async K (.next/server/app/page.js:2:49789) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async (.next/server/pages/_error.js:1:6813) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async K (.next/server/app/page.js:2:49789) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async (.next/server/pages/_error.js:1:6813) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 881ms
+ GET / 500 in 245ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async D (.next/server/app/favicon.ico/route.js:1:36028) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 87ms
+ ✓ Compiled in 397ms (794 modules)
+ ✓ Compiled in 1058ms (1849 modules)
+ ✓ Compiled in 483ms (794 modules)
+ ✓ Compiled in 327ms (794 modules)
+ ✓ Compiled in 1214ms (794 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async K (.next/server/app/page.js:2:49789) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async (.next/server/pages/_error.js:1:6813) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async K (.next/server/app/page.js:2:49789) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async (.next/server/pages/_error.js:1:6813) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 830ms
+ GET / 500 in 256ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+    at async D (.next/server/app/favicon.ico/route.js:1:36028) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 70ms
+ ○ Compiling /p ...
+ ✓ Compiled /p in 540ms (1070 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/p'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json',
+  page: '/p'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET /p 500 in 1035ms
+ GET /p 500 in 31ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/p/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 41ms
+ ✓ Compiled /_not-found in 279ms (1071 modules)
+ ⨯ [Error [InvariantError]: Invariant: Expected clientReferenceManifest to be defined. This is a bug in Next.js.]
+ ⨯ [Error [InvariantError]: Invariant: Expected clientReferenceManifest to be defined. This is a bug in Next.js.]
+TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ ⨯ TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ ⨯ TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'
+}
+TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ ⨯ TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'
+}
+TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ ⨯ TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ GET / 500 in 943ms
+ GET / 500 in 41ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'
+}
+TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ ⨯ TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/server/pages/_document.js'
+}
+TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ ⨯ TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+TypeError: Cannot read properties of undefined (reading '/_app')
+    at new Promise (<anonymous>)
+ GET / 500 in 196ms
+ GET / 500 in 102ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 24ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 109ms
+ GET / 500 in 30ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 83ms
+ GET / 500 in 28ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 24ms
+ ✓ Compiled in 798ms (794 modules)
+ ✓ Compiled in 518ms (794 modules)
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 119ms
+ GET / 500 in 32ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 91ms
+ GET / 500 in 30ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/_not-found/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 29ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: unexpected end of file
+ ✓ Compiled in 1103ms (1832 modules)
+ ✓ Compiled in 697ms (794 modules)
+ ✓ Compiled in 228ms (794 modules)
+ ✓ Compiled in 275ms (794 modules)
+ ✓ Compiled in 718ms (794 modules)
+ ✓ Compiled in 254ms (794 modules)
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/page.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 97ms
+ GET / 500 in 30ms
+ ✓ Compiled /favicon.ico in 179ms (1055 modules)
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 209ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 204ms
+ GET / 500 in 139ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 104ms
+ ✓ Compiled in 1088ms (794 modules)
+ ✓ Compiled in 392ms (794 modules)
+ ✓ Compiled in 470ms (794 modules)
+ ✓ Compiled in 204ms (794 modules)
+ ✓ Compiled in 217ms (794 modules)
+ ✓ Compiled in 247ms (794 modules)
+ ✓ Compiled in 195ms (794 modules)
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 92ms
+ GET / 500 in 26ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 31ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 95ms
+ GET / 500 in 26ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 29ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:3:7409)
+    at Object.<anonymous> (.next/server/app/page.js:3:7483) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/mikemoloney/Documents/prompt-manage/.next/routes-manifest.json'
+}
+ GET / 500 in 90ms
+ GET / 500 in 25ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/webpack-runtime.js
+- /Users/mikemoloney/Documents/prompt-manage/.next/server/app/favicon.ico/route.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/require.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/load-components.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/utils.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/options.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/swc/index.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/config.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/next.js
+- /Users/mikemoloney/Documents/prompt-manage/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:41255)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:41311) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 28ms
+[?25h

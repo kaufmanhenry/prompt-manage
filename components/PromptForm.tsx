@@ -38,7 +38,7 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { useTeamContext } from '@/contexts/team-context'
-import { getModelsByCompany } from '@/lib/models'
+import { getModelsByCategory } from '@/lib/models'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { promptSchema } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
@@ -49,7 +49,7 @@ interface PromptFormProps {
   onOpenChange: (open: boolean) => void
 }
 
-const modelsByCompany = getModelsByCompany()
+const modelsByCategory = getModelsByCategory()
 
 export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const [loading, setLoading] = useState(false)
@@ -286,15 +286,24 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="max-h-[400px]">
-                      {Object.entries(modelsByCompany).map(([company, companyModels]) => (
-                        <SelectGroup key={company}>
-                          <SelectLabel>{company}</SelectLabel>
-                          {companyModels.map((model) => (
-                            <SelectItem key={model.id} value={model.id}>
-                              {model.name}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
+                      {Object.entries(modelsByCategory).map(([category, models]) => (
+                        models.length > 0 && (
+                          <SelectGroup key={category}>
+                            <SelectLabel>
+                              {category === 'LLM' && 'Language Models'}
+                              {category === 'Music' && 'Music Generation'}
+                              {category === 'Video' && 'Video Generation'}
+                              {category === 'Image' && 'Image Generation'}
+                              {category === 'Voice' && 'Voice Synthesis'}
+                              {category === 'Code' && 'Code Assistants'}
+                            </SelectLabel>
+                            {models.map((model) => (
+                              <SelectItem key={model.id} value={model.id}>
+                                {model.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        )
                       ))}
                     </SelectContent>
                   </Select>

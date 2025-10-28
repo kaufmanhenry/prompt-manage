@@ -5,7 +5,6 @@ import { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 const USE_CASES = [
   {
@@ -247,27 +246,25 @@ export default function UseCasesClient() {
   const [selectedUseCase, setSelectedUseCase] = useState<UseCase | null>(null)
 
   return (
-    <>
+    <div className="min-h-screen bg-white dark:bg-gray-950">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-blue-50 to-white py-16 dark:from-gray-900 dark:to-gray-800 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-4xl text-center">
-            <Badge className="mb-4">Real-World Use Cases</Badge>
-            <h1 className="mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
-              See What You Can Build with
-              <span className="text-blue-600 dark:text-blue-400"> AI Prompts</span>
+      <section className="border-b border-gray-200 dark:border-gray-800">
+        <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+          <div className="mx-auto max-w-3xl text-center">
+            <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+              Use Cases & Examples
             </h1>
-            <p className="mb-8 text-xl text-gray-600 dark:text-gray-300">
-              Discover how professionals across industries are using our Prompt Lab and Agent
-              Builder to save time, increase productivity, and achieve better results.
+            <p className="mb-8 text-xl leading-8 text-gray-600 dark:text-gray-400">
+              See how professionals across industries use Prompt Manage to organize their AI prompts and streamline
+              their workflow.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/dashboard/lab">
-                <Button size="lg">Try Prompt Lab Free</Button>
+              <Link href="/dashboard">
+                <Button size="lg">Get Started Free</Button>
               </Link>
-              <Link href="/dashboard/agents">
-                <Button size="lg" variant="outline">
-                  Explore AI Agents
+              <Link href="/p">
+                <Button variant="outline" size="lg">
+                  Browse Prompts
                 </Button>
               </Link>
             </div>
@@ -276,10 +273,12 @@ export default function UseCasesClient() {
       </section>
 
       {/* Role Selection */}
-      <section className="bg-gray-50 py-12 dark:bg-gray-900">
-        <div className="container mx-auto px-4">
-          <h2 className="mb-8 text-center text-2xl font-bold">Select Your Role</h2>
-          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+      <section className="border-b border-gray-200 dark:border-gray-800">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <h2 className="mb-12 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Browse by Role
+          </h2>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
             {USE_CASES.map((role) => (
               <button
                 key={role.role}
@@ -289,12 +288,14 @@ export default function UseCasesClient() {
                 }}
                 className={`rounded-lg border-2 p-4 transition-all ${
                   selectedRole.role === role.role
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-950'
-                    : 'border-gray-200 hover:border-gray-300 dark:border-gray-700'
+                    ? 'border-gray-900 bg-gray-100 dark:border-gray-100 dark:bg-gray-800'
+                    : 'border-gray-200 bg-white hover:border-gray-300 dark:border-gray-800 dark:bg-gray-900'
                 }`}
               >
-                <div className="mb-2 text-4xl">{role.icon}</div>
-                <div className="text-center text-sm font-medium">{role.role}</div>
+                <div className="mb-2 text-center text-3xl">{role.icon}</div>
+                <div className="text-center text-sm font-medium text-gray-900 dark:text-white">
+                  {role.role}
+                </div>
               </button>
             ))}
           </div>
@@ -302,80 +303,78 @@ export default function UseCasesClient() {
       </section>
 
       {/* Selected Role Use Cases */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-6xl">
-            <div className={`${selectedRole.color} mb-12 rounded-lg p-8`}>
-              <div className="mb-4 flex items-center gap-4">
-                <div className="text-5xl">{selectedRole.icon}</div>
-                <div>
-                  <h2 className="text-3xl font-bold">{selectedRole.role}</h2>
-                  <p className="text-lg text-gray-600 dark:text-gray-300">
-                    {selectedRole.description}
-                  </p>
-                </div>
+      <section className="py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-12 border-b border-gray-200 pb-8 dark:border-gray-800">
+            <div className="mb-4 flex items-center gap-4">
+              <div className="text-4xl">{selectedRole.icon}</div>
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{selectedRole.role}</h2>
+                <p className="mt-2 text-base text-gray-600 dark:text-gray-400">{selectedRole.description}</p>
               </div>
             </div>
+          </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
-              {selectedRole.useCases.map((useCase, index) => (
-                <Card
-                  key={index}
-                  className="cursor-pointer transition-shadow hover:shadow-lg"
+          <div className="grid gap-6 md:grid-cols-2">
+            {selectedRole.useCases.map((useCase, index) => (
+              <div
+                key={index}
+                className="group overflow-hidden rounded-lg border border-gray-200 bg-white transition-all hover:border-gray-300 dark:border-gray-800 dark:bg-gray-900"
+              >
+                <button
+                  className="w-full p-6 text-left"
                   onClick={() =>
                     setSelectedUseCase(selectedUseCase?.title === useCase.title ? null : useCase)
                   }
                 >
-                  <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      {useCase.title}
-                      <span className="text-sm font-normal">
-                        {selectedUseCase?.title === useCase.title ? '▼' : '▶'}
-                      </span>
-                    </CardTitle>
-                    <CardDescription>{useCase.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="mb-4 flex flex-wrap gap-2">
-                      {useCase.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
+                  <div className="mb-3 flex items-start justify-between">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{useCase.title}</h3>
+                    <span className="ml-4 text-lg font-normal text-gray-400 group-hover:text-gray-600">
+                      {selectedUseCase?.title === useCase.title ? '−' : '+'}
+                    </span>
+                  </div>
+                  <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">{useCase.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {useCase.tags.map((tag) => (
+                      <Badge key={tag} variant="outline" className="text-xs">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
 
-                    {selectedUseCase?.title === useCase.title && (
-                      <div className="mt-4 space-y-4 border-t pt-4">
-                        <div>
-                          <h4 className="mb-2 font-semibold">Example Workflow:</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-300">
-                            {useCase.example}
-                          </p>
-                        </div>
-                        <div>
-                          <h4 className="mb-2 font-semibold">Prompt Template:</h4>
-                          <div className="rounded bg-gray-100 p-3 font-mono text-sm dark:bg-gray-800">
-                            {useCase.promptTemplate}
-                          </div>
-                        </div>
-                        <div className="flex gap-2">
-                          <Link href="/dashboard/lab" className="flex-1">
-                            <Button className="w-full" size="sm">
-                              Try in Prompt Lab
-                            </Button>
-                          </Link>
-                          <Link href="/dashboard/agents" className="flex-1">
-                            <Button className="w-full" variant="outline" size="sm">
-                              Create Agent
-                            </Button>
-                          </Link>
+                  {selectedUseCase?.title === useCase.title && (
+                    <div className="mt-6 space-y-4 border-t border-gray-200 pt-6 dark:border-gray-800">
+                      <div>
+                        <h4 className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                          Example:
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{useCase.example}</p>
+                      </div>
+                      <div>
+                        <h4 className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                          Prompt Template:
+                        </h4>
+                        <div className="rounded-md border border-gray-200 bg-gray-50 p-3 font-mono text-xs dark:border-gray-800 dark:bg-gray-950">
+                          {useCase.promptTemplate}
                         </div>
                       </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                      <div className="flex gap-3 pt-2">
+                        <Link href="/p" className="flex-1">
+                          <Button className="w-full" size="sm">
+                            Find Similar Prompts
+                          </Button>
+                        </Link>
+                        <Link href="/dashboard" className="flex-1">
+                          <Button variant="outline" size="sm" className="w-full">
+                            Create Prompt
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -406,6 +405,34 @@ export default function UseCasesClient() {
           </div>
         </div>
       </section>
-    </>
+
+      {/* CTA Section */}
+      <section className="border-t border-gray-200 dark:border-gray-800">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <div className="rounded-2xl bg-gray-900 p-12 dark:bg-gray-900">
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">
+                Ready to organize your AI prompts?
+              </h2>
+              <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-300">
+                Create a free account to start organizing, tagging, and securely storing all your AI prompts in one place.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link href="/dashboard">
+                  <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-100">
+                    Get Started Free
+                  </Button>
+                </Link>
+                <Link href="/pricing">
+                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900">
+                    View Pricing
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   )
 }

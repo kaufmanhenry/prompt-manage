@@ -53,7 +53,7 @@ export function Sidebar({
   const [modelFilters, setModelFilters] = useState<string[]>([])
   const [tagFilters, setTagFilters] = useState<string[]>([])
   const [search, setSearch] = useState('')
-  const uniqueModels = Array.from(new Set(prompts.map((p) => p.model).filter(Boolean)))
+  const uniqueModels = Array.from(new Set(prompts.map((p) => p.model).filter((m) => m != null && m !== undefined)))
   const uniqueTags = Array.from(new Set(prompts.flatMap((p) => p.tags)))
 
   // Check if user is admin (removed since AI Agents tab is no longer shown)
@@ -84,7 +84,7 @@ export function Sidebar({
   // Filtering logic
   const filteredPrompts = prompts.filter((p) => {
     const matchesName = p.name.toLowerCase().includes(search.toLowerCase())
-    const matchesModel = modelFilters.length === 0 || modelFilters.includes(p.model)
+    const matchesModel = modelFilters.length === 0 || (p.model && modelFilters.includes(p.model))
     const matchesTags = tagFilters.length === 0 || tagFilters.every((tag) => p.tags.includes(tag))
     return matchesName && matchesModel && matchesTags
   })

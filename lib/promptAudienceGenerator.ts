@@ -10,7 +10,7 @@ interface PromptContext {
   name: string
   description?: string | null
   tags?: string[]
-  model: string
+  model?: string | null
   promptText?: string
 }
 
@@ -173,7 +173,7 @@ function generatePrimaryDescription(
   combined: string,
 ): string {
   const name = prompt.name
-  const model = prompt.model
+  const model = prompt.model || ''
 
   // Template variations for natural, unique descriptions
   const templates: ((
@@ -263,7 +263,9 @@ function extractKeywords(prompt: PromptContext, combined: string): string[] {
   const keywords = new Set<string>()
 
   // Add model
-  keywords.add(prompt.model.toLowerCase())
+  if (prompt.model) {
+    keywords.add(prompt.model.toLowerCase())
+  }
 
   // Add tags
   ;(prompt.tags || []).slice(0, 3).forEach((tag) => keywords.add(tag.toLowerCase()))

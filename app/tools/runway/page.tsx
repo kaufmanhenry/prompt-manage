@@ -104,12 +104,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RunwayPromptsPage() {
   const supabase = createServerSideClient()
 
-  // Get prompts tagged with 'runway'
+  // Get prompts for Runway - check both tags and model_id
   const { data: prompts } = await supabase
     .from('prompts')
     .select('*')
     .eq('is_public', true)
-    .contains('tags', [runwayData.tag])
+    .or(`tags.cs.{${runwayData.tag}},model_id.eq.runway-gen-3`)
     .order('view_count', { ascending: false })
     .limit(50)
 

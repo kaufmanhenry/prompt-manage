@@ -132,12 +132,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function SunoPromptsPage() {
   const supabase = createServerSideClient()
 
-  // Get prompts tagged with 'suno'
+  // Get prompts for Suno - check both tags and model_id
   const { data: prompts } = await supabase
     .from('prompts')
     .select('*')
     .eq('is_public', true)
-    .contains('tags', [sunoData.tag])
+    .or(`tags.cs.{${sunoData.tag}},model_id.eq.suno-v4`)
     .order('view_count', { ascending: false })
     .limit(50)
 
@@ -870,7 +870,7 @@ export default async function SunoPromptsPage() {
                 <div className="mt-4 flex items-center justify-center gap-6 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4" />
-                    <span>Join 40+ creators</span>
+                    <span>Join 60+ creators</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-4 w-4" />

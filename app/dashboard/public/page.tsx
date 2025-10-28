@@ -364,15 +364,17 @@ function PublicDirectoryContent() {
 
                       <div className="mt-auto space-y-2">
                         {/* Model */}
-                        <Link
-                          href={`/prompts/${encodeURIComponent(prompt.model)}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="transition-opacity hover:opacity-80"
-                        >
-                          <Badge variant="secondary" className="ml-2 cursor-pointer">
-                            {prompt.model}
-                          </Badge>
-                        </Link>
+                        {prompt.model && (
+                          <Link
+                            href={`/prompts/${encodeURIComponent(prompt.model)}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="transition-opacity hover:opacity-80"
+                          >
+                            <Badge variant="secondary" className="ml-2 cursor-pointer">
+                              {prompt.model}
+                            </Badge>
+                          </Link>
+                        )}
 
                         {/* Tags */}
                         <div className="flex flex-wrap gap-1">

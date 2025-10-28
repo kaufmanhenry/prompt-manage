@@ -88,8 +88,8 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
         {
           '@type': 'ListItem',
           position: 3,
-          name: prompt.model,
-          item: `https://promptmanage.com/p?model=${encodeURIComponent(prompt.model)}`,
+          name: prompt.model || 'All Prompts',
+          item: `https://promptmanage.com/p${prompt.model ? `?model=${encodeURIComponent(prompt.model)}` : ''}`,
         },
         {
           '@type': 'ListItem',
@@ -407,21 +407,23 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
             </div>
 
             {/* Model Info */}
-            <Card className="gap-2 space-y-0">
-              <CardHeader>
-                <CardTitle>Model</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Link
-                  href={`/prompts/${encodeURIComponent(prompt.model)}`}
-                  className="transition-opacity hover:opacity-80"
-                >
-                  <Badge variant="secondary" className="cursor-pointer">
-                    {prompt.model}
-                  </Badge>
-                </Link>
-              </CardContent>
-            </Card>
+            {prompt.model && (
+              <Card className="gap-2 space-y-0">
+                <CardHeader>
+                  <CardTitle>Model</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Link
+                    href={`/prompts/${encodeURIComponent(prompt.model)}`}
+                    className="transition-opacity hover:opacity-80"
+                  >
+                    <Badge variant="secondary" className="cursor-pointer">
+                      {prompt.model}
+                    </Badge>
+                  </Link>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Tags */}
             {prompt.tags && prompt.tags.length > 0 && (
@@ -541,7 +543,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
             <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
               <div className="flex items-center gap-1">
                 <TrendingUp className="h-3 w-3" />
-                <span>Join 40+ creators</span>
+                <span>Join 60+ creators</span>
               </div>
               <div className="flex items-center gap-1">
                 <Share2 className="h-3 w-3" />

@@ -385,16 +385,15 @@ export default function ModelsPage() {
           </div>
 
           {/* CTA */}
-          <div className="rounded-lg bg-white p-8 text-center shadow-sm dark:bg-gray-800">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="mb-16 rounded-lg border border-gray-200 bg-white p-8 text-center dark:border-gray-800 dark:bg-gray-900">
+            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
               Ready to elevate your prompt engineering?
             </h2>
             <p className="mb-6 text-gray-600 dark:text-gray-400">
-              Create your account and start creating, managing, and running AI prompts for all
-              supported models
+              Create your account and start creating, managing, and securely storing your AI prompts for all supported models
             </p>
-            <div className="flex items-center justify-center gap-4">
-              <Link href="/?redirect=/dashboard">
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link href="/dashboard">
                 <Button size="lg">Get Started</Button>
               </Link>
               <Link href="/p">

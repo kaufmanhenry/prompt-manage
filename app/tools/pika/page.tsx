@@ -131,12 +131,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PikaPromptsPage() {
   const supabase = createServerSideClient()
 
-  // Get prompts with this tag
+  // Get prompts for Pika - check both tags and model_id
   const { data: prompts } = await supabase
     .from('prompts')
     .select('*')
     .eq('is_public', true)
-    .contains('tags', [pikaData.tag])
+    .or(`tags.cs.{${pikaData.tag}},model_id.eq.pika-2`)
     .order('view_count', { ascending: false })
     .limit(100)
 
@@ -486,7 +486,7 @@ export default async function PikaPromptsPage() {
                 <div className="mt-4 flex items-center justify-center gap-6 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4" />
-                    <span>Join 40+ creators</span>
+                    <span>Join 60+ creators</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-4 w-4" />

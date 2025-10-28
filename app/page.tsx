@@ -1,4 +1,4 @@
-import { Folder, Megaphone, Rocket, Search, ShieldCheck, Users } from 'lucide-react'
+import { Folder, Search, ShieldCheck } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -7,15 +7,14 @@ import InteractivePromptLab from '@/components/InteractivePromptLab'
 import RotatingAudience from '@/components/RotatingAudience'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { createClient } from '@/utils/supabase/server'
 
 export const metadata: Metadata = {
-  title: 'Prompt Manage — Prompt Libraries for Marketing Teams',
+  title: 'Prompt Manage — Secure Prompt Management & Library Tool',
   description:
-    'Ship campaigns faster with organized prompt libraries tailored for marketing teams. Create, test, and collaborate on prompts for ads, emails, landing pages, and social content.',
+    'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool. Private collections coming soon.',
   keywords:
-    'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt sharing, team collaboration, prompt testing, version control',
+    'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt library, secure prompts, tag and filter prompts, private prompt collections',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
   publisher: 'Prompt Manage',
@@ -29,9 +28,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Prompt Manage — Prompt Libraries for Marketing Teams',
+    title: 'Prompt Manage — Secure Prompt Management & Library Tool',
     description:
-      'Ship campaigns faster with organized prompt libraries tailored for marketing teams. Create, test, and collaborate on prompts for ads, emails, landing pages, and social content.',
+      'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool. Private collections coming soon.',
     url: 'https://promptmanage.com',
     siteName: 'Prompt Manage',
     images: [
@@ -47,9 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Prompt Manage — Prompt Libraries for Marketing Teams',
+    title: 'Prompt Manage — Secure Prompt Management & Library Tool',
     description:
-      'Ship campaigns faster with organized prompt libraries tailored for marketing teams. Create, test, and collaborate on prompts for ads, emails, landing pages, and social content.',
+      'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool. Private collections coming soon.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -92,14 +91,14 @@ export default async function Home() {
       ratingCount: '127',
     },
     description:
-      'Professional prompt management platform for marketing teams, agencies, and enterprises. Organize, test, and collaborate on AI prompts for ChatGPT, Claude, Gemini, and more.',
+      'High-quality and secure prompt management tool for organizing AI prompts. Tag, sort, and filter prompts in your library. Private collections coming soon.',
     featureList: [
-      'Prompt library organization',
-      'Team collaboration',
+      'Secure prompt library',
+      'Tag and filter prompts',
+      'Organize by category',
       'Multi-model support (ChatGPT, Claude, Gemini, Grok)',
       'Version control',
-      'Public prompt directory',
-      'Prompt testing and optimization',
+      'Private collections (coming soon)',
     ],
     url: 'https://promptmanage.com',
     screenshot: 'https://promptmanage.com/og-image.svg',
@@ -114,7 +113,7 @@ export default async function Home() {
         name: 'What is Prompt Manage?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Prompt Manage is a professional prompt management platform designed for marketing teams, agencies, and enterprises. It helps you organize, test, and collaborate on AI prompts for ChatGPT, Claude, Gemini, Grok, and 20+ other AI models in one centralized platform.',
+          text: 'Prompt Manage is a high-quality and secure prompt management tool that helps you organize, tag, and filter AI prompts in your library. It supports ChatGPT, Claude, Gemini, Grok, and 20+ other AI models. Private prompt collections are coming soon.',
         },
       },
       {
@@ -130,7 +129,7 @@ export default async function Home() {
         name: 'How do teams use Prompt Manage?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Teams use Prompt Manage to create shared prompt libraries, collaborate on campaigns, maintain brand voice consistency, test prompt variations, and ship campaigns 2x faster. Marketing teams, creative studios, and agencies use it to organize prompts for emails, ads, landing pages, social media, and blog content.',
+          text: 'Teams use Prompt Manage to organize and manage their prompt libraries. You can tag, sort, and filter prompts for easy discovery, maintain version control, and securely share prompts with team members. Private collections are coming soon for enhanced security and organization.',
         },
       },
       {
@@ -154,7 +153,7 @@ export default async function Home() {
         name: 'Can I share prompts with my team?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes! Prompt Manage is built for team collaboration. You can create shared prompt libraries, invite team members, organize prompts by campaign or use case, and ensure everyone uses approved, on-brand prompts.',
+          text: 'Yes! Prompt Manage is built for team collaboration. You can create shared prompt libraries, invite team members, organize prompts by category or use case, and securely share your prompt collection. Private collections with enhanced permissions are coming soon.',
         },
       },
     ],
@@ -183,7 +182,7 @@ export default async function Home() {
       bestRating: '5',
     },
     reviewBody:
-      'Prompt Manage turned our scattered prompt docs into a single source of truth. Our team ships campaigns noticeably faster with more consistent copy.',
+      'Prompt Manage turned our scattered prompt docs into a well-organized library. Tagging and filtering make it easy to find exactly what we need, and version control keeps everything in sync.',
   }
 
   return (
@@ -224,9 +223,8 @@ export default async function Home() {
                 </span>
               </h1>
               <p className="mb-3 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
-                Create, manage, and run AI prompts. All in one place. With the Prompt Lab you can
-                generate incredible and efficient prompts for emails, ads, landing pages, social
-                media, blogs, and much more. Browse our{' '}
+                Create, manage, and run AI prompts. All in one place. Build your secure prompt library 
+                with our{' '}
                 <Link
                   href="/p"
                   className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
@@ -236,8 +234,8 @@ export default async function Home() {
                 with 300+ ready-to-use templates.
               </p>
               <p className="mb-6 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
-                Keep brand voice consistent and ship campaigns faster using Prompt Manage. Works
-                with{' '}
+                Tag, sort, and filter prompts to organize your workspace. Private collections coming soon. 
+                Works with{' '}
                 <Link
                   href="/models"
                   className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
@@ -248,15 +246,14 @@ export default async function Home() {
               </p>
               <div className="mb-8 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
-                  <Folder className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Campaign
+                  <Folder className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Organized
                   libraries
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
-                  <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Brand
-                  voice guardrails
+                  <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Secure & private
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
-                  <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Team sharing
+                  <Search className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Tag & filter
                 </span>
               </div>
               {session ? (
@@ -318,189 +315,181 @@ export default async function Home() {
             </div>
           </section>
 
-          {/* Use Case Workflows */}
-          <section className="mt-12 md:mt-20">
-            <div className="mx-auto max-w-6xl">
-              <h2 className="mb-12 text-center text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">
-                How teams ship campaigns faster
-              </h2>
-              <div className="grid-feature-cards">
-                {/* Campaign Manager Workflow */}
-                <div className="card-base">
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="icon-container">
-                      <Megaphone className="icon-feature" />
+          {/* Features Section */}
+          <section className="mt-32">
+            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                  Organize and manage your prompt library
+                </h2>
+                <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-400">
+                  A secure, high-quality prompt management tool with tagging, sorting, and filtering capabilities.
+                </p>
+              </div>
+
+              {/* Feature Cards */}
+              <div className="mt-16 grid gap-8 sm:grid-cols-3">
+                <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
+                  <div className="relative">
+                    <div className="mb-6 inline-flex items-center justify-center">
+                      <div className="rounded-lg border-2 border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-800">
+                        <Folder className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white">
-                        Campaign Manager
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Sets up libraries</p>
-                    </div>
-                  </div>
-                  <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-                    <div className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Creates "Q4 Holiday Campaign" library</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Adds proven email subject templates</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Shares with team → 2x faster setup</span>
-                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      Organize & Tag
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                      Create libraries, add tags, and categorize prompts for easy discovery and quick access.
+                    </p>
                   </div>
                 </div>
 
-                {/* Content Creator Workflow */}
-                <div className="card-base">
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="icon-container">
-                      <Rocket className="icon-feature" />
+                <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
+                  <div className="relative">
+                    <div className="mb-6 inline-flex items-center justify-center">
+                      <div className="rounded-lg border-2 border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-800">
+                        <Search className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white">
-                        Content Creator
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Uses templates</p>
-                    </div>
-                  </div>
-                  <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-                    <div className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Opens "Social Media" library</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Runs Instagram caption prompt</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Gets 5 variations → picks best</span>
-                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      Search & Filter
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                      Quickly find prompts by tag, keyword, category, or model. Instant access to exactly what you need.
+                    </p>
                   </div>
                 </div>
 
-                {/* Team Lead Workflow */}
-                <div className="card-base">
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="icon-container">
-                      <Users className="icon-feature" />
+                <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
+                  <div className="relative">
+                    <div className="mb-6 inline-flex items-center justify-center">
+                      <div className="rounded-lg border-2 border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-800">
+                        <ShieldCheck className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white">Team Lead</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Scales best practices
-                      </p>
-                    </div>
-                  </div>
-                  <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-                    <div className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Reviews winning prompts</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Adds to "Proven Templates"</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                      <span>Team ships 30% faster</span>
-                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      Secure & Private
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                      Keep your prompts secure. Private collections with enhanced permissions coming soon.
+                    </p>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
 
-          {/* Outcome metrics strip */}
-          <section className="mt-12">
-            <div className="mx-auto grid max-w-5xl grid-cols-2 gap-4 md:grid-cols-4">
-              {[
-                ['2x', 'faster campaign turnaround'],
-                ['30%', 'lift in CTR from testing'],
-                ['100%', 'brand voice consistency'],
-                ['100s', 'of hours saved'],
-              ].map(([k, v]) => (
-                <div
-                  key={k}
-                  className="rounded-xl border border-gray-200 bg-white p-4 text-center dark:border-gray-800 dark:bg-gray-900"
-                >
-                  <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">{k}</div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">{v}</div>
+              {/* Metrics */}
+              <div className="mt-20 grid grid-cols-2 gap-6 border-t border-gray-200 pt-16 dark:border-gray-800 sm:grid-cols-4">
+                <div className="text-center">
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">100%</div>
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Secure Storage</div>
                 </div>
-              ))}
+                <div className="text-center">
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">Tag & Filter</div>
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Easy Discovery</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">Private</div>
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Collections Soon</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">1000s</div>
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">Prompts Organized</div>
+                </div>
+              </div>
             </div>
           </section>
 
           {/* How it works */}
-          <section className="mt-16 md:mt-24">
-            <div className="mx-auto max-w-5xl">
-              <h2 className="mb-8 text-center text-xl font-semibold text-gray-900 dark:text-white md:text-2xl">
-                How it works
-              </h2>
-              <div className="grid gap-6 md:grid-cols-3">
-                {[
-                  {
-                    title: 'Create libraries',
-                    desc: 'Set up collections for Ads, Email, Social, and more.',
-                  },
-                  {
-                    title: 'Save prompts & variants',
-                    desc: 'Keep winning prompts and test new angles safely.',
-                  },
-                  {
-                    title: 'Share & ship',
-                    desc: 'Invite teammates, share links, and ship campaigns faster.',
-                  },
-                ].map((s, i) => (
-                  <div
-                    key={s.title}
-                    className="rounded-xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900"
-                  >
-                    <div className="mb-3 flex h-7 w-7 items-center justify-center rounded-md bg-emerald-600 text-sm font-bold text-white">
-                      {i + 1}
-                    </div>
-                    <h3 className="mb-1 text-base font-semibold text-gray-900 dark:text-white">
-                      {s.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{s.desc}</p>
-                  </div>
-                ))}
+          <section className="mt-24">
+            <div className="mx-auto max-w-6xl">
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                  How it works
+                </h2>
+                <p className="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                  Get started in minutes. Organize your prompts with tags, search with filters, and maintain version control.
+                </p>
               </div>
-              <div className="mt-10 text-center">
+              
+              <div className="mx-auto mt-12 max-w-4xl">
+                <div className="grid gap-8 md:grid-cols-3">
+                  {[
+                    {
+                      title: 'Organize & tag',
+                      desc: 'Create libraries, add tags, and categorize prompts for easy discovery.',
+                      icon: Folder,
+                      color: 'emerald',
+                    },
+                    {
+                      title: 'Search & filter',
+                      desc: 'Quickly find prompts by tag, category, or model.',
+                      icon: Search,
+                      color: 'sky',
+                    },
+                    {
+                      title: 'Secure & private',
+                      desc: 'Keep your prompts secure with private collections (coming soon).',
+                      icon: ShieldCheck,
+                      color: 'purple',
+                    },
+                  ].map((s, i) => (
+                    <div
+                      key={s.title}
+                      className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900"
+                    >
+                      <div className="mb-4 text-4xl font-bold text-gray-200 dark:text-gray-800">
+                        0{i + 1}
+                      </div>
+                      <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-white">
+                        {s.title}
+                      </h3>
+                      <p className="text-sm leading-6 text-gray-600 dark:text-gray-400">{s.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-12 text-center">
                 <Link href="/pricing">
-                  <Button size="lg">See Pricing</Button>
+                  <Button size="lg" className="px-8">
+                    See Pricing
+                  </Button>
                 </Link>
               </div>
             </div>
           </section>
 
           {/* Testimonial */}
-          <Separator className="mx-auto my-12 max-w-xs" />
-          <div className="mx-auto max-w-3xl pb-16 text-center">
-            <blockquote className="text-xl leading-relaxed text-gray-900 dark:text-white md:text-2xl">
-              “Prompt Manage turned our scattered prompt docs into a single source of truth. Our
-              team ships campaigns noticeably faster with more consistent copy.”
-            </blockquote>
-            <div className="mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300">
-              Michael Moloney, Co-Founder of{' '}
-              <a
-                href="https://moloneycreativeagency.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-emerald-300/50 underline-offset-2 hover:decoration-emerald-400"
-              >
-                MCA
-              </a>
+          <section className="relative mt-24">
+            <div className="absolute inset-0 -z-10 bg-gradient-to-b from-gray-50 via-transparent to-gray-50 dark:from-gray-950 dark:via-transparent dark:to-gray-950" />
+            <div className="mx-auto max-w-3xl px-4 text-center">
+              <blockquote className="text-2xl font-medium leading-relaxed text-gray-900 dark:text-white">
+                "Prompt Manage turned our scattered prompt docs into a well-organized library. Tagging 
+                and filtering make it easy to find exactly what we need, and version control keeps 
+                everything in sync."
+              </blockquote>
+              <div className="mt-8">
+                <div className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
+                  Michael Moloney, Co-Founder of{' '}
+                  <a
+                    href="https://moloneycreativeagency.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-emerald-300/50 underline-offset-2 hover:decoration-emerald-400"
+                  >
+                    MCA
+                  </a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </section>
 
         {/* Learn More / Internal Links Section */}
-        <section className="mx-auto mt-16 max-w-5xl border-t pb-16 pt-12">
+        <section className="mx-auto mt-32 max-w-5xl border-t pb-16 pt-12">
           <h2 className="mb-8 text-center text-2xl font-bold text-gray-900 dark:text-white">
             Explore Prompt Manage
           </h2>
@@ -607,6 +596,7 @@ export default async function Home() {
           </div>
         </section>
       </div>
+    </div>
     </>
   )
 }

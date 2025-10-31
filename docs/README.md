@@ -39,6 +39,7 @@ Welcome to the Prompt Manage documentation! This directory contains comprehensiv
 
 - **[Related Prompts](./features/related-prompts.md)** - Related prompts feature implementation
 - **[Prompt Editing](./features/prompt-editing.md)** - Prompt editing functionality
+- **[Prompt Collections](./features/prompt-collections.md)** - Organize, store, and manage prompts in collections
 - **[Search & Filtering](./features/search-filtering.md)** - Search and filtering capabilities
 
 ## 🎯 How to Use This Documentation

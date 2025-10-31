@@ -15,8 +15,13 @@ export async function GET(request: NextRequest) {
 
     const supabase = createServerSideClient()
 
-    // Build query
-    let query = supabase.from('prompts').select('*', { count: 'exact' }).eq('is_public', true)
+    // Build query - only select needed fields for performance
+    let query = supabase
+      .from('prompts')
+      .select('id, name, slug, description, model, tags, view_count, inserted_at, created_at, updated_at', {
+        count: 'exact',
+      })
+      .eq('is_public', true)
 
     // Apply filters
     if (model !== 'all') {
@@ -46,7 +51,9 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query
 
     if (error) {
-      console.error('Database error:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Database error:', error)
+      }
       return NextResponse.json({ error: 'Failed to fetch prompts' }, { status: 500 })
     }
 
@@ -54,21 +61,28 @@ export async function GET(request: NextRequest) {
     const transformedData = (data || []).map((prompt) => ({
       ...prompt,
       description: prompt.description || null,
-      is_public: prompt.is_public || false,
+      is_public: true, // All results are public
       slug: prompt.slug || prompt.id, // Fallback to ID if no slug
       view_count: prompt.view_count || 0,
       inserted_at: prompt.inserted_at || prompt.created_at || null,
     }))
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       prompts: transformedData,
       totalCount: count || 0,
       page,
       limit,
       totalPages: Math.ceil((count || 0) / limit),
     })
+
+    // Add caching headers for better performance
+    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600')
+
+    return response
   } catch (error) {
-    console.error('API error:', error)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('API error:', error)
+    }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

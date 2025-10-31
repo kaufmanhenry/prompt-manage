@@ -2,7 +2,7 @@
 
 import type { Session } from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
-import { GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
+import { FolderIcon, GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -33,7 +33,7 @@ interface SidebarProps {
   onNewPrompt?: () => void
   isLoading?: boolean
   session?: Session | null
-  currentPage?: 'home' | 'prompts' | 'lab' | 'public'
+  currentPage?: 'home' | 'prompts' | 'lab' | 'public' | 'collections'
 }
 
 export function Sidebar({
@@ -168,6 +168,15 @@ export function Sidebar({
         >
           <Home className="h-4 w-4" />
           Home
+        </Link>
+        <Link
+          href="/dashboard/collections"
+          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+            currentPage === 'collections' ? 'tab-active' : 'tab-inactive'
+          }`}
+        >
+          <FolderIcon className="h-4 w-4" />
+          Collections
         </Link>
         <Link
           href="/dashboard/public"

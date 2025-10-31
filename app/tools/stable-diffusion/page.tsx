@@ -149,8 +149,8 @@ export default async function MidjourneyPromptsPage() {
     .map(([tag]) => tag)
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl p-6">
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:p-6">
         {/* Breadcrumbs */}
         <nav className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
           <Link href="/" className="hover:text-foreground">

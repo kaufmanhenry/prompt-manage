@@ -252,8 +252,8 @@ export default async function TagPage({ params }: TagPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-7xl p-6">
+      <div className="min-h-screen bg-background overflow-x-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:p-6">
           {/* Breadcrumbs */}
           <nav className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
             <Link href="/" className="hover:text-foreground">
@@ -358,7 +358,7 @@ export default async function TagPage({ params }: TagPageProps) {
           </div>
 
           {/* Comprehensive Content Section */}
-          <div className="mx-auto mt-16 max-w-4xl border-t pb-8 pt-12">
+          <div className="mx-auto mt-16 max-w-4xl border-t pb-8 pt-8 sm:pt-12 px-4 sm:px-0">
             <div className="prose prose-sm dark:prose-invert max-w-none">
               <h2 className="mb-6 text-2xl font-bold text-foreground">
                 Complete Guide to {tag} AI Prompts

@@ -406,10 +406,10 @@ export default async function Home() {
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                    Private
+                    Collections
                   </div>
                   <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Collections Soon
+                    Organize & Share
                   </div>
                 </div>
                 <div className="text-center">

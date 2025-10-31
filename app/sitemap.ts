@@ -100,6 +100,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
+  // EXCLUDE agent routes (internal admin only)
+  // These routes should NOT be indexed:
+  // - /dashboard/agent (agent dashboard)
+  // - /dashboard/agent/setup (agent setup)
+  // - /api/agent/* (all agent API endpoints)
+
   // Generate legal pages from markdown files
   const legalDir = path.join(process.cwd(), 'legal')
   let legalPages: MetadataRoute.Sitemap = []
@@ -185,14 +191,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Get public user profiles
     const { data: publicProfiles } = await supabase
       .from('user_profiles')
-      .select('id, updated_at')
+      .select('username, updated_at')
+      .not('username', 'is', null)
       .limit(1000)
 
     const profilePages = (publicProfiles || []).map((profile) => ({
-      url: `${baseUrl}/u/${profile.id}`,
-      lastModified: new Date(profile.updated_at),
+      url: `${baseUrl}/u/${profile.username}`,
+      lastModified: new Date(profile.updated_at || new Date()),
       changeFrequency: 'monthly' as const,
       priority: 0.5,
+    }))
+
+    // Collections
+    const { data: publicCollections } = await supabase
+      .from('prompt_collections')
+      .select('slug, updated_at')
+      .eq('visibility', 'public')
+      .limit(1000)
+
+    const collectionPages = (publicCollections || []).map((c) => ({
+      url: `${baseUrl}/collections/${c.slug}`,
+      lastModified: new Date(c.updated_at || new Date()),
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
     }))
 
     return [
@@ -203,6 +224,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...tagPages,
       ...promptPages,
       ...profilePages,
+      ...collectionPages,
     ]
   } catch (error) {
     console.error('Error generating sitemap:', error)

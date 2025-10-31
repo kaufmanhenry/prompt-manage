@@ -7,8 +7,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 
 import CopyButton from '@/components/CopyButton'
+import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { FullPageLoading } from '@/components/ui/loading'
@@ -167,8 +169,8 @@ function PublicDirectoryContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl p-6">
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:p-6">
         {/* Header */}
         <div className="mb-8">
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground">
@@ -292,9 +294,12 @@ function PublicDirectoryContent() {
         ) : (
           <>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {filteredPrompts.map((prompt) => (
-                <Link key={prompt.id} href={`/p/${prompt.slug}`}>
-                  <Card className="group relative flex h-full cursor-pointer flex-col p-4 transition-all hover:border-primary hover:shadow-md">
+                {filteredPrompts.map((prompt) => (
+                <Card
+                  key={prompt.id}
+                  className="group relative flex h-full flex-col p-4 transition-all hover:border-primary hover:shadow-md"
+                >
+                  <Link href={`/p/${prompt.slug}`} className="flex-1">
                     <div className="mb-3 flex items-start justify-between">
                       <h3 className="line-clamp-2 text-lg font-semibold text-foreground group-hover:text-primary">
                         {prompt.name}
@@ -310,57 +315,62 @@ function PublicDirectoryContent() {
                       </p>
                     )}
 
-                    <div className="mt-auto space-y-2">
-                      {/* Model */}
-                      {prompt.model && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            router.push(`/prompts/${encodeURIComponent(prompt.model!)}`)
-                          }}
-                          className="transition-opacity hover:opacity-80"
-                        >
-                          <Badge variant="secondary" className="ml-2 cursor-pointer">
-                            {prompt.model}
-                          </Badge>
-                        </button>
-                      )}
+                    </Link>
 
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-1">
-                        {prompt.tags?.slice(0, 3).map((tag) => (
+                    {/* Action Bar - Not clickable, separate from prompt card */}
+                    <div className="mt-3 flex items-center justify-between border-t pt-3" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex flex-wrap gap-2">
+                        {/* Model */}
+                        {prompt.model && (
                           <button
-                            key={tag}
                             onClick={(e) => {
                               e.stopPropagation()
-                              router.push(`/p/tags/${encodeURIComponent(tag)}`)
+                              router.push(`/prompts/${encodeURIComponent(prompt.model!)}`)
                             }}
                             className="transition-opacity hover:opacity-80"
                           >
-                            <Badge variant="outline" className="cursor-pointer">
-                              {tag}
+                            <Badge variant="secondary" className="cursor-pointer">
+                              {prompt.model}
                             </Badge>
                           </button>
-                        ))}
-                        {prompt.tags && prompt.tags.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{prompt.tags.length - 3} more
-                          </Badge>
                         )}
-                      </div>
 
-                      {/* Stats */}
-                      <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <span>{prompt.view_count || 0} views</span>
-                        <span>
-                          {prompt.inserted_at
-                            ? new Date(prompt.inserted_at).toLocaleDateString()
-                            : 'Recently'}
-                        </span>
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-1">
+                          {prompt.tags?.slice(0, 3).map((tag) => (
+                            <button
+                              key={tag}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                router.push(`/p/tags/${encodeURIComponent(tag)}`)
+                              }}
+                              className="transition-opacity hover:opacity-80"
+                            >
+                              <Badge variant="outline" className="cursor-pointer">
+                                {tag}
+                              </Badge>
+                            </button>
+                          ))}
+                          {prompt.tags && prompt.tags.length > 3 && (
+                            <Badge variant="outline" className="text-xs">
+                              +{prompt.tags.length - 3} more
+                            </Badge>
+                          )}
+                        </div>
+
+                        {/* Stats */}
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <span>{prompt.view_count || 0} views</span>
+                          <span>
+                            {prompt.inserted_at
+                              ? new Date(prompt.inserted_at).toLocaleDateString()
+                              : 'Recently'}
+                          </span>
+                        </div>
                       </div>
+                      {prompt.id && <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />}
                     </div>
                   </Card>
-                </Link>
               ))}
             </div>
 

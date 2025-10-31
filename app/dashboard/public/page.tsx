@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 
 import CopyButton from '@/components/CopyButton'
+import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
 import { Sidebar } from '@/components/Sidebar'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
@@ -355,8 +356,11 @@ function PublicDirectoryContent() {
             <>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {filteredPrompts.map((prompt) => (
-                  <Link key={prompt.id} href={`/p/${prompt.slug}`}>
-                    <Card className="group relative flex h-full cursor-pointer flex-col p-4 transition-all hover:border-primary hover:shadow-md">
+                  <Card
+                    key={prompt.id}
+                    className="group relative flex h-full flex-col p-4 transition-all hover:border-primary hover:shadow-md"
+                  >
+                    <Link href={`/p/${prompt.slug}`} className="flex-1">
                       <div className="mb-3 flex items-start justify-between">
                         <h3 className="line-clamp-2 text-lg font-semibold text-foreground group-hover:text-primary">
                           {prompt.name}
@@ -371,8 +375,11 @@ function PublicDirectoryContent() {
                           {prompt.description}
                         </p>
                       )}
+                    </Link>
 
-                      <div className="mt-auto space-y-2">
+                    {/* Action Bar - Not clickable, separate from prompt card */}
+                    <div className="mt-3 flex items-center justify-between border-t pt-3" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex flex-wrap gap-2">
                         {/* Model */}
                         {prompt.model && (
                           <Link
@@ -408,7 +415,7 @@ function PublicDirectoryContent() {
                         </div>
 
                         {/* Stats */}
-                        <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <span>{prompt.view_count || 0} views</span>
                           <span>
                             {prompt.inserted_at
@@ -417,8 +424,9 @@ function PublicDirectoryContent() {
                           </span>
                         </div>
                       </div>
-                    </Card>
-                  </Link>
+                      {prompt.id && <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />}
+                    </div>
+                  </Card>
                 ))}
               </div>
 

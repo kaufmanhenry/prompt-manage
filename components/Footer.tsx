@@ -46,6 +46,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/collections" className="text-gray-600 hover:underline dark:text-gray-300">
+                Collections
+              </Link>
+            </li>
+            <li>
               <Link href="/use-cases" className="text-gray-600 hover:underline dark:text-gray-300">
                 Use Cases
               </Link>

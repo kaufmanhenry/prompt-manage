@@ -5,12 +5,21 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
 
-  // Temporarily disable React Strict Mode to fix development errors
-  reactStrictMode: false,
+  // Re-enable React Strict Mode for better performance and development
+  reactStrictMode: true,
 
-  // Disable experimental features that might cause issues
+  // Enable SWC minification (faster than Terser)
+  swcMinify: true,
+
+  // Optimize package imports for better tree-shaking
   experimental: {
-    // optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react'],
+    optimizePackageImports: [
+      '@radix-ui/react-icons',
+      'lucide-react',
+      '@tanstack/react-query',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+    ],
   },
 
   // Webpack configuration to fix module loading issues
@@ -30,9 +39,12 @@ const nextConfig: NextConfig = {
   // Image optimization
   images: {
     formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
   },
 
-  // Basic headers for security
+  // Headers for security and performance
   async headers() {
     return [
       {
@@ -45,6 +57,24 @@ const nextConfig: NextConfig = {
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
+          },
+        ],
+      },
+      {
+        source: '/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/image',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

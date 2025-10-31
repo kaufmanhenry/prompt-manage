@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { getStripe } from '@/lib/stripe'
-import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/server'
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,7 +24,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
     }
 
-    const supabase = await createClient()
+    // Use service role for webhook writes (bypass RLS safely on server)
+    const supabase = createAdminClient()
 
     switch (event.type) {
       case 'checkout.session.completed': {

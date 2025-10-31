@@ -249,8 +249,8 @@ export default async function SunoPromptsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-7xl p-6">
+      <div className="min-h-screen bg-background overflow-x-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:p-6">
           {/* Breadcrumbs */}
           <nav className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
             <Link href="/" className="hover:text-foreground">
@@ -266,21 +266,21 @@ export default async function SunoPromptsPage() {
 
           {/* Hero Section */}
           <div className="mb-12">
-            <div className="mb-8 flex items-start gap-6">
-              <div className={`${sunoData.color} rounded-xl p-6`}>
-                <span className="text-6xl">{sunoData.icon}</span>
+            <div className="mb-8 flex flex-col sm:flex-row items-start gap-6">
+              <div className={`${sunoData.color} rounded-xl p-4 sm:p-6 flex-shrink-0`}>
+                <span className="text-4xl sm:text-6xl">{sunoData.icon}</span>
               </div>
-              <div className="flex-1">
-                <div className="mb-4 flex items-center gap-3">
-                  <h1 className="text-4xl font-bold tracking-tight text-foreground">
+              <div className="flex-1 w-full sm:w-auto">
+                <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                  <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground">
                     {sunoData.name} Prompts
                   </h1>
                   <Badge variant="default" className="text-sm">
                     Music Generation
                   </Badge>
                 </div>
-                <p className="mb-4 text-xl text-muted-foreground">{sunoData.description}</p>
-                <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                <p className="mb-4 text-base sm:text-xl text-muted-foreground">{sunoData.description}</p>
+                <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <Music className="h-4 w-4" />
                     <span className="font-medium text-foreground">
@@ -409,7 +409,7 @@ export default async function SunoPromptsPage() {
           )}
 
           {/* Educational Content */}
-          <div className="mx-auto mb-12 max-w-4xl border-t pb-8 pt-12">
+          <div className="mx-auto mb-12 max-w-4xl border-t pb-8 pt-8 sm:pt-12 px-4 sm:px-0">
             <div className="prose prose-sm dark:prose-invert max-w-none">
               <h2 className="mb-6 text-3xl font-bold text-foreground">
                 Complete Guide to Suno Music Generation
@@ -668,11 +668,12 @@ export default async function SunoPromptsPage() {
 
               {/* Competitors Comparison */}
               <div className="mb-8">
-                <h3 className="mb-4 text-2xl font-semibold text-foreground">
+                <h3 className="mb-4 text-xl sm:text-2xl font-semibold text-foreground">
                   How Suno Compares to Other AI Music Tools
                 </h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse border border-gray-300 dark:border-gray-700">
+                <div className="overflow-x-auto -mx-4 sm:mx-0">
+                  <div className="min-w-full inline-block align-middle px-4 sm:px-0">
+                    <table className="w-full border-collapse border border-gray-300 dark:border-gray-700 text-sm sm:text-base">
                     <thead>
                       <tr className="bg-accent/50">
                         <th className="border border-gray-300 p-3 text-left dark:border-gray-700">
@@ -743,7 +744,8 @@ export default async function SunoPromptsPage() {
                         <td className="border border-gray-300 p-3 dark:border-gray-700">✅ Yes</td>
                       </tr>
                     </tbody>
-                  </table>
+                    </table>
+                  </div>
                 </div>
               </div>
 

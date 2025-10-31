@@ -25,6 +25,7 @@ import {
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
+import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -298,14 +299,17 @@ export function PromptsTable({
           {filteredPrompts.map((prompt) => (
             <Card
               key={prompt.id}
-              className="flex h-full cursor-pointer flex-col p-4 transition-shadow hover:shadow-lg"
-              onClick={() => setSelectedPrompt(prompt)}
+              className="flex h-full flex-col p-4 transition-shadow hover:shadow-lg"
               data-testid="prompt-card"
             >
               <div className="flex-grow">
-                <div className="mb-4">
+                {/* Clickable header */}
+                <div
+                  className="mb-4 cursor-pointer"
+                  onClick={() => prompt.slug ? window.open(`/p/${prompt.slug}`, '_blank') : setSelectedPrompt(prompt)}
+                >
                   <div className="mb-2 flex items-start justify-between">
-                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold">{prompt.name}</h3>
+                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold hover:text-primary">{prompt.name}</h3>
                     {prompt.is_public ? (
                       <Badge
                         variant="default"
@@ -337,66 +341,58 @@ export function PromptsTable({
                       <Badge variant="outline">+{prompt.tags.length - 2}</Badge>
                     )}
                   </div>
-                </div>
-                <div className="mb-4">
-                  <pre className="line-clamp-3 text-sm text-muted-foreground">
-                    {prompt.prompt_text}
-                  </pre>
-                </div>
 
-                {/* Stats for public prompts */}
-                {prompt.is_public && (
-                  <div className="mb-4 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-                    <div className="flex items-center gap-1">
-                      <TrendingUp className="h-3 w-3" />
-                      <span>{prompt.view_count} views</span>
+                  {/* Derivative prompt indicator */}
+                  {prompt.parent_prompt_id && (
+                    <div className="mb-4 mt-2 flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400">
+                      <LinkIcon className="h-3 w-3" />
+                      <span>Derivative of public prompt</span>
                     </div>
-                    {prompt.slug && (
-                      <Link
-                        href={`/p/${prompt.slug}`}
-                        className="text-blue-600 hover:underline"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        View Public Page
-                      </Link>
-                    )}
-                  </div>
-                )}
+                  )}
 
-                {/* Derivative prompt indicator */}
-                {prompt.parent_prompt_id && (
-                  <div className="mb-4 flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400">
-                    <LinkIcon className="h-3 w-3" />
-                    <span>Derivative of public prompt</span>
+                  {/* Clickable prompt content */}
+                  <div className="mt-2">
+                    <pre className="line-clamp-3 text-sm text-muted-foreground">
+                      {prompt.prompt_text}
+                    </pre>
                   </div>
-                )}
+
+                  {/* Stats for public prompts */}
+                  {prompt.is_public && (
+                    <div className="mt-2 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center gap-1">
+                        <TrendingUp className="h-3 w-3" />
+                        <span>{prompt.view_count} views</span>
+                      </div>
+                      {prompt.slug && (
+                        <div className="text-blue-600 dark:text-blue-400">
+                          View Public Page →
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div
-                className="mt-auto flex items-center justify-between pt-4"
+                className="mt-auto flex items-center justify-between border-t pt-4"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex items-center gap-2">
                   <CopyButton text={prompt.prompt_text} />
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => {
-                            // TODO: Implement run prompt functionality for grid view
-                          }}
-                          disabled={false} // Temporarily disable the disabled state for testing
-                        >
-                          <Play className="h-5 w-5" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>Run Prompt</TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  {prompt.id && (
+                    <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
+                  {prompt.slug && (
+                    <Link href={`/p/${prompt.slug}`} target="_blank">
+                      <Button variant="outline" size="sm">
+                        <ExternalLink className="mr-1 h-4 w-4" />
+                        Open
+                      </Button>
+                    </Link>
+                  )}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="sm">
@@ -404,11 +400,9 @@ export function PromptsTable({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem
-                        onClick={() => toast({ title: 'Share action not implemented yet.' })}
-                      >
-                        <Share2 className="mr-2 size-4" />
-                        {prompt.is_public ? 'Manage Sharing' : 'Share'}
+                      <DropdownMenuItem onClick={() => onEditPrompt?.(prompt)}>
+                        <Edit className="mr-2 size-4" />
+                        Edit
                       </DropdownMenuItem>
                       {prompt.is_public && (
                         <DropdownMenuItem onClick={() => handleCopyLink()}>

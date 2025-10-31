@@ -28,6 +28,21 @@ export default function DashboardHomePage() {
     },
   })
 
+  // Fetch user profile to get username
+  const { data: userProfile } = useQuery({
+    queryKey: ['userProfile', session?.user?.id],
+    queryFn: async () => {
+      if (!session?.user?.id) return null
+      const { data } = await createClient()
+        .from('user_profiles')
+        .select('username')
+        .eq('id', session.user.id)
+        .single()
+      return data as { username: string } | null
+    },
+    enabled: !!session?.user?.id,
+  })
+
   const { data: prompts = [], isLoading } = useQuery({
     queryKey: ['prompts', session?.user?.id],
     queryFn: async () => {
@@ -175,7 +190,7 @@ export default function DashboardHomePage() {
                   className="cursor-pointer transition-colors hover:text-primary"
                   onClick={() =>
                     window.open(
-                      `/u/${session?.user?.user_metadata?.username || session?.user?.id}`,
+                      `/u/${userProfile?.username || session?.user?.id || ''}`,
                       '_blank',
                     )
                   }

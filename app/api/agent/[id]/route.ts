@@ -21,7 +21,7 @@ export async function GET(
 
     const { data, error } = await supabase
       .from('agents')
-      .select('*')
+      .select('id, name, description, category, output_type, keywords, is_active, mode, temperature, quality_threshold, owner_id, team_id, brand_guidelines, quality_standards, created_at, updated_at')
       .eq('id', resolvedParams.id)
       .single()
 
@@ -35,11 +35,14 @@ export async function GET(
 
     return NextResponse.json({ agent: data })
   } catch (error) {
-    console.error('Error fetching agent:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error fetching agent:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 
@@ -84,7 +87,7 @@ export async function PATCH(
       .from('agents')
       .update(updates)
       .eq('id', resolvedParams.id)
-      .select()
+      .select('id, name, description, category, output_type, keywords, is_active, mode, temperature, quality_threshold, owner_id, team_id, brand_guidelines, quality_standards, created_at, updated_at')
       .single()
 
     if (error) {
@@ -93,11 +96,14 @@ export async function PATCH(
 
     return NextResponse.json({ agent: data })
   } catch (error) {
-    console.error('Error updating agent:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error updating agent:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 
@@ -136,11 +142,14 @@ export async function DELETE(
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error deleting agent:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error deleting agent:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 

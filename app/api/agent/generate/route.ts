@@ -22,10 +22,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'agent_id is required' }, { status: 400 })
     }
 
-    // Get agent details
+    // Get agent details (select only needed fields)
     const { data: agent, error: agentError } = await supabase
       .from('agents')
-      .select('*')
+      .select('id, name, keywords, category, output_type, is_active, brand_guidelines, quality_standards')
       .eq('id', agent_id)
       .single()
 

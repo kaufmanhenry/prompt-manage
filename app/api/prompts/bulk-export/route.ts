@@ -20,8 +20,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { promptIds, format = 'csv' } = body
 
-    // Fetch prompts
-    let query = supabase.from('prompts').select('*').eq('user_id', user.id)
+    // Fetch prompts (select only needed fields for export)
+    let query = supabase
+      .from('prompts')
+      .select('name, prompt_text, description, model, tags, is_public, inserted_at, updated_at')
+      .eq('user_id', user.id)
 
     if (promptIds && Array.isArray(promptIds) && promptIds.length > 0) {
       query = query.in('id', promptIds)
@@ -48,7 +51,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Convert to CSV
-      const headers = ['name', 'prompt_text', 'description', 'model', 'tags', 'is_public', 'created_at', 'updated_at']
+      const headers = ['name', 'prompt_text', 'description', 'model', 'tags', 'is_public', 'inserted_at', 'updated_at']
       const csvRows = [
         headers.map(escapeCSV).join(','),
         ...prompts.map((p) =>
@@ -59,7 +62,7 @@ export async function POST(request: NextRequest) {
             escapeCSV(p.model || ''),
             escapeCSV(Array.isArray(p.tags) ? p.tags.join(', ') : ''),
             escapeCSV(p.is_public ? 'true' : 'false'),
-            escapeCSV(p.created_at || ''),
+            escapeCSV(p.inserted_at || ''),
             escapeCSV(p.updated_at || ''),
           ].join(','),
         ),
@@ -83,7 +86,7 @@ export async function POST(request: NextRequest) {
         model: p.model || '',
         tags: Array.isArray(p.tags) ? p.tags : [],
         is_public: p.is_public || false,
-        created_at: p.created_at || '',
+        inserted_at: p.inserted_at || '',
         updated_at: p.updated_at || '',
       }))
 
@@ -97,15 +100,21 @@ export async function POST(request: NextRequest) {
     } else {
       return NextResponse.json({ error: 'Unsupported format. Use "csv" or "json"' }, { status: 400 })
     }
-  } catch (error) {
-    console.error('Bulk export error:', error)
-    return NextResponse.json(
-      {
-        error: 'Failed to export prompts',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 },
-    )
-  }
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Bulk export error:', error)
+      }
+      const errorMessage =
+        process.env.NODE_ENV === 'development' && error instanceof Error
+          ? error.message
+          : 'Internal server error'
+      return NextResponse.json(
+        {
+          error: 'Failed to export prompts',
+          details: process.env.NODE_ENV === 'development' ? errorMessage : undefined,
+        },
+        { status: 500 },
+      )
+    }
 }
 

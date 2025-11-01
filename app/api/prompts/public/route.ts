@@ -51,7 +51,9 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query
 
     if (error) {
-      console.error('Database error:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Database error:', error)
+      }
       return NextResponse.json(
         { error: 'Failed to fetch prompts', details: process.env.NODE_ENV === 'development' ? error.message : undefined },
         { status: 500 },
@@ -82,7 +84,9 @@ export async function GET(request: NextRequest) {
 
     return response
   } catch (error) {
-    console.error('API error:', error)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('API error:', error)
+    }
     return NextResponse.json(
       {
         error: 'Internal server error',

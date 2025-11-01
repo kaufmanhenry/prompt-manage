@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     // Verify the source prompt exists and is public
     const { data: sourcePrompt, error: sourceError } = await supabase
       .from('prompts')
-      .select('*')
+      .select('id, name, slug, description, prompt_text, model, tags, user_id, is_public')
       .eq('id', source_prompt_id)
       .eq('is_public', true)
       .single()
@@ -63,19 +63,23 @@ export async function POST(request: NextRequest) {
     })
 
     if (copyError) {
-      console.error('Copy prompt error:', copyError)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Copy prompt error:', copyError)
+      }
       return NextResponse.json({ error: 'Failed to copy prompt' }, { status: 500 })
     }
 
-    // Get the newly created prompt
+    // Get the newly created prompt (select only needed fields)
     const { data: newPrompt, error: fetchError } = await supabase
       .from('prompts')
-      .select('*')
+      .select('id, name, slug, description, prompt_text, model, tags, is_public, user_id, inserted_at, updated_at')
       .eq('id', newPromptId)
       .single()
 
     if (fetchError) {
-      console.error('Fetch new prompt error:', fetchError)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Fetch new prompt error:', fetchError)
+      }
       return NextResponse.json({ error: 'Failed to fetch copied prompt' }, { status: 500 })
     }
 
@@ -94,8 +98,14 @@ export async function POST(request: NextRequest) {
         slug: originalPrompt?.slug,
       },
     })
-  } catch (error) {
-    console.error('Copy prompt error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-  }
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Copy prompt error:', error)
+      }
+      const errorMessage =
+        process.env.NODE_ENV === 'development' && error instanceof Error
+          ? error.message
+          : 'Internal server error'
+      return NextResponse.json({ error: errorMessage }, { status: 500 })
+    }
 }

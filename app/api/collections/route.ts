@@ -6,7 +6,7 @@ export async function GET() {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('prompt_collections')
-    .select('*')
+    .select('id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at')
     .order('created_at', { ascending: false })
     .limit(50)
 
@@ -37,7 +37,11 @@ export async function POST(request: Request) {
     creator_id: userId,
   }
 
-  const { data, error } = await supabase.from('prompt_collections').insert(payload).select('*').single()
+  const { data, error } = await supabase
+    .from('prompt_collections')
+    .insert(payload)
+    .select('id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at')
+    .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ collection: data })
 }

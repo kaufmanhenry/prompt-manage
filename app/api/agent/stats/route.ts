@@ -21,8 +21,12 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'agent_id is required' }, { status: 400 })
     }
 
-    // Get agent
-    const { data: agent } = await supabase.from('agents').select('*').eq('id', agent_id).single()
+    // Get agent (select only needed fields)
+    const { data: agent } = await supabase
+      .from('agents')
+      .select('id, name, mode, is_active, owner_id')
+      .eq('id', agent_id)
+      .single()
 
     if (!agent) {
       return NextResponse.json({ error: 'Agent not found' }, { status: 404 })
@@ -101,11 +105,14 @@ export async function GET(request: Request) {
       top_keywords: keywords || [],
     })
   } catch (error) {
-    console.error('Error fetching agent stats:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error fetching agent stats:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 

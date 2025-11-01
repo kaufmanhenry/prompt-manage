@@ -1,5 +1,5 @@
 'use client'
-import { Check, Sparkles } from 'lucide-react'
+import { Check, ShieldCheck, Sparkles, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -29,7 +29,9 @@ export default function PricingPage() {
         window.location.href = data.url
       }
     } catch (error) {
-      console.error('Checkout error:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Checkout error:', error)
+      }
       toast({
         title: 'Error',
         description: error instanceof Error ? error.message : 'Failed to start checkout',
@@ -201,8 +203,49 @@ export default function PricingPage() {
           </div>
         </div>
 
+        {/* Enterprise Features Section */}
+        <div className="mt-20 border-t border-border/50 pt-16">
+          <div className="text-center">
+            <h2 className="mb-4 text-2xl font-semibold tracking-tight text-foreground">
+              Enterprise-Ready Infrastructure
+            </h2>
+            <p className="mb-12 mx-auto max-w-2xl text-sm leading-relaxed text-foreground/60">
+              Built for scale, security, and reliability. Trusted by teams of all sizes.
+            </p>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="rounded-lg border border-border/50 bg-card p-6">
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
+                  <ShieldCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <h3 className="mb-2 text-base font-semibold text-foreground">Enterprise Security</h3>
+                <p className="text-sm leading-relaxed text-foreground/60">
+                  SOC 2 compliant, end-to-end encryption, role-based access control, and audit logs.
+                </p>
+              </div>
+              <div className="rounded-lg border border-border/50 bg-card p-6">
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
+                  <Users className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <h3 className="mb-2 text-base font-semibold text-foreground">Scalable Architecture</h3>
+                <p className="text-sm leading-relaxed text-foreground/60">
+                  Built to handle millions of prompts, thousands of teams, and unlimited growth.
+                </p>
+              </div>
+              <div className="rounded-lg border border-border/50 bg-card p-6">
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
+                  <Sparkles className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <h3 className="mb-2 text-base font-semibold text-foreground">99.9% Uptime SLA</h3>
+                <p className="text-sm leading-relaxed text-foreground/60">
+                  Enterprise-grade reliability with global edge caching and automated failover.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Trust Indicators */}
-        <div className="mt-20 text-center">
+        <div className="mt-16 text-center">
           <div className="inline-flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Check className="h-4 w-4 text-emerald-500" />
@@ -215,6 +258,14 @@ export default function PricingPage() {
             <div className="flex items-center gap-2">
               <Check className="h-4 w-4 text-emerald-500" />
               <span>Secure payments</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500" />
+              <span>SLA guaranteed</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500" />
+              <span>Dedicated support</span>
             </div>
           </div>
         </div>

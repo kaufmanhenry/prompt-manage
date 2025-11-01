@@ -23,7 +23,7 @@ export async function GET(request: Request) {
 
     const { data, error } = await supabase
       .from('agent_keywords')
-      .select('*')
+      .select('id, agent_id, keyword, category, priority, is_active, last_generated_at, created_at')
       .eq('agent_id', agent_id)
       .order('priority', { ascending: false })
       .order('last_generated_at', { ascending: true, nullsFirst: true })
@@ -34,11 +34,14 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ keywords: data || [] })
   } catch (error) {
-    console.error('Error fetching keywords:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error fetching keywords:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 
@@ -98,11 +101,14 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, keywords: data })
   } catch (error) {
-    console.error('Error creating keywords:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error creating keywords:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 
@@ -143,11 +149,14 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error deleting keyword:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error deleting keyword:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 

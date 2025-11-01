@@ -10,7 +10,7 @@ export async function GET(
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('prompt_collections')
-    .select('*')
+    .select('id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at')
     .eq('id', resolvedParams.id)
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 404 })
@@ -55,7 +55,7 @@ export async function PATCH(
       tags: body.tags,
     })
     .eq('id', resolvedParams.id)
-    .select('*')
+    .select('id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at')
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ collection: data })

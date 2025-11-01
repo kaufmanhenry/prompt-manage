@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 
     const { data, error } = await supabase
       .from('agents')
-      .select('*')
+      .select('id, name, description, category, output_type, is_active, mode, temperature, quality_threshold, owner_id, team_id, created_at, updated_at')
       .eq('owner_id', session.user.id)
       .order('created_at', { ascending: false })
 
@@ -27,11 +27,14 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ agents: data || [] })
   } catch (error) {
-    console.error('Error fetching agents:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error fetching agents:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 
@@ -62,7 +65,7 @@ export async function POST(request: Request) {
         quality_threshold: quality_threshold || 85,
         is_active: true,
       })
-      .select()
+      .select('id, name, description, category, output_type, is_active, mode, temperature, quality_threshold, owner_id, team_id, created_at, updated_at')
       .single()
 
     if (error) {
@@ -95,11 +98,14 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ agent })
   } catch (error) {
-    console.error('Error creating agent:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error creating agent:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 

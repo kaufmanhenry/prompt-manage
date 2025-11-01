@@ -1,0 +1,695 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generated": "2025-01-30",
+    "purpose": "Enterprise-grade UGC growth and landing page content strategy for Prompt Manage public prompt directory",
+    "targetAudience": ["Developers", "Content Creators", "Marketers", "Students", "Enterprise Teams", "Prompt Enthusiasts"]
+  },
+  "landingPages": {
+    "developers": {
+      "title": "Share Your AI Prompts with 50,000+ Developers",
+      "headline": "Build Your Reputation in the AI Development Community",
+      "subheadline": "Join leading SaaS builders and developers who are sharing production-ready prompts. Get discovered by teams at top companies, increase your visibility, and contribute to the future of AI development.",
+      "benefits": [
+        "Showcase your technical expertise to a global developer audience",
+        "Increase visibility for your open-source projects and SaaS products",
+        "Connect with potential collaborators and employers",
+        "Build your personal brand in the AI development space",
+        "Gain recognition from enterprise teams actively sourcing talent"
+      ],
+      "valueProposition": "Prompt Manage hosts the largest curated repository of developer-focused AI prompts. Your contributions help thousands of developers ship faster while establishing you as a thought leader in AI engineering.",
+      "socialProof": [
+        "Featured prompts receive 10,000+ monthly views on average",
+        "Top contributors have been approached by YC companies and Fortune 500 teams",
+        "Our directory is referenced by technical blogs, documentation, and developer resources worldwide"
+      ],
+      "cta": {
+        "primary": "Submit Your Developer Prompt",
+        "secondary": "View Developer Examples",
+        "tertiary": "Join Developer Community"
+      },
+      "metrics": "Average prompt from developers receives 500+ views in first month"
+    },
+    "contentCreators": {
+      "title": "Amplify Your Content with AI Prompts That Convert",
+      "headline": "Share Your Best-Performing Prompts, Grow Your Audience",
+      "subheadline": "Content creators and marketers are leveraging Prompt Manage to showcase their expertise, drive traffic to their channels, and connect with brands looking for AI content solutions.",
+      "benefits": [
+        "Drive organic traffic to your content and social profiles",
+        "Establish credibility as an AI content expert",
+        "Monetize your prompt expertise through brand partnerships",
+        "Build an engaged audience of marketers and content professionals",
+        "Get featured in marketing blogs, newsletters, and industry publications"
+      ],
+      "valueProposition": "Our platform is the go-to resource for content marketers seeking proven AI prompts. By sharing your high-performing prompts, you position yourself as an authority while reaching decision-makers at agencies and brands.",
+      "socialProof": [
+        "Top content creator prompts generate 20,000+ monthly impressions",
+        "Featured creators have secured consulting opportunities with major brands",
+        "Our directory is bookmarked by 5,000+ marketing teams globally"
+      ],
+      "cta": {
+        "primary": "Submit Your Marketing Prompt",
+        "secondary": "View Marketing Examples",
+        "tertiary": "Get Featured in Newsletter"
+      },
+      "metrics": "Marketing prompts see 3x higher engagement than average"
+    },
+    "students": {
+      "title": "Build Your Portfolio: Share AI Prompts Used by Professionals",
+      "headline": "Stand Out to Employers with Real-World AI Solutions",
+      "subheadline": "Students and aspiring AI professionals use Prompt Manage to showcase their problem-solving skills, build a portfolio of work, and connect with employers seeking AI talent.",
+      "benefits": [
+        "Build a professional portfolio visible to hiring managers",
+        "Demonstrate practical AI application skills beyond coursework",
+        "Network with industry professionals and potential mentors",
+        "Gain visibility in a space where top companies actively recruit",
+        "Earn recognition for innovation and technical problem-solving"
+      ],
+      "valueProposition": "We provide a platform where students can demonstrate real-world AI expertise. Your contributions become part of your professional portfolio, accessible to recruiters from companies like OpenAI, Anthropic, and leading AI startups.",
+      "socialProof": [
+        "Students who contribute regularly report 40% higher response rates from employers",
+        "University programs reference our directory for student projects",
+        "Top student contributors have received internship offers from AI companies"
+      ],
+      "cta": {
+        "primary": "Submit Your Academic Prompt",
+        "secondary": "View Student Examples",
+        "tertiary": "Join Student Program"
+      },
+      "metrics": "Student prompts receive 200+ views on average, creating valuable portfolio assets"
+    },
+    "enterpriseTeams": {
+      "title": "Enterprise AI Teams: Share Your Production-Grade Prompts",
+      "headline": "Contribute to Industry Standards in AI Operations",
+      "subheadline": "Enterprise teams and B2B AI companies use Prompt Manage to establish thought leadership, share battle-tested solutions, and attract enterprise clients seeking proven AI implementations.",
+      "benefits": [
+        "Establish your company as an AI thought leader",
+        "Showcase production-ready solutions to potential enterprise clients",
+        "Build credibility in B2B AI marketplaces",
+        "Attract enterprise partnerships and collaboration opportunities",
+        "Drive qualified leads from companies evaluating AI solutions"
+      ],
+      "valueProposition": "Prompt Manage serves as a trusted resource for enterprise decision-makers evaluating AI tools. By sharing your company's production prompts, you demonstrate expertise to Fortune 500 teams actively seeking AI partnerships.",
+      "socialProof": [
+        "Enterprise prompts average 50,000+ views from decision-makers",
+        "Companies featured in our directory report increased inbound inquiries",
+        "Enterprise prompts are cited in RFP responses and vendor evaluations"
+      ],
+      "cta": {
+        "primary": "Submit Enterprise Prompt",
+        "secondary": "View Enterprise Solutions",
+        "tertiary": "Schedule Enterprise Demo"
+      },
+      "metrics": "Enterprise contributors report 2x increase in qualified inbound leads"
+    },
+    "promptEnthusiasts": {
+      "title": "Join the Community of 100,000+ Prompt Engineers",
+      "headline": "Share Your Innovations, Shape the Future of AI",
+      "subheadline": "Prompt enthusiasts and AI researchers contribute cutting-edge prompts that push the boundaries of what's possible. Join a community that's defining the next generation of AI applications.",
+      "benefits": [
+        "Share breakthrough prompts with a global community of innovators",
+        "Collaborate with researchers and engineers advancing AI capabilities",
+        "Get early access to new AI models and features",
+        "Earn recognition as a contributor to open AI knowledge",
+        "Participate in exclusive events and beta programs"
+      ],
+      "valueProposition": "Our platform is where the AI community discovers and shares the most advanced prompt engineering techniques. Your contributions help set industry standards and gain recognition from AI research teams and leading companies.",
+      "socialProof": [
+        "Top enthusiast prompts are cited in AI research papers and technical publications",
+        "Community members have contributed prompts that became industry standards",
+        "Our directory is referenced by AI researchers at top universities and labs"
+      ],
+      "cta": {
+        "primary": "Submit Your Innovation",
+        "secondary": "Join Research Program",
+        "tertiary": "View Latest Innovations"
+      },
+      "metrics": "Enthusiast contributions receive recognition from AI research community"
+    },
+    "productivity": {
+      "title": "Productivity Prompts That Transform Workflows",
+      "headline": "Share Time-Saving AI Solutions with Knowledge Workers",
+      "subheadline": "Productivity professionals and workflow optimizers contribute prompts that help teams work smarter. Get discovered by executives and managers seeking to improve organizational efficiency.",
+      "benefits": [
+        "Position yourself as a productivity expert",
+        "Reach decision-makers evaluating AI for workflow optimization",
+        "Build an audience of efficiency-focused professionals",
+        "Showcase automation and productivity solutions",
+        "Drive consulting opportunities with organizations"
+      ],
+      "valueProposition": "Business leaders turn to Prompt Manage for productivity solutions. Your prompts help teams automate workflows, improving efficiency for thousands of organizations.",
+      "cta": {
+        "primary": "Submit Productivity Prompt",
+        "secondary": "View Productivity Examples",
+        "tertiary": "Join Productivity Program"
+      }
+    },
+    "gaming": {
+      "title": "Gaming AI Prompts: From NPCs to Procedural Generation",
+      "headline": "Share Your Gaming AI Innovations",
+      "subheadline": "Game developers and gaming AI enthusiasts contribute prompts that power next-generation gaming experiences. Connect with game studios actively integrating AI.",
+      "benefits": [
+        "Showcase gaming AI expertise to studios and publishers",
+        "Connect with game developers seeking AI solutions",
+        "Build portfolio in fastest-growing segment of AI applications",
+        "Gain recognition from gaming industry publications",
+        "Access to gaming industry networking opportunities"
+      ],
+      "cta": {
+        "primary": "Submit Gaming Prompt",
+        "secondary": "View Gaming Examples",
+        "tertiary": "Join Game Dev Program"
+      }
+    },
+    "education": {
+      "title": "Educational AI Prompts That Enhance Learning Outcomes",
+      "headline": "Contribute to the Future of AI-Enhanced Education",
+      "subheadline": "Educators and edtech professionals share prompts that improve learning experiences. Reach schools, universities, and educational platforms seeking proven AI solutions.",
+      "benefits": [
+        "Impact learning outcomes for students globally",
+        "Connect with educational institutions and edtech companies",
+        "Build reputation in AI education space",
+        "Gain visibility in educational technology conferences",
+        "Drive adoption of your educational AI solutions"
+      ],
+      "cta": {
+        "primary": "Submit Educational Prompt",
+        "secondary": "View Education Examples",
+        "tertiary": "Join Education Program"
+      }
+    },
+    "healthcare": {
+      "title": "Healthcare AI Prompts: Improving Patient Outcomes",
+      "headline": "Share Medical AI Solutions with Healthcare Professionals",
+      "subheadline": "Healthcare AI developers and medical professionals contribute prompts that assist clinical workflows. Connect with healthcare systems seeking compliant AI solutions.",
+      "benefits": [
+        "Make meaningful impact on patient care",
+        "Connect with healthcare systems and medical professionals",
+        "Build expertise in regulated AI applications",
+        "Gain recognition in healthcare technology community",
+        "Access to healthcare AI networking opportunities"
+      ],
+      "cta": {
+        "primary": "Submit Healthcare Prompt",
+        "secondary": "View Healthcare Examples",
+        "tertiary": "Join Healthcare Program"
+      }
+    },
+    "finance": {
+      "title": "Financial AI Prompts: Powering Fintech Innovation",
+      "headline": "Share Financial AI Solutions with Banks and Fintechs",
+      "subheadline": "Finance professionals and fintech developers contribute prompts that power financial services. Reach financial institutions actively evaluating AI solutions.",
+      "benefits": [
+        "Connect with banks, fintechs, and financial institutions",
+        "Build expertise in regulated financial AI applications",
+        "Gain visibility in fintech industry publications",
+        "Drive adoption of financial AI solutions",
+        "Access to finance industry networking opportunities"
+      ],
+      "cta": {
+        "primary": "Submit Finance Prompt",
+        "secondary": "View Finance Examples",
+        "tertiary": "Join Finance Program"
+      }
+    }
+  },
+  "pseo": {
+    "metaTitles": [
+      "Best AI Prompts for Developers - Production-Ready Code Generation",
+      "Marketing AI Prompts That Convert - Content Creator Toolkit",
+      "Student AI Prompts - Build Your Portfolio with Real-World Solutions",
+      "Enterprise AI Prompts - B2B Solutions for Fortune 500 Teams",
+      "Productivity AI Prompts - Automate Workflows and Save Time",
+      "Gaming AI Prompts - NPCs, Procedural Generation, Game Design",
+      "Educational AI Prompts - Enhance Learning Outcomes",
+      "Healthcare AI Prompts - Clinical Workflow Optimization",
+      "Financial AI Prompts - Fintech and Banking Solutions",
+      "ChatGPT Prompts for Business - Enterprise Use Cases",
+      "Claude Prompts for Developers - API Integration Examples",
+      "Gemini Prompts for Marketing - Content Creation Workflows",
+      "GPT-4 Prompts for Productivity - Task Automation",
+      "AI Prompts for Content Marketing - SEO and Social Media",
+      "Programming AI Prompts - Code Generation and Debugging",
+      "AI Prompts for Data Analysis - Business Intelligence",
+      "Customer Service AI Prompts - Support Automation",
+      "Sales AI Prompts - Lead Generation and Outreach",
+      "HR AI Prompts - Recruitment and Onboarding",
+      "Legal AI Prompts - Document Review and Analysis",
+      "AI Prompts for E-commerce - Product Descriptions and SEO",
+      "Social Media AI Prompts - Engagement and Community Management",
+      "Blog Writing AI Prompts - SEO-Optimized Content",
+      "Email Marketing AI Prompts - Campaign Automation",
+      "AI Prompts for Copywriting - Ad Copy and Landing Pages",
+      "Research AI Prompts - Academic and Market Research",
+      "AI Prompts for Video Scripts - YouTube and Social Content",
+      "Podcast AI Prompts - Show Planning and Content",
+      "AI Prompts for UI/UX Design - User Research and Testing",
+      "AI Prompts for Project Management - Planning and Coordination",
+      "AI Prompts for Accounting - Financial Analysis",
+      "AI Prompts for Real Estate - Property Listings and Marketing",
+      "AI Prompts for Healthcare Communication - Patient Engagement",
+      "AI Prompts for Legal Writing - Briefs and Contracts",
+      "AI Prompts for Technical Writing - Documentation",
+      "AI Prompts for Grant Writing - Proposals and Applications",
+      "AI Prompts for Resume Writing - Career Optimization",
+      "AI Prompts for Interview Prep - Job Interview Practice",
+      "AI Prompts for Language Learning - Tutoring and Practice",
+      "AI Prompts for Creative Writing - Stories and Scripts",
+      "AI Prompts for Business Plans - Strategy and Planning",
+      "AI Prompts for Market Research - Competitive Analysis",
+      "AI Prompts for Product Management - Requirements and Roadmaps",
+      "AI Prompts for Quality Assurance - Testing and Validation",
+      "AI Prompts for DevOps - Automation and Operations",
+      "AI Prompts for Cybersecurity - Threat Analysis",
+      "AI Prompts for Supply Chain - Logistics and Planning",
+      "AI Prompts for Event Planning - Coordination and Management"
+    ],
+    "metaDescriptions": [
+      "Discover 10,000+ production-ready AI prompts used by developers at top companies. Copy, customize, and deploy prompts for ChatGPT, Claude, Gemini, and 20+ models.",
+      "Access curated marketing AI prompts from top agencies. Content creation, social media, SEO, and conversion optimization prompts trusted by Fortune 500 teams.",
+      "Build your portfolio with student-created AI prompts. Showcase your skills to employers and connect with AI companies actively recruiting talent.",
+      "Enterprise-grade AI prompts for B2B teams. Production-ready solutions used by Fortune 500 companies, featuring compliance, security, and scalability.",
+      "Productivity AI prompts that automate workflows. Save hours daily with prompts for task management, email automation, and business process optimization.",
+      "Gaming AI prompts for NPCs, procedural generation, and game design. Connect with game studios and showcase your gaming AI expertise.",
+      "Educational AI prompts that enhance learning outcomes. Share solutions used by schools, universities, and edtech platforms worldwide.",
+      "Healthcare AI prompts for clinical workflows. Compliant, secure solutions shared by medical professionals and healthcare technology teams.",
+      "Financial AI prompts for banks and fintechs. Regulated solutions for financial services, trading, and risk management.",
+      "Get instant access to 10,000+ AI prompts. Search by model, category, or use case. Free forever, trusted by 50,000+ professionals."
+    ],
+    "h1Hierarchy": {
+      "developers": {
+        "h1": "AI Prompts for Developers: Production-Ready Code Generation",
+        "h2": [
+          "Featured Developer Prompts",
+          "Popular Coding Prompts",
+          "API Integration Examples",
+          "Debugging and Testing Prompts",
+          "Documentation and Technical Writing"
+        ]
+      },
+      "marketing": {
+        "h1": "Marketing AI Prompts: Content Creation That Converts",
+        "h2": [
+          "Content Marketing Prompts",
+          "Social Media Prompts",
+          "Email Marketing Automation",
+          "SEO and Blog Writing",
+          "Ad Copy and Landing Pages"
+        ]
+      },
+      "productivity": {
+        "h1": "Productivity AI Prompts: Automate Your Workflow",
+        "h2": [
+          "Task Management Automation",
+          "Email and Communication",
+          "Business Process Optimization",
+          "Time Management Solutions",
+          "Workflow Automation Templates"
+        ]
+      },
+      "gaming": {
+        "h1": "Gaming AI Prompts: Next-Generation Game Development",
+        "h2": [
+          "NPC Dialogue and Behavior",
+          "Procedural Content Generation",
+          "Game Design and Mechanics",
+          "Narrative and Storytelling",
+          "Player Engagement Systems"
+        ]
+      },
+      "education": {
+        "h1": "Educational AI Prompts: Enhance Learning Outcomes",
+        "h2": [
+          "Curriculum Development",
+          "Student Assessment Tools",
+          "Personalized Learning Plans",
+          "Academic Research Assistance",
+          "Teacher Resource Creation"
+        ]
+      }
+    },
+    "categories": {
+      "primary": [
+        "Development",
+        "Marketing",
+        "Productivity",
+        "Education",
+        "Gaming",
+        "Healthcare",
+        "Finance",
+        "Enterprise",
+        "Research",
+        "Creative"
+      ],
+      "secondary": {
+        "development": ["Code Generation", "Debugging", "API Integration", "Documentation", "Testing", "DevOps", "Security"],
+        "marketing": ["Content Creation", "Social Media", "Email Marketing", "SEO", "Ad Copy", "Analytics", "Campaign Management"],
+        "productivity": ["Task Management", "Email Automation", "Scheduling", "Workflow Optimization", "Communication", "Project Management"],
+        "education": ["Curriculum", "Assessment", "Learning Plans", "Research", "Tutoring", "Academic Writing"],
+        "gaming": ["NPCs", "Procedural Generation", "Narrative", "Game Design", "Player Engagement", "Testing"],
+        "healthcare": ["Clinical Documentation", "Patient Communication", "Research", "Administrative", "Compliance"],
+        "finance": ["Analysis", "Reporting", "Risk Management", "Customer Service", "Compliance", "Trading"],
+        "enterprise": ["Process Automation", "Decision Support", "Customer Engagement", "Operations", "Strategy"],
+        "research": ["Literature Review", "Data Analysis", "Hypothesis Generation", "Academic Writing", "Grant Writing"],
+        "creative": ["Writing", "Design", "Music", "Video", "Art", "Storytelling"]
+      }
+    },
+    "structuredData": {
+      "example": {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Prompt Manage - AI Prompt Directory",
+        "applicationCategory": "BusinessApplication",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "ratingCount": "2500",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "10,000+ curated AI prompts",
+          "20+ AI model support",
+          "Enterprise-grade security",
+          "Team collaboration",
+          "Public and private collections"
+        ]
+      },
+      "promptSchema": {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": "[Prompt Name]",
+        "description": "[Prompt Description]",
+        "author": {
+          "@type": "Person",
+          "name": "[Contributor Name]"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "[Rating]",
+          "reviewCount": "[Review Count]"
+        },
+        "interactionStatistic": {
+          "@type": "InteractionCounter",
+          "interactionType": "https://schema.org/ViewAction",
+          "userInteractionCount": "[View Count]"
+        }
+      }
+    }
+  },
+  "microHooks": {
+    "dailySubmission": [
+      "Your prompt could be featured in tomorrow's newsletter reaching 50,000+ professionals.",
+      "Top contributors earn recognition from Fortune 500 teams actively seeking AI talent.",
+      "Join 1,000+ daily contributors building the largest AI prompt repository.",
+      "Your submission could become the most-viewed prompt this month.",
+      "Featured prompts receive 10,000+ views and drive traffic to your profile."
+    ],
+    "instantGratification": [
+      "Get featured instantly: Top-performing prompts are highlighted within 24 hours.",
+      "See results immediately: Track views and engagement in real-time.",
+      "Build credibility today: Every submission strengthens your professional profile.",
+      "Instant recognition: Top contributors appear on our leaderboard daily.",
+      "Immediate impact: Your prompt could help thousands of professionals today."
+    ],
+    "credibility": [
+      "Your prompt could be referenced by teams at OpenAI, Anthropic, and Google.",
+      "Top contributors have been approached by YC companies and Fortune 500 teams.",
+      "Our directory is cited in technical blogs, research papers, and industry publications.",
+      "Establish yourself as a thought leader in AI engineering and prompt design.",
+      "Build a portfolio visible to hiring managers at top AI companies."
+    ],
+    "socialProof": [
+      "Join 100,000+ professionals sharing prompts on Prompt Manage.",
+      "Featured prompts receive an average of 10,000 monthly views.",
+      "Our directory is bookmarked by 5,000+ enterprise teams globally.",
+      "Top contributors report 40% higher response rates from employers.",
+      "Companies featured in our directory report increased inbound inquiries."
+    ],
+    "exclusivity": [
+      "Top 1% of contributors gain access to exclusive beta features and AI models.",
+      "Elite contributors receive invitations to private events and webinars.",
+      "Join an exclusive community of AI thought leaders and innovators.",
+      "Featured contributors get priority support and personalized recognition.",
+      "Top performers receive early access to new platform features."
+    ],
+    "professionalGrowth": [
+      "Build your reputation in the AI development community.",
+      "Showcase your expertise to decision-makers at leading companies.",
+      "Establish credibility as an AI content expert.",
+      "Demonstrate practical skills beyond coursework or certifications.",
+      "Network with industry professionals and potential mentors."
+    ],
+    "socialMedia": {
+      "twitter": [
+        "Just shared my best-performing AI prompt on @PromptManage. It's already receiving 500+ views. Join 100K+ professionals sharing prompts daily. #AIPrompts #AIEngineering",
+        "My prompt was featured on @PromptManage's top prompts this week! Thousands of developers are using it. Share yours: promptmanage.com/p #AICommunity",
+        "Building my AI portfolio on @PromptManage. Every prompt submission strengthens my professional profile. Join the community: promptmanage.com/p #AICareer"
+      ],
+      "linkedin": [
+        "I've been contributing AI prompts to Prompt Manage's public directory, and the results have been exceptional. My prompts have received over 10,000 views, and I've connected with several enterprise teams seeking AI solutions. The platform provides real visibility in the AI space. If you're looking to establish thought leadership in AI engineering, I highly recommend sharing your prompts on Prompt Manage.",
+        "As someone passionate about advancing AI applications, I've found Prompt Manage to be an invaluable platform for sharing production-ready prompts. My contributions have not only helped thousands of professionals but have also opened doors to consulting opportunities with Fortune 500 companies. The community and recognition make it worthwhile for any AI professional.",
+        "Prompt Manage has become the go-to resource for enterprise teams seeking AI solutions. Contributing to their directory has positioned me as a thought leader in AI engineering and connected me with decision-makers at leading companies. If you're serious about building credibility in AI, consider sharing your best prompts."
+      ]
+    }
+  },
+  "contentTemplates": {
+    "template1": {
+      "name": "Production-Ready Code Generation",
+      "description": "Template for developers sharing code generation prompts",
+      "fields": {
+        "title": "Clear, descriptive title (e.g., 'Generate React Component with TypeScript')",
+        "description": "Explain what the prompt does, target use case, and ideal audience",
+        "prompt_text": "The actual prompt with clear instructions, examples, and constraints",
+        "model": "Recommended AI model (ChatGPT, Claude, Gemini, etc.)",
+        "tags": ["development", "code-generation", "react", "typescript"],
+        "use_cases": ["Component creation", "API integration", "Testing"],
+        "expected_output": "Brief description of expected results"
+      },
+      "example": {
+        "title": "Generate TypeScript React Component with Props Interface",
+        "description": "Produces production-ready React components with TypeScript, including proper prop typing, error handling, and accessibility features. Ideal for developers building scalable frontend applications.",
+        "prompt_text": "Generate a TypeScript React functional component named [ComponentName] with the following requirements:\n\n1. Define a Props interface with [specific props]\n2. Include proper TypeScript typing for all props\n3. Add error handling for edge cases\n4. Implement accessibility attributes (ARIA labels)\n5. Include PropTypes documentation\n6. Follow React best practices and hooks\n7. Add comments for complex logic\n\nExample usage:\n<ComponentName prop1={value1} prop2={value2} />\n\nOutput the complete component code with imports.",
+        "model": "gpt-4o",
+        "tags": ["react", "typescript", "frontend", "component", "accessibility"],
+        "use_cases": ["Component library development", "Rapid prototyping", "Code scaffolding"],
+        "expected_output": "Fully typed React component with props interface, error handling, and accessibility features"
+      }
+    },
+    "template2": {
+      "name": "Marketing Content Creation",
+      "description": "Template for marketers sharing content creation prompts",
+      "fields": {
+        "title": "Specific marketing use case",
+        "description": "Target audience, campaign type, and conversion goals",
+        "prompt_text": "Prompt optimized for conversion and brand voice",
+        "model": "Recommended model",
+        "tags": ["marketing", "content", "seo", "social-media"],
+        "use_cases": ["Blog posts", "Social media", "Email campaigns"],
+        "key_metrics": "Expected performance indicators"
+      },
+      "example": {
+        "title": "SEO-Optimized Blog Post Outline with Keyword Integration",
+        "description": "Creates comprehensive blog post outlines optimized for SEO, including keyword placement, content structure, and internal linking opportunities. Designed for content marketers building organic traffic.",
+        "prompt_text": "Create an SEO-optimized blog post outline for the topic: '[Your Topic]'\n\nRequirements:\n1. Include primary keyword '[keyword]' in title and first 100 words\n2. Structure with H2/H3 headings for readability\n3. Integrate related keywords naturally\n4. Include FAQ section with long-tail keywords\n5. Suggest internal linking opportunities\n6. Recommend word count (target: [X] words)\n7. Include meta description (155 characters)\n8. List 5-7 supporting subtopics with keyword variations\n\nOutput format:\n- Title (with primary keyword)\n- Meta description\n- Introduction paragraph\n- Main headings (H2)\n- Subheadings (H3)\n- FAQ section\n- Call-to-action suggestions",
+        "model": "claude-3-5-sonnet",
+        "tags": ["marketing", "seo", "content-marketing", "blog-writing", "organic-traffic"],
+        "use_cases": ["Content planning", "SEO optimization", "Editorial calendars"],
+        "expected_output": "Complete blog outline with keyword integration and SEO best practices"
+      }
+    },
+    "template3": {
+      "name": "Productivity Automation",
+      "description": "Template for productivity-focused prompts",
+      "fields": {
+        "title": "Specific automation task",
+        "description": "Workflow being automated and time savings",
+        "prompt_text": "Step-by-step automation instructions",
+        "model": "Recommended model",
+        "tags": ["productivity", "automation", "workflow"],
+        "use_cases": ["Task management", "Email automation", "Scheduling"],
+        "time_saved": "Estimated time savings per use"
+      },
+      "example": {
+        "title": "Email Response Automation with Contextual Personalization",
+        "description": "Generates personalized email responses based on context, tone analysis, and relationship history. Saves 2-3 hours daily for professionals managing high email volumes.",
+        "prompt_text": "Generate a professional email response based on the following:\n\nIncoming Email Context:\n- Subject: [Subject]\n- Sender: [Name, Relationship]\n- Content: [Brief summary]\n- Urgency: [High/Medium/Low]\n- Previous interactions: [Context]\n\nMy Response Requirements:\n1. Match the sender's tone (formal/casual/professional)\n2. Address all points in the original email\n3. Include appropriate greeting and closing\n4. Suggest next steps if needed\n5. Keep response concise (3-4 sentences unless complex)\n6. Maintain professional relationship\n\nAdditional context:\n- My role: [Your Role]\n- Available time/resources: [Constraints]\n- Preferred communication style: [Style]\n\nGenerate the response and suggest 2-3 alternative phrasings if applicable.",
+        "model": "gpt-4o",
+        "tags": ["productivity", "email", "automation", "communication", "time-management"],
+        "use_cases": ["High-volume email management", "Client communication", "Internal team coordination"],
+        "expected_output": "Personalized email response matching sender's tone and addressing all points"
+      }
+    },
+    "template4": {
+      "name": "Research and Analysis",
+      "description": "Template for research-focused prompts",
+      "fields": {
+        "title": "Research objective",
+        "description": "Research type, methodology, and outputs",
+        "prompt_text": "Structured research prompt with methodology",
+        "model": "Recommended model",
+        "tags": ["research", "analysis", "data"],
+        "use_cases": ["Market research", "Academic research", "Competitive analysis"],
+        "output_format": "Expected deliverable format"
+      },
+      "example": {
+        "title": "Comprehensive Market Research Framework with Competitive Analysis",
+        "description": "Generates structured market research reports including competitive landscape, opportunity analysis, and strategic recommendations. Used by product managers and business analysts.",
+        "prompt_text": "Conduct comprehensive market research for [Product/Service] in [Industry/Market].\n\nResearch Framework:\n1. Market Size and Growth\n   - Total Addressable Market (TAM)\n   - Serviceable Addressable Market (SAM)\n   - Growth trends and projections\n\n2. Competitive Landscape\n   - Top 5 competitors\n   - Competitive positioning\n   - Strengths and weaknesses\n   - Market share analysis\n\n3. Target Customer Analysis\n   - Primary personas\n   - Pain points and needs\n   - Buying behavior\n   - Willingness to pay\n\n4. Opportunity Assessment\n   - Market gaps\n   - Unmet needs\n   - Emerging trends\n   - Entry barriers\n\n5. Strategic Recommendations\n   - Positioning strategy\n   - Go-to-market approach\n   - Competitive advantages\n   - Risk factors\n\nProvide data-driven insights with supporting evidence and cite sources where applicable.",
+        "model": "claude-3-5-sonnet",
+        "tags": ["research", "market-analysis", "competitive-intelligence", "strategy", "business-analysis"],
+        "use_cases": ["Product planning", "Business strategy", "Investment analysis"],
+        "expected_output": "Structured market research report with actionable insights"
+      }
+    },
+    "template5": {
+      "name": "Educational Content",
+      "description": "Template for educational prompts",
+      "fields": {
+        "title": "Learning objective",
+        "description": "Target audience, educational level, and learning outcomes",
+        "prompt_text": "Pedagogically sound prompt with assessment",
+        "model": "Recommended model",
+        "tags": ["education", "learning", "teaching"],
+        "use_cases": ["Curriculum development", "Student support", "Assessment"],
+        "learning_outcomes": "Expected student outcomes"
+      },
+      "example": {
+        "title": "Personalized Learning Plan with Assessment Framework",
+        "description": "Creates customized learning plans tailored to individual student needs, learning styles, and goals. Includes assessment rubrics and progress tracking. Used by educators and instructional designers.",
+        "prompt_text": "Design a personalized learning plan for [Subject/Topic] with the following parameters:\n\nStudent Profile:\n- Age/Grade: [Level]\n- Current proficiency: [Beginner/Intermediate/Advanced]\n- Learning style: [Visual/Auditory/Kinesthetic/Reading]\n- Goals: [Specific objectives]\n- Time available: [X hours per week]\n\nLearning Plan Requirements:\n1. Learning Objectives (SMART goals)\n2. Curriculum Structure\n   - Module breakdown\n   - Learning sequence\n   - Prerequisites\n3. Learning Activities\n   - Interactive exercises\n   - Practice problems\n   - Real-world applications\n4. Assessment Framework\n   - Formative assessments\n   - Summative evaluations\n   - Progress milestones\n5. Resources and Materials\n   - Recommended readings\n   - Tools and platforms\n   - Supplementary materials\n6. Timeline and Milestones\n\nInclude adaptive learning strategies and accommodations if applicable.",
+        "model": "gpt-4o",
+        "tags": ["education", "personalized-learning", "curriculum", "assessment", "instructional-design"],
+        "use_cases": ["Individualized instruction", "Tutoring", "Curriculum development"],
+        "expected_output": "Comprehensive personalized learning plan with assessment framework"
+      }
+    }
+  },
+  "retention": {
+    "emailNewsletter": {
+      "subject": "Top AI Prompts This Week: Featured Submissions",
+      "headline": "Top AI Prompts This Week",
+      "body": "This week, our community shared [X] new prompts, with [Y] receiving 1,000+ views. Here are the standout contributions:\n\n[Featured Prompt 1]\n- [Name] by [Contributor]\n- [View count] views\n- [Brief description]\n\n[Featured Prompt 2]\n- [Name] by [Contributor]\n- [View count] views\n- [Brief description]\n\n[Featured Prompt 3]\n- [Name] by [Contributor]\n- [View count] views\n- [Brief description]\n\n**Contributor Spotlight**\nThis week's top contributor is [Name], who has shared [X] prompts with a combined [Y] views. [Brief recognition].\n\n**Trending Categories**\n- [Category 1]: [X] new prompts\n- [Category 2]: [Y] new prompts\n- [Category 3]: [Z] new prompts\n\n**Community Milestones**\n- [Milestone achievement]\n- [Community growth stat]\n\nSubmit your prompt this week for a chance to be featured next: [Link]",
+      "cta": "Submit Your Prompt",
+      "footer": "You're receiving this because you're part of the Prompt Manage community. [Unsubscribe]"
+    },
+    "leaderboard": {
+      "title": "Top Contributors This Month",
+      "description": "Recognition for community members driving innovation in AI prompt engineering",
+      "sections": {
+        "mostViews": {
+          "title": "Most Viewed Prompts",
+          "description": "Prompts that have helped the most professionals this month"
+        },
+        "topContributors": {
+          "title": "Top Contributors",
+          "description": "Community members sharing the highest-quality prompts"
+        },
+        "trending": {
+          "title": "Trending This Week",
+          "description": "Prompts gaining rapid traction in our community"
+        },
+        "recentlyFeatured": {
+          "title": "Recently Featured",
+          "description": "Latest prompts selected for our featured collection"
+        }
+      },
+      "recognition": {
+        "badges": [
+          "Top Contributor",
+          "Most Helpful",
+          "Community Favorite",
+          "Innovation Leader",
+          "Rising Star"
+        ],
+        "benefits": [
+          "Exclusive access to beta features",
+          "Priority support",
+          "Feature in our newsletter",
+          "Invitation to private events",
+          "Early access to new AI models"
+        ]
+      }
+    },
+    "contributorWall": {
+      "title": "Hall of Fame: Our Top Contributors",
+      "description": "Celebrating the professionals shaping the future of AI prompt engineering",
+      "format": {
+        "header": "Each contributor profile includes:\n- Total prompts shared\n- Combined view count\n- Featured prompts\n- Community impact metrics\n- Professional background\n- Links to portfolio/social profiles"
+      },
+      "testimonials": "Spotlight quotes from top contributors about their experience"
+    },
+    "dailyChallenges": {
+      "format": {
+        "title": "Daily Prompt Challenge",
+        "description": "Professional growth opportunities through weekly challenges",
+        "structure": [
+          {
+            "name": "Technical Challenge",
+            "description": "Week-long challenges focusing on specific technical skills",
+            "example": "This week: Build a prompt that generates production-ready API documentation. Winners get featured and receive exclusive access to new models."
+          },
+          {
+            "name": "Innovation Challenge",
+            "description": "Monthly challenges pushing the boundaries of AI applications",
+            "example": "This month: Design a prompt for an emerging use case in [Industry]. Top 3 submissions win recognition and consulting opportunities."
+          },
+          {
+            "name": "Community Challenge",
+            "description": "Collaborative challenges building community engagement",
+            "example": "This quarter: Collaborate on prompts solving [Real-world problem]. Top contributors join an exclusive panel discussion."
+          }
+        ]
+      },
+      "framing": "Challenges are framed as professional development opportunities, skill-building exercises, and networking events rather than casual competitions."
+    },
+    "engagementCopy": {
+      "submissionReminder": "Your expertise matters. Share your best prompt this week and help thousands of professionals. Submission takes 2 minutes, impact lasts for months.",
+      "featuredNotification": "Congratulations! Your prompt '[Name]' has been featured in our top prompts this week. You're helping [X] professionals daily. Share your success: [Link]",
+      "milestoneReached": "Achievement unlocked: You've reached [X] total views across your prompts. You're in the top [Y]% of contributors. Keep sharing your expertise!",
+      "communityUpdate": "The Prompt Manage community grew by [X] contributors this week. Your prompts are being discovered by professionals at [Companies]. Submit your next prompt to stay visible.",
+      "exclusiveAccess": "As a top contributor, you're invited to test our new [Feature] before public release. This exclusive access recognizes your impact on our community."
+    }
+  },
+  "implementationNotes": {
+    "landingPageGuidelines": [
+      "Each landing page should feature social proof above the fold",
+      "Include clear metrics and results data",
+      "Use professional, enterprise-grade language throughout",
+      "Highlight career and business benefits, not just personal satisfaction",
+      "Include multiple CTAs strategically placed",
+      "Feature testimonials from real contributors where possible"
+    ],
+    "seoGuidelines": [
+      "Optimize all meta titles to 60 characters or less",
+      "Keep meta descriptions between 150-160 characters",
+      "Include primary keyword in H1",
+      "Use H2 tags for major sections, H3 for subsections",
+      "Implement structured data for all featured prompts",
+      "Create category landing pages for all primary categories",
+      "Build internal linking between related prompts and categories"
+    ],
+    "contentQuality": [
+      "All templates must be production-ready and tested",
+      "Include expected outputs and use cases",
+      "Provide clear instructions for customization",
+      "Maintain consistent formatting across all templates",
+      "Review all copy for professionalism and credibility",
+      "Remove any casual language or filler content"
+    ],
+    "retentionStrategy": [
+      "Send weekly newsletters highlighting top contributors",
+      "Update leaderboards daily",
+      "Recognize milestones publicly",
+      "Provide exclusive benefits to top contributors",
+      "Create clear paths for professional advancement",
+      "Maintain consistent communication with active contributors"
+    ]
+  }
+}
+

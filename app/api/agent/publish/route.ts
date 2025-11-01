@@ -21,10 +21,10 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: 'agent_prompt_id and action are required' }, { status: 400 })
     }
 
-    // Get agent prompt
+      // Get agent prompt (select only needed fields)
     const { data: agentPrompt, error: fetchError } = await supabase
       .from('agent_prompts')
-      .select('*, agents(*)')
+      .select('id, agent_id, prompt_id, status, raw_output, topic, agents(owner_id, team_id)')
       .eq('id', agent_prompt_id)
       .single()
 
@@ -40,8 +40,12 @@ export async function PATCH(request: Request) {
 
     if (action === 'publish') {
       if (!agentPrompt.prompt_id) {
-        // Need to create the prompt first
-        const { data: agentData } = await supabase.from('agents').select('*').eq('id', agentPrompt.agent_id).single()
+        // Need to create the prompt first (select only needed fields)
+        const { data: agentData } = await supabase
+          .from('agents')
+          .select('id, owner_id, team_id')
+          .eq('id', agentPrompt.agent_id)
+          .single()
 
         if (!agentData) {
           return NextResponse.json({ error: 'Agent not found' }, { status: 404 })
@@ -117,11 +121,14 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json({ success: true, action })
   } catch (error) {
-    console.error('Error updating agent prompt:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Internal server error' },
-      { status: 500 },
-    )
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error updating agent prompt:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 

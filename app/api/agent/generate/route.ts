@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     // Get agent details (select only needed fields)
     const { data: agent, error: agentError } = await supabase
       .from('agents')
-      .select('id, name, keywords, category, output_type, is_active, brand_guidelines, quality_standards')
+      .select('id, name, keywords, category, output_type, is_active, brand_guidelines, quality_standards, temperature, mode, quality_threshold, owner_id, team_id')
       .eq('id', agent_id)
       .single()
 

@@ -45,12 +45,16 @@ export async function POST(request: NextRequest) {
           break
         }
 
-        const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+        const subscriptionObj = await stripe.subscriptions.retrieve(subscriptionId)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const subscription = subscriptionObj as any
         const currentPeriodEnd = subscription.current_period_end
-        const customerId = typeof session.customer === 'string' ? session.customer : session.customer?.id
+        const customerId: string | null = typeof subscription.customer === 'string' 
+          ? subscription.customer 
+          : (subscription.customer as { id: string } | null)?.id || null
 
-        if (!customerId) {
-          console.error('No customer ID in checkout session')
+        if (!customerId || typeof customerId !== 'string') {
+          console.error('No customer ID in subscription')
           break
         }
 
@@ -83,7 +87,8 @@ export async function POST(request: NextRequest) {
       }
 
       case 'customer.subscription.updated': {
-        const subscription = event.data.object
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const subscription = event.data.object as any
         const customerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id
 
         if (!customerId) {
@@ -126,7 +131,8 @@ export async function POST(request: NextRequest) {
       }
 
       case 'customer.subscription.deleted': {
-        const subscription = event.data.object
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const subscription = event.data.object as any
         const customerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id
 
         if (!customerId) {
@@ -166,7 +172,8 @@ export async function POST(request: NextRequest) {
       }
 
       case 'invoice.payment_succeeded': {
-        const invoice = event.data.object
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const invoice = event.data.object as any
         const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
         const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id
 
@@ -176,7 +183,9 @@ export async function POST(request: NextRequest) {
         }
 
         // Get subscription from Stripe to verify it's active
-        const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+        const subscriptionObj = await stripe.subscriptions.retrieve(subscriptionId)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const subscription = subscriptionObj as any
 
         // Get user from customer ID
         const { data: userSub } = await supabase
@@ -209,7 +218,8 @@ export async function POST(request: NextRequest) {
       }
 
       case 'invoice.payment_failed': {
-        const invoice = event.data.object
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const invoice = event.data.object as any
         const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
 
         if (!customerId) {

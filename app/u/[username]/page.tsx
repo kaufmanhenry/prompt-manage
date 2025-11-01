@@ -6,21 +6,22 @@ import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { createServerSideClient } from '@/utils/supabase/server'
 
-type Props = { params: { username: string } }
+type Props = { params: Promise<{ username: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params
   const supabase = createServerSideClient()
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('display_name, bio_markdown, username, avatar_url')
-    .eq('username', params.username)
+    .eq('username', resolvedParams.username)
     .single()
 
   const title = profile?.display_name
     ? `${profile.display_name} – Prompt Manage`
     : `Creator – Prompt Manage`
   const description = profile?.bio_markdown || 'Creator profile on Prompt Manage.'
-  const url = `https://promptmanage.com/u/${params.username}`
+  const url = `https://promptmanage.com/u/${resolvedParams.username}`
 
   return {
     title,
@@ -37,6 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CreatorProfilePage({ params }: Props) {
+  const resolvedParams = await params
   const supabase = createServerSideClient()
 
   const { data: profile } = await supabase
@@ -44,7 +46,7 @@ export default async function CreatorProfilePage({ params }: Props) {
     .select(
       'id, display_name, username, is_verified, avatar_url, bio_markdown, twitter_url, linkedin_url, instagram_url, youtube_url, website_url, profile_views, featured_prompt_ids, featured_collection_ids',
     )
-    .eq('username', params.username)
+    .eq('username', resolvedParams.username)
     .single()
 
   if (!profile) {

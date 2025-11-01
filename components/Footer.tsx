@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight, Rocket, Sparkles, Users } from 'lucide-react'
+import { ArrowRight, Rocket, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 

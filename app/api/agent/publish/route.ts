@@ -24,17 +24,27 @@ export async function PATCH(request: Request) {
       // Get agent prompt (select only needed fields)
     const { data: agentPrompt, error: fetchError } = await supabase
       .from('agent_prompts')
-      .select('id, agent_id, prompt_id, status, raw_output, topic, agents(owner_id, team_id)')
+      .select('id, agent_id, prompt_id, status, raw_output, topic')
       .eq('id', agent_prompt_id)
       .single()
-
+    
     if (fetchError || !agentPrompt) {
       return NextResponse.json({ error: 'Agent prompt not found' }, { status: 404 })
     }
+    
+    // Get agent separately to verify ownership
+    const { data: agent, error: agentError } = await supabase
+      .from('agents')
+      .select('owner_id, team_id')
+      .eq('id', agentPrompt.agent_id)
+      .single()
+
+    if (agentError || !agent) {
+      return NextResponse.json({ error: 'Agent not found' }, { status: 404 })
+    }
 
     // Verify ownership
-    const agent = agentPrompt.agents
-    if (!agent || agent.owner_id !== session.user.id) {
+    if (agent.owner_id !== session.user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 

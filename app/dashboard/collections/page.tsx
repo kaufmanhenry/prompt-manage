@@ -2,7 +2,6 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import {
-  CheckCircle2,
   Edit,
   ExternalLink,
   FolderOpen,
@@ -12,9 +11,7 @@ import {
   Plus,
   Search,
   Share2,
-  Sparkles,
   Trash2,
-  Users,
   X,
 } from 'lucide-react'
 import Image from 'next/image'
@@ -36,7 +33,6 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -105,11 +101,11 @@ export default function CollectionsManagerPage() {
     queryFn: async () => {
       const { data, error } = await createClient()
         .from('prompts')
-        .select('*')
+        .select('id, name, prompt_text, description, model, tags, is_public, view_count, user_id, inserted_at, updated_at')
         .eq('user_id', session?.user?.id)
         .order('updated_at', { ascending: false })
       if (error) throw error
-      return data
+      return data || []
     },
     enabled: !!session?.user?.id,
   })
@@ -319,12 +315,12 @@ export default function CollectionsManagerPage() {
             : 'Your collection is now private.',
       })
 
-          void refresh()
-        } catch (error) {
-          if (process.env.NODE_ENV === 'development') {
-            console.error('Publish error:', error)
-          }
-          toast({
+      void refresh()
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Publish error:', error)
+      }
+      toast({
         title: 'Error',
         description: error instanceof Error ? error.message : 'Failed to update collection',
         variant: 'destructive',
@@ -340,12 +336,12 @@ export default function CollectionsManagerPage() {
         title: 'Collection deleted',
         description: 'The collection has been permanently deleted.',
       })
-        void refresh()
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error deleting collection:', error)
-        }
-        toast({
+      void refresh()
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error deleting collection:', error)
+      }
+      toast({
         title: 'Error',
         description: 'Failed to delete collection',
         variant: 'destructive',
@@ -369,7 +365,7 @@ export default function CollectionsManagerPage() {
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-semibold tracking-tight text-foreground">Collections</h1>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/60 max-w-2xl">
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-foreground/60">
                   Group related prompts into organized collections. Share them with your team or publish
                   them publicly. Collections help teams manage prompts by use case, model, or project.
                 </p>
@@ -387,7 +383,7 @@ export default function CollectionsManagerPage() {
                 placeholder="Search collections..."
                 value={collectionSearch}
                 onChange={(e) => setCollectionSearch(e.target.value)}
-                className="pl-9 border-border/50 bg-background"
+                className="border-border/50 bg-background pl-9"
               />
             </div>
           </div>
@@ -477,8 +473,7 @@ export default function CollectionsManagerPage() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filteredCollections.map((c) => {
                 const promptsInCollection = collectionPrompts[c.id] || []
-                return (
-                  <div
+                return <div
                     key={c.id}
                     className="group relative flex flex-col rounded-lg bg-card transition-colors duration-200 hover:bg-foreground/5"
                   >
@@ -498,14 +493,14 @@ export default function CollectionsManagerPage() {
                     <div className="flex flex-1 flex-col p-6">
                       {/* Header */}
                       <div className="mb-4 flex items-start justify-between gap-3">
-                        <div className="flex-1 min-w-0">
+                        <div className="min-w-0 flex-1">
                           <div className="mb-2.5 flex items-center gap-2">
                             {c.visibility === 'public' ? (
                               <Globe className="h-3.5 w-3.5 text-foreground/50" />
                             ) : (
                               <Lock className="h-3.5 w-3.5 text-foreground/40" />
                             )}
-                            <span className="text-xs font-medium text-foreground/50 uppercase tracking-wider">
+                            <span className="text-xs font-medium uppercase tracking-wider text-foreground/50">
                               {c.visibility === 'public' ? 'Public' : 'Private'}
                             </span>
                           </div>
@@ -590,6 +585,44 @@ export default function CollectionsManagerPage() {
                         </DropdownMenu>
                       </div>
 
+                      {/* Prompts List */}
+                      {promptsInCollection.length > 0 && (
+                        <div className="mb-4 space-y-1.5">
+                          {promptsInCollection.slice(0, 3).map((p) => (
+                            <div
+                              key={p.id}
+                              className="group/prompt flex items-center justify-between rounded px-2 py-1.5 transition-colors hover:bg-foreground/5"
+                            >
+                              <Link
+                                href={p.slug ? `/p/${p.slug}` : '/dashboard'}
+                                className="min-w-0 flex-1 hover:text-foreground"
+                              >
+                                <div className="truncate text-xs font-medium text-foreground/80">
+                                  {p.name}
+                                </div>
+                                {p.model && (
+                                  <span className="mt-0.5 block text-xs text-foreground/45">{p.model}</span>
+                                )}
+                              </Link>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 w-6 p-0 opacity-0 transition-opacity group-hover/prompt:opacity-100"
+                                onClick={() => handleRemovePrompt(c.id, p.id)}
+                                title="Remove"
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          ))}
+                          {promptsInCollection.length > 3 && (
+                            <p className="pt-1 text-center text-xs text-foreground/45">
+                              +{promptsInCollection.length - 3} more
+                            </p>
+                          )}
+                        </div>
+                      )}
+
                       {/* Stats & Actions */}
                       <div className="mb-4 mt-auto flex items-center justify-between border-t border-border/20 pt-4">
                         <div className="flex items-center gap-2 text-xs text-foreground/50">
@@ -640,7 +673,7 @@ export default function CollectionsManagerPage() {
                                 Add
                               </Button>
                             </DialogTrigger>
-                          <DialogContent className="max-w-2xl">
+                            <DialogContent className="max-w-2xl">
                             <DialogHeader>
                               <DialogTitle>Add Prompts to Collection</DialogTitle>
                               <DialogDescription>
@@ -739,50 +772,9 @@ export default function CollectionsManagerPage() {
                           </DialogContent>
                         </Dialog>
                       </div>
-
-                            {/* Prompts List */}
-                            {promptsInCollection.length > 0 && (
-                              <div className="space-y-1.5">
-                                {promptsInCollection.slice(0, 3).map((p) => (
-                                  <div
-                                    key={p.id}
-                                    className="group/prompt flex items-center justify-between rounded px-2 py-1.5 transition-colors hover:bg-foreground/5"
-                                  >
-                                    <Link
-                                      href={p.slug ? `/p/${p.slug}` : '/dashboard'}
-                                      className="min-w-0 flex-1 hover:text-foreground"
-                                    >
-                                      <div className="truncate text-xs font-medium text-foreground/80">
-                                        {p.name}
-                                      </div>
-                                      {p.model && (
-                                        <span className="mt-0.5 block text-xs text-foreground/45">{p.model}</span>
-                                      )}
-                                    </Link>
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      className="h-6 w-6 p-0 opacity-0 transition-opacity group-hover/prompt:opacity-100"
-                                      onClick={() => handleRemovePrompt(c.id, p.id)}
-                                      title="Remove"
-                                    >
-                                      <X className="h-3 w-3" />
-                                    </Button>
-                                  </div>
-                                ))}
-                                {promptsInCollection.length > 3 && (
-                                  <p className="pt-1 text-center text-xs text-foreground/45">
-                                    +{promptsInCollection.length - 3} more
-                                  </p>
-                                )}
-                              </div>
-                            )}
-                          </Dialog>
-                        </div>
-                      </div>
                     </div>
                   </div>
-                )
+                </div>
               })}
             </div>
           )}

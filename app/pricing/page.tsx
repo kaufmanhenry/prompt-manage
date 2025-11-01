@@ -209,7 +209,7 @@ export default function PricingPage() {
             <h2 className="mb-4 text-2xl font-semibold tracking-tight text-foreground">
               Enterprise-Ready Infrastructure
             </h2>
-            <p className="mb-12 mx-auto max-w-2xl text-sm leading-relaxed text-foreground/60">
+            <p className="mx-auto mb-12 max-w-2xl text-sm leading-relaxed text-foreground/60">
               Built for scale, security, and reliability. Trusted by teams of all sizes.
             </p>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

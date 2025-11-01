@@ -88,7 +88,7 @@ export function Header() {
               href="/p"
               className={`text-sm ${
                 pathname.startsWith('/p') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <Globe className="h-4 w-4" />
               <span>Prompts</span>
@@ -99,7 +99,7 @@ export function Header() {
                 pathname.startsWith('/collections')
                   ? 'bg-foreground/5 text-foreground'
                   : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +121,7 @@ export function Header() {
               href="/docs"
               className={`text-sm ${
                 pathname.startsWith('/docs') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <BookOpen className="h-4 w-4" />
               <span>Docs</span>
@@ -130,7 +130,7 @@ export function Header() {
               href="/pricing"
               className={`text-sm ${
                 pathname.startsWith('/pricing') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <span>Pricing</span>
             </Link>
@@ -138,7 +138,7 @@ export function Header() {
               href="/support"
               className={`text-sm ${
                 pathname.startsWith('/support') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <HelpCircle className="h-4 w-4" />
               <span>Support</span>

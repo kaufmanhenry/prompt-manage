@@ -228,6 +228,125 @@ export default function TeamsGuide() {
             </div>
           </section>
 
+          {/* Best Practices */}
+          <section>
+            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+              Best Practices
+            </h2>
+            <div className="space-y-4">
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-800 dark:bg-emerald-900/20">
+                <h3 className="mb-2 text-lg font-semibold text-emerald-900 dark:text-emerald-100">
+                  Organize with Collections
+                </h3>
+                <p className="text-emerald-800 dark:text-emerald-200">
+                  Use collections to group related prompts by project, use case, or department. This
+                  makes it easier for team members to find what they need and maintains organization as
+                  your prompt library grows.
+                </p>
+              </div>
+              <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
+                <h3 className="mb-2 text-lg font-semibold text-blue-900 dark:text-blue-100">
+                  Use Appropriate Roles
+                </h3>
+                <p className="text-blue-800 dark:text-blue-200">
+                  Grant Editor access only to members who need to create content. Use Viewer role for
+                  read-only access. This prevents accidental changes and maintains data integrity while
+                  still allowing team members to access and copy prompts to their personal library.
+                </p>
+              </div>
+              <div className="rounded-lg border border-purple-200 bg-purple-50 p-4 dark:border-purple-800 dark:bg-purple-900/20">
+                <h3 className="mb-2 text-lg font-semibold text-purple-900 dark:text-purple-100">
+                  Monitor Usage
+                </h3>
+                <p className="text-purple-800 dark:text-purple-200">
+                  Pro plan subscribers can regularly review team usage analytics to understand how
+                  prompts are being used and optimize costs. Track which prompts are most popular, which
+                  team members are most active, and identify opportunities for improvement.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Usage Analytics (Pro Only) */}
+          <section>
+            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+              Usage Analytics (Pro Plan)
+            </h2>
+            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900">
+              <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                <strong className="text-gray-900 dark:text-white">Note:</strong> Usage analytics and
+                monitoring features are available on the Pro plan ($99/month). Team plan subscribers
+                can upgrade to Pro to access these features.
+              </p>
+            </div>
+            <div className="mt-4 space-y-4">
+              <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                  Team Usage Dashboard
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  View comprehensive analytics about how your team is using Prompt Manage:
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-6 text-sm text-gray-600 dark:text-gray-400">
+                  <li>Total prompts created and shared by team members</li>
+                  <li>Most active team members and their contributions</li>
+                  <li>Most-used prompts and collections</li>
+                  <li>Usage trends over time</li>
+                </ul>
+              </div>
+              <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
+                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                  Cost Optimization
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Pro plan subscribers can track and optimize costs:
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-6 text-sm text-gray-600 dark:text-gray-400">
+                  <li>Monitor prompt execution costs</li>
+                  <li>Identify high-cost prompts and usage patterns</li>
+                  <li>Receive recommendations for cost optimization</li>
+                  <li>Set budget alerts and limits</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* API Access (Pro Only) */}
+          <section>
+            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+              API Access (Pro Plan - Coming Soon)
+            </h2>
+            <div className="rounded-lg border-2 border-amber-200 bg-amber-50 p-6 dark:border-amber-800 dark:bg-amber-900/20">
+              <h3 className="mb-2 text-lg font-semibold text-amber-900 dark:text-amber-100">
+                🚧 Coming Soon
+              </h3>
+              <p className="mb-4 text-amber-800 dark:text-amber-200">
+                Teams on Pro plan will have access to the Prompt Manage API for programmatic access.
+                Full API documentation will be available once the API is released.
+              </p>
+              <div className="mt-4 space-y-2">
+                <p className="text-sm font-semibold text-amber-900 dark:text-amber-100">
+                  Planned API Features:
+                </p>
+                <ul className="list-disc space-y-1 pl-6 text-sm text-amber-800 dark:text-amber-200">
+                  <li>Create, read, update, and delete prompts via API</li>
+                  <li>Manage collections programmatically</li>
+                  <li>Access team resources with API keys</li>
+                  <li>Integrate Prompt Manage into your workflows</li>
+                </ul>
+              </div>
+              <p className="mt-4 text-sm text-amber-700 dark:text-amber-300">
+                API documentation will be available in your team settings when API access is enabled.
+                <Link
+                  href="/developer-docs"
+                  className="ml-1 underline hover:text-amber-900 dark:hover:text-amber-100"
+                >
+                  View preliminary API docs →
+                </Link>
+              </p>
+            </div>
+          </section>
+
           {/* Billing */}
           <section>
             <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">Billing</h2>

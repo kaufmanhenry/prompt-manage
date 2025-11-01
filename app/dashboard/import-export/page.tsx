@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/components/ui/use-toast'
+import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
 export default function ImportExportPage() {
@@ -47,12 +48,13 @@ export default function ImportExportPage() {
       if (!session?.user?.id) return []
       const { data, error } = await createClient()
         .from('prompts')
-        .select('id, name, prompt_text')
+        .select('id, name, prompt_text, tags, is_public, view_count, user_id, slug, updated_at, inserted_at, model, description, parent_prompt_id')
         .eq('user_id', session.user.id)
         .order('inserted_at', { ascending: false })
 
       if (error) throw error
-      return data || []
+      // Type assertion to match Prompt type
+      return (data || []) as Prompt[]
     },
     enabled: !!session?.user?.id,
   })

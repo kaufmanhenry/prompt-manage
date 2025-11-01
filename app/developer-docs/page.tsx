@@ -31,30 +31,56 @@ export default function DeveloperDocsPage() {
       {/* Content */}
       <div className="mx-auto max-w-4xl px-6 py-16">
         <div className="space-y-16">
+          {/* Coming Soon Banner */}
+          <section>
+            <div className="mb-8 rounded-lg border-2 border-amber-200 bg-amber-50 p-6 dark:border-amber-800 dark:bg-amber-900/20">
+              <h2 className="mb-2 text-xl font-semibold text-amber-900 dark:text-amber-100">
+                🚧 Coming Soon
+              </h2>
+              <p className="text-amber-800 dark:text-amber-200">
+                The Prompt Manage API is currently in development. Full API access with API keys will be available for Pro plan subscribers soon.
+              </p>
+              <p className="mt-2 text-sm text-amber-700 dark:text-amber-300">
+                Interested in early access? Contact us at{' '}
+                <a
+                  href="mailto:support@promptmanage.com"
+                  className="underline hover:text-amber-900 dark:hover:text-amber-100"
+                >
+                  support@promptmanage.com
+                </a>
+              </p>
+            </div>
+          </section>
+
           {/* Introduction */}
           <section>
             <h2 className="mb-6 text-2xl font-semibold">Introduction</h2>
             <p className="mb-4 text-gray-600 dark:text-gray-400">
-              The Prompt Manage API allows you to programmatically manage prompts, run AI models,
+              The Prompt Manage API will allow you to programmatically manage prompts, collections,
               and integrate prompt management into your workflows.
             </p>
             <p className="text-gray-600 dark:text-gray-400">
-              All API requests are made to{' '}
+              API requests will be made to{' '}
               <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-900">
                 https://promptmanage.com/api
               </code>{' '}
-              and require authentication.
+              and will require API key authentication (Pro plan only).
             </p>
           </section>
 
           {/* Authentication */}
           <section className="border-t pt-16">
-            <h2 className="mb-6 text-2xl font-semibold">Authentication</h2>
+            <h2 className="mb-6 text-2xl font-semibold">Authentication (Coming Soon)</h2>
             <p className="mb-4 text-gray-600 dark:text-gray-400">
-              API requests require an API key. Generate one in your account settings.
+              API requests will require an API key. Pro plan subscribers will be able to generate API keys in their team settings.
             </p>
             <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
               <p className="mb-2 font-mono text-sm">Authorization: Bearer YOUR_API_KEY</p>
+            </div>
+            <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
+              <p className="text-sm text-blue-900 dark:text-blue-200">
+                <strong>Note:</strong> API access is a Pro plan feature. Upgrade to Pro to enable API access when it becomes available.
+              </p>
             </div>
           </section>
 
@@ -70,9 +96,12 @@ export default function DeveloperDocsPage() {
             </div>
           </section>
 
-          {/* Endpoints */}
+          {/* Planned Endpoints */}
           <section className="border-t pt-16">
-            <h2 className="mb-6 text-2xl font-semibold">Endpoints</h2>
+            <h2 className="mb-6 text-2xl font-semibold">Planned Endpoints</h2>
+            <p className="mb-6 text-gray-600 dark:text-gray-400">
+              The following endpoints are planned for the API (subject to change):
+            </p>
             <div className="space-y-6">
               <div>
                 <h3 className="mb-2 text-base font-medium">Prompts</h3>
@@ -118,13 +147,13 @@ export default function DeveloperDocsPage() {
             </div>
           </section>
 
-          {/* Rate Limits */}
+          {/* Planned Rate Limits */}
           <section className="border-t pt-16">
-            <h2 className="mb-6 text-2xl font-semibold">Rate Limits</h2>
+            <h2 className="mb-6 text-2xl font-semibold">Planned Rate Limits</h2>
             <ul className="space-y-2 text-gray-600 dark:text-gray-400">
-              <li>• Free: 60 requests/hour</li>
-              <li>• Team: 600 requests/hour</li>
-              <li>• Enterprise: Custom limits</li>
+              <li>• Pro: API access included (rate limits TBD)</li>
+              <li>• Team: API access not included</li>
+              <li>• Free: API access not included</li>
             </ul>
           </section>
 

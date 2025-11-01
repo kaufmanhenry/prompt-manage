@@ -216,7 +216,7 @@ export default function BillingPage() {
 
   const tier = currentTeam.teams.tier || 'free'
   const status = currentTeam.teams.subscription_status
-  const periodEnd = currentTeam.teams.subscription_period_end
+  const teamPeriodEnd = currentTeam.teams.subscription_period_end
   const hasActiveSubscription = currentTeam.teams.stripe_customer_id && tier !== 'free'
   const isOwnerOrAdmin = currentTeam.role === 'owner' || currentTeam.role === 'admin'
 
@@ -280,9 +280,9 @@ export default function BillingPage() {
                           ${PRICING_CONFIG.pro.price}/month • Everything in Team plus advanced features
                         </p>
                       )}
-                      {periodEnd && (
+                      {teamPeriodEnd && (
                         <p className="text-sm text-gray-500 dark:text-gray-500">
-                          Renews on {formatDate(periodEnd)}
+                          Renews on {formatDate(teamPeriodEnd)}
                         </p>
                       )}
                     </div>
@@ -358,7 +358,7 @@ export default function BillingPage() {
                               <AlertDialogTitle>Cancel subscription?</AlertDialogTitle>
                               <AlertDialogDescription>
                                 Your subscription will remain active until the end of your billing
-                                period ({periodEnd ? formatDate(periodEnd) : 'next payment date'}
+                                period ({teamPeriodEnd ? formatDate(teamPeriodEnd) : 'next payment date'}
                                 ). After that, you'll be moved to the free plan.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
@@ -487,7 +487,7 @@ export default function BillingPage() {
                 <CardContent>
                   <Button
                     onClick={handleManageBilling}
-                    disabled={loading}
+                    disabled={!!loading}
                     className="w-full sm:w-auto"
                   >
                     {loading ? (

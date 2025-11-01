@@ -1,6 +1,6 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+// import { useQuery } from '@tanstack/react-query' // Commented out - session not currently used
 import {
   ArrowLeft,
   ExternalLink,
@@ -63,15 +63,16 @@ export function CollectionPageClient({ slug }: CollectionPageClientProps) {
   const [loading, setLoading] = useState(true)
   const [showShareDialog, setShowShareDialog] = useState(false)
 
-  const { data: session } = useQuery({
-    queryKey: ['session'],
-    queryFn: async () => {
-      const {
-        data: { session },
-      } = await createClient().auth.getSession()
-      return session
-    },
-  })
+  // Session is not currently used but kept for future auth checks
+  // const { data: session } = useQuery({
+  //   queryKey: ['session'],
+  //   queryFn: async () => {
+  //     const {
+  //       data: { session },
+  //     } = await createClient().auth.getSession()
+  //     return session
+  //   },
+  // })
 
   useEffect(() => {
     const fetchCollection = async () => {

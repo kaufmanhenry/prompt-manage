@@ -4,7 +4,7 @@ import { isAdminEmail } from '@/lib/admin'
 import { createClient } from '@/utils/supabase/server'
 
 // GET: List all agents
-export async function GET(request: Request) {
+export async function GET(_request: Request) {
   try {
     const supabase = await createClient()
     const {

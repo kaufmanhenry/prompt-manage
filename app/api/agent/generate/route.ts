@@ -120,7 +120,7 @@ export async function POST(request: Request) {
         }
 
         // Save agent_prompt record
-        const { data: agentPrompt, error: agentPromptError } = await supabase
+        const { data: agentPrompt, error: _agentPromptError } = await supabase
           .from('agent_prompts')
           .insert({
             agent_id: agent.id,

@@ -8,6 +8,7 @@ import { Suspense, useCallback, useEffect, useState } from 'react'
 
 import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
 import CopyButton from '@/components/CopyButton'
+import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
@@ -297,7 +298,7 @@ function PublicDirectoryContent() {
         ) : (
           <>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {filteredPrompts.map((prompt) => (
+              {filteredPrompts.map((prompt) => (
                 <Card
                   key={prompt.id}
                   className="group relative flex h-full flex-col p-4 transition-all hover:border-primary hover:shadow-md"
@@ -317,63 +318,67 @@ function PublicDirectoryContent() {
                         {prompt.description}
                       </p>
                     )}
+                  </Link>
 
-                    </Link>
+                  {/* Action Bar - Not clickable, separate from prompt card */}
+                  <div
+                    className="mt-3 flex items-center justify-between border-t pt-3"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="flex flex-wrap gap-2">
+                      {/* Model */}
+                      {prompt.model && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            router.push(`/prompts/${encodeURIComponent(prompt.model!)}`)
+                          }}
+                          className="transition-opacity hover:opacity-80"
+                        >
+                          <Badge variant="secondary" className="cursor-pointer">
+                            {prompt.model}
+                          </Badge>
+                        </button>
+                      )}
 
-                    {/* Action Bar - Not clickable, separate from prompt card */}
-                    <div className="mt-3 flex items-center justify-between border-t pt-3" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex flex-wrap gap-2">
-                        {/* Model */}
-                        {prompt.model && (
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1">
+                        {prompt.tags?.slice(0, 3).map((tag) => (
                           <button
+                            key={tag}
                             onClick={(e) => {
                               e.stopPropagation()
-                              router.push(`/prompts/${encodeURIComponent(prompt.model!)}`)
+                              router.push(`/p/tags/${encodeURIComponent(tag)}`)
                             }}
                             className="transition-opacity hover:opacity-80"
                           >
-                            <Badge variant="secondary" className="cursor-pointer">
-                              {prompt.model}
+                            <Badge variant="outline" className="cursor-pointer">
+                              {tag}
                             </Badge>
                           </button>
+                        ))}
+                        {prompt.tags && prompt.tags.length > 3 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{prompt.tags.length - 3} more
+                          </Badge>
                         )}
-
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-1">
-                          {prompt.tags?.slice(0, 3).map((tag) => (
-                            <button
-                              key={tag}
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                router.push(`/p/tags/${encodeURIComponent(tag)}`)
-                              }}
-                              className="transition-opacity hover:opacity-80"
-                            >
-                              <Badge variant="outline" className="cursor-pointer">
-                                {tag}
-                              </Badge>
-                            </button>
-                          ))}
-                          {prompt.tags && prompt.tags.length > 3 && (
-                            <Badge variant="outline" className="text-xs">
-                              +{prompt.tags.length - 3} more
-                            </Badge>
-                          )}
-                        </div>
-
-                        {/* Stats */}
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <span>{prompt.view_count || 0} views</span>
-                          <span>
-                            {prompt.inserted_at
-                              ? new Date(prompt.inserted_at).toLocaleDateString()
-                              : 'Recently'}
-                          </span>
-                        </div>
                       </div>
-                      {prompt.id && <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />}
+
+                      {/* Stats */}
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span>{prompt.view_count || 0} views</span>
+                        <span>
+                          {prompt.inserted_at
+                            ? new Date(prompt.inserted_at).toLocaleDateString()
+                            : 'Recently'}
+                        </span>
+                      </div>
                     </div>
-                  </Card>
+                    {prompt.id && (
+                      <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />
+                    )}
+                  </div>
+                </Card>
               ))}
             </div>
 
@@ -439,7 +444,16 @@ function PublicDirectoryContent() {
                 Share Your Prompts
               </Link>
             ) : (
-              <GoogleSignInButton />
+              <div className="flex items-center gap-3">
+                <GoogleSignInButton />
+                <EmailSignInButton
+                  variant="ghost"
+                  size="sm"
+                  className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                >
+                  or email
+                </EmailSignInButton>
+              </div>
             )}
             <Link
               href="/tools"
@@ -470,7 +484,18 @@ function PublicDirectoryContent() {
               Join thousands of users who are organizing their AI prompts and boosting their
               productivity.
             </p>
-            <GoogleSignInButton />
+            <div className="flex flex-col items-center gap-3 sm:flex-row">
+              <GoogleSignInButton size="lg" className="px-6 py-3">
+                Sign in with Google
+              </GoogleSignInButton>
+              <EmailSignInButton
+                variant="ghost"
+                size="sm"
+                className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+              >
+                or sign in with email
+              </EmailSignInButton>
+            </div>
           </div>
         )}
       </div>

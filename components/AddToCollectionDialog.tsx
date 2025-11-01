@@ -216,11 +216,7 @@ export function AddToCollectionDialog({
         <div className="space-y-4">
           {/* Create New Collection Section - Always Visible */}
           {!showCreateForm ? (
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => setShowCreateForm(true)}
-            >
+            <Button variant="outline" className="w-full" onClick={() => setShowCreateForm(true)}>
               <Plus className="mr-2 h-4 w-4" />
               Create New Collection
             </Button>
@@ -339,7 +335,9 @@ export function AddToCollectionDialog({
                     <div className="flex-1">
                       <div className="font-semibold">{collection.title}</div>
                       {collection.description && (
-                        <div className="text-sm text-muted-foreground">{collection.description}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {collection.description}
+                        </div>
                       )}
                       <div className="mt-1 text-xs text-muted-foreground">
                         {collection.visibility === 'public' ? 'Public' : 'Private'}
@@ -367,4 +365,3 @@ export function AddToCollectionDialog({
     </Dialog>
   )
 }
-

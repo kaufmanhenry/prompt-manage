@@ -41,13 +41,16 @@ export default function RefundsPage() {
             </p>
             <ul className="list-disc space-y-3 pl-6 text-gray-600 dark:text-gray-400">
               <li>
-                <strong className="text-gray-900 dark:text-white">Subscription Cancellation:</strong> If you
-                cancel your subscription, you will retain access until the end of your current billing period. No charges will occur after cancellation.
+                <strong className="text-gray-900 dark:text-white">
+                  Subscription Cancellation:
+                </strong>{' '}
+                If you cancel your subscription, you will retain access until the end of your
+                current billing period. No charges will occur after cancellation.
               </li>
               <li>
                 <strong className="text-gray-900 dark:text-white">Subscription Errors:</strong> If
-                you are charged incorrectly due to a technical error on our part, we will issue a full
-                refund.
+                you are charged incorrectly due to a technical error on our part, we will issue a
+                full refund.
               </li>
               <li>
                 <strong className="text-gray-900 dark:text-white">Duplicate Charges:</strong> If you
@@ -67,17 +70,17 @@ export default function RefundsPage() {
             <ul className="list-disc space-y-3 pl-6 text-gray-600 dark:text-gray-400">
               <li>
                 <strong className="text-gray-900 dark:text-white">Active Subscriptions:</strong> You
-                will continue to have access to premium features until the end of your current billing
-                period.
+                will continue to have access to premium features until the end of your current
+                billing period.
               </li>
               <li>
                 <strong className="text-gray-900 dark:text-white">No Partial Refunds:</strong> We do
                 not offer partial refunds for unused portions of your subscription period.
               </li>
               <li>
-                <strong className="text-gray-900 dark:text-white">Automatic Cancellation:</strong> If
-                your subscription is canceled, it will not automatically renew. You will be downgraded
-                to the Free plan at the end of your billing period.
+                <strong className="text-gray-900 dark:text-white">Automatic Cancellation:</strong>{' '}
+                If your subscription is canceled, it will not automatically renew. You will be
+                downgraded to the Free plan at the end of your billing period.
               </li>
             </ul>
           </section>
@@ -91,12 +94,12 @@ export default function RefundsPage() {
             </p>
             <ul className="list-disc space-y-2 pl-6 text-gray-600 dark:text-gray-400">
               <li>
-                <strong className="text-gray-900 dark:text-white">Account Settings:</strong> Navigate
-                to Settings → Subscription → Cancel Subscription
+                <strong className="text-gray-900 dark:text-white">Account Settings:</strong>{' '}
+                Navigate to Settings → Subscription → Cancel Subscription
               </li>
               <li>
-                <strong className="text-gray-900 dark:text-white">Stripe Customer Portal:</strong> We
-                use Stripe for billing. You can manage your subscription directly through the{' '}
+                <strong className="text-gray-900 dark:text-white">Stripe Customer Portal:</strong>{' '}
+                We use Stripe for billing. You can manage your subscription directly through the{' '}
                 <a
                   href="https://billing.stripe.com/p/login"
                   target="_blank"
@@ -128,18 +131,10 @@ export default function RefundsPage() {
               If you are eligible for a refund:
             </p>
             <ul className="list-disc space-y-2 pl-6 text-gray-600 dark:text-gray-400">
-              <li>
-                Refunds are processed within 5-10 business days
-              </li>
-              <li>
-                Refunds will be issued to the original payment method
-              </li>
-              <li>
-                You will receive email confirmation once the refund has been processed
-              </li>
-              <li>
-                If the original payment method is no longer available, please contact support
-              </li>
+              <li>Refunds are processed within 5-10 business days</li>
+              <li>Refunds will be issued to the original payment method</li>
+              <li>You will receive email confirmation once the refund has been processed</li>
+              <li>If the original payment method is no longer available, please contact support</li>
             </ul>
           </section>
 
@@ -185,8 +180,8 @@ export default function RefundsPage() {
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
               We may update this Refund Policy from time to time. We will notify you of any material
-              changes by posting the new policy on this page and updating the &quot;Last updated&quot;
-              date.
+              changes by posting the new policy on this page and updating the &quot;Last
+              updated&quot; date.
             </p>
           </section>
 
@@ -209,4 +204,3 @@ export default function RefundsPage() {
     </div>
   )
 }
-

@@ -36,7 +36,9 @@ export default function CollectionsGuide() {
             <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/30">
               <FolderOpen className="h-6 w-6 text-emerald-700 dark:text-emerald-400" />
             </div>
-            <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">Prompt Collections</h1>
+            <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">
+              Prompt Collections
+            </h1>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-400">
             Organize your AI prompts into curated collections. Create private collections for your
@@ -74,8 +76,8 @@ export default function CollectionsGuide() {
                     </h3>
                   </div>
                   <p className="text-sm text-emerald-800 dark:text-emerald-200">
-                    Keep collections private for personal use or team collaboration. Only you can see
-                    and manage private collections.
+                    Keep collections private for personal use or team collaboration. Only you can
+                    see and manage private collections.
                   </p>
                 </div>
                 <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
@@ -86,8 +88,8 @@ export default function CollectionsGuide() {
                     </h3>
                   </div>
                   <p className="text-sm text-blue-800 dark:text-blue-200">
-                    Share collections with the community. Public collections appear in search results,
-                    get their own URL, and can be discovered by others.
+                    Share collections with the community. Public collections appear in search
+                    results, get their own URL, and can be discovered by others.
                   </p>
                 </div>
               </div>
@@ -153,7 +155,9 @@ export default function CollectionsGuide() {
                   </div>
                   <div className="space-y-3 text-gray-600 dark:text-gray-400">
                     <p>
-                      <strong className="text-gray-900 dark:text-gray-100">Title (required):</strong>{' '}
+                      <strong className="text-gray-900 dark:text-gray-100">
+                        Title (required):
+                      </strong>{' '}
                       Choose a descriptive name for your collection. Examples:
                     </p>
                     <ul className="ml-6 list-disc space-y-1">
@@ -166,12 +170,14 @@ export default function CollectionsGuide() {
                       a description explaining what your collection contains and when to use it.
                     </p>
                     <p>
-                      <strong className="text-gray-900 dark:text-gray-100">Cover Image (optional):</strong>{' '}
+                      <strong className="text-gray-900 dark:text-gray-100">
+                        Cover Image (optional):
+                      </strong>{' '}
                       Add a cover image URL to make your collection visually appealing.
                     </p>
                     <p>
-                      <strong className="text-gray-900 dark:text-gray-100">Visibility:</strong> Choose
-                      between:
+                      <strong className="text-gray-900 dark:text-gray-100">Visibility:</strong>{' '}
+                      Choose between:
                     </p>
                     <ul className="ml-6 list-disc space-y-1">
                       <li>
@@ -192,7 +198,8 @@ export default function CollectionsGuide() {
                     <h3 className="text-lg font-semibold">Save Your Collection</h3>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Click <strong className="text-gray-900 dark:text-gray-100">"Save Collection"</strong>{' '}
+                    Click{' '}
+                    <strong className="text-gray-900 dark:text-gray-100">"Save Collection"</strong>{' '}
                     to create your collection. You can add prompts to it immediately or later.
                   </p>
                 </div>
@@ -238,9 +245,9 @@ export default function CollectionsGuide() {
 
               <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
                 <p className="text-sm text-blue-900 dark:text-blue-200">
-                  <strong>Pro Tip:</strong> You can add multiple prompts to a collection at once from
-                  the Collections page. Select multiple prompts using checkboxes, then click "Add
-                  Selected" to add them all at once.
+                  <strong>Pro Tip:</strong> You can add multiple prompts to a collection at once
+                  from the Collections page. Select multiple prompts using checkboxes, then click
+                  "Add Selected" to add them all at once.
                 </p>
               </div>
             </div>
@@ -265,13 +272,16 @@ export default function CollectionsGuide() {
                   <h3 className="mb-3 text-lg font-semibold">Requirements for Publishing</h3>
                   <ul className="ml-4 list-disc space-y-2 text-sm text-gray-600 dark:text-gray-400">
                     <li>
-                      <strong className="text-gray-900 dark:text-gray-100">Description:</strong> Your
-                      collection must have a description before it can be made public. This helps
-                      others understand what your collection contains.
+                      <strong className="text-gray-900 dark:text-gray-100">Description:</strong>{' '}
+                      Your collection must have a description before it can be made public. This
+                      helps others understand what your collection contains.
                     </li>
                     <li>
-                      <strong className="text-gray-900 dark:text-gray-100">At least one prompt:</strong>{' '}
-                      While not required, collections with prompts are more valuable to the community.
+                      <strong className="text-gray-900 dark:text-gray-100">
+                        At least one prompt:
+                      </strong>{' '}
+                      While not required, collections with prompts are more valuable to the
+                      community.
                     </li>
                   </ul>
                 </div>
@@ -281,9 +291,7 @@ export default function CollectionsGuide() {
                   <ol className="ml-4 list-decimal space-y-2 text-sm text-gray-600 dark:text-gray-400">
                     <li>Go to Dashboard → Collections</li>
                     <li>Find the collection you want to publish</li>
-                    <li>
-                      Click the dropdown menu (three dots) on the collection card
-                    </li>
+                    <li>Click the dropdown menu (three dots) on the collection card</li>
                     <li>Click "Publish"</li>
                     <li>
                       If your collection doesn't have a description, you'll be prompted to add one
@@ -304,9 +312,7 @@ export default function CollectionsGuide() {
                     <li>Find the collection you want to unpublish</li>
                     <li>Click the dropdown menu (three dots) on the collection card</li>
                     <li>Click "Unpublish"</li>
-                    <li>
-                      Your collection is now private and only visible to you
-                    </li>
+                    <li>Your collection is now private and only visible to you</li>
                   </ol>
                 </div>
               </div>
@@ -317,7 +323,10 @@ export default function CollectionsGuide() {
                 </p>
                 <ul className="ml-4 list-disc space-y-1 text-sm text-purple-800 dark:text-purple-200">
                   <li>Your collection appears in the public Collections directory</li>
-                  <li>It gets a unique, shareable URL: <code>promptmanage.com/collections/[slug]</code></li>
+                  <li>
+                    It gets a unique, shareable URL:{' '}
+                    <code>promptmanage.com/collections/[slug]</code>
+                  </li>
                   <li>View counts are tracked</li>
                   <li>It's indexed for search engines (SEO)</li>
                   <li>Others can discover and view your collection</li>
@@ -549,4 +558,3 @@ export default function CollectionsGuide() {
     </div>
   )
 }
-

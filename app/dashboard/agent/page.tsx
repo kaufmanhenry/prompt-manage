@@ -1,15 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import {
-  Activity,
-  Bot,
-  CheckCircle2,
-  FolderIcon,
-  Plus,
-  Settings,
-  XCircle,
-} from 'lucide-react'
+import { Activity, Bot, CheckCircle2, FolderIcon, Plus, Settings, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -137,7 +129,9 @@ export default function AgentDashboardPage() {
           <div className="dashboard-container">
             <Card className="p-8 text-center">
               <h1 className="mb-4 text-2xl font-bold">Access Denied</h1>
-              <p className="text-muted-foreground">You don't have permission to access this page.</p>
+              <p className="text-muted-foreground">
+                You don't have permission to access this page.
+              </p>
             </Card>
           </div>
         </main>
@@ -235,7 +229,9 @@ export default function AgentDashboardPage() {
                       >
                         <CardContent className="p-4">
                           <div className="flex items-center gap-3">
-                            <Bot className={`h-5 w-5 ${agent.is_active ? 'text-green-600' : 'text-gray-400'}`} />
+                            <Bot
+                              className={`h-5 w-5 ${agent.is_active ? 'text-green-600' : 'text-gray-400'}`}
+                            />
                             <div className="flex-1">
                               <h3 className="font-semibold">{agent.name}</h3>
                               <p className="text-xs text-muted-foreground">
@@ -322,7 +318,9 @@ export default function AgentDashboardPage() {
                           <CardTitle className="text-sm font-medium">Avg Quality</CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <div className="text-2xl font-bold">{stats.stats.average_quality.toFixed(1)}</div>
+                          <div className="text-2xl font-bold">
+                            {stats.stats.average_quality.toFixed(1)}
+                          </div>
                           <p className="text-xs text-muted-foreground">Quality score</p>
                         </CardContent>
                       </Card>
@@ -341,7 +339,9 @@ export default function AgentDashboardPage() {
                             </div>
                             <div className="flex items-center justify-between text-sm">
                               <span>Generated This Week</span>
-                              <span className="font-semibold">{stats.stats.generated_this_week}</span>
+                              <span className="font-semibold">
+                                {stats.stats.generated_this_week}
+                              </span>
                             </div>
                           </div>
                         </CardContent>
@@ -353,7 +353,10 @@ export default function AgentDashboardPage() {
                         <CardContent>
                           <div className="space-y-2">
                             {stats.top_keywords.slice(0, 5).map((k: any) => (
-                              <div key={k.keyword} className="flex items-center justify-between text-sm">
+                              <div
+                                key={k.keyword}
+                                className="flex items-center justify-between text-sm"
+                              >
                                 <span>{k.keyword}</span>
                                 <span className="font-semibold">{k.generated_count}</span>
                               </div>
@@ -389,13 +392,7 @@ export default function AgentDashboardPage() {
 }
 
 // Agent Prompts Table Component
-function AgentPromptsTable({
-  prompts,
-  isLoading,
-}: {
-  prompts: AgentPrompt[]
-  isLoading: boolean
-}) {
+function AgentPromptsTable({ prompts, isLoading }: { prompts: AgentPrompt[]; isLoading: boolean }) {
   const [statusFilter, setStatusFilter] = useState<string>('all')
 
   const filteredPrompts =
@@ -457,7 +454,9 @@ function AgentPromptsTable({
                   <div className="flex-1">
                     <div className="mb-2 flex items-center gap-2">
                       <h3 className="font-semibold">{prompt.topic}</h3>
-                      <span className={`rounded px-2 py-1 text-xs ${getStatusBadgeClass(prompt.status)}`}>
+                      <span
+                        className={`rounded px-2 py-1 text-xs ${getStatusBadgeClass(prompt.status)}`}
+                      >
                         {prompt.status}
                       </span>
                       {prompt.quality_score !== null && (
@@ -580,7 +579,10 @@ function AgentKeywordsTable({ keywords, agentId }: { keywords: any[]; agentId: s
             <p className="py-8 text-center text-muted-foreground">No keywords yet.</p>
           ) : (
             keywords.map((keyword) => (
-              <div key={keyword.id} className="flex items-center justify-between rounded border p-3">
+              <div
+                key={keyword.id}
+                className="flex items-center justify-between rounded border p-3"
+              >
                 <div>
                   <span className="font-medium">{keyword.keyword}</span>
                   {keyword.category && (
@@ -590,11 +592,7 @@ function AgentKeywordsTable({ keywords, agentId }: { keywords: any[]; agentId: s
                     Generated: {keyword.generated_count} times
                   </div>
                 </div>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => handleDeleteKeyword(keyword.id)}
-                >
+                <Button size="sm" variant="ghost" onClick={() => handleDeleteKeyword(keyword.id)}>
                   Delete
                 </Button>
               </div>
@@ -682,7 +680,9 @@ function AgentSettings({ agent }: { agent: Agent | undefined }) {
             onChange={(e) => setSettings({ ...settings, temperature: parseFloat(e.target.value) })}
             className="mt-1 w-full"
           />
-          <p className="text-xs text-muted-foreground">Higher = more creative, Lower = more focused</p>
+          <p className="text-xs text-muted-foreground">
+            Higher = more creative, Lower = more focused
+          </p>
         </div>
         <div>
           <label className="text-sm font-medium">
@@ -732,4 +732,3 @@ function getStatusBadgeClass(status: string): string {
   }
   return classes[status] || classes.draft
 }
-

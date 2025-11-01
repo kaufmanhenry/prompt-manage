@@ -43,10 +43,7 @@ export async function POST(request: NextRequest) {
           const newPriceId = planConfig.priceId
 
           if (!newPriceId) {
-            return NextResponse.json(
-              { error: 'Plan price not configured' },
-              { status: 400 },
-            )
+            return NextResponse.json({ error: 'Plan price not configured' }, { status: 400 })
           }
 
           // Update subscription in Stripe
@@ -81,10 +78,7 @@ export async function POST(request: NextRequest) {
         const priceId = planConfig.priceId
 
         if (!priceId) {
-          return NextResponse.json(
-            { error: 'Plan price not configured' },
-            { status: 400 },
-          )
+          return NextResponse.json({ error: 'Plan price not configured' }, { status: 400 })
         }
 
         // Get or create customer
@@ -175,10 +169,7 @@ export async function POST(request: NextRequest) {
 
       case 'cancel': {
         if (!subscription?.stripe_subscription_id) {
-          return NextResponse.json(
-            { error: 'No active subscription to cancel' },
-            { status: 400 },
-          )
+          return NextResponse.json({ error: 'No active subscription to cancel' }, { status: 400 })
         }
 
         // Cancel at period end (user keeps access until then)

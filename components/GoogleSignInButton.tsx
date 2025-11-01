@@ -22,10 +22,15 @@ export function GoogleSignInButton({
   const handleClick = async () => {
     setLoading(true)
     try {
-      const callbackUrl = `${
-        process.env.NEXT_PUBLIC_SITE_URL ||
-        (typeof window !== 'undefined' ? window.location.origin : '')
-      }/auth/callback?redirect=${encodeURIComponent(redirectPath)}`
+      // For localhost, use window.location.origin; for production, use env var
+      const origin =
+        typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
+      const callbackUrl = `${origin}/auth/callback?redirect=${encodeURIComponent(redirectPath)}`
+
+      // Log for debugging (only in development)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Google OAuth callback URL:', callbackUrl)
+      }
 
       const { error } = await createClient().auth.signInWithOAuth({
         provider: 'google',
@@ -36,9 +41,12 @@ export function GoogleSignInButton({
       })
 
       if (error) {
+        console.error('Google OAuth error:', error)
         toast({
-          title: 'Error',
-          description: error.message,
+          title: 'Sign-in Error',
+          description:
+            error.message ||
+            'Unable to sign in with Google. Please check your Supabase redirect URL configuration.',
           variant: 'destructive',
         })
       }
@@ -46,7 +54,10 @@ export function GoogleSignInButton({
       console.error('Google sign-in error:', err)
       toast({
         title: 'Error',
-        description: 'An error occurred. Please try again.',
+        description:
+          err instanceof Error
+            ? err.message
+            : 'An error occurred. Please try again or use email sign-in instead.',
         variant: 'destructive',
       })
     } finally {

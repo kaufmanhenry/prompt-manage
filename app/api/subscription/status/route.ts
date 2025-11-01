@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { isAdminEmail } from '@/lib/admin'
 import { PRICING_CONFIG } from '@/lib/pricing'
 import { getUserSubscription, getUserUsage } from '@/lib/subscription'
 import { createClient } from '@/utils/supabase/server'
@@ -23,6 +24,9 @@ export async function GET(_request: NextRequest) {
       getUserUsage(user.id),
     ])
 
+    // Check if user is admin - grant PRO access automatically
+    const isAdmin = isAdminEmail(user.email)
+
     // Map database fields to API response
     return NextResponse.json({
       subscription: subscription
@@ -32,9 +36,9 @@ export async function GET(_request: NextRequest) {
             currentPeriodEnd: subscription.currentPeriodEnd,
           }
         : {
-            plan: 'free' as const,
+            plan: isAdmin ? ('pro' as const) : ('free' as const),
             status: 'active' as const,
-            currentPeriodEnd: null,
+            currentPeriodEnd: isAdmin ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() : null,
           },
       usage: {
         promptsThisMonth: usage.promptsThisMonth,
@@ -42,18 +46,24 @@ export async function GET(_request: NextRequest) {
         lastPromptDate: usage.lastPromptDate,
       },
       features: {
-        canExport: subscription
-          ? subscription.status === 'active' &&
-            PRICING_CONFIG[subscription.plan].limits.canExport === true
-          : false,
-        canImport: subscription
-          ? subscription.status === 'active' &&
-            PRICING_CONFIG[subscription.plan].limits.canExport === true
-          : false,
-        canShare: subscription
-          ? subscription.status === 'active' &&
-            PRICING_CONFIG[subscription.plan].limits.canShare === true
-          : true, // Free users can share publicly
+        canExport: isAdmin
+          ? true
+          : subscription
+            ? subscription.status === 'active' &&
+              PRICING_CONFIG[subscription.plan].limits.canExport === true
+            : false,
+        canImport: isAdmin
+          ? true
+          : subscription
+            ? subscription.status === 'active' &&
+              PRICING_CONFIG[subscription.plan].limits.canExport === true
+            : false,
+        canShare: isAdmin
+          ? true
+          : subscription
+            ? subscription.status === 'active' &&
+              PRICING_CONFIG[subscription.plan].limits.canShare === true
+            : true, // Free users can share publicly
       },
       statusMessage: subscription
         ? subscription.status === 'past_due'
@@ -70,4 +80,3 @@ export async function GET(_request: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
-

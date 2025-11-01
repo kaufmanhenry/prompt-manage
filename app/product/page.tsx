@@ -1,12 +1,4 @@
-import {
-  CheckCircle,
-  Database,
-  Download,
-  Infinity,
-  Lock,
-  Users,
-  Zap,
-} from 'lucide-react'
+import { CheckCircle, Database, Download, Infinity, Lock, Users, Zap } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -41,8 +33,8 @@ export default function ProductPage() {
               Your Complete CMS for AI Prompts
             </h1>
             <p className="mb-4 text-xl text-gray-600 dark:text-gray-400 md:text-2xl">
-              Store unlimited prompts, share with your team, and organize everything with collections.
-              Built for teams and enterprises who need real prompt management.
+              Store unlimited prompts, share with your team, and organize everything with
+              collections. Built for teams and enterprises who need real prompt management.
             </p>
             <p className="mb-10 text-lg text-gray-500 dark:text-gray-500">
               Stop managing prompts in spreadsheets and Notion. Get a dedicated platform designed
@@ -151,9 +143,9 @@ export default function ProductPage() {
               </div>
               <h3 className="mb-2 text-xl font-semibold">Secure Cloud Storage</h3>
               <p className="mb-4 text-gray-600 dark:text-gray-400">
-                All your prompts encrypted at rest with AES-256. Private prompts stay private. Public
-                prompts can be shared with SEO-optimized pages. Enterprise-grade security on all
-                plans.
+                All your prompts encrypted at rest with AES-256. Private prompts stay private.
+                Public prompts can be shared with SEO-optimized pages. Enterprise-grade security on
+                all plans.
               </p>
               <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-500">
                 <span className="font-medium">Available on:</span>
@@ -184,9 +176,7 @@ export default function ProductPage() {
       <div className="border-b">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-              Choose Your Plan
-            </h2>
+            <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">Choose Your Plan</h2>
             <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-400">
               Start free, upgrade when you need more. Cancel anytime.
             </p>
@@ -201,7 +191,9 @@ export default function ProductPage() {
                   <span className="text-4xl font-bold">$0</span>
                   <span className="text-gray-500">/mo</span>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Perfect for getting started</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Perfect for getting started
+                </p>
               </div>
               <ul className="mb-8 space-y-3">
                 <li className="flex items-start gap-2">

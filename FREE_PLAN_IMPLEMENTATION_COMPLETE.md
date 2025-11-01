@@ -16,15 +16,18 @@ All free plan limits have been implemented and enforced across the platform. Fre
 ### 1. **Prompt Creation Limit (25 Prompts) ✅**
 
 **Files Created:**
+
 - ✅ `app/api/prompts/route.ts` - New API route with server-side limit enforcement
 
 **Files Modified:**
+
 - ✅ `components/PromptForm.tsx` - Now uses API route instead of direct Supabase insertion
   - Checks `canCreatePrompt` before allowing submission
   - Shows paywall modal when limit reached
   - Handles 403 errors gracefully with clear messages
 
 **How It Works:**
+
 1. Client-side check: `PromptForm` uses `usePaywall()` hook to check `canCreatePrompt`
 2. If limit not reached, form allows submission
 3. Form submits to `/api/prompts` POST endpoint
@@ -33,6 +36,7 @@ All free plan limits have been implemented and enforced across the platform. Fre
 6. Client shows paywall modal and error message
 
 **Test Cases:**
+
 - ✅ Free user can create 25 prompts
 - ✅ Free user cannot create 26th prompt (shows paywall)
 - ✅ Free user can delete prompt and create new one
@@ -43,20 +47,24 @@ All free plan limits have been implemented and enforced across the platform. Fre
 ### 2. **Bulk Import/Export Locked ✅**
 
 **Files Modified:**
+
 - ✅ `app/dashboard/import-export/page.tsx` - Already had paywall checks
   - Enhanced to auto-show paywall for free users
   - Shows clear message that feature requires paid plan
 
 **Files Modified:**
+
 - ✅ `components/Sidebar.tsx` - Hide import/export link for free users
   - Checks subscription status
   - Only shows "Import / Export" link if `canExport === true`
 
 **Files Modified:**
+
 - ✅ `app/dashboard/page.tsx` - Hide import/export button for free users
   - Only shows "Import / Export" button for paid plans
 
 **How It Works:**
+
 1. Sidebar checks subscription status via `/api/subscription/status`
 2. Only shows "Import / Export" link if `canExport === true`
 3. Dashboard home page hides "Import / Export" button for free users
@@ -64,6 +72,7 @@ All free plan limits have been implemented and enforced across the platform. Fre
 5. Backend API routes (`/api/prompts/bulk-import`, `/api/prompts/bulk-export`) check limits and return 403
 
 **Test Cases:**
+
 - ✅ Free user doesn't see import/export link in sidebar
 - ✅ Free user doesn't see import/export button on dashboard
 - ✅ Free user visiting `/dashboard/import-export` sees paywall modal
@@ -74,6 +83,7 @@ All free plan limits have been implemented and enforced across the platform. Fre
 ### 3. **Usage Display & Warnings ✅**
 
 **Files Modified:**
+
 - ✅ `app/dashboard/page.tsx` - Added usage display card for free users
   - Shows "X / 25 prompts stored"
   - Progress bar with color coding (green → amber → red)
@@ -81,6 +91,7 @@ All free plan limits have been implemented and enforced across the platform. Fre
   - Error message at 25 prompts (limit reached)
 
 **Features:**
+
 - **Progress Bar**: Visual representation of usage
   - Green: 0-19 prompts (safe)
   - Amber: 20-24 prompts (warning)
@@ -91,6 +102,7 @@ All free plan limits have been implemented and enforced across the platform. Fre
   - <20 prompts: "Upgrade to Team or Pro plan for unlimited prompts and bulk import/export."
 
 **How It Works:**
+
 - `usePaywall()` hook fetches subscription and usage data
 - Dashboard displays usage card only for free plan users
 - Updates automatically when prompts are created/deleted
@@ -101,10 +113,12 @@ All free plan limits have been implemented and enforced across the platform. Fre
 ### 4. **Premium Features Hidden ✅**
 
 **Files Modified:**
+
 - ✅ `components/Sidebar.tsx` - Conditionally renders import/export link
 - ✅ `app/dashboard/page.tsx` - Conditionally renders import/export button
 
 **How It Works:**
+
 - Sidebar and dashboard check subscription status
 - Only show premium features if user has access
 - Clean UI experience for free users (no confusing disabled buttons)
@@ -116,6 +130,7 @@ All free plan limits have been implemented and enforced across the platform. Fre
 ### Server-Side Enforcement
 
 **New API Route:** `app/api/prompts/route.ts`
+
 ```typescript
 // Checks limits BEFORE creating prompt
 const [subscription, usage] = await Promise.all([
@@ -135,6 +150,7 @@ if (!canUserCreatePrompt(subscription, usage)) {
 ```
 
 **Key Points:**
+
 - ✅ Limit check happens **server-side** (secure)
 - ✅ Returns clear error message
 - ✅ Different messages for different limit types (past_due, canceled, free limit)
@@ -144,6 +160,7 @@ if (!canUserCreatePrompt(subscription, usage)) {
 ### Client-Side UX
 
 **PromptForm Enhancement:**
+
 ```typescript
 // Check before submitting
 if (!prompt?.id && !isPaywallLoading && !canCreatePrompt) {
@@ -163,6 +180,7 @@ if (response.status === 403) {
 ```
 
 **Key Points:**
+
 - ✅ Client-side check prevents unnecessary API calls
 - ✅ Graceful error handling
 - ✅ Clear user feedback
@@ -198,15 +216,18 @@ if (response.status === 403) {
 ## Files Summary
 
 ### New Files
+
 1. ✅ `app/api/prompts/route.ts` - Prompt creation API with limit checks
 
 ### Modified Files
+
 1. ✅ `components/PromptForm.tsx` - Uses API route, handles limit errors
 2. ✅ `app/dashboard/page.tsx` - Usage display, hides premium features
 3. ✅ `components/Sidebar.tsx` - Hides import/export link for free users
 4. ✅ `app/dashboard/import-export/page.tsx` - Auto-shows paywall for free users
 
 ### Documentation
+
 1. ✅ `FREE_PLAN_LIMITS_IMPLEMENTATION.md` - Complete implementation guide
 2. ✅ `FREE_PLAN_IMPLEMENTATION_COMPLETE.md` - This summary
 
@@ -241,4 +262,3 @@ if (response.status === 403) {
 **Implementation Complete!** ✅
 
 All free plan limits are now enforced, and premium features are properly gated.
-

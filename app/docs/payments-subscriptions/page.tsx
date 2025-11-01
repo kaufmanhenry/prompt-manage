@@ -75,14 +75,14 @@ export default function PaymentsSubscriptionsGuide() {
                 >
                   Stripe
                 </a>{' '}
-                for secure payment processing, ensuring your payment information is handled safely and
-                securely.
+                for secure payment processing, ensuring your payment information is handled safely
+                and securely.
               </p>
               <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-800 dark:bg-emerald-900/20">
                 <p className="text-sm text-emerald-900 dark:text-emerald-200">
-                  <strong>Security:</strong> All payments are processed securely through Stripe. We never
-                  store your payment card information on our servers. Your payment details are encrypted
-                  and handled by Stripe's PCI-compliant infrastructure.
+                  <strong>Security:</strong> All payments are processed securely through Stripe. We
+                  never store your payment card information on our servers. Your payment details are
+                  encrypted and handled by Stripe's PCI-compliant infrastructure.
                 </p>
               </div>
             </div>
@@ -244,8 +244,9 @@ export default function PaymentsSubscriptionsGuide() {
                     <h3 className="text-lg font-semibold">Choose Your Plan</h3>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Select either <strong>Team ({formatPrice(PRICING_CONFIG.team.price)}/month)</strong>{' '}
-                    or <strong>Pro ({formatPrice(PRICING_CONFIG.pro.price)}/month)</strong> based on
+                    Select either{' '}
+                    <strong>Team ({formatPrice(PRICING_CONFIG.team.price)}/month)</strong> or{' '}
+                    <strong>Pro ({formatPrice(PRICING_CONFIG.pro.price)}/month)</strong> based on
                     your needs. Team is perfect for small teams, while Pro includes more members and
                     advanced features.
                   </p>
@@ -259,8 +260,8 @@ export default function PaymentsSubscriptionsGuide() {
                     <h3 className="text-lg font-semibold">Complete Checkout</h3>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Click "Subscribe" and you'll be redirected to Stripe's secure checkout page. Enter
-                    your payment information and complete the purchase.
+                    Click "Subscribe" and you'll be redirected to Stripe's secure checkout page.
+                    Enter your payment information and complete the purchase.
                   </p>
                 </div>
 
@@ -273,7 +274,8 @@ export default function PaymentsSubscriptionsGuide() {
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
                     Once payment is confirmed, you'll be redirected back to Prompt Manage. Your
-                    subscription is immediately active, and you can start using all premium features!
+                    subscription is immediately active, and you can start using all premium
+                    features!
                   </p>
                 </div>
               </div>
@@ -316,9 +318,7 @@ export default function PaymentsSubscriptionsGuide() {
               <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <h3 className="mb-3 font-semibold">Canceling Your Subscription</h3>
                 <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-                  <p>
-                    You can cancel your subscription at any time:
-                  </p>
+                  <p>You can cancel your subscription at any time:</p>
                   <ol className="ml-4 list-decimal space-y-2">
                     <li>Go to Settings → Billing in your dashboard</li>
                     <li>Click "Manage Billing" to open the Stripe Customer Portal</li>
@@ -327,8 +327,9 @@ export default function PaymentsSubscriptionsGuide() {
                   </ol>
                   <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-900 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
                     <strong>Important:</strong> Canceling your subscription means you'll lose access
-                    to premium features immediately. Your subscription remains active until the end of
-                    your current billing period. After that, you'll be downgraded to the Free plan.
+                    to premium features immediately. Your subscription remains active until the end
+                    of your current billing period. After that, you'll be downgraded to the Free
+                    plan.
                   </p>
                 </div>
               </div>
@@ -347,19 +348,19 @@ export default function PaymentsSubscriptionsGuide() {
               <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <h3 className="mb-2 font-semibold">How do I get a receipt?</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Receipts are automatically sent to your email after each payment. You can also view
-                  and download invoices from the Stripe Customer Portal (Settings → Billing → Manage
-                  Billing).
+                  Receipts are automatically sent to your email after each payment. You can also
+                  view and download invoices from the Stripe Customer Portal (Settings → Billing →
+                  Manage Billing).
                 </p>
               </div>
 
               <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <h3 className="mb-2 font-semibold">What happens if my payment fails?</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  If a payment fails, Stripe will automatically retry the payment. You'll receive email
-                  notifications about the failed payment. If the payment continues to fail, your
-                  subscription may be suspended. Update your payment method in the Stripe Customer
-                  Portal to resolve the issue.
+                  If a payment fails, Stripe will automatically retry the payment. You'll receive
+                  email notifications about the failed payment. If the payment continues to fail,
+                  your subscription may be suspended. Update your payment method in the Stripe
+                  Customer Portal to resolve the issue.
                 </p>
               </div>
 
@@ -391,17 +392,17 @@ export default function PaymentsSubscriptionsGuide() {
                 <h3 className="mb-2 font-semibold">Is my payment information secure?</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Yes. All payments are processed securely through Stripe, which is PCI DSS Level 1
-                  certified (the highest level of security certification). We never store your payment
-                  card information on our servers. Your payment details are encrypted and handled by
-                  Stripe's secure infrastructure.
+                  certified (the highest level of security certification). We never store your
+                  payment card information on our servers. Your payment details are encrypted and
+                  handled by Stripe's secure infrastructure.
                 </p>
               </div>
 
               <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <h3 className="mb-2 font-semibold">Do you offer annual plans?</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Currently, we only offer monthly subscriptions. Annual plans may be available in the
-                  future. Contact{' '}
+                  Currently, we only offer monthly subscriptions. Annual plans may be available in
+                  the future. Contact{' '}
                   <a
                     href="mailto:support@promptmanage.com"
                     className="text-emerald-600 hover:underline dark:text-emerald-400"
@@ -424,8 +425,8 @@ export default function PaymentsSubscriptionsGuide() {
             </div>
             <div className="space-y-4 text-gray-600 dark:text-gray-400">
               <p>
-                The Stripe Customer Portal is your self-service billing management center. From here,
-                you can:
+                The Stripe Customer Portal is your self-service billing management center. From
+                here, you can:
               </p>
               <ul className="ml-4 list-disc space-y-2">
                 <li>Update your payment method</li>
@@ -496,4 +497,3 @@ export default function PaymentsSubscriptionsGuide() {
     </div>
   )
 }
-

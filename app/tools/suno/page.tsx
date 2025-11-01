@@ -279,7 +279,9 @@ export default async function SunoPromptsPage() {
                     Music Generation
                   </Badge>
                 </div>
-                <p className="mb-4 text-base text-muted-foreground sm:text-xl">{sunoData.description}</p>
+                <p className="mb-4 text-base text-muted-foreground sm:text-xl">
+                  {sunoData.description}
+                </p>
                 <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground sm:gap-6">
                   <div className="flex items-center gap-2">
                     <Music className="h-4 w-4" />
@@ -674,76 +676,80 @@ export default async function SunoPromptsPage() {
                 <div className="-mx-4 overflow-x-auto sm:mx-0">
                   <div className="inline-block min-w-full px-4 align-middle sm:px-0">
                     <table className="w-full border-collapse border border-gray-300 text-sm dark:border-gray-700 sm:text-base">
-                    <thead>
-                      <tr className="bg-accent/50">
-                        <th className="border border-gray-300 p-3 text-left dark:border-gray-700">
-                          Feature
-                        </th>
-                        <th className="border border-gray-300 p-3 text-left dark:border-gray-700">
-                          Suno
-                        </th>
-                        <th className="border border-gray-300 p-3 text-left dark:border-gray-700">
-                          Udio
-                        </th>
-                        <th className="border border-gray-300 p-3 text-left dark:border-gray-700">
-                          Mubert
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          Vocal Generation
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ✅ Excellent
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">✅ Good</td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ❌ No vocals
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          Genre Variety
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ✅ 50+ genres
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ✅ 30+ genres
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ✅ Ambient focus
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          Free Tier
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ✅ 10 credits/day
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ✅ 10 credits/day
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ✅ Limited
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          Commercial Use
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ✅ Yes (paid plans)
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">
-                          ✅ Yes (paid plans)
-                        </td>
-                        <td className="border border-gray-300 p-3 dark:border-gray-700">✅ Yes</td>
-                      </tr>
-                    </tbody>
+                      <thead>
+                        <tr className="bg-accent/50">
+                          <th className="border border-gray-300 p-3 text-left dark:border-gray-700">
+                            Feature
+                          </th>
+                          <th className="border border-gray-300 p-3 text-left dark:border-gray-700">
+                            Suno
+                          </th>
+                          <th className="border border-gray-300 p-3 text-left dark:border-gray-700">
+                            Udio
+                          </th>
+                          <th className="border border-gray-300 p-3 text-left dark:border-gray-700">
+                            Mubert
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            Vocal Generation
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ Excellent
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ Good
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ❌ No vocals
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            Genre Variety
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ 50+ genres
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ 30+ genres
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ Ambient focus
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            Free Tier
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ 10 credits/day
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ 10 credits/day
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ Limited
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            Commercial Use
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ Yes (paid plans)
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ Yes (paid plans)
+                          </td>
+                          <td className="border border-gray-300 p-3 dark:border-gray-700">
+                            ✅ Yes
+                          </td>
+                        </tr>
+                      </tbody>
                     </table>
                   </div>
                 </div>

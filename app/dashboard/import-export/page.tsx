@@ -10,7 +10,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/components/ui/use-toast'
 import type { Prompt } from '@/lib/schemas/prompt'
@@ -48,7 +54,9 @@ export default function ImportExportPage() {
       if (!session?.user?.id) return []
       const { data, error } = await createClient()
         .from('prompts')
-        .select('id, name, prompt_text, tags, is_public, view_count, user_id, slug, updated_at, inserted_at, model, description, parent_prompt_id')
+        .select(
+          'id, name, prompt_text, tags, is_public, view_count, user_id, slug, updated_at, inserted_at, model, description, parent_prompt_id',
+        )
         .eq('user_id', session.user.id)
         .order('inserted_at', { ascending: false })
 
@@ -87,7 +95,7 @@ export default function ImportExportPage() {
 
   const handleImport = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    
+
     // Check subscription access
     if (!canImport) {
       setPaywallFeature('Import Prompts')
@@ -298,7 +306,9 @@ export default function ImportExportPage() {
       <main className="flex-1 overflow-auto">
         <div className="container mx-auto max-w-5xl p-4 md:p-6 lg:p-8">
           <div className="mb-6">
-            <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Import & Export Prompts</h1>
+            <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+              Import & Export Prompts
+            </h1>
             <p className="mt-2 text-sm text-muted-foreground md:text-base">
               Import prompts from CSV/JSON files or export your prompts for backup
             </p>
@@ -310,7 +320,8 @@ export default function ImportExportPage() {
             {!canExport && !canImport && (
               <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
                 <p className="text-sm text-blue-900 dark:text-blue-200">
-                  Import and Export features require a paid subscription. Upgrade to Team or Pro plan to use these features.
+                  Import and Export features require a paid subscription. Upgrade to Team or Pro
+                  plan to use these features.
                 </p>
               </div>
             )}
@@ -334,8 +345,8 @@ export default function ImportExportPage() {
                 <CardHeader>
                   <CardTitle>Import Prompts from File</CardTitle>
                   <CardDescription>
-                    Upload a CSV or JSON file containing your prompts. The file should include columns/fields for:
-                    name, prompt_text, description, model, tags, and is_public.
+                    Upload a CSV or JSON file containing your prompts. The file should include
+                    columns/fields for: name, prompt_text, description, model, tags, and is_public.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -343,7 +354,10 @@ export default function ImportExportPage() {
                     {/* File Format Selection */}
                     <div className="space-y-2">
                       <Label htmlFor="format">File Format</Label>
-                      <Select value={importFormat} onValueChange={(v) => setImportFormat(v as 'csv' | 'json')}>
+                      <Select
+                        value={importFormat}
+                        onValueChange={(v) => setImportFormat(v as 'csv' | 'json')}
+                      >
                         <SelectTrigger id="format">
                           <SelectValue />
                         </SelectTrigger>
@@ -376,7 +390,8 @@ export default function ImportExportPage() {
                         className="cursor-pointer"
                       />
                       <p className="text-sm text-muted-foreground">
-                        Accepted format: {importFormat.toUpperCase()}. Max file size: 10MB. Name max: 120 chars.
+                        Accepted format: {importFormat.toUpperCase()}. Max file size: 10MB. Name
+                        max: 120 chars.
                       </p>
                     </div>
 
@@ -389,7 +404,10 @@ export default function ImportExportPage() {
                         onChange={(e) => setSkipDuplicates(e.target.checked)}
                         className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300"
                       />
-                      <Label htmlFor="skipDuplicates" className="cursor-pointer text-sm font-normal sm:text-base">
+                      <Label
+                        htmlFor="skipDuplicates"
+                        className="cursor-pointer text-sm font-normal sm:text-base"
+                      >
                         Skip duplicate prompts (matches by name and prompt text)
                       </Label>
                     </div>
@@ -450,7 +468,9 @@ export default function ImportExportPage() {
                 <Card>
                   <CardHeader>
                     <CardTitle>CSV Format Guide</CardTitle>
-                    <CardDescription>Your CSV file should have these columns (in any order):</CardDescription>
+                    <CardDescription>
+                      Your CSV file should have these columns (in any order):
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-2 text-sm">
@@ -492,7 +512,9 @@ export default function ImportExportPage() {
                 <Card>
                   <CardHeader>
                     <CardTitle>JSON Format Guide</CardTitle>
-                    <CardDescription>Your JSON file should be an array of prompt objects:</CardDescription>
+                    <CardDescription>
+                      Your JSON file should be an array of prompt objects:
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <pre className="overflow-auto rounded bg-muted p-3 text-xs sm:p-4">
@@ -518,8 +540,8 @@ export default function ImportExportPage() {
                 <CardHeader>
                   <CardTitle>Export Your Prompts</CardTitle>
                   <CardDescription>
-                    Download all your prompts as a CSV or JSON file for backup or migration. Currently exporting{' '}
-                    <strong>{prompts.length}</strong> prompts.
+                    Download all your prompts as a CSV or JSON file for backup or migration.
+                    Currently exporting <strong>{prompts.length}</strong> prompts.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -574,4 +596,3 @@ export default function ImportExportPage() {
     </div>
   )
 }
-

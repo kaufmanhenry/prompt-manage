@@ -38,7 +38,8 @@ export default function DeveloperDocsPage() {
                 🚧 Coming Soon
               </h2>
               <p className="text-amber-800 dark:text-amber-200">
-                The Prompt Manage API is currently in development. Full API access with API keys will be available for Pro plan subscribers soon.
+                The Prompt Manage API is currently in development. Full API access with API keys
+                will be available for Pro plan subscribers soon.
               </p>
               <p className="mt-2 text-sm text-amber-700 dark:text-amber-300">
                 Interested in early access? Contact us at{' '}
@@ -72,14 +73,16 @@ export default function DeveloperDocsPage() {
           <section className="border-t pt-16">
             <h2 className="mb-6 text-2xl font-semibold">Authentication (Coming Soon)</h2>
             <p className="mb-4 text-gray-600 dark:text-gray-400">
-              API requests will require an API key. Pro plan subscribers will be able to generate API keys in their team settings.
+              API requests will require an API key. Pro plan subscribers will be able to generate
+              API keys in their team settings.
             </p>
             <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
               <p className="mb-2 font-mono text-sm">Authorization: Bearer YOUR_API_KEY</p>
             </div>
             <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
               <p className="text-sm text-blue-900 dark:text-blue-200">
-                <strong>Note:</strong> API access is a Pro plan feature. Upgrade to Pro to enable API access when it becomes available.
+                <strong>Note:</strong> API access is a Pro plan feature. Upgrade to Pro to enable
+                API access when it becomes available.
               </p>
             </div>
           </section>

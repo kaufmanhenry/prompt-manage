@@ -73,4 +73,3 @@ export interface AgentStats {
     last_generated_at: string | null
   }>
 }
-

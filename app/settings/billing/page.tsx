@@ -256,7 +256,8 @@ export default function BillingPage() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <Badge className={getTierBadgeColor(currentPlan)}>
-                          {PRICING_CONFIG[currentPlan as keyof typeof PRICING_CONFIG]?.name || 'Free'}
+                          {PRICING_CONFIG[currentPlan as keyof typeof PRICING_CONFIG]?.name ||
+                            'Free'}
                         </Badge>
                         {subscriptionStatusValue && (
                           <Badge className={getStatusBadgeColor(subscriptionStatusValue)}>
@@ -277,7 +278,8 @@ export default function BillingPage() {
                       )}
                       {currentPlan === 'pro' && (
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          ${PRICING_CONFIG.pro.price}/month • Everything in Team plus advanced features
+                          ${PRICING_CONFIG.pro.price}/month • Everything in Team plus advanced
+                          features
                         </p>
                       )}
                       {teamPeriodEnd && (
@@ -358,7 +360,8 @@ export default function BillingPage() {
                               <AlertDialogTitle>Cancel subscription?</AlertDialogTitle>
                               <AlertDialogDescription>
                                 Your subscription will remain active until the end of your billing
-                                period ({teamPeriodEnd ? formatDate(teamPeriodEnd) : 'next payment date'}
+                                period (
+                                {teamPeriodEnd ? formatDate(teamPeriodEnd) : 'next payment date'}
                                 ). After that, you'll be moved to the free plan.
                               </AlertDialogDescription>
                             </AlertDialogHeader>

@@ -24,7 +24,9 @@ export default function CollectionForm({ initial, onSaved }: Props) {
   const [title, setTitle] = useState(initial?.title || '')
   const [description, setDescription] = useState(initial?.description || '')
   const [cover, setCover] = useState(initial?.cover_image_url || '')
-  const [visibility, setVisibility] = useState<'private' | 'public'>(initial?.visibility || 'private')
+  const [visibility, setVisibility] = useState<'private' | 'public'>(
+    initial?.visibility || 'private',
+  )
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -83,7 +85,11 @@ export default function CollectionForm({ initial, onSaved }: Props) {
     <div className="space-y-4">
       <div>
         <Label>Title</Label>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="My collection" />
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="My collection"
+        />
       </div>
       <div>
         <Label>
@@ -103,8 +109,8 @@ export default function CollectionForm({ initial, onSaved }: Props) {
         {visibility === 'public' && (
           <p className="mt-1 text-xs text-muted-foreground">
             <strong>Recommended:</strong> Write 2-4 sentences describing your collection. This helps
-            others discover and understand your collection, improving SEO and engagement. Describe what
-            prompts are included, the use cases, and why this collection is valuable.
+            others discover and understand your collection, improving SEO and engagement. Describe
+            what prompts are included, the use cases, and why this collection is valuable.
           </p>
         )}
         {visibility === 'private' && (
@@ -121,11 +127,21 @@ export default function CollectionForm({ initial, onSaved }: Props) {
         <Label>Visibility</Label>
         <div className="flex gap-3 text-sm">
           <label className="flex items-center gap-1">
-            <input type="radio" name="vis" checked={visibility === 'private'} onChange={() => setVisibility('private')} />
+            <input
+              type="radio"
+              name="vis"
+              checked={visibility === 'private'}
+              onChange={() => setVisibility('private')}
+            />
             Private
           </label>
           <label className="flex items-center gap-1">
-            <input type="radio" name="vis" checked={visibility === 'public'} onChange={() => setVisibility('public')} />
+            <input
+              type="radio"
+              name="vis"
+              checked={visibility === 'public'}
+              onChange={() => setVisibility('public')}
+            />
             Public
           </label>
         </div>
@@ -152,5 +168,3 @@ export default function CollectionForm({ initial, onSaved }: Props) {
     </div>
   )
 }
-
-

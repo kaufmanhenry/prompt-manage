@@ -81,7 +81,7 @@ export function usePaywall(feature?: string): UsePaywallReturn {
         }
 
         const data = await response.json()
-        
+
         // Validate response structure
         if (!data.subscription || !data.usage) {
           throw new Error('Invalid response structure')
@@ -101,19 +101,20 @@ export function usePaywall(feature?: string): UsePaywallReturn {
         // Calculate if user can create prompt
         const canCreate = canUserCreatePrompt(data.subscription, data.usage)
         setCanCreatePrompt(canCreate)
-        
+
         // Show warning if approaching limit (80% for free, 90% for paid)
         if (data.usage) {
           const plan = (data.subscription?.plan || 'free') as PlanType
           const planConfig = STRIPE_CONFIG.plans[plan]
-          
+
           if (plan === 'free') {
             const usagePercent = (data.usage.promptsTotal / planConfig.limits.maxPrompts) * 100
             if (usagePercent >= 80 && usagePercent < 100) {
               // Show usage warning - could add toast here
             }
           } else if (planConfig.limits.promptsPerMonth !== -1) {
-            const usagePercent = (data.usage.promptsThisMonth / planConfig.limits.promptsPerMonth) * 100
+            const usagePercent =
+              (data.usage.promptsThisMonth / planConfig.limits.promptsPerMonth) * 100
             if (usagePercent >= 90 && usagePercent < 100) {
               // Show usage warning - could add toast here
             }
@@ -124,7 +125,7 @@ export function usePaywall(feature?: string): UsePaywallReturn {
         if (error instanceof Error && error.name === 'AbortError') {
           return
         }
-        
+
         console.error('Error checking usage:', error)
         // Fail closed - deny access until status confirmed
         setCanCreatePrompt(false)

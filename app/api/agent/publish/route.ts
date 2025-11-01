@@ -18,20 +18,23 @@ export async function PATCH(request: Request) {
     const { agent_prompt_id, action } = body // action: 'approve', 'reject', 'publish', 'unpublish'
 
     if (!agent_prompt_id || !action) {
-      return NextResponse.json({ error: 'agent_prompt_id and action are required' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'agent_prompt_id and action are required' },
+        { status: 400 },
+      )
     }
 
-      // Get agent prompt (select only needed fields)
+    // Get agent prompt (select only needed fields)
     const { data: agentPrompt, error: fetchError } = await supabase
       .from('agent_prompts')
       .select('id, agent_id, prompt_id, status, raw_output, topic')
       .eq('id', agent_prompt_id)
       .single()
-    
+
     if (fetchError || !agentPrompt) {
       return NextResponse.json({ error: 'Agent prompt not found' }, { status: 404 })
     }
-    
+
     // Get agent separately to verify ownership
     const { data: agent, error: agentError } = await supabase
       .from('agents')
@@ -62,7 +65,15 @@ export async function PATCH(request: Request) {
         }
 
         // Parse the generated prompt from metadata or raw_output
-        let promptData: any = {}
+        interface ParsedPromptData {
+          name?: string
+          prompt_text?: string
+          description?: string
+          model?: string
+          tags?: string[]
+          [key: string]: unknown
+        }
+        let promptData: ParsedPromptData = {}
         try {
           if (agentPrompt.raw_output) {
             promptData = JSON.parse(agentPrompt.raw_output)
@@ -112,21 +123,12 @@ export async function PATCH(request: Request) {
     } else if (action === 'unpublish') {
       if (agentPrompt.prompt_id) {
         await supabase.from('prompts').update({ is_public: false }).eq('id', agentPrompt.prompt_id)
-        await supabase
-          .from('agent_prompts')
-          .update({ status: 'review' })
-          .eq('id', agent_prompt_id)
+        await supabase.from('agent_prompts').update({ status: 'review' }).eq('id', agent_prompt_id)
       }
     } else if (action === 'approve') {
-      await supabase
-        .from('agent_prompts')
-        .update({ status: 'approved' })
-        .eq('id', agent_prompt_id)
+      await supabase.from('agent_prompts').update({ status: 'approved' }).eq('id', agent_prompt_id)
     } else if (action === 'reject') {
-      await supabase
-        .from('agent_prompts')
-        .update({ status: 'rejected' })
-        .eq('id', agent_prompt_id)
+      await supabase.from('agent_prompts').update({ status: 'rejected' }).eq('id', agent_prompt_id)
     }
 
     return NextResponse.json({ success: true, action })
@@ -141,4 +143,3 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
-

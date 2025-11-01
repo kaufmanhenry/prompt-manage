@@ -76,5 +76,3 @@ export default async function CollectionPage({ params }: Props) {
   const resolvedParams = await params
   return <CollectionPageClient slug={resolvedParams.slug} />
 }
-
-

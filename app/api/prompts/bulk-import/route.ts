@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
 
     // Check subscription for import access
     const subscription = await getUserSubscription(user.id)
-    if (!canUserImport(subscription)) {
+    if (!canUserImport(subscription, user.email)) {
       return NextResponse.json(
         {
           error: 'Import feature requires a paid subscription',
@@ -140,7 +140,10 @@ export async function POST(request: NextRequest) {
       fileContent = await file.text()
     } catch (error) {
       return NextResponse.json(
-        { error: 'Failed to read file', details: error instanceof Error ? error.message : 'Unknown error' },
+        {
+          error: 'Failed to read file',
+          details: error instanceof Error ? error.message : 'Unknown error',
+        },
         { status: 400 },
       )
     }
@@ -242,13 +245,16 @@ export async function POST(request: NextRequest) {
           // Validate and truncate length limits (database constraints)
           // Database constraint: name <= 120, prompt_text has no explicit limit but we'll cap at 100k
           const finalName = name.length > 120 ? name.substring(0, 120) : name
-          const finalPromptText = promptText.length > 100000 ? promptText.substring(0, 100000) : promptText
+          const finalPromptText =
+            promptText.length > 100000 ? promptText.substring(0, 100000) : promptText
 
           if (name.length > 120) {
             console.warn(`Row ${index + 2}: name too long (${name.length} chars), truncated to 120`)
           }
           if (promptText.length > 100000) {
-            console.warn(`Row ${index + 2}: prompt_text too long (${promptText.length} chars), truncated to 100000`)
+            console.warn(
+              `Row ${index + 2}: prompt_text too long (${promptText.length} chars), truncated to 100000`,
+            )
           }
 
           return {
@@ -267,30 +273,73 @@ export async function POST(request: NextRequest) {
         const parsed = JSON.parse(fileContent)
         const jsonPrompts = Array.isArray(parsed) ? parsed : [parsed]
 
-        prompts = jsonPrompts
-          .map((item: any) => {
+        interface ImportPromptItem {
+          name?: unknown
+          prompt_text?: unknown
+          description?: unknown
+          model?: unknown
+          tags?: unknown
+          is_public?: unknown
+        }
+
+        prompts = (jsonPrompts as ImportPromptItem[])
+          .map((item) => {
             if (!item.name || !item.prompt_text) {
               return null
             }
 
+            // Type-safe string conversion
+            const nameStr =
+              typeof item.name === 'string'
+                ? item.name
+                : typeof item.name === 'number' || typeof item.name === 'boolean'
+                  ? String(item.name)
+                  : ''
+            const promptTextStr =
+              typeof item.prompt_text === 'string'
+                ? item.prompt_text
+                : typeof item.prompt_text === 'number' || typeof item.prompt_text === 'boolean'
+                  ? String(item.prompt_text)
+                  : ''
+            const descStr =
+              typeof item.description === 'string'
+                ? item.description
+                : typeof item.description === 'number' || typeof item.description === 'boolean'
+                  ? String(item.description)
+                  : null
+            const modelStr =
+              typeof item.model === 'string'
+                ? item.model
+                : typeof item.model === 'number' || typeof item.model === 'boolean'
+                  ? String(item.model)
+                  : null
+
             return {
-              name: String(item.name).trim(),
-              prompt_text: String(item.prompt_text).trim(),
-              description: item.description ? String(item.description).trim() : null,
-              model: item.model ? String(item.model).trim() : null,
-              tags: Array.isArray(item.tags) ? item.tags.map((t: any) => String(t)) : parseTags(item.tags),
+              name: nameStr.trim(),
+              prompt_text: promptTextStr.trim(),
+              description: descStr ? descStr.trim() : null,
+              model: modelStr ? modelStr.trim() : null,
+              tags: Array.isArray(item.tags)
+                ? item.tags.map((t) => (typeof t === 'string' ? t : String(t)))
+                : parseTags(item.tags as string | undefined),
               is_public: item.is_public === true || item.is_public === 'true',
             }
           })
-          .filter((p: any): p is NonNullable<typeof p> => p !== null)
+          .filter((p): p is NonNullable<typeof p> => p !== null)
       } catch (error) {
         return NextResponse.json(
-          { error: 'Invalid JSON format', details: error instanceof Error ? error.message : 'Unknown error' },
+          {
+            error: 'Invalid JSON format',
+            details: error instanceof Error ? error.message : 'Unknown error',
+          },
           { status: 400 },
         )
       }
     } else {
-      return NextResponse.json({ error: 'Unsupported format. Use "csv" or "json"' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'Unsupported format. Use "csv" or "json"' },
+        { status: 400 },
+      )
     }
 
     if (prompts.length === 0) {
@@ -376,4 +425,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-

@@ -84,7 +84,9 @@ export default function AgentTestPage() {
           <div className="dashboard-container">
             <Card className="p-8 text-center">
               <h1 className="mb-4 text-2xl font-bold">Access Denied</h1>
-              <p className="text-muted-foreground">You don't have permission to access this page.</p>
+              <p className="text-muted-foreground">
+                You don't have permission to access this page.
+              </p>
             </Card>
           </div>
         </main>
@@ -105,7 +107,9 @@ export default function AgentTestPage() {
         <div className="dashboard-container">
           <div className="mb-6">
             <h1 className="text-3xl font-bold tracking-tight">Agent QA & Testing</h1>
-            <p className="text-muted-foreground">Test agent functionality and review prompt quality</p>
+            <p className="text-muted-foreground">
+              Test agent functionality and review prompt quality
+            </p>
           </div>
 
           <div className="mb-6">
@@ -151,24 +155,34 @@ export default function AgentTestPage() {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <div className="mb-1 text-sm text-muted-foreground">Clarity</div>
-                        <div className="text-2xl font-bold">{report.qualityMetrics.clarity.toFixed(1)}/100</div>
+                        <div className="text-2xl font-bold">
+                          {report.qualityMetrics.clarity.toFixed(1)}/100
+                        </div>
                       </div>
                       <div>
                         <div className="mb-1 text-sm text-muted-foreground">Usefulness</div>
-                        <div className="text-2xl font-bold">{report.qualityMetrics.usefulness.toFixed(1)}/100</div>
+                        <div className="text-2xl font-bold">
+                          {report.qualityMetrics.usefulness.toFixed(1)}/100
+                        </div>
                       </div>
                       <div>
                         <div className="mb-1 text-sm text-muted-foreground">Uniqueness</div>
-                        <div className="text-2xl font-bold">{report.qualityMetrics.uniqueness.toFixed(1)}/100</div>
+                        <div className="text-2xl font-bold">
+                          {report.qualityMetrics.uniqueness.toFixed(1)}/100
+                        </div>
                       </div>
                       <div>
                         <div className="mb-1 text-sm text-muted-foreground">SEO Optimization</div>
-                        <div className="text-2xl font-bold">{report.qualityMetrics.seoOptimization.toFixed(1)}/100</div>
+                        <div className="text-2xl font-bold">
+                          {report.qualityMetrics.seoOptimization.toFixed(1)}/100
+                        </div>
                       </div>
                     </div>
                     <div className="mt-4 border-t pt-4">
                       <div className="mb-1 text-sm text-muted-foreground">Overall Quality</div>
-                      <div className="text-3xl font-bold">{report.qualityMetrics.overall.toFixed(1)}/100</div>
+                      <div className="text-3xl font-bold">
+                        {report.qualityMetrics.overall.toFixed(1)}/100
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -181,7 +195,10 @@ export default function AgentTestPage() {
                 <CardContent>
                   <div className="space-y-2">
                     {report.results.map((result: any, idx: number) => (
-                      <div key={idx} className="flex items-center justify-between rounded border p-3">
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between rounded border p-3"
+                      >
                         <div className="flex-1">
                           <div className="font-semibold">{result.test}</div>
                           <div className="text-sm text-muted-foreground">{result.message}</div>
@@ -211,7 +228,9 @@ export default function AgentTestPage() {
                   <CardContent>
                     <ul className="list-inside list-disc space-y-2">
                       {report.recommendations.map((rec: string, idx: number) => (
-                        <li key={idx} className="text-sm">{rec}</li>
+                        <li key={idx} className="text-sm">
+                          {rec}
+                        </li>
                       ))}
                     </ul>
                   </CardContent>
@@ -224,4 +243,3 @@ export default function AgentTestPage() {
     </div>
   )
 }
-

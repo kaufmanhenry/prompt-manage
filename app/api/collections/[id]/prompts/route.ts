@@ -3,10 +3,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 
 // GET: Get prompts in a collection
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const resolvedParams = await params
     const supabase = await createClient()
@@ -58,8 +55,23 @@ export async function GET(
       return NextResponse.json({ error: cpError.message }, { status: 500 })
     }
 
+    interface CollectionPromptItem {
+      prompt_id: string
+      sort_order: number
+      prompts: {
+        id: string
+        name: string
+        description: string | null
+        slug: string | null
+        model: string | null
+        tags: string[] | null
+        is_public: boolean
+        view_count: number
+      }
+    }
+
     return NextResponse.json({
-      prompts: (collectionPrompts || []).map((cp: any) => ({
+      prompts: ((collectionPrompts || []) as unknown as CollectionPromptItem[]).map((cp) => ({
         ...cp.prompts,
         sort_order: cp.sort_order,
       })),
@@ -74,10 +86,7 @@ export async function GET(
 }
 
 // POST: Add prompt to collection
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const resolvedParams = await params
     const supabase = await createClient()
@@ -159,10 +168,7 @@ export async function POST(
 }
 
 // DELETE: Remove prompt from collection
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const resolvedParams = await params
     const supabase = await createClient()
@@ -215,4 +221,3 @@ export async function DELETE(
     )
   }
 }
-

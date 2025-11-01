@@ -28,6 +28,7 @@ This report documents a comprehensive performance audit and optimization of the 
 ### 1.1 Issues Identified
 
 #### Critical Issues
+
 1. **N+1 Query Problems**: Fetching full objects when only specific fields needed
 2. **Missing Pagination**: Directory and collection pages load all items at once
 3. **No ISR/SSG**: Dynamic pages regenerated on every request
@@ -36,12 +37,14 @@ This report documents a comprehensive performance audit and optimization of the 
 6. **Console Logs**: Production builds include debug logs
 
 #### Medium Priority
+
 7. **Missing Database Indexes**: Some queries not optimized
 8. **No Query Result Caching**: Repeated identical queries
 9. **Large Image Assets**: Unoptimized cover images
 10. **Client-Side Heavy**: Too much computation on client
 
 #### Low Priority
+
 11. **Missing Compression Headers**: Not explicitly set
 12. **Large Dependencies**: Some packages could be tree-shaken better
 
@@ -51,22 +54,22 @@ This report documents a comprehensive performance audit and optimization of the 
 
 ### 2.1 Core Web Vitals (Before)
 
-| Metric | Before | Target | Status |
-|--------|--------|--------|--------|
-| **LCP** (Largest Contentful Paint) | ~3.2s | < 1.5s | ❌ |
-| **FID** (First Input Delay) | ~180ms | < 100ms | ⚠️ |
-| **CLS** (Cumulative Layout Shift) | ~0.15 | < 0.1 | ⚠️ |
-| **TTFB** (Time to First Byte) | ~450ms | < 200ms | ❌ |
+| Metric                             | Before | Target  | Status |
+| ---------------------------------- | ------ | ------- | ------ |
+| **LCP** (Largest Contentful Paint) | ~3.2s  | < 1.5s  | ❌     |
+| **FID** (First Input Delay)        | ~180ms | < 100ms | ⚠️     |
+| **CLS** (Cumulative Layout Shift)  | ~0.15  | < 0.1   | ⚠️     |
+| **TTFB** (Time to First Byte)      | ~450ms | < 200ms | ❌     |
 
 ### 2.2 Page Load Times (Before)
 
-| Page | Before | Target | Status |
-|------|--------|--------|--------|
-| Homepage | ~2.1s | < 1.0s | ❌ |
-| Dashboard | ~3.5s | < 1.5s | ❌ |
-| Public Directory | ~4.2s | < 1.5s | ❌ |
-| Collection Page | ~2.8s | < 1.5s | ❌ |
-| Prompt Detail | ~2.3s | < 1.5s | ❌ |
+| Page             | Before | Target | Status |
+| ---------------- | ------ | ------ | ------ |
+| Homepage         | ~2.1s  | < 1.0s | ❌     |
+| Dashboard        | ~3.5s  | < 1.5s | ❌     |
+| Public Directory | ~4.2s  | < 1.5s | ❌     |
+| Collection Page  | ~2.8s  | < 1.5s | ❌     |
+| Prompt Detail    | ~2.3s  | < 1.5s | ❌     |
 
 ---
 
@@ -94,12 +97,14 @@ const { data } = await supabase
   .range(0, 23) // Pagination
 ```
 
-**Impact:** 
+**Impact:**
+
 - 60-80% reduction in data transfer
 - 40% faster query execution
 - Better memory usage
 
 **Files Updated:**
+
 - `app/api/prompts/public/route.ts`
 - `app/collections/page.tsx`
 - `app/p/page.tsx`
@@ -120,11 +125,13 @@ export const revalidate = 600 // Revalidate every 10 minutes
 ```
 
 **Impact:**
+
 - 90% reduction in database queries
 - 10x faster page loads (served from cache)
 - Reduced server load
 
 **Files Updated:**
+
 - `app/collections/page.tsx`
 - `app/collections/[slug]/page.tsx`
 - `app/p/[slug]/page.tsx`
@@ -152,11 +159,13 @@ const { data } = useQuery({
 ```
 
 **Impact:**
+
 - 95% reduction in duplicate queries
 - Instant loading for cached data
 - Better UX with immediate renders
 
 **Files Updated:**
+
 - `app/dashboard/page.tsx`
 - `app/p/page.tsx`
 - All components using React Query
@@ -179,11 +188,13 @@ const CollectionForm = dynamic(() => import('@/components/CollectionForm'), {
 ```
 
 **Impact:**
+
 - 30-40% reduction in initial bundle size
 - Faster Time to Interactive (TTI)
 - Better code splitting
 
 **Files Updated:**
+
 - `app/dashboard/collections/page.tsx`
 - `components/AddToCollectionDialog.tsx`
 - Heavy components split out
@@ -208,11 +219,13 @@ const { data, count } = await supabase
 ```
 
 **Impact:**
+
 - 95% reduction in initial data load
 - Faster page loads
 - Better scalability
 
 **Files Updated:**
+
 - `app/api/prompts/public/route.ts`
 - `app/p/page.tsx`
 - `app/dashboard/public/page.tsx`
@@ -226,19 +239,15 @@ const { data, count } = await supabase
 ```typescript
 const nextConfig: NextConfig = {
   compress: true, // Already enabled
-  
+
   // New optimizations
   swcMinify: true,
   reactStrictMode: true, // Re-enabled after fixes
-  
+
   experimental: {
-    optimizePackageImports: [
-      '@radix-ui/react-icons',
-      'lucide-react',
-      '@tanstack/react-query',
-    ],
+    optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react', '@tanstack/react-query'],
   },
-  
+
   // Image optimization
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -249,6 +258,7 @@ const nextConfig: NextConfig = {
 ```
 
 **Impact:**
+
 - 20-30% smaller bundle size
 - Faster image loading
 - Better tree-shaking
@@ -271,6 +281,7 @@ if (process.env.NODE_ENV === 'development') {
 ```
 
 **Impact:**
+
 - Cleaner production builds
 - Slight performance improvement
 - Better debugging in dev
@@ -297,17 +308,20 @@ CREATE INDEX idx_prompts_slug ON prompts(slug);
 ### 4.2 Query Optimization
 
 **Before:**
+
 - Complex joins without pagination
 - Full table scans on search
 - No query result caching
 
 **After:**
+
 - Selective field fetching
 - Indexed queries only
 - React Query caching layer
 - Server-side pagination
 
 **Performance Impact:**
+
 - 70% faster query execution
 - 90% reduction in database load
 - Scalable to 100K+ prompts
@@ -319,14 +333,17 @@ CREATE INDEX idx_prompts_slug ON prompts(slug);
 ### 5.1 Bundle Size Analysis
 
 **Before:**
+
 - Initial bundle: ~450KB
 - Total JavaScript: ~1.2MB
 
 **After:**
+
 - Initial bundle: ~320KB (29% reduction)
 - Total JavaScript: ~850KB (29% reduction)
 
 **Optimizations:**
+
 - Tree-shaking unused imports
 - Code splitting by route
 - Dynamic imports for heavy components
@@ -355,6 +372,7 @@ async headers() {
 ```
 
 **Impact:**
+
 - 70-80% reduction in transfer size
 - Faster page loads on slow connections
 - Better caching behavior
@@ -365,22 +383,22 @@ async headers() {
 
 ### 6.1 Core Web Vitals (After)
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| **LCP** | ~3.2s | ~1.2s | ✅ 62% faster |
-| **FID** | ~180ms | ~80ms | ✅ 56% faster |
-| **CLS** | ~0.15 | ~0.08 | ✅ 47% better |
+| Metric   | Before | After  | Improvement   |
+| -------- | ------ | ------ | ------------- |
+| **LCP**  | ~3.2s  | ~1.2s  | ✅ 62% faster |
+| **FID**  | ~180ms | ~80ms  | ✅ 56% faster |
+| **CLS**  | ~0.15  | ~0.08  | ✅ 47% better |
 | **TTFB** | ~450ms | ~180ms | ✅ 60% faster |
 
 ### 6.2 Page Load Times (After)
 
-| Page | Before | After | Improvement |
-|------|--------|-------|-------------|
-| Homepage | ~2.1s | ~0.9s | ✅ 57% faster |
-| Dashboard | ~3.5s | ~1.2s | ✅ 66% faster |
-| Public Directory | ~4.2s | ~1.3s | ✅ 69% faster |
-| Collection Page | ~2.8s | ~1.1s | ✅ 61% faster |
-| Prompt Detail | ~2.3s | ~1.0s | ✅ 57% faster |
+| Page             | Before | After | Improvement   |
+| ---------------- | ------ | ----- | ------------- |
+| Homepage         | ~2.1s  | ~0.9s | ✅ 57% faster |
+| Dashboard        | ~3.5s  | ~1.2s | ✅ 66% faster |
+| Public Directory | ~4.2s  | ~1.3s | ✅ 69% faster |
+| Collection Page  | ~2.8s  | ~1.1s | ✅ 61% faster |
+| Prompt Detail    | ~2.3s  | ~1.0s | ✅ 57% faster |
 
 **All pages now load under 1.5s target! ✅**
 
@@ -479,6 +497,7 @@ async headers() {
 ### 🎯 Status: **PRODUCTION READY**
 
 All critical optimizations have been implemented. The site is now:
+
 - ✅ 10x faster (achieved 5-7x in most areas)
 - ✅ More stable (proper error handling)
 - ✅ Scalable (pagination, caching, ISR)
@@ -489,6 +508,7 @@ All critical optimizations have been implemented. The site is now:
 ## Appendix A: Files Modified
 
 ### Core Optimizations
+
 - `next.config.ts` - Enhanced configuration
 - `app/api/prompts/public/route.ts` - Pagination & selective fields
 - `app/p/page.tsx` - Pagination, caching, lazy loading
@@ -497,6 +517,7 @@ All critical optimizations have been implemented. The site is now:
 - `app/dashboard/public/page.tsx` - Pagination
 
 ### Components
+
 - `components/AddToCollectionDialog.tsx` - Dynamic import
 - `components/PromptsTable.tsx` - Memoization
 
@@ -505,6 +526,7 @@ All critical optimizations have been implemented. The site is now:
 ## Appendix B: Configuration Changes
 
 ### next.config.ts
+
 ```typescript
 export default {
   compress: true,
@@ -520,6 +542,7 @@ export default {
 ```
 
 ### React Query Defaults
+
 ```typescript
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -537,4 +560,3 @@ const queryClient = new QueryClient({
 **Report Generated:** January 30, 2025  
 **Status:** ✅ Optimizations Complete  
 **Next Review:** February 15, 2025
-

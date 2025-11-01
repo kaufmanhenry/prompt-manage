@@ -3,6 +3,7 @@
 ## ✅ What's Been Built
 
 ### 1. **Bulk Import API** (`/api/prompts/bulk-import`)
+
 - Supports **CSV** and **JSON** file formats
 - Handles duplicate detection (optional skip)
 - Batch inserts (100 prompts per batch)
@@ -10,6 +11,7 @@
 - Returns detailed import results
 
 **Features:**
+
 - CSV parsing with quote handling
 - JSON array/object support
 - Flexible column name matching (name, title, prompt_name, etc.)
@@ -18,24 +20,28 @@
 - Batch processing for large files
 
 ### 2. **Bulk Export API** (`/api/prompts/bulk-export`)
+
 - Exports all user prompts (or selected by IDs)
 - CSV and JSON formats
 - Proper file downloads with headers
 - CSV escaping for special characters
 
 **Features:**
+
 - CSV with proper escaping (quotes, commas, newlines)
 - JSON with formatted output
 - All prompt metadata included
 - Timestamps included
 
 ### 3. **Import/Export UI** (`/dashboard/import-export`)
+
 - Clean, intuitive interface
 - Tab-based layout (Import / Export)
 - Real-time feedback
 - Format guides included
 
 **Features:**
+
 - File upload with drag-and-drop support (browser native)
 - Format selection (CSV/JSON)
 - Duplicate skipping option
@@ -48,16 +54,19 @@
 ### CSV Format
 
 **Required Columns:**
+
 - `name` (or `title`, `prompt_name`) - Prompt name/title
 - `prompt_text` (or `prompt`, `content`, `text`) - The actual prompt
 
 **Optional Columns:**
+
 - `description` (or `desc`, `summary`) - Prompt description
 - `model` (or `ai_model`, `model_name`) - AI model preference
 - `tags` - Comma or space-separated tags
 - `is_public` - true/false (defaults to false)
 
 **Example CSV:**
+
 ```csv
 name,prompt_text,description,model,tags,is_public
 "Email Subject Line","Write compelling email subject lines",Marketing copywriting,gpt-4o,"marketing,email",false
@@ -66,6 +75,7 @@ name,prompt_text,description,model,tags,is_public
 ### JSON Format
 
 **Structure:**
+
 ```json
 [
   {
@@ -102,6 +112,7 @@ name,prompt_text,description,model,tags,is_public
 ## 🔧 Technical Details
 
 ### Import Route
+
 - **Endpoint:** `POST /api/prompts/bulk-import`
 - **Auth:** Required (logged in user)
 - **Body:** FormData with:
@@ -110,6 +121,7 @@ name,prompt_text,description,model,tags,is_public
   - `skipDuplicates`: 'true' | 'false'
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -121,6 +133,7 @@ name,prompt_text,description,model,tags,is_public
 ```
 
 ### Export Route
+
 - **Endpoint:** `POST /api/prompts/bulk-export`
 - **Auth:** Required (logged in user)
 - **Body:** JSON with:
@@ -128,18 +141,21 @@ name,prompt_text,description,model,tags,is_public
   - `promptIds`: string[] (optional, exports all if not provided)
 
 **Response:**
+
 - CSV: File download with CSV content
 - JSON: JSON array download
 
 ## 🐛 Error Handling
 
 ### Import Errors
+
 - Invalid file format → Clear error message
 - Missing required columns → Lists found columns
 - Empty file → Validation error
 - Database errors → Logged and reported
 
 ### Export Errors
+
 - No prompts found → 404 error
 - Authentication failure → 401 error
 - Server errors → 500 with details
@@ -162,6 +178,7 @@ name,prompt_text,description,model,tags,is_public
 ## 🎯 Future Enhancements
 
 ### Easy Wins
+
 1. **Progress Bar** - Show import progress for large files
 2. **Selective Export** - Checkbox selection of prompts to export
 3. **Import Preview** - Show first 10 rows before importing
@@ -169,6 +186,7 @@ name,prompt_text,description,model,tags,is_public
 5. **Clipboard Import** - Paste prompts directly
 
 ### Advanced Features
+
 1. **Scheduled Exports** - Auto-export on schedule
 2. **Cloud Storage** - Export directly to Google Drive/Dropbox
 3. **Template Library** - Pre-built import templates
@@ -193,6 +211,7 @@ name,prompt_text,description,model,tags,is_public
 ## ✅ Status
 
 **Completed:**
+
 - ✅ Bulk import API (CSV/JSON)
 - ✅ Bulk export API (CSV/JSON)
 - ✅ Import/Export UI page
@@ -203,4 +222,3 @@ name,prompt_text,description,model,tags,is_public
 **Ready to Use!** 🎉
 
 Users can now import/export prompts at `/dashboard/import-export`
-

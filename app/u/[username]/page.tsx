@@ -173,5 +173,3 @@ export default async function CreatorProfilePage({ params }: Props) {
     </div>
   )
 }
-
-

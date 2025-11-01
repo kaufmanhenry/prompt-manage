@@ -98,19 +98,31 @@ export default function BestPractices() {
               <a href="#writing" className="text-emerald-600 hover:underline dark:text-emerald-400">
                 3. Writing Effective Prompts
               </a>
-              <a href="#organization" className="text-emerald-600 hover:underline dark:text-emerald-400">
+              <a
+                href="#organization"
+                className="text-emerald-600 hover:underline dark:text-emerald-400"
+              >
                 4. Organizing Your Library
               </a>
-              <a href="#collaboration" className="text-emerald-600 hover:underline dark:text-emerald-400">
+              <a
+                href="#collaboration"
+                className="text-emerald-600 hover:underline dark:text-emerald-400"
+              >
                 5. Team Collaboration
               </a>
               <a href="#testing" className="text-emerald-600 hover:underline dark:text-emerald-400">
                 6. Testing & Iteration
               </a>
-              <a href="#advanced" className="text-emerald-600 hover:underline dark:text-emerald-400">
+              <a
+                href="#advanced"
+                className="text-emerald-600 hover:underline dark:text-emerald-400"
+              >
                 7. Advanced Techniques
               </a>
-              <a href="#security" className="text-emerald-600 hover:underline dark:text-emerald-400">
+              <a
+                href="#security"
+                className="text-emerald-600 hover:underline dark:text-emerald-400"
+              >
                 8. Security & Privacy
               </a>
               <a href="#scaling" className="text-emerald-600 hover:underline dark:text-emerald-400">
@@ -150,8 +162,8 @@ export default function BestPractices() {
                       ✅ Descriptive & Specific
                     </h4>
                     <p className="mb-3 text-sm text-emerald-800 dark:text-emerald-200">
-                      Include context about what the prompt does, when to use it, and what model it's
-                      optimized for.
+                      Include context about what the prompt does, when to use it, and what model
+                      it's optimized for.
                     </p>
                     <div className="space-y-2">
                       <div className="rounded bg-white p-3 dark:bg-gray-800">
@@ -246,12 +258,10 @@ export default function BestPractices() {
                 <div className="flex items-start gap-3">
                   <Lightbulb className="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400" />
                   <div>
-                    <h4 className="mb-1 font-semibold text-blue-900 dark:text-blue-100">
-                      Pro Tip
-                    </h4>
+                    <h4 className="mb-1 font-semibold text-blue-900 dark:text-blue-100">Pro Tip</h4>
                     <p className="text-sm text-blue-800 dark:text-blue-200">
-                      Include version numbers for iterative prompts: "Email: Welcome Series v2" or use
-                      dates for time-sensitive prompts: "2025-Q1: Product Launch Email"
+                      Include version numbers for iterative prompts: "Email: Welcome Series v2" or
+                      use dates for time-sensitive prompts: "2025-Q1: Product Launch Email"
                     </p>
                   </div>
                 </div>
@@ -425,7 +435,8 @@ export default function BestPractices() {
                   {[
                     {
                       title: '1. Clear',
-                      description: 'Be specific about what you want. Avoid ambiguity and vague instructions.',
+                      description:
+                        'Be specific about what you want. Avoid ambiguity and vague instructions.',
                       example: 'Write a 500-word blog post about renewable energy trends in 2025',
                       bad: 'Write about energy',
                       source: 'OpenAI Prompt Engineering Guide',
@@ -509,7 +520,8 @@ export default function BestPractices() {
                     <div>
                       <h4 className="mb-2 font-medium">Few-Shot Learning</h4>
                       <p className="mb-2 text-gray-600 dark:text-gray-400">
-                        Provide 2-3 examples of desired output format. This technique is recommended by{' '}
+                        Provide 2-3 examples of desired output format. This technique is recommended
+                        by{' '}
                         <a
                           href="https://platform.openai.com/docs/guides/prompt-engineering"
                           target="_blank"
@@ -553,7 +565,8 @@ export default function BestPractices() {
                       </p>
                       <div className="rounded bg-gray-50 p-2 text-xs dark:bg-gray-800">
                         <code>
-                          "You are a senior marketing director with 10 years of B2B SaaS experience..."
+                          "You are a senior marketing director with 10 years of B2B SaaS
+                          experience..."
                         </code>
                       </div>
                     </div>
@@ -737,8 +750,8 @@ export default function BestPractices() {
             </div>
             <div className="space-y-6">
               <p className="text-lg text-gray-600 dark:text-gray-400">
-                Effective team collaboration on prompts requires structure, communication, and shared
-                standards. Based on research from{' '}
+                Effective team collaboration on prompts requires structure, communication, and
+                shared standards. Based on research from{' '}
                 <a
                   href="https://www.gartner.com/en/articles/building-effective-ai-teams"
                   target="_blank"
@@ -1086,9 +1099,9 @@ export default function BestPractices() {
             </div>
             <div className="space-y-6">
               <p className="text-lg text-gray-600 dark:text-gray-400">
-                As your prompt library grows, you need strategies to maintain quality and efficiency.
-                Organizations managing 1000+ prompts report 60% productivity gains with proper
-                scaling strategies.
+                As your prompt library grows, you need strategies to maintain quality and
+                efficiency. Organizations managing 1000+ prompts report 60% productivity gains with
+                proper scaling strategies.
               </p>
 
               <div className="grid gap-6 md:grid-cols-2">

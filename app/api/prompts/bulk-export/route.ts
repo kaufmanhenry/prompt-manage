@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     // Check subscription for export access
     const subscription = await getUserSubscription(user.id)
-    if (!canUserExport(subscription)) {
+    if (!canUserExport(subscription, user.email)) {
       return NextResponse.json(
         {
           error: 'Export feature requires a paid subscription',
@@ -64,7 +64,16 @@ export async function POST(request: NextRequest) {
       }
 
       // Convert to CSV
-      const headers = ['name', 'prompt_text', 'description', 'model', 'tags', 'is_public', 'inserted_at', 'updated_at']
+      const headers = [
+        'name',
+        'prompt_text',
+        'description',
+        'model',
+        'tags',
+        'is_public',
+        'inserted_at',
+        'updated_at',
+      ]
       const csvRows = [
         headers.map(escapeCSV).join(','),
         ...prompts.map((p) =>
@@ -111,23 +120,25 @@ export async function POST(request: NextRequest) {
         },
       })
     } else {
-      return NextResponse.json({ error: 'Unsupported format. Use "csv" or "json"' }, { status: 400 })
-    }
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Bulk export error:', error)
-      }
-      const errorMessage =
-        process.env.NODE_ENV === 'development' && error instanceof Error
-          ? error.message
-          : 'Internal server error'
       return NextResponse.json(
-        {
-          error: 'Failed to export prompts',
-          details: process.env.NODE_ENV === 'development' ? errorMessage : undefined,
-        },
-        { status: 500 },
+        { error: 'Unsupported format. Use "csv" or "json"' },
+        { status: 400 },
       )
     }
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Bulk export error:', error)
+    }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json(
+      {
+        error: 'Failed to export prompts',
+        details: process.env.NODE_ENV === 'development' ? errorMessage : undefined,
+      },
+      { status: 500 },
+    )
+  }
 }
-

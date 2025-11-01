@@ -1,4 +1,4 @@
-import { Calendar, Eye, FolderOpen,Heart, TrendingUp } from 'lucide-react'
+import { Calendar, Eye, FolderOpen, Heart, TrendingUp } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -84,20 +84,20 @@ export default async function CollectionsIndexPage() {
 
   const totalCollections = stats?.length || 0
 
-  // Helper to get creator name
-  const getCreatorInfo = async (creatorId: string) => {
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('username, display_name, full_name')
-      .eq('id', creatorId)
-      .single()
-    return profile
-      ? {
-          username: profile.username,
-          name: profile.display_name || profile.full_name || 'Anonymous',
-        }
-      : null
-  }
+  // Helper to get creator name (reserved for future use)
+  // const _getCreatorInfo = async (creatorId: string) => {
+  //   const { data: profile } = await supabase
+  //     .from('user_profiles')
+  //     .select('username, display_name, full_name')
+  //     .eq('id', creatorId)
+  //     .single()
+  //   return profile
+  //     ? {
+  //         username: profile.username,
+  //         name: profile.display_name || profile.full_name || 'Anonymous',
+  //       }
+  //     : null
+  // }
 
   // Fetch creator info for trending collections - batch fetch for performance
   const creatorIds = (trendingCollections || [])
@@ -209,7 +209,9 @@ export default async function CollectionsIndexPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">
-                    {(trendingCollections || []).reduce((sum, c) => sum + (c.views || 0), 0).toLocaleString()}
+                    {(trendingCollections || [])
+                      .reduce((sum, c) => sum + (c.views || 0), 0)
+                      .toLocaleString()}
                   </p>
                   <p className="text-sm text-muted-foreground">Total Views</p>
                 </div>
@@ -224,7 +226,9 @@ export default async function CollectionsIndexPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">
-                    {(trendingCollections || []).reduce((sum, c) => sum + (c.likes || 0), 0).toLocaleString()}
+                    {(trendingCollections || [])
+                      .reduce((sum, c) => sum + (c.likes || 0), 0)
+                      .toLocaleString()}
                   </p>
                   <p className="text-sm text-muted-foreground">Total Likes</p>
                 </div>
@@ -290,7 +294,11 @@ export default async function CollectionsIndexPage() {
                         </div>
                         {collection.creator && (
                           <Link
-                            href={collection.creator.username ? `/u/${collection.creator.username}` : '#'}
+                            href={
+                              collection.creator.username
+                                ? `/u/${collection.creator.username}`
+                                : '#'
+                            }
                             onClick={(e) => e.stopPropagation()}
                             className="hover:text-primary"
                           >
@@ -453,9 +461,9 @@ export default async function CollectionsIndexPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Group prompts by purpose: marketing, coding, writing, design, or any specific use
-                    case. Make it easier to find the right prompt when you need it. Collections help
-                    you stay organized as your prompt library grows.
+                    Group prompts by purpose: marketing, coding, writing, design, or any specific
+                    use case. Make it easier to find the right prompt when you need it. Collections
+                    help you stay organized as your prompt library grows.
                   </p>
                 </CardContent>
               </Card>
@@ -606,13 +614,13 @@ export default async function CollectionsIndexPage() {
           <CardContent className="py-12 text-center">
             <h2 className="mb-4 text-2xl font-bold">Create Your Own Collection</h2>
             <p className="mx-auto mb-2 max-w-2xl text-muted-foreground">
-              Organize your prompts into collections. Store, manage, and share your prompts with
-              the community. The best CMS for prompt management.
+              Organize your prompts into collections. Store, manage, and share your prompts with the
+              community. The best CMS for prompt management.
             </p>
             <p className="mx-auto mb-6 max-w-2xl text-sm text-muted-foreground">
-              <strong>Tip:</strong> When creating a public collection, write a 2-4 sentence description
-              to help others discover and understand your work. Describe what prompts are included,
-              the use cases, and why this collection is valuable.
+              <strong>Tip:</strong> When creating a public collection, write a 2-4 sentence
+              description to help others discover and understand your work. Describe what prompts
+              are included, the use cases, and why this collection is valuable.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/dashboard/collections">
@@ -644,16 +652,18 @@ export default async function CollectionsIndexPage() {
               mainEntity: {
                 '@type': 'ItemList',
                 numberOfItems: totalCollections,
-                itemListElement: (trendingCollections || []).slice(0, 10).map((c: any, i: number) => ({
-                  '@type': 'ListItem',
-                  position: i + 1,
-                  item: {
-                    '@type': 'CreativeWork',
-                    name: c.title,
-                    description: c.description,
-                    url: `https://promptmanage.com/collections/${c.slug}`,
-                  },
-                })),
+                itemListElement: (trendingCollections || [])
+                  .slice(0, 10)
+                  .map((c: any, i: number) => ({
+                    '@type': 'ListItem',
+                    position: i + 1,
+                    item: {
+                      '@type': 'CreativeWork',
+                      name: c.title,
+                      description: c.description,
+                      url: `https://promptmanage.com/collections/${c.slug}`,
+                    },
+                  })),
               },
             }),
           }}

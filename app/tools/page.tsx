@@ -576,44 +576,46 @@ export default async function ToolsPage() {
 
             {/* Comparison Table */}
             <div className="mt-12 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-8">
-              <h3 className="mb-6 text-lg font-semibold text-foreground sm:text-xl">Quick Comparison</h3>
+              <h3 className="mb-6 text-lg font-semibold text-foreground sm:text-xl">
+                Quick Comparison
+              </h3>
               <div className="-mx-4 overflow-x-auto sm:mx-0">
                 <div className="inline-block min-w-full align-middle">
                   <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="pb-3 text-left font-semibold text-foreground">Model Type</th>
-                      <th className="pb-3 text-left font-semibold text-foreground">Input</th>
-                      <th className="pb-3 text-left font-semibold text-foreground">Output</th>
-                      <th className="pb-3 text-left font-semibold text-foreground">Examples</th>
-                    </tr>
-                  </thead>
-                  <tbody className="space-y-2">
-                    <tr className="border-b">
-                      <td className="py-3 font-medium">LLMs</td>
-                      <td className="py-3 text-muted-foreground">Text prompts</td>
-                      <td className="py-3 text-muted-foreground">Text responses</td>
-                      <td className="py-3 text-muted-foreground">GPT-5, Claude, Gemini</td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="py-3 font-medium">Image Models</td>
-                      <td className="py-3 text-muted-foreground">Text descriptions</td>
-                      <td className="py-3 text-muted-foreground">Images/Art</td>
-                      <td className="py-3 text-muted-foreground">Midjourney, DALL-E 3</td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="py-3 font-medium">Video Models</td>
-                      <td className="py-3 text-muted-foreground">Text or images</td>
-                      <td className="py-3 text-muted-foreground">Video clips</td>
-                      <td className="py-3 text-muted-foreground">Runway, Pika, Veo</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 font-medium">Music Models</td>
-                      <td className="py-3 text-muted-foreground">Text descriptions</td>
-                      <td className="py-3 text-muted-foreground">Audio/Songs</td>
-                      <td className="py-3 text-muted-foreground">Suno, Udio</td>
-                    </tr>
-                  </tbody>
+                    <thead>
+                      <tr className="border-b">
+                        <th className="pb-3 text-left font-semibold text-foreground">Model Type</th>
+                        <th className="pb-3 text-left font-semibold text-foreground">Input</th>
+                        <th className="pb-3 text-left font-semibold text-foreground">Output</th>
+                        <th className="pb-3 text-left font-semibold text-foreground">Examples</th>
+                      </tr>
+                    </thead>
+                    <tbody className="space-y-2">
+                      <tr className="border-b">
+                        <td className="py-3 font-medium">LLMs</td>
+                        <td className="py-3 text-muted-foreground">Text prompts</td>
+                        <td className="py-3 text-muted-foreground">Text responses</td>
+                        <td className="py-3 text-muted-foreground">GPT-5, Claude, Gemini</td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="py-3 font-medium">Image Models</td>
+                        <td className="py-3 text-muted-foreground">Text descriptions</td>
+                        <td className="py-3 text-muted-foreground">Images/Art</td>
+                        <td className="py-3 text-muted-foreground">Midjourney, DALL-E 3</td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="py-3 font-medium">Video Models</td>
+                        <td className="py-3 text-muted-foreground">Text or images</td>
+                        <td className="py-3 text-muted-foreground">Video clips</td>
+                        <td className="py-3 text-muted-foreground">Runway, Pika, Veo</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 font-medium">Music Models</td>
+                        <td className="py-3 text-muted-foreground">Text descriptions</td>
+                        <td className="py-3 text-muted-foreground">Audio/Songs</td>
+                        <td className="py-3 text-muted-foreground">Suno, Udio</td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
               </div>

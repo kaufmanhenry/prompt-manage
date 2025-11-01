@@ -92,8 +92,8 @@ export default function TermsPage() {
               </p>
               <p>
                 <strong>One Account Per User:</strong> You may not create multiple accounts to
-                circumvent restrictions. We reserve the
-                right to terminate duplicate accounts without notice.
+                circumvent restrictions. We reserve the right to terminate duplicate accounts
+                without notice.
               </p>
             </div>
           </section>
@@ -229,7 +229,9 @@ export default function TermsPage() {
                 for partial months or years of service, unused features, or content you did not use.
               </p>
               <p>
-                <strong>Cancellation:</strong> You may cancel your subscription at any time. Cancellation takes effect at the end of your current billing period, and you will retain access to premium features until that time.
+                <strong>Cancellation:</strong> You may cancel your subscription at any time.
+                Cancellation takes effect at the end of your current billing period, and you will
+                retain access to premium features until that time.
               </p>
               <p>
                 <strong>Downgrade:</strong> If you downgrade your subscription, the change will take

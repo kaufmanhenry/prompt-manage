@@ -3,7 +3,14 @@
     "version": "1.0.0",
     "generated": "2025-01-30",
     "purpose": "Enterprise-grade UGC growth and landing page content strategy for Prompt Manage public prompt directory",
-    "targetAudience": ["Developers", "Content Creators", "Marketers", "Students", "Enterprise Teams", "Prompt Enthusiasts"]
+    "targetAudience": [
+      "Developers",
+      "Content Creators",
+      "Marketers",
+      "Students",
+      "Enterprise Teams",
+      "Prompt Enthusiasts"
+    ]
   },
   "landingPages": {
     "developers": {
@@ -342,15 +349,77 @@
         "Creative"
       ],
       "secondary": {
-        "development": ["Code Generation", "Debugging", "API Integration", "Documentation", "Testing", "DevOps", "Security"],
-        "marketing": ["Content Creation", "Social Media", "Email Marketing", "SEO", "Ad Copy", "Analytics", "Campaign Management"],
-        "productivity": ["Task Management", "Email Automation", "Scheduling", "Workflow Optimization", "Communication", "Project Management"],
-        "education": ["Curriculum", "Assessment", "Learning Plans", "Research", "Tutoring", "Academic Writing"],
-        "gaming": ["NPCs", "Procedural Generation", "Narrative", "Game Design", "Player Engagement", "Testing"],
-        "healthcare": ["Clinical Documentation", "Patient Communication", "Research", "Administrative", "Compliance"],
-        "finance": ["Analysis", "Reporting", "Risk Management", "Customer Service", "Compliance", "Trading"],
-        "enterprise": ["Process Automation", "Decision Support", "Customer Engagement", "Operations", "Strategy"],
-        "research": ["Literature Review", "Data Analysis", "Hypothesis Generation", "Academic Writing", "Grant Writing"],
+        "development": [
+          "Code Generation",
+          "Debugging",
+          "API Integration",
+          "Documentation",
+          "Testing",
+          "DevOps",
+          "Security"
+        ],
+        "marketing": [
+          "Content Creation",
+          "Social Media",
+          "Email Marketing",
+          "SEO",
+          "Ad Copy",
+          "Analytics",
+          "Campaign Management"
+        ],
+        "productivity": [
+          "Task Management",
+          "Email Automation",
+          "Scheduling",
+          "Workflow Optimization",
+          "Communication",
+          "Project Management"
+        ],
+        "education": [
+          "Curriculum",
+          "Assessment",
+          "Learning Plans",
+          "Research",
+          "Tutoring",
+          "Academic Writing"
+        ],
+        "gaming": [
+          "NPCs",
+          "Procedural Generation",
+          "Narrative",
+          "Game Design",
+          "Player Engagement",
+          "Testing"
+        ],
+        "healthcare": [
+          "Clinical Documentation",
+          "Patient Communication",
+          "Research",
+          "Administrative",
+          "Compliance"
+        ],
+        "finance": [
+          "Analysis",
+          "Reporting",
+          "Risk Management",
+          "Customer Service",
+          "Compliance",
+          "Trading"
+        ],
+        "enterprise": [
+          "Process Automation",
+          "Decision Support",
+          "Customer Engagement",
+          "Operations",
+          "Strategy"
+        ],
+        "research": [
+          "Literature Review",
+          "Data Analysis",
+          "Hypothesis Generation",
+          "Academic Writing",
+          "Grant Writing"
+        ],
         "creative": ["Writing", "Design", "Music", "Video", "Art", "Storytelling"]
       }
     },
@@ -521,7 +590,11 @@
         "prompt_text": "Generate a professional email response based on the following:\n\nIncoming Email Context:\n- Subject: [Subject]\n- Sender: [Name, Relationship]\n- Content: [Brief summary]\n- Urgency: [High/Medium/Low]\n- Previous interactions: [Context]\n\nMy Response Requirements:\n1. Match the sender's tone (formal/casual/professional)\n2. Address all points in the original email\n3. Include appropriate greeting and closing\n4. Suggest next steps if needed\n5. Keep response concise (3-4 sentences unless complex)\n6. Maintain professional relationship\n\nAdditional context:\n- My role: [Your Role]\n- Available time/resources: [Constraints]\n- Preferred communication style: [Style]\n\nGenerate the response and suggest 2-3 alternative phrasings if applicable.",
         "model": "gpt-4o",
         "tags": ["productivity", "email", "automation", "communication", "time-management"],
-        "use_cases": ["High-volume email management", "Client communication", "Internal team coordination"],
+        "use_cases": [
+          "High-volume email management",
+          "Client communication",
+          "Internal team coordination"
+        ],
         "expected_output": "Personalized email response matching sender's tone and addressing all points"
       }
     },
@@ -542,7 +615,13 @@
         "description": "Generates structured market research reports including competitive landscape, opportunity analysis, and strategic recommendations. Used by product managers and business analysts.",
         "prompt_text": "Conduct comprehensive market research for [Product/Service] in [Industry/Market].\n\nResearch Framework:\n1. Market Size and Growth\n   - Total Addressable Market (TAM)\n   - Serviceable Addressable Market (SAM)\n   - Growth trends and projections\n\n2. Competitive Landscape\n   - Top 5 competitors\n   - Competitive positioning\n   - Strengths and weaknesses\n   - Market share analysis\n\n3. Target Customer Analysis\n   - Primary personas\n   - Pain points and needs\n   - Buying behavior\n   - Willingness to pay\n\n4. Opportunity Assessment\n   - Market gaps\n   - Unmet needs\n   - Emerging trends\n   - Entry barriers\n\n5. Strategic Recommendations\n   - Positioning strategy\n   - Go-to-market approach\n   - Competitive advantages\n   - Risk factors\n\nProvide data-driven insights with supporting evidence and cite sources where applicable.",
         "model": "claude-3-5-sonnet",
-        "tags": ["research", "market-analysis", "competitive-intelligence", "strategy", "business-analysis"],
+        "tags": [
+          "research",
+          "market-analysis",
+          "competitive-intelligence",
+          "strategy",
+          "business-analysis"
+        ],
         "use_cases": ["Product planning", "Business strategy", "Investment analysis"],
         "expected_output": "Structured market research report with actionable insights"
       }
@@ -564,7 +643,13 @@
         "description": "Creates customized learning plans tailored to individual student needs, learning styles, and goals. Includes assessment rubrics and progress tracking. Used by educators and instructional designers.",
         "prompt_text": "Design a personalized learning plan for [Subject/Topic] with the following parameters:\n\nStudent Profile:\n- Age/Grade: [Level]\n- Current proficiency: [Beginner/Intermediate/Advanced]\n- Learning style: [Visual/Auditory/Kinesthetic/Reading]\n- Goals: [Specific objectives]\n- Time available: [X hours per week]\n\nLearning Plan Requirements:\n1. Learning Objectives (SMART goals)\n2. Curriculum Structure\n   - Module breakdown\n   - Learning sequence\n   - Prerequisites\n3. Learning Activities\n   - Interactive exercises\n   - Practice problems\n   - Real-world applications\n4. Assessment Framework\n   - Formative assessments\n   - Summative evaluations\n   - Progress milestones\n5. Resources and Materials\n   - Recommended readings\n   - Tools and platforms\n   - Supplementary materials\n6. Timeline and Milestones\n\nInclude adaptive learning strategies and accommodations if applicable.",
         "model": "gpt-4o",
-        "tags": ["education", "personalized-learning", "curriculum", "assessment", "instructional-design"],
+        "tags": [
+          "education",
+          "personalized-learning",
+          "curriculum",
+          "assessment",
+          "instructional-design"
+        ],
         "use_cases": ["Individualized instruction", "Tutoring", "Curriculum development"],
         "expected_output": "Comprehensive personalized learning plan with assessment framework"
       }
@@ -692,4 +777,3 @@
     ]
   }
 }
-

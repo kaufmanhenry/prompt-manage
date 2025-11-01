@@ -6,7 +6,9 @@ export async function GET() {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('prompt_collections')
-    .select('id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at')
+    .select(
+      'id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at',
+    )
     .order('created_at', { ascending: false })
     .limit(50)
 
@@ -22,7 +24,7 @@ export async function POST(request: Request) {
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   // Validate description for public collections
-  if (body.visibility === 'public' && (!body.description?.trim())) {
+  if (body.visibility === 'public' && !body.description?.trim()) {
     return NextResponse.json(
       { error: 'Description is required for public collections' },
       { status: 400 },
@@ -40,10 +42,10 @@ export async function POST(request: Request) {
   const { data, error } = await supabase
     .from('prompt_collections')
     .insert(payload)
-    .select('id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at')
+    .select(
+      'id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at',
+    )
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ collection: data })
 }
-
-

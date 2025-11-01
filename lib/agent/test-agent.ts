@@ -127,12 +127,7 @@ export async function testAgentGeneration(
     const samplePrompts = promptsData.prompts?.slice(0, 5) || []
     const metadataComplete = samplePrompts.every((p: AgentPrompt) => {
       return (
-        p.topic &&
-        p.keyword &&
-        p.quality_score !== null &&
-        p.status &&
-        p.raw_input &&
-        p.raw_output
+        p.topic && p.keyword && p.quality_score !== null && p.status && p.raw_input && p.raw_output
       )
     })
 
@@ -216,7 +211,8 @@ export function evaluatePromptQuality(prompt: AgentPrompt): QualityMetrics {
     const hasTitle = !!promptData.name || !!prompt.topic
     const hasDescription = !!promptData.description
     const hasClearText = !!promptData.prompt_text && promptData.prompt_text.length > 50
-    const hasTags = !!promptData.tags && Array.isArray(promptData.tags) && promptData.tags.length > 0
+    const hasTags =
+      !!promptData.tags && Array.isArray(promptData.tags) && promptData.tags.length > 0
 
     metrics.clarity = [
       hasTitle ? 25 : 0,
@@ -242,14 +238,16 @@ export function evaluatePromptQuality(prompt: AgentPrompt): QualityMetrics {
     const _hasTopic = !!prompt.topic
     const uniqueKeywords = new Set([prompt.keyword, prompt.topic].filter(Boolean))
 
-    metrics.uniqueness = [
-      hasKeyword ? 50 : 0,
-      uniqueKeywords.size > 1 ? 50 : 0,
-    ].reduce((a, b) => a + b, 0)
+    metrics.uniqueness = [hasKeyword ? 50 : 0, uniqueKeywords.size > 1 ? 50 : 0].reduce(
+      (a, b) => a + b,
+      0,
+    )
 
     // SEO Optimization: Check for keywords, tags, descriptions
     const keywordInTitle =
-      promptData.name && prompt.keyword && promptData.name.toLowerCase().includes(prompt.keyword.toLowerCase())
+      promptData.name &&
+      prompt.keyword &&
+      promptData.name.toLowerCase().includes(prompt.keyword.toLowerCase())
     const keywordInDescription =
       promptData.description &&
       prompt.keyword &&
@@ -349,7 +347,9 @@ export async function generateTestReport(agentId: string): Promise<AgentTestRepo
     recommendations.push('Improve prompt generation templates for higher quality scores')
   }
   if (avgQuality.clarity < 70) {
-    recommendations.push('Enhance clarity by ensuring all prompts have titles, descriptions, and tags')
+    recommendations.push(
+      'Enhance clarity by ensuring all prompts have titles, descriptions, and tags',
+    )
   }
   if (avgQuality.usefulness < 70) {
     recommendations.push('Add use cases and example outputs to improve usefulness')
@@ -374,4 +374,3 @@ export async function generateTestReport(agentId: string): Promise<AgentTestRepo
     recommendations,
   }
 }
-

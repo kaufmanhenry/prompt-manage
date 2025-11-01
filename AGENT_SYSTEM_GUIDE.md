@@ -11,6 +11,7 @@ The AI Agent System is a **fully functional** autonomous prompt generation tool 
 ### Access Requirements
 
 **Only these admin emails can access:**
+
 - `mikemoloney.business@gmail.com`
 - `hkaufman19@gmail.com`
 - `mike@filtergrade.com`
@@ -46,7 +47,7 @@ If you don't have an agent yet:
 1. Navigate to `/dashboard/agent/setup`
 2. Fill in the agent details:
    - **Name**: Give your agent a name (e.g., "Content Generator")
-   - **Mode**: 
+   - **Mode**:
      - `autonomous` - Auto-publishes prompts if quality score >= threshold
      - `review` - Requires manual approval before publishing
    - **Temperature**: 0.0-2.0 (higher = more creative, default: 0.7)
@@ -92,23 +93,27 @@ Keywords are topics your agent will generate prompts about:
 ## 📊 Understanding the Dashboard Tabs
 
 ### Overview Tab
+
 - **Stats Cards**: Total prompts, published, pending, average quality
 - **Recent Activity**: Latest generated prompts
 - **Quick Metrics**: Generation stats, top keywords
 
 ### Prompts Tab
+
 - **Table View**: All agent-generated prompts
 - **Filtering**: By status, keyword, date
 - **Actions**: Approve, publish, reject, unpublish
 - **Click prompt name**: View/edit in prompt editor
 
 ### Keywords Tab
+
 - **Manage Keywords**: Add, remove, activate/deactivate
 - **Categories**: Organize keywords by category
 - **Priority**: Set which keywords to generate first
 - **Stats**: See how many prompts generated per keyword
 
 ### Settings Tab
+
 - **Agent Configuration**: Name, mode, temperature, quality threshold
 - **Update Settings**: Change any configuration
 - **Activate/Deactivate**: Turn agent on/off
@@ -118,12 +123,14 @@ Keywords are topics your agent will generate prompts about:
 ## 🎛️ Agent Modes Explained
 
 ### Review Mode (Recommended for Start)
+
 - ✅ All generated prompts require manual approval
 - ✅ You review each prompt before publishing
 - ✅ Best for maintaining quality control
 - ✅ See quality scores before deciding
 
 ### Autonomous Mode (Advanced)
+
 - ✅ Auto-publishes prompts if quality score >= threshold
 - ✅ Runs 24/7 without manual intervention
 - ✅ Great for high-volume content generation
@@ -134,19 +141,23 @@ Keywords are topics your agent will generate prompts about:
 ## 🔧 Advanced Features
 
 ### Batch Generation
+
 - Generate multiple prompts at once
 - Default batch size: 5 prompts
 - Can generate up to 100+ prompts in one batch
 - Each prompt takes ~5-8 seconds
 
 ### Quality Scoring
+
 Every prompt gets a quality score (0-100) based on:
+
 - **Clarity**: How clear and understandable
 - **Usefulness**: How practical and valuable
 - **Uniqueness**: How original and distinct
 - **SEO**: How search-engine optimized
 
 ### Keyword Management
+
 - **Priority**: Higher priority keywords generate first
 - **Category**: Organize by topic/category
 - **Active/Inactive**: Turn keywords on/off
@@ -157,12 +168,14 @@ Every prompt gets a quality score (0-100) based on:
 ## 📈 Monitoring Agent Performance
 
 ### Stats to Watch
+
 - **Total Generated**: How many prompts created
 - **Published Count**: How many made public
 - **Average Quality**: Overall quality score
 - **Success Rate**: % of prompts that meet threshold
 
 ### Key Metrics
+
 - **Generation Speed**: ~5-8 seconds per prompt
 - **Quality Distribution**: Most prompts should score 75-95
 - **Keyword Performance**: Which keywords produce best results
@@ -182,21 +195,25 @@ Every prompt gets a quality score (0-100) based on:
 ## 🐛 Troubleshooting
 
 ### "Unauthorized" Error
+
 - ✅ Make sure you're logged in with an admin email
 - ✅ Check your email in the user profile
 - ✅ Contact support to add your email to admin list
 
 ### No Agents Showing
+
 - ✅ Create your first agent at `/dashboard/agent/setup`
 - ✅ Check database to see if agents exist
 
 ### Generation Fails
+
 - ✅ Check `OPENAI_API_KEY` is set in environment variables
 - ✅ Check OpenAI API credits/balance
 - ✅ Check network/API connectivity
 - ✅ Review server logs for errors
 
 ### Quality Scores Too Low
+
 - ✅ Lower the quality threshold (try 75 instead of 85)
 - ✅ Adjust temperature (try 0.8-0.9 for more creative prompts)
 - ✅ Refine keywords to be more specific
@@ -237,4 +254,3 @@ Every prompt gets a quality score (0-100) based on:
 ---
 
 **Ready to start?** Navigate to `/dashboard/agent` now! 🎉
-

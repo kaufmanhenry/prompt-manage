@@ -4,10 +4,7 @@ import { isAdminEmail } from '@/lib/admin'
 import { createClient } from '@/utils/supabase/server'
 
 // GET: Get agent details
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const resolvedParams = await params
     const supabase = await createClient()
@@ -21,7 +18,9 @@ export async function GET(
 
     const { data, error } = await supabase
       .from('agents')
-      .select('id, name, description, category, output_type, keywords, is_active, mode, temperature, quality_threshold, owner_id, team_id, brand_guidelines, quality_standards, created_at, updated_at')
+      .select(
+        'id, name, description, category, output_type, keywords, is_active, mode, temperature, quality_threshold, owner_id, team_id, brand_guidelines, quality_standards, created_at, updated_at',
+      )
       .eq('id', resolvedParams.id)
       .single()
 
@@ -47,10 +46,7 @@ export async function GET(
 }
 
 // PATCH: Update agent settings
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const resolvedParams = await params
     const supabase = await createClient()
@@ -76,7 +72,15 @@ export async function PATCH(
     }
 
     // Update agent
-    const updates: any = {}
+    interface AgentUpdates {
+      name?: string
+      mode?: string
+      is_active?: boolean
+      temperature?: number
+      quality_threshold?: number
+      [key: string]: unknown
+    }
+    const updates: AgentUpdates = {}
     if (body.name !== undefined) updates.name = body.name
     if (body.mode !== undefined) updates.mode = body.mode
     if (body.is_active !== undefined) updates.is_active = body.is_active
@@ -87,7 +91,9 @@ export async function PATCH(
       .from('agents')
       .update(updates)
       .eq('id', resolvedParams.id)
-      .select('id, name, description, category, output_type, keywords, is_active, mode, temperature, quality_threshold, owner_id, team_id, brand_guidelines, quality_standards, created_at, updated_at')
+      .select(
+        'id, name, description, category, output_type, keywords, is_active, mode, temperature, quality_threshold, owner_id, team_id, brand_guidelines, quality_standards, created_at, updated_at',
+      )
       .single()
 
     if (error) {
@@ -108,10 +114,7 @@ export async function PATCH(
 }
 
 // DELETE: Delete agent
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const resolvedParams = await params
     const supabase = await createClient()
@@ -152,4 +155,3 @@ export async function DELETE(
     return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
-

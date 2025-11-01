@@ -46,16 +46,19 @@ This document outlines the complete process for implementing and enforcing free 
 **Status:** ✅ **MOSTLY COMPLETE**
 
 **Current Implementation:**
+
 - ✅ `/api/prompts/bulk-import` - Checks `canUserImport()` and returns 403 if not allowed
 - ✅ `/api/prompts/bulk-export` - Checks `canUserExport()` and returns 403 if not allowed
 - ✅ `/dashboard/import-export` page - Shows paywall modal if user doesn't have access
 
 **Verification Steps:**
+
 1. ✅ Test with free user - Should show paywall modal
 2. ✅ Test with paid user - Should allow import/export
 3. ✅ Test API endpoints directly - Should return 403 for free users
 
 **Action Items:**
+
 - ✅ None - Already implemented correctly
 
 ---
@@ -65,11 +68,13 @@ This document outlines the complete process for implementing and enforcing free 
 **Status:** ⚠️ **PARTIALLY COMPLETE**
 
 **Current Implementation:**
+
 - ✅ Backend check exists in `canUserCreatePrompt()` - Returns false when `promptsTotal >= 25`
 - ✅ `PromptForm.tsx` - Checks `canCreatePrompt` before submitting
 - ⚠️ Need to verify all prompt creation paths are protected
 
 **Missing/Needs Verification:**
+
 1. Need to find/create main `/api/prompts` POST route that enforces limits
 2. Verify all prompt creation entry points check limits
 3. Add visual warning when user is at 20+ prompts (approaching limit)
@@ -81,12 +86,13 @@ This document outlines the complete process for implementing and enforcing free 
 **Location:** Should be `app/api/prompts/route.ts` (or similar)
 
 **Required Checks:**
+
 ```typescript
 import { canUserCreatePrompt, getUserSubscription, getUserUsage } from '@/lib/subscription'
 
 export async function POST(request: NextRequest) {
   // ... authentication ...
-  
+
   // Check subscription and usage limits
   const [subscription, usage] = await Promise.all([
     getUserSubscription(user.id),
@@ -117,13 +123,14 @@ export async function POST(request: NextRequest) {
 **Location:** `app/dashboard/page.tsx` or `components/PromptForm.tsx`
 
 **Implementation:**
+
 ```typescript
 // In PromptForm or Dashboard component
 const { usage, subscription } = usePaywall()
 
 useEffect(() => {
   if (!usage || !subscription) return
-  
+
   const plan = subscription.plan || 'free'
   if (plan === 'free' && usage.promptsTotal >= 20 && usage.promptsTotal < 25) {
     toast({
@@ -140,10 +147,12 @@ useEffect(() => {
 **Location:** `components/PromptForm.tsx`
 
 **Current Implementation:**
+
 - ✅ Already checks `canCreatePrompt` and shows paywall
 - ⚠️ Need to handle API errors more gracefully
 
 **Enhancement:**
+
 ```typescript
 // In onSubmit handler, after API call
 catch (error: any) {
@@ -169,6 +178,7 @@ catch (error: any) {
 **Status:** ⚠️ **NEEDS IMPLEMENTATION**
 
 **Features to Hide/Lock:**
+
 1. Bulk Import/Export (already gated, but should hide UI elements)
 2. Advanced analytics (if exists)
 3. Team collaboration features (if exists)
@@ -210,7 +220,7 @@ export function FeatureGate({ feature, children, fallback }: FeatureGateProps) {
   const features = subscriptionStatus?.features || {}
 
   // Check if feature is available
-  const hasAccess = 
+  const hasAccess =
     feature === 'import' ? features.canImport :
     feature === 'export' ? features.canExport :
     currentPlan !== 'free' // For other features, any paid plan has access
@@ -306,10 +316,12 @@ const isPaidPlan = subscriptionStatus?.subscription?.plan !== 'free'
 **Status:** ✅ **PARTIALLY IMPLMENTED**
 
 **Current Implementation:**
+
 - ✅ `usePaywall` hook provides usage data
 - ✅ `Paywall` component shows usage
 
 **Enhancement Needed:**
+
 - Add usage display to dashboard home page
 - Show progress bar when approaching limits
 - Add warning messages at 80% capacity
@@ -400,10 +412,12 @@ const { usage, subscription, canCreatePrompt } = usePaywall()
 ## Files to Create/Modify
 
 ### New Files
+
 1. `components/FeatureGate.tsx` - Component for gating premium features
 2. `app/api/prompts/route.ts` - Main prompt creation API (if doesn't exist)
 
 ### Files to Modify
+
 1. `components/PromptForm.tsx` - Add better error handling for limit errors
 2. `app/dashboard/page.tsx` - Add usage display and warnings
 3. `app/dashboard/import-export/page.tsx` - Improve free user experience
@@ -479,4 +493,3 @@ Modify `app/dashboard/page.tsx` to show usage for free users.
 3. ⚠️ Add usage display and warnings to dashboard
 4. ⚠️ Hide premium features in UI for free users
 5. ⚠️ Test all scenarios with free and paid accounts
-

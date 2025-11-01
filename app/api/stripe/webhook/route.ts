@@ -55,9 +55,10 @@ export async function POST(request: NextRequest) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const subscription = subscriptionObj as any
         const currentPeriodEnd = subscription.current_period_end
-        const customerId: string | null = typeof subscription.customer === 'string' 
-          ? subscription.customer 
-          : (subscription.customer as { id: string } | null)?.id || null
+        const customerId: string | null =
+          typeof subscription.customer === 'string'
+            ? subscription.customer
+            : (subscription.customer as { id: string } | null)?.id || null
 
         if (!customerId || typeof customerId !== 'string') {
           if (process.env.NODE_ENV === 'development') {
@@ -101,7 +102,10 @@ export async function POST(request: NextRequest) {
       case 'customer.subscription.updated': {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const subscription = event.data.object as any
-        const customerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id
+        const customerId =
+          typeof subscription.customer === 'string'
+            ? subscription.customer
+            : subscription.customer?.id
 
         if (!customerId) {
           if (process.env.NODE_ENV === 'development') {
@@ -143,7 +147,9 @@ export async function POST(request: NextRequest) {
           // TODO: Send to error tracking service
         } else {
           if (process.env.NODE_ENV === 'development') {
-            console.log(`✅ Subscription updated for user ${userSub.user_id}, status: ${subscription.status}`)
+            console.log(
+              `✅ Subscription updated for user ${userSub.user_id}, status: ${subscription.status}`,
+            )
           }
         }
 
@@ -153,7 +159,10 @@ export async function POST(request: NextRequest) {
       case 'customer.subscription.deleted': {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const subscription = event.data.object as any
-        const customerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id
+        const customerId =
+          typeof subscription.customer === 'string'
+            ? subscription.customer
+            : subscription.customer?.id
 
         if (!customerId) {
           if (process.env.NODE_ENV === 'development') {
@@ -202,8 +211,10 @@ export async function POST(request: NextRequest) {
       case 'invoice.payment_succeeded': {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const invoice = event.data.object as any
-        const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
-        const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id
+        const customerId =
+          typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
+        const subscriptionId =
+          typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id
 
         if (!customerId || !subscriptionId) {
           if (process.env.NODE_ENV === 'development') {
@@ -254,7 +265,8 @@ export async function POST(request: NextRequest) {
       case 'invoice.payment_failed': {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const invoice = event.data.object as any
-        const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
+        const customerId =
+          typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
 
         if (!customerId) {
           if (process.env.NODE_ENV === 'development') {

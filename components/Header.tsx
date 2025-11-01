@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
+import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -197,7 +198,16 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button onClick={handleSignIn}>Sign in with Google</Button>
+              <Button onClick={handleSignIn} size="sm">
+                Sign in with Google
+              </Button>
+              <EmailSignInButton
+                size="sm"
+                variant="ghost"
+                className="text-xs text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+              >
+                or email
+              </EmailSignInButton>
             </div>
           )}
         </div>

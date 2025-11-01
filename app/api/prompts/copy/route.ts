@@ -72,7 +72,9 @@ export async function POST(request: NextRequest) {
     // Get the newly created prompt (select only needed fields)
     const { data: newPrompt, error: fetchError } = await supabase
       .from('prompts')
-      .select('id, name, slug, description, prompt_text, model, tags, is_public, user_id, inserted_at, updated_at')
+      .select(
+        'id, name, slug, description, prompt_text, model, tags, is_public, user_id, inserted_at, updated_at',
+      )
       .eq('id', newPromptId)
       .single()
 
@@ -98,14 +100,14 @@ export async function POST(request: NextRequest) {
         slug: originalPrompt?.slug,
       },
     })
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Copy prompt error:', error)
-      }
-      const errorMessage =
-        process.env.NODE_ENV === 'development' && error instanceof Error
-          ? error.message
-          : 'Internal server error'
-      return NextResponse.json({ error: errorMessage }, { status: 500 })
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Copy prompt error:', error)
     }
+    const errorMessage =
+      process.env.NODE_ENV === 'development' && error instanceof Error
+        ? error.message
+        : 'Internal server error'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
+  }
 }

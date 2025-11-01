@@ -19,21 +19,25 @@
 ## 🔴 CRITICAL ISSUES
 
 ### 1. **Missing Error Tracking Service** 🔴 HIGH PRIORITY
+
 **Status:** ⚠️ **TODO comments found - Not implemented**  
 **Files Affected:** `app/api/stripe/webhook/route.ts` (5 TODOs)
 
 **Issue:**
+
 - Multiple `// TODO: Send to error tracking service (e.g., Sentry)` comments
 - Critical errors logged to console only
 - No production error monitoring
 - Webhook failures could go unnoticed
 
 **Impact:**
+
 - Payment failures may be silent
 - Subscription issues not tracked
 - No alerting for critical errors
 
 **Recommendation:**
+
 ```typescript
 // Add error tracking
 import * as Sentry from '@sentry/nextjs'
@@ -42,7 +46,7 @@ if (upsertError) {
   console.error('Error upserting subscription:', upsertError)
   Sentry.captureException(upsertError, {
     tags: { component: 'stripe-webhook' },
-    extra: { userId, plan, subscriptionId }
+    extra: { userId, plan, subscriptionId },
   })
 }
 ```
@@ -52,15 +56,18 @@ if (upsertError) {
 ---
 
 ### 2. **Environment Variable Validation Missing** 🔴 HIGH PRIORITY
+
 **Files Affected:** Multiple API routes
 
 **Issue:**
+
 - `process.env.STRIPE_WEBHOOK_SECRET` checked but not validated format
 - `process.env.OPENAI_API_KEY` checked but no format validation
 - Environment variables accessed without defaults in some places
 - No startup validation to fail fast if misconfigured
 
 **Examples:**
+
 ```typescript
 // app/api/stripe/webhook/route.ts
 if (!signature || !process.env.STRIPE_WEBHOOK_SECRET) {
@@ -73,11 +80,13 @@ const apiKey = process.env.OPENAI_API_KEY
 ```
 
 **Impact:**
+
 - Misconfigured deployments may fail silently
 - Invalid keys could cause runtime errors
 - Hard to debug configuration issues
 
 **Recommendation:**
+
 ```typescript
 // lib/env-validation.ts
 export function validateEnv() {
@@ -97,7 +106,10 @@ export function validateEnv() {
   }
 
   // Validate formats
-  if (process.env.STRIPE_WEBHOOK_SECRET && !process.env.STRIPE_WEBHOOK_SECRET.startsWith('whsec_')) {
+  if (
+    process.env.STRIPE_WEBHOOK_SECRET &&
+    !process.env.STRIPE_WEBHOOK_SECRET.startsWith('whsec_')
+  ) {
     throw new Error('Invalid STRIPE_WEBHOOK_SECRET format')
   }
 }
@@ -108,14 +120,17 @@ export function validateEnv() {
 ---
 
 ### 3. **Inconsistent Error Handling in API Routes** 🟡 MEDIUM-HIGH
+
 **Files Affected:** Multiple API routes
 
 **Issue:**
+
 - Some routes return detailed errors in development (`process.env.NODE_ENV === 'development'`)
 - Production errors may leak sensitive info
 - Error responses inconsistent across routes
 
 **Examples:**
+
 ```typescript
 // app/api/prompts/public/route.ts - Good
 details: process.env.NODE_ENV === 'development' ? error.message : undefined
@@ -123,17 +138,19 @@ details: process.env.NODE_ENV === 'development' ? error.message : undefined
 // app/api/agent/generate/route.ts - Risky
 return NextResponse.json(
   { error: error instanceof Error ? error.message : 'Internal server error' },
-  { status: 500 }
+  { status: 500 },
 )
 // Always exposes error message - potential info leakage
 ```
 
 **Impact:**
+
 - Potential information disclosure
 - Inconsistent error experience
 - Hard to debug production issues
 
 **Recommendation:**
+
 - Standardize error responses
 - Always hide detailed errors in production
 - Log full errors server-side only
@@ -143,9 +160,11 @@ return NextResponse.json(
 ---
 
 ### 4. **Missing Rate Limiting on Many Routes** 🟡 MEDIUM PRIORITY
+
 **Files Affected:** Most API routes (except `/api/optimizer/route.ts`)
 
 **Issue:**
+
 - Only `/api/optimizer/route.ts` has rate limiting implemented
 - No rate limiting on:
   - `/api/prompt/run` - Could be expensive
@@ -154,11 +173,13 @@ return NextResponse.json(
   - `/api/stripe/create-checkout-session` - Payment abuse
 
 **Impact:**
+
 - Potential abuse/DDoS
 - Cost escalation (OpenAI API calls)
 - Server overload
 
 **Recommendation:**
+
 ```typescript
 // lib/rate-limit.ts - Centralized rate limiting
 import { Ratelimit } from '@upstash/ratelimit'
@@ -185,17 +206,22 @@ export const rateLimiters = {
 ## ⚠️ MODERATE RISKS
 
 ### 5. **Input Validation Gaps** 🟡 MEDIUM
+
 **Files Affected:** Multiple routes
 
 **Issue:**
+
 - Bulk import has good validation
 - Some routes accept user input without schema validation
 - File uploads not validated beyond size
 
 **Examples:**
+
 ```typescript
 // app/api/prompts/bulk-import/route.ts - Good ✅
-if (fileSize > 10 * 1024 * 1024) { /* reject */ }
+if (fileSize > 10 * 1024 * 1024) {
+  /* reject */
+}
 
 // app/api/agent/generate/route.ts - Missing validation
 const { prompt, model } = await request.json()
@@ -203,6 +229,7 @@ const { prompt, model } = await request.json()
 ```
 
 **Recommendation:**
+
 - Use Zod schemas for all API inputs
 - Validate file types beyond extension
 - Sanitize string inputs
@@ -212,9 +239,11 @@ const { prompt, model } = await request.json()
 ---
 
 ### 6. **XSS Risk from dangerouslySetInnerHTML** 🟡 MEDIUM (ACCEPTABLE)
+
 **Files Affected:** Multiple pages using structured data
 
 **Issue:**
+
 - 73 instances of `dangerouslySetInnerHTML` for Schema.org JSON-LD
 - Content comes from database/user input
 
@@ -225,13 +254,16 @@ const { prompt, model } = await request.json()
 ---
 
 ### 7. **Missing Request Body Validation** 🟡 MEDIUM
+
 **Files Affected:** Several API routes
 
 **Issue:**
+
 - Some routes parse JSON without validation
 - No type checking on request bodies
 
 **Recommendation:**
+
 ```typescript
 // Use Zod for all request validation
 import { z } from 'zod'
@@ -250,6 +282,7 @@ const body = createPromptSchema.parse(await request.json())
 ---
 
 ### 8. **SQL Injection Risk (Low)** ✅ PROTECTED
+
 **Status:** ✅ **SAFE** - Using Supabase client (parameterized queries)
 **Recommendation:** Continue using Supabase client, never raw SQL
 **Priority:** ✅ **NO ACTION NEEDED**
@@ -257,9 +290,11 @@ const body = createPromptSchema.parse(await request.json())
 ---
 
 ### 9. **Missing Error Boundaries in Components** 🟡 LOW-MEDIUM
+
 **Files Affected:** Complex client components
 
 **Issue:**
+
 - Global error boundary exists (`app/global-error.tsx`)
 - No component-level error boundaries for:
   - `components/PromptForm.tsx`
@@ -267,10 +302,12 @@ const body = createPromptSchema.parse(await request.json())
   - Complex query-based components
 
 **Impact:**
+
 - Single component failure could break entire page
 - Poor user experience on errors
 
 **Recommendation:**
+
 ```typescript
 // components/ErrorBoundary.tsx
 'use client'
@@ -289,12 +326,15 @@ export class ErrorBoundary extends Component<
 ---
 
 ### 10. **Inconsistent Error Logging** 🟡 LOW
+
 **Issue:**
+
 - Some routes use `console.error`
 - Some routes silently fail
 - No structured logging
 
 **Recommendation:**
+
 - Use structured logging (e.g., Winston, Pino)
 - Log errors with context
 - Add request IDs for tracing
@@ -306,6 +346,7 @@ export class ErrorBoundary extends Component<
 ## ✅ STRENGTHS
 
 ### Security ✅
+
 - ✅ Authentication checks on protected routes
 - ✅ Webhook signature verification (Stripe)
 - ✅ Row-Level Security (RLS) in Supabase
@@ -313,12 +354,14 @@ export class ErrorBoundary extends Component<
 - ✅ XSS protection (JSON.stringify for structured data)
 
 ### Error Handling ✅
+
 - ✅ Global error boundary exists
 - ✅ Try-catch blocks in most routes
 - ✅ Proper HTTP status codes
 - ✅ Development vs production error handling
 
 ### Input Validation ✅
+
 - ✅ Bulk import has comprehensive validation
 - ✅ File size limits
 - ✅ Type checking in some routes
@@ -328,6 +371,7 @@ export class ErrorBoundary extends Component<
 ## 🎯 Priority Action Items
 
 ### Before Launch (Critical)
+
 1. 🔴 **Add error tracking** (Sentry/LogRocket)
    - Fix 5 TODO comments in webhook
    - Add to all critical error paths
@@ -344,6 +388,7 @@ export class ErrorBoundary extends Component<
    - Log full errors server-side
 
 ### Before Scale (Important)
+
 4. 🟡 **Add rate limiting**
    - Implement on all AI routes
    - Add to payment routes
@@ -355,6 +400,7 @@ export class ErrorBoundary extends Component<
    - Sanitize user inputs
 
 ### Ongoing Improvements
+
 6. 🟡 **Component error boundaries**
    - Add to complex components
    - Better UX on errors
@@ -368,23 +414,24 @@ export class ErrorBoundary extends Component<
 
 ## 📊 Risk Summary
 
-| Category | Risk Level | Status |
-|----------|------------|--------|
-| Authentication | ✅ Low | Well implemented |
-| Authorization | ✅ Low | RLS policies in place |
-| SQL Injection | ✅ Low | Supabase client protects |
-| XSS | ✅ Low | Properly sanitized |
-| Error Tracking | 🔴 High | Not implemented |
-| Environment Config | 🔴 High | Missing validation |
-| Rate Limiting | 🟡 Medium | Only 1 route protected |
-| Input Validation | 🟡 Medium | Inconsistent |
-| Error Handling | 🟡 Medium | Inconsistent responses |
+| Category           | Risk Level | Status                   |
+| ------------------ | ---------- | ------------------------ |
+| Authentication     | ✅ Low     | Well implemented         |
+| Authorization      | ✅ Low     | RLS policies in place    |
+| SQL Injection      | ✅ Low     | Supabase client protects |
+| XSS                | ✅ Low     | Properly sanitized       |
+| Error Tracking     | 🔴 High    | Not implemented          |
+| Environment Config | 🔴 High    | Missing validation       |
+| Rate Limiting      | 🟡 Medium  | Only 1 route protected   |
+| Input Validation   | 🟡 Medium  | Inconsistent             |
+| Error Handling     | 🟡 Medium  | Inconsistent responses   |
 
 ---
 
 ## 🚀 Quick Wins
 
 1. **Add Sentry** (1 hour)
+
    ```bash
    npm install @sentry/nextjs
    npx @sentry/wizard@latest -i nextjs
@@ -405,4 +452,3 @@ export class ErrorBoundary extends Component<
 **Overall Status:** 🟡 **MOSTLY SECURE, NEEDS ERROR TRACKING**
 
 **Recommendation:** Fix error tracking and environment validation before launch, add rate limiting before scale.
-

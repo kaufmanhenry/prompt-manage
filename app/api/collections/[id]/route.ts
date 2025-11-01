@@ -2,25 +2,21 @@ import { NextResponse } from 'next/server'
 
 import { createClient } from '@/utils/supabase/server'
 
-export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('prompt_collections')
-    .select('id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at')
+    .select(
+      'id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at',
+    )
     .eq('id', resolvedParams.id)
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 404 })
   return NextResponse.json({ collection: data })
 }
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
   const supabase = await createClient()
   const body = await request.json()
@@ -38,7 +34,7 @@ export async function PATCH(
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   // Validate description for public collections
-  if (body.visibility === 'public' && (!body.description?.trim())) {
+  if (body.visibility === 'public' && !body.description?.trim()) {
     return NextResponse.json(
       { error: 'Description is required for public collections' },
       { status: 400 },
@@ -55,16 +51,15 @@ export async function PATCH(
       tags: body.tags,
     })
     .eq('id', resolvedParams.id)
-    .select('id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at')
+    .select(
+      'id, title, description, visibility, slug, cover_image_url, tags, creator_id, created_at, updated_at',
+    )
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ collection: data })
 }
 
-export async function DELETE(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
   const supabase = await createClient()
   const { data: session } = await supabase.auth.getSession()
@@ -84,5 +79,3 @@ export async function DELETE(
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }
-
-

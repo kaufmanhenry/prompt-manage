@@ -17,7 +17,9 @@ export async function GET(_request: Request) {
 
     const { data, error } = await supabase
       .from('agents')
-      .select('id, name, description, category, output_type, is_active, mode, temperature, quality_threshold, owner_id, team_id, created_at, updated_at')
+      .select(
+        'id, name, description, category, output_type, is_active, mode, temperature, quality_threshold, owner_id, team_id, created_at, updated_at',
+      )
       .eq('owner_id', session.user.id)
       .order('created_at', { ascending: false })
 
@@ -65,7 +67,9 @@ export async function POST(request: Request) {
         quality_threshold: quality_threshold || 85,
         is_active: true,
       })
-      .select('id, name, description, category, output_type, is_active, mode, temperature, quality_threshold, owner_id, team_id, created_at, updated_at')
+      .select(
+        'id, name, description, category, output_type, is_active, mode, temperature, quality_threshold, owner_id, team_id, created_at, updated_at',
+      )
       .single()
 
     if (error) {
@@ -74,24 +78,26 @@ export async function POST(request: Request) {
 
     // Insert default keywords if provided
     if (body.keywords && Array.isArray(body.keywords)) {
-      const keywordRecords = body.keywords.map((k: string | { keyword: string; category?: string }) => {
-        if (typeof k === 'string') {
+      const keywordRecords = body.keywords.map(
+        (k: string | { keyword: string; category?: string }) => {
+          if (typeof k === 'string') {
+            return {
+              agent_id: agent.id,
+              keyword: k,
+              category: null,
+              priority: 50,
+              is_active: true,
+            }
+          }
           return {
             agent_id: agent.id,
-            keyword: k,
-            category: null,
+            keyword: k.keyword,
+            category: k.category || null,
             priority: 50,
             is_active: true,
           }
-        }
-        return {
-          agent_id: agent.id,
-          keyword: k.keyword,
-          category: k.category || null,
-          priority: 50,
-          is_active: true,
-        }
-      })
+        },
+      )
 
       await supabase.from('agent_keywords').insert(keywordRecords)
     }
@@ -108,4 +114,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
-

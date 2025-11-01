@@ -1,3 +1,4 @@
+import { isAdminEmail } from '@/lib/admin'
 import type { PlanType } from '@/lib/pricing'
 import { PRICING_CONFIG } from '@/lib/pricing'
 import { createClient } from '@/utils/supabase/server'
@@ -22,6 +23,25 @@ export interface UsageStats {
 
 export async function getUserSubscription(userId: string): Promise<UserSubscription | null> {
   const supabase = await createClient()
+
+  // Check if user is admin - grant PRO access automatically
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (user && isAdminEmail(user.email)) {
+    // Return PRO subscription for admin accounts
+    return {
+      id: 'admin-pro-access',
+      userId: user.id,
+      plan: 'pro' as PlanType,
+      status: 'active' as const,
+      currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year from now
+      stripeCustomerId: '',
+      stripeSubscriptionId: '',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }
+  }
 
   // Get most recent subscription regardless of status
   const { data, error } = await supabase
@@ -86,7 +106,13 @@ export async function getUserUsage(userId: string): Promise<UsageStats> {
 export function canUserCreatePrompt(
   subscription: UserSubscription | null,
   usage: UsageStats,
+  userEmail?: string | null,
 ): boolean {
+  // Admins always have PRO access (unlimited)
+  if (userEmail && isAdminEmail(userEmail)) {
+    return true
+  }
+
   // Block access if subscription is past_due or unpaid
   if (subscription && (subscription.status === 'past_due' || subscription.status === 'unpaid')) {
     return false
@@ -107,7 +133,12 @@ export function canUserCreatePrompt(
   return usage.promptsThisMonth < plan.limits.promptsPerMonth
 }
 
-export function canUserExport(subscription: UserSubscription | null): boolean {
+export function canUserExport(subscription: UserSubscription | null, userEmail?: string | null): boolean {
+  // Admins always have PRO access (can export)
+  if (userEmail && isAdminEmail(userEmail)) {
+    return true
+  }
+
   // Only active subscriptions can export
   if (!subscription || subscription.status !== 'active') {
     return false
@@ -116,7 +147,12 @@ export function canUserExport(subscription: UserSubscription | null): boolean {
   return plan.limits.canExport === true
 }
 
-export function canUserImport(subscription: UserSubscription | null): boolean {
+export function canUserImport(subscription: UserSubscription | null, userEmail?: string | null): boolean {
+  // Admins always have PRO access (can import)
+  if (userEmail && isAdminEmail(userEmail)) {
+    return true
+  }
+
   // Only active subscriptions can import (same as export)
   if (!subscription || subscription.status !== 'active') {
     return false

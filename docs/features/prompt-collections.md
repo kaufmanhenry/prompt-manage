@@ -32,6 +32,7 @@ Prompt Collections is a powerful feature that allows you to organize, store, and
 ### Personal Organization
 
 Organize your prompts by:
+
 - **Project**: Group prompts for specific projects or clients
 - **AI Model**: Create collections for ChatGPT, Claude, Gemini, etc.
 - **Use Case**: Marketing prompts, coding prompts, creative writing, etc.
@@ -125,6 +126,7 @@ Organize your prompts by:
 ### Collection Analytics
 
 Track your collection performance:
+
 - **Views**: How many times your collection has been viewed
 - **Likes**: Community engagement with your collection
 - **Prompt Count**: Number of prompts in the collection
@@ -132,6 +134,7 @@ Track your collection performance:
 ### Public Profile Integration
 
 Collections appear on your public profile (`/u/[username]`):
+
 - Showcase your best work
 - Build your reputation as a prompt engineer
 - Attract followers and engagement
@@ -170,6 +173,7 @@ POST /api/collections/[id]/prompts
 ### Database Schema
 
 Collections are stored in the `prompt_collections` table with:
+
 - Unique slugs for SEO-friendly URLs
 - Visibility settings (private/public)
 - Analytics fields (views, likes)
@@ -218,4 +222,3 @@ Yes! Public collections are fully indexed by search engines. Use descriptive tit
 ## Support
 
 For questions or issues with Collections, visit our [Support Center](/support) or check our [Documentation](/docs).
-

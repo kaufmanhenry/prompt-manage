@@ -40,8 +40,8 @@ export default function TeamsGuide() {
             <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">Teams</h1>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            Collaborate with your team on prompts, collections, and AI workflows. Teams enable secure,
-            scalable collaboration for organizations.
+            Collaborate with your team on prompts, collections, and AI workflows. Teams enable
+            secure, scalable collaboration for organizations.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
             Last updated: October 31, 2025
@@ -57,8 +57,8 @@ export default function TeamsGuide() {
             <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">Overview</h2>
             <p className="mb-4 text-gray-600 dark:text-gray-400">
               Teams allow multiple users to collaborate on prompts, collections, and AI workflows
-              within a shared workspace. This feature is designed for organizations that need to share
-              AI prompts securely across team members.
+              within a shared workspace. This feature is designed for organizations that need to
+              share AI prompts securely across team members.
             </p>
             <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-900">
               <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -71,15 +71,17 @@ export default function TeamsGuide() {
 
           {/* Key Features */}
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">Key Features</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+              Key Features
+            </h2>
             <div className="space-y-4">
               <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
                 <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                   Shared Workspaces
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Create team workspaces where members can access shared prompts and collections. Each
-                  team has its own dashboard and resources.
+                  Create team workspaces where members can access shared prompts and collections.
+                  Each team has its own dashboard and resources.
                 </p>
               </div>
               <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
@@ -123,8 +125,12 @@ export default function TeamsGuide() {
                   Creating a Team
                 </h3>
                 <ol className="list-decimal space-y-2 pl-6 text-gray-600 dark:text-gray-400">
-                  <li>Upgrade to Team or Pro plan from the{' '}
-                    <Link href="/pricing" className="text-emerald-600 hover:underline dark:text-emerald-400">
+                  <li>
+                    Upgrade to Team or Pro plan from the{' '}
+                    <Link
+                      href="/pricing"
+                      className="text-emerald-600 hover:underline dark:text-emerald-400"
+                    >
                       Pricing page
                     </Link>
                   </li>
@@ -147,8 +153,8 @@ export default function TeamsGuide() {
                 </ol>
                 <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
                   <strong className="text-gray-900 dark:text-white">Note:</strong> Invited members
-                  must accept the invitation and have a Prompt Manage account. Team plan supports up to
-                  5 members; Pro plan supports up to 25 members.
+                  must accept the invitation and have a Prompt Manage account. Team plan supports up
+                  to 5 members; Pro plan supports up to 25 members.
                 </p>
               </div>
             </div>
@@ -210,9 +216,9 @@ export default function TeamsGuide() {
                   Shared Prompts
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Prompts created within a team workspace are accessible to all team members (based on
-                  permissions). Team prompts can be organized into collections and shared publicly on
-                  behalf of the team.
+                  Prompts created within a team workspace are accessible to all team members (based
+                  on permissions). Team prompts can be organized into collections and shared
+                  publicly on behalf of the team.
                 </p>
               </div>
               <div>
@@ -240,8 +246,8 @@ export default function TeamsGuide() {
                 </h3>
                 <p className="text-emerald-800 dark:text-emerald-200">
                   Use collections to group related prompts by project, use case, or department. This
-                  makes it easier for team members to find what they need and maintains organization as
-                  your prompt library grows.
+                  makes it easier for team members to find what they need and maintains organization
+                  as your prompt library grows.
                 </p>
               </div>
               <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
@@ -249,9 +255,10 @@ export default function TeamsGuide() {
                   Use Appropriate Roles
                 </h3>
                 <p className="text-blue-800 dark:text-blue-200">
-                  Grant Editor access only to members who need to create content. Use Viewer role for
-                  read-only access. This prevents accidental changes and maintains data integrity while
-                  still allowing team members to access and copy prompts to their personal library.
+                  Grant Editor access only to members who need to create content. Use Viewer role
+                  for read-only access. This prevents accidental changes and maintains data
+                  integrity while still allowing team members to access and copy prompts to their
+                  personal library.
                 </p>
               </div>
               <div className="rounded-lg border border-purple-200 bg-purple-50 p-4 dark:border-purple-800 dark:bg-purple-900/20">
@@ -260,8 +267,8 @@ export default function TeamsGuide() {
                 </h3>
                 <p className="text-purple-800 dark:text-purple-200">
                   Pro plan subscribers can regularly review team usage analytics to understand how
-                  prompts are being used and optimize costs. Track which prompts are most popular, which
-                  team members are most active, and identify opportunities for improvement.
+                  prompts are being used and optimize costs. Track which prompts are most popular,
+                  which team members are most active, and identify opportunities for improvement.
                 </p>
               </div>
             </div>
@@ -336,7 +343,8 @@ export default function TeamsGuide() {
                 </ul>
               </div>
               <p className="mt-4 text-sm text-amber-700 dark:text-amber-300">
-                API documentation will be available in your team settings when API access is enabled.
+                API documentation will be available in your team settings when API access is
+                enabled.
                 <Link
                   href="/developer-docs"
                   className="ml-1 underline hover:text-amber-900 dark:hover:text-amber-100"
@@ -359,8 +367,8 @@ export default function TeamsGuide() {
                 to 5 members
               </li>
               <li>
-                <strong className="text-gray-900 dark:text-white">Pro Plan:</strong> $99/month, up to
-                25 members
+                <strong className="text-gray-900 dark:text-white">Pro Plan:</strong> $99/month, up
+                to 25 members
               </li>
               <li>Billing is charged to the Owner&apos;s account</li>
               <li>All team members have access to premium features included in the plan</li>
@@ -388,8 +396,8 @@ export default function TeamsGuide() {
               </div>
               <div className="rounded-lg border border-purple-200 bg-purple-50 p-4 dark:border-purple-800 dark:bg-purple-900/20">
                 <p className="text-sm text-purple-900 dark:text-purple-200">
-                  <strong>Monitor Usage:</strong> Regularly review team usage analytics to understand
-                  how prompts are being used and optimize costs.
+                  <strong>Monitor Usage:</strong> Regularly review team usage analytics to
+                  understand how prompts are being used and optimize costs.
                 </p>
               </div>
             </div>
@@ -397,7 +405,9 @@ export default function TeamsGuide() {
 
           {/* API Access */}
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">API Access</h2>
+            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+              API Access
+            </h2>
             <p className="mb-4 text-gray-600 dark:text-gray-400">
               Teams on Pro plan have access to the Prompt Manage API for programmatic access:
             </p>
@@ -443,4 +453,3 @@ export default function TeamsGuide() {
     </div>
   )
 }
-

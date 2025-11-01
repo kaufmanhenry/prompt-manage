@@ -1,4 +1,17 @@
-import { BookOpen, CreditCard, Eye, FolderOpen, Lock, Palette, Save, Settings, Share2, Trash2, User, Users } from 'lucide-react'
+import {
+  BookOpen,
+  CreditCard,
+  Eye,
+  FolderOpen,
+  Lock,
+  Palette,
+  Save,
+  Settings,
+  Share2,
+  Trash2,
+  User,
+  Users,
+} from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 

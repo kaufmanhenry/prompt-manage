@@ -147,8 +147,8 @@ export default function AboutPage() {
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
             <blockquote className="text-2xl font-medium italic leading-relaxed text-gray-900 dark:text-white sm:text-3xl">
-              &quot;We&apos;re building the CMS for your prompts. The first native prompt management tool
-              for teams, large and small, who need a better way to safely and securely share AI
+              &quot;We&apos;re building the CMS for your prompts. The first native prompt management
+              tool for teams, large and small, who need a better way to safely and securely share AI
               prompts across their org.&quot;
             </blockquote>
             <p className="mt-6 text-base text-gray-600 dark:text-gray-400">

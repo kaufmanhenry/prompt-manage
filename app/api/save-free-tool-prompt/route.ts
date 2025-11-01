@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       getUserUsage(user.id),
     ])
 
-    if (!canUserCreatePrompt(subscription, usage)) {
+    if (!canUserCreatePrompt(subscription, usage, user.email)) {
       return NextResponse.json(
         {
           error: 'Prompt limit reached',

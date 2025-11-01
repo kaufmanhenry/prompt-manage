@@ -378,7 +378,10 @@ function PublicDirectoryContent() {
                     </Link>
 
                     {/* Action Bar - Not clickable, separate from prompt card */}
-                    <div className="mt-3 flex items-center justify-between border-t pt-3" onClick={(e) => e.stopPropagation()}>
+                    <div
+                      className="mt-3 flex items-center justify-between border-t pt-3"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <div className="flex flex-wrap gap-2">
                         {/* Model */}
                         {prompt.model && (
@@ -424,7 +427,9 @@ function PublicDirectoryContent() {
                           </span>
                         </div>
                       </div>
-                      {prompt.id && <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />}
+                      {prompt.id && (
+                        <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />
+                      )}
                     </div>
                   </Card>
                 ))}

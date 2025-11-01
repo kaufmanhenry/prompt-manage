@@ -166,9 +166,9 @@ export default function PrivacyPage() {
                   for a complete list.
                 </p>
                 <p className="mt-2 text-sm">
-                  When you subscribe to a paid plan, your payment information is securely
-                  processed by Stripe. We never store or have access to your payment card details.
-                  For more information about Stripe&apos;s security practices, visit{' '}
+                  When you subscribe to a paid plan, your payment information is securely processed
+                  by Stripe. We never store or have access to your payment card details. For more
+                  information about Stripe&apos;s security practices, visit{' '}
                   <a
                     href="https://stripe.com/docs/security"
                     target="_blank"

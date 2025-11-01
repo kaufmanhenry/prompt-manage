@@ -20,7 +20,13 @@ import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { createClient } from '@/utils/supabase/client'
 
@@ -48,6 +54,8 @@ type CollectionPrompt = {
   model: string | null
   tags: string[] | null
   view_count: number
+  is_public?: boolean
+  sort_order?: number
 }
 
 type CreatorProfile = {
@@ -109,13 +117,17 @@ export function CollectionPageClient({ slug }: CollectionPageClientProps) {
           .order('sort_order', { ascending: true })
 
         if (!promptsError && promptsData) {
-          const validPrompts = promptsData
-            .filter((item: any) => item.prompts?.is_public)
-            .map((item: any) => ({
+          interface CollectionPromptItem {
+            prompts: CollectionPrompt & { is_public?: boolean }
+            sort_order: number
+          }
+          const validPrompts = (promptsData as unknown as CollectionPromptItem[])
+            .filter((item) => item.prompts?.is_public !== false)
+            .map((item) => ({
               ...item.prompts,
               sort_order: item.sort_order,
             }))
-          setPrompts(validPrompts as CollectionPrompt[])
+          setPrompts(validPrompts)
         }
 
         // Fetch creator profile
@@ -167,7 +179,10 @@ export function CollectionPageClient({ slug }: CollectionPageClientProps) {
     if (!collection) return
     const url = encodeURIComponent(window.location.href)
     const title = encodeURIComponent(collection.title)
-    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`, '_blank')
+    window.open(
+      `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`,
+      '_blank',
+    )
   }
 
   const handleShareToFacebook = () => {
@@ -249,7 +264,10 @@ export function CollectionPageClient({ slug }: CollectionPageClientProps) {
               )}
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                 {creatorLink ? (
-                  <Link href={creatorLink} className="flex items-center gap-1.5 hover:text-foreground">
+                  <Link
+                    href={creatorLink}
+                    className="flex items-center gap-1.5 hover:text-foreground"
+                  >
                     <User className="h-4 w-4" />
                     {creatorName}
                   </Link>
@@ -298,11 +316,10 @@ export function CollectionPageClient({ slug }: CollectionPageClientProps) {
         <section className="mb-12">
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">
-                Prompts in This Collection
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">Prompts in This Collection</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                {prompts.length} prompt{prompts.length !== 1 ? 's' : ''} organized in this collection
+                {prompts.length} prompt{prompts.length !== 1 ? 's' : ''} organized in this
+                collection
               </p>
             </div>
           </div>
@@ -373,11 +390,13 @@ export function CollectionPageClient({ slug }: CollectionPageClientProps) {
             <h3 className="mb-3 text-lg font-semibold">About This Collection</h3>
             <div className="space-y-4">
               {collection.description ? (
-                <p className="text-sm leading-relaxed text-muted-foreground">{collection.description}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {collection.description}
+                </p>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  This collection contains {prompts.length} prompt{prompts.length !== 1 ? 's' : ''} for
-                  various AI models.
+                  This collection contains {prompts.length} prompt{prompts.length !== 1 ? 's' : ''}{' '}
+                  for various AI models.
                 </p>
               )}
               {prompts.length > 0 && (
@@ -414,7 +433,9 @@ export function CollectionPageClient({ slug }: CollectionPageClientProps) {
               <Card className="h-full transition-all hover:shadow-md">
                 <CardContent className="p-4">
                   <h4 className="mb-2 font-semibold">All Collections</h4>
-                  <p className="text-sm text-muted-foreground">Browse trending and popular collections</p>
+                  <p className="text-sm text-muted-foreground">
+                    Browse trending and popular collections
+                  </p>
                 </CardContent>
               </Card>
             </Link>
@@ -422,7 +443,9 @@ export function CollectionPageClient({ slug }: CollectionPageClientProps) {
               <Card className="h-full transition-all hover:shadow-md">
                 <CardContent className="p-4">
                   <h4 className="mb-2 font-semibold">Browse Prompts</h4>
-                  <p className="text-sm text-muted-foreground">Explore thousands of individual prompts</p>
+                  <p className="text-sm text-muted-foreground">
+                    Explore thousands of individual prompts
+                  </p>
                 </CardContent>
               </Card>
             </Link>

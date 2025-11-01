@@ -1,13 +1,13 @@
 /**
  * Centralized Pricing Configuration
- * 
+ *
  * This is the single source of truth for all pricing and plan information across the platform.
  * Update this file to automatically sync pricing details across:
  * - Pricing page
  * - Payment/subscription docs
  * - Paywall modals
  * - Any other feature displays
- * 
+ *
  * Last updated: 2025-01-30
  */
 
@@ -148,4 +148,3 @@ export function supportsTeamMembers(plan: PlanType): boolean {
 export function getMaxTeamMembers(plan: PlanType): number | null {
   return PRICING_CONFIG[plan].limits.teamMembers ?? null
 }
-

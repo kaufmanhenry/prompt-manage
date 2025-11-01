@@ -18,9 +18,12 @@ export async function GET(request: NextRequest) {
     // Build query - only select needed fields for performance
     let query = supabase
       .from('prompts')
-      .select('id, name, slug, description, prompt_text, model, tags, view_count, inserted_at, updated_at', {
-        count: 'exact',
-      })
+      .select(
+        'id, name, slug, description, prompt_text, model, tags, view_count, inserted_at, updated_at',
+        {
+          count: 'exact',
+        },
+      )
       .eq('is_public', true)
 
     // Apply filters
@@ -55,7 +58,10 @@ export async function GET(request: NextRequest) {
         console.error('Database error:', error)
       }
       return NextResponse.json(
-        { error: 'Failed to fetch prompts', details: process.env.NODE_ENV === 'development' ? error.message : undefined },
+        {
+          error: 'Failed to fetch prompts',
+          details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+        },
         { status: 500 },
       )
     }
@@ -90,7 +96,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Internal server error',
-        details: process.env.NODE_ENV === 'development' && error instanceof Error ? error.message : undefined,
+        details:
+          process.env.NODE_ENV === 'development' && error instanceof Error
+            ? error.message
+            : undefined,
       },
       { status: 500 },
     )

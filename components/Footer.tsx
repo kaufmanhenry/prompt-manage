@@ -46,7 +46,8 @@ export function Footer() {
                 Ready to level up your AI prompts?
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Join 100s of creators sharing AI prompts in the public directory. Free to start safely storing your prompts! Create your prompt CMS with Prompt Manage.
+                Join 100s of creators sharing AI prompts in the public directory. Free to start
+                safely storing your prompts! Create your prompt CMS with Prompt Manage.
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -115,7 +116,10 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/collections" className="text-gray-600 hover:underline dark:text-gray-300">
+              <Link
+                href="/collections"
+                className="text-gray-600 hover:underline dark:text-gray-300"
+              >
                 Collections
               </Link>
             </li>
@@ -233,9 +237,7 @@ export function Footer() {
                 </button>
                 <span>for AI creators</span>
               </div>
-              <div className="text-gray-500 dark:text-gray-400">
-                &copy; 2025 Prompt Manage LLC.
-              </div>
+              <div className="text-gray-500 dark:text-gray-400">&copy; 2025 Prompt Manage LLC.</div>
             </div>
           </div>
         </div>

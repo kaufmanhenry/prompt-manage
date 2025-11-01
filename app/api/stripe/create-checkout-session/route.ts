@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     } else {
       // Normalize email to prevent injection
       const normalizedEmail = session.user.email?.trim().toLowerCase() || undefined
-      
+
       customer = await stripe.customers.create({
         email: normalizedEmail,
         metadata: {
@@ -56,21 +56,19 @@ export async function POST(request: NextRequest) {
 
       // Store customer ID in database with conflict resolution
       const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000
-      const { error: upsertError } = await supabase
-        .from('user_subscriptions')
-        .upsert(
-          {
-            user_id: session.user.id,
-            plan: 'free',
-            status: 'active',
-            current_period_end: new Date(Date.now() + ONE_YEAR_MS).toISOString(),
-            stripe_customer_id: customerId,
-            updated_at: new Date().toISOString(),
-          },
-          {
-            onConflict: 'user_id',
-          },
-        )
+      const { error: upsertError } = await supabase.from('user_subscriptions').upsert(
+        {
+          user_id: session.user.id,
+          plan: 'free',
+          status: 'active',
+          current_period_end: new Date(Date.now() + ONE_YEAR_MS).toISOString(),
+          stripe_customer_id: customerId,
+          updated_at: new Date().toISOString(),
+        },
+        {
+          onConflict: 'user_id',
+        },
+      )
 
       if (upsertError) {
         console.error('Error storing customer ID:', upsertError)

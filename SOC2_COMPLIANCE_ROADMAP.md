@@ -65,6 +65,7 @@ Most enterprises require **SOC 2 Type II**.
 **Current Status:** ⚠️ **PARTIAL**
 
 **Missing:**
+
 - [ ] **MFA Enforcement** - Require MFA for all admin and privileged users
 - [ ] **Access Reviews** - Quarterly reviews of user access (especially admins)
 - [ ] **Password Policy** - Enforced strong password requirements
@@ -73,6 +74,7 @@ Most enterprises require **SOC 2 Type II**.
 - [ ] **Security Monitoring** - Real-time security event monitoring and alerting
 
 **Actions Needed:**
+
 ```typescript
 // 1. Enforce MFA for admin users
 // Add to user settings or admin check
@@ -116,6 +118,7 @@ if (isAdmin(user)) {
 **Current Status:** ⚠️ **INFRASTRUCTURE EXISTS, NOT FULLY USED**
 
 **Missing:**
+
 - [ ] **Complete Coverage** - Log all security-relevant events:
   - [ ] User authentication (logins, logouts, failed attempts)
   - [ ] Authorization changes (role changes, permission grants/revokes)
@@ -129,6 +132,7 @@ if (isAdmin(user)) {
 - [ ] **Alerting** - Real-time alerts for suspicious activities
 
 **Actions Needed:**
+
 ```typescript
 // 1. Implement comprehensive audit logging
 // Update lib/audit-log.ts to actually write to database
@@ -146,7 +150,7 @@ export async function logAuditEvent(
   } = {},
 ) {
   const supabase = await createClient()
-  
+
   await supabase.from('audit_logs').insert({
     user_id: userId,
     action,
@@ -156,7 +160,7 @@ export async function logAuditEvent(
     ip_address: options.ipAddress,
     user_agent: options.userAgent,
   })
-  
+
   // Send to Sentry for real-time monitoring
   if (process.env.NODE_ENV === 'production') {
     Sentry.addBreadcrumb({
@@ -195,6 +199,7 @@ export async function logAuditEvent(
 **Current Status:** ❌ **NOT IMPLEMENTED**
 
 **Missing:**
+
 - [ ] **Change Control Process** - Formal process for code changes
 - [ ] **Change Documentation** - Document what changed, why, when, who
 - [ ] **Testing Requirements** - Require testing before production deployment
@@ -203,6 +208,7 @@ export async function logAuditEvent(
 - [ ] **Change Logs** - Track all production changes
 
 **Actions Needed:**
+
 ```typescript
 // 1. Document change management process
 // Create CHANGELOG.md or use GitHub releases
@@ -236,16 +242,19 @@ export async function logAuditEvent(
 **Current Status:** ⚠️ **PARTIAL**
 
 **Missing:**
+
 - [ ] **Vendor Risk Assessment** - Evaluate security of all vendors
 - [ ] **Vendor Security Reviews** - Review vendor SOC 2 reports, security practices
 - [ ] **Vendor Contracts** - Ensure contracts include security requirements
 - [ ] **Vendor Monitoring** - Regular review of vendor security status
 
 **Actions Needed:**
+
 ```markdown
 ## Vendor Inventory
 
 ### Critical Vendors (Handle customer data):
+
 1. **Supabase** - Database, Auth, Storage
    - ✅ SOC 2 Type II certified
    - ✅ GDPR compliant
@@ -268,6 +277,7 @@ export async function logAuditEvent(
    - Action: Evaluate and obtain SOC 2 report
 
 ### Documentation Needed:
+
 - Vendor SOC 2 reports (obtain annually)
 - Vendor security questionnaires
 - Vendor incident notification procedures
@@ -283,6 +293,7 @@ export async function logAuditEvent(
 **Current Status:** ❌ **NOT IMPLEMENTED**
 
 **Missing:**
+
 - [ ] **Error Tracking** - Implement Sentry or similar
 - [ ] **Uptime Monitoring** - Monitor system availability
 - [ ] **Security Monitoring** - Monitor for security events
@@ -291,6 +302,7 @@ export async function logAuditEvent(
 - [ ] **Regular Testing** - Test incident response procedures
 
 **Actions Needed:**
+
 ```typescript
 // 1. Implement error tracking
 // npm install @sentry/nextjs
@@ -342,21 +354,25 @@ export async function logAuditEvent(
 **Current Status:** ⚠️ **MANAGED BY SUPABASE**
 
 **Missing:**
+
 - [ ] **Backup Verification** - Document and verify backup procedures
 - [ ] **Disaster Recovery Plan** - Document recovery procedures
 - [ ] **Recovery Testing** - Regularly test backup restoration
 - [ ] **Backup Retention Policy** - Documented retention periods
 
 **Actions Needed:**
+
 ```markdown
 ## Backup Procedures
 
 ### Current State:
+
 - ✅ Supabase manages database backups automatically
 - ✅ Daily backups with point-in-time recovery
 - ⚠️ Need to verify and document
 
 ### Actions Needed:
+
 1. Verify Supabase backup settings
    - Frequency: Daily (minimum)
    - Retention: 30 days (minimum)
@@ -392,16 +408,19 @@ export async function logAuditEvent(
 **Current Status:** ❌ **NOT DOCUMENTED**
 
 **Missing:**
+
 - [ ] **Security Training Program** - Regular training for all team members
 - [ ] **Security Policies** - Documented security policies
 - [ ] **Acceptable Use Policy** - What team members can/cannot do
 - [ ] **Training Records** - Track who completed training and when
 
 **Actions Needed:**
+
 ```markdown
 ## Security Training Program
 
 ### Topics to Cover:
+
 1. Security best practices
 2. Phishing awareness
 3. Password management
@@ -410,17 +429,20 @@ export async function logAuditEvent(
 6. SOC 2 requirements
 
 ### Documentation Needed:
+
 1. Security policy document
 2. Acceptable use policy
 3. Data handling procedures
 4. Incident reporting procedures
 
 ### Training Schedule:
+
 - New employees: Within first week
 - All employees: Annual refresher
 - Updates: When policies change
 
 ### Tracking:
+
 - Maintain training records
 - Track completion dates
 - Require acknowledgment of policies
@@ -461,7 +483,7 @@ export async function logAuditEvent(
 
 - **Auditor Fees:** $15,000 - $50,000+ (depending on scope and auditor)
 - **Internal Time:** 200-400 hours (depending on current state)
-- **Tools/Software:** 
+- **Tools/Software:**
   - Error tracking (Sentry): ~$26/mo
   - Uptime monitoring: ~$10-50/mo
   - Security scanning tools: $0-500/mo (optional)
@@ -499,4 +521,3 @@ export async function logAuditEvent(
 5. **Engage auditor** when ready (after gap remediation)
 
 **Note:** SOC 2 compliance is a journey, not a destination. It requires ongoing commitment to security and compliance best practices.
-

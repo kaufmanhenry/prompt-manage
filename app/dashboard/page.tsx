@@ -165,8 +165,7 @@ export default function DashboardHomePage() {
     ).length
 
     // Calculate growth rate
-    const weekGrowth =
-      totalPrompts > 0 ? ((promptsThisWeek / totalPrompts) * 100).toFixed(1) : '0'
+    const weekGrowth = totalPrompts > 0 ? ((promptsThisWeek / totalPrompts) * 100).toFixed(1) : '0'
 
     return {
       totalPrompts,
@@ -236,9 +235,7 @@ export default function DashboardHomePage() {
               <CardContent className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Prompts Stored</span>
-                  <span className="font-semibold">
-                    {usage.promptsTotal} / 25
-                  </span>
+                  <span className="font-semibold">{usage.promptsTotal} / 25</span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
                   <div
@@ -259,7 +256,8 @@ export default function DashboardHomePage() {
                 )}
                 {usage.promptsTotal >= 20 && usage.promptsTotal < 25 && (
                   <p className="text-sm text-amber-600 dark:text-amber-400">
-                    ⚠️ You&apos;re approaching your limit ({usage.promptsTotal} of 25). Upgrade for unlimited prompts.
+                    ⚠️ You&apos;re approaching your limit ({usage.promptsTotal} of 25). Upgrade for
+                    unlimited prompts.
                   </p>
                 )}
                 {usage.promptsTotal < 20 && (
@@ -278,7 +276,8 @@ export default function DashboardHomePage() {
                 if (!canCreatePrompt) {
                   toast({
                     title: 'Prompt Limit Reached',
-                    description: 'You have reached your prompt limit. Please upgrade or delete prompts.',
+                    description:
+                      'You have reached your prompt limit. Please upgrade or delete prompts.',
                     variant: 'destructive',
                   })
                   return
@@ -335,10 +334,7 @@ export default function DashboardHomePage() {
                   title="View your public profile"
                   className="cursor-pointer transition-colors hover:text-primary"
                   onClick={() =>
-                    window.open(
-                      `/u/${userProfile?.username || session?.user?.id || ''}`,
-                      '_blank',
-                    )
+                    window.open(`/u/${userProfile?.username || session?.user?.id || ''}`, '_blank')
                   }
                 >
                   <Globe className="h-4 w-4 text-muted-foreground" />
@@ -547,14 +543,18 @@ export default function DashboardHomePage() {
                       <TrendingUp className="h-4 w-4 text-foreground/60" />
                       <span className="text-sm font-medium text-foreground">This Week</span>
                     </div>
-                    <span className="text-sm font-semibold text-foreground">{stats.promptsThisWeek}</span>
+                    <span className="text-sm font-semibold text-foreground">
+                      {stats.promptsThisWeek}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between border-b border-border/50 pb-3">
                     <div className="flex items-center gap-2">
                       <BarChart3 className="h-4 w-4 text-foreground/60" />
                       <span className="text-sm font-medium text-foreground">This Month</span>
                     </div>
-                    <span className="text-sm font-semibold text-foreground">{stats.promptsThisMonth}</span>
+                    <span className="text-sm font-semibold text-foreground">
+                      {stats.promptsThisMonth}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -583,7 +583,9 @@ export default function DashboardHomePage() {
                     <Shield className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                     <span className="text-sm font-medium text-foreground">Encryption</span>
                   </div>
-                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Active</span>
+                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                    Active
+                  </span>
                 </div>
                 <div className="flex items-center justify-between rounded-lg border border-border/50 bg-card p-3">
                   <div className="flex items-center gap-2">

@@ -3,7 +3,8 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Cookie Policy — Prompt Manage',
-  description: 'Comprehensive Cookie Policy for Prompt Manage. Learn how we use cookies and similar technologies.',
+  description:
+    'Comprehensive Cookie Policy for Prompt Manage. Learn how we use cookies and similar technologies.',
 }
 
 export default function CookiesPage() {
@@ -55,8 +56,8 @@ export default function CookiesPage() {
                 you signed in and maintain your session
               </li>
               <li>
-                <strong className="text-gray-900 dark:text-white">Preferences:</strong> To
-                remember your settings, such as dark mode preference
+                <strong className="text-gray-900 dark:text-white">Preferences:</strong> To remember
+                your settings, such as dark mode preference
               </li>
               <li>
                 <strong className="text-gray-900 dark:text-white">Security:</strong> To protect
@@ -83,8 +84,8 @@ export default function CookiesPage() {
                   Essential Cookies
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  These cookies are necessary for the website to function and cannot be disabled. They
-                  are usually set in response to actions made by you, such as setting privacy
+                  These cookies are necessary for the website to function and cannot be disabled.
+                  They are usually set in response to actions made by you, such as setting privacy
                   preferences or filling in forms.
                 </p>
               </div>
@@ -93,8 +94,8 @@ export default function CookiesPage() {
                   Functional Cookies
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  These cookies enable enhanced functionality and personalization, such as remembering
-                  your preferences and settings.
+                  These cookies enable enhanced functionality and personalization, such as
+                  remembering your preferences and settings.
                 </p>
               </div>
               <div>
@@ -155,8 +156,8 @@ export default function CookiesPage() {
               </li>
             </ul>
             <p className="mt-4 text-gray-600 dark:text-gray-400">
-              Please note that disabling cookies may affect the functionality of our website and your
-              ability to access certain features.
+              Please note that disabling cookies may affect the functionality of our website and
+              your ability to access certain features.
             </p>
           </section>
 
@@ -165,8 +166,8 @@ export default function CookiesPage() {
               Updates to This Policy
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
-              We may update this Cookie Policy from time to time. We will notify you of any
-              material changes by posting the new policy on this page and updating the &quot;Last
+              We may update this Cookie Policy from time to time. We will notify you of any material
+              changes by posting the new policy on this page and updating the &quot;Last
               updated&quot; date.
             </p>
           </section>
@@ -190,4 +191,3 @@ export default function CookiesPage() {
     </div>
   )
 }
-

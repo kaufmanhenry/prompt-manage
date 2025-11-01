@@ -65,7 +65,6 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
     }
   }
 
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto border-border/50 bg-card">
@@ -86,10 +85,9 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
               <div>
                 <p className="text-sm font-medium text-foreground">Current Usage</p>
                 <p className="mt-0.5 text-xs text-foreground/60">
-                  {currentPlan === 'free' 
+                  {currentPlan === 'free'
                     ? `${usage.promptsTotal} of 25 prompts stored`
-                    : `${usage.promptsThisMonth} prompts this month`
-                  }
+                    : `${usage.promptsThisMonth} prompts this month`}
                   {currentPlan === 'free' && usage.promptsTotal >= 20 && (
                     <span className="ml-2 text-amber-600 dark:text-amber-400">
                       (80% limit reached)
@@ -149,9 +147,7 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
                     <span className="text-3xl font-bold tracking-tight text-foreground">
                       ${plan.price}
                     </span>
-                    {plan.price > 0 && (
-                      <span className="ml-1 text-sm text-foreground/50">/mo</span>
-                    )}
+                    {plan.price > 0 && <span className="ml-1 text-sm text-foreground/50">/mo</span>}
                   </div>
                 </div>
 

@@ -305,10 +305,16 @@ export function PromptsTable({
                 {/* Clickable header */}
                 <div
                   className="mb-4 cursor-pointer"
-                  onClick={() => prompt.slug ? window.open(`/p/${prompt.slug}`, '_blank') : setSelectedPrompt(prompt)}
+                  onClick={() =>
+                    prompt.slug
+                      ? window.open(`/p/${prompt.slug}`, '_blank')
+                      : setSelectedPrompt(prompt)
+                  }
                 >
                   <div className="mb-2 flex items-start justify-between">
-                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold hover:text-primary">{prompt.name}</h3>
+                    <h3 className="line-clamp-1 flex-1 text-lg font-semibold hover:text-primary">
+                      {prompt.name}
+                    </h3>
                     {prompt.is_public ? (
                       <Badge
                         variant="default"
@@ -364,9 +370,7 @@ export function PromptsTable({
                         <span>{prompt.view_count} views</span>
                       </div>
                       {prompt.slug && (
-                        <div className="text-blue-600 dark:text-blue-400">
-                          View Public Page →
-                        </div>
+                        <div className="text-blue-600 dark:text-blue-400">View Public Page →</div>
                       )}
                     </div>
                   )}

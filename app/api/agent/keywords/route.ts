@@ -60,35 +60,44 @@ export async function POST(request: Request) {
     const { agent_id, keywords } = body
 
     if (!agent_id || !keywords || !Array.isArray(keywords)) {
-      return NextResponse.json({ error: 'agent_id and keywords array are required' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'agent_id and keywords array are required' },
+        { status: 400 },
+      )
     }
 
     // Verify agent ownership
-    const { data: agent } = await supabase.from('agents').select('owner_id').eq('id', agent_id).single()
+    const { data: agent } = await supabase
+      .from('agents')
+      .select('owner_id')
+      .eq('id', agent_id)
+      .single()
 
     if (!agent || agent.owner_id !== session.user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
     // Insert keywords (using upsert to handle duplicates)
-    const keywordRecords = keywords.map((k: string | { keyword: string; category?: string; priority?: number }) => {
-      if (typeof k === 'string') {
+    const keywordRecords = keywords.map(
+      (k: string | { keyword: string; category?: string; priority?: number }) => {
+        if (typeof k === 'string') {
+          return {
+            agent_id,
+            keyword: k,
+            category: null,
+            priority: 50,
+            is_active: true,
+          }
+        }
         return {
           agent_id,
-          keyword: k,
-          category: null,
-          priority: 50,
+          keyword: k.keyword,
+          category: k.category || null,
+          priority: k.priority || 50,
           is_active: true,
         }
-      }
-      return {
-        agent_id,
-        keyword: k.keyword,
-        category: k.category || null,
-        priority: k.priority || 50,
-        is_active: true,
-      }
-    })
+      },
+    )
 
     const { data, error } = await supabase.from('agent_keywords').upsert(keywordRecords, {
       onConflict: 'agent_id,keyword',
@@ -137,7 +146,13 @@ export async function DELETE(request: Request) {
       .eq('id', keyword_id)
       .single()
 
-    if (!keyword || (keyword.agents as any)?.owner_id !== session.user.id) {
+    interface KeywordWithAgent {
+      agents: {
+        owner_id: string
+      } | null
+    }
+
+    if (!keyword || (keyword as unknown as KeywordWithAgent).agents?.owner_id !== session.user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
@@ -159,4 +174,3 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
-

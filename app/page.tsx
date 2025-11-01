@@ -2,6 +2,7 @@ import { Folder, Search, ShieldCheck } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import InteractivePromptLab from '@/components/InteractivePromptLab'
 import RotatingAudience from '@/components/RotatingAudience'
@@ -271,15 +272,23 @@ export default async function Home() {
                   </Link>
                 </div>
               ) : (
-                <div className="flex flex-col items-center gap-3 sm:flex-row">
+                <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
                   <GoogleSignInButton
                     redirectPath="/dashboard"
                     size="lg"
                     className="px-7 py-6 text-base"
                   >
-                    Start Free
+                    Sign in with Google
                   </GoogleSignInButton>
-                  <Link href="/p">
+                  <EmailSignInButton
+                    redirectPath="/dashboard"
+                    variant="ghost"
+                    size="sm"
+                    className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                  >
+                    or sign in with email
+                  </EmailSignInButton>
+                  <Link href="/p" className="sm:ml-auto">
                     <Button variant="outline" size="lg" className="px-7 py-6 text-base">
                       <Search className="mr-2 h-5 w-5" /> Browse Templates
                     </Button>

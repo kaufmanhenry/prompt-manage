@@ -135,9 +135,7 @@ Return your response in this JSON format:
 /**
  * Review and score prompt quality
  */
-export async function reviewPromptQuality(
-  prompt: GeneratedPrompt,
-): Promise<QualityReview> {
+export async function reviewPromptQuality(prompt: GeneratedPrompt): Promise<QualityReview> {
   const systemPrompt = `You are a quality control expert for AI prompts. Review prompts and score them based on:
 1. Clarity and specificity (0-25 points)
 2. Usefulness and actionability (0-25 points)
@@ -185,9 +183,7 @@ Return your response in this JSON format:
 /**
  * Main generation function
  */
-export async function generateAgentPrompt(
-  input: AgentGenerationInput,
-): Promise<{
+export async function generateAgentPrompt(input: AgentGenerationInput): Promise<{
   prompt: GeneratedPrompt
   quality: QualityReview
   raw_input: string
@@ -211,4 +207,3 @@ export async function generateAgentPrompt(
     raw_output: promptOutput,
   }
 }
-

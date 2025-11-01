@@ -87,7 +87,9 @@ export default function AgentSetupPage() {
           <div className="dashboard-container">
             <Card className="p-8 text-center">
               <h1 className="mb-4 text-2xl font-bold">Access Denied</h1>
-              <p className="text-muted-foreground">You don't have permission to access this page.</p>
+              <p className="text-muted-foreground">
+                You don't have permission to access this page.
+              </p>
             </Card>
           </div>
         </main>
@@ -188,7 +190,9 @@ export default function AgentSetupPage() {
         <div className="dashboard-container">
           <div className="mb-6">
             <h1 className="text-3xl font-bold tracking-tight">Setup AI Agent</h1>
-            <p className="text-muted-foreground">Configure your autonomous prompt generation agent</p>
+            <p className="text-muted-foreground">
+              Configure your autonomous prompt generation agent
+            </p>
           </div>
 
           <Card>
@@ -303,4 +307,3 @@ export default function AgentSetupPage() {
     </div>
   )
 }
-

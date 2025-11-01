@@ -58,7 +58,12 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const { toast } = useToast()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const { currentTeamId } = useTeamContext()
-  const { canCreatePrompt, showPaywall, PaywallComponent, isLoading: isPaywallLoading } = usePaywall('Create Prompts')
+  const {
+    canCreatePrompt,
+    showPaywall,
+    PaywallComponent,
+    isLoading: isPaywallLoading,
+  } = usePaywall('Create Prompts')
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -202,18 +207,20 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}))
-          
+
           // Handle limit reached error
           if (response.status === 403) {
             toast({
               title: 'Prompt Limit Reached',
-              description: errorData.details || 'You have reached your prompt limit. Please upgrade or delete prompts.',
+              description:
+                errorData.details ||
+                'You have reached your prompt limit. Please upgrade or delete prompts.',
               variant: 'destructive',
             })
             showPaywall()
             return
           }
-          
+
           throw new Error(errorData.error || 'Failed to create prompt')
         }
 
@@ -254,34 +261,34 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
           <DialogHeader>
-          <DialogTitle>{prompt ? 'Edit Prompt' : 'New Prompt'}</DialogTitle>
-          <DialogDescription>
-            {prompt
-              ? 'Update your existing prompt.'
-              : 'Create a new prompt to use with your AI models.'}
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter a name for your prompt"
-                      data-testid="prompt-name"
-                      autoComplete="off"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Description field - uncomment after running database migration
+            <DialogTitle>{prompt ? 'Edit Prompt' : 'New Prompt'}</DialogTitle>
+            <DialogDescription>
+              {prompt
+                ? 'Update your existing prompt.'
+                : 'Create a new prompt to use with your AI models.'}
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter a name for your prompt"
+                        data-testid="prompt-name"
+                        autoComplete="off"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Description field - uncomment after running database migration
             <FormField
               control={form.control}
               name="description"
@@ -299,150 +306,152 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
               )}
             />
             */}
-            <FormField
-              control={form.control}
-              name="model"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Model</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    data-testid="prompt-model"
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a model" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="max-h-[400px]">
-                      {Object.entries(modelsByCategory).map(
-                        ([category, models]) =>
-                          models.length > 0 && (
-                            <SelectGroup key={category}>
-                              <SelectLabel>
-                                {category === 'LLM' && 'Language Models'}
-                                {category === 'Music' && 'Music Generation'}
-                                {category === 'Video' && 'Video Generation'}
-                                {category === 'Image' && 'Image Generation'}
-                                {category === 'Voice' && 'Voice Synthesis'}
-                                {category === 'Code' && 'Code Assistants'}
-                              </SelectLabel>
-                              {models.map((model) => (
-                                <SelectItem key={model.id} value={model.id}>
-                                  {model.name}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          ),
-                      )}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>Choose the AI model that will use this prompt.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {!prompt && (
               <FormField
                 control={form.control}
-                name="prompt_text"
+                name="model"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Prompt Text</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Enter your prompt text here..."
-                        className="min-h-[200px] font-mono"
-                        data-testid="prompt-text"
-                        autoComplete="off"
-                        {...field}
-                        ref={textareaRef}
-                      />
-                    </FormControl>
+                    <FormLabel>Model</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      data-testid="prompt-model"
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a model" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="max-h-[400px]">
+                        {Object.entries(modelsByCategory).map(
+                          ([category, models]) =>
+                            models.length > 0 && (
+                              <SelectGroup key={category}>
+                                <SelectLabel>
+                                  {category === 'LLM' && 'Language Models'}
+                                  {category === 'Music' && 'Music Generation'}
+                                  {category === 'Video' && 'Video Generation'}
+                                  {category === 'Image' && 'Image Generation'}
+                                  {category === 'Voice' && 'Voice Synthesis'}
+                                  {category === 'Code' && 'Code Assistants'}
+                                </SelectLabel>
+                                {models.map((model) => (
+                                  <SelectItem key={model.id} value={model.id}>
+                                    {model.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            ),
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormDescription>
-                      The actual prompt that will be sent to the AI model.
+                      Choose the AI model that will use this prompt.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            )}
-            <FormField
-              control={form.control}
-              name="tags"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Tags</FormLabel>
-                  <Controller
-                    control={form.control}
-                    name="tags"
-                    render={({ field }) => (
-                      <MultipleSelector
-                        value={field.value.map((v) => ({ label: v, value: v }))}
-                        onChange={(options: Option[]) =>
-                          field.onChange(options.map((o) => o.value))
-                        }
-                        placeholder="Select tags..."
-                        creatable
-                        emptyIndicator={
-                          <p className="text-center text-sm font-medium text-muted-foreground">
-                            no tags found.
-                          </p>
-                        }
-                        defaultOptions={tagOptions}
-                        data-testid="prompt-tags"
-                        inputProps={{
-                          autoComplete: 'off',
-                        }}
-                      />
-                    )}
-                  />
-                  <FormMessage />
-                  <FormDescription>
-                    Select from your existing tags or create new ones. Tags help organize and find
-                    your prompts.
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="is_public"
-              render={({ field }) => (
-                <FormItem className="rounded-lg bg-accent p-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col gap-1">
-                      <FormLabel>Public</FormLabel>
+              {!prompt && (
+                <FormField
+                  control={form.control}
+                  name="prompt_text"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Prompt Text</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Enter your prompt text here..."
+                          className="min-h-[200px] font-mono"
+                          data-testid="prompt-text"
+                          autoComplete="off"
+                          {...field}
+                          ref={textareaRef}
+                        />
+                      </FormControl>
                       <FormDescription>
-                        Make this prompt public so others can use it.
+                        The actual prompt that will be sent to the AI model.
                       </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               )}
-            />
-            <div className="z-5 sticky -bottom-6 flex justify-end gap-2 border-t bg-background py-4">
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={loading || !session?.user?.id}
-                data-testid="submit-prompt"
-              >
-                {loading ? 'Saving...' : prompt ? 'Update Prompt' : 'Create Prompt'}
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
-    {PaywallComponent}
+              <FormField
+                control={form.control}
+                name="tags"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Tags</FormLabel>
+                    <Controller
+                      control={form.control}
+                      name="tags"
+                      render={({ field }) => (
+                        <MultipleSelector
+                          value={field.value.map((v) => ({ label: v, value: v }))}
+                          onChange={(options: Option[]) =>
+                            field.onChange(options.map((o) => o.value))
+                          }
+                          placeholder="Select tags..."
+                          creatable
+                          emptyIndicator={
+                            <p className="text-center text-sm font-medium text-muted-foreground">
+                              no tags found.
+                            </p>
+                          }
+                          defaultOptions={tagOptions}
+                          data-testid="prompt-tags"
+                          inputProps={{
+                            autoComplete: 'off',
+                          }}
+                        />
+                      )}
+                    />
+                    <FormMessage />
+                    <FormDescription>
+                      Select from your existing tags or create new ones. Tags help organize and find
+                      your prompts.
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="is_public"
+                render={({ field }) => (
+                  <FormItem className="rounded-lg bg-accent p-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-col gap-1">
+                        <FormLabel>Public</FormLabel>
+                        <FormDescription>
+                          Make this prompt public so others can use it.
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <div className="z-5 sticky -bottom-6 flex justify-end gap-2 border-t bg-background py-4">
+                <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={loading || !session?.user?.id}
+                  data-testid="submit-prompt"
+                >
+                  {loading ? 'Saving...' : prompt ? 'Update Prompt' : 'Create Prompt'}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+      {PaywallComponent}
     </>
   )
 }

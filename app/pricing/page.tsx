@@ -86,7 +86,9 @@ export default function PricingPage() {
                 <div className="mb-6">
                   <h3 className="mb-2 text-2xl font-semibold tracking-tight">{plan.name}</h3>
                   <div className="mb-1 flex items-baseline gap-1">
-                    <span className="text-5xl font-bold tracking-tight">{formatPrice(plan.price)}</span>
+                    <span className="text-5xl font-bold tracking-tight">
+                      {formatPrice(plan.price)}
+                    </span>
                     {isPaid && (
                       <span className="text-lg font-medium text-muted-foreground">/mo</span>
                     )}
@@ -113,9 +115,7 @@ export default function PricingPage() {
                   <Button
                     size="lg"
                     className={`w-full font-medium ${
-                      isPopular
-                        ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                        : ''
+                      isPopular ? 'bg-emerald-600 text-white hover:bg-emerald-700' : ''
                     }`}
                     onClick={() => {
                       if (planType === 'team' || planType === 'pro') {
@@ -124,9 +124,7 @@ export default function PricingPage() {
                     }}
                     disabled={loading === planType}
                   >
-                    {loading === planType
-                      ? 'Processing...'
-                      : `Start with ${plan.name}`}
+                    {loading === planType ? 'Processing...' : `Start with ${plan.name}`}
                   </Button>
                 )}
               </div>
@@ -148,16 +146,21 @@ export default function PricingPage() {
                 <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
                   <ShieldCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <h3 className="mb-2 text-base font-semibold text-foreground">Enterprise Security</h3>
+                <h3 className="mb-2 text-base font-semibold text-foreground">
+                  Enterprise Security
+                </h3>
                 <p className="text-sm leading-relaxed text-foreground/60">
-                  AES-256 encryption at rest, TLS 1.3 in transit, role-based access control, and comprehensive audit logging.
+                  AES-256 encryption at rest, TLS 1.3 in transit, role-based access control, and
+                  comprehensive audit logging.
                 </p>
               </div>
               <div className="rounded-lg border border-border/50 bg-card p-6">
                 <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
                   <Users className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <h3 className="mb-2 text-base font-semibold text-foreground">Scalable Architecture</h3>
+                <h3 className="mb-2 text-base font-semibold text-foreground">
+                  Scalable Architecture
+                </h3>
                 <p className="text-sm leading-relaxed text-foreground/60">
                   Built to handle millions of prompts, thousands of teams, and unlimited growth.
                 </p>
@@ -168,7 +171,8 @@ export default function PricingPage() {
                 </div>
                 <h3 className="mb-2 text-base font-semibold text-foreground">High Availability</h3>
                 <p className="text-sm leading-relaxed text-foreground/60">
-                  Built for reliability with edge caching, automated failover, and scalable infrastructure for growing teams.
+                  Built for reliability with edge caching, automated failover, and scalable
+                  infrastructure for growing teams.
                 </p>
               </div>
             </div>

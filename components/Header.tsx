@@ -87,40 +87,23 @@ export function Header() {
             <Link
               href="/p"
               className={`text-sm ${
-                pathname.startsWith('/p') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
+                (pathname === '/p' || pathname.startsWith('/p/')) &&
+                !pathname.startsWith('/pricing') &&
+                !pathname.startsWith('/product') &&
+                !pathname.startsWith('/prompts')
+                  ? 'bg-foreground/5 text-foreground'
+                  : 'text-foreground/60'
               } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <Globe className="h-4 w-4" />
               <span>Prompts</span>
             </Link>
             <Link
-              href="/collections"
-              className={`text-sm ${
-                pathname.startsWith('/collections')
-                  ? 'bg-foreground/5 text-foreground'
-                  : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="h-4 w-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
-                />
-              </svg>
-              <span>Collections</span>
-            </Link>
-            <Link
               href="/docs"
               className={`text-sm ${
-                pathname.startsWith('/docs') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
+                pathname === '/docs' || pathname.startsWith('/docs/')
+                  ? 'bg-foreground/5 text-foreground'
+                  : 'text-foreground/60'
               } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <BookOpen className="h-4 w-4" />
@@ -129,7 +112,9 @@ export function Header() {
             <Link
               href="/pricing"
               className={`text-sm ${
-                pathname.startsWith('/pricing') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
+                pathname === '/pricing' || pathname.startsWith('/pricing/')
+                  ? 'bg-foreground/5 text-foreground'
+                  : 'text-foreground/60'
               } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <span>Pricing</span>
@@ -137,7 +122,9 @@ export function Header() {
             <Link
               href="/support"
               className={`text-sm ${
-                pathname.startsWith('/support') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
+                pathname === '/support' || pathname.startsWith('/support/')
+                  ? 'bg-foreground/5 text-foreground'
+                  : 'text-foreground/60'
               } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <HelpCircle className="h-4 w-4" />

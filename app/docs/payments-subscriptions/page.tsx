@@ -102,7 +102,7 @@ export default function PaymentsSubscriptionsGuide() {
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
                       <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>5 prompts per month</span>
+                      <span>Store up to 25 prompts in your account privately</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="mt-0.5 text-emerald-500">✓</span>
@@ -115,10 +115,6 @@ export default function PaymentsSubscriptionsGuide() {
                     <li className="flex items-start gap-2">
                       <span className="mt-0.5 text-emerald-500">✓</span>
                       <span>Public sharing</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Export prompts</span>
                     </li>
                   </ul>
                 </div>
@@ -220,11 +216,10 @@ export default function PaymentsSubscriptionsGuide() {
                     ✅ Free Plan Features
                   </h3>
                   <ul className="space-y-2 text-sm text-emerald-800 dark:text-emerald-200">
-                    <li>• Create up to 5 prompts per month</li>
-                    <li>• Store up to 10 prompts total</li>
+                    <li>• Store up to 25 prompts in your account privately</li>
+                    <li>• Secure cloud storage</li>
                     <li>• Tag and organize prompts</li>
                     <li>• Share prompts publicly</li>
-                    <li>• Export prompts (CSV/JSON)</li>
                     <li>• Browse public prompt directory</li>
                     <li>• View public collections</li>
                   </ul>

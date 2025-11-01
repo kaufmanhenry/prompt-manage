@@ -20,7 +20,9 @@ export async function POST(request: NextRequest) {
     try {
       event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET)
     } catch (err) {
-      console.error('Webhook signature verification failed:', err)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Webhook signature verification failed:', err)
+      }
       return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
     }
 
@@ -34,14 +36,18 @@ export async function POST(request: NextRequest) {
         const plan = session.metadata?.plan
 
         if (!userId || !plan) {
-          console.error('Missing metadata in checkout session', { metadata: session.metadata })
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Missing metadata in checkout session', { metadata: session.metadata })
+          }
           break
         }
 
         // Get subscription details from session
         const subscriptionId = session.subscription
         if (!subscriptionId || typeof subscriptionId !== 'string') {
-          console.error('No subscription ID in checkout session')
+          if (process.env.NODE_ENV === 'development') {
+            console.error('No subscription ID in checkout session')
+          }
           break
         }
 
@@ -54,7 +60,9 @@ export async function POST(request: NextRequest) {
           : (subscription.customer as { id: string } | null)?.id || null
 
         if (!customerId || typeof customerId !== 'string') {
-          console.error('No customer ID in subscription')
+          if (process.env.NODE_ENV === 'development') {
+            console.error('No customer ID in subscription')
+          }
           break
         }
 
@@ -75,12 +83,16 @@ export async function POST(request: NextRequest) {
         )
 
         if (upsertError) {
-          console.error('Error upserting subscription:', upsertError)
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error upserting subscription:', upsertError)
+          }
           // Log error but don't throw - Stripe already processed payment
           // TODO: Send to error tracking service (e.g., Sentry)
           // Consider: Dead letter queue for retry
         } else {
-          console.log(`✅ Subscription created/updated for user ${userId}, plan: ${plan}`)
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`✅ Subscription created/updated for user ${userId}, plan: ${plan}`)
+          }
         }
 
         break
@@ -92,7 +104,9 @@ export async function POST(request: NextRequest) {
         const customerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id
 
         if (!customerId) {
-          console.error('No customer ID in subscription update')
+          if (process.env.NODE_ENV === 'development') {
+            console.error('No customer ID in subscription update')
+          }
           break
         }
 
@@ -106,7 +120,9 @@ export async function POST(request: NextRequest) {
           .single()
 
         if (selectError || !userSub) {
-          console.error('Error finding subscription for customer:', selectError)
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error finding subscription for customer:', selectError)
+          }
           break
         }
 
@@ -121,10 +137,14 @@ export async function POST(request: NextRequest) {
           .eq('user_id', userSub.user_id)
 
         if (updateError) {
-          console.error('Error updating subscription:', updateError)
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error updating subscription:', updateError)
+          }
           // TODO: Send to error tracking service
         } else {
-          console.log(`✅ Subscription updated for user ${userSub.user_id}, status: ${subscription.status}`)
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`✅ Subscription updated for user ${userSub.user_id}, status: ${subscription.status}`)
+          }
         }
 
         break
@@ -136,7 +156,9 @@ export async function POST(request: NextRequest) {
         const customerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id
 
         if (!customerId) {
-          console.error('No customer ID in subscription deletion')
+          if (process.env.NODE_ENV === 'development') {
+            console.error('No customer ID in subscription deletion')
+          }
           break
         }
 
@@ -148,7 +170,9 @@ export async function POST(request: NextRequest) {
           .single()
 
         if (selectError || !userSub) {
-          console.error('Error finding subscription for customer:', selectError)
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error finding subscription for customer:', selectError)
+          }
           break
         }
 
@@ -162,10 +186,14 @@ export async function POST(request: NextRequest) {
           .eq('user_id', userSub.user_id)
 
         if (updateError) {
-          console.error('Error canceling subscription:', updateError)
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error canceling subscription:', updateError)
+          }
           // TODO: Send to error tracking service
         } else {
-          console.log(`✅ Subscription canceled for user ${userSub.user_id}`)
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`✅ Subscription canceled for user ${userSub.user_id}`)
+          }
         }
 
         break
@@ -178,7 +206,9 @@ export async function POST(request: NextRequest) {
         const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id
 
         if (!customerId || !subscriptionId) {
-          console.error('Invoice payment succeeded but no customer/subscription ID')
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Invoice payment succeeded but no customer/subscription ID')
+          }
           break
         }
 
@@ -207,10 +237,14 @@ export async function POST(request: NextRequest) {
             .eq('user_id', userSub.user_id)
 
           if (updateError) {
-            console.error('Error updating subscription after payment:', updateError)
+            if (process.env.NODE_ENV === 'development') {
+              console.error('Error updating subscription after payment:', updateError)
+            }
             // TODO: Send to error tracking service
           } else {
-            console.log(`✅ Invoice payment succeeded for user ${userSub.user_id}`)
+            if (process.env.NODE_ENV === 'development') {
+              console.log(`✅ Invoice payment succeeded for user ${userSub.user_id}`)
+            }
           }
         }
 
@@ -223,7 +257,9 @@ export async function POST(request: NextRequest) {
         const customerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
 
         if (!customerId) {
-          console.error('Invoice payment failed but no customer ID')
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Invoice payment failed but no customer ID')
+          }
           break
         }
 
@@ -244,10 +280,14 @@ export async function POST(request: NextRequest) {
             .eq('user_id', userSub.user_id)
 
           if (updateError) {
-            console.error('Error updating subscription after payment failure:', updateError)
+            if (process.env.NODE_ENV === 'development') {
+              console.error('Error updating subscription after payment failure:', updateError)
+            }
             // TODO: Send to error tracking service
           } else {
-            console.error(`⚠️ Invoice payment failed for user ${userSub.user_id}`)
+            if (process.env.NODE_ENV === 'development') {
+              console.error(`⚠️ Invoice payment failed for user ${userSub.user_id}`)
+            }
           }
         }
 
@@ -255,12 +295,16 @@ export async function POST(request: NextRequest) {
       }
 
       default:
-        console.log(`Unhandled event type: ${event.type}`)
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Unhandled event type: ${event.type}`)
+        }
     }
 
     return NextResponse.json({ received: true })
   } catch (error) {
-    console.error('Webhook error:', error)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Webhook error:', error)
+    }
     return NextResponse.json({ error: 'Webhook error' }, { status: 500 })
   }
 }

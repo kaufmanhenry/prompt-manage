@@ -23,7 +23,7 @@ export default function CookiesPage() {
             How we use cookies and similar technologies on Prompt Manage.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: October 31, 2025
+            Last updated: October 30, 2025
           </p>
         </div>
       </div>

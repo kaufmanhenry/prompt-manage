@@ -26,7 +26,7 @@ export default function TermsPage() {
             Legal terms governing your use of Prompt Manage.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: January 30, 2025
+            Last updated: October 30, 2025
           </p>
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function TermsPage() {
               </p>
               <p>
                 <strong>One Account Per User:</strong> You may not create multiple accounts to
-                circumvent restrictions or obtain additional free trial benefits. We reserve the
+                circumvent restrictions. We reserve the
                 right to terminate duplicate accounts without notice.
               </p>
             </div>
@@ -229,9 +229,7 @@ export default function TermsPage() {
                 for partial months or years of service, unused features, or content you did not use.
               </p>
               <p>
-                <strong>Free Trials:</strong> If you cancel during a free trial period, you will not
-                be charged. Free trials are available only once per user and may not be combined
-                with other offers.
+                <strong>Cancellation:</strong> You may cancel your subscription at any time. Cancellation takes effect at the end of your current billing period, and you will retain access to premium features until that time.
               </p>
               <p>
                 <strong>Downgrade:</strong> If you downgrade your subscription, the change will take

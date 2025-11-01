@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { canUserExport, getUserSubscription } from '@/lib/subscription'
 import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: NextRequest) {
@@ -15,6 +16,18 @@ export async function POST(request: NextRequest) {
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
+    }
+
+    // Check subscription for export access
+    const subscription = await getUserSubscription(user.id)
+    if (!canUserExport(subscription)) {
+      return NextResponse.json(
+        {
+          error: 'Export feature requires a paid subscription',
+          details: 'Please upgrade to Team or Pro plan to export prompts.',
+        },
+        { status: 403 },
+      )
     }
 
     const body = await request.json()

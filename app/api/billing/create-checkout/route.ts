@@ -109,7 +109,6 @@ export async function POST(req: NextRequest) {
           teamId: teamId,
           tier,
         },
-        trial_period_days: 14, // 14-day free trial
       },
       allow_promotion_codes: true,
     })

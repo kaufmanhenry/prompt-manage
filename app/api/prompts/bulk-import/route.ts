@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { canUserImport, getUserSubscription } from '@/lib/subscription'
 import { createClient } from '@/utils/supabase/server'
 
 // Supported formats
@@ -81,6 +82,18 @@ export async function POST(request: NextRequest) {
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
+    }
+
+    // Check subscription for import access
+    const subscription = await getUserSubscription(user.id)
+    if (!canUserImport(subscription)) {
+      return NextResponse.json(
+        {
+          error: 'Import feature requires a paid subscription',
+          details: 'Please upgrade to Team or Pro plan to import prompts.',
+        },
+        { status: 403 },
+      )
     }
 
     // Get form data

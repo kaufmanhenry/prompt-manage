@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import { canUserCreatePrompt, getUserSubscription, getUserUsage } from '@/lib/subscription'
 import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: NextRequest) {
@@ -22,6 +23,27 @@ export async function POST(request: NextRequest) {
 
     if (authError || !user) {
       return NextResponse.json({ error: 'You must be logged in to save prompts' }, { status: 401 })
+    }
+
+    // Check subscription and usage limits
+    const [subscription, usage] = await Promise.all([
+      getUserSubscription(user.id),
+      getUserUsage(user.id),
+    ])
+
+    if (!canUserCreatePrompt(subscription, usage)) {
+      return NextResponse.json(
+        {
+          error: 'Prompt limit reached',
+          details:
+            subscription?.status === 'past_due' || subscription?.status === 'unpaid'
+              ? 'Your payment failed. Please update your payment method to continue using premium features.'
+              : subscription?.status === 'canceled'
+                ? 'Your subscription was canceled. Resubscribe to continue using premium features.'
+                : 'You have reached your prompt limit. Please upgrade to continue creating prompts.',
+        },
+        { status: 403 },
+      )
     }
 
     // Save the prompt to the database

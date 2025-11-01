@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { CreditCard, ExternalLink } from 'lucide-react'
+import { CreditCard, ExternalLink, ArrowUp, ArrowDown, X } from 'lucide-react'
 import { useState } from 'react'
 
 import { SettingsSidebar } from '@/components/SettingsSidebar'
@@ -9,13 +9,25 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { useToast } from '@/components/ui/use-toast'
 import { useTeamContext } from '@/contexts/team-context'
 import { useUserTeams } from '@/lib/hooks/use-teams'
+import { STRIPE_CONFIG } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/client'
 
 export default function BillingPage() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<string | null>(null)
   const { toast } = useToast()
   const { currentTeamId } = useTeamContext()
   const { data: teams, isLoading } = useUserTeams()
@@ -32,10 +44,101 @@ export default function BillingPage() {
     },
   })
 
+  // Fetch user subscription status
+  const { data: subscriptionStatus, refetch: refetchSubscription } = useQuery({
+    queryKey: ['subscription-status'],
+    queryFn: async () => {
+      const response = await fetch('/api/subscription/status')
+      if (!response.ok) {
+        throw new Error('Failed to fetch subscription status')
+      }
+      return response.json()
+    },
+  })
+
+  const currentPlan = subscriptionStatus?.subscription?.plan || 'free'
+  const subscriptionStatusValue = subscriptionStatus?.subscription?.status || 'active'
+  const periodEnd = subscriptionStatus?.subscription?.currentPeriodEnd
+  const statusMessage = subscriptionStatus?.statusMessage
+
+  const handleUpgrade = async (plan: 'team' | 'pro') => {
+    setLoading(`upgrade-${plan}`)
+    try {
+      const response = await fetch('/api/subscription/manage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: 'upgrade', plan }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to upgrade subscription')
+      }
+
+      // If redirect URL, navigate to checkout
+      if (data.url) {
+        window.location.href = data.url
+        return
+      }
+
+      toast({
+        title: 'Success',
+        description: 'Subscription upgraded successfully',
+      })
+
+      void refetchSubscription()
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to upgrade subscription',
+        variant: 'destructive',
+      })
+    } finally {
+      setLoading(null)
+    }
+  }
+
+  const handleCancel = async () => {
+    setLoading('cancel')
+    try {
+      const response = await fetch('/api/subscription/manage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: 'cancel' }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to cancel subscription')
+      }
+
+      toast({
+        title: 'Success',
+        description: 'Subscription will be canceled at the end of the billing period',
+      })
+
+      void refetchSubscription()
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to cancel subscription',
+        variant: 'destructive',
+      })
+    } finally {
+      setLoading(null)
+    }
+  }
+
   const handleManageBilling = async () => {
     if (!currentTeamId) return
 
-    setLoading(true)
+    setLoading('portal')
     try {
       const response = await fetch('/api/billing/portal', {
         method: 'POST',
@@ -61,7 +164,7 @@ export default function BillingPage() {
         description: error instanceof Error ? error.message : 'Failed to access billing portal',
         variant: 'destructive',
       })
-      setLoading(false)
+      setLoading(null)
     }
   }
 
@@ -132,13 +235,189 @@ export default function BillingPage() {
           </div>
 
           <div className="space-y-4">
+            {/* Status Message Banner */}
+            {statusMessage && (
+              <Card className="border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-900/20">
+                <CardContent className="pt-6">
+                  <p className="text-sm text-amber-900 dark:text-amber-200">{statusMessage}</p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* User Subscription Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base font-medium">Your Subscription</CardTitle>
+                <CardDescription>Manage your personal subscription</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Badge className={getTierBadgeColor(currentPlan)}>
+                          {STRIPE_CONFIG.plans[currentPlan as keyof typeof STRIPE_CONFIG.plans]
+                            ?.name || 'Free'}
+                        </Badge>
+                        {subscriptionStatusValue && (
+                          <Badge className={getStatusBadgeColor(subscriptionStatusValue)}>
+                            {subscriptionStatusValue.charAt(0).toUpperCase() +
+                              subscriptionStatusValue.slice(1)}
+                          </Badge>
+                        )}
+                      </div>
+                      {currentPlan === 'free' && (
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Store up to 25 prompts in your account privately
+                        </p>
+                      )}
+                      {currentPlan === 'team' && (
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          ${STRIPE_CONFIG.plans.team.price}/month • Unlimited prompts and team sharing
+                        </p>
+                      )}
+                      {currentPlan === 'pro' && (
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          ${STRIPE_CONFIG.plans.pro.price}/month • Everything in Team plus advanced
+                          features
+                        </p>
+                      )}
+                      {periodEnd && (
+                        <p className="text-sm text-gray-500 dark:text-gray-500">
+                          Renews on {formatDate(periodEnd)}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {currentPlan === 'free' && (
+                      <>
+                        <Button
+                          onClick={() => handleUpgrade('team')}
+                          disabled={loading === 'upgrade-team'}
+                          variant="default"
+                        >
+                          {loading === 'upgrade-team' ? (
+                            <>
+                              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                              Processing...
+                            </>
+                          ) : (
+                            <>
+                              <ArrowUp className="mr-2 h-4 w-4" />
+                              Upgrade to Team
+                            </>
+                          )}
+                        </Button>
+                        <Button
+                          onClick={() => handleUpgrade('pro')}
+                          disabled={loading === 'upgrade-pro'}
+                          variant="outline"
+                        >
+                          {loading === 'upgrade-pro' ? (
+                            <>
+                              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-gray-600 border-t-transparent" />
+                              Processing...
+                            </>
+                          ) : (
+                            <>
+                              <ArrowUp className="mr-2 h-4 w-4" />
+                              Upgrade to Pro
+                            </>
+                          )}
+                        </Button>
+                      </>
+                    )}
+                    {currentPlan === 'team' && (
+                      <>
+                        <Button
+                          onClick={() => handleUpgrade('pro')}
+                          disabled={loading === 'upgrade-pro'}
+                          variant="default"
+                        >
+                          {loading === 'upgrade-pro' ? (
+                            <>
+                              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                              Processing...
+                            </>
+                          ) : (
+                            <>
+                              <ArrowUp className="mr-2 h-4 w-4" />
+                              Upgrade to Pro
+                            </>
+                          )}
+                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="outline" disabled={loading === 'cancel'}>
+                              <X className="mr-2 h-4 w-4" />
+                              Cancel Subscription
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Cancel subscription?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Your subscription will remain active until the end of your billing
+                                period ({periodEnd ? formatDate(periodEnd) : 'next payment date'}
+                                ). After that, you'll be moved to the free plan.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Keep Subscription</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={handleCancel}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              >
+                                Cancel Subscription
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </>
+                    )}
+                    {currentPlan === 'pro' && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" disabled={loading === 'cancel'}>
+                            <X className="mr-2 h-4 w-4" />
+                            Cancel Subscription
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Cancel subscription?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Your subscription will remain active until the end of your billing
+                              period ({periodEnd ? formatDate(periodEnd) : 'next payment date'}
+                              ). After that, you'll be moved to the free plan.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Keep Subscription</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={handleCancel}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              Cancel Subscription
+                            </AlertDialogAction>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </AlertDialog>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Permission warning for non-owners/admins */}
             {!isOwnerOrAdmin && (
               <Card className="border-yellow-200 bg-yellow-50 dark:border-yellow-900 dark:bg-yellow-950">
                 <CardContent className="pt-6">
                   <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                    Only team owners and admins can manage billing. Contact your team owner to
-                    upgrade or manage subscriptions.
+                    Only team owners and admins can manage team billing. Contact your team owner to
+                    upgrade or manage team subscriptions.
                   </p>
                 </CardContent>
               </Card>

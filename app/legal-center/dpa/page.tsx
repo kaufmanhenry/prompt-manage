@@ -28,7 +28,7 @@ export default function DPAPage() {
                 Data Protection Addendum (DPA)
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
-                Effective Date: January 1, 2025 | Last Updated: October 16, 2025
+                Effective Date: January 1, 2025 | Last Updated: October 30, 2025
               </p>
             </div>
           </div>

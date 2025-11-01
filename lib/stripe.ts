@@ -27,11 +27,16 @@ export const STRIPE_CONFIG = {
     free: {
       name: 'Free',
       price: 0,
-      features: ['5 prompts per month', 'Basic templates', 'Community support'],
+      features: [
+        'Store up to 25 prompts in your account privately',
+        'Secure cloud storage',
+        'Tag & organize prompts',
+        'Public sharing',
+      ],
       limits: {
-        promptsPerMonth: 5,
-        maxPrompts: 10,
-        canShare: false,
+        promptsPerMonth: 25,
+        maxPrompts: 25,
+        canShare: true,
         canExport: false,
       },
     },

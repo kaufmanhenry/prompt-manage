@@ -86,7 +86,15 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
               <div>
                 <p className="text-sm font-medium text-foreground">Current Usage</p>
                 <p className="mt-0.5 text-xs text-foreground/60">
-                  {usage.promptsThisMonth} prompts this month
+                  {currentPlan === 'free' 
+                    ? `${usage.promptsTotal} of 25 prompts stored`
+                    : `${usage.promptsThisMonth} prompts this month`
+                  }
+                  {currentPlan === 'free' && usage.promptsTotal >= 20 && (
+                    <span className="ml-2 text-amber-600 dark:text-amber-400">
+                      (80% limit reached)
+                    </span>
+                  )}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -182,7 +190,9 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
         </div>
 
         <div className="mt-6 border-t border-border/30 pt-6 text-center">
-          <p className="text-xs text-foreground/50">Cancel anytime. No credit card required for free plan.</p>
+          <p className="text-xs text-foreground/50">
+            Subscriptions auto-renew monthly. Cancel anytime. No credit card required for free plan.
+          </p>
           <p className="mt-2 text-xs text-foreground/50">
             Questions?{' '}
             <Link

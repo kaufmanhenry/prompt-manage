@@ -9,6 +9,8 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+import { useQuery } from '@tanstack/react-query'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -48,6 +50,20 @@ export function Sidebar({
   const searchParams = useSearchParams()
   const router = useRouter()
   const queryClient = useQueryClient()
+
+  // Check subscription status for import/export access
+  const { data: subscriptionStatus } = useQuery({
+    queryKey: ['subscription-status'],
+    queryFn: async () => {
+      const response = await fetch('/api/subscription/status')
+      if (!response.ok) return null
+      return response.json()
+    },
+    enabled: !!session?.user?.id,
+  })
+
+  const canImportExport = subscriptionStatus?.features?.canExport || false
+  const currentPlan = subscriptionStatus?.subscription?.plan || 'free'
 
   // Local state for model and tag filters and search
   const [modelFilters, setModelFilters] = useState<string[]>([])
@@ -187,15 +203,17 @@ export function Sidebar({
           <GlobeIcon className="h-4 w-4" />
           Public Directory
         </Link>
-        <Link
-          href="/dashboard/import-export"
-          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-            currentPage === 'import-export' ? 'tab-active' : 'tab-inactive'
-          }`}
-        >
-          <Upload className="h-4 w-4" />
-          Import / Export
-        </Link>
+        {canImportExport && (
+          <Link
+            href="/dashboard/import-export"
+            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              currentPage === 'import-export' ? 'tab-active' : 'tab-inactive'
+            }`}
+          >
+            <Upload className="h-4 w-4" />
+            Import / Export
+          </Link>
+        )}
       </div>
 
       {/* Search and Filters */}

@@ -33,7 +33,7 @@ export default function LegalCenterPage() {
             All legal documentation, compliance certifications, and data protection policies.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: October 16, 2025
+            Last updated: October 30, 2025
           </p>
         </div>
       </div>

@@ -191,10 +191,31 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
           description: `"${values.name}" has been successfully updated.`,
         })
       } else {
-        // Create new prompt
-        const { error } = await createClient().from('prompts').insert(promptData)
+        // Create new prompt via API (enforces limits server-side)
+        const response = await fetch('/api/prompts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(promptData),
+        })
 
-        if (error) throw error
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}))
+          
+          // Handle limit reached error
+          if (response.status === 403) {
+            toast({
+              title: 'Prompt Limit Reached',
+              description: errorData.details || 'You have reached your prompt limit. Please upgrade or delete prompts.',
+              variant: 'destructive',
+            })
+            showPaywall()
+            return
+          }
+          
+          throw new Error(errorData.error || 'Failed to create prompt')
+        }
 
         toast({
           title: 'Prompt Created',

@@ -25,7 +25,7 @@ interface UsePaywallReturn {
 
 function canUserCreatePrompt(
   subscription: { plan: PlanType } | null,
-  usage: { promptsThisMonth: number } | null,
+  usage: { promptsThisMonth: number; promptsTotal: number } | null,
 ): boolean {
   if (!usage) return true // Allow if usage data not loaded yet
 
@@ -35,7 +35,12 @@ function canUserCreatePrompt(
   // Unlimited plans
   if (planConfig.limits.promptsPerMonth === -1) return true
 
-  // Limited plans - check monthly limit
+  // Free plan - check total prompts stored, not monthly
+  if (plan === 'free') {
+    return usage.promptsTotal < planConfig.limits.maxPrompts
+  }
+
+  // Limited paid plans - check monthly limit
   return usage.promptsThisMonth < planConfig.limits.promptsPerMonth
 }
 
@@ -85,9 +90,35 @@ export function usePaywall(feature?: string): UsePaywallReturn {
         setUsage(data.usage)
         setSubscription(data.subscription)
 
+        // Check for status messages (past_due, unpaid, canceled)
+        if (data.statusMessage && data.subscription) {
+          // Show paywall if subscription has issues
+          if (data.subscription.status === 'past_due' || data.subscription.status === 'unpaid') {
+            setIsPaywallOpen(true)
+          }
+        }
+
         // Calculate if user can create prompt
         const canCreate = canUserCreatePrompt(data.subscription, data.usage)
         setCanCreatePrompt(canCreate)
+        
+        // Show warning if approaching limit (80% for free, 90% for paid)
+        if (data.usage) {
+          const plan = (data.subscription?.plan || 'free') as PlanType
+          const planConfig = STRIPE_CONFIG.plans[plan]
+          
+          if (plan === 'free') {
+            const usagePercent = (data.usage.promptsTotal / planConfig.limits.maxPrompts) * 100
+            if (usagePercent >= 80 && usagePercent < 100) {
+              // Show usage warning - could add toast here
+            }
+          } else if (planConfig.limits.promptsPerMonth !== -1) {
+            const usagePercent = (data.usage.promptsThisMonth / planConfig.limits.promptsPerMonth) * 100
+            if (usagePercent >= 90 && usagePercent < 100) {
+              // Show usage warning - could add toast here
+            }
+          }
+        }
       } catch (error) {
         // Ignore abort errors
         if (error instanceof Error && error.name === 'AbortError') {
@@ -95,8 +126,11 @@ export function usePaywall(feature?: string): UsePaywallReturn {
         }
         
         console.error('Error checking usage:', error)
-        // On error, allow creation (graceful degradation)
-        setCanCreatePrompt(true)
+        // Fail closed - deny access until status confirmed
+        setCanCreatePrompt(false)
+        // Show error state to user
+        setUsage(null)
+        setSubscription(null)
       } finally {
         setIsLoading(false)
       }

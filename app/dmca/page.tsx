@@ -23,7 +23,7 @@ export default function DmcaPage() {
             Copyright infringement notification and takedown procedures.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: January 30, 2025
+            Last updated: October 30, 2025
           </p>
         </div>
       </div>

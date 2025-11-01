@@ -2,33 +2,32 @@
 
 import { ArrowRight, Rocket, Sparkles } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 
 export function Footer() {
-  const [promptCount, setPromptCount] = useState(0)
-  const [userCount, setUserCount] = useState(0)
+  const [hearts, setHearts] = useState<Array<{ id: number; x: number; y: number }>>([])
 
-  // Animate counters on mount
-  useEffect(() => {
-    const animateCount = (target: number, setter: (n: number) => void, duration = 2000) => {
-      let start = 0
-      const increment = target / (duration / 16)
-      const timer = setInterval(() => {
-        start += increment
-        if (start >= target) {
-          setter(target)
-          clearInterval(timer)
-        } else {
-          setter(Math.floor(start))
-        }
-      }, 16)
+  const createHearts = () => {
+    const newHearts: Array<{ id: number; x: number; y: number }> = []
+    const heartCount = 30 // Number of hearts to create
+
+    for (let i = 0; i < heartCount; i++) {
+      newHearts.push({
+        id: Date.now() + i,
+        x: Math.random() * 100, // Random x position (0-100%)
+        y: Math.random() * 100, // Random y position (0-100%)
+      })
     }
 
-    animateCount(500, setPromptCount)
-    animateCount(10000, setUserCount)
-  }, [])
+    setHearts(newHearts)
+
+    // Remove hearts after 3 seconds
+    setTimeout(() => {
+      setHearts([])
+    }, 3000)
+  }
 
   return (
     <footer className="border-t bg-white py-10 dark:bg-gray-950">
@@ -47,8 +46,7 @@ export function Footer() {
                 Ready to level up your AI prompts?
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Join {userCount.toLocaleString()}+ creators sharing {promptCount}+ prompts. Free forever
-                to start.
+                Join 100s of creators sharing AI prompts in the public directory. Free to start safely storing your prompts! Create your prompt CMS with Prompt Manage.
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -225,7 +223,14 @@ export function Footer() {
             <div className="flex flex-col gap-2 text-xs">
               <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
                 <span>Made with</span>
-                <span className="text-red-500 transition-transform hover:scale-125">❤️</span>
+                <button
+                  type="button"
+                  onClick={createHearts}
+                  className="cursor-pointer text-red-500 transition-transform hover:scale-125 active:scale-110"
+                  aria-label="Show love"
+                >
+                  ❤️
+                </button>
                 <span>for AI creators</span>
               </div>
               <div className="text-gray-500 dark:text-gray-400">
@@ -235,6 +240,25 @@ export function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Floating Hearts Animation */}
+      {hearts.length > 0 && (
+        <div className="pointer-events-none fixed inset-0 z-50">
+          {hearts.map((heart) => (
+            <div
+              key={heart.id}
+              className="absolute animate-heart-float"
+              style={{
+                left: `${heart.x}%`,
+                top: `${heart.y}%`,
+                animationDelay: `${Math.random() * 0.5}s`,
+              }}
+            >
+              <span className="text-2xl">❤️</span>
+            </div>
+          ))}
+        </div>
+      )}
     </footer>
   )
 }

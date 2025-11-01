@@ -24,7 +24,7 @@ export default function RefundsPage() {
             Terms and conditions for refunds and cancellations.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: October 31, 2025
+            Last updated: October 30, 2025
           </p>
         </div>
       </div>
@@ -41,8 +41,8 @@ export default function RefundsPage() {
             </p>
             <ul className="list-disc space-y-3 pl-6 text-gray-600 dark:text-gray-400">
               <li>
-                <strong className="text-gray-900 dark:text-white">Free Trial Period:</strong> If you
-                cancel your subscription within the 14-day free trial period, you will not be charged.
+                <strong className="text-gray-900 dark:text-white">Subscription Cancellation:</strong> If you
+                cancel your subscription, you will retain access until the end of your current billing period. No charges will occur after cancellation.
               </li>
               <li>
                 <strong className="text-gray-900 dark:text-white">Subscription Errors:</strong> If
@@ -151,7 +151,7 @@ export default function RefundsPage() {
               The following are not eligible for refunds:
             </p>
             <ul className="list-disc space-y-2 pl-6 text-gray-600 dark:text-gray-400">
-              <li>Subscriptions that have been active beyond the trial period</li>
+              <li>Subscriptions that have been active and used</li>
               <li>Usage-based charges (e.g., token usage, API calls)</li>
               <li>Custom enterprise plans or add-ons</li>
               <li>Services that have been fully consumed during the billing period</li>

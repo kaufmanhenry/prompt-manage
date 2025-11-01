@@ -73,11 +73,7 @@ export default function PricingPage() {
             <ul className="mb-8 flex-1 space-y-3.5">
               <li className="flex items-start gap-3">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">5 prompts per month</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Secure cloud storage</span>
+                <span className="text-sm leading-relaxed">Store up to 25 prompts in your account privately</span>
               </li>
               <li className="flex items-start gap-3">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
@@ -85,11 +81,11 @@ export default function PricingPage() {
               </li>
               <li className="flex items-start gap-3">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Public sharing</span>
+                <span className="text-sm leading-relaxed">Create private and public collections</span>
               </li>
               <li className="flex items-start gap-3">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Export prompts</span>
+                <span className="text-sm leading-relaxed">Public sharing</span>
               </li>
             </ul>
 
@@ -136,7 +132,7 @@ export default function PricingPage() {
               </li>
               <li className="flex items-start gap-3">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Export & backup options</span>
+                <span className="text-sm leading-relaxed">Bulk Import/Export & backup options</span>
               </li>
               <li className="flex items-start gap-3">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
@@ -162,7 +158,7 @@ export default function PricingPage() {
                 <span className="text-5xl font-bold tracking-tight">$99</span>
                 <span className="text-lg font-medium text-muted-foreground">/mo</span>
               </div>
-              <p className="text-sm text-muted-foreground">For growing teams and enterprises</p>
+              <p className="text-sm text-muted-foreground">For growing teams and large enterprises</p>
             </div>
 
             <ul className="mb-8 flex-1 space-y-3.5">
@@ -184,7 +180,7 @@ export default function PricingPage() {
               </li>
               <li className="flex items-start gap-3">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Custom integrations</span>
+                <span className="text-sm leading-relaxed">Custom integrations and apps</span>
               </li>
               <li className="flex items-start gap-3">
                 <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
@@ -219,7 +215,7 @@ export default function PricingPage() {
                 </div>
                 <h3 className="mb-2 text-base font-semibold text-foreground">Enterprise Security</h3>
                 <p className="text-sm leading-relaxed text-foreground/60">
-                  SOC 2 compliant, end-to-end encryption, role-based access control, and audit logs.
+                  AES-256 encryption at rest, TLS 1.3 in transit, role-based access control, and comprehensive audit logging.
                 </p>
               </div>
               <div className="rounded-lg border border-border/50 bg-card p-6">
@@ -235,9 +231,9 @@ export default function PricingPage() {
                 <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10">
                   <Sparkles className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <h3 className="mb-2 text-base font-semibold text-foreground">99.9% Uptime SLA</h3>
+                <h3 className="mb-2 text-base font-semibold text-foreground">High Availability</h3>
                 <p className="text-sm leading-relaxed text-foreground/60">
-                  Enterprise-grade reliability with global edge caching and automated failover.
+                  Built for reliability with edge caching, automated failover, and scalable infrastructure for growing teams.
                 </p>
               </div>
             </div>
@@ -261,7 +257,7 @@ export default function PricingPage() {
             </div>
             <div className="flex items-center gap-2">
               <Check className="h-4 w-4 text-emerald-500" />
-              <span>SLA guaranteed</span>
+              <span>Enterprise security</span>
             </div>
             <div className="flex items-center gap-2">
               <Check className="h-4 w-4 text-emerald-500" />

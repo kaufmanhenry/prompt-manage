@@ -1,9 +1,10 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { CheckCircle2, Download, FileJson, FileText, Loader2,Upload, XCircle } from 'lucide-react'
-import { useRef,useState } from 'react'
+import { CheckCircle2, Download, FileJson, FileText, Loader2, Upload, XCircle } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
+import Paywall from '@/components/Paywall'
 import { Sidebar } from '@/components/Sidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -27,6 +28,8 @@ export default function ImportExportPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
   const queryClient = useQueryClient()
+  const [showPaywall, setShowPaywall] = useState(false)
+  const [paywallFeature, setPaywallFeature] = useState<string>('')
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -46,7 +49,7 @@ export default function ImportExportPage() {
         .from('prompts')
         .select('id, name, prompt_text')
         .eq('user_id', session.user.id)
-        .order('created_at', { ascending: false })
+        .order('inserted_at', { ascending: false })
 
       if (error) throw error
       return data || []
@@ -54,8 +57,42 @@ export default function ImportExportPage() {
     enabled: !!session?.user?.id,
   })
 
+  // Check subscription status for import/export access
+  const { data: subscriptionStatus } = useQuery({
+    queryKey: ['subscription-status'],
+    queryFn: async () => {
+      const response = await fetch('/api/subscription/status')
+      if (!response.ok) {
+        throw new Error('Failed to fetch subscription status')
+      }
+      return response.json()
+    },
+    enabled: !!session?.user?.id,
+  })
+
+  const canExport = subscriptionStatus?.features?.canExport || false
+  const canImport = subscriptionStatus?.features?.canImport || false
+  const statusMessage = subscriptionStatus?.statusMessage
+  const currentPlan = subscriptionStatus?.subscription?.plan || 'free'
+
+  // Show paywall for free users immediately
+  useEffect(() => {
+    if (session?.user?.id && !canImport && !canExport && !showPaywall) {
+      setPaywallFeature('Import & Export')
+      setShowPaywall(true)
+    }
+  }, [session?.user?.id, canImport, canExport, showPaywall])
+
   const handleImport = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    
+    // Check subscription access
+    if (!canImport) {
+      setPaywallFeature('Import Prompts')
+      setShowPaywall(true)
+      return
+    }
+
     const fileInput = fileInputRef.current
     if (!fileInput?.files || fileInput.files.length === 0) {
       toast({
@@ -108,7 +145,14 @@ export default function ImportExportPage() {
       const result = await response.json()
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to import prompts')
+        const errorMsg = result.error || 'Failed to import prompts'
+        // Check if it's a subscription error
+        if (result.details && result.details.includes('subscription')) {
+          setPaywallFeature('Import Prompts')
+          setShowPaywall(true)
+          return
+        }
+        throw new Error(errorMsg)
       }
 
       setImportResult({
@@ -144,6 +188,13 @@ export default function ImportExportPage() {
   }
 
   const handleExport = async (format: 'csv' | 'json') => {
+    // Check subscription access
+    if (!canExport) {
+      setPaywallFeature('Export Prompts')
+      setShowPaywall(true)
+      return
+    }
+
     try {
       const response = await fetch('/api/prompts/bulk-export', {
         method: 'POST',
@@ -158,7 +209,14 @@ export default function ImportExportPage() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.error || 'Failed to export prompts')
+        const errorMsg = errorData.error || 'Failed to export prompts'
+        // Check if it's a subscription error
+        if (errorData.details && errorData.details.includes('subscription')) {
+          setPaywallFeature('Export Prompts')
+          setShowPaywall(true)
+          return
+        }
+        throw new Error(errorMsg)
       }
 
       // Handle CSV download
@@ -242,6 +300,18 @@ export default function ImportExportPage() {
             <p className="mt-2 text-sm text-muted-foreground md:text-base">
               Import prompts from CSV/JSON files or export your prompts for backup
             </p>
+            {statusMessage && (
+              <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-900/20">
+                <p className="text-sm text-amber-900 dark:text-amber-200">{statusMessage}</p>
+              </div>
+            )}
+            {!canExport && !canImport && (
+              <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-900/20">
+                <p className="text-sm text-blue-900 dark:text-blue-200">
+                  Import and Export features require a paid subscription. Upgrade to Team or Pro plan to use these features.
+                </p>
+              </div>
+            )}
           </div>
 
           <Tabs defaultValue="import" className="w-full">
@@ -492,6 +562,13 @@ export default function ImportExportPage() {
           </Tabs>
         </div>
       </main>
+      <Paywall
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        currentPlan={currentPlan}
+        usage={subscriptionStatus?.usage}
+        feature={paywallFeature}
+      />
     </div>
   )
 }

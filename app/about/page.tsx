@@ -1,5 +1,6 @@
 import { ArrowRight, Building2, CheckCircle, Shield, Users } from 'lucide-react'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -114,6 +115,29 @@ export default function AboutPage() {
               operations organize their AI workflows, protect their intellectual property, and scale
               their use of AI with confidence.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Photo */}
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-3xl">
+          <div className="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+            <div className="relative aspect-[4/3] w-full overflow-hidden">
+              <Image
+                src="/images/henry-mike-boston-lunch.jpg"
+                alt="Henry and Mike working on Prompt Manage in Boston"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 672px, 768px"
+              />
+            </div>
+            <div className="border-t border-gray-200 bg-gray-50 px-6 py-4 text-center dark:border-gray-800 dark:bg-gray-900">
+              <p className="text-sm italic text-gray-600 dark:text-gray-400">
+                Henry and Mike working on Prompt Manage in Boston while munching some Trader
+                Joe&apos;s for lunch.
+              </p>
+            </div>
           </div>
         </div>
       </section>

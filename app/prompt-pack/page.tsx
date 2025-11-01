@@ -148,7 +148,7 @@ export default function PromptPackPage() {
                   use these prompts effectively.
                 </p>
                 <Link href="/?redirect=/dashboard">
-                  <Button className="py-3 text-lg">Start Free Trial</Button>
+                  <Button className="py-3 text-lg">Get Started</Button>
                 </Link>
               </div>
             )}
@@ -315,7 +315,7 @@ export default function PromptPackPage() {
             </Link>
           </div>
           <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-            No credit card required • 14-day free trial • Cancel anytime
+            No credit card required • Cancel anytime
           </p>
         </div>
       </div>

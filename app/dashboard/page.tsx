@@ -27,6 +27,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/use-toast'
+import { usePaywall } from '@/hooks/usePaywall'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -36,6 +37,7 @@ export default function DashboardHomePage() {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const [showCreateForm, setShowCreateForm] = useState(false)
+  const { usage, subscription, canCreatePrompt, PaywallComponent } = usePaywall()
 
   // Handle checkout success/cancel redirects
   useEffect(() => {
@@ -225,18 +227,79 @@ export default function DashboardHomePage() {
             </p>
           </div>
 
+          {/* Usage Warning for Free Users */}
+          {subscription?.plan === 'free' && usage && (
+            <Card className="mb-6 border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/20">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Prompt Usage</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Prompts Stored</span>
+                  <span className="font-semibold">
+                    {usage.promptsTotal} / 25
+                  </span>
+                </div>
+                <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
+                  <div
+                    className={`h-full transition-all ${
+                      usage.promptsTotal >= 25
+                        ? 'bg-red-500'
+                        : usage.promptsTotal >= 20
+                          ? 'bg-amber-500'
+                          : 'bg-emerald-500'
+                    }`}
+                    style={{ width: `${Math.min((usage.promptsTotal / 25) * 100, 100)}%` }}
+                  />
+                </div>
+                {usage.promptsTotal >= 25 && (
+                  <p className="text-sm font-medium text-red-600 dark:text-red-400">
+                    ❌ You&apos;ve reached your limit. Delete prompts or upgrade to continue.
+                  </p>
+                )}
+                {usage.promptsTotal >= 20 && usage.promptsTotal < 25 && (
+                  <p className="text-sm text-amber-600 dark:text-amber-400">
+                    ⚠️ You&apos;re approaching your limit ({usage.promptsTotal} of 25). Upgrade for unlimited prompts.
+                  </p>
+                )}
+                {usage.promptsTotal < 20 && (
+                  <p className="text-sm text-muted-foreground">
+                    Upgrade to Team or Pro plan for unlimited prompts and bulk import/export.
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
           {/* Quick Actions */}
           <div className="mb-6 flex flex-wrap gap-3">
-            <Button onClick={() => setShowCreateForm(true)} size="lg" className="gap-2">
+            <Button
+              onClick={() => {
+                if (!canCreatePrompt) {
+                  toast({
+                    title: 'Prompt Limit Reached',
+                    description: 'You have reached your prompt limit. Please upgrade or delete prompts.',
+                    variant: 'destructive',
+                  })
+                  return
+                }
+                setShowCreateForm(true)
+              }}
+              size="lg"
+              className="gap-2"
+              disabled={!canCreatePrompt}
+            >
               <Sparkles className="h-4 w-4" />
               Create New Prompt
             </Button>
-            <Link href="/dashboard/import-export">
-              <Button variant="outline" size="lg" className="gap-2">
-                <Upload className="h-4 w-4" />
-                Import / Export
-              </Button>
-            </Link>
+            {subscription?.plan !== 'free' && (
+              <Link href="/dashboard/import-export">
+                <Button variant="outline" size="lg" className="gap-2">
+                  <Upload className="h-4 w-4" />
+                  Import / Export
+                </Button>
+              </Link>
+            )}
             <Link href="/dashboard/collections">
               <Button variant="outline" size="lg" className="gap-2">
                 <FolderIcon className="h-4 w-4" />
@@ -244,6 +307,9 @@ export default function DashboardHomePage() {
               </Button>
             </Link>
           </div>
+
+          {/* Paywall Component */}
+          {PaywallComponent}
 
           {/* Stats Cards */}
           <div className="grid-stat-cards">

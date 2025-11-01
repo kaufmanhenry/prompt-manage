@@ -680,7 +680,7 @@ export default function StatsPage() {
               href="/?redirect=/dashboard"
               className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700"
             >
-              Start Free Trial
+              Get Started
             </a>
           </div>
         </div>

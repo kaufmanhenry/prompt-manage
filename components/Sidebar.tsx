@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { logger } from '@/lib/logger'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -133,7 +134,7 @@ export function Sidebar({
       router.push('/')
       router.refresh()
     } catch (error) {
-      console.error('Error signing out:', error)
+      logger.error('Error signing out:', error)
       // Even if sign out fails, try to redirect
       router.push('/')
       router.refresh()

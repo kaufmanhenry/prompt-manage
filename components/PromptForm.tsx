@@ -39,6 +39,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { useTeamContext } from '@/contexts/team-context'
 import { usePaywall } from '@/hooks/usePaywall'
+import { logger } from '@/lib/logger'
 import { getModelsByCategory } from '@/lib/models'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { promptSchema } from '@/lib/schemas/prompt'
@@ -243,7 +244,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       void queryClient.invalidateQueries({ queryKey: ['user-tags'] })
       onOpenChange(false)
     } catch (error) {
-      console.error('Error saving prompt:', error)
+      logger.error('Error saving prompt:', error)
       toast({
         title: 'Error',
         description: prompt?.id

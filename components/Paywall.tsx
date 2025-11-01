@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { logger } from '@/lib/logger'
 import type { PlanType } from '@/lib/stripe'
 import { STRIPE_CONFIG } from '@/lib/stripe'
 
@@ -45,9 +46,7 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
         window.location.href = url
       }
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Error creating checkout session:', error)
-      }
+      logger.error('Error creating checkout session:', error)
     } finally {
       setIsLoading(false)
     }
@@ -165,7 +164,6 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
                   disabled={isCurrentPlan || isLoading}
                   onClick={() => {
                     if (!isCurrentPlan) {
-                      setSelectedPlan(planType)
                       void handleSubscribe(planType)
                     }
                   }}

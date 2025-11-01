@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { logger } from '@/lib/logger'
 import { createClient } from '@/utils/supabase/client'
 
 export function Header() {
@@ -63,7 +64,7 @@ export function Header() {
       router.push('/')
       router.refresh()
     } catch (error) {
-      console.error('Error signing out:', error)
+      logger.error('Error signing out:', error)
       // Even if sign out fails, try to redirect
       router.push('/')
       router.refresh()

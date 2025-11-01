@@ -2,6 +2,7 @@ import type { User } from '@supabase/supabase-js'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
+import { logger } from '@/lib/logger'
 import { createClient } from '@/utils/supabase/server'
 
 // Helper function to create user profile if it doesn't exist
@@ -45,7 +46,7 @@ async function createUserProfileIfNeeded(
       })
 
       if (insertError) {
-        console.error('Error creating user profile:', insertError)
+        logger.error('Error creating user profile:', insertError)
         return {
           success: false,
           error: `Database error saving new user: ${insertError.message}`,
@@ -57,7 +58,7 @@ async function createUserProfileIfNeeded(
 
     // If it's a different error, return it
     if (profileError && profileError.code !== 'PGRST116') {
-      console.error('Error checking user profile:', profileError)
+      logger.error('Error checking user profile:', profileError)
       return {
         success: false,
         error: `Database error: ${profileError.message}`,
@@ -66,7 +67,7 @@ async function createUserProfileIfNeeded(
 
     return { success: true }
   } catch (error) {
-    console.error('Unexpected error creating user profile:', error)
+    logger.error('Unexpected error creating user profile:', error)
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -84,7 +85,7 @@ export async function GET(request: Request) {
 
   // Handle OAuth errors
   if (errorCode) {
-    console.error('OAuth error:', errorCode)
+    logger.error('OAuth error:', errorCode)
     const errorUrl = new URL('/auth/error', requestUrl.origin)
     errorUrl.searchParams.set('error', errorCode)
     errorUrl.searchParams.set('redirect', redirectTo)
@@ -102,18 +103,32 @@ export async function GET(request: Request) {
   // Supabase magic links automatically create a session when clicked
   // But we also handle manual verification if needed
   if ((type === 'magiclink' || token) && !existingSession) {
-    const email = requestUrl.searchParams.get('email') || undefined
+    const email = requestUrl.searchParams.get('email')
 
     // For magic links, Supabase sends the token in the URL
     // We need to verify it manually if session doesn't exist
-    const verifyResult = await supabase.auth.verifyOtp({
-      token_hash: token || undefined,
-      email: email || undefined,
+    if (!token) {
+      // If no token, skip verification
+      return NextResponse.redirect(new URL(redirectTo, requestUrl.origin))
+    }
+
+    const verifyParams: {
+      token_hash: string
+      type: 'magiclink' | 'email'
+      email?: string
+    } = {
+      token_hash: token,
       type: type === 'magiclink' ? 'magiclink' : 'email',
-    })
+    }
+
+    if (email) {
+      verifyParams.email = email
+    }
+
+    const verifyResult = await supabase.auth.verifyOtp(verifyParams)
 
     if (verifyResult.error) {
-      console.error('Magic link verification error:', verifyResult.error)
+      logger.error('Magic link verification error:', verifyResult.error)
       const errorUrl = new URL('/auth/error', requestUrl.origin)
       errorUrl.searchParams.set('error', verifyResult.error.message)
       errorUrl.searchParams.set('redirect', redirectTo)
@@ -129,7 +144,7 @@ export async function GET(request: Request) {
       )
 
       if (!profileResult.success) {
-        console.error('Profile creation failed:', profileResult.error)
+        logger.error('Profile creation failed:', profileResult.error)
         const errorUrl = new URL('/auth/error', requestUrl.origin)
         errorUrl.searchParams.set('error', profileResult.error || 'Failed to create user profile')
         errorUrl.searchParams.set('redirect', redirectTo)
@@ -165,7 +180,7 @@ export async function GET(request: Request) {
     } = await supabase.auth.exchangeCodeForSession(code)
 
     if (error) {
-      console.error('Error exchanging code for session:', error)
+      logger.error('Error exchanging code for session:', error)
       const errorUrl = new URL('/auth/error', requestUrl.origin)
       errorUrl.searchParams.set('error', error.message)
       errorUrl.searchParams.set('redirect', redirectTo)
@@ -177,7 +192,7 @@ export async function GET(request: Request) {
       const profileResult = await createUserProfileIfNeeded(supabase, session.user.id, session.user)
 
       if (!profileResult.success) {
-        console.error('Profile creation failed:', profileResult.error)
+        logger.error('Profile creation failed:', profileResult.error)
         const errorUrl = new URL('/auth/error', requestUrl.origin)
         errorUrl.searchParams.set('error', profileResult.error || 'Failed to create user profile')
         errorUrl.searchParams.set('redirect', redirectTo)

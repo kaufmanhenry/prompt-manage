@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
+import { logger } from '@/lib/logger'
 import { createClient } from '@/utils/supabase/client'
 
 interface GoogleSignInButtonProps extends React.ComponentProps<typeof Button> {
@@ -28,9 +29,7 @@ export function GoogleSignInButton({
       const callbackUrl = `${origin}/auth/callback?redirect=${encodeURIComponent(redirectPath)}`
 
       // Log for debugging (only in development)
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Google OAuth callback URL:', callbackUrl)
-      }
+      logger.log('Google OAuth callback URL:', callbackUrl)
 
       const { error } = await createClient().auth.signInWithOAuth({
         provider: 'google',
@@ -41,7 +40,7 @@ export function GoogleSignInButton({
       })
 
       if (error) {
-        console.error('Google OAuth error:', error)
+        logger.error('Google OAuth error:', error)
         toast({
           title: 'Sign-in Error',
           description:
@@ -51,7 +50,7 @@ export function GoogleSignInButton({
         })
       }
     } catch (err) {
-      console.error('Google sign-in error:', err)
+      logger.error('Google sign-in error:', err)
       toast({
         title: 'Error',
         description:

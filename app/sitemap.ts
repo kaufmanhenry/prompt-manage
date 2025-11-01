@@ -227,7 +227,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...collectionPages,
     ]
   } catch (error) {
-    console.error('Error generating sitemap:', error)
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error generating sitemap:', error)
+    }
     // Return static pages, legal pages, model pages, and category pages if there's an error
     return [...staticPages, ...legalPages, ...modelPages, ...categoryPages]
   }

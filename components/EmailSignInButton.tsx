@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/components/ui/use-toast'
+import { logger } from '@/lib/logger'
 import { createClient } from '@/utils/supabase/client'
 
 interface EmailSignInButtonProps extends React.ComponentProps<typeof Button> {
@@ -77,7 +78,7 @@ export function EmailSignInButton({
         })
       }
     } catch (err) {
-      console.error('Email sign-in error:', err)
+      logger.error('Email sign-in error:', err)
       toast({
         title: 'Error',
         description: 'An error occurred. Please try again.',

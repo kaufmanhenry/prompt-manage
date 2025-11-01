@@ -38,7 +38,9 @@ export async function GET(_request: NextRequest) {
         : {
             plan: isAdmin ? ('pro' as const) : ('free' as const),
             status: 'active' as const,
-            currentPeriodEnd: isAdmin ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() : null,
+            currentPeriodEnd: isAdmin
+              ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+              : null,
           },
       usage: {
         promptsThisMonth: usage.promptsThisMonth,

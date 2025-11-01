@@ -27,7 +27,6 @@ interface PaywallProps {
 }
 
 export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature }: PaywallProps) {
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>('team')
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubscribe = async (plan: PlanType) => {

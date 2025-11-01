@@ -119,7 +119,7 @@ export default function PricingPage() {
                     }`}
                     onClick={() => {
                       if (planType === 'team' || planType === 'pro') {
-                        handleSubscribe(planType)
+                        void handleSubscribe(planType)
                       }
                     }}
                     disabled={loading === planType}

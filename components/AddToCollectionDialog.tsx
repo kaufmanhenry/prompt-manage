@@ -102,7 +102,7 @@ export function AddToCollectionDialog({
         description: 'Prompt added to collection',
       })
 
-      refetch()
+      void refetch()
       onAdded?.()
     } catch (error) {
       toast({

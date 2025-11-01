@@ -159,11 +159,12 @@ export default function CollectionsManagerPage() {
       tags: c.tags || [],
     }))
     setCollections(collectionsWithFields)
-    queryClient.invalidateQueries({ queryKey: ['collection-prompts'] })
+    void queryClient.invalidateQueries({ queryKey: ['collection-prompts'] })
   }
 
   useEffect(() => {
     void refresh()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleRemovePrompt = async (collectionId: string, promptId: string) => {

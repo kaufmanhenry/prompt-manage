@@ -174,11 +174,7 @@ export async function GET(request: Request) {
 
     if (session) {
       // Create profile if needed
-      const profileResult = await createUserProfileIfNeeded(
-        supabase,
-        session.user.id,
-        session.user,
-      )
+      const profileResult = await createUserProfileIfNeeded(supabase, session.user.id, session.user)
 
       if (!profileResult.success) {
         console.error('Profile creation failed:', profileResult.error)

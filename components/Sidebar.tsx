@@ -62,7 +62,6 @@ export function Sidebar({
   })
 
   const canImportExport = subscriptionStatus?.features?.canExport || false
-  const currentPlan = subscriptionStatus?.subscription?.plan || 'free'
 
   // Local state for model and tag filters and search
   const [modelFilters, setModelFilters] = useState<string[]>([])

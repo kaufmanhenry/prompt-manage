@@ -10,7 +10,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 export default function AuthErrorPage() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error') || 'An unknown error occurred'
-  const redirect = searchParams.get('redirect') || '/dashboard'
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -52,4 +51,3 @@ export default function AuthErrorPage() {
     </div>
   )
 }
-

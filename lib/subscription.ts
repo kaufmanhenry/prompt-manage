@@ -133,7 +133,10 @@ export function canUserCreatePrompt(
   return usage.promptsThisMonth < plan.limits.promptsPerMonth
 }
 
-export function canUserExport(subscription: UserSubscription | null, userEmail?: string | null): boolean {
+export function canUserExport(
+  subscription: UserSubscription | null,
+  userEmail?: string | null,
+): boolean {
   // Admins always have PRO access (can export)
   if (userEmail && isAdminEmail(userEmail)) {
     return true
@@ -147,7 +150,10 @@ export function canUserExport(subscription: UserSubscription | null, userEmail?:
   return plan.limits.canExport === true
 }
 
-export function canUserImport(subscription: UserSubscription | null, userEmail?: string | null): boolean {
+export function canUserImport(
+  subscription: UserSubscription | null,
+  userEmail?: string | null,
+): boolean {
   // Admins always have PRO access (can import)
   if (userEmail && isAdminEmail(userEmail)) {
     return true

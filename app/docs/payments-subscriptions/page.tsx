@@ -1,6 +1,8 @@
-import { CreditCard, DollarSign, Lock, RefreshCw, Shield } from 'lucide-react'
+import { Check, CreditCard, DollarSign, Lock, RefreshCw, Shield } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+
+import { formatPrice, getAllPlans, PRICING_CONFIG } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   title: 'Payments & Subscriptions — Prompt Manage',
@@ -96,91 +98,48 @@ export default function PaymentsSubscriptionsGuide() {
             </div>
             <div className="space-y-6">
               <div className="grid gap-6 md:grid-cols-3">
-                <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                  <h3 className="mb-3 text-xl font-semibold">Free</h3>
-                  <div className="mb-4 text-3xl font-bold">$0</div>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Store up to 25 prompts in your account privately</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Secure cloud storage</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Tag & organize prompts</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Public sharing</span>
-                    </li>
-                  </ul>
-                </div>
+                {getAllPlans().map((planType) => {
+                  const plan = PRICING_CONFIG[planType]
+                  const isPopular = plan.tagline === 'Popular'
+                  const isPaid = plan.price > 0
 
-                <div className="rounded-lg border-2 border-emerald-200 bg-white p-6 dark:border-emerald-700 dark:bg-gray-800">
-                  <div className="mb-2">
-                    <span className="rounded-full bg-emerald-500 px-2 py-1 text-xs font-medium text-white">
-                      Popular
-                    </span>
-                  </div>
-                  <h3 className="mb-3 text-xl font-semibold">Team</h3>
-                  <div className="mb-4 text-3xl font-bold">
-                    $20<span className="text-lg font-normal">/mo</span>
-                  </div>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Unlimited prompts</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>All AI models</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Team sharing (5 members)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Export & API access</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Priority support</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                  <h3 className="mb-3 text-xl font-semibold">Pro</h3>
-                  <div className="mb-4 text-3xl font-bold">
-                    $99<span className="text-lg font-normal">/mo</span>
-                  </div>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Everything in Team</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Up to 25 team members</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Advanced analytics</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Custom integrations</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-0.5 text-emerald-500">✓</span>
-                      <span>Dedicated support</span>
-                    </li>
-                  </ul>
-                </div>
+                  return (
+                    <div
+                      key={planType}
+                      className={`rounded-lg border bg-white p-6 dark:bg-gray-800 ${
+                        isPopular
+                          ? 'border-2 border-emerald-200 dark:border-emerald-700'
+                          : 'border border-gray-200 dark:border-gray-700'
+                      }`}
+                    >
+                      {plan.tagline && (
+                        <div className="mb-2">
+                          <span className="rounded-full bg-emerald-500 px-2 py-1 text-xs font-medium text-white">
+                            {plan.tagline}
+                          </span>
+                        </div>
+                      )}
+                      <h3 className="mb-3 text-xl font-semibold">{plan.name}</h3>
+                      <div className="mb-4 text-3xl font-bold">
+                        {formatPrice(plan.price)}
+                        {isPaid && <span className="text-lg font-normal">/mo</span>}
+                      </div>
+                      {plan.description && (
+                        <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                          {plan.description}
+                        </p>
+                      )}
+                      <ul className="space-y-2 text-sm">
+                        {plan.features.map((feature, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-500" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )
+                })}
               </div>
 
               <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/50">
@@ -216,10 +175,9 @@ export default function PaymentsSubscriptionsGuide() {
                     ✅ Free Plan Features
                   </h3>
                   <ul className="space-y-2 text-sm text-emerald-800 dark:text-emerald-200">
-                    <li>• Store up to 25 prompts in your account privately</li>
-                    <li>• Secure cloud storage</li>
-                    <li>• Tag and organize prompts</li>
-                    <li>• Share prompts publicly</li>
+                    {PRICING_CONFIG.free.features.map((feature, index) => (
+                      <li key={index}>• {feature}</li>
+                    ))}
                     <li>• Browse public prompt directory</li>
                     <li>• View public collections</li>
                   </ul>
@@ -230,13 +188,11 @@ export default function PaymentsSubscriptionsGuide() {
                     🔒 Premium Features (Team/Pro)
                   </h3>
                   <ul className="space-y-2 text-sm text-blue-800 dark:text-blue-200">
-                    <li>• Unlimited prompt creation</li>
-                    <li>• Unlimited prompt storage</li>
-                    <li>• Team collaboration (5-25 members)</li>
-                    <li>• Advanced analytics</li>
-                    <li>• API access</li>
-                    <li>• Priority support</li>
-                    <li>• Custom integrations</li>
+                    {[...PRICING_CONFIG.team.features, ...PRICING_CONFIG.pro.features]
+                      .filter((feature, index, self) => self.indexOf(feature) === index)
+                      .map((feature, index) => (
+                        <li key={index}>• {feature}</li>
+                      ))}
                   </ul>
                 </div>
               </div>
@@ -288,9 +244,10 @@ export default function PaymentsSubscriptionsGuide() {
                     <h3 className="text-lg font-semibold">Choose Your Plan</h3>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Select either <strong>Team ($20/month)</strong> or <strong>Pro ($99/month)</strong>{' '}
-                    based on your needs. Team is perfect for small teams, while Pro includes more
-                    members and advanced features.
+                    Select either <strong>Team ({formatPrice(PRICING_CONFIG.team.price)}/month)</strong>{' '}
+                    or <strong>Pro ({formatPrice(PRICING_CONFIG.pro.price)}/month)</strong> based on
+                    your needs. Team is perfect for small teams, while Pro includes more members and
+                    advanced features.
                   </p>
                 </div>
 

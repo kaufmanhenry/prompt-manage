@@ -1,5 +1,5 @@
-import type { PlanType } from '@/lib/stripe'
-import { STRIPE_CONFIG } from '@/lib/stripe'
+import type { PlanType } from '@/lib/pricing'
+import { PRICING_CONFIG } from '@/lib/pricing'
 import { createClient } from '@/utils/supabase/server'
 
 export interface UserSubscription {
@@ -94,11 +94,11 @@ export function canUserCreatePrompt(
 
   if (!subscription || subscription.status !== 'active') {
     // Free tier - check total prompts stored (maxPrompts), not monthly
-    const plan = STRIPE_CONFIG.plans.free
+    const plan = PRICING_CONFIG.free
     return usage.promptsTotal < plan.limits.maxPrompts
   }
 
-  const plan = STRIPE_CONFIG.plans[subscription.plan]
+  const plan = PRICING_CONFIG[subscription.plan]
 
   // Unlimited plans
   if (plan.limits.promptsPerMonth === -1) return true
@@ -112,7 +112,7 @@ export function canUserExport(subscription: UserSubscription | null): boolean {
   if (!subscription || subscription.status !== 'active') {
     return false
   }
-  const plan = STRIPE_CONFIG.plans[subscription.plan]
+  const plan = PRICING_CONFIG[subscription.plan]
   return plan.limits.canExport === true
 }
 
@@ -121,7 +121,7 @@ export function canUserImport(subscription: UserSubscription | null): boolean {
   if (!subscription || subscription.status !== 'active') {
     return false
   }
-  const plan = STRIPE_CONFIG.plans[subscription.plan]
+  const plan = PRICING_CONFIG[subscription.plan]
   return plan.limits.canExport === true // Import uses same permission as export
 }
 
@@ -131,7 +131,7 @@ export function canUserShare(subscription: UserSubscription | null): boolean {
     // Free users can share publicly (is_public: true)
     return true
   }
-  const plan = STRIPE_CONFIG.plans[subscription.plan]
+  const plan = PRICING_CONFIG[subscription.plan]
   return plan.limits.canShare === true
 }
 
@@ -153,9 +153,9 @@ export function getSubscriptionStatusMessage(subscription: UserSubscription | nu
 }
 
 export function getPlanLimits(plan: PlanType) {
-  return STRIPE_CONFIG.plans[plan].limits
+  return PRICING_CONFIG[plan].limits
 }
 
 export function getPlanFeatures(plan: PlanType) {
-  return STRIPE_CONFIG.plans[plan].features
+  return PRICING_CONFIG[plan].features
 }

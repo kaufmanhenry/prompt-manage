@@ -1,4 +1,7 @@
-import Stripe from 'stripe'
+import type Stripe from 'stripe'
+
+import type { PlanType } from '@/lib/pricing'
+import { PRICING_CONFIG } from '@/lib/pricing'
 
 let _stripe: Stripe | null = null
 
@@ -7,7 +10,9 @@ export const getStripe = (): Stripe => {
     if (!process.env.STRIPE_SECRET_KEY) {
       throw new Error('Missing STRIPE_SECRET_KEY environment variable')
     }
-    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const StripeLib = require('stripe')
+    _stripe = new StripeLib(process.env.STRIPE_SECRET_KEY, {
       apiVersion: '2025-09-30.clover',
       typescript: true,
     })
@@ -22,63 +27,34 @@ export const stripe = new Proxy({} as Stripe, {
   },
 })
 
+/**
+ * @deprecated Use PRICING_CONFIG from '@/lib/pricing' instead
+ * Kept for backward compatibility
+ */
 export const STRIPE_CONFIG = {
   plans: {
     free: {
-      name: 'Free',
-      price: 0,
-      features: [
-        'Store up to 25 prompts in your account privately',
-        'Secure cloud storage',
-        'Tag & organize prompts',
-        'Public sharing',
-      ],
-      limits: {
-        promptsPerMonth: 25,
-        maxPrompts: 25,
-        canShare: true,
-        canExport: false,
-      },
+      name: PRICING_CONFIG.free.name,
+      price: PRICING_CONFIG.free.price,
+      features: PRICING_CONFIG.free.features,
+      limits: PRICING_CONFIG.free.limits,
     },
     team: {
-      name: 'Team',
-      price: 20,
-      priceId: process.env.STRIPE_PRICE_TEAM_MONTHLY_ID || '',
-      features: [
-        'Unlimited prompts',
-        'All AI models',
-        'Team sharing',
-        'Export & API access',
-        'Priority support',
-      ],
-      limits: {
-        promptsPerMonth: -1, // unlimited
-        maxPrompts: -1,
-        canShare: true,
-        canExport: true,
-        teamMembers: 5,
-      },
+      name: PRICING_CONFIG.team.name,
+      price: PRICING_CONFIG.team.price,
+      priceId: PRICING_CONFIG.team.stripePriceId,
+      features: PRICING_CONFIG.team.features,
+      limits: PRICING_CONFIG.team.limits,
     },
     pro: {
-      name: 'Pro',
-      price: 99,
-      priceId: process.env.STRIPE_PRICE_PRO_MONTHLY_ID || '',
-      features: [
-        'Everything in Team',
-        'Up to 25 team members',
-        'Advanced analytics',
-        'Custom integrations',
-        'Dedicated support',
-      ],
-      limits: {
-        promptsPerMonth: -1,
-        maxPrompts: -1,
-        canShare: true,
-        canExport: true,
-        teamMembers: 25,
-      },
+      name: PRICING_CONFIG.pro.name,
+      price: PRICING_CONFIG.pro.price,
+      priceId: PRICING_CONFIG.pro.stripePriceId,
+      features: PRICING_CONFIG.pro.features,
+      limits: PRICING_CONFIG.pro.limits,
     },
   },
 }
 
-export type PlanType = keyof typeof STRIPE_CONFIG.plans
+// Re-export PlanType for backward compatibility
+export type { PlanType }

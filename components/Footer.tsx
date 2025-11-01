@@ -247,7 +247,7 @@ export function Footer() {
           {hearts.map((heart) => (
             <div
               key={heart.id}
-              className="absolute animate-heart-float"
+              className="animate-heart-float absolute"
               style={{
                 left: `${heart.x}%`,
                 top: `${heart.y}%`,

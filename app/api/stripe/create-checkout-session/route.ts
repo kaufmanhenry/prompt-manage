@@ -1,15 +1,16 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+import type { PlanType } from '@/lib/pricing'
+import { PRICING_CONFIG } from '@/lib/pricing'
 import { getStripe } from '@/lib/stripe'
-import { STRIPE_CONFIG } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: NextRequest) {
   try {
     const { plan } = await request.json()
 
-    if (!plan || !STRIPE_CONFIG.plans[plan as keyof typeof STRIPE_CONFIG.plans]) {
+    if (!plan || !PRICING_CONFIG[plan as PlanType]) {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 })
     }
 
@@ -78,8 +79,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Create checkout session
-    const planConfig = STRIPE_CONFIG.plans[plan as keyof typeof STRIPE_CONFIG.plans]
-    const priceId = 'priceId' in planConfig ? planConfig.priceId : null
+    const planConfig = PRICING_CONFIG[plan as PlanType]
+    const priceId = planConfig.stripePriceId || null
 
     if (!priceId || priceId === '') {
       return NextResponse.json(

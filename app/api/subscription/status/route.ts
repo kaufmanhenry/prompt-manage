@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { STRIPE_CONFIG } from '@/lib/stripe'
+import { PRICING_CONFIG } from '@/lib/pricing'
 import { getUserSubscription, getUserUsage } from '@/lib/subscription'
 import { createClient } from '@/utils/supabase/server'
 
@@ -44,15 +44,15 @@ export async function GET(_request: NextRequest) {
       features: {
         canExport: subscription
           ? subscription.status === 'active' &&
-            STRIPE_CONFIG.plans[subscription.plan].limits.canExport === true
+            PRICING_CONFIG[subscription.plan].limits.canExport === true
           : false,
         canImport: subscription
           ? subscription.status === 'active' &&
-            STRIPE_CONFIG.plans[subscription.plan].limits.canExport === true
+            PRICING_CONFIG[subscription.plan].limits.canExport === true
           : false,
         canShare: subscription
           ? subscription.status === 'active' &&
-            STRIPE_CONFIG.plans[subscription.plan].limits.canShare === true
+            PRICING_CONFIG[subscription.plan].limits.canShare === true
           : true, // Free users can share publicly
       },
       statusMessage: subscription

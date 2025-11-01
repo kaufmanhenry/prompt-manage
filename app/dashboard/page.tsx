@@ -166,7 +166,7 @@ export default function DashboardHomePage() {
 
     // Calculate growth rate
     const weekGrowth =
-      stats.totalPrompts > 0 ? ((promptsThisWeek / stats.totalPrompts) * 100).toFixed(1) : '0'
+      totalPrompts > 0 ? ((promptsThisWeek / totalPrompts) * 100).toFixed(1) : '0'
 
     return {
       totalPrompts,

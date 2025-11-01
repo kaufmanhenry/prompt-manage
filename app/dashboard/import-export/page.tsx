@@ -147,7 +147,7 @@ export default function ImportExportPage() {
       if (!response.ok) {
         const errorMsg = result.error || 'Failed to import prompts'
         // Check if it's a subscription error
-        if (result.details && result.details.includes('subscription')) {
+        if (result.details?.includes('subscription')) {
           setPaywallFeature('Import Prompts')
           setShowPaywall(true)
           return
@@ -211,7 +211,7 @@ export default function ImportExportPage() {
         const errorData = await response.json().catch(() => ({}))
         const errorMsg = errorData.error || 'Failed to export prompts'
         // Check if it's a subscription error
-        if (errorData.details && errorData.details.includes('subscription')) {
+        if (errorData.details?.includes('subscription')) {
           setPaywallFeature('Export Prompts')
           setShowPaywall(true)
           return

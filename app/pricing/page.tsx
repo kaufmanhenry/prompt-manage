@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
+import { formatPrice, getAllPlans, PRICING_CONFIG } from '@/lib/pricing'
 
 export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null)
@@ -60,143 +61,77 @@ export default function PricingPage() {
 
         {/* Pricing Grid */}
         <div className="grid gap-8 md:grid-cols-3 md:gap-6 lg:gap-8">
-          {/* Free Plan */}
-          <div className="group relative flex flex-col rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-md">
-            <div className="mb-6">
-              <h3 className="mb-2 text-2xl font-semibold tracking-tight">Free</h3>
-              <div className="mb-1 flex items-baseline gap-1">
-                <span className="text-5xl font-bold tracking-tight">$0</span>
+          {getAllPlans().map((planType) => {
+            const plan = PRICING_CONFIG[planType]
+            const isPopular = plan.tagline === 'Popular'
+            const isPaid = plan.price > 0
+
+            return (
+              <div
+                key={planType}
+                className={`group relative flex flex-col rounded-2xl border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-md ${
+                  isPopular
+                    ? 'border-2 border-emerald-500/50 shadow-lg hover:border-emerald-500 hover:shadow-xl'
+                    : 'border-border'
+                } ${planType === 'pro' ? 'bg-gradient-to-br from-card via-card to-muted/30' : ''}`}
+              >
+                {isPopular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className="rounded-full bg-emerald-500 px-3 py-1 text-xs font-medium text-white">
+                      {plan.tagline}
+                    </span>
+                  </div>
+                )}
+
+                <div className="mb-6">
+                  <h3 className="mb-2 text-2xl font-semibold tracking-tight">{plan.name}</h3>
+                  <div className="mb-1 flex items-baseline gap-1">
+                    <span className="text-5xl font-bold tracking-tight">{formatPrice(plan.price)}</span>
+                    {isPaid && (
+                      <span className="text-lg font-medium text-muted-foreground">/mo</span>
+                    )}
+                  </div>
+                  <p className="text-sm text-muted-foreground">{plan.description}</p>
+                </div>
+
+                <ul className="mb-8 flex-1 space-y-3.5">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                      <span className="text-sm leading-relaxed">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {planType === 'free' ? (
+                  <Link href="/?redirect=/dashboard">
+                    <Button size="lg" variant="outline" className="w-full font-medium">
+                      Get started
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    size="lg"
+                    className={`w-full font-medium ${
+                      isPopular
+                        ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                        : ''
+                    }`}
+                    onClick={() => {
+                      if (planType === 'team' || planType === 'pro') {
+                        handleSubscribe(planType)
+                      }
+                    }}
+                    disabled={loading === planType}
+                  >
+                    {loading === planType
+                      ? 'Processing...'
+                      : `Start with ${plan.name}`}
+                  </Button>
+                )}
               </div>
-              <p className="text-sm text-muted-foreground">Perfect for getting started</p>
-            </div>
-
-            <ul className="mb-8 flex-1 space-y-3.5">
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Store up to 25 prompts in your account privately</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Tag & organize prompts</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Create private and public collections</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Public sharing</span>
-              </li>
-            </ul>
-
-            <Link href="/?redirect=/dashboard">
-              <Button size="lg" variant="outline" className="w-full font-medium">
-                Get started
-              </Button>
-            </Link>
-          </div>
-
-          {/* Team Plan */}
-          <div className="group relative flex flex-col rounded-2xl border-2 border-emerald-500/50 bg-card p-8 shadow-lg transition-all duration-300 hover:border-emerald-500 hover:shadow-xl">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <span className="rounded-full bg-emerald-500 px-3 py-1 text-xs font-medium text-white">
-                Popular
-              </span>
-            </div>
-
-            <div className="mb-6">
-              <h3 className="mb-2 text-2xl font-semibold tracking-tight">Team</h3>
-              <div className="mb-1 flex items-baseline gap-1">
-                <span className="text-5xl font-bold tracking-tight">$20</span>
-                <span className="text-lg font-medium text-muted-foreground">/mo</span>
-              </div>
-              <p className="text-sm text-muted-foreground">For small teams and collaboration</p>
-            </div>
-
-            <ul className="mb-8 flex-1 space-y-3.5">
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Unlimited prompts</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Up to 5 team members</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Private team collections</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Advanced sharing & permissions</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Bulk Import/Export & backup options</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Priority support</span>
-              </li>
-            </ul>
-
-            <Button
-              size="lg"
-              className="w-full bg-emerald-600 font-medium text-white hover:bg-emerald-700"
-              onClick={() => handleSubscribe('team')}
-              disabled={loading === 'team'}
-            >
-              {loading === 'team' ? 'Processing...' : 'Start with Team'}
-            </Button>
-          </div>
-
-          {/* Pro Plan */}
-          <div className="group relative flex flex-col rounded-2xl border border-border bg-gradient-to-br from-card via-card to-muted/30 p-8 shadow-sm transition-all duration-300 hover:shadow-md">
-            <div className="mb-6">
-              <h3 className="mb-2 text-2xl font-semibold tracking-tight">Pro</h3>
-              <div className="mb-1 flex items-baseline gap-1">
-                <span className="text-5xl font-bold tracking-tight">$99</span>
-                <span className="text-lg font-medium text-muted-foreground">/mo</span>
-              </div>
-              <p className="text-sm text-muted-foreground">For growing teams and large enterprises</p>
-            </div>
-
-            <ul className="mb-8 flex-1 space-y-3.5">
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Everything in Team</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Up to 25 team members</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Advanced analytics & insights</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Enterprise-grade security</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Custom integrations and apps</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                <span className="text-sm leading-relaxed">Dedicated support</span>
-              </li>
-            </ul>
-
-            <Button
-              size="lg"
-              className="w-full font-medium"
-              onClick={() => handleSubscribe('pro')}
-              disabled={loading === 'pro'}
-            >
-              {loading === 'pro' ? 'Processing...' : 'Start with Pro'}
-            </Button>
-          </div>
+            )
+          })}
         </div>
 
         {/* Enterprise Features Section */}

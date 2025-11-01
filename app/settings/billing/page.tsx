@@ -1,14 +1,10 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { CreditCard, ExternalLink, ArrowUp, ArrowDown, X } from 'lucide-react'
+import { ArrowUp, CreditCard, ExternalLink, X } from 'lucide-react'
 import { useState } from 'react'
 
 import { SettingsSidebar } from '@/components/SettingsSidebar'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,10 +16,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/use-toast'
 import { useTeamContext } from '@/contexts/team-context'
 import { useUserTeams } from '@/lib/hooks/use-teams'
-import { STRIPE_CONFIG } from '@/lib/stripe'
+import { PRICING_CONFIG } from '@/lib/pricing'
 import { createClient } from '@/utils/supabase/client'
 
 export default function BillingPage() {
@@ -256,8 +256,7 @@ export default function BillingPage() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <Badge className={getTierBadgeColor(currentPlan)}>
-                          {STRIPE_CONFIG.plans[currentPlan as keyof typeof STRIPE_CONFIG.plans]
-                            ?.name || 'Free'}
+                          {PRICING_CONFIG[currentPlan as keyof typeof PRICING_CONFIG]?.name || 'Free'}
                         </Badge>
                         {subscriptionStatusValue && (
                           <Badge className={getStatusBadgeColor(subscriptionStatusValue)}>
@@ -273,13 +272,12 @@ export default function BillingPage() {
                       )}
                       {currentPlan === 'team' && (
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          ${STRIPE_CONFIG.plans.team.price}/month • Unlimited prompts and team sharing
+                          ${PRICING_CONFIG.team.price}/month • Unlimited prompts and team sharing
                         </p>
                       )}
                       {currentPlan === 'pro' && (
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          ${STRIPE_CONFIG.plans.pro.price}/month • Everything in Team plus advanced
-                          features
+                          ${PRICING_CONFIG.pro.price}/month • Everything in Team plus advanced features
                         </p>
                       )}
                       {periodEnd && (
@@ -402,8 +400,8 @@ export default function BillingPage() {
                             >
                               Cancel Subscription
                             </AlertDialogAction>
-                          </AlertDialogContent>
-                        </AlertDialog>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
                       </AlertDialog>
                     )}
                   </div>

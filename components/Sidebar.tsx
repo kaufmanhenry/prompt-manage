@@ -2,14 +2,13 @@
 
 import type { Session } from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { FolderIcon, GlobeIcon, Home, LogOut, Plus, Settings, Upload } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-import { useQuery } from '@tanstack/react-query'
 
 import { Button } from '@/components/ui/button'
 import {

@@ -1,12 +1,9 @@
 import {
-  BarChart3,
   CheckCircle,
   Database,
   Download,
   Infinity,
   Lock,
-  Share2,
-  TrendingUp,
   Users,
   Zap,
 } from 'lucide-react'

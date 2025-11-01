@@ -28,10 +28,22 @@ export async function getUserSubscription(userId: string): Promise<UserSubscript
     .select('*')
     .eq('user_id', userId)
     .eq('status', 'active')
-    .single()
+    .maybeSingle()
 
   if (error || !data) return null
-  return data as UserSubscription
+
+  // Map database fields to UserSubscription interface
+  return {
+    id: data.id,
+    userId: data.user_id,
+    plan: data.plan as PlanType,
+    status: data.status as 'active' | 'canceled' | 'past_due' | 'unpaid',
+    currentPeriodEnd: data.current_period_end,
+    stripeCustomerId: data.stripe_customer_id ?? '',
+    stripeSubscriptionId: data.stripe_subscription_id ?? '',
+    createdAt: data.created_at,
+    updatedAt: data.updated_at,
+  }
 }
 
 export async function getUserUsage(userId: string): Promise<UsageStats> {
@@ -60,12 +72,12 @@ export async function getUserUsage(userId: string): Promise<UsageStats> {
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(1)
-    .single()
+    .maybeSingle()
 
   return {
-    promptsThisMonth: promptsThisMonth || 0,
-    promptsTotal: promptsTotal || 0,
-    lastPromptDate: lastPrompt?.created_at || null,
+    promptsThisMonth: promptsThisMonth ?? 0,
+    promptsTotal: promptsTotal ?? 0,
+    lastPromptDate: lastPrompt?.created_at ?? null,
   }
 }
 

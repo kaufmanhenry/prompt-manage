@@ -1,22 +1,48 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
-import { ArrowUpRight, BarChart3, Clock, Eye, FileText, Globe, Sparkles } from 'lucide-react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { ArrowUpRight, BarChart3, CheckCircle2, Clock, Download, Eye, FileText, FolderIcon, Globe, Sparkles, Upload } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useMemo, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useMemo, useState } from 'react'
 
 import { PromptForm } from '@/components/PromptForm'
 import { Sidebar } from '@/components/Sidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useToast } from '@/components/ui/use-toast'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
 export default function DashboardHomePage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const queryClient = useQueryClient()
+  const { toast } = useToast()
   const [showCreateForm, setShowCreateForm] = useState(false)
+
+  // Handle checkout success/cancel redirects
+  useEffect(() => {
+    const checkout = searchParams.get('checkout')
+    if (checkout === 'success') {
+      toast({
+        title: 'Payment successful!',
+        description: 'Your subscription is now active. Thank you for upgrading!',
+      })
+      // Invalidate subscription queries to refresh status
+      queryClient.invalidateQueries({ queryKey: ['subscription'] })
+      // Remove query param from URL
+      router.replace('/dashboard')
+    } else if (checkout === 'canceled') {
+      toast({
+        title: 'Checkout canceled',
+        description: 'You can complete your subscription anytime from the pricing page.',
+        variant: 'default',
+      })
+      router.replace('/dashboard')
+    }
+  }, [searchParams, toast, router, queryClient])
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -165,6 +191,26 @@ export default function DashboardHomePage() {
             </p>
           </div>
 
+          {/* Quick Actions */}
+          <div className="mb-6 flex flex-wrap gap-3">
+            <Button onClick={() => setShowCreateForm(true)} size="lg" className="gap-2">
+              <Sparkles className="h-4 w-4" />
+              Create New Prompt
+            </Button>
+            <Link href="/dashboard/import-export">
+              <Button variant="outline" size="lg" className="gap-2">
+                <Upload className="h-4 w-4" />
+                Import / Export
+              </Button>
+            </Link>
+            <Link href="/dashboard/collections">
+              <Button variant="outline" size="lg" className="gap-2">
+                <FolderIcon className="h-4 w-4" />
+                Collections
+              </Button>
+            </Link>
+          </div>
+
           {/* Stats Cards */}
           <div className="grid-stat-cards">
             <Card>
@@ -232,6 +278,26 @@ export default function DashboardHomePage() {
                 <Button onClick={() => setShowCreateForm(true)} className="w-full">
                   Create Prompt
                 </Button>
+              </CardContent>
+            </Card>
+
+            {/* Import/Export Card */}
+            <Card className="flex items-center justify-center border-2 border-primary/20 bg-primary/5">
+              <CardContent className="flex flex-col items-center justify-center py-8">
+                <div className="mb-4 flex items-center gap-2">
+                  <Upload className="h-8 w-8 text-primary" />
+                  <Download className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="mb-2 text-lg font-semibold">Import / Export</h3>
+                <p className="mb-4 text-center text-sm text-muted-foreground">
+                  Bulk import prompts from CSV/JSON or export your library
+                </p>
+                <Link href="/dashboard/import-export">
+                  <Button variant="default" className="w-full">
+                    <Upload className="mr-2 h-4 w-4" />
+                    Import / Export
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>

@@ -31,7 +31,7 @@ export default function PrivacyPage() {
             How we collect, use, and protect your information.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: October 16, 2025
+            Last updated: January 30, 2025
           </p>
         </div>
       </div>
@@ -149,7 +149,10 @@ export default function PrivacyPage() {
                 <ul className="space-y-1">
                   <li>• Vercel (hosting and infrastructure)</li>
                   <li>• Supabase (database and authentication)</li>
-                  <li>• Stripe (payment processing)</li>
+                  <li>
+                    • <strong>Stripe</strong> (payment processing, subscription billing, PCI DSS
+                    Level 1 certified)
+                  </li>
                   <li>• OpenAI, Anthropic (AI model APIs for prompt execution)</li>
                 </ul>
                 <p className="mt-2">
@@ -161,6 +164,20 @@ export default function PrivacyPage() {
                     Subprocessors page
                   </Link>{' '}
                   for a complete list.
+                </p>
+                <p className="mt-2 text-sm">
+                  When you subscribe to a paid plan, your payment information is securely
+                  processed by Stripe. We never store or have access to your payment card details.
+                  For more information about Stripe&apos;s security practices, visit{' '}
+                  <a
+                    href="https://stripe.com/docs/security"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-gray-600 dark:hover:text-gray-300"
+                  >
+                    Stripe&apos;s Security page
+                  </a>
+                  .
                 </p>
               </div>
 

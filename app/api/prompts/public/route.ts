@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { createServerSideClient } from '@/utils/supabase/server'
+import { createClient } from '@/utils/supabase/server'
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,12 +13,12 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '21')
 
-    const supabase = createServerSideClient()
+    const supabase = await createClient()
 
     // Build query - only select needed fields for performance
     let query = supabase
       .from('prompts')
-      .select('id, name, slug, description, model, tags, view_count, inserted_at, created_at, updated_at', {
+      .select('id, name, slug, description, prompt_text, model, tags, view_count, inserted_at, updated_at', {
         count: 'exact',
       })
       .eq('is_public', true)
@@ -51,20 +51,22 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query
 
     if (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Database error:', error)
-      }
-      return NextResponse.json({ error: 'Failed to fetch prompts' }, { status: 500 })
+      console.error('Database error:', error)
+      return NextResponse.json(
+        { error: 'Failed to fetch prompts', details: process.env.NODE_ENV === 'development' ? error.message : undefined },
+        { status: 500 },
+      )
     }
 
     // Transform data to ensure all required fields exist
     const transformedData = (data || []).map((prompt) => ({
       ...prompt,
       description: prompt.description || null,
+      prompt_text: prompt.prompt_text || '', // Ensure prompt_text exists
       is_public: true, // All results are public
       slug: prompt.slug || prompt.id, // Fallback to ID if no slug
       view_count: prompt.view_count || 0,
-      inserted_at: prompt.inserted_at || prompt.created_at || null,
+      inserted_at: prompt.inserted_at || prompt.updated_at || null,
     }))
 
     const response = NextResponse.json({
@@ -80,9 +82,13 @@ export async function GET(request: NextRequest) {
 
     return response
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('API error:', error)
-    }
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    console.error('API error:', error)
+    return NextResponse.json(
+      {
+        error: 'Internal server error',
+        details: process.env.NODE_ENV === 'development' && error instanceof Error ? error.message : undefined,
+      },
+      { status: 500 },
+    )
   }
 }

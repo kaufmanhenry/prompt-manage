@@ -90,6 +90,10 @@ function PublicDirectoryContent() {
 
       const result = await response.json()
 
+      if (result.error) {
+        throw new Error(result.error)
+      }
+
       setPrompts(result.prompts || [])
       setTotalCount(result.totalCount || 0)
 

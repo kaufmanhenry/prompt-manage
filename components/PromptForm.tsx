@@ -38,6 +38,7 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { useTeamContext } from '@/contexts/team-context'
+import { usePaywall } from '@/hooks/usePaywall'
 import { getModelsByCategory } from '@/lib/models'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { promptSchema } from '@/lib/schemas/prompt'
@@ -57,6 +58,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   const { toast } = useToast()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const { currentTeamId } = useTeamContext()
+  const { canCreatePrompt, showPaywall, PaywallComponent, isLoading: isPaywallLoading } = usePaywall('Create Prompts')
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -154,6 +156,12 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
       return
     }
 
+    // Check if user can create prompt (only for new prompts, not edits)
+    if (!prompt?.id && !isPaywallLoading && !canCreatePrompt) {
+      showPaywall()
+      return
+    }
+
     setLoading(true)
     try {
       // Only save the fields that exist in the current database schema
@@ -221,9 +229,10 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
-        <DialogHeader>
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
+          <DialogHeader>
           <DialogTitle>{prompt ? 'Edit Prompt' : 'New Prompt'}</DialogTitle>
           <DialogDescription>
             {prompt
@@ -412,5 +421,7 @@ export function PromptForm({ prompt, open, onOpenChange }: PromptFormProps) {
         </Form>
       </DialogContent>
     </Dialog>
+    {PaywallComponent}
+    </>
   )
 }

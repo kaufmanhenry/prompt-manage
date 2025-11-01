@@ -10,9 +10,13 @@ export function Footer() {
           <div className="flex flex-col gap-2">
             <h3 className="text-sm font-semibold tracking-tight">Prompt Manage</h3>
             <p className="text-xs text-gray-600 dark:text-gray-400">
-              Create, manage, and run AI prompts.
-              <br />
-              All in one place.
+              Professional AI prompt management platform for teams. Create, organize, and collaborate
+              on prompts for ChatGPT, Claude, Gemini, and more.
+            </p>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
+              <a href="mailto:support@promptmanage.com" className="hover:underline">
+                support@promptmanage.com
+              </a>
             </p>
           </div>
           <ul className="items-center space-y-2 text-sm">
@@ -88,12 +92,22 @@ export function Footer() {
             </li>
             <li>
               <Link href="/terms" className="text-gray-600 hover:underline dark:text-gray-300">
-                Terms
+                Terms of Service
               </Link>
             </li>
             <li>
               <Link href="/privacy" className="text-gray-600 hover:underline dark:text-gray-300">
-                Privacy
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="/dmca" className="text-gray-600 hover:underline dark:text-gray-300">
+                DMCA Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="/security" className="text-gray-600 hover:underline dark:text-gray-300">
+                Security
               </Link>
             </li>
             <li>
@@ -102,16 +116,6 @@ export function Footer() {
                 className="text-gray-600 hover:underline dark:text-gray-300"
               >
                 Accessibility
-              </Link>
-            </li>
-            <li>
-              <Link href="/dmca" className="text-gray-600 hover:underline dark:text-gray-300">
-                DMCA
-              </Link>
-            </li>
-            <li>
-              <Link href="/security" className="text-gray-600 hover:underline dark:text-gray-300">
-                Security
               </Link>
             </li>
           </ul>

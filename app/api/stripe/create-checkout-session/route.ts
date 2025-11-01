@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import { STRIPE_CONFIG } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/server'
 
@@ -36,27 +36,45 @@ export async function POST(request: NextRequest) {
       .eq('user_id', session.user.id)
       .single()
 
+    const stripe = getStripe()
+
     if (existingSubscription?.stripe_customer_id) {
       customer = await stripe.customers.retrieve(existingSubscription.stripe_customer_id)
       customerId = customer.id
     } else {
+      // Normalize email to prevent injection
+      const normalizedEmail = session.user.email?.trim().toLowerCase() || undefined
+      
       customer = await stripe.customers.create({
-        email: session.user.email,
+        email: normalizedEmail,
         metadata: {
           userId: session.user.id,
         },
       })
       customerId = customer.id
 
-      // Store customer ID in database
-      await supabase.from('user_subscriptions').upsert({
-        user_id: session.user.id,
-        plan: 'free',
-        status: 'active',
-        current_period_end: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-        stripe_customer_id: customerId,
-        updated_at: new Date().toISOString(),
-      })
+      // Store customer ID in database with conflict resolution
+      const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000
+      const { error: upsertError } = await supabase
+        .from('user_subscriptions')
+        .upsert(
+          {
+            user_id: session.user.id,
+            plan: 'free',
+            status: 'active',
+            current_period_end: new Date(Date.now() + ONE_YEAR_MS).toISOString(),
+            stripe_customer_id: customerId,
+            updated_at: new Date().toISOString(),
+          },
+          {
+            onConflict: 'user_id',
+          },
+        )
+
+      if (upsertError) {
+        console.error('Error storing customer ID:', upsertError)
+        // Continue anyway - customer created in Stripe
+      }
     }
 
     // Create checkout session
@@ -86,11 +104,17 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: 'subscription',
-      success_url: `${baseUrl}/dashboard?success=true`,
-      cancel_url: `${baseUrl}/pricing?canceled=true`,
+      success_url: `${baseUrl}/dashboard?checkout=success`,
+      cancel_url: `${baseUrl}/pricing?checkout=canceled`,
       metadata: {
         userId: session.user.id,
         plan,
+      },
+      subscription_data: {
+        metadata: {
+          userId: session.user.id,
+          plan,
+        },
       },
     })
 

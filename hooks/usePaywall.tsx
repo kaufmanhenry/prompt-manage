@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import Paywall from '@/components/Paywall'
 import type { PlanType } from '@/lib/stripe'
-import { canUserCreatePrompt, getUserSubscription, getUserUsage } from '@/lib/subscription'
+import { STRIPE_CONFIG } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/client'
 
 interface UsePaywallReturn {
@@ -19,8 +19,24 @@ interface UsePaywallReturn {
   } | null
   subscription: {
     plan: PlanType
-    status: string
+    status: 'active' | 'canceled' | 'past_due' | 'unpaid'
   } | null
+}
+
+function canUserCreatePrompt(
+  subscription: { plan: PlanType } | null,
+  usage: { promptsThisMonth: number } | null,
+): boolean {
+  if (!usage) return true // Allow if usage data not loaded yet
+
+  const plan = subscription?.plan || 'free'
+  const planConfig = STRIPE_CONFIG.plans[plan]
+
+  // Unlimited plans
+  if (planConfig.limits.promptsPerMonth === -1) return true
+
+  // Limited plans - check monthly limit
+  return usage.promptsThisMonth < planConfig.limits.promptsPerMonth
 }
 
 export function usePaywall(feature?: string): UsePaywallReturn {
@@ -30,9 +46,14 @@ export function usePaywall(feature?: string): UsePaywallReturn {
   const [usage, setUsage] = useState<{ promptsThisMonth: number; promptsTotal: number } | null>(
     null,
   )
-  const [subscription, setSubscription] = useState<{ plan: PlanType; status: string } | null>(null)
+  const [subscription, setSubscription] = useState<{
+    plan: PlanType
+    status: 'active' | 'canceled' | 'past_due' | 'unpaid'
+  } | null>(null)
 
   useEffect(() => {
+    const abortController = new AbortController()
+
     async function checkUsage() {
       const supabase = createClient()
       const {
@@ -45,34 +66,48 @@ export function usePaywall(feature?: string): UsePaywallReturn {
       }
 
       try {
-        const [userSubscription, userUsage] = await Promise.all([
-          getUserSubscription(session.user.id),
-          getUserUsage(session.user.id),
-        ])
+        // Fetch subscription and usage from API
+        const response = await fetch('/api/subscription/status', {
+          signal: abortController.signal,
+        })
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}))
+          throw new Error(errorData.error || 'Failed to fetch subscription status')
+        }
 
-        setUsage(userUsage)
-        setSubscription(
-          userSubscription
-            ? {
-                plan: userSubscription.plan,
-                status: userSubscription.status,
-              }
-            : {
-                plan: 'free',
-                status: 'active',
-              },
-        )
+        const data = await response.json()
+        
+        // Validate response structure
+        if (!data.subscription || !data.usage) {
+          throw new Error('Invalid response structure')
+        }
 
-        const canCreate = canUserCreatePrompt(userSubscription, userUsage)
+        setUsage(data.usage)
+        setSubscription(data.subscription)
+
+        // Calculate if user can create prompt
+        const canCreate = canUserCreatePrompt(data.subscription, data.usage)
         setCanCreatePrompt(canCreate)
       } catch (error) {
+        // Ignore abort errors
+        if (error instanceof Error && error.name === 'AbortError') {
+          return
+        }
+        
         console.error('Error checking usage:', error)
+        // On error, allow creation (graceful degradation)
+        setCanCreatePrompt(true)
       } finally {
         setIsLoading(false)
       }
     }
 
     void checkUsage()
+
+    // Cleanup: abort fetch on unmount
+    return () => {
+      abortController.abort()
+    }
   }, [])
 
   const showPaywall = () => setIsPaywallOpen(true)

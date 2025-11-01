@@ -26,7 +26,7 @@ export default function TermsPage() {
             Legal terms governing your use of Prompt Manage.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: October 16, 2025
+            Last updated: January 30, 2025
           </p>
         </div>
       </div>
@@ -161,14 +161,33 @@ export default function TermsPage() {
             <div className="space-y-4 text-gray-900 dark:text-gray-100">
               <p>
                 <strong>Subscription Tiers:</strong> Prompt Manage offers multiple subscription
-                tiers (Free, Teams, Enterprise) with varying features and pricing. Current pricing
-                is available on our Pricing page and is subject to change with notice.
+                tiers (Free, Team, Pro) with varying features and pricing. Current pricing is
+                available on our{' '}
+                <Link
+                  href="/pricing"
+                  className="underline hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  Pricing page
+                </Link>{' '}
+                and is subject to change with notice.
               </p>
               <p>
-                <strong>Billing:</strong> Paid subscriptions are billed in advance on a monthly or
-                annual basis, depending on your selected plan. You authorize us to charge your
-                payment method for all fees owed. You are responsible for providing accurate and
-                current billing information.
+                <strong>Payment Processing:</strong> All payments are processed securely through{' '}
+                <a
+                  href="https://stripe.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  Stripe
+                </a>
+                , a PCI DSS Level 1 certified payment processor. We do not store or have access to
+                your payment card information.
+              </p>
+              <p>
+                <strong>Billing:</strong> Paid subscriptions are billed monthly in advance. You
+                authorize us to charge your payment method for all fees owed. You are responsible
+                for providing accurate and current billing information.
               </p>
               <p>
                 <strong>Automatic Renewal:</strong> Unless you cancel before the end of your current

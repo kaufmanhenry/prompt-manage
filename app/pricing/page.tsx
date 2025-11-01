@@ -1,5 +1,5 @@
 'use client'
-import { Check } from 'lucide-react'
+import { Check, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -40,184 +40,183 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
+      <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         {/* Page Heading */}
-        <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white md:text-5xl">
+        <div className="mb-20 text-center">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+            <Sparkles className="h-3.5 w-3.5" />
+            Simple, transparent pricing
+          </div>
+          <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
             Choose your plan
           </h1>
-          <p className="text-base text-gray-600 dark:text-gray-300 md:text-lg">
-            Start free. Choose the plan that works best for you and your team.
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground md:text-xl">
+            Start free, upgrade when you need more. Cancel anytime.
           </p>
         </div>
 
         {/* Pricing Grid */}
-        <div className="grid items-stretch gap-6 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-3 md:gap-6 lg:gap-8">
           {/* Free Plan */}
-          <div className="flex flex-col rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 md:p-8">
-            {/* Title and Price */}
-            <div className="mb-4">
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Free</h3>
-              <div className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">$0</div>
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                The perfect way to start your journey with Prompt Manage.
-              </p>
+          <div className="group relative flex flex-col rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div className="mb-6">
+              <h3 className="mb-2 text-2xl font-semibold tracking-tight">Free</h3>
+              <div className="mb-1 flex items-baseline gap-1">
+                <span className="text-5xl font-bold tracking-tight">$0</span>
+              </div>
+              <p className="text-sm text-muted-foreground">Perfect for getting started</p>
             </div>
-            {/* Features */}
-            <ul className="mt-4 flex-1 space-y-3 text-sm text-gray-700 dark:text-gray-300">
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Store up to 5 prompts per
-                month
+
+            <ul className="mb-8 flex-1 space-y-3.5">
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">5 prompts per month</span>
               </li>
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Secure cloud storage
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Secure cloud storage</span>
               </li>
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Tag & organize your prompts
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Tag & organize prompts</span>
               </li>
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Share to public directory
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Public sharing</span>
               </li>
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Export prompts
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Export prompts</span>
               </li>
             </ul>
-            {/* CTA */}
-            <div className="mt-6">
-              <Link href="/?redirect=/dashboard">
-                <Button size="lg" className="w-full">
-                  Get Started Free
-                </Button>
-              </Link>
-              <p className="mt-2 text-center text-xs text-gray-500 dark:text-gray-400">
-                No credit card required
-              </p>
-            </div>
+
+            <Link href="/?redirect=/dashboard">
+              <Button size="lg" variant="outline" className="w-full font-medium">
+                Get started
+              </Button>
+            </Link>
           </div>
 
           {/* Team Plan */}
-          <div className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 md:p-8">
-            {/* Title and Price */}
-            <div className="mb-4">
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Team</h3>
-              <div className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                $20
-                <span className="text-base font-medium text-gray-600 dark:text-gray-300">
-                  /month
-                </span>
-              </div>
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                Perfect for small teams who need secure storage and collaboration.
-              </p>
+          <div className="group relative flex flex-col rounded-2xl border-2 border-emerald-500/50 bg-card p-8 shadow-lg transition-all duration-300 hover:border-emerald-500 hover:shadow-xl">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span className="rounded-full bg-emerald-500 px-3 py-1 text-xs font-medium text-white">
+                Popular
+              </span>
             </div>
-            {/* Features */}
-            <ul className="mt-4 flex-1 space-y-3 text-sm text-gray-700 dark:text-gray-300">
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Unlimited secure storage
+
+            <div className="mb-6">
+              <h3 className="mb-2 text-2xl font-semibold tracking-tight">Team</h3>
+              <div className="mb-1 flex items-baseline gap-1">
+                <span className="text-5xl font-bold tracking-tight">$20</span>
+                <span className="text-lg font-medium text-muted-foreground">/mo</span>
+              </div>
+              <p className="text-sm text-muted-foreground">For small teams and collaboration</p>
+            </div>
+
+            <ul className="mb-8 flex-1 space-y-3.5">
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Unlimited prompts</span>
               </li>
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Up to 5 team members
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Up to 5 team members</span>
               </li>
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Private team collections
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Private team collections</span>
               </li>
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Advanced sharing &
-                permissions
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Advanced sharing & permissions</span>
               </li>
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Export & backup options
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Export & backup options</span>
               </li>
-              <li className="flex items-start">
-                <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Priority support
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Priority support</span>
               </li>
             </ul>
-            {/* CTA */}
-            <div className="mt-6">
-              <Button
-                size="lg"
-                className="w-full"
-                onClick={() => handleSubscribe('team')}
-                disabled={loading === 'team'}
-              >
-                {loading === 'team' ? 'Loading...' : 'Subscribe to Team'}
-              </Button>
-              <p className="mt-2 text-center text-xs text-gray-500 dark:text-gray-400">
-                14-day free trial • Cancel anytime
-              </p>
-            </div>
+
+            <Button
+              size="lg"
+              className="w-full bg-emerald-600 font-medium text-white hover:bg-emerald-700"
+              onClick={() => handleSubscribe('team')}
+              disabled={loading === 'team'}
+            >
+              {loading === 'team' ? 'Processing...' : 'Start with Team'}
+            </Button>
           </div>
 
           {/* Pro Plan */}
-          <div className="relative rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 p-1">
-            <div className="flex h-full flex-col rounded-[14px] bg-white p-6 dark:bg-gray-800 md:p-8">
-              {/* Title and Price */}
-              <div className="mb-2">
-                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">Pro</h3>
-                <div className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                  $99
-                  <span className="text-base font-medium text-gray-600 dark:text-gray-300">
-                    /month
-                  </span>
-                </div>
-                <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
-                  Advanced features for growing teams and enterprises.
-                </p>
+          <div className="group relative flex flex-col rounded-2xl border border-border bg-gradient-to-br from-card via-card to-muted/30 p-8 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div className="mb-6">
+              <h3 className="mb-2 text-2xl font-semibold tracking-tight">Pro</h3>
+              <div className="mb-1 flex items-baseline gap-1">
+                <span className="text-5xl font-bold tracking-tight">$99</span>
+                <span className="text-lg font-medium text-muted-foreground">/mo</span>
               </div>
-              {/* Features */}
-              <ul className="mt-4 flex-1 space-y-3 text-sm text-gray-800 dark:text-gray-200">
-                <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Everything in Team
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Up to 25 team members
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Advanced analytics &
-                  insights
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Enterprise-grade security
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Custom integrations
-                  (coming soon)
-                </li>
-                <li className="flex items-start">
-                  <Check className="mr-2 mt-0.5 h-4 w-4 text-green-500" /> Dedicated support
-                </li>
-              </ul>
-              {/* CTA */}
-              <div className="mt-6">
-                <Button
-                  size="lg"
-                  className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
-                  onClick={() => handleSubscribe('pro')}
-                  disabled={loading === 'pro'}
-                >
-                  {loading === 'pro' ? 'Loading...' : 'Subscribe to Pro'}
-                </Button>
-                <p className="mt-2 text-center text-xs text-gray-600 dark:text-gray-400">
-                  14-day free trial • Dedicated support
-                </p>
-              </div>
+              <p className="text-sm text-muted-foreground">For growing teams and enterprises</p>
             </div>
+
+            <ul className="mb-8 flex-1 space-y-3.5">
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Everything in Team</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Up to 25 team members</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Advanced analytics & insights</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Enterprise-grade security</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Custom integrations</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <span className="text-sm leading-relaxed">Dedicated support</span>
+              </li>
+            </ul>
+
+            <Button
+              size="lg"
+              className="w-full font-medium"
+              onClick={() => handleSubscribe('pro')}
+              disabled={loading === 'pro'}
+            >
+              {loading === 'pro' ? 'Processing...' : 'Start with Pro'}
+            </Button>
           </div>
         </div>
 
-        {/* Secondary reassurance */}
-        <div className="mt-10 text-center text-xs text-gray-500 dark:text-gray-400">
-          All plans include 14-day free trial. No credit card required to start.
-        </div>
-
-        {/* Minimal distraction-free footer link */}
-        <div className="mt-10 text-center">
-          <Link href="/docs">
-            <Button variant="outline" size="sm">
-              See documentation
-            </Button>
-          </Link>
+        {/* Trust Indicators */}
+        <div className="mt-20 text-center">
+          <div className="inline-flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500" />
+              <span>Cancel anytime</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500" />
+              <span>No setup fees</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500" />
+              <span>Secure payments</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

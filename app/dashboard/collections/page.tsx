@@ -11,7 +11,10 @@ import {
   MoreVertical,
   Plus,
   Search,
+  Share2,
+  Sparkles,
   Trash2,
+  Users,
   X,
 } from 'lucide-react'
 import Image from 'next/image'
@@ -161,7 +164,9 @@ export default function CollectionsManagerPage() {
       })
       void refresh()
     } catch (error) {
-      console.error('Error removing prompt:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error removing prompt:', error)
+      }
       toast({
         title: 'Error',
         description: 'Failed to remove prompt',
@@ -243,7 +248,9 @@ export default function CollectionsManagerPage() {
       setShowAddPrompts(null)
       void refresh()
     } catch (error) {
-      console.error('Error adding prompts:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error adding prompts:', error)
+      }
       toast({
         title: 'Error',
         description: 'Failed to add prompts',
@@ -312,10 +319,12 @@ export default function CollectionsManagerPage() {
             : 'Your collection is now private.',
       })
 
-      void refresh()
-    } catch (error) {
-      console.error('Publish error:', error)
-      toast({
+          void refresh()
+        } catch (error) {
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Publish error:', error)
+          }
+          toast({
         title: 'Error',
         description: error instanceof Error ? error.message : 'Failed to update collection',
         variant: 'destructive',
@@ -331,10 +340,12 @@ export default function CollectionsManagerPage() {
         title: 'Collection deleted',
         description: 'The collection has been permanently deleted.',
       })
-      void refresh()
-    } catch (error) {
-      console.error('Error deleting collection:', error)
-      toast({
+        void refresh()
+      } catch (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error deleting collection:', error)
+        }
+        toast({
         title: 'Error',
         description: 'Failed to delete collection',
         variant: 'destructive',
@@ -354,12 +365,13 @@ export default function CollectionsManagerPage() {
       <main className="dashboard-main">
         <div className="dashboard-container">
           {/* Header */}
-          <div className="mb-8">
-            <div className="mb-4 flex items-center justify-between">
+          <div className="mb-10">
+            <div className="mb-6 flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Collections</h1>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Organize and share your prompts in curated collections
+                <h1 className="text-2xl font-semibold tracking-tight text-foreground">Collections</h1>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/60 max-w-2xl">
+                  Group related prompts into organized collections. Share them with your team or publish
+                  them publicly. Collections help teams manage prompts by use case, model, or project.
                 </p>
               </div>
               <Button onClick={openCreate} size="lg" className="gap-2">
@@ -370,113 +382,151 @@ export default function CollectionsManagerPage() {
 
             {/* Search */}
             <div className="relative max-w-md">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40" />
               <Input
                 placeholder="Search collections..."
                 value={collectionSearch}
                 onChange={(e) => setCollectionSearch(e.target.value)}
-                className="pl-9"
+                className="pl-9 border-border/50 bg-background"
               />
             </div>
           </div>
 
           {/* Collection Form */}
           {showForm && (
-            <Card className="mb-8 border-2">
-              <CardContent className="p-6">
-                <div className="mb-4 flex items-center justify-between">
-                  <h2 className="text-xl font-semibold">
-                    {selected ? 'Edit Collection' : 'Create New Collection'}
-                  </h2>
-                  <Button variant="ghost" size="sm" onClick={() => setShowForm(false)}>
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-                <CollectionForm
-                  initial={
-                    selected
-                      ? {
-                          id: selected.id,
-                          title: selected.title,
-                          description: selected.description ?? undefined,
-                          cover_image_url: selected.cover_image_url ?? undefined,
-                          visibility: selected.visibility,
-                        }
-                      : undefined
-                  }
-                  onSaved={() => {
-                    setShowForm(false)
-                    void refresh()
-                  }}
-                />
-              </CardContent>
-            </Card>
+            <div className="mb-10 rounded-lg border border-border/50 bg-card p-8">
+              <div className="mb-6 flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-foreground">
+                  {selected ? 'Edit Collection' : 'Create New Collection'}
+                </h2>
+                <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} className="h-8 w-8 p-0">
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <CollectionForm
+                initial={
+                  selected
+                    ? {
+                        id: selected.id,
+                        title: selected.title,
+                        description: selected.description ?? undefined,
+                        cover_image_url: selected.cover_image_url ?? undefined,
+                        visibility: selected.visibility,
+                      }
+                    : undefined
+                }
+                onSaved={() => {
+                  setShowForm(false)
+                  void refresh()
+                }}
+              />
+            </div>
           )}
 
           {/* Collections Grid */}
           {filteredCollections.length === 0 ? (
-            <Card className="border-dashed">
-              <CardContent className="flex flex-col items-center justify-center py-16">
-                <FolderOpen className="mb-4 h-12 w-12 text-muted-foreground" />
-                <h3 className="mb-2 text-lg font-semibold">
-                  {collections.length === 0 ? 'No collections yet' : 'No collections found'}
-                </h3>
-                <p className="mb-6 text-center text-sm text-muted-foreground">
-                  {collections.length === 0
-                    ? 'Create your first collection to organize and share your prompts.'
-                    : 'Try adjusting your search terms.'}
-                </p>
-                {collections.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-24">
+              <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-foreground/5">
+                <FolderOpen className="h-10 w-10 text-foreground/40" />
+              </div>
+              <h3 className="mb-3 text-lg font-semibold text-foreground">
+                {collections.length === 0 ? 'No collections yet' : 'No collections found'}
+              </h3>
+              {collections.length === 0 ? (
+                <>
+                  <p className="mb-8 max-w-md text-center text-sm leading-relaxed text-foreground/60">
+                    Collections help you organize prompts by use case, model, or project. Create your
+                    first collection to get started.
+                  </p>
+                  <div className="mb-8 w-full max-w-2xl space-y-4">
+                    <p className="text-xs font-medium uppercase tracking-wide text-foreground/50">
+                      Example Collections
+                    </p>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {[
+                        { title: 'Marketing Prompts', desc: 'Social media, ads, content creation' },
+                        { title: 'Code Generation', desc: 'Debugging, refactoring, documentation' },
+                        { title: 'Customer Support', desc: 'Responses, FAQs, troubleshooting' },
+                        { title: 'Data Analysis', desc: 'Reports, insights, visualizations' },
+                      ].map((example, i) => (
+                        <div
+                          key={i}
+                          className="rounded-lg border border-border/30 bg-background p-4 transition-colors hover:border-border/50"
+                        >
+                          <div className="mb-2 flex items-center gap-2">
+                            <FolderOpen className="h-4 w-4 text-foreground/40" />
+                            <span className="text-sm font-medium text-foreground">{example.title}</span>
+                          </div>
+                          <p className="text-xs text-foreground/50">{example.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                   <Button onClick={openCreate} className="gap-2">
                     <Plus className="h-4 w-4" />
                     Create Collection
                   </Button>
-                )}
-              </CardContent>
-            </Card>
+                </>
+              ) : (
+                <p className="text-center text-sm text-foreground/60">
+                  Try adjusting your search terms.
+                </p>
+              )}
+            </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filteredCollections.map((c) => {
                 const promptsInCollection = collectionPrompts[c.id] || []
                 return (
-                  <Card key={c.id} className="group relative overflow-hidden transition-all hover:shadow-lg">
+                  <div
+                    key={c.id}
+                    className="group relative flex flex-col rounded-lg bg-card transition-colors duration-200 hover:bg-foreground/5"
+                  >
                     {/* Cover Image */}
                     {c.cover_image_url && (
-                      <div className="relative h-32 w-full overflow-hidden bg-muted">
+                      <div className="relative h-32 w-full overflow-hidden rounded-t-lg bg-muted">
                         <Image
                           src={c.cover_image_url}
                           alt={c.title}
                           fill
-                          className="object-cover"
+                          className="object-cover transition-transform duration-200 group-hover:scale-[1.02]"
                           unoptimized
                         />
                       </div>
                     )}
 
-                    <CardContent className="p-6">
+                    <div className="flex flex-1 flex-col p-6">
                       {/* Header */}
-                      <div className="mb-4 flex items-start justify-between gap-2">
-                        <div className="flex-1">
-                          <div className="mb-2 flex items-center gap-2">
+                      <div className="mb-4 flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="mb-2.5 flex items-center gap-2">
                             {c.visibility === 'public' ? (
-                              <Globe className="h-4 w-4 text-emerald-500" />
+                              <Globe className="h-3.5 w-3.5 text-foreground/50" />
                             ) : (
-                              <Lock className="h-4 w-4 text-muted-foreground" />
+                              <Lock className="h-3.5 w-3.5 text-foreground/40" />
                             )}
-                            <Badge variant={c.visibility === 'public' ? 'default' : 'secondary'} className="text-xs">
+                            <span className="text-xs font-medium text-foreground/50 uppercase tracking-wider">
                               {c.visibility === 'public' ? 'Public' : 'Private'}
-                            </Badge>
+                            </span>
                           </div>
-                          <h3 className="mb-1 text-lg font-semibold leading-tight">{c.title}</h3>
+                          <h3 className="mb-2 text-base font-semibold leading-tight text-foreground">
+                            {c.title}
+                          </h3>
                           {c.description && (
-                            <p className="line-clamp-2 text-sm text-muted-foreground">{c.description}</p>
+                            <p className="line-clamp-2 text-sm leading-relaxed text-foreground/60">
+                              {c.description}
+                            </p>
                           )}
                         </div>
 
                         {/* Actions Menu */}
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100"
+                            >
                               <MoreVertical className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
@@ -541,29 +591,55 @@ export default function CollectionsManagerPage() {
                       </div>
 
                       {/* Stats & Actions */}
-                      <div className="mb-4 flex items-center justify-between text-sm">
-                        <div className="flex items-center gap-4 text-muted-foreground">
-                          <span className="flex items-center gap-1.5">
-                            <FolderOpen className="h-4 w-4" />
+                      <div className="mb-4 mt-auto flex items-center justify-between border-t border-border/20 pt-4">
+                        <div className="flex items-center gap-2 text-xs text-foreground/50">
+                          <FolderOpen className="h-4 w-4" />
+                          <span className="font-medium">
                             {promptsInCollection.length} prompt{promptsInCollection.length !== 1 ? 's' : ''}
                           </span>
                         </div>
-                        <Dialog
-                          open={showAddPrompts === c.id}
-                          onOpenChange={(open) => {
-                            setShowAddPrompts(open ? c.id : null)
-                            if (!open) {
-                              setSelectedPrompts(new Set())
-                              setPromptSearch('')
-                            }
-                          }}
-                        >
-                          <DialogTrigger asChild>
-                            <Button variant="outline" size="sm" className="gap-1.5">
-                              <Plus className="h-3.5 w-3.5" />
-                              Add
+                        <div className="flex items-center gap-1">
+                          {c.visibility === 'public' && c.slug && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 opacity-0 transition-opacity group-hover:opacity-100"
+                              asChild
+                            >
+                              <Link href={`/collections/${c.slug}`} target="_blank" title="View Public">
+                                <ExternalLink className="h-3.5 w-3.5" />
+                              </Link>
                             </Button>
-                          </DialogTrigger>
+                          )}
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-7 w-7 p-0 opacity-0 transition-opacity group-hover:opacity-100"
+                            title="Share"
+                          >
+                            <Share2 className="h-3.5 w-3.5" />
+                          </Button>
+                          <Dialog
+                            open={showAddPrompts === c.id}
+                            onOpenChange={(open) => {
+                              setShowAddPrompts(open ? c.id : null)
+                              if (!open) {
+                                setSelectedPrompts(new Set())
+                                setPromptSearch('')
+                              }
+                            }}
+                          >
+                            <DialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-7 gap-1.5 px-2 text-xs opacity-0 transition-opacity group-hover:opacity-100"
+                                title="Add Prompts"
+                              >
+                                <Plus className="h-3.5 w-3.5" />
+                                Add
+                              </Button>
+                            </DialogTrigger>
                           <DialogContent className="max-w-2xl">
                             <DialogHeader>
                               <DialogTitle>Add Prompts to Collection</DialogTitle>
@@ -664,82 +740,48 @@ export default function CollectionsManagerPage() {
                         </Dialog>
                       </div>
 
-                      {/* Prompts List */}
-                      <div className="space-y-2 border-t pt-4">
-                        {promptsInCollection.length > 0 ? (
-                          <>
-                            <div className="space-y-1.5">
-                              {promptsInCollection.slice(0, 3).map((p) => (
-                                <div
-                                  key={p.id}
-                                  className="group/prompt flex items-center justify-between rounded-md border bg-card p-2.5 transition-colors hover:bg-muted/50"
-                                >
-                                  <Link
-                                    href={p.slug ? `/p/${p.slug}` : '/dashboard'}
-                                    className="min-w-0 flex-1 hover:text-primary"
+                            {/* Prompts List */}
+                            {promptsInCollection.length > 0 && (
+                              <div className="space-y-1.5">
+                                {promptsInCollection.slice(0, 3).map((p) => (
+                                  <div
+                                    key={p.id}
+                                    className="group/prompt flex items-center justify-between rounded px-2 py-1.5 transition-colors hover:bg-foreground/5"
                                   >
-                                    <div className="truncate text-sm font-medium">{p.name}</div>
-                                    {p.model && (
-                                      <Badge variant="outline" className="mt-1 text-xs">
-                                        {p.model}
-                                      </Badge>
-                                    )}
-                                  </Link>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-7 w-7 p-0 opacity-0 transition-opacity group-hover/prompt:opacity-100"
-                                    onClick={() => handleRemovePrompt(c.id, p.id)}
-                                  >
-                                    <X className="h-3.5 w-3.5" />
-                                  </Button>
-                                </div>
-                              ))}
-                            </div>
-                            {promptsInCollection.length > 3 && (
-                              <p className="text-center text-xs text-muted-foreground">
-                                +{promptsInCollection.length - 3} more prompt
-                                {promptsInCollection.length - 3 !== 1 ? 's' : ''}
-                              </p>
+                                    <Link
+                                      href={p.slug ? `/p/${p.slug}` : '/dashboard'}
+                                      className="min-w-0 flex-1 hover:text-foreground"
+                                    >
+                                      <div className="truncate text-xs font-medium text-foreground/80">
+                                        {p.name}
+                                      </div>
+                                      {p.model && (
+                                        <span className="mt-0.5 block text-xs text-foreground/45">{p.model}</span>
+                                      )}
+                                    </Link>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="h-6 w-6 p-0 opacity-0 transition-opacity group-hover/prompt:opacity-100"
+                                      onClick={() => handleRemovePrompt(c.id, p.id)}
+                                      title="Remove"
+                                    >
+                                      <X className="h-3 w-3" />
+                                    </Button>
+                                  </div>
+                                ))}
+                                {promptsInCollection.length > 3 && (
+                                  <p className="pt-1 text-center text-xs text-foreground/45">
+                                    +{promptsInCollection.length - 3} more
+                                  </p>
+                                )}
+                              </div>
                             )}
-                          </>
-                        ) : (
-                          <div className="py-6 text-center">
-                            <p className="text-sm text-muted-foreground">No prompts yet</p>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="mt-2"
-                              onClick={() => setShowAddPrompts(c.id)}
-                            >
-                              <Plus className="mr-1.5 h-3.5 w-3.5" />
-                              Add prompts
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Public Link */}
-                      {c.visibility === 'public' && c.slug && (
-                        <div className="mt-4 rounded-lg border-2 border-emerald-500/20 bg-emerald-500/5 p-3">
-                          <div className="flex items-center gap-2">
-                            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                            <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400">
-                              Published
-                            </span>
-                          </div>
-                          <Link
-                            href={`/collections/${c.slug}`}
-                            target="_blank"
-                            className="mt-2 flex items-center gap-1.5 text-xs font-medium text-emerald-600 hover:underline dark:text-emerald-400"
-                          >
-                            View public collection
-                            <ExternalLink className="h-3 w-3" />
-                          </Link>
+                          </Dialog>
                         </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                      </div>
+                    </div>
+                  </div>
                 )
               })}
             </div>

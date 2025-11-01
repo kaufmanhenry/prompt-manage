@@ -1,7 +1,22 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { ArrowUpRight, BarChart3, Clock, Download, Eye, FileText, FolderIcon, Globe, Sparkles, Upload } from 'lucide-react'
+import {
+  Activity,
+  ArrowUpRight,
+  BarChart3,
+  Clock,
+  Download,
+  Eye,
+  FileText,
+  FolderIcon,
+  Globe,
+  Shield,
+  Sparkles,
+  TrendingUp,
+  Upload,
+  Zap,
+} from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
@@ -135,6 +150,22 @@ export default function DashboardHomePage() {
       .slice(0, 5)
       .map(([tag, count]) => ({ tag, count }))
 
+    // Calculate activity trends
+    const now = new Date()
+    const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+    const lastMonth = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+
+    const promptsThisWeek = prompts.filter(
+      (p) => new Date(p.updated_at || p.inserted_at || 0) > lastWeek,
+    ).length
+    const promptsThisMonth = prompts.filter(
+      (p) => new Date(p.updated_at || p.inserted_at || 0) > lastMonth,
+    ).length
+
+    // Calculate growth rate
+    const weekGrowth =
+      stats.totalPrompts > 0 ? ((promptsThisWeek / stats.totalPrompts) * 100).toFixed(1) : '0'
+
     return {
       totalPrompts,
       publicPrompts,
@@ -142,6 +173,9 @@ export default function DashboardHomePage() {
       recentPrompts,
       topModels,
       topTags,
+      promptsThisWeek,
+      promptsThisMonth,
+      weekGrowth,
     }
   }, [prompts])
 
@@ -401,7 +435,7 @@ export default function DashboardHomePage() {
             </Card>
 
             {/* Top Tags */}
-            <Card className="md:col-span-2">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Sparkles className="h-5 w-5" />
@@ -429,6 +463,76 @@ export default function DashboardHomePage() {
                     ))}
                   </div>
                 )}
+              </CardContent>
+            </Card>
+
+            {/* Activity & Insights */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Activity className="h-5 w-5" />
+                  Activity Insights
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between border-b border-border/50 pb-3">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4 text-foreground/60" />
+                      <span className="text-sm font-medium text-foreground">This Week</span>
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">{stats.promptsThisWeek}</span>
+                  </div>
+                  <div className="flex items-center justify-between border-b border-border/50 pb-3">
+                    <div className="flex items-center gap-2">
+                      <BarChart3 className="h-4 w-4 text-foreground/60" />
+                      <span className="text-sm font-medium text-foreground">This Month</span>
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">{stats.promptsThisMonth}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Zap className="h-4 w-4 text-foreground/60" />
+                      <span className="text-sm font-medium text-foreground">Growth Rate</span>
+                    </div>
+                    <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                      {stats.weekGrowth}%
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Security & Compliance */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  Security Status
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3">
+                  <div className="flex items-center gap-2">
+                    <Shield className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                    <span className="text-sm font-medium text-foreground">Encryption</span>
+                  </div>
+                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Active</span>
+                </div>
+                <div className="flex items-center justify-between rounded-lg border border-border/50 bg-card p-3">
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-4 w-4 text-foreground/60" />
+                    <span className="text-sm font-medium text-foreground">Data Backup</span>
+                  </div>
+                  <span className="text-xs font-medium text-foreground/70">Daily</span>
+                </div>
+                <div className="flex items-center justify-between rounded-lg border border-border/50 bg-card p-3">
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-foreground/60" />
+                    <span className="text-sm font-medium text-foreground">Compliance</span>
+                  </div>
+                  <span className="text-xs font-medium text-foreground/70">GDPR Ready</span>
+                </div>
               </CardContent>
             </Card>
           </div>

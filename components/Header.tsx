@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Globe, LogOut, Settings } from 'lucide-react'
+import { BookOpen, Globe, HelpCircle, LogOut, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -83,21 +83,23 @@ export function Header() {
             />
             <span className="hidden sm:inline">Prompt Manage</span>
           </Link>
-          <nav className="hidden items-center gap-2 md:flex">
+          <nav className="hidden items-center gap-1 md:flex">
             <Link
               href="/p"
               className={`text-sm ${
-                pathname.startsWith('/p') ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
-              } flex items-center gap-1 rounded-lg px-2 py-1 font-medium transition-colors hover:text-primary`}
+                pathname.startsWith('/p') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
             >
               <Globe className="h-4 w-4" />
-              <span className="text-sm font-medium">Prompts</span>
+              <span>Prompts</span>
             </Link>
             <Link
               href="/collections"
               className={`text-sm ${
-                pathname.startsWith('/collections') ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
-              } flex items-center gap-1 rounded-lg px-2 py-1 font-medium transition-colors hover:text-primary`}
+                pathname.startsWith('/collections')
+                  ? 'bg-foreground/5 text-foreground'
+                  : 'text-foreground/60'
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +115,33 @@ export function Header() {
                   d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
                 />
               </svg>
-              <span className="text-sm font-medium">Collections</span>
+              <span>Collections</span>
+            </Link>
+            <Link
+              href="/docs"
+              className={`text-sm ${
+                pathname.startsWith('/docs') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
+            >
+              <BookOpen className="h-4 w-4" />
+              <span>Docs</span>
+            </Link>
+            <Link
+              href="/pricing"
+              className={`text-sm ${
+                pathname.startsWith('/pricing') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
+            >
+              <span>Pricing</span>
+            </Link>
+            <Link
+              href="/support"
+              className={`text-sm ${
+                pathname.startsWith('/support') ? 'bg-foreground/5 text-foreground' : 'text-foreground/60'
+              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:text-foreground hover:bg-foreground/5`}
+            >
+              <HelpCircle className="h-4 w-4" />
+              <span>Support</span>
             </Link>
           </nav>
         </div>

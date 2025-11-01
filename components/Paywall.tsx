@@ -1,9 +1,9 @@
 'use client'
 
 import { Check, Crown, Users, Zap } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -27,7 +27,7 @@ interface PaywallProps {
 }
 
 export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature }: PaywallProps) {
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>('pro')
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>('team')
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubscribe = async (plan: PlanType) => {
@@ -46,7 +46,9 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
         window.location.href = url
       }
     } catch (error) {
-      console.error('Error creating checkout session:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error creating checkout session:', error)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -63,90 +65,100 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
     }
   }
 
-  const getPlanColor = (plan: PlanType) => {
-    switch (plan) {
-      case 'free':
-        return 'bg-gray-100 text-gray-800'
-      case 'pro':
-        return 'bg-blue-100 text-blue-800'
-      case 'team':
-        return 'bg-purple-100 text-purple-800'
-    }
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-center text-2xl font-bold">
-            {feature ? `Unlock ${feature}` : 'Upgrade Your Plan'}
+      <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto border-border/50 bg-card">
+        <DialogHeader className="pb-6">
+          <DialogTitle className="text-center text-2xl font-semibold tracking-tight text-foreground">
+            {feature ? `Upgrade to Pro` : 'Upgrade Your Plan'}
           </DialogTitle>
-          <DialogDescription className="text-center">
+          <DialogDescription className="mt-2 text-center text-sm leading-relaxed text-foreground/60">
             {feature
-              ? `This feature requires a Pro or Team subscription.`
+              ? `${feature} requires a Team or Pro subscription.`
               : 'Choose the plan that works best for your team.'}
           </DialogDescription>
         </DialogHeader>
 
         {usage && (
-          <div className="mb-6 rounded-lg bg-gray-50 p-4">
+          <div className="mb-6 rounded-lg border border-border/30 bg-background p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium">Current Usage</p>
-                <p className="text-sm text-gray-600">{usage.promptsThisMonth} prompts this month</p>
+                <p className="text-sm font-medium text-foreground">Current Usage</p>
+                <p className="mt-0.5 text-xs text-foreground/60">
+                  {usage.promptsThisMonth} prompts this month
+                </p>
               </div>
-              <Badge variant="outline" className={getPlanColor(currentPlan)}>
+              <div className="flex items-center gap-2">
                 {getPlanIcon(currentPlan)}
-                <span className="ml-1">{STRIPE_CONFIG.plans[currentPlan].name}</span>
-              </Badge>
+                <span className="text-sm font-medium text-foreground/80">
+                  {STRIPE_CONFIG.plans[currentPlan].name}
+                </span>
+              </div>
             </div>
           </div>
         )}
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {Object.entries(STRIPE_CONFIG.plans).map(([planKey, plan]) => {
             const planType = planKey as PlanType
             const isCurrentPlan = planType === currentPlan
-            const isSelected = planType === selectedPlan
+            const isRecommended = planType === 'team'
 
             return (
               <div
                 key={planKey}
-                className={`relative rounded-lg border-2 p-6 ${
-                  isSelected ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
-                } ${isCurrentPlan ? 'opacity-75' : ''}`}
+                className={`group relative flex flex-col rounded-lg border border-border/50 bg-card p-6 transition-all duration-200 ${
+                  isCurrentPlan
+                    ? 'border-border/80 bg-foreground/5'
+                    : isRecommended
+                      ? 'border-emerald-500/30 hover:border-emerald-500/50'
+                      : 'hover:border-border/80'
+                }`}
               >
-                {isCurrentPlan && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
-                    <Badge className="bg-green-500">Current Plan</Badge>
+                {isRecommended && !isCurrentPlan && (
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                    <span className="rounded-full bg-emerald-500 px-2.5 py-0.5 text-xs font-medium text-white">
+                      Popular
+                    </span>
                   </div>
                 )}
 
-                <div className="mb-4 text-center">
-                  <div
-                    className={`mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full ${getPlanColor(planType)}`}
-                  >
+                {isCurrentPlan && (
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                    <span className="rounded-full bg-foreground/10 px-2.5 py-0.5 text-xs font-medium text-foreground/70">
+                      Current
+                    </span>
+                  </div>
+                )}
+
+                <div className="mb-6 text-center">
+                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/5 text-foreground/60">
                     {getPlanIcon(planType)}
                   </div>
-                  <h3 className="text-xl font-semibold">{plan.name}</h3>
+                  <h3 className="mb-1 text-lg font-semibold text-foreground">{plan.name}</h3>
                   <div className="mt-2">
-                    <span className="text-3xl font-bold">${plan.price}</span>
-                    <span className="text-gray-600">/month</span>
+                    <span className="text-3xl font-bold tracking-tight text-foreground">
+                      ${plan.price}
+                    </span>
+                    {plan.price > 0 && (
+                      <span className="ml-1 text-sm text-foreground/50">/mo</span>
+                    )}
                   </div>
                 </div>
 
-                <ul className="mb-6 space-y-3">
+                <ul className="mb-6 flex-1 space-y-2.5">
                   {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <Check className="mr-2 mt-0.5 h-5 w-5 flex-shrink-0 text-green-500" />
-                      <span className="text-sm">{feature}</span>
+                    <li key={index} className="flex items-start gap-2.5">
+                      <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
+                      <span className="text-sm leading-relaxed text-foreground/70">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 <Button
                   className="w-full"
-                  variant={isCurrentPlan ? 'outline' : isSelected ? 'default' : 'outline'}
+                  variant={isCurrentPlan ? 'outline' : 'default'}
                   disabled={isCurrentPlan || isLoading}
                   onClick={() => {
                     if (!isCurrentPlan) {
@@ -154,21 +166,31 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
                       void handleSubscribe(planType)
                     }
                   }}
+                  size="lg"
                 >
-                  {isCurrentPlan ? 'Current Plan' : isLoading ? 'Processing...' : 'Choose Plan'}
+                  {isCurrentPlan
+                    ? 'Current Plan'
+                    : isLoading
+                      ? 'Processing...'
+                      : plan.price === 0
+                        ? 'Current'
+                        : 'Upgrade'}
                 </Button>
               </div>
             )
           })}
         </div>
 
-        <div className="mt-6 text-center text-sm text-gray-600">
-          <p>All plans include a 14-day free trial. Cancel anytime.</p>
-          <p className="mt-1">
-            Need help?{' '}
-            <a href="mailto:support@promptmanage.com" className="text-blue-600 hover:underline">
+        <div className="mt-6 border-t border-border/30 pt-6 text-center">
+          <p className="text-xs text-foreground/50">Cancel anytime. No credit card required for free plan.</p>
+          <p className="mt-2 text-xs text-foreground/50">
+            Questions?{' '}
+            <Link
+              href="/support"
+              className="font-medium text-foreground/70 transition-colors hover:text-foreground"
+            >
               Contact support
-            </a>
+            </Link>
           </p>
         </div>
       </DialogContent>

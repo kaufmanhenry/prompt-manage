@@ -226,7 +226,7 @@ export default async function AIVideoPromptsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="min-h-screen bg-background overflow-x-hidden">
+      <div className="min-h-screen overflow-x-hidden bg-background">
         <div className="mx-auto max-w-7xl px-4 sm:p-6">
           {/* Breadcrumbs */}
           <nav className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
@@ -386,7 +386,7 @@ export default async function AIVideoPromptsPage() {
           )}
 
           {/* Educational Content */}
-          <div className="mx-auto mb-12 max-w-4xl border-t pb-8 pt-8 sm:pt-12 px-4 sm:px-0">
+          <div className="mx-auto mb-12 max-w-4xl border-t px-4 pb-8 pt-8 sm:px-0 sm:pt-12">
             <div className="prose prose-sm dark:prose-invert max-w-none">
               <h2 className="mb-6 text-3xl font-bold text-foreground">
                 Complete Guide to AI Video Generation

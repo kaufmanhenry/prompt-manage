@@ -1,4 +1,4 @@
-import { CreditCard, DollarSign, Lock, RefreshCw, Shield, X } from 'lucide-react'
+import { CreditCard, DollarSign, Lock, RefreshCw, Shield } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 

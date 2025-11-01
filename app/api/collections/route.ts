@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   // Validate description for public collections
-  if (body.visibility === 'public' && (!body.description || !body.description.trim())) {
+  if (body.visibility === 'public' && (!body.description?.trim())) {
     return NextResponse.json(
       { error: 'Description is required for public collections' },
       { status: 400 },

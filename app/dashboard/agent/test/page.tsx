@@ -3,12 +3,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
-import { isAdminEmail } from '@/lib/admin'
-import { generateTestReport } from '@/lib/agent/test-agent'
 import { Sidebar } from '@/components/Sidebar'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { isAdminEmail } from '@/lib/admin'
+import { generateTestReport } from '@/lib/agent/test-agent'
 import { createClient } from '@/utils/supabase/client'
 
 export default function AgentTestPage() {
@@ -150,24 +150,24 @@ export default function AgentTestPage() {
                   <CardContent>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <div className="text-sm text-muted-foreground mb-1">Clarity</div>
+                        <div className="mb-1 text-sm text-muted-foreground">Clarity</div>
                         <div className="text-2xl font-bold">{report.qualityMetrics.clarity.toFixed(1)}/100</div>
                       </div>
                       <div>
-                        <div className="text-sm text-muted-foreground mb-1">Usefulness</div>
+                        <div className="mb-1 text-sm text-muted-foreground">Usefulness</div>
                         <div className="text-2xl font-bold">{report.qualityMetrics.usefulness.toFixed(1)}/100</div>
                       </div>
                       <div>
-                        <div className="text-sm text-muted-foreground mb-1">Uniqueness</div>
+                        <div className="mb-1 text-sm text-muted-foreground">Uniqueness</div>
                         <div className="text-2xl font-bold">{report.qualityMetrics.uniqueness.toFixed(1)}/100</div>
                       </div>
                       <div>
-                        <div className="text-sm text-muted-foreground mb-1">SEO Optimization</div>
+                        <div className="mb-1 text-sm text-muted-foreground">SEO Optimization</div>
                         <div className="text-2xl font-bold">{report.qualityMetrics.seoOptimization.toFixed(1)}/100</div>
                       </div>
                     </div>
-                    <div className="mt-4 pt-4 border-t">
-                      <div className="text-sm text-muted-foreground mb-1">Overall Quality</div>
+                    <div className="mt-4 border-t pt-4">
+                      <div className="mb-1 text-sm text-muted-foreground">Overall Quality</div>
                       <div className="text-3xl font-bold">{report.qualityMetrics.overall.toFixed(1)}/100</div>
                     </div>
                   </CardContent>
@@ -181,7 +181,7 @@ export default function AgentTestPage() {
                 <CardContent>
                   <div className="space-y-2">
                     {report.results.map((result: any, idx: number) => (
-                      <div key={idx} className="flex items-center justify-between p-3 border rounded">
+                      <div key={idx} className="flex items-center justify-between rounded border p-3">
                         <div className="flex-1">
                           <div className="font-semibold">{result.test}</div>
                           <div className="text-sm text-muted-foreground">{result.message}</div>
@@ -209,7 +209,7 @@ export default function AgentTestPage() {
                     <CardTitle>Recommendations</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <ul className="list-disc list-inside space-y-2">
+                    <ul className="list-inside list-disc space-y-2">
                       {report.recommendations.map((rec: string, idx: number) => (
                         <li key={idx} className="text-sm">{rec}</li>
                       ))}

@@ -2,7 +2,6 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import {
-  Check,
   CheckCircle2,
   Edit,
   ExternalLink,
@@ -21,10 +20,20 @@ import { useEffect, useState } from 'react'
 
 import CollectionForm from '@/components/CollectionForm'
 import { Sidebar } from '@/components/Sidebar'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import {
   Dialog,
   DialogContent,
@@ -40,20 +49,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/utils/supabase/client'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
 
 type Collection = {
   id: string
@@ -280,7 +278,7 @@ export default function CollectionsManagerPage() {
   const togglePublish = async (c: Collection) => {
     try {
       const newVisibility = c.visibility === 'public' ? 'private' : 'public'
-      if (newVisibility === 'public' && (!c.description || !c.description.trim())) {
+      if (newVisibility === 'public' && (!c.description?.trim())) {
         toast({
           title: 'Description required',
           description: 'Please add a description before publishing your collection.',
@@ -634,10 +632,10 @@ export default function CollectionsManagerPage() {
                                           checked={isSelected}
                                           onChange={() => handleTogglePromptSelection(p.id)}
                                           disabled={isInCollection}
-                                          className="h-4 w-4 rounded cursor-pointer disabled:cursor-not-allowed"
+                                          className="h-4 w-4 cursor-pointer rounded disabled:cursor-not-allowed"
                                         />
-                                        <div className="flex-1 min-w-0">
-                                          <div className="font-medium text-sm truncate">{p.name}</div>
+                                        <div className="min-w-0 flex-1">
+                                          <div className="truncate text-sm font-medium">{p.name}</div>
                                           {p.description && (
                                             <div className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
                                               {p.description}
@@ -678,7 +676,7 @@ export default function CollectionsManagerPage() {
                                 >
                                   <Link
                                     href={p.slug ? `/p/${p.slug}` : '/dashboard'}
-                                    className="flex-1 min-w-0 hover:text-primary"
+                                    className="min-w-0 flex-1 hover:text-primary"
                                   >
                                     <div className="truncate text-sm font-medium">{p.name}</div>
                                     {p.model && (

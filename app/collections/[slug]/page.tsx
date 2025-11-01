@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 
-import { CollectionPageClient } from './CollectionPageClient'
 import { createServerSideClient } from '@/utils/supabase/server'
+
+import { CollectionPageClient } from './CollectionPageClient'
 
 type Props = { params: Promise<{ slug: string }> }
 

@@ -68,7 +68,6 @@ export default async function CreatorProfilePage({ params }: Props) {
         {/* Avatar */}
         <div className="h-16 w-16 overflow-hidden rounded-full bg-gray-200">
           {profile.avatar_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img src={profile.avatar_url} alt="avatar" className="h-full w-full object-cover" />
           ) : null}
         </div>
@@ -117,7 +116,7 @@ export default async function CreatorProfilePage({ params }: Props) {
       {/* Bio */}
       {profile.bio_markdown && (
         <Card className="mb-8 p-6">
-          <div className="prose max-w-none dark:prose-invert">
+          <div className="prose dark:prose-invert max-w-none">
             <p>{profile.bio_markdown}</p>
           </div>
         </Card>

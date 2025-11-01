@@ -3,8 +3,8 @@
 import { useQuery } from '@tanstack/react-query'
 import {
   ArrowLeft,
-  Eye,
   ExternalLink,
+  Eye,
   Facebook,
   FolderOpen,
   Heart,
@@ -109,7 +109,7 @@ export function CollectionPageClient({ slug }: CollectionPageClientProps) {
 
         if (!promptsError && promptsData) {
           const validPrompts = promptsData
-            .filter((item: any) => item.prompts && item.prompts.is_public)
+            .filter((item: any) => item.prompts?.is_public)
             .map((item: any) => ({
               ...item.prompts,
               sort_order: item.sort_order,

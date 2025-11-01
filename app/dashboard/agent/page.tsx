@@ -5,9 +5,7 @@ import {
   Activity,
   Bot,
   CheckCircle2,
-  Clock,
   FolderIcon,
-  Home,
   Plus,
   Settings,
   XCircle,
@@ -16,12 +14,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import { isAdminEmail } from '@/lib/admin'
 import { Sidebar } from '@/components/Sidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { isAdminEmail } from '@/lib/admin'
 import { createClient } from '@/utils/supabase/client'
 
 type Agent = {
@@ -219,8 +217,8 @@ export default function AgentDashboardPage() {
               </CardHeader>
               <CardContent>
                 {agents.length === 0 ? (
-                  <div className="text-center py-8">
-                    <p className="text-muted-foreground mb-4">No agents found.</p>
+                  <div className="py-8 text-center">
+                    <p className="mb-4 text-muted-foreground">No agents found.</p>
                     <Button onClick={() => router.push('/dashboard/agent/setup')}>
                       Create Your First Agent
                     </Button>
@@ -291,7 +289,7 @@ export default function AgentDashboardPage() {
                   </div>
                 ) : stats ? (
                   <>
-                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+                    <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                       <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <CardTitle className="text-sm font-medium">Total Generated</CardTitle>
@@ -330,7 +328,7 @@ export default function AgentDashboardPage() {
                       </Card>
                     </div>
 
-                    <div className="grid gap-4 sm:grid-cols-2 mb-6">
+                    <div className="mb-6 grid gap-4 sm:grid-cols-2">
                       <Card>
                         <CardHeader>
                           <CardTitle>Recent Activity</CardTitle>
@@ -422,7 +420,7 @@ function AgentPromptsTable({
     return (
       <Card>
         <CardContent className="p-6">
-          <Skeleton className="h-10 w-full mb-4" />
+          <Skeleton className="mb-4 h-10 w-full" />
           <Skeleton className="h-32 w-full" />
         </CardContent>
       </Card>
@@ -451,15 +449,15 @@ function AgentPromptsTable({
       <CardContent>
         <div className="space-y-4">
           {filteredPrompts.length === 0 ? (
-            <p className="text-center py-8 text-muted-foreground">No prompts found.</p>
+            <p className="py-8 text-center text-muted-foreground">No prompts found.</p>
           ) : (
             filteredPrompts.map((prompt) => (
               <Card key={prompt.id} className="p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="mb-2 flex items-center gap-2">
                       <h3 className="font-semibold">{prompt.topic}</h3>
-                      <span className={`text-xs px-2 py-1 rounded ${getStatusBadgeClass(prompt.status)}`}>
+                      <span className={`rounded px-2 py-1 text-xs ${getStatusBadgeClass(prompt.status)}`}>
                         {prompt.status}
                       </span>
                       {prompt.quality_score !== null && (
@@ -468,7 +466,7 @@ function AgentPromptsTable({
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-muted-foreground mb-2">Keyword: {prompt.keyword}</p>
+                    <p className="mb-2 text-sm text-muted-foreground">Keyword: {prompt.keyword}</p>
                     {prompt.prompts && (
                       <Link
                         href={`/p/${prompt.prompts.slug}`}
@@ -477,7 +475,7 @@ function AgentPromptsTable({
                         View Prompt → ({prompt.prompts.view_count} views)
                       </Link>
                     )}
-                    <p className="text-xs text-muted-foreground mt-2">
+                    <p className="mt-2 text-xs text-muted-foreground">
                       Created: {new Date(prompt.created_at).toLocaleString()}
                     </p>
                   </div>
@@ -579,7 +577,7 @@ function AgentKeywordsTable({ keywords, agentId }: { keywords: any[]; agentId: s
         </div>
         <div className="space-y-2">
           {keywords.length === 0 ? (
-            <p className="text-center py-8 text-muted-foreground">No keywords yet.</p>
+            <p className="py-8 text-center text-muted-foreground">No keywords yet.</p>
           ) : (
             keywords.map((keyword) => (
               <div key={keyword.id} className="flex items-center justify-between rounded border p-3">
@@ -636,7 +634,7 @@ function AgentSettings({ agent }: { agent: Agent | undefined }) {
       } else {
         alert(`Error: ${json.error}`)
       }
-    } catch (error) {
+    } catch {
       alert('Error saving settings')
     } finally {
       setLoading(false)

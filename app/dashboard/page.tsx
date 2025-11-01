@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { ArrowUpRight, BarChart3, CheckCircle2, Clock, Download, Eye, FileText, FolderIcon, Globe, Sparkles, Upload } from 'lucide-react'
+import { ArrowUpRight, BarChart3, Clock, Download, Eye, FileText, FolderIcon, Globe, Sparkles, Upload } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
@@ -31,7 +31,7 @@ export default function DashboardHomePage() {
         description: 'Your subscription is now active. Thank you for upgrading!',
       })
       // Invalidate subscription queries to refresh status
-      queryClient.invalidateQueries({ queryKey: ['subscription'] })
+      void queryClient.invalidateQueries({ queryKey: ['subscription'] })
       // Remove query param from URL
       router.replace('/dashboard')
     } else if (checkout === 'canceled') {

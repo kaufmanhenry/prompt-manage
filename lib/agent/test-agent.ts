@@ -239,7 +239,7 @@ export function evaluatePromptQuality(prompt: AgentPrompt): QualityMetrics {
 
     // Uniqueness: Check for unique keywords, topics
     const hasKeyword = !!prompt.keyword
-    const hasTopic = !!prompt.topic
+    const _hasTopic = !!prompt.topic
     const uniqueKeywords = new Set([prompt.keyword, prompt.topic].filter(Boolean))
 
     metrics.uniqueness = [

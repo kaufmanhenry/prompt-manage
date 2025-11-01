@@ -2,7 +2,7 @@
 
 import type { Session } from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
-import { Download, FolderIcon, GlobeIcon, Home, LogOut, Plus, Settings, Upload } from 'lucide-react'
+import { FolderIcon, GlobeIcon, Home, LogOut, Plus, Settings, Upload } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'

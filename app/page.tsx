@@ -223,7 +223,7 @@ export default async function Home() {
                 </span>
               </h1>
               <p className="mb-3 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
-                Create, manage, and run AI prompts. All in one place. Build your secure prompt
+                Create, store, and safely share AI prompts with your team. Build your secure prompt
                 library with our{' '}
                 <Link
                   href="/p"

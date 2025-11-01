@@ -1,8 +1,8 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Download, Upload, FileText, FileJson, CheckCircle2, XCircle, Loader2 } from 'lucide-react'
-import { useState, useRef } from 'react'
+import { CheckCircle2, Download, FileJson, FileText, Loader2,Upload, XCircle } from 'lucide-react'
+import { useRef,useState } from 'react'
 
 import { Sidebar } from '@/components/Sidebar'
 import { Button } from '@/components/ui/button'
@@ -315,9 +315,9 @@ export default function ImportExportPage() {
                         id="skipDuplicates"
                         checked={skipDuplicates}
                         onChange={(e) => setSkipDuplicates(e.target.checked)}
-                        className="mt-1 h-4 w-4 rounded border-gray-300 cursor-pointer"
+                        className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300"
                       />
-                      <Label htmlFor="skipDuplicates" className="font-normal cursor-pointer text-sm sm:text-base">
+                      <Label htmlFor="skipDuplicates" className="cursor-pointer text-sm font-normal sm:text-base">
                         Skip duplicate prompts (matches by name and prompt text)
                       </Label>
                     </div>
@@ -384,7 +384,7 @@ export default function ImportExportPage() {
                     <div className="space-y-2 text-sm">
                       <div>
                         <strong>Required:</strong>
-                        <ul className="list-disc list-inside ml-2 space-y-1">
+                        <ul className="ml-2 list-inside list-disc space-y-1">
                           <li>
                             <code>name</code> - Prompt name/title
                           </li>
@@ -395,7 +395,7 @@ export default function ImportExportPage() {
                       </div>
                       <div>
                         <strong>Optional:</strong>
-                        <ul className="list-disc list-inside ml-2 space-y-1">
+                        <ul className="ml-2 list-inside list-disc space-y-1">
                           <li>
                             <code>description</code> - Prompt description
                           </li>
@@ -423,7 +423,7 @@ export default function ImportExportPage() {
                     <CardDescription>Your JSON file should be an array of prompt objects:</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <pre className="rounded bg-muted p-3 text-xs overflow-auto sm:p-4">
+                    <pre className="overflow-auto rounded bg-muted p-3 text-xs sm:p-4">
                       {`[
   {
     "name": "Prompt Name",
@@ -475,9 +475,9 @@ export default function ImportExportPage() {
                     </Button>
                   </div>
 
-                  <div className="rounded-lg border p-4 bg-muted/50">
-                    <h3 className="font-semibold mb-2">What gets exported:</h3>
-                    <ul className="text-sm space-y-1 list-disc list-inside">
+                  <div className="rounded-lg border bg-muted/50 p-4">
+                    <h3 className="mb-2 font-semibold">What gets exported:</h3>
+                    <ul className="list-inside list-disc space-y-1 text-sm">
                       <li>Prompt name and text</li>
                       <li>Description (if available)</li>
                       <li>Model preference</li>

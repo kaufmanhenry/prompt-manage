@@ -14,9 +14,9 @@ import {
 import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
 import CopyButton from '@/components/CopyButton'
 import { CopyPromptButton } from '@/components/CopyPromptButton'
-import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
 import { DerivativePrompts } from '@/components/DerivativePrompts'
 import { RelatedPrompts } from '@/components/RelatedPrompts'
 import { Badge } from '@/components/ui/badge'

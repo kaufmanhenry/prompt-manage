@@ -306,7 +306,7 @@ export default async function ToolsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
       <div className="min-h-screen bg-white dark:bg-gray-950">
-        <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8 overflow-x-hidden">
+        <div className="mx-auto max-w-[90rem] overflow-x-hidden px-4 sm:px-6 lg:px-8">
           {/* Breadcrumbs */}
           <nav className="mb-6 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
             <Link href="/" className="hover:text-gray-900 dark:hover:text-gray-100">
@@ -405,20 +405,20 @@ export default async function ToolsPage() {
             })}
 
           {/* Understanding AI Model Types - Educational Section */}
-          <section className="mx-auto mb-20 max-w-6xl border-t border-gray-200 pt-8 sm:pt-16 dark:border-gray-800 px-4 sm:px-0">
+          <section className="mx-auto mb-20 max-w-6xl border-t border-gray-200 px-4 pt-8 dark:border-gray-800 sm:px-0 sm:pt-16">
             <div className="mb-8 text-center">
-              <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+              <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                 Understanding Different AI Models & Tools
               </h2>
-              <p className="text-base sm:text-lg text-muted-foreground">
+              <p className="text-base text-muted-foreground sm:text-lg">
                 Learn the difference between LLMs, image generators, video creators, and other AI
                 tools
               </p>
             </div>
 
-            <div className="grid gap-6 sm:gap-8 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2 sm:gap-8">
               {/* LLMs Card */}
-              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 sm:p-8 dark:border-gray-800 dark:bg-gray-900">
+              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900 sm:p-8">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-950/50" />
                 <div className="relative">
                   <div className="mb-6 inline-flex items-center justify-center">
@@ -451,7 +451,7 @@ export default async function ToolsPage() {
               </div>
 
               {/* Image Models Card */}
-              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 sm:p-8 dark:border-gray-800 dark:bg-gray-900">
+              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900 sm:p-8">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent dark:from-purple-950/50" />
                 <div className="relative">
                   <div className="mb-4 flex items-center gap-3">
@@ -493,7 +493,7 @@ export default async function ToolsPage() {
               </div>
 
               {/* Video Models Card */}
-              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 sm:p-8 dark:border-gray-800 dark:bg-gray-900">
+              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900 sm:p-8">
                 <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 to-transparent dark:from-rose-950/50" />
                 <div className="relative">
                   <div className="mb-4 flex items-center gap-3">
@@ -534,7 +534,7 @@ export default async function ToolsPage() {
               </div>
 
               {/* Music Models Card */}
-              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 sm:p-8 dark:border-gray-800 dark:bg-gray-900">
+              <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900 sm:p-8">
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-transparent dark:from-indigo-950/50" />
                 <div className="relative">
                   <div className="mb-4 flex items-center gap-3">
@@ -575,10 +575,10 @@ export default async function ToolsPage() {
             </div>
 
             {/* Comparison Table */}
-            <div className="mt-12 rounded-lg border border-gray-200 bg-white p-4 sm:p-8 dark:border-gray-800 dark:bg-gray-900">
-              <h3 className="mb-6 text-lg sm:text-xl font-semibold text-foreground">Quick Comparison</h3>
-              <div className="overflow-x-auto -mx-4 sm:mx-0">
-                <div className="min-w-full inline-block align-middle">
+            <div className="mt-12 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-8">
+              <h3 className="mb-6 text-lg font-semibold text-foreground sm:text-xl">Quick Comparison</h3>
+              <div className="-mx-4 overflow-x-auto sm:mx-0">
+                <div className="inline-block min-w-full align-middle">
                   <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b">
@@ -620,7 +620,7 @@ export default async function ToolsPage() {
             </div>
 
             {/* Why Use Tool-Specific Prompts */}
-            <div className="mt-12 rounded-lg border border-gray-200 bg-white p-6 sm:p-8 dark:border-gray-800 dark:bg-gray-900">
+            <div className="mt-12 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900 sm:p-8">
               <h3 className="mb-4 text-xl font-semibold text-foreground">
                 Why Each Tool Needs Different Prompts
               </h3>

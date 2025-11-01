@@ -1,11 +1,10 @@
+import { Calendar, Eye, FolderOpen,Heart, TrendingUp } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { createServerSideClient } from '@/utils/supabase/server'
-import { Eye, Heart, TrendingUp, Calendar, FolderOpen } from 'lucide-react'
 
 export const revalidate = 300 // Revalidate every 5 minutes
 
@@ -261,7 +260,7 @@ export default async function CollectionsIndexPage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                          <h3 className="font-semibold line-clamp-1">{collection.title}</h3>
+                          <h3 className="line-clamp-1 font-semibold">{collection.title}</h3>
                         </div>
                       </div>
                     ) : (
@@ -269,7 +268,7 @@ export default async function CollectionsIndexPage() {
                     )}
                     <CardContent className="p-4">
                       {!collection.cover_image_url && (
-                        <h3 className="mb-2 font-semibold line-clamp-1 group-hover:text-primary">
+                        <h3 className="mb-2 line-clamp-1 font-semibold group-hover:text-primary">
                           {collection.title}
                         </h3>
                       )}
@@ -334,7 +333,7 @@ export default async function CollectionsIndexPage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                          <h3 className="font-semibold line-clamp-1">{collection.title}</h3>
+                          <h3 className="line-clamp-1 font-semibold">{collection.title}</h3>
                         </div>
                       </div>
                     ) : (
@@ -342,7 +341,7 @@ export default async function CollectionsIndexPage() {
                     )}
                     <CardContent className="p-4">
                       {!collection.cover_image_url && (
-                        <h3 className="mb-2 font-semibold line-clamp-1 group-hover:text-primary">
+                        <h3 className="mb-2 line-clamp-1 font-semibold group-hover:text-primary">
                           {collection.title}
                         </h3>
                       )}
@@ -402,7 +401,7 @@ export default async function CollectionsIndexPage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                          <h3 className="font-semibold line-clamp-1">{collection.title}</h3>
+                          <h3 className="line-clamp-1 font-semibold">{collection.title}</h3>
                         </div>
                       </div>
                     ) : (
@@ -410,7 +409,7 @@ export default async function CollectionsIndexPage() {
                     )}
                     <CardContent className="p-4">
                       {!collection.cover_image_url && (
-                        <h3 className="mb-2 font-semibold line-clamp-1 group-hover:text-primary">
+                        <h3 className="mb-2 line-clamp-1 font-semibold group-hover:text-primary">
                           {collection.title}
                         </h3>
                       )}
@@ -586,7 +585,7 @@ export default async function CollectionsIndexPage() {
                 </Card>
               </Link>
               <Link href="/dashboard/collections">
-                <Card className="h-full transition-all hover:shadow-lg border-primary/20 bg-primary/5">
+                <Card className="h-full border-primary/20 bg-primary/5 transition-all hover:shadow-lg">
                   <CardHeader>
                     <CardTitle className="text-base">Create Collection</CardTitle>
                   </CardHeader>
@@ -606,11 +605,11 @@ export default async function CollectionsIndexPage() {
         <Card className="border-primary/20 bg-primary/5">
           <CardContent className="py-12 text-center">
             <h2 className="mb-4 text-2xl font-bold">Create Your Own Collection</h2>
-            <p className="mb-2 mx-auto max-w-2xl text-muted-foreground">
+            <p className="mx-auto mb-2 max-w-2xl text-muted-foreground">
               Organize your prompts into collections. Store, manage, and share your prompts with
               the community. The best CMS for prompt management.
             </p>
-            <p className="mb-6 mx-auto max-w-2xl text-sm text-muted-foreground">
+            <p className="mx-auto mb-6 max-w-2xl text-sm text-muted-foreground">
               <strong>Tip:</strong> When creating a public collection, write a 2-4 sentence description
               to help others discover and understand your work. Describe what prompts are included,
               the use cases, and why this collection is valuable.

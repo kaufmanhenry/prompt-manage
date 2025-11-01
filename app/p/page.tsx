@@ -6,11 +6,10 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 
-import CopyButton from '@/components/CopyButton'
 import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
+import CopyButton from '@/components/CopyButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { FullPageLoading } from '@/components/ui/loading'
@@ -173,7 +172,7 @@ function PublicDirectoryContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:p-6">
         {/* Header */}
         <div className="mb-8">

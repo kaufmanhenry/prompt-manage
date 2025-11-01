@@ -38,7 +38,7 @@ export async function PATCH(
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   // Validate description for public collections
-  if (body.visibility === 'public' && (!body.description || !body.description.trim())) {
+  if (body.visibility === 'public' && (!body.description?.trim())) {
     return NextResponse.json(
       { error: 'Description is required for public collections' },
       { status: 400 },

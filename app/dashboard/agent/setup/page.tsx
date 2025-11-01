@@ -4,13 +4,13 @@ import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import { isAdminEmail } from '@/lib/admin'
 import { Sidebar } from '@/components/Sidebar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { isAdminEmail } from '@/lib/admin'
 import { createClient } from '@/utils/supabase/client'
 
 const DEFAULT_KEYWORDS = [

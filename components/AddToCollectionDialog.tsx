@@ -205,7 +205,7 @@ export function AddToCollectionDialog({
           Add to Collection
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+      <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add to Collection</DialogTitle>
           <DialogDescription>
@@ -324,7 +324,7 @@ export function AddToCollectionDialog({
 
           {/* Collections List */}
           {filteredCollections.length === 0 && collections.length > 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
+            <div className="py-8 text-center text-muted-foreground">
               <p>No collections match your search.</p>
             </div>
           ) : filteredCollections.length > 0 ? (
@@ -334,14 +334,14 @@ export function AddToCollectionDialog({
                 return (
                   <div
                     key={collection.id}
-                    className="flex items-center justify-between p-3 border rounded-lg"
+                    className="flex items-center justify-between rounded-lg border p-3"
                   >
                     <div className="flex-1">
                       <div className="font-semibold">{collection.title}</div>
                       {collection.description && (
                         <div className="text-sm text-muted-foreground">{collection.description}</div>
                       )}
-                      <div className="text-xs text-muted-foreground mt-1">
+                      <div className="mt-1 text-xs text-muted-foreground">
                         {collection.visibility === 'public' ? 'Public' : 'Private'}
                       </div>
                     </div>
@@ -358,7 +358,7 @@ export function AddToCollectionDialog({
               })}
             </div>
           ) : collections.length === 0 && !showCreateForm ? (
-            <div className="text-center py-8 text-muted-foreground">
+            <div className="py-8 text-center text-muted-foreground">
               <p>No collections yet. Create one above to get started!</p>
             </div>
           ) : null}

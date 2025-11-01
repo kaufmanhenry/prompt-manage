@@ -50,6 +50,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
+import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
 type Collection = {
@@ -96,16 +97,29 @@ export default function CollectionsManagerPage() {
     },
   })
 
-  const { data: prompts = [] } = useQuery({
+  const { data: prompts = [] } = useQuery<Prompt[]>({
     queryKey: ['prompts', session?.user?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<Prompt[]> => {
       const { data, error } = await createClient()
         .from('prompts')
         .select('id, name, prompt_text, description, model, tags, is_public, view_count, user_id, inserted_at, updated_at')
         .eq('user_id', session?.user?.id)
         .order('updated_at', { ascending: false })
       if (error) throw error
-      return data || []
+      // Ensure all required fields are present with defaults to match Prompt type
+      return ((data || []) as any[]).map((p): Prompt => ({
+        id: p.id,
+        name: p.name || '',
+        prompt_text: p.prompt_text || '',
+        description: p.description || undefined,
+        model: p.model || undefined,
+        tags: p.tags || [],
+        is_public: p.is_public ?? false,
+        view_count: p.view_count || 0,
+        user_id: p.user_id || '',
+        inserted_at: p.inserted_at || undefined,
+        updated_at: p.updated_at || undefined,
+      }))
     },
     enabled: !!session?.user?.id,
   })

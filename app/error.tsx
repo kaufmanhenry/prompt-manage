@@ -18,10 +18,10 @@ export default function Error({
           <AlertTriangle className="mx-auto h-16 w-16 text-red-500" />
         </div>
         <h1 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
-          Something went wrong
+          An Error Occurred
         </h1>
         <p className="mb-6 text-gray-600 dark:text-gray-400">
-          We encountered an unexpected error. Please try again.
+          We apologize for the inconvenience. Please try again, or return to the homepage if the issue persists.
         </p>
         <Button onClick={reset} className="inline-flex items-center gap-2">
           <RefreshCw className="h-4 w-4" />

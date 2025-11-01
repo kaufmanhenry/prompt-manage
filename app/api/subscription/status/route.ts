@@ -78,7 +78,9 @@ export async function GET(_request: NextRequest) {
         : null,
     })
   } catch (error) {
-    console.error('Error fetching subscription status:', error)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error fetching subscription status:', error)
+    }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

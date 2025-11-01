@@ -18,9 +18,9 @@ export default function AuthErrorPage() {
           <div className="mb-4 flex items-center justify-center">
             <AlertCircle className="h-12 w-12 text-destructive" />
           </div>
-          <CardTitle className="text-center">Sign-in Error</CardTitle>
+          <CardTitle className="text-center">Sign-In Error</CardTitle>
           <CardDescription className="text-center">
-            There was a problem signing you in
+            We encountered an issue while signing you in. Please try again or contact support if the problem persists.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

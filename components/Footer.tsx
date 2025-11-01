@@ -6,6 +6,24 @@ import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 
+// Organization schema for SEO
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Prompt Manage',
+  url: 'https://promptmanage.com',
+  logo: 'https://promptmanage.com/logo.svg',
+  sameAs: [
+    'https://x.com/promptmanage',
+    'https://www.linkedin.com/company/prompt-manage/',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'Customer Service',
+    url: 'https://promptmanage.com/support',
+  },
+}
+
 export function Footer() {
   const [hearts, setHearts] = useState<Array<{ id: number; x: number; y: number }>>([])
 
@@ -30,7 +48,13 @@ export function Footer() {
   }
 
   return (
-    <footer className="border-t bg-white py-10 dark:bg-gray-950">
+    <>
+      {/* Organization Schema for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <footer className="border-t bg-white py-10 dark:bg-gray-950">
       {/* Unique CTA Section */}
       <div className="mx-auto mb-12 max-w-6xl px-6">
         <div className="group relative overflow-hidden rounded-2xl border border-emerald-200/50 bg-gradient-to-br from-emerald-50/50 via-white to-emerald-50/30 p-8 transition-all duration-500 hover:border-emerald-300 hover:shadow-lg dark:border-emerald-800/30 dark:from-emerald-950/20 dark:via-gray-950 dark:to-emerald-950/10">
@@ -85,119 +109,188 @@ export function Footer() {
               with your team.
             </p>
           </div>
-          <ul className="items-center space-y-2 text-sm">
-            <li className="text-xs font-medium text-muted-foreground">Company</li>
-            <li>
-              <Link href="/" className="text-gray-600 hover:underline dark:text-gray-300">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="text-gray-600 hover:underline dark:text-gray-300">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link href="/product" className="text-gray-600 hover:underline dark:text-gray-300">
-                Product
-              </Link>
-            </li>
-            <li>
-              <Link href="/pricing" className="text-gray-600 hover:underline dark:text-gray-300">
-                Pricing
-              </Link>
-            </li>
-          </ul>
-          <ul className="items-center space-y-2 text-sm">
-            <li className="text-xs font-medium text-muted-foreground">Resources</li>
-            <li>
-              <Link href="/p" className="text-gray-600 hover:underline dark:text-gray-300">
-                Prompt Directory
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/collections"
-                className="text-gray-600 hover:underline dark:text-gray-300"
-              >
-                Collections
-              </Link>
-            </li>
-            <li>
-              <Link href="/use-cases" className="text-gray-600 hover:underline dark:text-gray-300">
-                Use Cases
-              </Link>
-            </li>
-            <li>
-              <Link href="/tools" className="text-gray-600 hover:underline dark:text-gray-300">
-                AI Tools
-              </Link>
-            </li>
-            <li>
-              <Link href="/models" className="text-gray-600 hover:underline dark:text-gray-300">
-                Models
-              </Link>
-            </li>
-            <li>
-              <Link href="/docs" className="text-gray-600 hover:underline dark:text-gray-300">
-                Docs
-              </Link>
-            </li>
-            <li>
-              <Link href="/support" className="text-gray-600 hover:underline dark:text-gray-300">
-                Support
-              </Link>
-            </li>
-          </ul>
-          <ul className="items-center space-y-2 text-sm">
-            <li className="text-xs font-medium text-muted-foreground">Legal</li>
-            <li>
-              <Link
-                href="/legal-center"
-                className="text-gray-600 hover:underline dark:text-gray-300"
-              >
-                Legal Center
-              </Link>
-            </li>
-            <li>
-              <Link href="/terms" className="text-gray-600 hover:underline dark:text-gray-300">
-                Terms
-              </Link>
-            </li>
-            <li>
-              <Link href="/privacy" className="text-gray-600 hover:underline dark:text-gray-300">
-                Privacy
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/accessibility"
-                className="text-gray-600 hover:underline dark:text-gray-300"
-              >
-                Accessibility
-              </Link>
-            </li>
-            <li>
-              <Link href="/dmca" className="text-gray-600 hover:underline dark:text-gray-300">
-                DMCA
-              </Link>
-            </li>
-            <li>
-              <Link href="/cookies" className="text-gray-600 hover:underline dark:text-gray-300">
-                Cookies
-              </Link>
-            </li>
-            <li>
-              <Link href="/refunds" className="text-gray-600 hover:underline dark:text-gray-300">
-                Refunds
-              </Link>
-            </li>
-            <li>
-              <Link href="/security" className="text-gray-600 hover:underline dark:text-gray-300">
-                Security
-              </Link>
-            </li>
-          </ul>
+          <nav aria-label="Company navigation">
+            <ul className="items-center space-y-2 text-sm">
+              <li className="text-xs font-medium text-muted-foreground">Company</li>
+              <li>
+                <Link href="/" className="text-gray-600 hover:underline dark:text-gray-300">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Learn more about Prompt Manage"
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/product"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="View Prompt Manage product features"
+                >
+                  Product
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/pricing"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="View Prompt Manage pricing plans"
+                >
+                  Pricing
+                </Link>
+              </li>
+            </ul>
+          </nav>
+          <nav aria-label="Resources navigation">
+            <ul className="items-center space-y-2 text-sm">
+              <li className="text-xs font-medium text-muted-foreground">Resources</li>
+              <li>
+                <Link
+                  href="/p"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Browse public AI prompt directory"
+                >
+                  Prompt Directory
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/collections"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Explore AI prompt collections"
+                >
+                  Collections
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/use-cases"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="AI prompt use cases and examples"
+                >
+                  Use Cases
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/tools"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Browse AI tools and resources"
+                >
+                  AI Tools
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/models"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Supported AI models and prompts"
+                >
+                  Models
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/docs"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Prompt Manage documentation"
+                >
+                  Docs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/support"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Get help and support"
+                >
+                  Support
+                </Link>
+              </li>
+            </ul>
+          </nav>
+          <nav aria-label="Legal navigation">
+            <ul className="items-center space-y-2 text-sm">
+              <li className="text-xs font-medium text-muted-foreground">Legal</li>
+              <li>
+                <Link
+                  href="/legal-center"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Legal center and compliance information"
+                >
+                  Legal Center
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/terms"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Terms and conditions"
+                >
+                  Terms
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/privacy"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Privacy policy"
+                >
+                  Privacy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/accessibility"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Accessibility statement"
+                >
+                  Accessibility
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dmca"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="DMCA policy"
+                >
+                  DMCA
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/cookies"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Cookie policy"
+                >
+                  Cookies
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/refunds"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Refund policy"
+                >
+                  Refunds
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/security"
+                  className="text-gray-600 hover:underline dark:text-gray-300"
+                  aria-label="Security and data protection"
+                >
+                  Security
+                </Link>
+              </li>
+            </ul>
+          </nav>
 
           <div className="flex flex-col justify-between space-y-4 md:ml-auto">
             <div className="flex items-center justify-start gap-2 md:justify-end">
@@ -226,7 +319,7 @@ export function Footer() {
             </div>
             <div className="flex flex-col gap-2 text-xs">
               <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                <span>Made with</span>
+                <span>Building the CMS for your prompts with</span>
                 <button
                   type="button"
                   onClick={createHearts}
@@ -235,7 +328,6 @@ export function Footer() {
                 >
                   ❤️
                 </button>
-                <span>for AI creators</span>
               </div>
               <div className="text-gray-500 dark:text-gray-400">&copy; 2025 Prompt Manage LLC.</div>
             </div>
@@ -262,5 +354,6 @@ export function Footer() {
         </div>
       )}
     </footer>
+    </>
   )
 }

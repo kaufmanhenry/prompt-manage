@@ -110,7 +110,9 @@ function PublicDirectoryContent() {
       })
       setAvailableTags(Array.from(tags))
     } catch (error) {
-      console.error('Error fetching public prompts:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching public prompts:', error)
+      }
       toast({
         title: 'Error',
         description: 'Failed to load public prompts.',

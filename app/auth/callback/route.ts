@@ -35,25 +35,65 @@ async function createUserProfileIfNeeded(
 
       const fullName = user.user_metadata?.full_name || displayName
 
-      // Insert profile - the trigger will auto-generate username
-      const { error: insertError } = await supabase.from('user_profiles').insert({
+      // Insert profile - only include columns that exist in the table
+      // This handles cases where migrations haven't run yet
+      const profileData: Record<string, unknown> = {
         id: userId,
         display_name: displayName,
         full_name: fullName,
-        email_notifications: true,
-        dark_mode: false,
-        theme_preference: 'system',
-      })
-
-      if (insertError) {
-        logger.error('Error creating user profile:', insertError)
-        return {
-          success: false,
-          error: `Database error saving new user: ${insertError.message}`,
-        }
       }
 
-      return { success: true }
+      // Add optional columns only if table structure supports them
+      // These will be added by migration if missing
+      try {
+        const { error: insertError } = await supabase.from('user_profiles').insert({
+          ...profileData,
+          email_notifications: true,
+          dark_mode: false,
+          theme_preference: 'system',
+        })
+
+        if (insertError) {
+          // If insert fails due to missing columns, try without optional columns
+          if (
+            insertError.message?.includes('column') &&
+            (insertError.message.includes('email_notifications') ||
+              insertError.message.includes('dark_mode') ||
+              insertError.message.includes('theme_preference'))
+          ) {
+            logger.error(
+              'Missing columns detected, trying without optional columns:',
+              insertError,
+            )
+            // Try insert without optional columns
+            const { error: fallbackError } = await supabase
+              .from('user_profiles')
+              .insert(profileData)
+
+            if (fallbackError) {
+              logger.error('Fallback insert also failed:', fallbackError)
+              return {
+                success: false,
+                error: `Database error saving new user: ${fallbackError.message}. Please run the migration: 20250131000000_fix_user_profile_columns.sql`,
+              }
+            }
+          } else {
+            logger.error('Error creating user profile:', insertError)
+            return {
+              success: false,
+              error: `Database error saving new user: ${insertError.message}. Code: ${insertError.code || 'unknown'}. Details: ${JSON.stringify(insertError)}`,
+            }
+          }
+        }
+
+        return { success: true }
+      } catch (error) {
+        logger.error('Unexpected error during profile creation:', error)
+        return {
+          success: false,
+          error: `Unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        }
+      }
     }
 
     // If it's a different error, return it
@@ -162,7 +202,7 @@ export async function GET(request: Request) {
     )
 
     if (!profileResult.success) {
-      console.error('Profile creation failed:', profileResult.error)
+      logger.error('Profile creation failed:', profileResult.error)
       const errorUrl = new URL('/auth/error', requestUrl.origin)
       errorUrl.searchParams.set('error', profileResult.error || 'Failed to create user profile')
       errorUrl.searchParams.set('redirect', redirectTo)

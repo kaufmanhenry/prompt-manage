@@ -8,9 +8,6 @@ const nextConfig: NextConfig = {
   // Re-enable React Strict Mode for better performance and development
   reactStrictMode: true,
 
-  // Enable SWC minification (faster than Terser)
-  swcMinify: true,
-
   // Optimize package imports for better tree-shaking
   experimental: {
     optimizePackageImports: [

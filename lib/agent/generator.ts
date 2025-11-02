@@ -1,9 +1,16 @@
 // Agent Prompt Generation Logic
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Lazy-load OpenAI client to avoid build-time initialization
+let openai: OpenAI | null = null
+function getOpenAI(): OpenAI {
+  if (!openai) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY || '',
+    })
+  }
+  return openai
+}
 
 interface AgentGenerationInput {
   topic: string
@@ -53,7 +60,7 @@ Return your response in this JSON format:
   "description": "A brief description of what this prompt does (2-3 sentences)"
 }`
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: 'gpt-4o',
     messages: [
       { role: 'system', content: systemPrompt },
@@ -115,7 +122,7 @@ Return your response in this JSON format:
   }
 }`
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: 'gpt-4o',
     messages: [
       { role: 'system', content: systemPrompt },
@@ -159,7 +166,7 @@ Return your response in this JSON format:
   "suggestions": ["suggestion 1", "suggestion 2"]
 }`
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: 'gpt-4o',
     messages: [
       { role: 'system', content: systemPrompt },

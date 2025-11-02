@@ -20,8 +20,9 @@ export interface PlanFeatures {
   tagline?: string
   features: string[]
   limits: {
-    promptsPerMonth: number // -1 for unlimited
-    maxPrompts: number // -1 for unlimited
+    promptsPerMonth: number // -1 for unlimited (stored prompts)
+    maxPrompts: number // -1 for unlimited (stored prompts)
+    promptRunsPerMonth: number // -1 for unlimited (API executions)
     canShare: boolean
     canExport: boolean
     teamMembers?: number
@@ -36,6 +37,7 @@ export const PRICING_CONFIG: Record<PlanType, PlanFeatures> = {
     description: 'Perfect for getting started',
     features: [
       'Store up to 25 prompts in your account privately',
+      'Run prompts up to 10 times per month',
       'Tag & organize prompts',
       'Create private and public collections',
       'Public sharing',
@@ -43,6 +45,7 @@ export const PRICING_CONFIG: Record<PlanType, PlanFeatures> = {
     limits: {
       promptsPerMonth: 25,
       maxPrompts: 25,
+      promptRunsPerMonth: 10,
       canShare: true,
       canExport: false,
     },
@@ -54,6 +57,7 @@ export const PRICING_CONFIG: Record<PlanType, PlanFeatures> = {
     tagline: 'Popular',
     features: [
       'Unlimited prompts',
+      'Run prompts up to 100 times per month',
       'Up to 5 team members',
       'Private team collections',
       'Advanced sharing & permissions',
@@ -63,6 +67,7 @@ export const PRICING_CONFIG: Record<PlanType, PlanFeatures> = {
     limits: {
       promptsPerMonth: -1, // unlimited
       maxPrompts: -1,
+      promptRunsPerMonth: 100,
       canShare: true,
       canExport: true,
       teamMembers: 5,
@@ -75,6 +80,7 @@ export const PRICING_CONFIG: Record<PlanType, PlanFeatures> = {
     description: 'For growing teams and large enterprises',
     features: [
       'Everything in Team',
+      'Run prompts up to 1,000 times per month',
       'Up to 25 team members',
       'Advanced analytics & insights',
       'Enterprise-grade security',
@@ -84,6 +90,7 @@ export const PRICING_CONFIG: Record<PlanType, PlanFeatures> = {
     limits: {
       promptsPerMonth: -1, // unlimited
       maxPrompts: -1,
+      promptRunsPerMonth: 1000,
       canShare: true,
       canExport: true,
       teamMembers: 25,

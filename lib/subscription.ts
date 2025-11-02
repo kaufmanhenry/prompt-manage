@@ -19,6 +19,8 @@ export interface UsageStats {
   promptsThisMonth: number
   promptsTotal: number
   lastPromptDate: string | null
+  promptRunsThisMonth: number
+  promptRunsTotal: number
 }
 
 export async function getUserSubscription(userId: string): Promise<UserSubscription | null> {
@@ -96,10 +98,25 @@ export async function getUserUsage(userId: string): Promise<UsageStats> {
     .limit(1)
     .maybeSingle()
 
+  // Get prompt runs this month
+  const { count: promptRunsThisMonth } = await supabase
+    .from('prompt_run_history')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .gte('created_at', startOfMonth.toISOString())
+
+  // Get total prompt runs
+  const { count: promptRunsTotal } = await supabase
+    .from('prompt_run_history')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', userId)
+
   return {
     promptsThisMonth: promptsThisMonth ?? 0,
     promptsTotal: promptsTotal ?? 0,
     lastPromptDate: lastPrompt?.inserted_at ?? null,
+    promptRunsThisMonth: promptRunsThisMonth ?? 0,
+    promptRunsTotal: promptRunsTotal ?? 0,
   }
 }
 
@@ -200,4 +217,36 @@ export function getPlanLimits(plan: PlanType) {
 
 export function getPlanFeatures(plan: PlanType) {
   return PRICING_CONFIG[plan].features
+}
+
+export function canUserRunPrompt(
+  subscription: UserSubscription | null,
+  usage: UsageStats,
+  userEmail?: string | null,
+): { allowed: boolean; remaining: number; limit: number } {
+  // Admins always have PRO access (unlimited runs)
+  if (userEmail && isAdminEmail(userEmail)) {
+    return { allowed: true, remaining: 999, limit: 1000 }
+  }
+
+  // Block access if subscription is past_due or unpaid
+  if (subscription && (subscription.status === 'past_due' || subscription.status === 'unpaid')) {
+    return { allowed: false, remaining: 0, limit: 0 }
+  }
+
+  // Determine plan
+  const plan = subscription?.status === 'active' ? subscription.plan : 'free'
+  const planConfig = PRICING_CONFIG[plan]
+  const monthlyLimit = planConfig.limits.promptRunsPerMonth
+
+  // Unlimited plans
+  if (monthlyLimit === -1) {
+    return { allowed: true, remaining: 999, limit: -1 }
+  }
+
+  // Check monthly limit
+  const remaining = monthlyLimit - usage.promptRunsThisMonth
+  const allowed = remaining > 0
+
+  return { allowed, remaining, limit: monthlyLimit }
 }

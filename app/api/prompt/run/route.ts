@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
 import { getValidatedUserId } from '@/lib/auth-utils'
+import { canUserRunPrompt, getUserSubscription, getUserUsage } from '@/lib/subscription'
 import { createClient } from '@/utils/supabase/server'
 
 // Initialize OpenAI client only when needed
@@ -37,6 +38,27 @@ export async function POST(request: NextRequest) {
     userId = getValidatedUserId(user)
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Check rate limits before proceeding
+    const [subscription, usage] = await Promise.all([
+      getUserSubscription(userId),
+      getUserUsage(userId),
+    ])
+
+    const rateLimitCheck = canUserRunPrompt(subscription, usage, user?.email)
+
+    if (!rateLimitCheck.allowed) {
+      return NextResponse.json(
+        {
+          error: 'Monthly prompt run limit reached',
+          message: `You've reached your monthly limit of ${rateLimitCheck.limit} prompt runs. Upgrade your plan to run more prompts.`,
+          limit: rateLimitCheck.limit,
+          remaining: 0,
+          upgradeUrl: '/pricing',
+        },
+        { status: 429 },
+      )
     }
 
     const { promptId, promptText } = await request.json()
@@ -126,6 +148,11 @@ export async function POST(request: NextRequest) {
       },
       execution_time_ms: executionTime,
       tokens_used: tokensUsed,
+      usage: {
+        runsThisMonth: usage.promptRunsThisMonth + 1, // Include this run
+        limit: rateLimitCheck.limit,
+        remaining: rateLimitCheck.remaining - 1, // After this run
+      },
     })
   } catch (error) {
     const executionTime = Date.now() - startTime

@@ -299,7 +299,6 @@ export default async function CollectionsIndexPage() {
                                 ? `/u/${collection.creator.username}`
                                 : '#'
                             }
-                            onClick={(e) => e.stopPropagation()}
                             className="hover:text-primary"
                           >
                             {collection.creator.name}

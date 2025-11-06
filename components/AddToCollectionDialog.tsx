@@ -185,6 +185,34 @@ export function AddToCollectionDialog({
     }
   }
 
+  const handleOpenDialog = async () => {
+    // Check if user is authenticated
+    if (!session) {
+      // Persist intent and initiate Google OAuth
+      const redirectAfterLogin = window.location.href
+      localStorage.setItem(
+        'pendingCollectionAdd',
+        JSON.stringify({
+          promptId,
+          promptName,
+          redirectUrl: redirectAfterLogin,
+        }),
+      )
+      await createClient().auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${
+            process.env.NEXT_PUBLIC_SITE_URL ||
+            (typeof window !== 'undefined' ? window.location.origin : '')
+          }/auth/callback?redirect=${encodeURIComponent(redirectAfterLogin)}`,
+          queryParams: { access_type: 'offline', prompt: 'consent' },
+        },
+      })
+      return
+    }
+    setOpen(true)
+  }
+
   return (
     <Dialog
       open={open}
@@ -200,7 +228,7 @@ export function AddToCollectionDialog({
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={handleOpenDialog}>
           <Plus className="mr-2 h-4 w-4" />
           Add to Collection
         </Button>

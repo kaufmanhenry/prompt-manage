@@ -33,7 +33,7 @@ export function SeatLimitModal({
 }: SeatLimitModalProps) {
   const [loading, setLoading] = useState(false)
 
-  const handleUpgrade = async () => {
+  const handleBookDemo = async () => {
     setLoading(true)
 
     try {
@@ -47,34 +47,43 @@ export function SeatLimitModal({
         }),
       )
 
-      // Redirect to Stripe checkout with 14-day trial
-      const res = await fetch('/api/billing/create-checkout', {
+      // Capture lead for demo
+      await fetch('/api/leads/demo-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          tier: 'pro',
           teamId,
-          trialDays: 14,
+          pendingEmail,
+          currentPlan,
+          source: 'seat_limit_modal',
         }),
       })
 
-      if (!res.ok) {
-        throw new Error('Failed to create checkout session')
-      }
+      // Redirect to demo booking page or calendar
+      // Option 1: Internal demo form
+      window.location.href = `/demo?team=${teamId}&email=${encodeURIComponent(pendingEmail)}`
 
-      const { url } = await res.json()
-
-      // Redirect to Stripe
-      window.location.href = url
+      // Option 2: Calendly (if you use it)
+      // window.open('https://calendly.com/promptmanage/demo', '_blank')
     } catch (error) {
-      console.error('Upgrade error:', error)
+      console.error('Demo booking error:', error)
       setLoading(false)
-      // TODO: Show error toast
+      // Fallback: Open contact page
+      window.open('/contact', '_blank')
     }
   }
 
-  const handleContactSales = () => {
-    window.open('/contact', '_blank')
+  const handleUpgradeNow = () => {
+    // For immediate self-service upgrade (no trial)
+    localStorage.setItem(
+      'pendingInvitation',
+      JSON.stringify({
+        teamId,
+        email: pendingEmail,
+        timestamp: Date.now(),
+      }),
+    )
+    window.location.href = `/pricing?team=${teamId}&upgrade=pro`
   }
 
   return (
@@ -172,29 +181,31 @@ export function SeatLimitModal({
                   <strong>Priority support</strong>
                 </li>
               </ul>
-              <div className="border-t pt-2 text-xs font-medium text-green-600">
-                14-day free trial
+              <div className="border-t pt-2 text-xs font-medium text-primary">
+                Talk to our team
               </div>
             </div>
           </div>
 
           {/* Action Buttons */}
           <div className="flex flex-col gap-3">
-            <Button onClick={handleUpgrade} disabled={loading} size="lg" className="w-full">
-              {loading ? 'Redirecting to checkout...' : 'Start 14-Day Free Trial'}
+            <Button onClick={handleBookDemo} disabled={loading} size="lg" className="w-full">
+              {loading ? 'Opening demo booking...' : 'Book a Demo'}
             </Button>
-            <Button variant="outline" onClick={onClose} size="lg" className="w-full">
+            <Button variant="outline" onClick={handleUpgradeNow} size="lg" className="w-full">
+              Upgrade Now
+            </Button>
+            <Button variant="ghost" onClick={onClose} size="sm" className="w-full">
               Maybe Later
             </Button>
           </div>
 
           {/* Enterprise Contact */}
           <div className="text-center text-sm text-muted-foreground">
-            Need more than 25 seats?{' '}
-            <button onClick={handleContactSales} className="text-primary underline">
-              Contact Sales
-            </button>{' '}
-            for Enterprise pricing
+            Questions? Email us at{' '}
+            <a href="mailto:sales@promptmanage.com" className="text-primary underline">
+              sales@promptmanage.com
+            </a>
           </div>
         </div>
       </DialogContent>

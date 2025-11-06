@@ -3,10 +3,7 @@ import { NextResponse } from 'next/server'
 
 import { createClient } from '@/utils/supabase/server'
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ teamId: string }> },
-) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ teamId: string }> }) {
   try {
     const supabase = await createClient()
     const { teamId } = await params
@@ -162,10 +159,7 @@ export async function POST(
 }
 
 // GET /api/teams/[teamId]/invitations - List pending invitations
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ teamId: string }> },
-) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ teamId: string }> }) {
   try {
     const supabase = await createClient()
     const { teamId } = await params

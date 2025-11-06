@@ -1,4 +1,5 @@
 # Sales-Led Upgrade Strategy
+
 ## Demo-Driven Lead Generation for Pro Plan Upgrades
 
 ---
@@ -6,6 +7,7 @@
 ## 🎯 Core Strategy: Demo > Trial
 
 **Why Sales-Led:**
+
 - Higher quality leads vs free trial signups
 - Direct customer conversations reveal pain points
 - Custom pricing for larger teams
@@ -20,20 +22,24 @@
 ## 💰 Revenue Model
 
 ### Pricing Tiers:
+
 - **Team Plan**: $20/mo, 5 seats, 100 runs/month
 - **Pro Plan**: $99/mo, 25 seats, 1,000 runs/month
 - **Enterprise**: Custom pricing (25+ seats)
 
 ### Upgrade Trigger:
+
 When Team plan admin tries to invite 6th member → **Book Demo** modal appears
 
 ### Expected Metrics:
+
 - **35-40% demo booking rate** from seat limit trigger
 - **50-60% demo show rate** (booked → attended)
 - **40-50% demo → sale conversion** within 30 days
 - **Net: ~15-20% Team → Pro conversion** from seat limit trigger
 
 **Math:**
+
 - 100 teams hit seat limit
 - 37 book demos (37%)
 - 20 attend demos (54% show rate)
@@ -72,6 +78,7 @@ SeatLimitModal Appears:
 ### 2. Demo Booking Flow
 
 **Option A: Click "Book a Demo"**
+
 ```
 1. Creates demo_request record in database
 2. Sends notification to sales team email
@@ -81,6 +88,7 @@ SeatLimitModal Appears:
 ```
 
 **Option B: Click "Upgrade Now"**
+
 ```
 1. Saves pending invitation to localStorage
 2. Redirects to /pricing page
@@ -89,6 +97,7 @@ SeatLimitModal Appears:
 ```
 
 **Option C: Click "Maybe Later"**
+
 ```
 1. Dismisses modal (max 3 times)
 2. After 3rd dismissal: Shows firmer CTA
@@ -122,6 +131,7 @@ Action Required: Reach out within 24 hours to schedule!
 ```
 
 **Pre-filled Email Template:**
+
 ```
 To: sarah@company.com
 Subject: Demo Request for Marketing Team
@@ -156,9 +166,11 @@ Prompt Manage Sales
 ## 📊 Lead Tracking Dashboard
 
 ### Demo Requests Table
+
 Location: `supabase/migrations/20250206000000_demo_requests.sql`
 
 **Schema:**
+
 ```sql
 demo_requests
   - id
@@ -174,6 +186,7 @@ demo_requests
 ```
 
 ### Sales Dashboard View
+
 ```
 Demo Requests Queue
 
@@ -196,6 +209,7 @@ Metrics:
 ## 🎯 Demo Script (For Sales Team)
 
 ### Opening (2 min)
+
 ```
 "Hi [Name], thanks for joining! I see you're currently on our Team plan
 and were looking to add more members. Let me show you what Pro unlocks
@@ -203,24 +217,29 @@ and we can discuss if it's a good fit for [Team Name]."
 ```
 
 ### Discovery Questions (3 min)
+
 1. "How many people will be using Prompt Manage?"
 2. "What's your main use case? (Marketing, support, engineering, etc.)"
 3. "Are you tracking prompt performance or costs today?"
 4. "Any compliance or security requirements?"
 
 ### Demo (7 min)
+
 **Show:**
+
 1. **Team management** - "Add up to 25 members vs 5"
 2. **Analytics dashboard** - "See which prompts drive results"
 3. **Audit logs** - "Full compliance tracking"
 4. **Increased limits** - "1,000 runs vs 100/month"
 
 **Highlight:**
+
 - "This team is already using 80 runs/month, you'd hit the limit soon"
 - "With 6 people wanting to join, you need Pro"
 - "Analytics show ROI - see which prompts save time/money"
 
 ### Closing (3 min)
+
 ```
 "Does Pro sound like a good fit for [Team Name]?"
 
@@ -240,16 +259,19 @@ If Hesitation:
 ## 📈 Success Metrics
 
 ### Weekly Metrics:
+
 - Demo requests: Target 15-20/week
 - Demo show rate: Target 55%+
 - Demo → conversion rate: Target 45%+
 
 ### Monthly Metrics:
+
 - Team → Pro conversion: Target 20%/month
 - Average deal size: $99/mo × 12 = $1,188 ACV
 - MRR growth: Target $7-10k/month
 
 ### Quarterly Metrics:
+
 - Total Pro customers: Target 50
 - Churn rate: Target <5%/month
 - Customer LTV: ~$4,752 (assuming 48-month retention)
@@ -259,6 +281,7 @@ If Hesitation:
 ## 🔧 Implementation Checklist
 
 ### ✅ Completed:
+
 - [x] SeatLimitModal with "Book a Demo" CTA
 - [x] Demo request API endpoint
 - [x] Demo confirmation page (/demo)
@@ -267,6 +290,7 @@ If Hesitation:
 - [x] Lead capture with context (pending email, source, etc.)
 
 ### 🚧 Next Steps:
+
 - [ ] Set up sales@ email address
 - [ ] Configure SALES_EMAIL env variable
 - [ ] Create internal sales dashboard (view demo_requests)
@@ -281,18 +305,21 @@ If Hesitation:
 ## 💡 Pro Tips
 
 ### For Fast Response Times:
+
 1. **Slack Integration**: Post demo requests to #sales channel
 2. **Email Rules**: Auto-star sales notification emails
 3. **Response SLA**: Reply within 4 hours during business hours
 4. **Auto-responder**: Send immediate "Got it! We'll reach out soon" email
 
 ### For Higher Show Rates:
+
 1. **Calendar Invite**: Send Google Cal invite immediately
 2. **Reminder Email**: 24 hours before demo
 3. **SMS Reminder**: 2 hours before (optional)
 4. **Confirmation Call**: Quick call to confirm time
 
 ### For Better Conversions:
+
 1. **Do Discovery**: Ask questions before showing features
 2. **Show Their Data**: Reference their actual usage in demo
 3. **Address Blockers**: Ask about budget/decision-makers early
@@ -304,6 +331,7 @@ If Hesitation:
 ## 🎨 Alternative CTAs Throughout App
 
 ### Dashboard Banner (When Usage >80%)
+
 ```
 ⚠️ You've used 85/100 prompt runs this month.
 
@@ -311,16 +339,19 @@ If Hesitation:
 ```
 
 ### Pricing Page
+
 ```
 Not sure which plan? [Book a Demo] to discuss your needs.
 ```
 
 ### Settings Page
+
 ```
 Ready to upgrade? [Book a Demo] or [Upgrade Now]
 ```
 
 ### Feature Gates (Pro-only features)
+
 ```
 Analytics Dashboard
 ─────────────────
@@ -336,16 +367,19 @@ See detailed usage metrics, cost tracking, and performance data.
 ## 📞 Contact Options
 
 ### Primary: sales@promptmanage.com
+
 - Monitored by sales team
 - Response SLA: 4 hours
 - Creates ticket in system
 
 ### Secondary: Calendly (Optional)
+
 - Direct booking link: calendly.com/promptmanage/demo
 - Embeds in demo booking page
 - Syncs with team calendars
 
 ### Tertiary: Live Chat (Future)
+
 - Intercom or similar
 - Instant response during business hours
 - Qualifies leads, books demos
@@ -355,24 +389,28 @@ See detailed usage metrics, cost tracking, and performance data.
 ## 🚀 Launch Plan
 
 ### Week 1: Internal Testing
+
 - Test demo request flow
 - Verify sales notifications work
 - Practice demo script
 - Set up email templates
 
 ### Week 2: Soft Launch
+
 - Enable for 10 teams
 - Monitor demo request rate
 - Gather feedback
 - Iterate on messaging
 
 ### Week 3: Full Launch
+
 - Enable for all users
 - Announce in changelog
 - Email existing Team plan users
 - Monitor metrics daily
 
 ### Week 4: Optimize
+
 - Analyze conversion funnel
 - A/B test messaging
 - Refine demo script
@@ -415,6 +453,7 @@ Results
 ## ✅ Success Criteria
 
 ### Must Have:
+
 - [x] Demo request captures lead info
 - [x] Sales team gets notified immediately
 - [x] User sees confirmation page
@@ -422,12 +461,14 @@ Results
 - [x] No free trials given
 
 ### Should Have:
+
 - [ ] Sales dashboard shows queue
 - [ ] Automated follow-up emails
 - [ ] Calendly integration
 - [ ] Slack notifications
 
 ### Nice to Have:
+
 - [ ] CRM integration (Salesforce/HubSpot)
 - [ ] SMS reminders
 - [ ] Live chat escalation to demo

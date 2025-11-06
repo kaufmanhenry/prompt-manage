@@ -1,4 +1,5 @@
 # Teams UX Strategy - Revenue-Focused Implementation
+
 ## Prompt Manage - Turning Collaboration Into Revenue
 
 ---
@@ -10,11 +11,13 @@
 **Core Strategy:** Build frictionless invite flows with value-first upgrade triggers. When admins hit seat #6, show them exactly what they gain by upgrading (not just "more seats"). Make prompt sharing within teams delightful enough that members invite colleagues organically.
 
 **Revenue Mechanics:**
+
 - **$20/mo Team plan**: 5 seats, basic collaboration, 100 prompt runs/month
 - **$99/mo Pro plan**: 25 seats, advanced analytics, 1,000 runs/month, audit logs, priority support
 - **Upgrade trigger**: When adding 6th member, show modal with 14-day Pro trial offer
 
 **Success Metrics:**
+
 - 30% of Team ($20) customers upgrade to Pro ($99) within 90 days
 - Average team invite rate: 3.2 members within first 7 days
 - Team retention: 85%+ vs 65% for individual users
@@ -24,6 +27,7 @@
 ## What We Have (Existing Infrastructure)
 
 ### Database Schema ✅
+
 - `teams` table with tier, max_members, Stripe integration
 - `team_members` with roles (owner, admin, editor, viewer)
 - `team_invitations` with token-based 7-day expiry
@@ -32,12 +36,14 @@
 - Full RLS policies for security
 
 ### Billing Integration ✅
+
 - Stripe checkout and webhooks fully implemented
 - Subscription status tracking
 - Usage limits enforcement (prompts, runs, exports)
 - Customer portal access
 
 ### Core Features ✅
+
 - Personal workspaces (auto-created on signup)
 - Email-based invitations with tokens
 - Team switching UI component
@@ -46,6 +52,7 @@
 - Public sharing with immutability
 
 ### API Layer ✅
+
 - `/api/billing/create-checkout` - Stripe checkout
 - `/api/teams/invite/send-email` - Send invitations
 - `/api/collections/*` - Collection management
@@ -90,6 +97,7 @@ Behavior:
 ```
 
 **Acceptance Criteria:**
+
 - Modal appears only when adding 6th+ member
 - Trial CTA redirects to Stripe checkout with `trial_period_days=14`
 - After upgrade, pending invitation is sent via email
@@ -126,6 +134,7 @@ Behavior:
 ```
 
 **Implementation:**
+
 ```tsx
 // /components/SeatLimitModal.tsx
 import { useState } from 'react'
@@ -143,18 +152,29 @@ interface SeatLimitModalProps {
   teamId: string
 }
 
-export function SeatLimitModal({ open, onClose, currentPlan, currentSeats, maxSeats, pendingEmail, teamId }: SeatLimitModalProps) {
+export function SeatLimitModal({
+  open,
+  onClose,
+  currentPlan,
+  currentSeats,
+  maxSeats,
+  pendingEmail,
+  teamId,
+}: SeatLimitModalProps) {
   const [loading, setLoading] = useState(false)
 
   const handleUpgrade = async () => {
     setLoading(true)
 
     // Save pending invitation
-    localStorage.setItem('pendingInvitation', JSON.stringify({
-      teamId,
-      email: pendingEmail,
-      timestamp: Date.now()
-    }))
+    localStorage.setItem(
+      'pendingInvitation',
+      JSON.stringify({
+        teamId,
+        email: pendingEmail,
+        timestamp: Date.now(),
+      }),
+    )
 
     // Redirect to Stripe checkout with trial
     const res = await fetch('/api/billing/create-checkout', {
@@ -163,8 +183,8 @@ export function SeatLimitModal({ open, onClose, currentPlan, currentSeats, maxSe
       body: JSON.stringify({
         tier: 'pro',
         teamId,
-        trialDays: 14
-      })
+        trialDays: 14,
+      }),
     })
 
     const { url } = await res.json()
@@ -178,8 +198,8 @@ export function SeatLimitModal({ open, onClose, currentPlan, currentSeats, maxSe
           <div>
             <h2 className="text-2xl font-bold">Your team is growing! 🚀</h2>
             <p className="text-muted-foreground mt-2">
-              You've reached your {maxSeats}-member limit on the Team plan.
-              Upgrade to Pro to add 20 more teammates and unlock advanced features.
+              You've reached your {maxSeats}-member limit on the Team plan. Upgrade to Pro to add 20
+              more teammates and unlock advanced features.
             </p>
           </div>
 
@@ -193,12 +213,13 @@ export function SeatLimitModal({ open, onClose, currentPlan, currentSeats, maxSe
             <div className="border rounded-lg p-4 space-y-3">
               <div>
                 <div className="font-semibold">Team</div>
-                <div className="text-2xl font-bold">$20<span className="text-sm font-normal text-muted-foreground">/mo</span></div>
+                <div className="text-2xl font-bold">
+                  $20<span className="text-sm font-normal text-muted-foreground">/mo</span>
+                </div>
               </div>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-green-600" />
-                  5 team members
+                  <Check className="h-4 w-4 text-green-600" />5 team members
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-4 w-4 text-green-600" />
@@ -217,9 +238,7 @@ export function SeatLimitModal({ open, onClose, currentPlan, currentSeats, maxSe
                   Audit logs
                 </li>
               </ul>
-              <div className="text-xs text-muted-foreground pt-2 border-t">
-                Your current plan
-              </div>
+              <div className="text-xs text-muted-foreground pt-2 border-t">Your current plan</div>
             </div>
 
             {/* Pro Plan */}
@@ -229,7 +248,9 @@ export function SeatLimitModal({ open, onClose, currentPlan, currentSeats, maxSe
               </div>
               <div>
                 <div className="font-semibold">Pro</div>
-                <div className="text-2xl font-bold">$99<span className="text-sm font-normal text-muted-foreground">/mo</span></div>
+                <div className="text-2xl font-bold">
+                  $99<span className="text-sm font-normal text-muted-foreground">/mo</span>
+                </div>
               </div>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2">
@@ -260,25 +281,20 @@ export function SeatLimitModal({ open, onClose, currentPlan, currentSeats, maxSe
           </div>
 
           <div className="flex items-center gap-3">
-            <Button
-              onClick={handleUpgrade}
-              disabled={loading}
-              className="flex-1"
-              size="lg"
-            >
+            <Button onClick={handleUpgrade} disabled={loading} className="flex-1" size="lg">
               Start 14-Day Free Trial
             </Button>
-            <Button
-              variant="outline"
-              onClick={onClose}
-              className="flex-1"
-            >
+            <Button variant="outline" onClick={onClose} className="flex-1">
               Maybe Later
             </Button>
           </div>
 
           <div className="text-center text-sm text-muted-foreground">
-            Need more than 25 seats? <a href="/contact" className="text-primary underline">Contact Sales</a> for Enterprise pricing
+            Need more than 25 seats?{' '}
+            <a href="/contact" className="text-primary underline">
+              Contact Sales
+            </a>{' '}
+            for Enterprise pricing
           </div>
         </div>
       </DialogContent>
@@ -290,6 +306,7 @@ export function SeatLimitModal({ open, onClose, currentPlan, currentSeats, maxSe
 **Priority 1B: Upgrade Success Flow**
 
 After Stripe checkout success:
+
 ```typescript
 // /app/billing/success/page.tsx
 
@@ -371,6 +388,7 @@ Route: `/app/settings/team/page.tsx` (exists but empty)
 ```
 
 **Acceptance Criteria:**
+
 - Load team data from `teams` table via API
 - Update team name/description via PATCH `/api/teams/{id}`
 - Show real-time usage from `getUserUsage()` function
@@ -439,6 +457,7 @@ Route: `/app/settings/team/members/page.tsx`
 **Microcopy for Member Actions:**
 
 Remove member confirmation:
+
 ```
 Title: "Remove Jane Doe from team?"
 Body: "This will revoke their access to all team prompts and collections. They will keep their personal workspace."
@@ -447,6 +466,7 @@ Cancel: "Cancel"
 ```
 
 Change role confirmation (owner → admin):
+
 ```
 Title: "Change John Smith's role to Admin?"
 Body: "Admins can manage team members and settings, but cannot transfer ownership or delete the team."
@@ -455,6 +475,7 @@ Cancel: "Cancel"
 ```
 
 **Acceptance Criteria:**
+
 - Load members from `team_members` table with `user_profiles` join
 - Load pending invitations from `team_invitations` where status='pending'
 - Invite member: POST to `/api/teams/{id}/members/invite`
@@ -532,12 +553,14 @@ Route: `/app/dashboard/team/page.tsx`
 ```
 
 **Data Sources:**
+
 - Usage stats: Query `prompts` grouped by `team_id`
 - Run count: New `prompt_runs` table (create if doesn't exist)
 - Activity: New `team_audit_logs` table or parse from version control
 - Member count: Count from `team_members` where `is_active=true`
 
 **Acceptance Criteria:**
+
 - Dashboard loads in <2 seconds
 - Stats update in real-time (or cache for 5 minutes)
 - Charts show 7-day trend lines
@@ -554,6 +577,7 @@ Route: `/app/dashboard/team/page.tsx`
 When user clicks "Create New Team":
 
 **Step 1: Team Info**
+
 ```
 Title: "Create Your Team Workspace"
 
@@ -567,6 +591,7 @@ Placeholder: "Collaborate on marketing prompts"
 ```
 
 **Step 2: Invite Members (Optional)**
+
 ```
 Title: "Invite Your Team"
 
@@ -582,6 +607,7 @@ Tip: You have 5 seats on the free Team plan. Need more? Upgrade to Pro for 25 se
 ```
 
 **Step 3: Import Prompts (Optional)**
+
 ```
 Title: "Add Some Prompts"
 
@@ -594,6 +620,7 @@ Start with prompts from:
 ```
 
 **Step 4: Success**
+
 ```
 Title: "Your team is ready! 🎉"
 
@@ -606,6 +633,7 @@ What's next:
 ```
 
 **Acceptance Criteria:**
+
 - Wizard can be dismissed and resumed later
 - Progress saved after each step
 - Invitations sent via existing email API
@@ -615,10 +643,12 @@ What's next:
 **Priority 4B: First 7 Days Activation Plan**
 
 **Day 0: Signup**
+
 - Auto-create personal workspace (already exists)
 - Show welcome tooltip: "Create your first prompt or start a team"
 
 **Day 1: Email**
+
 ```
 Subject: "Welcome to Prompt Manage! 👋"
 
@@ -637,12 +667,14 @@ Need help? Reply to this email.
 
 **Day 2: In-App Prompt**
 If no team created yet:
+
 ```
 Banner: "Working with a team? Create a shared workspace to collaborate on prompts."
 [Create Team Workspace]
 ```
 
 **Day 3: Email (if no invites sent)**
+
 ```
 Subject: "Collaboration makes prompts better"
 
@@ -657,6 +689,7 @@ Prompt Manage is better with teammates. Here's why:
 
 **Day 7: In-App Milestone**
 If user created 3+ prompts:
+
 ```
 Modal: "You're on a roll! 🚀"
 
@@ -670,6 +703,7 @@ You've created {count} prompts. Ready to take it further?
 ```
 
 **Metrics to Track:**
+
 - Day 1: % who create first prompt (target: 60%)
 - Day 3: % who create team (target: 30%)
 - Day 7: % who invite member (target: 20%)
@@ -682,12 +716,14 @@ You've created {count} prompts. Ready to take it further?
 ### Persona 1: Team Owner (Primary Decision Maker)
 
 **Profile:**
+
 - Name: Sarah, Marketing Director
 - Company: 50-person startup
 - Pain: Team using scattered docs, Notion pages, ChatGPT history for prompts
 - Goal: Centralize prompts, enable reuse, track what works
 
 **Jobs to Be Done:**
+
 1. Set up team workspace quickly
 2. Invite marketing team (5-8 people)
 3. Import existing prompts from docs
@@ -695,6 +731,7 @@ You've created {count} prompts. Ready to take it further?
 5. Control access and prevent accidental public sharing
 
 **Success Metrics:**
+
 - Team workspace created in <5 minutes
 - 4+ members invited in first week
 - 10+ prompts added in first month
@@ -703,12 +740,14 @@ You've created {count} prompts. Ready to take it further?
 ### Persona 2: Prompt Engineer (Power User)
 
 **Profile:**
+
 - Name: Alex, ML Engineer
 - Company: Mid-size SaaS
 - Pain: Hard to version control prompts, no way to A/B test
 - Goal: Build reusable prompt library, track performance
 
 **Jobs to Be Done:**
+
 1. Create complex multi-step prompts
 2. Version control and revert changes
 3. Fork prompts to experiment
@@ -716,6 +755,7 @@ You've created {count} prompts. Ready to take it further?
 5. Track usage and cost
 
 **Success Metrics:**
+
 - Creates 20+ prompts in first month
 - Uses versioning and forking regularly
 - Shares 5+ prompts with team
@@ -724,18 +764,21 @@ You've created {count} prompts. Ready to take it further?
 ### Persona 3: Customer Support Manager
 
 **Profile:**
+
 - Name: Mike, CS Manager
 - Company: E-commerce platform
 - Pain: Support reps write same prompts repeatedly
 - Goal: Standard response templates, consistent quality
 
 **Jobs to Be Done:**
+
 1. Create prompt templates for common issues
 2. Share with 15-person support team
 3. Lock templates so they can't be accidentally edited
 4. Track which templates are most used
 
 **Success Metrics:**
+
 - Hits 5-seat limit quickly, upgrades to Pro
 - Creates 5+ collections (by issue type)
 - Team uses prompts 100+ times/month
@@ -744,18 +787,21 @@ You've created {count} prompts. Ready to take it further?
 ### Persona 4: Freelancer/Agency Owner
 
 **Profile:**
+
 - Name: Rachel, Content Agency Owner
 - Company: 3-person agency + contractors
 - Pain: Client work scattered, hard to reuse
 - Goal: Prompt library per client, easy sharing
 
 **Jobs to Be Done:**
+
 1. Create team per client project
 2. Invite client for collaboration
 3. Set permissions (client = viewer, team = editor)
 4. Archive completed projects
 
 **Success Metrics:**
+
 - Creates 3-5 teams (one per client)
 - Invites clients as viewers
 - Stays on Team plan ($20) initially
@@ -776,15 +822,18 @@ You've created {count} prompts. Ready to take it further?
 ### What Pro Plan Adds (Enterprise Security)
 
 #### 1. SSO Integration
+
 **Status:** Not yet implemented
 
 **Implementation Plan:**
+
 - Use Supabase Auth SSO (supports SAML, OIDC)
 - Add `sso_provider` field to teams table
 - Settings UI: "Configure SSO" section
 - Supported providers: Google Workspace, Okta, Azure AD
 
 **UX Flow:**
+
 ```
 Settings > Security > Single Sign-On
 
@@ -802,14 +851,17 @@ Once enabled, team members must sign in via SSO.
 ```
 
 #### 2. Audit Logs
+
 **Status:** Partially implemented (version control logs changes)
 
 **Implementation Plan:**
+
 - Create `team_audit_logs` table
 - Log all team actions: invites, role changes, prompt edits, etc.
 - Settings page: "Audit Logs" tab
 
 **UX: Audit Logs Page**
+
 ```
 Settings > Audit Logs
 
@@ -826,6 +878,7 @@ Jan 19, 11:00am   Jane Doe     Updated team settings     Default visibility: Pri
 ```
 
 **Logged Events:**
+
 - member_invited, member_removed, member_role_changed
 - prompt_created, prompt_updated, prompt_deleted, prompt_shared
 - collection_created, collection_updated, collection_deleted
@@ -833,14 +886,17 @@ Jan 19, 11:00am   Jane Doe     Updated team settings     Default visibility: Pri
 - sso_configured, sso_login
 
 #### 3. Advanced Permissions
+
 **Status:** Basic 4-role system exists
 
 **Pro Enhancement:**
+
 - Per-collection permissions (separate from global role)
 - Read-only external collaborators
 - Approval workflows for public sharing
 
 **UX: Collection Permissions**
+
 ```
 Collection Settings > Permissions
 
@@ -857,14 +913,17 @@ external@co.com   Read-only    [Invite]
 ```
 
 #### 4. Data Loss Prevention (DLP)
+
 **Status:** Not implemented
 
 **Pro Feature:**
+
 - Scan prompts for sensitive data (API keys, PII, etc.)
 - Block or warn on public sharing if detected
 - Admin can configure detection rules
 
 **UX: DLP Settings**
+
 ```
 Settings > Security > Data Loss Prevention
 
@@ -882,15 +941,18 @@ Settings > Security > Data Loss Prevention
 ```
 
 #### 5. Prompt Secrets Management
+
 **Status:** Partially designed, not implemented
 
 **How It Works:**
+
 - Prompts can reference variables like `{{API_KEY}}`
 - Secrets stored encrypted in `prompt_secrets` table
 - Secrets never exposed in UI or API (masked)
 - Team-level or prompt-level scope
 
 **UX: Add Secret**
+
 ```
 Prompt Editor > Variables
 
@@ -915,30 +977,38 @@ USER_EMAIL       ••••••••••••     This prompt only
 ### Trigger Points (When to Show Upgrade Prompts)
 
 #### 1. Seat Limit (Most Important)
+
 **Trigger:** Admin tries to invite 6th member on Team plan
 **Response:** SeatLimitModal (described above)
 **Frequency:** Every time, max 3 dismissals
 
 #### 2. Prompt Runs Limit
+
 **Trigger:** Team uses 80% of monthly runs (80/100 on Team plan)
 **Response:** Banner at top of dashboard
+
 ```
 ⚠️ You've used 80/100 prompt runs this month. Upgrade to Pro for 10x more runs (1,000/month).
 [Upgrade Now] [Dismiss]
 ```
+
 **Frequency:** Show once per month
 
 #### 3. Storage Limit
+
 **Trigger:** Team uses 80% of storage (0.8/1 GB on Team plan)
 **Response:** Banner on team settings page
+
 ```
 ⚠️ Storage almost full (0.8/1 GB). Upgrade to Pro for 10 GB storage.
 [Upgrade Now] [Dismiss]
 ```
 
 #### 4. Analytics Request
+
 **Trigger:** User clicks "Usage Analytics" (Pro-only feature)
 **Response:** Feature gate modal
+
 ```
 Title: "Analytics Available on Pro Plan"
 
@@ -952,15 +1022,18 @@ Unlock detailed usage analytics:
 ```
 
 #### 5. Audit Logs Request
+
 **Trigger:** User clicks "Audit Logs" tab (Pro-only)
 **Response:** Similar feature gate modal
 
 ### Upgrade Flow Details
 
 **Step 1: User clicks "Upgrade" CTA**
+
 - Redirects to plan comparison page at `/pricing?team={teamId}`
 
 **Step 2: Plan Comparison Page**
+
 ```
 Choose Your Plan
 
@@ -983,6 +1056,7 @@ First-time upgrade: 14-day free trial
 ```
 
 **Step 3: Stripe Checkout**
+
 - POST to `/api/billing/create-checkout` with `tier: 'pro', teamId, trialDays: 14`
 - Stripe session includes:
   - Line item: Pro plan ($99/mo)
@@ -991,13 +1065,16 @@ First-time upgrade: 14-day free trial
   - Cancel URL: `/pricing`
 
 **Step 4: Success Page**
+
 - Show confirmation message
 - Send pending invitations (if any)
 - Update team tier in database (via webhook)
 - Show next steps: "Your Pro trial is active! Enjoy 14 days free."
 
 **Step 5: Trial Ending Reminder**
+
 - Email 3 days before trial ends
+
 ```
 Subject: "Your Pro trial ends in 3 days"
 
@@ -1020,6 +1097,7 @@ Your card will be charged $99 on {date}. To cancel or change plans, visit your b
 
 1. Check member count
 2. If >5 members: Show warning modal
+
 ```
 Title: "Cannot downgrade: too many members"
 
@@ -1042,6 +1120,7 @@ To downgrade:
 ## A/B Test Ideas
 
 ### Test 1: Seat Limit Modal Urgency
+
 **Hypothesis:** Adding urgency increases upgrade rate
 
 **Variant A (Control):**
@@ -1054,6 +1133,7 @@ To downgrade:
 "You've reached your 5-member limit. Join 500+ teams on Pro with up to 25 seats."
 
 **Metrics:**
+
 - Click-through rate on "Upgrade" CTA
 - Trial start rate
 - Conversion to paid after trial
@@ -1061,6 +1141,7 @@ To downgrade:
 **Target:** 25%+ click-through rate, 15%+ trial starts
 
 ### Test 2: Trial Length
+
 **Hypothesis:** 7-day trial converts better than 14-day (more urgency)
 
 **Variant A:** 14-day free trial
@@ -1068,11 +1149,13 @@ To downgrade:
 **Variant C:** 30-day free trial
 
 **Metrics:**
+
 - Trial start rate
 - Trial-to-paid conversion rate
 - Engagement during trial (logins, invites, usage)
 
 ### Test 3: Upgrade Placement
+
 **Hypothesis:** Contextual upgrade prompts convert better than generic banners
 
 **Variant A (Control):** Generic banner at top of dashboard
@@ -1080,10 +1163,12 @@ To downgrade:
 **Variant C (Both):** Combine banner + contextual
 
 **Metrics:**
+
 - Upgrade rate per variant
 - User annoyance (track dismissal rate)
 
 ### Test 4: Plan Positioning
+
 **Hypothesis:** Emphasizing "value per seat" increases Pro adoption
 
 **Variant A (Control):**
@@ -1096,10 +1181,12 @@ To downgrade:
 "Pro: Save 20% per seat with 25 members"
 
 **Metrics:**
+
 - Click-through on Pro plan
 - Trial start rate
 
 ### Test 5: Onboarding Wizard
+
 **Hypothesis:** Multi-step wizard increases team creation + invite rate
 
 **Variant A (Control):** Simple "Create Team" button → form
@@ -1107,6 +1194,7 @@ To downgrade:
 **Variant C (Hybrid):** Wizard with "Skip" option on each step
 
 **Metrics:**
+
 - Team creation completion rate
 - Invites sent in first 7 days
 - Time to first invite
@@ -1124,7 +1212,7 @@ To downgrade:
 
 2. **Average Revenue Per Team**
    - Target: $60/mo (mix of Team and Pro)
-   - Formula: (Team plans * $20 + Pro plans * $99) / Total teams
+   - Formula: (Team plans _ $20 + Pro plans _ $99) / Total teams
 
 3. **Trial-to-Paid Conversion**
    - Target: 40% of trials convert to paid Pro
@@ -1180,6 +1268,7 @@ To downgrade:
 ### Events to Track
 
 #### Team Management
+
 ```json
 {
   "event": "team_created",
@@ -1209,6 +1298,7 @@ To downgrade:
 ```
 
 #### Upgrade Flow
+
 ```json
 {
   "event": "upgrade_modal_shown",
@@ -1244,6 +1334,7 @@ To downgrade:
 ```
 
 #### Usage Tracking
+
 ```json
 {
   "event": "prompt_created",
@@ -1273,11 +1364,13 @@ To downgrade:
 ### Analytics Tools
 
 **Recommended Stack:**
+
 - PostHog (open-source, self-hostable)
 - Mixpanel (if budget allows)
 - Custom Postgres queries for revenue metrics
 
 **Implementation:**
+
 ```typescript
 // /lib/analytics.ts
 
@@ -1285,15 +1378,11 @@ import { PostHog } from 'posthog-node'
 
 const posthog = new PostHog(process.env.POSTHOG_KEY!)
 
-export function trackEvent(
-  event: string,
-  userId: string,
-  properties: Record<string, any>
-) {
+export function trackEvent(event: string, userId: string, properties: Record<string, any>) {
   posthog.capture({
     distinctId: userId,
     event,
-    properties
+    properties,
   })
 }
 
@@ -1301,13 +1390,13 @@ export function trackUpgradeModalShown(
   teamId: string,
   trigger: string,
   seatsUsed: number,
-  seatsMax: number
+  seatsMax: number,
 ) {
   trackEvent('upgrade_modal_shown', teamId, {
     trigger,
     seats_used: seatsUsed,
     seats_max: seatsMax,
-    current_tier: 'team'
+    current_tier: 'team',
   })
 }
 ```
@@ -1319,61 +1408,73 @@ export function trackUpgradeModalShown(
 ### Phase 1: Alpha (Week 1-2) - Internal + Power Users
 
 **Scope:**
+
 - Seat limit modal
 - Team settings page
 - Member management page
 - Basic upgrade flow
 
 **Audience:**
+
 - Internal team (5 people)
 - 10 power users (beta list)
 
 **Success Criteria:**
+
 - 0 critical bugs
 - 50%+ complete onboarding wizard
 - ≥1 upgrade attempt
 
 **Rollout Mechanism:**
+
 - Feature flag: `enable_teams_v2`
 - Enable for specific user IDs
 
 ### Phase 2: Beta (Week 3-4) - Paying Customers
 
 **Scope:**
+
 - Usage dashboard
 - Onboarding wizard
 - Email notifications
 - Analytics dashboard (Pro)
 
 **Audience:**
+
 - All paying customers (~50 teams)
 - New signups (50% rollout)
 
 **Success Criteria:**
+
 - <5% support tickets
 - 20%+ team creation rate
 - 5%+ upgrade rate
 
 **Rollout Mechanism:**
+
 - Gradual rollout: 25% → 50% → 100%
 - Monitor error rates, revert if >2% error rate
 
 ### Phase 3: General Availability (Week 5+)
 
 **Scope:**
+
 - Full feature set
 - SSO for Pro (if ready)
 - Audit logs
 
 **Audience:**
+
 - All users
 
 **Success Criteria:**
+
 - 30%+ team creation rate
 - 10%+ upgrade rate within 30 days
 - 85%+ team retention
 
 **Marketing Push:**
+
 - Blog post: "Introducing Teams"
 - Email to all users
 - Social media campaign
@@ -1384,39 +1485,49 @@ export function trackUpgradeModalShown(
 ## Edge Cases & Anti-Abuse
 
 ### Edge Case 1: Orphaned Prompts
+
 **Scenario:** User creates team prompts, then leaves team
 **Solution:**
+
 - Prompts stay with team (team_id is still set)
 - Prompt creator attribution remains
 - New owner can reassign or delete
 
 ### Edge Case 2: Team Owner Leaves
+
 **Scenario:** Team owner deletes account or wants to leave
 **Solution:**
+
 - Require transferring ownership before leaving
 - Show modal: "Transfer ownership to another admin before leaving"
 - If force delete: Auto-promote oldest admin to owner
 - If no other admins: Team becomes inactive, billing paused
 
 ### Edge Case 3: Spam Invitations
+
 **Scenario:** User sends 100 invitations to random emails
 **Solution:**
+
 - Rate limit: Max 20 invitations per day per team
 - Require email confirmation for sender (first time)
 - Flag teams with >50% rejected/expired invitations
 - Show warning: "Many of your invitations haven't been accepted. Only invite people you know."
 
 ### Edge Case 4: Shared Secrets Leak
+
 **Scenario:** Team member copies prompt with secrets, shares publicly
 **Solution:**
+
 - Secrets are NOT included in exported prompts
 - Show warning when exporting: "Secrets will not be included"
 - Secrets are NOT visible in public shared prompts
 - Audit log records: "secret_accessed" events
 
 ### Edge Case 5: Billing Failure Mid-Month
+
 **Scenario:** Credit card fails, team has 10 members on Pro plan
 **Solution:**
+
 - Grace period: 7 days to update payment
 - Email: "Payment failed, please update card"
 - After 7 days: Downgrade to Team plan
@@ -1424,23 +1535,29 @@ export function trackUpgradeModalShown(
 - Show banner: "Billing issue. Update payment to restore access."
 
 ### Edge Case 6: Trial Abuse
+
 **Scenario:** User creates multiple teams to get multiple trials
 **Solution:**
+
 - One trial per user (not per team)
 - Track in `user_profiles.has_used_trial` boolean
 - Show modal: "You've already used your Pro trial"
 - Offer "Contact Sales" for exception
 
 ### Edge Case 7: Downgrade with >5 Members
+
 **Scenario:** Pro team with 10 members tries to downgrade to Team
 **Solution:**
+
 - Block downgrade with modal (shown earlier)
 - Allow user to select which 5 members to keep
 - Send email to removed members: "You've been removed from {team}"
 
 ### Edge Case 8: Invite Expiry Race Condition
+
 **Scenario:** User clicks invite link just as it expires
 **Solution:**
+
 - Check expiry in `accept_team_invitation` function
 - Show friendly message: "This invitation has expired. Contact {inviter} for a new link."
 - Log: "invitation_expired_clicked" event
@@ -1453,11 +1570,13 @@ export function trackUpgradeModalShown(
 ### Invite Emails
 
 **Subject Lines:**
+
 - "You're invited to join {team_name} on Prompt Manage"
 - "{inviter_name} invited you to {team_name}"
 - "Collaborate on prompts with {team_name}"
 
 **Email Body (Plain Text):**
+
 ```
 Hi,
 
@@ -1479,29 +1598,32 @@ The Prompt Manage Team
 ```
 
 **Email Body (HTML):**
+
 ```html
 <h2>You're invited to {team_name}</h2>
 
 <p>{inviter_name} invited you to join their team on Prompt Manage.</p>
 
 <div style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
-  <strong>Team:</strong> {team_name}<br/>
-  <strong>Your role:</strong> {role}<br/>
+  <strong>Team:</strong> {team_name}<br />
+  <strong>Your role:</strong> {role}<br />
   <strong>Invited by:</strong> {inviter_name}
 </div>
 
-<a href="{invite_link}" style="display: inline-block; background: #000; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; margin-top: 16px;">
+<a
+  href="{invite_link}"
+  style="display: inline-block; background: #000; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; margin-top: 16px;"
+>
   Accept Invitation
 </a>
 
-<p style="color: #666; font-size: 14px; margin-top: 24px;">
-  This invitation expires in 7 days.
-</p>
+<p style="color: #666; font-size: 14px; margin-top: 24px;">This invitation expires in 7 days.</p>
 ```
 
 ### Empty States
 
 **No Prompts Yet:**
+
 ```
 Title: "No team prompts yet"
 Body: "Create your first prompt or import existing ones to get started."
@@ -1509,6 +1631,7 @@ CTA: [Create Prompt] [Import]
 ```
 
 **No Collections Yet:**
+
 ```
 Title: "Organize prompts into collections"
 Body: "Collections help you group related prompts for easy access."
@@ -1516,6 +1639,7 @@ CTA: [Create Collection]
 ```
 
 **No Members Yet:**
+
 ```
 Title: "You're the only member"
 Body: "Invite teammates to collaborate on prompts together."
@@ -1569,10 +1693,12 @@ CTA: [Invite Members]
 ## Wireframe/Spec Sheet
 
 ### Screen 1: Workspace Dashboard
+
 **Route:** `/app/dashboard/team/page.tsx`
 **Purpose:** Central hub for team activity and quick actions
 
 **Layout:**
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  [Logo] Prompt Manage           [Team: Marketing ▼]  [Avatar] │
@@ -1613,6 +1739,7 @@ CTA: [Invite Members]
 ```
 
 **Components:**
+
 - Alert banner (conditional, when usage >80%)
 - Stat cards (4 across, responsive to 2x2 on mobile)
 - Top prompts table (clickable rows)
@@ -1620,16 +1747,19 @@ CTA: [Invite Members]
 - Action buttons (primary CTAs)
 
 **Interactions:**
+
 - Team dropdown: Switch between teams
 - Stat cards: Click to view details
 - Alert banner: Dismiss (stores in localStorage)
 - Upgrade CTA: Opens pricing page
 
 ### Screen 2: Invite Flow
+
 **Route:** `/app/settings/team/members/page.tsx` + modal
 **Purpose:** Add new team members
 
 **Modal Layout:**
+
 ```
 ┌─────────────────────────────────────────┐
 │  Invite Team Member               [×]   │
@@ -1658,11 +1788,13 @@ CTA: [Invite Members]
 ```
 
 **Validation:**
+
 - Email: Valid format, not already a member
 - Role: Required, default to "Editor"
 - Button disabled until valid
 
 **Success State:**
+
 ```
 ┌─────────────────────────────────────────┐
 │  Invitation Sent! ✓              [×]    │
@@ -1684,10 +1816,12 @@ CTA: [Invite Members]
 If current members >= max_members, show SeatLimitModal instead
 
 ### Screen 3: Team Library (Prompt List)
+
 **Route:** `/app/prompts?team={teamId}`
 **Purpose:** Browse and search team prompts
 
 **Layout:**
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  Team Prompts                                     [New Prompt +]│
@@ -1721,11 +1855,13 @@ If current members >= max_members, show SeatLimitModal instead
 ```
 
 **Filters:**
+
 - Search: Full-text across name, description, tags
 - Collections: Filter by collection membership
 - Sort: Recent, Most Used, Alphabetical
 
 **Actions Menu [⋮]:**
+
 - Run prompt
 - Edit
 - Add to collection
@@ -1734,10 +1870,12 @@ If current members >= max_members, show SeatLimitModal instead
 - Delete (if owner/admin)
 
 ### Screen 4: Prompt Detail + Version History
+
 **Route:** `/app/prompts/{id}`
 **Purpose:** View and edit prompt, see version history
 
 **Layout:**
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  ← Back to Prompts                                              │
@@ -1775,6 +1913,7 @@ If current members >= max_members, show SeatLimitModal instead
 ```
 
 **Version History Tab:**
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  Version History                                                │
@@ -1804,15 +1943,18 @@ If current members >= max_members, show SeatLimitModal instead
 ```
 
 **Interactions:**
+
 - View Diff: Show side-by-side comparison
 - Revert: Restore old version (creates new version)
 - Compare: Select 2 versions to compare
 
 ### Screen 5: Approval Queue (Pro Only)
+
 **Route:** `/app/dashboard/team/approvals/page.tsx`
 **Purpose:** Admins review prompts before public sharing
 
 **Layout:**
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  Approval Queue                                                 │
@@ -1852,6 +1994,7 @@ If current members >= max_members, show SeatLimitModal instead
 ```
 
 **Approve Modal:**
+
 ```
 ┌─────────────────────────────────────────┐
 │  Approve Public Sharing?          [×]   │
@@ -1873,6 +2016,7 @@ If current members >= max_members, show SeatLimitModal instead
 ```
 
 **Reject Modal:**
+
 ```
 ┌─────────────────────────────────────────┐
 │  Reject Public Sharing?           [×]   │
@@ -1890,10 +2034,12 @@ If current members >= max_members, show SeatLimitModal instead
 ```
 
 ### Screen 6: Admin Security Panel (Pro Only)
+
 **Route:** `/app/settings/team/security/page.tsx`
 **Purpose:** Configure SSO, DLP, audit logs
 
 **Layout:**
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  Security Settings                                              │
@@ -1961,10 +2107,12 @@ If current members >= max_members, show SeatLimitModal instead
 ```
 
 ### Screen 7: Billing & Plan Comparison
+
 **Route:** `/pricing?team={teamId}`
 **Purpose:** Compare plans and upgrade
 
 **Layout:**
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  Choose Your Plan                                               │
@@ -1997,15 +2145,18 @@ If current members >= max_members, show SeatLimitModal instead
 ```
 
 **After Clicking Upgrade:**
+
 - Redirects to Stripe Checkout
 - Pre-filled with team info
 - Trial period applied (first upgrade only)
 
 ### Screen 8: First-Time Onboarding Checklist
+
 **Route:** `/app/onboarding` (shown after signup)
 **Purpose:** Guide new users through setup
 
 **Layout:**
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  Welcome to Prompt Manage! 🎉                              [×] │
@@ -2053,6 +2204,7 @@ If current members >= max_members, show SeatLimitModal instead
 ```
 
 **Checklist Items:**
+
 1. ✓ Create account (auto-complete)
 2. Create first prompt
 3. Create collection
@@ -2061,6 +2213,7 @@ If current members >= max_members, show SeatLimitModal instead
 6. Run first prompt
 
 **Progress Tracking:**
+
 - Store in localStorage or database
 - Show progress bar
 - Celebrate completion with confetti animation
@@ -2131,6 +2284,7 @@ If current members >= max_members, show SeatLimitModal instead
 ## Success Criteria Summary
 
 ### Must-Have (MVP)
+
 - ✓ Seat limit modal with upgrade flow
 - ✓ Team settings page
 - ✓ Member management UI
@@ -2139,12 +2293,14 @@ If current members >= max_members, show SeatLimitModal instead
 - ✓ Email invite flow (already exists)
 
 ### Should-Have (Launch)
+
 - Onboarding wizard
 - Activity feed on dashboard
 - Upgrade CTAs throughout app
 - First 7-days email sequence
 
 ### Nice-to-Have (Post-Launch)
+
 - Analytics dashboard (Pro)
 - Audit logs (Pro)
 - SSO configuration (Pro)

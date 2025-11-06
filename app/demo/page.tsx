@@ -54,8 +54,8 @@ function DemoContent() {
               <div>
                 <h3 className="font-semibold">Personalized demo</h3>
                 <p className="text-sm text-muted-foreground">
-                  We'll show you how Pro features can help your specific use case - analytics,
-                  audit logs, advanced collaboration, and more.
+                  We'll show you how Pro features can help your specific use case - analytics, audit
+                  logs, advanced collaboration, and more.
                 </p>
               </div>
             </div>
@@ -99,9 +99,7 @@ function DemoContent() {
                 <CheckCircle className="mt-0.5 h-5 w-5 text-green-600" />
                 <div>
                   <div className="font-medium">25 team members</div>
-                  <div className="text-sm text-muted-foreground">
-                    Up from 5 seats on Team plan
-                  </div>
+                  <div className="text-sm text-muted-foreground">Up from 5 seats on Team plan</div>
                 </div>
               </div>
 

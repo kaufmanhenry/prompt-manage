@@ -181,9 +181,7 @@ export function SeatLimitModal({
                   <strong>Priority support</strong>
                 </li>
               </ul>
-              <div className="border-t pt-2 text-xs font-medium text-primary">
-                Talk to our team
-              </div>
+              <div className="border-t pt-2 text-xs font-medium text-primary">Talk to our team</div>
             </div>
           </div>
 

@@ -126,8 +126,7 @@ export function InviteMemberButton({
           <DialogHeader>
             <DialogTitle>Invite Team Member</DialogTitle>
             <DialogDescription>
-              Send an invitation to join {teamName}. They'll receive an email with a link to
-              accept.
+              Send an invitation to join {teamName}. They'll receive an email with a link to accept.
             </DialogDescription>
           </DialogHeader>
 

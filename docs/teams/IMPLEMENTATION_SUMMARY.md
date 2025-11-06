@@ -1,4 +1,5 @@
 # Teams Implementation Summary
+
 ## What We Built & Next Steps
 
 ---
@@ -6,9 +7,11 @@
 ## ✅ Completed (This Session)
 
 ### 1. Revenue-Driving Upgrade Flow
+
 **Goal**: Convert Team ($20) customers to Pro ($99) when they hit seat limits
 
 **What's Built:**
+
 - `SeatLimitModal.tsx` - Beautiful upgrade modal with plan comparison
 - `InviteMemberButton.tsx` - Invitation component with automatic upgrade detection
 - `/api/teams/[teamId]/invitations` - REST API with structured error handling
@@ -16,6 +19,7 @@
 - Trial abuse prevention (one per team)
 
 **How It Works:**
+
 1. User tries to invite 6th member on Team plan (5-seat limit)
 2. API returns `SEAT_LIMIT_REACHED` error code
 3. SeatLimitModal appears showing Team vs Pro comparison
@@ -24,22 +28,27 @@
 6. After upgrade, pending invitation automatically sent
 
 **Revenue Impact:**
+
 - Target: 30% of Team plans upgrade to Pro within 90 days
 - MRR increase: $79 per upgrade
 - Non-coercive, value-first approach
 
 ### 2. Authentication Consistency
+
 **Goal**: Ensure users are authenticated before using team features
 
 **What's Built:**
+
 - Updated `AddToCollectionDialog` to require sign-in
 - Matches "Copy to My Prompts" behavior
 - Persists user intent in localStorage
 
 ### 3. Strategy & Documentation
+
 **Goal**: Complete roadmap for building out team features
 
 **What's Built:**
+
 - 60-page UX strategy document (`TEAMS_UX_STRATEGY.md`)
 - Detailed wireframes for 8 essential screens
 - Microcopy bank with email templates
@@ -48,6 +57,7 @@
 - Rollout plan
 
 ### 4. GitHub Configuration
+
 - Custom PR template with Prompt Manage Team attribution
 - Commit convention documentation
 - Consistent branding across all commits/PRs
@@ -59,6 +69,7 @@
 You have **60% of team infrastructure** already in place:
 
 ### Database Schema ✅
+
 - `teams` table with tier, max_members, Stripe integration
 - `team_members` with 4 roles (owner, admin, editor, viewer)
 - `team_invitations` with token-based 7-day expiry
@@ -67,12 +78,14 @@ You have **60% of team infrastructure** already in place:
 - Full RLS policies for security
 
 ### Billing Integration ✅
+
 - Stripe checkout and webhooks
 - Subscription status tracking
 - Usage limits enforcement
 - Customer portal access
 
 ### Core Features ✅
+
 - Personal workspaces (auto-created on signup)
 - Email-based invitations
 - Team switching UI
@@ -81,6 +94,7 @@ You have **60% of team infrastructure** already in place:
 - Public sharing with immutability
 
 ### API Layer ✅
+
 - `/api/billing/create-checkout` - Stripe checkout (enhanced with trials)
 - `/api/teams/invite/send-email` - Send invitation emails
 - `/api/collections/*` - Collection management
@@ -94,9 +108,11 @@ You have **60% of team infrastructure** already in place:
 ### Phase 1: Complete Core UI (Week 1-2)
 
 #### 1. Team Settings Page
+
 **Route**: `/app/settings/team/page.tsx` (exists but empty)
 
 **What to Build:**
+
 - Display team name, avatar, description (editable by owners/admins)
 - Show current plan (Team/Pro) with upgrade CTA
 - Display usage metrics:
@@ -109,11 +125,13 @@ You have **60% of team infrastructure** already in place:
   - Allow prompt forking (checkbox)
 
 **Files to Reference:**
+
 - Wireframe in `TEAMS_UX_STRATEGY.md` (Screen 1)
 - Existing team data: Query `teams` table
 - Usage data: Use existing `getUserUsage()` function
 
 **API Calls Needed:**
+
 - `GET /api/teams/{id}` - Fetch team details
 - `PATCH /api/teams/{id}` - Update team settings
 - `GET /api/teams/{id}/usage` - Get usage stats (create this)
@@ -121,9 +139,11 @@ You have **60% of team infrastructure** already in place:
 **Time Estimate**: 2-3 days
 
 #### 2. Member Management Page
+
 **Route**: `/app/settings/team/members/page.tsx`
 
 **What to Build:**
+
 - Table showing all team members:
   - Avatar, name, email, role, joined date, last active
   - Actions menu: Change role, Remove member
@@ -133,11 +153,13 @@ You have **60% of team infrastructure** already in place:
   - Actions: Resend, Cancel
 
 **Files to Reference:**
+
 - Wireframe in `TEAMS_UX_STRATEGY.md` (Screen 2)
 - Component: `InviteMemberButton.tsx` (already built!)
 - Data: `team_members` and `team_invitations` tables
 
 **API Calls:**
+
 - `GET /api/teams/{id}/members` - List members (create this)
 - `PATCH /api/teams/{id}/members/{userId}` - Change role
 - `DELETE /api/teams/{id}/members/{userId}` - Remove member
@@ -147,9 +169,11 @@ You have **60% of team infrastructure** already in place:
 **Time Estimate**: 3-4 days
 
 #### 3. Usage Dashboard
+
 **Route**: `/app/dashboard/team/page.tsx`
 
 **What to Build:**
+
 - 4 stat cards:
   - Prompts created (this month)
   - Prompt runs (this month)
@@ -163,6 +187,7 @@ You have **60% of team infrastructure** already in place:
 - Quick actions: Create Prompt, Create Collection, Invite Member
 
 **Files to Reference:**
+
 - Wireframe in `TEAMS_UX_STRATEGY.md` (Screen 3)
 - Query prompts by `team_id`
 - Track runs in `prompt_runs` table (may need to create)
@@ -174,9 +199,11 @@ You have **60% of team infrastructure** already in place:
 ### Phase 2: Onboarding & Activation (Week 3-4)
 
 #### 4. Team Creation Wizard
+
 **Goal**: Guide new users through creating their first team
 
 **Flow:**
+
 1. Team name and description
 2. Invite members (optional, use `InviteMemberButton`)
 3. Import prompts (optional)
@@ -185,9 +212,11 @@ You have **60% of team infrastructure** already in place:
 **Time Estimate**: 2-3 days
 
 #### 5. Onboarding Checklist
+
 **Component**: Floating checklist or modal
 
 **Tasks:**
+
 - ✓ Create account (auto-complete)
 - Create first prompt
 - Create collection
@@ -198,6 +227,7 @@ You have **60% of team infrastructure** already in place:
 **Time Estimate**: 1-2 days
 
 #### 6. Email Sequences
+
 **Day 0**: Welcome email
 **Day 2**: Prompt to create team (if not done)
 **Day 3**: Collaboration tips
@@ -210,9 +240,11 @@ You have **60% of team infrastructure** already in place:
 ### Phase 3: Pro Features (Month 2)
 
 #### 7. Analytics Dashboard (Pro Only)
+
 **Route**: `/app/dashboard/team/analytics/page.tsx`
 
 **What to Build:**
+
 - Usage breakdown by member
 - Cost tracking per prompt
 - Top prompts by performance
@@ -221,23 +253,28 @@ You have **60% of team infrastructure** already in place:
 **Time Estimate**: 1 week
 
 #### 8. Audit Logs (Pro Only)
+
 **Route**: `/app/settings/team/audit/page.tsx`
 
 **What to Build:**
+
 - Filterable log of all team actions
 - Export to CSV
 - Retention: 90 days for Pro, 7 days for Team
 
 **Database:**
+
 - Create `team_audit_logs` table
 - Add triggers to log all actions
 
 **Time Estimate**: 4-5 days
 
 #### 9. SSO Configuration (Pro Only)
+
 **Route**: `/app/settings/team/security/page.tsx`
 
 **What to Build:**
+
 - SSO setup form (SAML/OIDC)
 - Test connection button
 - Enable/disable toggle
@@ -272,21 +309,25 @@ If you want to ship something fast, focus on:
 ## 📊 Success Metrics to Track
 
 ### Week 1 (After Shipping Core UI):
+
 - % of teams that view settings page
 - % of teams that invite ≥1 member
 - Average invites per team
 
 ### Week 2-4:
+
 - Seat limit modal shown count
 - Trial CTA click-through rate
 - Trial start rate
 
 ### Month 1-3:
+
 - Team plan → Pro upgrade rate (target: 30%)
 - Average MRR per team
 - Team retention vs individual retention
 
 ### Key Questions:
+
 1. Do teams with 3+ members churn less than solo users?
 2. At what member count do teams typically upgrade?
 3. Which features drive Pro upgrades most?
@@ -301,7 +342,7 @@ If you want to ship something fast, focus on:
 import { InviteMemberButton } from '@/components/InviteMemberButton'
 
 // In your component:
-<InviteMemberButton
+;<InviteMemberButton
   teamId={currentTeam.id}
   teamName={currentTeam.name}
   currentTier={currentTeam.tier} // 'team' | 'pro' | 'enterprise'
@@ -313,6 +354,7 @@ import { InviteMemberButton } from '@/components/InviteMemberButton'
 ```
 
 **What it does:**
+
 1. Opens invite dialog
 2. Validates email and role
 3. Sends invitation via API
@@ -343,15 +385,17 @@ Throughout your app, add contextual upgrade prompts:
 
 ```tsx
 // When usage is high
-{usagePercent > 80 && (
-  <Alert>
-    <AlertTitle>Running low on prompt runs</AlertTitle>
-    <AlertDescription>
-      You've used {runsUsed}/{runsMax} this month.
-      <Link href="/pricing">Upgrade to Pro</Link> for 10x more runs.
-    </AlertDescription>
-  </Alert>
-)}
+{
+  usagePercent > 80 && (
+    <Alert>
+      <AlertTitle>Running low on prompt runs</AlertTitle>
+      <AlertDescription>
+        You've used {runsUsed}/{runsMax} this month.
+        <Link href="/pricing">Upgrade to Pro</Link> for 10x more runs.
+      </AlertDescription>
+    </Alert>
+  )
+}
 ```
 
 ---
@@ -359,29 +403,34 @@ Throughout your app, add contextual upgrade prompts:
 ## 🔗 Important Files Reference
 
 ### Components:
+
 - `components/SeatLimitModal.tsx` - Upgrade modal
 - `components/InviteMemberButton.tsx` - Invitation flow
 - `components/AddToCollectionDialog.tsx` - Collection management
 - `components/TeamSwitcher.tsx` - Switch between teams
 
 ### API Routes:
+
 - `app/api/teams/[teamId]/invitations/route.ts` - NEW!
 - `app/api/billing/create-checkout/route.ts` - Enhanced with trials
 - `app/api/teams/invite/send-email/route.ts` - Send emails
 - `app/api/collections/*` - Collections CRUD
 
 ### Libraries:
+
 - `lib/api/teams.ts` - Team API functions
 - `lib/types/teams.ts` - TypeScript types
 - `lib/pricing.ts` - Pricing config (source of truth!)
 - `lib/subscription.ts` - Subscription logic
 
 ### Database:
+
 - `supabase/migrations/20250115000000_teams_core.sql` - Core tables
 - `supabase/migrations/20250122000000_add_team_billing_fields.sql` - Billing
 - `supabase/migrations/20250128093000_prompt_collections.sql` - Collections
 
 ### Documentation:
+
 - `docs/teams/TEAMS_UX_STRATEGY.md` - Full UX strategy (this is GOLD!)
 - `docs/teams/IMPLEMENTATION_SUMMARY.md` - This file
 - `docs/teams/README.md` - Overview
@@ -392,6 +441,7 @@ Throughout your app, add contextual upgrade prompts:
 ## 💡 Pro Tips
 
 ### Testing Locally:
+
 ```bash
 # Test seat limit flow:
 # 1. Create team with max_members = 1
@@ -405,12 +455,14 @@ UPDATE teams SET max_members = 5 WHERE id = 'your-team-id';
 ```
 
 ### Stripe Test Mode:
+
 - Use Stripe test mode for development
 - Test card: `4242 4242 4242 4242`
 - Any future expiry date
 - Any CVC
 
 ### Debugging:
+
 ```typescript
 // Check if user has used trial
 const { data: team } = await supabase
@@ -427,17 +479,20 @@ console.log('Has subscription:', !!team.stripe_subscription_id)
 ## 🎨 Design System
 
 All components use your existing design system:
+
 - `components/ui/*` - Shadcn UI components
 - Tailwind CSS for styling
 - Consistent with existing app UI
 
 **Colors:**
+
 - Primary: Your brand gradient (purple/blue)
 - Success: Green for completed actions
 - Warning: Orange/yellow for limits approaching
 - Destructive: Red for errors/removals
 
 **Typography:**
+
 - Headings: Existing font stack
 - Body: System fonts
 - Mono: For code/emails
@@ -465,6 +520,7 @@ If you need help implementing any of this:
 **Week 4:** Beta launch with 10-20 teams
 
 **Then measure:**
+
 - Trial start rate
 - Trial conversion rate
 - Team retention

@@ -233,161 +233,161 @@ export function AddToCollectionDialog({
         }}
       >
         <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Add to Collection</DialogTitle>
-          <DialogDescription>
-            {promptName ? `Add "${promptName}" to a collection` : 'Add prompt to a collection'}
-          </DialogDescription>
-        </DialogHeader>
+          <DialogHeader>
+            <DialogTitle>Add to Collection</DialogTitle>
+            <DialogDescription>
+              {promptName ? `Add "${promptName}" to a collection` : 'Add prompt to a collection'}
+            </DialogDescription>
+          </DialogHeader>
 
-        <div className="space-y-4">
-          {/* Create New Collection Section - Always Visible */}
-          {!showCreateForm ? (
-            <Button variant="outline" className="w-full" onClick={() => setShowCreateForm(true)}>
-              <Plus className="mr-2 h-4 w-4" />
-              Create New Collection
-            </Button>
-          ) : (
-            <div className="rounded-lg border-2 border-primary/20 bg-primary/5 p-4">
-              <div className="mb-4 flex items-center justify-between">
-                <Label className="text-base font-semibold">Create New Collection</Label>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setShowCreateForm(false)
-                    setNewCollectionTitle('')
-                    setNewCollectionDescription('')
-                    setNewCollectionVisibility('private')
-                  }}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <Label>Title *</Label>
-                  <Input
-                    value={newCollectionTitle}
-                    onChange={(e) => setNewCollectionTitle(e.target.value)}
-                    placeholder="My collection"
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <Label>Description</Label>
-                  <Textarea
-                    value={newCollectionDescription}
-                    onChange={(e) => setNewCollectionDescription(e.target.value)}
-                    placeholder="What is inside this collection?"
-                    className="mt-1"
-                    rows={2}
-                  />
-                </div>
-                <div>
-                  <Label>Visibility</Label>
-                  <div className="mt-1 flex gap-3 text-sm">
-                    <label className="flex items-center gap-1">
-                      <input
-                        type="radio"
-                        name="new-vis"
-                        checked={newCollectionVisibility === 'private'}
-                        onChange={() => setNewCollectionVisibility('private')}
-                      />
-                      Private
-                    </label>
-                    <label className="flex items-center gap-1">
-                      <input
-                        type="radio"
-                        name="new-vis"
-                        checked={newCollectionVisibility === 'public'}
-                        onChange={() => setNewCollectionVisibility('public')}
-                      />
-                      Public
-                    </label>
-                  </div>
-                </div>
-                <Button
-                  onClick={handleCreateAndAdd}
-                  disabled={!newCollectionTitle.trim() || creating}
-                  className="w-full"
-                >
-                  {creating ? 'Creating...' : 'Create & Add Prompt'}
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {/* Divider */}
-          {collections.length > 0 && (
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  Or add to existing collection
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Search Existing Collections */}
-          {collections.length > 0 && (
-            <div>
-              <Label>Search Collections</Label>
-              <Input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search collections..."
-                className="mt-1"
-              />
-            </div>
-          )}
-
-          {/* Collections List */}
-          {filteredCollections.length === 0 && collections.length > 0 ? (
-            <div className="py-8 text-center text-muted-foreground">
-              <p>No collections match your search.</p>
-            </div>
-          ) : filteredCollections.length > 0 ? (
-            <div className="space-y-2">
-              {filteredCollections.map((collection: any) => {
-                const isInCollection = isPromptInCollection(collection.id)
-                return (
-                  <div
-                    key={collection.id}
-                    className="flex items-center justify-between rounded-lg border p-3"
+          <div className="space-y-4">
+            {/* Create New Collection Section - Always Visible */}
+            {!showCreateForm ? (
+              <Button variant="outline" className="w-full" onClick={() => setShowCreateForm(true)}>
+                <Plus className="mr-2 h-4 w-4" />
+                Create New Collection
+              </Button>
+            ) : (
+              <div className="rounded-lg border-2 border-primary/20 bg-primary/5 p-4">
+                <div className="mb-4 flex items-center justify-between">
+                  <Label className="text-base font-semibold">Create New Collection</Label>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setShowCreateForm(false)
+                      setNewCollectionTitle('')
+                      setNewCollectionDescription('')
+                      setNewCollectionVisibility('private')
+                    }}
                   >
-                    <div className="flex-1">
-                      <div className="font-semibold">{collection.title}</div>
-                      {collection.description && (
-                        <div className="text-sm text-muted-foreground">
-                          {collection.description}
-                        </div>
-                      )}
-                      <div className="mt-1 text-xs text-muted-foreground">
-                        {collection.visibility === 'public' ? 'Public' : 'Private'}
-                      </div>
-                    </div>
-                    <Button
-                      variant={isInCollection ? 'outline' : 'default'}
-                      size="sm"
-                      onClick={() => !isInCollection && handleAddToCollection(collection.id)}
-                      disabled={isInCollection || loading}
-                    >
-                      {isInCollection ? 'Already Added' : 'Add'}
-                    </Button>
+                    Cancel
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <Label>Title *</Label>
+                    <Input
+                      value={newCollectionTitle}
+                      onChange={(e) => setNewCollectionTitle(e.target.value)}
+                      placeholder="My collection"
+                      className="mt-1"
+                    />
                   </div>
-                )
-              })}
-            </div>
-          ) : collections.length === 0 && !showCreateForm ? (
-            <div className="py-8 text-center text-muted-foreground">
-              <p>No collections yet. Create one above to get started!</p>
-            </div>
-          ) : null}
-        </div>
+                  <div>
+                    <Label>Description</Label>
+                    <Textarea
+                      value={newCollectionDescription}
+                      onChange={(e) => setNewCollectionDescription(e.target.value)}
+                      placeholder="What is inside this collection?"
+                      className="mt-1"
+                      rows={2}
+                    />
+                  </div>
+                  <div>
+                    <Label>Visibility</Label>
+                    <div className="mt-1 flex gap-3 text-sm">
+                      <label className="flex items-center gap-1">
+                        <input
+                          type="radio"
+                          name="new-vis"
+                          checked={newCollectionVisibility === 'private'}
+                          onChange={() => setNewCollectionVisibility('private')}
+                        />
+                        Private
+                      </label>
+                      <label className="flex items-center gap-1">
+                        <input
+                          type="radio"
+                          name="new-vis"
+                          checked={newCollectionVisibility === 'public'}
+                          onChange={() => setNewCollectionVisibility('public')}
+                        />
+                        Public
+                      </label>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={handleCreateAndAdd}
+                    disabled={!newCollectionTitle.trim() || creating}
+                    className="w-full"
+                  >
+                    {creating ? 'Creating...' : 'Create & Add Prompt'}
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Divider */}
+            {collections.length > 0 && (
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or add to existing collection
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Search Existing Collections */}
+            {collections.length > 0 && (
+              <div>
+                <Label>Search Collections</Label>
+                <Input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search collections..."
+                  className="mt-1"
+                />
+              </div>
+            )}
+
+            {/* Collections List */}
+            {filteredCollections.length === 0 && collections.length > 0 ? (
+              <div className="py-8 text-center text-muted-foreground">
+                <p>No collections match your search.</p>
+              </div>
+            ) : filteredCollections.length > 0 ? (
+              <div className="space-y-2">
+                {filteredCollections.map((collection: any) => {
+                  const isInCollection = isPromptInCollection(collection.id)
+                  return (
+                    <div
+                      key={collection.id}
+                      className="flex items-center justify-between rounded-lg border p-3"
+                    >
+                      <div className="flex-1">
+                        <div className="font-semibold">{collection.title}</div>
+                        {collection.description && (
+                          <div className="text-sm text-muted-foreground">
+                            {collection.description}
+                          </div>
+                        )}
+                        <div className="mt-1 text-xs text-muted-foreground">
+                          {collection.visibility === 'public' ? 'Public' : 'Private'}
+                        </div>
+                      </div>
+                      <Button
+                        variant={isInCollection ? 'outline' : 'default'}
+                        size="sm"
+                        onClick={() => !isInCollection && handleAddToCollection(collection.id)}
+                        disabled={isInCollection || loading}
+                      >
+                        {isInCollection ? 'Already Added' : 'Add'}
+                      </Button>
+                    </div>
+                  )
+                })}
+              </div>
+            ) : collections.length === 0 && !showCreateForm ? (
+              <div className="py-8 text-center text-muted-foreground">
+                <p>No collections yet. Create one above to get started!</p>
+              </div>
+            ) : null}
+          </div>
         </DialogContent>
       </Dialog>
     </>

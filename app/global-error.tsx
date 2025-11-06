@@ -24,7 +24,8 @@ export default function GlobalError({
               Application Error
             </h1>
             <p className="mb-6 text-gray-600 dark:text-gray-400">
-              We apologize for the inconvenience. The application encountered an error. Please try again or return to the homepage.
+              We apologize for the inconvenience. The application encountered an error. Please try
+              again or return to the homepage.
             </p>
             <div className="flex justify-center gap-4">
               <Button onClick={reset} className="inline-flex items-center gap-2">

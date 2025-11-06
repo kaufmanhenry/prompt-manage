@@ -20,7 +20,8 @@ export default function AuthErrorPage() {
           </div>
           <CardTitle className="text-center">Sign-In Error</CardTitle>
           <CardDescription className="text-center">
-            We encountered an issue while signing you in. Please try again or contact support if the problem persists.
+            We encountered an issue while signing you in. Please try again or contact support if the
+            problem persists.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

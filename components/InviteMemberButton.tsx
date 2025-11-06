@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { UserPlus } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -53,7 +53,7 @@ export function InviteMemberButton({
   } | null>(null)
 
   const handleInvite = async () => {
-    if (!email || !email.includes('@')) {
+    if (!email?.includes('@')) {
       toast({
         title: 'Invalid email',
         description: 'Please enter a valid email address',

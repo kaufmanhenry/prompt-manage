@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { Check, X } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -26,7 +26,7 @@ export function SeatLimitModal({
   open,
   onClose,
   currentPlan,
-  currentSeats,
+  currentSeats: _currentSeats,
   maxSeats,
   pendingEmail,
   teamId,
@@ -99,7 +99,7 @@ export function SeatLimitModal({
 
         <div className="space-y-6">
           {/* Pending Email Display */}
-          <div className="rounded-lg border bg-muted/50 p-4 space-y-2">
+          <div className="space-y-2 rounded-lg border bg-muted/50 p-4">
             <div className="text-sm font-medium">You're trying to invite:</div>
             <div className="font-mono text-sm">{pendingEmail}</div>
           </div>

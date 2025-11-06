@@ -23,7 +23,7 @@ export async function POST(
 
     const { email, role = 'viewer' } = await req.json()
 
-    if (!email || !email.includes('@')) {
+    if (!email?.includes('@')) {
       return NextResponse.json({ error: 'Valid email is required' }, { status: 400 })
     }
 

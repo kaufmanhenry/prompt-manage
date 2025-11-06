@@ -61,10 +61,7 @@ async function createUserProfileIfNeeded(
               insertError.message.includes('dark_mode') ||
               insertError.message.includes('theme_preference'))
           ) {
-            logger.error(
-              'Missing columns detected, trying without optional columns:',
-              insertError,
-            )
+            logger.error('Missing columns detected, trying without optional columns:', insertError)
             // Try insert without optional columns
             const { error: fallbackError } = await supabase
               .from('user_profiles')

@@ -6,11 +6,11 @@ This document describes the rate limiting system implemented for prompt executio
 
 ## Rate Limits by Plan
 
-| Plan  | Price/Month | Monthly Prompt Runs | Storage Limit |
-|-------|-------------|---------------------|---------------|
-| Free  | $0          | 10 runs/month       | 25 prompts    |
-| Team  | $20         | 100 runs/month      | Unlimited     |
-| Pro   | $99         | 1,000 runs/month    | Unlimited     |
+| Plan | Price/Month | Monthly Prompt Runs | Storage Limit |
+| ---- | ----------- | ------------------- | ------------- |
+| Free | $0          | 10 runs/month       | 25 prompts    |
+| Team | $20         | 100 runs/month      | Unlimited     |
+| Pro  | $99         | 1,000 runs/month    | Unlimited     |
 
 ## Implementation Details
 
@@ -49,6 +49,7 @@ This table is created by migration: `20250115000000_token_tracking_system_fixed.
 ### API Response Format
 
 **Success Response (200):**
+
 ```json
 {
   "success": true,
@@ -65,6 +66,7 @@ This table is created by migration: `20250115000000_token_tracking_system_fixed.
 ```
 
 **Rate Limit Exceeded (429):**
+
 ```json
 {
   "error": "Monthly prompt run limit reached",
@@ -98,6 +100,7 @@ Admin users (defined in `lib/admin.ts`) automatically receive Pro-level access w
 ## Monitoring Usage
 
 Users can monitor their usage through:
+
 - API responses (includes usage stats)
 - Dashboard (to be implemented)
 - Settings/Billing page (to be implemented)
@@ -116,12 +119,14 @@ Users can monitor their usage through:
 To test rate limiting:
 
 1. **Free Account:**
+
    ```bash
    # Run prompt 10 times
    # 11th run should return 429 error
    ```
 
 2. **Subscription Check:**
+
    ```bash
    # Verify subscription status via /api/subscription/status
    # Check usage via getUserUsage() function
@@ -142,9 +147,11 @@ To test rate limiting:
 ## Cost Impact
 
 Before rate limiting:
+
 - Free users could run unlimited prompts → unbounded OpenAI costs
 
 After rate limiting:
+
 - Free users: max $0.50-$2/month in OpenAI costs (10 runs × ~$0.05-0.20)
 - Team users: max $5-$20/month (100 runs)
 - Pro users: max $50-$200/month (1,000 runs)
@@ -154,6 +161,7 @@ After rate limiting:
 ## Migration Path
 
 This implementation is backward compatible:
+
 - Existing `prompt_run_history` entries count toward limits
 - No data migration required
 - Works with existing database schema
@@ -161,6 +169,7 @@ This implementation is backward compatible:
 ## Support
 
 For questions or issues with rate limiting:
+
 - Check `/settings/billing` for current usage
 - Review plan limits at `/pricing`
 - Contact support for limit increases

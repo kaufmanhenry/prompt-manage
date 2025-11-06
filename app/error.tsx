@@ -21,7 +21,8 @@ export default function Error({
           An Error Occurred
         </h1>
         <p className="mb-6 text-gray-600 dark:text-gray-400">
-          We apologize for the inconvenience. Please try again, or return to the homepage if the issue persists.
+          We apologize for the inconvenience. Please try again, or return to the homepage if the
+          issue persists.
         </p>
         <Button onClick={reset} className="inline-flex items-center gap-2">
           <RefreshCw className="h-4 w-4" />

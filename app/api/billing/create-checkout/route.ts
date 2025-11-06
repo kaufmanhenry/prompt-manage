@@ -21,10 +21,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { tier, teamId } = await req.json()
+    const { tier, teamId, trialDays } = await req.json()
 
     if (!['pro', 'enterprise'].includes(tier)) {
       return NextResponse.json({ error: 'Invalid tier' }, { status: 400 })
+    }
+
+    // Validate trial days if provided
+    if (trialDays && (trialDays < 1 || trialDays > 30)) {
+      return NextResponse.json({ error: 'Trial days must be between 1 and 30' }, { status: 400 })
     }
 
     if (!teamId) {
@@ -87,6 +92,21 @@ export async function POST(req: NextRequest) {
     // Get price ID
     const priceId = stripeConfig.products[tier as keyof typeof stripeConfig.products].priceId
 
+    // Check if team has already used a trial (prevent abuse)
+    let finalTrialDays = 0
+    if (trialDays) {
+      const { data: existingSubscriptions } = await supabase
+        .from('teams')
+        .select('subscription_status, stripe_subscription_id')
+        .eq('id', teamId)
+        .single()
+
+      // Only allow trial if team has never had a subscription
+      if (!existingSubscriptions?.stripe_subscription_id) {
+        finalTrialDays = trialDays
+      }
+    }
+
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -109,6 +129,7 @@ export async function POST(req: NextRequest) {
           teamId: teamId,
           tier,
         },
+        ...(finalTrialDays > 0 && { trial_period_days: finalTrialDays }),
       },
       allow_promotion_codes: true,
     })

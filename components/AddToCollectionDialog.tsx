@@ -232,7 +232,7 @@ export function AddToCollectionDialog({
           }
         }}
       >
-      <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
+        <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add to Collection</DialogTitle>
           <DialogDescription>
@@ -388,8 +388,8 @@ export function AddToCollectionDialog({
             </div>
           ) : null}
         </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

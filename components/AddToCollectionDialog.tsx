@@ -11,7 +11,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -214,25 +213,25 @@ export function AddToCollectionDialog({
   }
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(isOpen) => {
-        setOpen(isOpen)
-        if (!isOpen) {
-          setShowCreateForm(false)
-          setSearchTerm('')
-          setNewCollectionTitle('')
-          setNewCollectionDescription('')
-          setNewCollectionVisibility('private')
-        }
-      }}
-    >
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" onClick={handleOpenDialog}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add to Collection
-        </Button>
-      </DialogTrigger>
+    <>
+      <Button variant="outline" size="sm" onClick={handleOpenDialog}>
+        <Plus className="mr-2 h-4 w-4" />
+        Add to Collection
+      </Button>
+
+      <Dialog
+        open={open}
+        onOpenChange={(isOpen) => {
+          setOpen(isOpen)
+          if (!isOpen) {
+            setShowCreateForm(false)
+            setSearchTerm('')
+            setNewCollectionTitle('')
+            setNewCollectionDescription('')
+            setNewCollectionVisibility('private')
+          }
+        }}
+      >
       <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add to Collection</DialogTitle>
@@ -391,5 +390,6 @@ export function AddToCollectionDialog({
         </div>
       </DialogContent>
     </Dialog>
+    </>
   )
 }

@@ -15,21 +15,21 @@ export const metadata: Metadata = {
 
 export default function SecurityPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-background">
       {/* Hero */}
-      <div className="border-b">
-        <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+      <div className="border-b border-border">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 md:py-24">
           <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">
             Security & Privacy
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-lg text-muted-foreground">
             Enterprise-grade security and compliance for your AI prompts and data.
           </p>
         </div>
       </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-4xl px-6 py-16">
+      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="space-y-16">
           {/* Data Encryption */}
           <section>

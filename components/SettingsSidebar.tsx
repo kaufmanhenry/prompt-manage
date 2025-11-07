@@ -81,9 +81,15 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
     },
     {
       href: '/settings/team/members',
-      label: 'Team Members',
+      label: 'Members',
       icon: Users,
       active: pathname === '/settings/team/members',
+    },
+    {
+      href: '/settings/billing',
+      label: 'Billing',
+      icon: CreditCard,
+      active: pathname === '/settings/billing',
     },
   ]
 

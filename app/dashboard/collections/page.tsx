@@ -10,7 +10,6 @@ import {
   MoreVertical,
   Plus,
   Search,
-  Share2,
   Trash2,
   X,
 } from 'lucide-react'
@@ -368,7 +367,7 @@ export default function CollectionsManagerPage() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen flex-col lg:flex-row">
       <Sidebar
         prompts={prompts}
         selectedPromptId={null}
@@ -376,44 +375,44 @@ export default function CollectionsManagerPage() {
         session={session}
         currentPage="collections"
       />
-      <main className="dashboard-main">
-        <div className="dashboard-container">
+      <main className="dashboard-main flex-1 overflow-y-auto">
+        <div className="dashboard-container mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
           {/* Header */}
-          <div className="mb-10">
-            <div className="mb-6 flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+          <div className="mb-8">
+            <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div className="max-w-2xl">
+                <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
                   Collections
                 </h1>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-foreground/60">
+                <p className="text-sm leading-relaxed text-muted-foreground">
                   Group related prompts into organized collections. Share them with your team or
                   publish them publicly. Collections help teams manage prompts by use case, model,
                   or project.
                 </p>
               </div>
-              <Button onClick={openCreate} size="lg" className="gap-2">
+              <Button onClick={openCreate} size="lg" className="shrink-0 gap-2">
                 <Plus className="h-4 w-4" />
-                New Collection
+                <span>New Collection</span>
               </Button>
             </div>
 
             {/* Search */}
             <div className="relative max-w-md">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search collections..."
                 value={collectionSearch}
                 onChange={(e) => setCollectionSearch(e.target.value)}
-                className="border-border/50 bg-background pl-9"
+                className="h-10 border-border/50 bg-background pl-9 transition-all focus-visible:ring-2"
               />
             </div>
           </div>
 
           {/* Collection Form */}
           {showForm && (
-            <div className="mb-10 rounded-lg border border-border/50 bg-card p-8">
+            <div className="mb-8 rounded-xl border border-border/50 bg-card p-6 shadow-sm">
               <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-foreground">
+                <h2 className="text-xl font-semibold text-foreground">
                   {selected ? 'Edit Collection' : 'Create New Collection'}
                 </h2>
                 <Button
@@ -447,21 +446,21 @@ export default function CollectionsManagerPage() {
 
           {/* Collections Grid */}
           {filteredCollections.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-24">
-              <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-foreground/5">
-                <FolderOpen className="h-10 w-10 text-foreground/40" />
+            <div className="flex flex-col items-center justify-center py-16 sm:py-24">
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-muted/50 sm:h-20 sm:w-20">
+                <FolderOpen className="h-8 w-8 text-muted-foreground sm:h-10 sm:w-10" />
               </div>
-              <h3 className="mb-3 text-lg font-semibold text-foreground">
+              <h3 className="mb-3 text-lg font-semibold text-foreground sm:text-xl">
                 {collections.length === 0 ? 'No collections yet' : 'No collections found'}
               </h3>
               {collections.length === 0 ? (
                 <>
-                  <p className="mb-8 max-w-md text-center text-sm leading-relaxed text-foreground/60">
+                  <p className="mb-8 max-w-md text-center text-sm leading-relaxed text-muted-foreground">
                     Collections help you organize prompts by use case, model, or project. Create
                     your first collection to get started.
                   </p>
                   <div className="mb-8 w-full max-w-2xl space-y-4">
-                    <p className="text-xs font-medium uppercase tracking-wide text-foreground/50">
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                       Example Collections
                     </p>
                     <div className="grid gap-3 sm:grid-cols-2">
@@ -473,71 +472,71 @@ export default function CollectionsManagerPage() {
                       ].map((example, i) => (
                         <div
                           key={i}
-                          className="rounded-lg border border-border/30 bg-background p-4 transition-colors hover:border-border/50"
+                          className="rounded-lg border border-border/30 bg-background p-4 transition-colors hover:border-border/50 hover:bg-muted/20"
                         >
                           <div className="mb-2 flex items-center gap-2">
-                            <FolderOpen className="h-4 w-4 text-foreground/40" />
+                            <FolderOpen className="h-4 w-4 text-muted-foreground" />
                             <span className="text-sm font-medium text-foreground">
                               {example.title}
                             </span>
                           </div>
-                          <p className="text-xs text-foreground/50">{example.desc}</p>
+                          <p className="text-xs text-muted-foreground">{example.desc}</p>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <Button onClick={openCreate} className="gap-2">
+                  <Button onClick={openCreate} size="lg" className="gap-2">
                     <Plus className="h-4 w-4" />
                     Create Collection
                   </Button>
                 </>
               ) : (
-                <p className="text-center text-sm text-foreground/60">
+                <p className="text-center text-sm text-muted-foreground">
                   Try adjusting your search terms.
                 </p>
               )}
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {filteredCollections.map((c) => {
                 const promptsInCollection = collectionPrompts[c.id] || []
                 return (
                   <div
                     key={c.id}
-                    className="group relative flex flex-col rounded-lg bg-card transition-colors duration-200 hover:bg-foreground/5"
+                    className="group relative flex flex-col overflow-hidden rounded-xl border border-border/50 bg-card shadow-sm transition-all duration-200 hover:border-border hover:shadow-md"
                   >
                     {/* Cover Image */}
                     {c.cover_image_url && (
-                      <div className="relative h-32 w-full overflow-hidden rounded-t-lg bg-muted">
+                      <div className="relative h-40 w-full overflow-hidden bg-muted">
                         <Image
                           src={c.cover_image_url}
                           alt={c.title}
                           fill
-                          className="object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
                           unoptimized
                         />
                       </div>
                     )}
 
-                    <div className="flex flex-1 flex-col p-6">
+                    <div className="flex flex-1 flex-col p-5">
                       {/* Header */}
                       <div className="mb-4 flex items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
                           <div className="mb-2.5 flex items-center gap-2">
                             {c.visibility === 'public' ? (
-                              <Globe className="h-3.5 w-3.5 text-foreground/50" />
+                              <Globe className="h-3.5 w-3.5 text-muted-foreground" />
                             ) : (
-                              <Lock className="h-3.5 w-3.5 text-foreground/40" />
+                              <Lock className="h-3.5 w-3.5 text-muted-foreground" />
                             )}
-                            <span className="text-xs font-medium uppercase tracking-wider text-foreground/50">
+                            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                               {c.visibility === 'public' ? 'Public' : 'Private'}
                             </span>
                           </div>
-                          <h3 className="mb-2 text-base font-semibold leading-tight text-foreground">
+                          <h3 className="mb-2 text-lg font-semibold leading-tight text-foreground">
                             {c.title}
                           </h3>
                           {c.description && (
-                            <p className="line-clamp-2 text-sm leading-relaxed text-foreground/60">
+                            <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
                               {c.description}
                             </p>
                           )}
@@ -554,7 +553,7 @@ export default function CollectionsManagerPage() {
                               <MoreVertical className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
+                          <DropdownMenuContent align="end" className="w-48">
                             <DropdownMenuItem onClick={() => openEdit(c)}>
                               <Edit className="mr-2 h-4 w-4" />
                               Edit
@@ -620,17 +619,17 @@ export default function CollectionsManagerPage() {
                           {promptsInCollection.slice(0, 3).map((p) => (
                             <div
                               key={p.id}
-                              className="group/prompt flex items-center justify-between rounded px-2 py-1.5 transition-colors hover:bg-foreground/5"
+                              className="group/prompt flex items-center justify-between rounded-md px-2 py-1.5 transition-colors hover:bg-muted/50"
                             >
                               <Link
                                 href={p.slug ? `/p/${p.slug}` : '/dashboard'}
                                 className="min-w-0 flex-1 hover:text-foreground"
                               >
-                                <div className="truncate text-xs font-medium text-foreground/80">
+                                <div className="truncate text-sm font-medium text-foreground/90">
                                   {p.name}
                                 </div>
                                 {p.model && (
-                                  <span className="mt-0.5 block text-xs text-foreground/45">
+                                  <span className="mt-0.5 block text-xs text-muted-foreground">
                                     {p.model}
                                   </span>
                                 )}
@@ -647,7 +646,7 @@ export default function CollectionsManagerPage() {
                             </div>
                           ))}
                           {promptsInCollection.length > 3 && (
-                            <p className="pt-1 text-center text-xs text-foreground/45">
+                            <p className="pt-1 text-center text-xs text-muted-foreground">
                               +{promptsInCollection.length - 3} more
                             </p>
                           )}
@@ -655,8 +654,8 @@ export default function CollectionsManagerPage() {
                       )}
 
                       {/* Stats & Actions */}
-                      <div className="mb-4 mt-auto flex items-center justify-between border-t border-border/20 pt-4">
-                        <div className="flex items-center gap-2 text-xs text-foreground/50">
+                      <div className="mt-auto flex items-center justify-between border-t border-border/20 pt-4">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <FolderOpen className="h-4 w-4" />
                           <span className="font-medium">
                             {promptsInCollection.length} prompt
@@ -668,7 +667,7 @@ export default function CollectionsManagerPage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-7 w-7 p-0 opacity-0 transition-opacity group-hover:opacity-100"
+                              className="h-7 w-7 p-0"
                               asChild
                             >
                               <Link
@@ -680,14 +679,6 @@ export default function CollectionsManagerPage() {
                               </Link>
                             </Button>
                           )}
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-7 w-7 p-0 opacity-0 transition-opacity group-hover:opacity-100"
-                            title="Share"
-                          >
-                            <Share2 className="h-3.5 w-3.5" />
-                          </Button>
                           <Dialog
                             open={showAddPrompts === c.id}
                             onOpenChange={(open) => {
@@ -702,34 +693,35 @@ export default function CollectionsManagerPage() {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-7 gap-1.5 px-2 text-xs opacity-0 transition-opacity group-hover:opacity-100"
+                                className="h-7 gap-1.5 px-2 text-xs"
                                 title="Add Prompts"
                               >
                                 <Plus className="h-3.5 w-3.5" />
                                 Add
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-2xl">
+                            <DialogContent className="max-h-[90vh] max-w-3xl overflow-hidden">
                               <DialogHeader>
-                                <DialogTitle>Add Prompts to Collection</DialogTitle>
-                                <DialogDescription>
+                                <DialogTitle className="text-2xl">Add Prompts to Collection</DialogTitle>
+                                <DialogDescription className="text-base">
                                   Search and select prompts to add to &quot;{c.title}&quot;
                                 </DialogDescription>
                               </DialogHeader>
-                              <div className="space-y-4">
-                                <div className="flex items-center gap-2">
+                              <div className="flex flex-col space-y-4">
+                                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                                   <div className="relative flex-1">
                                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                     <Input
                                       placeholder="Search prompts..."
                                       value={promptSearch}
                                       onChange={(e) => setPromptSearch(e.target.value)}
-                                      className="pl-9"
+                                      className="h-10 pl-9"
                                     />
                                   </div>
                                   {selectedPrompts.size > 0 && (
                                     <Button
                                       onClick={() => handleAddSelectedPrompts(c.id)}
+                                      size="lg"
                                       className="gap-2"
                                     >
                                       <Plus className="h-4 w-4" />
@@ -737,7 +729,7 @@ export default function CollectionsManagerPage() {
                                     </Button>
                                   )}
                                 </div>
-                                <div className="flex items-center justify-between text-sm">
+                                <div className="flex flex-col justify-between gap-2 text-sm sm:flex-row sm:items-center">
                                   <span className="text-muted-foreground">
                                     {selectedPrompts.size > 0
                                       ? `${selectedPrompts.size} selected`
@@ -752,9 +744,9 @@ export default function CollectionsManagerPage() {
                                     </Button>
                                   </div>
                                 </div>
-                                <div className="max-h-96 space-y-2 overflow-y-auto rounded-lg border p-2">
+                                <div className="max-h-[400px] space-y-2 overflow-y-auto rounded-lg border border-border/50 p-3">
                                   {filteredPrompts.length === 0 ? (
-                                    <div className="py-8 text-center text-sm text-muted-foreground">
+                                    <div className="py-12 text-center text-sm text-muted-foreground">
                                       No prompts found
                                     </div>
                                   ) : (
@@ -777,7 +769,7 @@ export default function CollectionsManagerPage() {
                                             checked={isSelected}
                                             onChange={() => handleTogglePromptSelection(p.id)}
                                             disabled={isInCollection}
-                                            className="h-4 w-4 cursor-pointer rounded disabled:cursor-not-allowed"
+                                            className="h-4 w-4 cursor-pointer rounded border-border accent-primary disabled:cursor-not-allowed"
                                           />
                                           <div className="min-w-0 flex-1">
                                             <div className="truncate text-sm font-medium">
@@ -788,7 +780,7 @@ export default function CollectionsManagerPage() {
                                                 {p.description}
                                               </div>
                                             )}
-                                            <div className="mt-1.5 flex gap-1.5">
+                                            <div className="mt-1.5 flex flex-wrap gap-1.5">
                                               {p.model && (
                                                 <Badge variant="outline" className="text-xs">
                                                   {p.model}

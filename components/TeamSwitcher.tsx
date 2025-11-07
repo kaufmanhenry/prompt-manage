@@ -65,7 +65,9 @@ export function TeamSwitcher() {
         </PopoverTrigger>
         <PopoverContent className="w-[280px] p-0" align="start">
           <Command>
-            <CommandInput placeholder="Search teams..." />
+            <div className="px-2 pt-2">
+              <CommandInput placeholder="Search teams..." />
+            </div>
             <CommandEmpty>No team found.</CommandEmpty>
             <CommandList>
               <CommandGroup heading="Your Teams">

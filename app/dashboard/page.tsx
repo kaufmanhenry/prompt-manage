@@ -11,6 +11,7 @@ import {
   Plus,
   Sparkles,
   TrendingUp,
+  Upload,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -232,26 +233,36 @@ export default function DashboardHomePage() {
                   : 'Get started by creating your first prompt'}
               </p>
             </div>
-            <Button
-              onClick={() => {
-                if (!canCreatePrompt) {
-                  toast({
-                    title: 'Prompt Limit Reached',
-                    description:
-                      'You have reached your prompt limit. Please upgrade or delete prompts.',
-                    variant: 'destructive',
-                  })
-                  return
-                }
-                setShowCreateForm(true)
-              }}
-              size="lg"
-              className="gap-2"
-              disabled={!canCreatePrompt}
-            >
-              <Plus className="h-4 w-4" />
-              New Prompt
-            </Button>
+            <div className="flex items-center gap-2">
+              {subscription?.plan !== 'free' && (
+                <Button variant="outline" size="lg" className="gap-2" asChild>
+                  <Link href="/dashboard/import-export">
+                    <Upload className="h-4 w-4" />
+                    Import / Export
+                  </Link>
+                </Button>
+              )}
+              <Button
+                onClick={() => {
+                  if (!canCreatePrompt) {
+                    toast({
+                      title: 'Prompt Limit Reached',
+                      description:
+                        'You have reached your prompt limit. Please upgrade or delete prompts.',
+                      variant: 'destructive',
+                    })
+                    return
+                  }
+                  setShowCreateForm(true)
+                }}
+                size="lg"
+                className="gap-2"
+                disabled={!canCreatePrompt}
+              >
+                <Plus className="h-4 w-4" />
+                New Prompt
+              </Button>
+            </div>
           </div>
 
           {/* Usage Warning for Free Users */}

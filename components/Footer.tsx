@@ -157,15 +157,6 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/collections"
-                    className="text-gray-600 hover:underline dark:text-gray-300"
-                    aria-label="Explore AI prompt collections"
-                  >
-                    Collections
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     href="/use-cases"
                     className="text-gray-600 hover:underline dark:text-gray-300"
                     aria-label="AI prompt use cases and examples"

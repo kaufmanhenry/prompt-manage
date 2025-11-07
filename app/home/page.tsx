@@ -25,13 +25,13 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL('https://promptmanage.com'),
   alternates: {
-    canonical: '/',
+    canonical: '/home',
   },
   openGraph: {
     title: 'Prompt Manage — Secure Prompt Management & Library Tool',
     description:
       'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool.',
-    url: 'https://promptmanage.com',
+    url: 'https://promptmanage.com/home',
     siteName: 'Prompt Manage',
     images: [
       {
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Home() {
+export default async function HomePage() {
   const supabase = await createClient()
   const {
     data: { session },
@@ -226,7 +226,7 @@ export default async function Home() {
                   />
                 </span>
               </h1>
-              <p className="mb-3 max-w-xl text-lg leading-7 text-muted-foreground md:text-xl">
+              <p className="mb-3 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
                 Create, store, and safely share AI prompts with your team. Build your secure prompt
                 library with our{' '}
                 <Link
@@ -237,9 +237,8 @@ export default async function Home() {
                 </Link>{' '}
                 with 300+ ready-to-use templates.
               </p>
-              <p className="mb-6 max-w-xl text-lg leading-7 text-muted-foreground md:text-xl">
-                Tag, sort, and filter prompts to organize your workspace. Private collections coming
-                soon. Works with{' '}
+              <p className="mb-6 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
+                Tag, sort, and filter prompts to organize your workspace. Works with{' '}
                 <Link
                   href="/models"
                   className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
@@ -249,15 +248,15 @@ export default async function Home() {
                 including ChatGPT, Claude, Gemini, and more.
               </p>
               <div className="mb-8 flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full bg-muted px-3 py-1 text-sm">
+                <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
                   <Folder className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Organized
                   libraries
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full bg-muted px-3 py-1 text-sm">
+                <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
                   <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Secure
                   & private
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full bg-muted px-3 py-1 text-sm">
+                <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 dark:bg-gray-800/50 dark:text-gray-200">
                   <Search className="h-4 w-4 text-emerald-600 dark:text-emerald-300" /> Tag & filter
                 </span>
               </div>
@@ -287,7 +286,7 @@ export default async function Home() {
                     redirectPath="/dashboard"
                     variant="ghost"
                     size="sm"
-                    className="text-sm text-muted-foreground hover:text-foreground"
+                    className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
                   >
                     or sign in with email
                   </EmailSignInButton>
@@ -299,7 +298,7 @@ export default async function Home() {
                 </div>
               )}
               <div className="mt-4 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-muted-foreground">Popular models:</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">Popular models:</span>
                 {[
                   'gpt-4',
                   'gpt-4o',
@@ -327,10 +326,10 @@ export default async function Home() {
           <section className="mt-32">
             <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
               <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
                   Organize and manage your prompt library
                 </h2>
-                <p className="mt-6 text-base leading-7 text-muted-foreground">
+                <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-400">
                   A secure, high-quality prompt management tool with tagging, sorting, and filtering
                   capabilities.
                 </p>
@@ -338,92 +337,91 @@ export default async function Home() {
 
               {/* Feature Cards */}
               <div className="mt-16 grid gap-8 sm:grid-cols-3">
-                <div className="relative overflow-hidden rounded-lg border border-border bg-card p-8">
-                  <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
+                <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
                   <div className="relative">
                     <div className="mb-6 inline-flex items-center justify-center">
-                      <div className="rounded-lg border-2 border-border bg-muted p-3">
-                        <Folder className="h-5 w-5 text-muted-foreground" />
+                      <div className="rounded-lg border-2 border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-800">
+                        <Folder className="h-5 w-5 text-gray-700 dark:text-gray-300" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       Organize & Tag
                     </h3>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                    <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
                       Create libraries, add tags, and categorize prompts for easy discovery and
                       quick access.
                     </p>
                   </div>
                 </div>
 
-                <div className="relative overflow-hidden rounded-lg border border-border bg-card p-8">
-                  <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
+                <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
                   <div className="relative">
                     <div className="mb-6 inline-flex items-center justify-center">
-                      <div className="rounded-lg border-2 border-border bg-muted p-3">
-                        <Search className="h-5 w-5 text-muted-foreground" />
+                      <div className="rounded-lg border-2 border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-800">
+                        <Search className="h-5 w-5 text-gray-700 dark:text-gray-300" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       Search & Filter
                     </h3>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                    <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
                       Quickly find prompts by tag, keyword, category, or model. Instant access to
                       exactly what you need.
                     </p>
                   </div>
                 </div>
 
-                <div className="relative overflow-hidden rounded-lg border border-border bg-card p-8">
-                  <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
+                <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
                   <div className="relative">
                     <div className="mb-6 inline-flex items-center justify-center">
-                      <div className="rounded-lg border-2 border-border bg-muted p-3">
-                        <ShieldCheck className="h-5 w-5 text-muted-foreground" />
+                      <div className="rounded-lg border-2 border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-800">
+                        <ShieldCheck className="h-5 w-5 text-gray-700 dark:text-gray-300" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       Secure & Private
                     </h3>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                      Keep your prompts secure. Private collections with enhanced permissions coming
-                      soon.
+                    <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+                      Keep your prompts secure with team-based access control and private storage.
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* Metrics */}
-              <div className="mt-20 grid grid-cols-2 gap-6 border-t border-border pt-16 sm:grid-cols-4">
+              <div className="mt-20 grid grid-cols-2 gap-6 border-t border-gray-200 pt-16 dark:border-gray-800 sm:grid-cols-4">
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     100%
                   </div>
-                  <div className="mt-2 text-sm font-medium text-muted-foreground">
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                     Secure Storage
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     Tag & Filter
                   </div>
-                  <div className="mt-2 text-sm font-medium text-muted-foreground">
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                     Easy Discovery
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
-                    Collections
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    Teams
                   </div>
-                  <div className="mt-2 text-sm font-medium text-muted-foreground">
-                    Organize & Share
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Collaborate & Share
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
+                  <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     1000s
                   </div>
-                  <div className="mt-2 text-sm font-medium text-muted-foreground">
+                  <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                     Prompts Organized
                   </div>
                 </div>
@@ -435,7 +433,7 @@ export default async function Home() {
           <section className="mt-24">
             <div className="mx-auto max-w-6xl">
               <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
                   How it works
                 </h2>
                 <p className="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-300">

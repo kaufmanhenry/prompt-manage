@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { createContext, useContext } from 'react'
 
+import { useTeamContext } from '@/contexts/team-context'
 import { logger } from '@/lib/logger'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
@@ -13,8 +14,10 @@ const PromptContext = createContext<{ prompts: Prompt[]; isLoading: boolean }>({
 })
 
 export function PromptProvider({ children }: { children: React.ReactNode }) {
+  const { currentTeamId } = useTeamContext()
+
   const { data: prompts = [], isLoading } = useQuery({
-    queryKey: ['allPrompts'],
+    queryKey: ['allPrompts', currentTeamId],
     queryFn: async () => {
       try {
         const supabase = createClient()
@@ -35,11 +38,16 @@ export function PromptProvider({ children }: { children: React.ReactNode }) {
           return []
         }
 
-        // Fetch user's prompts only
+        // If no team is selected yet, return empty array
+        if (!currentTeamId) {
+          return []
+        }
+
+        // Fetch prompts for the current team
         const { data, error } = await supabase
           .from('prompts')
           .select('*')
-          .eq('user_id', session.user.id)
+          .eq('team_id', currentTeamId)
           .order('updated_at', { ascending: false })
 
         if (error) {

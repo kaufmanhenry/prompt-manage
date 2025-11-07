@@ -394,11 +394,11 @@ export default function UseCasesClient() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ready to 10x Your Productivity?</h2>
           <p className="mx-auto mb-8 max-w-2xl text-xl">
-            Join thousands of professionals using AI to work smarter, not harder. Start with our
-            free Prompt Lab today.
+            Join thousands of professionals using AI to work smarter, not harder. Start managing
+            your prompts today.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/dashboard/lab">
+            <Link href="/dashboard">
               <Button size="lg" variant="secondary">
                 Get Started Free
               </Button>

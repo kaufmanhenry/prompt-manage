@@ -1,13 +1,13 @@
 'use client'
 
 import type { User as AuthUser } from '@supabase/supabase-js'
-import { Globe, MapPin, Save, Settings, Trash2, Upload, User } from 'lucide-react'
+import { Globe, MapPin, Save, Trash2, Upload, User } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useState } from 'react'
 
 import { SettingsSidebar } from '@/components/SettingsSidebar'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
@@ -149,22 +150,22 @@ export default function SettingsPage() {
       if (error) {
         console.error('Error saving profile:', error)
         toast({
-          title: 'Error',
+          title: 'Error saving changes',
           description: error.message,
           variant: 'destructive',
         })
       } else {
         toast({
-          title: 'Success',
-          description: 'Profile updated successfully!',
+          title: 'Changes saved',
+          description: 'Your profile has been updated successfully',
         })
-        await loadUserData() // Reload to get updated data
+        await loadUserData()
       }
     } catch (err) {
       console.error('Exception saving profile:', err)
       toast({
-        title: 'Error',
-        description: 'An error occurred while saving your profile.',
+        title: 'Error saving changes',
+        description: 'An error occurred while saving your profile',
         variant: 'destructive',
       })
     } finally {
@@ -182,21 +183,21 @@ export default function SettingsPage() {
 
       if (error) {
         toast({
-          title: 'Error',
+          title: 'Error deleting account',
           description: error.message,
           variant: 'destructive',
         })
       } else {
         toast({
-          title: 'Account Deleted',
-          description: 'Your account has been deleted successfully.',
+          title: 'Account deleted',
+          description: 'Your account has been permanently deleted',
         })
         window.location.href = '/'
       }
     } catch {
       toast({
-        title: 'Error',
-        description: 'An error occurred while deleting your account.',
+        title: 'Error deleting account',
+        description: 'An error occurred while deleting your account',
         variant: 'destructive',
       })
     } finally {
@@ -210,10 +211,6 @@ export default function SettingsPage() {
     const newTheme = checked ? 'dark' : 'light'
     setThemePreference(newTheme)
     setTheme(newTheme)
-  }
-
-  const handleEmailNotificationsChange = (checked: boolean) => {
-    setEmailNotifications(checked)
   }
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -249,10 +246,10 @@ export default function SettingsPage() {
 
       if (profileErr) throw profileErr
 
-      toast({ title: 'Profile image updated' })
+      toast({ title: 'Profile image updated successfully' })
     } catch (err: unknown) {
       console.error('Avatar upload failed:', err)
-      const message = err instanceof Error ? err.message : 'Please try again.'
+      const message = err instanceof Error ? err.message : 'Please try again'
       toast({ title: 'Upload failed', description: message, variant: 'destructive' })
     } finally {
       setAvatarUploading(false)
@@ -264,7 +261,7 @@ export default function SettingsPage() {
       <div className="flex h-screen">
         <SettingsSidebar session={null} />
         <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
-          <div className="mx-auto max-w-4xl space-y-6">
+          <div className="mx-auto max-w-3xl space-y-6">
             <Skeleton className="mb-8 h-8 w-1/4" />
             <Skeleton className="h-64" />
             <Skeleton className="h-64" />
@@ -287,219 +284,198 @@ export default function SettingsPage() {
         }}
       />
       <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
-        <div className="mx-auto max-w-4xl">
-          <div className="mb-4">
-            <h1 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-              Account Settings
-            </h1>
+        <div className="mx-auto max-w-3xl space-y-8">
+          {/* Page Header */}
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight">Account Settings</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Manage your personal information and preferences
+            </p>
           </div>
 
-          <div className="space-y-4">
-            {/* Profile Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base font-medium">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
-                    <User className="size-4 text-muted-foreground" />
-                  </div>
-                  <span className="text-base font-medium">Profile Information</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="displayName">Display Name</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="displayName"
-                        value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        className="pl-10"
-                        placeholder="Enter your display name"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>Profile Image</Label>
-                    <div className="flex items-center gap-3">
-                      {avatarUrl ? (
-                        <img
-                          src={
-                            avatarUrl.startsWith('http')
-                              ? avatarUrl
-                              : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl.replace(/^avatars\//, '')}`
-                          }
-                          alt="Avatar"
-                          className="h-12 w-12 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="h-12 w-12 rounded-full bg-input" />
-                      )}
-                      <label className="inline-flex items-center gap-2">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={handleAvatarChange}
-                        />
-                        <Button type="button" variant="outline" disabled={avatarUploading}>
-                          <Upload className="mr-2 h-4 w-4" />
-                          {avatarUploading ? 'Uploading…' : 'Upload'}
-                        </Button>
-                      </label>
-                    </div>
+          {/* Profile Information */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Profile</CardTitle>
+              <CardDescription>Update your personal information</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="displayName">Display Name</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="displayName"
+                      value={displayName}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      className="pl-10"
+                      placeholder="Enter your name"
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="bio">Bio</Label>
-                  <Textarea
-                    id="bio"
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                    placeholder="Tell us about yourself..."
-                    rows={3}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="website">Website</Label>
-                    <div className="relative">
-                      <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="website"
-                        value={website}
-                        onChange={(e) => setWebsite(e.target.value)}
-                        className="pl-10"
-                        placeholder="https://yourwebsite.com"
+                  <Label>Profile Image</Label>
+                  <div className="flex items-center gap-3">
+                    {avatarUrl ? (
+                      <img
+                        src={
+                          avatarUrl.startsWith('http')
+                            ? avatarUrl
+                            : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl.replace(/^avatars\//, '')}`
+                        }
+                        alt="Avatar"
+                        className="h-10 w-10 rounded-full object-cover"
                       />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="location">Location</Label>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="location"
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                        className="pl-10"
-                        placeholder="City, Country"
+                    ) : (
+                      <div className="h-10 w-10 rounded-full bg-muted" />
+                    )}
+                    <label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleAvatarChange}
                       />
-                    </div>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={avatarUploading}
+                        asChild
+                      >
+                        <span>
+                          <Upload className="mr-2 h-4 w-4" />
+                          {avatarUploading ? 'Uploading...' : 'Upload'}
+                        </span>
+                      </Button>
+                    </label>
                   </div>
                 </div>
+              </div>
 
-                <Button onClick={handleSaveProfile} disabled={saving} className="w-full md:w-auto">
-                  <Save className="size-4" />
-                  {saving ? 'Saving...' : 'Save'}
+              <div className="space-y-2">
+                <Label htmlFor="bio">Bio</Label>
+                <Textarea
+                  id="bio"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  placeholder="Tell us about yourself"
+                  rows={3}
+                />
+              </div>
+
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="website">Website</Label>
+                  <div className="relative">
+                    <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="website"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                      className="pl-10"
+                      placeholder="https://example.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="location">Location</Label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="location"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      className="pl-10"
+                      placeholder="City, Country"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <Button onClick={handleSaveProfile} disabled={saving}>
+                  <Save className="mr-2 h-4 w-4" />
+                  {saving ? 'Saving...' : 'Save Changes'}
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-            {/* Preferences */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base font-medium">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
-                    <Settings className="size-4 text-muted-foreground" />
-                  </div>
-                  <span className="text-base font-medium">Preferences</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Email Notifications</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Receive email updates about your account
-                    </p>
-                  </div>
-                  <Switch
-                    checked={emailNotifications}
-                    onCheckedChange={handleEmailNotificationsChange}
-                  />
+          {/* Preferences */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Preferences</CardTitle>
+              <CardDescription>Configure your account preferences</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label className="text-base">Email Notifications</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Receive email updates about your account
+                  </p>
                 </div>
+                <Switch checked={emailNotifications} onCheckedChange={setEmailNotifications} />
+              </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Dark Mode</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Use dark theme for the interface
-                    </p>
-                  </div>
-                  <Switch checked={darkMode} onCheckedChange={handleThemeChange} />
-                </div>
-              </CardContent>
-            </Card>
+              <Separator />
 
-            {/* Danger Zone */}
-            <Card className="border-red-200 dark:border-red-800">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base font-medium">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
-                    <Trash2 className="size-4 text-muted-foreground" />
-                  </div>
-                  <span className="text-base font-medium">Danger Zone</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Delete Account</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Permanently delete your account and all associated data
-                    </p>
-                  </div>
-                  <Button
-                    variant="destructive"
-                    onClick={() => setShowDeleteDialog(true)}
-                    className="flex items-center gap-2"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    Delete Account
-                  </Button>
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label className="text-base">Dark Mode</Label>
+                  <p className="text-sm text-muted-foreground">Use dark theme for the interface</p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+                <Switch checked={darkMode} onCheckedChange={handleThemeChange} />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Danger Zone */}
+          <Card className="border-destructive/50">
+            <CardHeader>
+              <CardTitle className="text-destructive">Danger Zone</CardTitle>
+              <CardDescription>Irreversible actions for your account</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label className="text-base">Delete Account</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Permanently delete your account and all data
+                  </p>
+                </div>
+                <Button variant="destructive" onClick={() => setShowDeleteDialog(true)}>
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete Account
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
-      {/* Account Deletion Confirmation Dialog */}
+      {/* Delete Account Confirmation Dialog */}
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete Account</DialogTitle>
             <DialogDescription>
-              You are about to permanently delete your Prompt Manage account and all associated
-              data.
+              This action cannot be undone. Your account and all associated data will be permanently
+              deleted.
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4">
-            <div className="rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
-              <h4 className="font-semibold text-red-800 dark:text-red-200">⚠️ Critical Warning</h4>
-              <ul className="mt-2 space-y-1 text-sm text-red-700 dark:text-red-300">
-                <li>• This action will permanently delete your entire account</li>
-                <li>• All your prompts, settings, and account history will be lost forever</li>
-                <li>• This action cannot be undone or reversed</li>
-                <li>• You will lose access to all paid features and subscriptions</li>
-                <li>• Public prompts you've shared will be removed from the public directory</li>
-                <li>• All your data will be permanently erased from our servers</li>
-              </ul>
-            </div>
-            <div className="rounded-lg bg-yellow-50 p-4 dark:bg-yellow-900/20">
-              <h4 className="font-semibold text-yellow-800 dark:text-yellow-200">
-                💡 Alternative Options
-              </h4>
-              <ul className="mt-2 space-y-1 text-sm text-yellow-700 dark:text-yellow-300">
-                <li>• Consider exporting your data before deletion</li>
-                <li>• You can disable your account instead of deleting it</li>
-                <li>• Contact support if you're having issues with your account</li>
+          <div className="space-y-4 py-4">
+            <div className="rounded-lg bg-destructive/10 p-4">
+              <h4 className="font-semibold text-destructive">Warning</h4>
+              <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                <li>• All your prompts will be permanently deleted</li>
+                <li>• Your public profile and content will be removed</li>
+                <li>• Active subscriptions will be canceled</li>
+                <li>• This action cannot be reversed</li>
               </ul>
             </div>
           </div>
@@ -508,7 +484,7 @@ export default function SettingsPage() {
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleDeleteAccount} disabled={deleting}>
-              {deleting ? 'Deleting Account...' : 'Yes, Delete My Account'}
+              {deleting ? 'Deleting...' : 'Delete Account'}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -2,8 +2,7 @@
 
 import type { Session } from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
-import { useQuery } from '@tanstack/react-query'
-import { FolderIcon, GlobeIcon, Home, LogOut, Plus, Settings, Upload } from 'lucide-react'
+import { GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -35,7 +34,7 @@ interface SidebarProps {
   onNewPrompt?: () => void
   isLoading?: boolean
   session?: Session | null
-  currentPage?: 'home' | 'prompts' | 'lab' | 'public' | 'collections' | 'import-export'
+  currentPage?: 'home' | 'prompts' | 'public'
 }
 
 export function Sidebar({
@@ -50,19 +49,6 @@ export function Sidebar({
   const searchParams = useSearchParams()
   const router = useRouter()
   const queryClient = useQueryClient()
-
-  // Check subscription status for import/export access
-  const { data: subscriptionStatus } = useQuery({
-    queryKey: ['subscription-status'],
-    queryFn: async () => {
-      const response = await fetch('/api/subscription/status')
-      if (!response.ok) return null
-      return response.json()
-    },
-    enabled: !!session?.user?.id,
-  })
-
-  const canImportExport = subscriptionStatus?.features?.canExport || false
 
   // Local state for model and tag filters and search
   const [modelFilters, setModelFilters] = useState<string[]>([])
@@ -185,15 +171,6 @@ export function Sidebar({
           Home
         </Link>
         <Link
-          href="/dashboard/collections"
-          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-            currentPage === 'collections' ? 'tab-active' : 'tab-inactive'
-          }`}
-        >
-          <FolderIcon className="h-4 w-4" />
-          Collections
-        </Link>
-        <Link
           href="/dashboard/public"
           className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
             currentPage === 'public' ? 'tab-active' : 'tab-inactive'
@@ -202,17 +179,6 @@ export function Sidebar({
           <GlobeIcon className="h-4 w-4" />
           Public Directory
         </Link>
-        {canImportExport && (
-          <Link
-            href="/dashboard/import-export"
-            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-              currentPage === 'import-export' ? 'tab-active' : 'tab-inactive'
-            }`}
-          >
-            <Upload className="h-4 w-4" />
-            Import / Export
-          </Link>
-        )}
       </div>
 
       {/* Search and Filters */}

@@ -25,7 +25,6 @@ import {
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -383,9 +382,6 @@ export function PromptsTable({
               >
                 <div className="flex items-center gap-2">
                   <CopyButton text={prompt.prompt_text} />
-                  {prompt.id && (
-                    <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />
-                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   {prompt.slug && (

@@ -438,7 +438,7 @@ export default function PaymentsSubscriptionsGuide() {
               <p className="mt-4">
                 <strong>Access the portal:</strong> Go to{' '}
                 <Link
-                  href="/settings/billing"
+                  href="/settings/team"
                   className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
                 >
                   Settings → Billing
@@ -463,7 +463,7 @@ export default function PaymentsSubscriptionsGuide() {
                   </p>
                 </Link>
                 <Link
-                  href="/settings/billing"
+                  href="/settings/team"
                   className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
                 >
                   <h3 className="mb-2 font-semibold">Manage Billing</h3>

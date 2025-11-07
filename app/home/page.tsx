@@ -26,13 +26,13 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL('https://promptmanage.com'),
   alternates: {
-    canonical: '/',
+    canonical: '/home',
   },
   openGraph: {
     title: 'Prompt Manage — Secure Prompt Management & Library Tool',
     description:
       'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool. Private collections coming soon.',
-    url: 'https://promptmanage.com',
+    url: 'https://promptmanage.com/home',
     siteName: 'Prompt Manage',
     images: [
       {
@@ -66,17 +66,13 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Home() {
+export default async function HomePage() {
   const supabase = await createClient()
   const {
     data: { session },
   } = await supabase.auth.getSession()
 
-  // Redirect logged-in users to dashboard
-  if (session) {
-    const { redirect } = await import('next/navigation')
-    redirect('/dashboard')
-  }
+  // This is the public homepage - logged-in users can access it
 
   // Schema.org structured data for SEO and LLMs
   const softwareSchema = {

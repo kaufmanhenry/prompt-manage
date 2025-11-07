@@ -64,15 +64,15 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="border-b border-gray-200 dark:border-gray-800">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 md:py-28">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl">
               About Prompt Manage
             </h1>
-            <p className="text-lg leading-7 text-gray-600 dark:text-gray-400 md:text-xl">
+            <p className="text-lg leading-7 text-muted-foreground md:text-xl">
               We&apos;re building the infrastructure for teams and enterprises to manage their most
               valuable AI assets — prompts — with confidence and control.
             </p>
@@ -81,13 +81,13 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
         <div className="mx-auto max-w-3xl">
-          <h2 className="mb-8 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+          <h2 className="mb-8 text-3xl font-bold tracking-tight sm:text-4xl">
             Why We Built Prompt Manage
           </h2>
 
-          <div className="space-y-4 text-base leading-7 text-gray-600 dark:text-gray-400">
+          <div className="space-y-4 text-base leading-7 text-muted-foreground">
             <p>
               In early 2024, we saw a pattern emerging across organizations adopting AI: teams were
               struggling to manage their prompts.
@@ -99,7 +99,7 @@ export default function AboutPage() {
               was no version control, no collaboration, no security — just chaos.
             </p>
 
-            <p className="font-semibold text-gray-900 dark:text-gray-100">
+            <p className="font-semibold text-foreground">
               Prompts were becoming critical business assets, but there was no reliable way to
               manage them.
             </p>
@@ -120,9 +120,9 @@ export default function AboutPage() {
       </section>
 
       {/* Team Photo */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
         <div className="mx-auto max-w-3xl">
-          <div className="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+          <div className="overflow-hidden rounded-lg border border-border bg-card">
             <div className="relative aspect-[4/3] w-full overflow-hidden">
               <Image
                 src="/images/henry-mike-boston-lunch.jpg"
@@ -132,8 +132,8 @@ export default function AboutPage() {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 672px, 768px"
               />
             </div>
-            <div className="border-t border-gray-200 bg-gray-50 px-6 py-4 text-center dark:border-gray-800 dark:bg-gray-900">
-              <p className="text-sm italic text-gray-600 dark:text-gray-400">
+            <div className="border-t border-border bg-muted px-6 py-4 text-center">
+              <p className="text-sm italic text-muted-foreground">
                 Henry and Mike working on Prompt Manage in Boston while munching some Trader
                 Joe&apos;s for lunch.
               </p>
@@ -143,17 +143,17 @@ export default function AboutPage() {
       </section>
 
       {/* Founder Quote */}
-      <section className="border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <section className="border-t border-border bg-muted/50">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <blockquote className="text-2xl font-medium italic leading-relaxed text-gray-900 dark:text-white sm:text-3xl">
+            <blockquote className="text-2xl font-medium italic leading-relaxed sm:text-3xl">
               &quot;We&apos;re building the CMS for your prompts. The first native prompt management
               tool for teams, large and small, who need a better way to safely and securely share AI
               prompts across their org.&quot;
             </blockquote>
-            <p className="mt-6 text-base text-gray-600 dark:text-gray-400">
+            <p className="mt-6 text-base text-muted-foreground">
               —{' '}
-              <strong className="font-semibold text-gray-900 dark:text-white">Mike Moloney</strong>,
+              <strong className="font-semibold">Mike Moloney</strong>,
               Founder & CEO, Prompt Manage
             </p>
           </div>
@@ -161,13 +161,13 @@ export default function AboutPage() {
       </section>
 
       {/* Core Values */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
         <div className="mx-auto max-w-4xl">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
               Our Core Values
             </h2>
-            <p className="text-base text-gray-600 dark:text-gray-400">
+            <p className="text-base text-muted-foreground">
               The principles that guide everything we build
             </p>
           </div>
@@ -176,19 +176,19 @@ export default function AboutPage() {
             {values.map((value) => (
               <div
                 key={value.title}
-                className="relative overflow-hidden rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900"
+                className="relative overflow-hidden rounded-lg border border-border bg-card p-8"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-transparent dark:from-gray-950/50" />
+                <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
                 <div className="relative">
                   <div className="mb-6 inline-flex items-center justify-center">
-                    <div className="rounded-lg border-2 border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-800">
-                      <value.icon className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+                    <div className="rounded-lg border-2 border-border bg-muted p-3">
+                      <value.icon className="h-5 w-5 text-muted-foreground" />
                     </div>
                   </div>
-                  <h3 className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="mb-3 text-lg font-semibold">
                     {value.title}
                   </h3>
-                  <p className="text-sm leading-6 text-gray-600 dark:text-gray-400">
+                  <p className="text-sm leading-6 text-muted-foreground">
                     {value.description}
                   </p>
                 </div>
@@ -199,58 +199,58 @@ export default function AboutPage() {
       </section>
 
       {/* Company Info */}
-      <section className="border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
+      <section className="border-t border-border bg-muted/50">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
           <div className="mx-auto max-w-4xl">
             <div className="mb-12 text-center">
               <div className="mb-4 inline-flex items-center justify-center gap-3">
-                <Building2 className="h-8 w-8 text-gray-700 dark:text-gray-300" />
+                <Building2 className="h-8 w-8 text-muted-foreground" />
               </div>
-              <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
                 Company Information
               </h2>
             </div>
 
-            <div className="mx-auto max-w-2xl rounded-lg border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+            <div className="mx-auto max-w-2xl rounded-lg border border-border bg-card p-8">
               <div className="space-y-6">
                 <div className="text-center">
-                  <p className="text-2xl font-semibold text-gray-900 dark:text-white">
+                  <p className="text-2xl font-semibold">
                     Prompt Manage LLC
                   </p>
-                  <p className="mt-2 text-base text-gray-600 dark:text-gray-400">
+                  <p className="mt-2 text-base text-muted-foreground">
                     Boston, Massachusetts
                   </p>
                 </div>
 
-                <div className="border-t border-gray-200 pt-6 dark:border-gray-800">
-                  <h3 className="mb-4 text-center text-lg font-semibold text-gray-900 dark:text-white">
+                <div className="border-t border-border pt-6">
+                  <h3 className="mb-4 text-center text-lg font-semibold">
                     Leadership
                   </h3>
                   <div className="grid gap-6 text-center sm:grid-cols-2">
                     <div>
                       {/* Photo will be added once uploaded */}
-                      <p className="font-medium text-gray-900 dark:text-white">Mike Moloney</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Co-Founder & CEO</p>
+                      <p className="font-medium">Mike Moloney</p>
+                      <p className="text-sm text-muted-foreground">Co-Founder & CEO</p>
                     </div>
                     <div>
                       {/* Photo will be added once uploaded */}
-                      <p className="font-medium text-gray-900 dark:text-white">Henry Kaufman</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Co-Founder & CPO</p>
+                      <p className="font-medium">Henry Kaufman</p>
+                      <p className="text-sm text-muted-foreground">Co-Founder & CPO</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 pt-6 dark:border-gray-800">
-                  <h3 className="mb-4 text-center text-lg font-semibold text-gray-900 dark:text-white">
+                <div className="border-t border-border pt-6">
+                  <h3 className="mb-4 text-center text-lg font-semibold">
                     Get in Touch
                   </h3>
                   <div className="space-y-4">
                     {contacts.map((contact) => (
                       <div
                         key={contact.email}
-                        className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-800"
+                        className="rounded-lg border border-border bg-muted p-4"
                       >
-                        <p className="mb-1 font-semibold text-gray-900 dark:text-white">
+                        <p className="mb-1 font-semibold">
                           {contact.title}
                         </p>
                         <a
@@ -259,7 +259,7 @@ export default function AboutPage() {
                         >
                           {contact.email}
                         </a>
-                        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                        <p className="mt-1 text-sm text-muted-foreground">
                           {contact.description}
                         </p>
                       </div>
@@ -273,36 +273,36 @@ export default function AboutPage() {
       </section>
 
       {/* Security & Compliance */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
         <div className="mx-auto max-w-4xl">
-          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">
             Security & Compliance
           </h2>
 
           <div className="grid gap-8 sm:grid-cols-3">
             <div className="text-center">
-              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="mb-2 text-lg font-semibold">
                 GDPR Compliant
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-muted-foreground">
                 Full compliance with EU data protection regulations
               </p>
             </div>
 
             <div className="text-center">
-              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="mb-2 text-lg font-semibold">
                 CCPA Compliant
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-muted-foreground">
                 California privacy rights fully supported
               </p>
             </div>
 
             <div className="text-center">
-              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="mb-2 text-lg font-semibold">
                 Enterprise Infrastructure
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-muted-foreground">
                 Built on certified platforms (Vercel, Supabase, Stripe)
               </p>
             </div>
@@ -320,13 +320,13 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="border-t border-gray-200 dark:border-gray-800">
-        <div className="mx-auto max-w-6xl px-6 py-20">
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="mb-6 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+            <h2 className="mb-6 text-3xl font-bold tracking-tight sm:text-4xl">
               Explore how Prompt Manage can power your AI workflows
             </h2>
-            <p className="mb-8 text-lg text-gray-600 dark:text-gray-400">
+            <p className="mb-8 text-lg text-muted-foreground">
               Join teams and enterprises using Prompt Manage to organize, secure, and scale their AI
               operations.
             </p>

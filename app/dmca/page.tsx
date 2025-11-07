@@ -8,31 +8,31 @@ export const metadata: Metadata = {
 
 export default function DmcaPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-background">
       {/* Hero */}
-      <div className="border-b">
-        <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+      <div className="border-b border-border">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 md:py-24">
           <Link
             href="/legal-center"
-            className="mb-6 inline-block text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+            className="mb-6 inline-block text-sm text-muted-foreground hover:text-foreground"
           >
             ← Legal Trust Center
           </Link>
           <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">DMCA Policy</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-lg text-muted-foreground">
             Copyright infringement notification and takedown procedures.
           </p>
-          <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
+          <p className="mt-2 text-sm text-muted-foreground">
             Last updated: October 30, 2025
           </p>
         </div>
       </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-4xl px-6 py-16">
+      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="space-y-12">
           <section>
-            <p className="text-gray-900 dark:text-gray-100">
+            <p className="text-foreground">
               Prompt Manage respects the intellectual property of others and asks all users to do
               the same. We comply with the Digital Millennium Copyright Act (DMCA) and have adopted
               the following Copyright Infringement Notice and Takedown Policy.
@@ -105,7 +105,7 @@ export default function DmcaPage() {
 
           <section className="border-t pt-12">
             <h2 className="mb-4 text-2xl font-semibold">Repeat Infringers</h2>
-            <p className="text-gray-900 dark:text-gray-100">
+            <p className="text-foreground">
               We will terminate the accounts of users who are repeat copyright infringers.
             </p>
           </section>

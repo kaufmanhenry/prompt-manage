@@ -358,165 +358,264 @@ export default async function TagPage({ params }: TagPageProps) {
           </div>
 
           {/* Comprehensive Content Section */}
-          <div className="mx-auto mt-16 max-w-4xl border-t px-4 pb-8 pt-8 sm:px-0 sm:pt-12">
+          <div className="mx-auto mt-16 max-w-4xl border-t border-border px-4 pb-8 pt-8 sm:px-0 sm:pt-12">
             <div className="prose prose-sm dark:prose-invert max-w-none">
-              <h2 className="mb-6 text-2xl font-bold text-foreground">
-                Complete Guide to {tag} AI Prompts
-              </h2>
-
-              {/* What are [tag] prompts section */}
-              <div className="mb-8">
-                <h3 className="mb-3 text-xl font-semibold text-foreground">
-                  What Are {tag} AI Prompts?
-                </h3>
+              <div className="mb-8 rounded-xl border border-border bg-card p-6">
+                <h2 className="mb-4 text-2xl font-bold text-foreground">
+                  {tag} AI Prompts Library
+                </h2>
                 <div className="space-y-3 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    <strong className="text-foreground">{tag} prompts</strong> are carefully crafted
-                    instructions designed to help AI models like ChatGPT, Claude, and Gemini
-                    generate high-quality content related to {tag.toLowerCase()}. These prompts
-                    serve as templates that guide the AI to produce specific, useful outputs for{' '}
-                    {tag.toLowerCase()} tasks.
+                    Browse our collection of <strong className="text-foreground">{prompts.length} {tag.toLowerCase()} prompts</strong> for ChatGPT, Claude, Gemini, and other AI models. Each prompt has been tested by the community and optimized for real-world use cases.
                   </p>
                   <p>
-                    Our collection of{' '}
-                    <strong className="text-foreground">
-                      {prompts.length} {tag} prompts
-                    </strong>{' '}
-                    has been tested and refined by the community, ensuring they deliver consistent,
-                    valuable results across different AI models and use cases.
+                    These templates help you generate high-quality content quickly. Simply copy a prompt, customize it for your needs, and get professional results in seconds.
                   </p>
                 </div>
               </div>
 
               {/* How to use section */}
               <div className="mb-8">
-                <h3 className="mb-3 text-xl font-semibold text-foreground">
+                <h3 className="mb-4 text-xl font-semibold text-foreground">
                   How to Use {tag} Prompts Effectively
                 </h3>
-                <div className="space-y-3 text-base leading-relaxed text-muted-foreground">
-                  <p>Follow these steps to get the best results from {tag} prompts:</p>
-                  <ol className="ml-4 space-y-2">
-                    <li className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-primary"></span>
-                      <span>
-                        <strong>Choose the right model:</strong> Different AI models excel at
-                        different {tag.toLowerCase()} tasks. Check the recommended model for each
-                        prompt.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-primary"></span>
-                      <span>
-                        <strong>Customize for your needs:</strong> Adapt the prompt by adding
-                        specific details about your {tag.toLowerCase()} requirements.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-primary"></span>
-                      <span>
-                        <strong>Test and iterate:</strong> Run the prompt multiple times with slight
-                        variations to find what works best for your use case.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-primary"></span>
-                      <span>
-                        <strong>Save successful prompts:</strong> Create an account to save your
-                        best-performing {tag} prompts for future use.
-                      </span>
-                    </li>
-                  </ol>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-lg border border-border bg-card p-4">
+                    <div className="mb-2 flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                        1
+                      </div>
+                      <h4 className="font-semibold text-foreground">Choose the right model</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Different AI models excel at different {tag.toLowerCase()} tasks. Check the
+                      recommended model for each prompt.
+                    </p>
+                  </div>
+
+                  <div className="rounded-lg border border-border bg-card p-4">
+                    <div className="mb-2 flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                        2
+                      </div>
+                      <h4 className="font-semibold text-foreground">Customize for your needs</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Adapt the prompt by adding specific details about your {tag.toLowerCase()}{' '}
+                      requirements.
+                    </p>
+                  </div>
+
+                  <div className="rounded-lg border border-border bg-card p-4">
+                    <div className="mb-2 flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                        3
+                      </div>
+                      <h4 className="font-semibold text-foreground">Test and iterate</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Run the prompt multiple times with slight variations to find what works best
+                      for your use case.
+                    </p>
+                  </div>
+
+                  <div className="rounded-lg border border-border bg-card p-4">
+                    <div className="mb-2 flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                        4
+                      </div>
+                      <h4 className="font-semibold text-foreground">Save successful prompts</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Create an account to save your best-performing {tag} prompts for future use.
+                    </p>
+                  </div>
                 </div>
               </div>
 
               {/* Best practices section */}
-              <div className="mb-8">
-                <h3 className="mb-3 text-xl font-semibold text-foreground">
-                  Best Practices for {tag} Prompt Engineering
+              <div className="mb-8 rounded-xl border border-border bg-gradient-to-br from-emerald-500/5 to-transparent p-6">
+                <h3 className="mb-4 text-xl font-semibold text-foreground">
+                  Best Practices for {tag} Prompts
                 </h3>
-                <div className="space-y-3 text-base leading-relaxed text-muted-foreground">
-                  <p>To maximize the effectiveness of {tag} prompts, consider these expert tips:</p>
-                  <ul className="ml-4 space-y-2">
-                    <li className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span>
-                      <span>
-                        <strong>Be specific:</strong> Include relevant context, target audience, and
-                        desired output format in your {tag.toLowerCase()} prompts.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span>
-                      <span>
-                        <strong>Use examples:</strong> Provide sample inputs or outputs to help the
-                        AI understand your {tag.toLowerCase()} requirements better.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span>
-                      <span>
-                        <strong>Set constraints:</strong> Define word limits, tone, style, or other
-                        parameters to ensure the output meets your {tag.toLowerCase()} needs.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500"></span>
-                      <span>
-                        <strong>Iterate and refine:</strong> Use the AI's output as a starting point
-                        and refine your {tag.toLowerCase()} prompts based on results.
-                      </span>
-                    </li>
-                  </ul>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
+                        <svg
+                          className="h-5 w-5 text-emerald-600 dark:text-emerald-400"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="mb-1 font-semibold text-foreground">Be specific</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Include relevant context, target audience, and desired output format.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
+                        <svg
+                          className="h-5 w-5 text-emerald-600 dark:text-emerald-400"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="mb-1 font-semibold text-foreground">Use examples</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Provide sample inputs or outputs to help the AI understand better.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
+                        <svg
+                          className="h-5 w-5 text-emerald-600 dark:text-emerald-400"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="mb-1 font-semibold text-foreground">Set constraints</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Define word limits, tone, style, or other parameters for better results.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
+                        <svg
+                          className="h-5 w-5 text-emerald-600 dark:text-emerald-400"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="mb-1 font-semibold text-foreground">Iterate and refine</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Use the AI's output as a starting point and refine based on results.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* FAQ Section */}
               <div className="mb-8">
-                <h3 className="mb-3 text-xl font-semibold text-foreground">
-                  Frequently Asked Questions About {tag} Prompts
+                <h3 className="mb-4 text-xl font-semibold text-foreground">
+                  Frequently Asked Questions
                 </h3>
-                <div className="space-y-4">
-                  <div className="rounded-lg bg-accent/50 p-4">
-                    <h4 className="mb-2 font-semibold text-foreground">
-                      What makes a good {tag} prompt?
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
+                <div className="space-y-3">
+                  <details className="group rounded-lg border border-border bg-card transition-all hover:border-primary/50">
+                    <summary className="flex cursor-pointer items-center justify-between p-4 font-semibold text-foreground">
+                      <span>What makes a good {tag} prompt?</span>
+                      <span className="transition-transform group-open:rotate-180">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div className="border-t border-border px-4 pb-4 pt-3 text-sm leading-relaxed text-muted-foreground">
                       A good {tag} prompt is clear, specific, and includes context about your target
                       audience and desired outcome. It should provide enough detail for the AI to
                       understand your {tag.toLowerCase()} needs while remaining flexible enough to
                       generate creative solutions.
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-accent/50 p-4">
-                    <h4 className="mb-2 font-semibold text-foreground">
-                      Which AI model works best for {tag}?
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
+                    </div>
+                  </details>
+
+                  <details className="group rounded-lg border border-border bg-card transition-all hover:border-primary/50">
+                    <summary className="flex cursor-pointer items-center justify-between p-4 font-semibold text-foreground">
+                      <span>Which AI model works best for {tag}?</span>
+                      <span className="transition-transform group-open:rotate-180">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div className="border-t border-border px-4 pb-4 pt-3 text-sm leading-relaxed text-muted-foreground">
                       Different models excel at different {tag.toLowerCase()} tasks. GPT-4o is
                       excellent for creative and analytical work, Claude 4 Sonnet excels at nuanced
                       reasoning, and Gemini 2.5 Pro is great for multimodal tasks. Try multiple
                       models to see which works best for your specific {tag.toLowerCase()} needs.
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-accent/50 p-4">
-                    <h4 className="mb-2 font-semibold text-foreground">
-                      How can I customize these {tag} prompts?
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
+                    </div>
+                  </details>
+
+                  <details className="group rounded-lg border border-border bg-card transition-all hover:border-primary/50">
+                    <summary className="flex cursor-pointer items-center justify-between p-4 font-semibold text-foreground">
+                      <span>How can I customize these {tag} prompts?</span>
+                      <span className="transition-transform group-open:rotate-180">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div className="border-t border-border px-4 pb-4 pt-3 text-sm leading-relaxed text-muted-foreground">
                       Start with our templates and add your specific requirements, industry context,
                       target audience, and desired tone. You can also combine elements from multiple{' '}
                       {tag} prompts to create a custom solution that fits your unique needs.
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-accent/50 p-4">
-                    <h4 className="mb-2 font-semibold text-foreground">
-                      Are these {tag} prompts free to use?
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
+                    </div>
+                  </details>
+
+                  <details className="group rounded-lg border border-border bg-card transition-all hover:border-primary/50">
+                    <summary className="flex cursor-pointer items-center justify-between p-4 font-semibold text-foreground">
+                      <span>Are these {tag} prompts free to use?</span>
+                      <span className="transition-transform group-open:rotate-180">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div className="border-t border-border px-4 pb-4 pt-3 text-sm leading-relaxed text-muted-foreground">
                       Yes! All prompts in our {tag} collection are completely free to use, copy, and
                       modify. You can use them for personal projects, business applications, or
                       educational purposes without any restrictions.
-                    </p>
-                  </div>
+                    </div>
+                  </details>
                 </div>
               </div>
 
@@ -528,7 +627,7 @@ export default async function TagPage({ params }: TagPageProps) {
                 <div className="grid gap-4 md:grid-cols-2">
                   <Link
                     href="/trending"
-                    className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-primary hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+                    className="rounded-lg border border-border bg-card p-4 transition-all hover:border-primary hover:shadow-md"
                   >
                     <h4 className="mb-2 font-semibold text-foreground">Trending AI Prompts</h4>
                     <p className="text-sm text-muted-foreground">
@@ -537,7 +636,7 @@ export default async function TagPage({ params }: TagPageProps) {
                   </Link>
                   <Link
                     href="/categories"
-                    className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-primary hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+                    className="rounded-lg border border-border bg-card p-4 transition-all hover:border-primary hover:shadow-md"
                   >
                     <h4 className="mb-2 font-semibold text-foreground">Browse by Category</h4>
                     <p className="text-sm text-muted-foreground">
@@ -547,66 +646,52 @@ export default async function TagPage({ params }: TagPageProps) {
                 </div>
               </div>
 
-              {/* Share Your Prompts CTA */}
-              <div className="mb-8 rounded-lg bg-gradient-to-r from-green-500/10 to-blue-500/10 p-6 text-center">
-                <div className="mb-4">
-                  <span className="text-4xl">💡</span>
-                </div>
-                <h3 className="mb-3 text-xl font-semibold text-foreground">
-                  Share Your {tag} Prompts with the Community
-                </h3>
-                <p className="mb-4 text-sm text-muted-foreground">
-                  Have you created amazing {tag.toLowerCase()} prompts? Share them with our
-                  community and help other creators discover new possibilities.
-                </p>
-                <div className="flex flex-wrap justify-center gap-3">
-                  <Link
-                    href="/dashboard"
-                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-                  >
-                    Share Your Prompts
-                  </Link>
-                  <Link
-                    href="/tools"
-                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-foreground hover:bg-accent dark:border-gray-600"
-                  >
-                    Explore AI Tools
-                  </Link>
-                </div>
-                <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <TrendingUp className="h-3 w-3" />
-                    <span>Join 60+ creators</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <TagIcon className="h-3 w-3" />
-                    <span>Share & discover prompts</span>
-                  </div>
-                </div>
-              </div>
+              {/* Combined CTA Section */}
+              <div className="overflow-hidden rounded-xl border border-border bg-gradient-to-br from-emerald-500/5 via-blue-500/5 to-purple-500/5 p-8">
+                <div className="mx-auto max-w-2xl text-center">
+                  <h3 className="mb-3 text-2xl font-bold text-foreground">
+                    Start Using {tag} Prompts Today
+                  </h3>
+                  <p className="mb-6 text-base text-muted-foreground">
+                    Save your favorite prompts, organize them by project, and share your best work with the community. Join 60+ creators already using Prompt Manage.
+                  </p>
 
-              {/* Call to action */}
-              <div className="rounded-lg bg-primary/10 p-6 text-center">
-                <h3 className="mb-2 text-lg font-semibold text-foreground">
-                  Ready to Start Using {tag} Prompts?
-                </h3>
-                <p className="mb-4 text-sm text-muted-foreground">
-                  Create a free account to save your favorite prompts, organize them by project, and
-                  track your results.
-                </p>
-                <div className="flex flex-wrap justify-center gap-3">
-                  <Link
-                    href="/dashboard"
-                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-                  >
-                    Get Started Free
-                  </Link>
-                  <Link
-                    href="/p/tags"
-                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-foreground hover:bg-accent dark:border-gray-600"
-                  >
-                    Browse All Tags
-                  </Link>
+                  <div className="mb-6 flex flex-wrap justify-center gap-3">
+                    <Link
+                      href="/dashboard"
+                      className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
+                    >
+                      Get Started Free
+                    </Link>
+                    <Link
+                      href="/tools"
+                      className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-6 py-3 text-sm font-semibold transition-all hover:bg-accent"
+                    >
+                      Explore AI Tools
+                    </Link>
+                    <Link
+                      href="/p/tags"
+                      className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-6 py-3 text-sm font-semibold transition-all hover:bg-accent"
+                    >
+                      Browse All Tags
+                    </Link>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-center gap-4 border-t border-border pt-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4 text-emerald-500" />
+                      <span>Join 60+ creators</span>
+                    </div>
+                    <span className="text-muted-foreground/50">•</span>
+                    <div className="flex items-center gap-2">
+                      <TagIcon className="h-4 w-4 text-blue-500" />
+                      <span>Share & discover prompts</span>
+                    </div>
+                    <span className="text-muted-foreground/50">•</span>
+                    <div className="flex items-center gap-2">
+                      <span>100% free to use</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

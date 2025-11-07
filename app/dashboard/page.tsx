@@ -86,18 +86,30 @@ export default function DashboardHomePage() {
     enabled: !!session?.user?.id,
   })
 
+  // Get current team from team context
+  const [currentTeamId, setCurrentTeamId] = useState<string | null>(null)
+
+  useEffect(() => {
+    const stored = localStorage.getItem('prompt-manage-current-team')
+    if (stored) {
+      setCurrentTeamId(stored)
+    }
+  }, [])
+
   const { data: prompts = [], isLoading } = useQuery({
-    queryKey: ['prompts', session?.user?.id],
+    queryKey: ['prompts', session?.user?.id, currentTeamId],
     queryFn: async () => {
+      if (!currentTeamId) return []
+
       const { data, error } = await createClient()
         .from('prompts')
         .select('*')
-        .eq('user_id', session?.user?.id)
+        .eq('team_id', currentTeamId)
         .order('updated_at', { ascending: false })
       if (error) throw error
       return data as Prompt[]
     },
-    enabled: !!session?.user?.id,
+    enabled: !!session?.user?.id && !!currentTeamId,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
   })

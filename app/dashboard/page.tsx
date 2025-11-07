@@ -7,7 +7,6 @@ import {
   Clock,
   Eye,
   FileText,
-  FolderIcon,
   Globe,
   Plus,
   Sparkles,
@@ -474,40 +473,27 @@ export default function DashboardHomePage() {
                 )}
 
                 {/* Quick Actions */}
-                <Card className="border-dashed lg:col-span-2">
-                  <CardHeader>
-                    <CardTitle>Quick Actions</CardTitle>
-                    <CardDescription>Common tasks and tools</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      {subscription?.plan !== 'free' && (
-                        <Link href="/dashboard/import-export">
-                          <Button variant="outline" className="h-auto w-full justify-start p-4">
-                            <Upload className="mr-3 h-5 w-5" />
-                            <div className="text-left">
-                              <div className="font-semibold">Import / Export</div>
-                              <div className="text-xs text-muted-foreground">
-                                Bulk manage your prompts
-                              </div>
-                            </div>
-                          </Button>
-                        </Link>
-                      )}
-                      <Link href="/dashboard/collections">
+                {subscription?.plan !== 'free' && (
+                  <Card className="border-dashed lg:col-span-2">
+                    <CardHeader>
+                      <CardTitle>Quick Actions</CardTitle>
+                      <CardDescription>Bulk manage your prompts</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Link href="/dashboard/import-export">
                         <Button variant="outline" className="h-auto w-full justify-start p-4">
-                          <FolderIcon className="mr-3 h-5 w-5" />
+                          <Upload className="mr-3 h-5 w-5" />
                           <div className="text-left">
-                            <div className="font-semibold">Collections</div>
+                            <div className="font-semibold">Import / Export</div>
                             <div className="text-xs text-muted-foreground">
-                              Organize your prompts
+                              Bulk import from CSV/JSON or export your library
                             </div>
                           </div>
                         </Button>
                       </Link>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                )}
               </div>
             </>
           ) : (

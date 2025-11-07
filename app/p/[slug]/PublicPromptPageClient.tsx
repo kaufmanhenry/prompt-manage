@@ -14,7 +14,6 @@ import {
 import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
 import CopyButton from '@/components/CopyButton'
 import { CopyPromptButton } from '@/components/CopyPromptButton'
 import { DerivativePrompts } from '@/components/DerivativePrompts'
@@ -362,9 +361,6 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
 
               <div className="flex shrink-0 items-start gap-2">
                 {prompt.id && <CopyPromptButton promptId={prompt.id} promptName={prompt.name} />}
-                {prompt.id && (
-                  <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />
-                )}
                 <Button onClick={() => setShowShareDialog(true)} variant="outline">
                   <Share2 className="mr-2 h-4 w-4" />
                   Share

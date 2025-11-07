@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 
-import { AddToCollectionDialog } from '@/components/AddToCollectionDialog'
 import CopyButton from '@/components/CopyButton'
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
@@ -376,9 +375,6 @@ function PublicDirectoryContent() {
                         </span>
                       </div>
                     </div>
-                    {prompt.id && (
-                      <AddToCollectionDialog promptId={prompt.id} promptName={prompt.name} />
-                    )}
                   </div>
                 </Card>
               ))}

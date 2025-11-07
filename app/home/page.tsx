@@ -13,9 +13,9 @@ import { createClient } from '@/utils/supabase/server'
 export const metadata: Metadata = {
   title: 'Prompt Manage — Secure Prompt Management & Library Tool',
   description:
-    'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool. Private collections coming soon.',
+    'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool.',
   keywords:
-    'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt library, secure prompts, tag and filter prompts, private prompt collections',
+    'AI prompts, prompt management, ChatGPT prompts, Claude prompts, AI tools, prompt library, secure prompts, tag and filter prompts',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
   publisher: 'Prompt Manage',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Prompt Manage — Secure Prompt Management & Library Tool',
     description:
-      'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool. Private collections coming soon.',
+      'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool.',
     url: 'https://promptmanage.com/home',
     siteName: 'Prompt Manage',
     images: [
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Prompt Manage — Secure Prompt Management & Library Tool',
     description:
-      'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool. Private collections coming soon.',
+      'Organize, tag, and filter AI prompts in your secure library. Manage prompts for any use case with our high-quality prompt management tool.',
     images: ['https://promptmanage.com/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -72,7 +72,11 @@ export default async function HomePage() {
     data: { session },
   } = await supabase.auth.getSession()
 
-  // This is the public homepage - logged-in users can access it
+  // Redirect logged-in users to dashboard
+  if (session) {
+    const { redirect } = await import('next/navigation')
+    redirect('/dashboard')
+  }
 
   // Schema.org structured data for SEO and LLMs
   const softwareSchema = {
@@ -92,14 +96,14 @@ export default async function HomePage() {
       ratingCount: '127',
     },
     description:
-      'High-quality and secure prompt management tool for organizing AI prompts. Tag, sort, and filter prompts in your library. Private collections coming soon.',
+      'High-quality and secure prompt management tool for organizing AI prompts. Tag, sort, and filter prompts in your library.',
     featureList: [
       'Secure prompt library',
       'Tag and filter prompts',
       'Organize by category',
       'Multi-model support (ChatGPT, Claude, Gemini, Grok)',
       'Version control',
-      'Private collections (coming soon)',
+      'Team collaboration',
     ],
     url: 'https://promptmanage.com',
     screenshot: 'https://promptmanage.com/og-image.svg',
@@ -114,7 +118,7 @@ export default async function HomePage() {
         name: 'What is Prompt Manage?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Prompt Manage is a high-quality and secure prompt management tool that helps you organize, tag, and filter AI prompts in your library. It supports ChatGPT, Claude, Gemini, Grok, and 20+ other AI models. Private prompt collections are coming soon.',
+          text: 'Prompt Manage is a high-quality and secure prompt management tool that helps you organize, tag, and filter AI prompts in your library. It supports ChatGPT, Claude, Gemini, Grok, and 20+ other AI models.',
         },
       },
       {
@@ -130,7 +134,7 @@ export default async function HomePage() {
         name: 'How do teams use Prompt Manage?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Teams use Prompt Manage to organize and manage their prompt libraries. You can tag, sort, and filter prompts for easy discovery, maintain version control, and securely share prompts with team members. Private collections are coming soon for enhanced security and organization.',
+          text: 'Teams use Prompt Manage to organize and manage their prompt libraries. You can tag, sort, and filter prompts for easy discovery, maintain version control, and securely share prompts with team members.',
         },
       },
       {
@@ -154,7 +158,7 @@ export default async function HomePage() {
         name: 'Can I share prompts with my team?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes! Prompt Manage is built for team collaboration. You can create shared prompt libraries, invite team members, organize prompts by category or use case, and securely share your prompt collection. Private collections with enhanced permissions are coming soon.',
+          text: 'Yes! Prompt Manage is built for team collaboration. You can create shared prompt libraries, invite team members, organize prompts by category or use case, and securely share your prompt collection.',
         },
       },
     ],
@@ -235,8 +239,7 @@ export default async function HomePage() {
                 with 300+ ready-to-use templates.
               </p>
               <p className="mb-6 max-w-xl text-lg leading-7 text-gray-700 dark:text-gray-300 md:text-xl">
-                Tag, sort, and filter prompts to organize your workspace. Private collections coming
-                soon. Works with{' '}
+                Tag, sort, and filter prompts to organize your workspace. Works with{' '}
                 <Link
                   href="/models"
                   className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
@@ -388,8 +391,7 @@ export default async function HomePage() {
                       Secure & Private
                     </h3>
                     <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
-                      Keep your prompts secure. Private collections with enhanced permissions coming
-                      soon.
+                      Keep your prompts secure with team-based access control and private storage.
                     </p>
                   </div>
                 </div>
@@ -415,10 +417,10 @@ export default async function HomePage() {
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                    Collections
+                    Teams
                   </div>
                   <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Organize & Share
+                    Collaborate & Share
                   </div>
                 </div>
                 <div className="text-center">
@@ -463,7 +465,7 @@ export default async function HomePage() {
                     },
                     {
                       title: 'Secure & private',
-                      desc: 'Keep your prompts secure with private collections (coming soon).',
+                      desc: 'Keep your prompts secure with team-based access control.',
                       icon: ShieldCheck,
                       color: 'purple',
                     },

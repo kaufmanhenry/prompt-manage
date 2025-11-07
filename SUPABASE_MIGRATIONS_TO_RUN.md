@@ -15,6 +15,7 @@ Run these 3 migrations in your Supabase SQL Editor in this exact order:
 **File**: `supabase/migrations/20250115000000_teams_core.sql`
 
 **Status**: Check if already run with:
+
 ```sql
 SELECT table_name FROM information_schema.tables
 WHERE table_schema = 'public' AND table_name IN ('teams', 'team_members', 'team_invitations');
@@ -370,6 +371,7 @@ comment on function expire_old_invitations is 'Mark expired invitations as expir
 **File**: `supabase/migrations/20250120000000_integrate_teams.sql`
 
 **Status**: Check if already run with:
+
 ```sql
 SELECT column_name FROM information_schema.columns
 WHERE table_name = 'prompts' AND column_name = 'team_id';

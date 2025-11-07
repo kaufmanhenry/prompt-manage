@@ -255,7 +255,11 @@ export function AddToCollectionDialog({
           <div className="space-y-6">
             {/* Create New Collection Section */}
             {!showCreateForm ? (
-              <Button variant="outline" className="w-full justify-start gap-2" onClick={() => setShowCreateForm(true)}>
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-2"
+                onClick={() => setShowCreateForm(true)}
+              >
                 <Plus className="h-4 w-4" />
                 Create New Collection
               </Button>
@@ -278,7 +282,9 @@ export function AddToCollectionDialog({
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="new-title" className="text-sm font-medium">Title *</Label>
+                    <Label htmlFor="new-title" className="text-sm font-medium">
+                      Title *
+                    </Label>
                     <Input
                       id="new-title"
                       value={newCollectionTitle}
@@ -288,7 +294,9 @@ export function AddToCollectionDialog({
                     />
                   </div>
                   <div>
-                    <Label htmlFor="new-desc" className="text-sm font-medium">Description</Label>
+                    <Label htmlFor="new-desc" className="text-sm font-medium">
+                      Description
+                    </Label>
                     <Textarea
                       id="new-desc"
                       value={newCollectionDescription}
@@ -359,7 +367,9 @@ export function AddToCollectionDialog({
             {/* Search Existing Collections */}
             {collections.length > 0 && (
               <div>
-                <Label htmlFor="search" className="text-sm font-medium">Search Collections</Label>
+                <Label htmlFor="search" className="text-sm font-medium">
+                  Search Collections
+                </Label>
                 <div className="relative mt-1.5">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
@@ -390,7 +400,9 @@ export function AddToCollectionDialog({
                         className="flex items-center justify-between rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/50"
                       >
                         <div className="flex-1 pr-4">
-                          <div className="mb-1 font-semibold text-foreground">{collection.title}</div>
+                          <div className="mb-1 font-semibold text-foreground">
+                            {collection.title}
+                          </div>
                           {collection.description && (
                             <div className="mb-2 line-clamp-2 text-sm text-muted-foreground">
                               {collection.description}

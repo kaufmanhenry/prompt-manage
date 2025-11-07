@@ -29,6 +29,7 @@ STRIPE_PRICE_PRO_MONTHLY_ID=price_1SQwdBRjrCP9fItaeEVFniy8
 ## Current Pricing Structure
 
 ### Free Plan
+
 - **Price:** $0/month
 - **Features:**
   - Store up to 25 prompts privately
@@ -37,6 +38,7 @@ STRIPE_PRICE_PRO_MONTHLY_ID=price_1SQwdBRjrCP9fItaeEVFniy8
   - Public sharing
 
 ### Team Plan
+
 - **Price:** $20/month
 - **Stripe Product:** `prod_TNi2HttxcKsWOH`
 - **Stripe Price:** `price_1SQwcXRjrCP9fItaZHycCcQj`
@@ -50,6 +52,7 @@ STRIPE_PRICE_PRO_MONTHLY_ID=price_1SQwdBRjrCP9fItaeEVFniy8
   - Priority support
 
 ### Pro Plan
+
 - **Price:** $99/month
 - **Stripe Product:** `prod_TNi3jruvGGK1IY`
 - **Stripe Price:** `price_1SQwdBRjrCP9fItaeEVFniy8`
@@ -121,10 +124,12 @@ Run these migrations in Supabase (in order):
 ### Products Created
 
 ✅ **Team** - `prod_TNi2HttxcKsWOH`
+
 - Monthly price: $20 USD
 - Recurring billing
 
 ✅ **Pro** - `prod_TNi3jruvGGK1IY`
+
 - Monthly price: $99 USD
 - Recurring billing
 
@@ -133,6 +138,7 @@ Run these migrations in Supabase (in order):
 Configure webhook endpoint: `https://yourdomain.com/api/stripe/webhook`
 
 **Events to subscribe to:**
+
 - `checkout.session.completed` - New subscriptions
 - `customer.subscription.updated` - Subscription changes
 - `customer.subscription.deleted` - Cancellations
@@ -158,6 +164,7 @@ Settings
 ```
 
 **Key Points:**
+
 - Personal billing: Manages individual user subscription
 - Team billing: Manages team-level subscription (seats, plan, etc.)
 - Billing page context-aware based on current team selection
@@ -170,6 +177,7 @@ Settings
 The dev server is running at: `http://localhost:3000`
 
 **Test the flow:**
+
 1. Visit `http://localhost:3000/pricing`
 2. Click on Team or Pro plan
 3. Verify Stripe Checkout loads correctly

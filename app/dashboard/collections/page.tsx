@@ -664,12 +664,7 @@ export default function CollectionsManagerPage() {
                         </div>
                         <div className="flex items-center gap-1">
                           {c.visibility === 'public' && c.slug && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-7 w-7 p-0"
-                              asChild
-                            >
+                            <Button variant="ghost" size="sm" className="h-7 w-7 p-0" asChild>
                               <Link
                                 href={`/collections/${c.slug}`}
                                 target="_blank"
@@ -702,7 +697,9 @@ export default function CollectionsManagerPage() {
                             </DialogTrigger>
                             <DialogContent className="max-h-[90vh] max-w-3xl overflow-hidden">
                               <DialogHeader>
-                                <DialogTitle className="text-2xl">Add Prompts to Collection</DialogTitle>
+                                <DialogTitle className="text-2xl">
+                                  Add Prompts to Collection
+                                </DialogTitle>
                                 <DialogDescription className="text-base">
                                   Search and select prompts to add to &quot;{c.title}&quot;
                                 </DialogDescription>

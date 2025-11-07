@@ -344,10 +344,12 @@ export default function DashboardHomePage() {
                 </Card>
 
                 <Card
-                  className="cursor-pointer transition-colors hover:bg-accent"
-                  onClick={() =>
-                    window.open(`/u/${userProfile?.username || session?.user?.id || ''}`, '_blank')
-                  }
+                  className={`transition-colors ${userProfile?.username ? 'cursor-pointer hover:bg-accent' : ''}`}
+                  onClick={() => {
+                    if (userProfile?.username) {
+                      window.open(`/u/${userProfile.username}`, '_blank')
+                    }
+                  }}
                 >
                   <CardHeader className="pb-3">
                     <CardTitle className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
@@ -357,9 +359,11 @@ export default function DashboardHomePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-3xl font-bold">{stats.totalViews.toLocaleString()}</div>
-                    <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
-                      View public profile <ArrowRight className="h-3 w-3" />
-                    </p>
+                    {userProfile?.username && (
+                      <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
+                        View public profile <ArrowRight className="h-3 w-3" />
+                      </p>
+                    )}
                   </CardContent>
                 </Card>
               </div>

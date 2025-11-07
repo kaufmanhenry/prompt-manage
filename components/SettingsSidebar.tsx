@@ -2,7 +2,7 @@
 
 import type { Session } from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
-import { ArrowLeft, CreditCard, FileText, LogOut, Settings, User, Users } from 'lucide-react'
+import { ArrowLeft, FileText, LogOut, Settings, User, Users } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -59,12 +59,6 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
       active: pathname === '/settings',
     },
     {
-      href: '/settings/billing',
-      label: 'Billing',
-      icon: CreditCard,
-      active: pathname === '/settings/billing',
-    },
-    {
       href: '/settings/legal',
       label: 'Legal',
       icon: FileText,
@@ -75,7 +69,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
   const teamNavItems = [
     {
       href: '/settings/team',
-      label: 'Team Settings',
+      label: 'Team & Billing',
       icon: Settings,
       active: pathname === '/settings/team',
     },
@@ -84,12 +78,6 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
       label: 'Members',
       icon: Users,
       active: pathname === '/settings/team/members',
-    },
-    {
-      href: '/settings/billing',
-      label: 'Billing',
-      icon: CreditCard,
-      active: pathname === '/settings/billing',
     },
   ]
 

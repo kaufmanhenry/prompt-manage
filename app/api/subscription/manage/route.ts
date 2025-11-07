@@ -118,8 +118,8 @@ export async function POST(request: NextRequest) {
             },
           ],
           mode: 'subscription',
-          success_url: `${baseUrl}/settings/billing?checkout=success`,
-          cancel_url: `${baseUrl}/settings/billing?checkout=canceled`,
+          success_url: `${baseUrl}/settings/team?checkout=success`,
+          cancel_url: `${baseUrl}/settings/team?checkout=canceled`,
           metadata: {
             userId: session.user.id,
             plan,

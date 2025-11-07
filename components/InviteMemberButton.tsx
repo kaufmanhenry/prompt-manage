@@ -182,7 +182,7 @@ export function InviteMemberButton({
         <SeatLimitModal
           open={showSeatLimitModal}
           onClose={() => setShowSeatLimitModal(false)}
-          currentPlan={currentTier}
+          currentPlan={currentTier === 'enterprise' ? 'pro' : currentTier}
           currentSeats={seatLimitDetails.currentSeats}
           maxSeats={seatLimitDetails.maxSeats}
           pendingEmail={seatLimitDetails.pendingEmail}

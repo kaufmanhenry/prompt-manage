@@ -11,7 +11,6 @@ import {
   Plus,
   Sparkles,
   TrendingUp,
-  Upload,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -472,28 +471,6 @@ export default function DashboardHomePage() {
                   </Card>
                 )}
 
-                {/* Quick Actions */}
-                {subscription?.plan !== 'free' && (
-                  <Card className="border-dashed lg:col-span-2">
-                    <CardHeader>
-                      <CardTitle>Quick Actions</CardTitle>
-                      <CardDescription>Bulk manage your prompts</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <Link href="/dashboard/import-export">
-                        <Button variant="outline" className="h-auto w-full justify-start p-4">
-                          <Upload className="mr-3 h-5 w-5" />
-                          <div className="text-left">
-                            <div className="font-semibold">Import / Export</div>
-                            <div className="text-xs text-muted-foreground">
-                              Bulk import from CSV/JSON or export your library
-                            </div>
-                          </div>
-                        </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
-                )}
               </div>
             </>
           ) : (

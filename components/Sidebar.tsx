@@ -159,16 +159,31 @@ export function Sidebar({
             />
             <h1 className="text-lg font-semibold">Prompt Manage</h1>
           </Link>
-          <Button
-            size="sm"
-            variant="default"
-            className="h-8 gap-1"
-            onClick={() => (onNewPrompt ? onNewPrompt() : onSelectPrompt('new'))}
-            data-testid="create-prompt"
-          >
-            <Plus className="h-4 w-4" />
-            <span className="hidden sm:inline">New</span>
-          </Button>
+          <div className="flex items-center gap-1">
+            {canImportExport && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-8 gap-1"
+                asChild
+              >
+                <Link href="/dashboard/import-export">
+                  <Upload className="h-4 w-4" />
+                  <span className="sr-only">Import/Export</span>
+                </Link>
+              </Button>
+            )}
+            <Button
+              size="sm"
+              variant="default"
+              className="h-8 gap-1"
+              onClick={() => (onNewPrompt ? onNewPrompt() : onSelectPrompt('new'))}
+              data-testid="create-prompt"
+            >
+              <Plus className="h-4 w-4" />
+              <span className="hidden sm:inline">New</span>
+            </Button>
+          </div>
         </div>
         <TeamSwitcher />
       </div>

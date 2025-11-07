@@ -1,6 +1,11 @@
 import { expect, test } from '@playwright/test'
 
+// Skip these tests in CI as they require Supabase and test data
 test.describe('Related Prompts Feature', () => {
+  test.skip(
+    ({ browserName: _browserName }) => process.env.CI === 'true',
+    'Skipping in CI - requires Supabase authentication',
+  )
   test('should display related prompts on public prompt page', async ({ page }) => {
     // Navigate to a public prompt page
     await page.goto('/p')

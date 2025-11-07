@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
     // Get price ID
     const priceId = stripeConfig.products[tier as keyof typeof stripeConfig.products].priceId
 
-    // Create checkout session
+    // Create checkout session (no trial, straight to paid)
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: 'subscription',

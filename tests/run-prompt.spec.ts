@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test'
 
+// Skip these tests in CI as they require Supabase authentication
 test.describe('Run Prompt Feature', () => {
+  test.skip(
+    ({ browserName: _browserName }) => process.env.CI === 'true',
+    'Skipping in CI - requires Supabase authentication',
+  )
+
   test('should show run prompt button on dashboard', async ({ page }) => {
     // Navigate to dashboard (assuming user is logged in)
     await page.goto('/dashboard')

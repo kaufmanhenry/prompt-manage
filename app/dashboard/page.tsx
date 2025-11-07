@@ -17,6 +17,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 
+import { ImportExportDialog } from '@/components/ImportExportDialog'
 import { PromptForm } from '@/components/PromptForm'
 import { Sidebar } from '@/components/Sidebar'
 import { Button } from '@/components/ui/button'
@@ -35,6 +36,7 @@ export default function DashboardHomePage() {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showImportExport, setShowImportExport] = useState(false)
   const { usage, subscription, canCreatePrompt, PaywallComponent } = usePaywall()
   const { currentTeamId } = useTeamContext()
 
@@ -228,11 +230,14 @@ export default function DashboardHomePage() {
             </div>
             <div className="flex items-center gap-2">
               {subscription?.plan !== 'free' && (
-                <Button variant="outline" size="lg" className="gap-2" asChild>
-                  <Link href="/dashboard/import-export">
-                    <Upload className="h-4 w-4" />
-                    Import / Export
-                  </Link>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="gap-2"
+                  onClick={() => setShowImportExport(true)}
+                >
+                  <Upload className="h-4 w-4" />
+                  Import / Export
                 </Button>
               )}
               <Button
@@ -505,6 +510,11 @@ export default function DashboardHomePage() {
       </main>
 
       <PromptForm prompt={null} open={showCreateForm} onOpenChange={setShowCreateForm} />
+      <ImportExportDialog
+        open={showImportExport}
+        onOpenChange={setShowImportExport}
+        promptCount={stats.totalPrompts}
+      />
     </div>
   )
 }

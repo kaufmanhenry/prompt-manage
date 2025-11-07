@@ -8,13 +8,6 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { useTeamContext } from '@/contexts/team-context'
 import { useUserTeams } from '@/lib/hooks/use-teams'
 import { createClient } from '@/utils/supabase/client'
@@ -98,6 +91,23 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
         <p className="text-xs text-muted-foreground">Settings</p>
       </div>
 
+      {/* User Info */}
+      <div className="shrink-0 border-b bg-background p-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            {session?.user?.email?.[0].toUpperCase() || 'U'}
+          </div>
+          <div className="flex min-w-0 flex-1 flex-col">
+            <span className="truncate text-sm font-medium">
+              {session?.user?.user_metadata?.display_name || 'User'}
+            </span>
+            <span className="truncate text-xs text-muted-foreground">
+              {session?.user?.email || ''}
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Navigation */}
       <div className="flex-1 space-y-4 overflow-y-auto px-4 pt-4">
         <Link
@@ -159,44 +169,16 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
         )}
       </div>
 
-      {/* Spacer */}
-      <div className="flex-1"></div>
-
-      {/* User Profile Footer */}
-      <div className="shrink-0 border-t bg-background p-3">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-auto w-full justify-start gap-3 px-2 py-2 hover:bg-accent"
-            >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                {session?.user?.email?.[0].toUpperCase() || 'U'}
-              </div>
-              <div className="flex min-w-0 flex-1 flex-col items-start text-left">
-                <span className="truncate text-sm font-medium">
-                  {session?.user?.user_metadata?.display_name || 'User'}
-                </span>
-                <span className="truncate text-xs text-muted-foreground">
-                  {session?.user?.email || ''}
-                </span>
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" side="top" className="w-56">
-            <DropdownMenuItem asChild>
-              <Link href="/settings" className="flex items-center">
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleSignOut} className="flex items-center">
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      {/* Sign Out Button */}
+      <div className="shrink-0 border-t p-4">
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-2"
+          onClick={handleSignOut}
+        >
+          <LogOut className="h-4 w-4" />
+          Sign Out
+        </Button>
       </div>
     </aside>
   )

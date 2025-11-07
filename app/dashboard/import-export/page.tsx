@@ -297,7 +297,7 @@ export default function ImportExportPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row">
+    <div className="flex h-screen flex-col md:flex-row">
       <Sidebar
         prompts={prompts}
         selectedPromptId={null}
@@ -305,7 +305,7 @@ export default function ImportExportPage() {
         session={session}
         currentPage="import-export"
       />
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-y-auto bg-accent/50">
         <div className="container mx-auto max-w-5xl p-4 md:p-6 lg:p-8">
           <div className="mb-6">
             <h1 className="text-2xl font-bold tracking-tight md:text-3xl">

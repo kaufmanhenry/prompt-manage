@@ -333,17 +333,16 @@ export default function TeamSettingsPage() {
     <div className="flex h-screen">
       <SettingsSidebar session={session} />
       <div className="flex-1 overflow-y-auto bg-accent/50 p-8">
-        <div className="mx-auto max-w-4xl">
-          <div className="mb-4">
-            <h1 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-              Team Settings
-            </h1>
+        <div className="mx-auto max-w-3xl space-y-8">
+          {/* Page Header */}
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight">Team & Billing</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Manage settings and billing for {currentTeam.teams.name}
+              Manage {currentTeam.teams.name} settings and subscription
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-8">
             {/* Status Message Banner */}
             {statusMessage && (
               <Card className="border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-900/20">
@@ -356,27 +355,30 @@ export default function TeamSettingsPage() {
             {/* Team Information */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base font-medium">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
-                    <Settings className="size-4 text-muted-foreground" />
-                  </div>
-                  <span className="text-base font-medium">Team Information</span>
-                </CardTitle>
+                <CardTitle>Team Information</CardTitle>
                 <CardDescription>
-                  Update your team's name and description
-                  {!canEdit && ' (View only - you need admin or owner permissions to edit)'}
+                  {canEdit
+                    ? "Update your team's name and description"
+                    : 'View only - contact your team owner to make changes'}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="teamName">Team Name</Label>
-                  <Input
-                    id="teamName"
-                    value={teamName}
-                    onChange={(e) => setTeamName(e.target.value)}
-                    placeholder="Enter team name"
-                    disabled={!canEdit}
-                  />
+              <CardContent className="space-y-6">
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="teamName">Team Name</Label>
+                    <Input
+                      id="teamName"
+                      value={teamName}
+                      onChange={(e) => setTeamName(e.target.value)}
+                      placeholder="Enter team name"
+                      disabled={!canEdit}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Your Role</Label>
+                    <Input value={currentTeam.role} disabled className="capitalize" />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -385,315 +387,202 @@ export default function TeamSettingsPage() {
                     id="teamDescription"
                     value={teamDescription}
                     onChange={(e) => setTeamDescription(e.target.value)}
-                    placeholder="Describe your team's purpose..."
+                    placeholder="Describe your team's purpose"
                     rows={3}
                     disabled={!canEdit}
                   />
                 </div>
 
-                {isPersonalTeam && (
+                {canEdit && (
+                  <div className="flex justify-end">
+                    <Button onClick={handleSaveTeam} disabled={updateTeam.isPending}>
+                      <Save className="mr-2 h-4 w-4" />
+                      {updateTeam.isPending ? 'Saving...' : 'Save Changes'}
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* BILLING & SUBSCRIPTION */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Subscription</CardTitle>
+                <CardDescription>Manage your team's plan and billing</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Current Plan Status */}
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-semibold capitalize">{tier} Plan</span>
+                      {status && status !== 'active' && (
+                        <Badge variant="outline" className={getStatusBadgeColor(status)}>
+                          {status.charAt(0).toUpperCase() + status.slice(1)}
+                        </Badge>
+                      )}
+                    </div>
+                    {tier === 'free' && (
+                      <p className="text-sm text-muted-foreground">25 prompts limit</p>
+                    )}
+                    {tier === 'pro' && (
+                      <p className="text-sm text-muted-foreground">
+                        $5/month • Unlimited prompts
+                      </p>
+                    )}
+                    {tier === 'team' && (
+                      <p className="text-sm text-muted-foreground">
+                        $27/month • Team collaboration
+                      </p>
+                    )}
+                    {teamPeriodEnd && (
+                      <p className="text-xs text-muted-foreground">
+                        Renews {formatDate(teamPeriodEnd)}
+                      </p>
+                    )}
+                  </div>
+                  {canEdit && (
+                    <div className="flex gap-2">
+                      {tier === 'free' && (
+                        <Button asChild>
+                          <a href="/pricing">Upgrade</a>
+                        </Button>
+                      )}
+                      {hasActiveSubscription && (
+                        <Button variant="outline" onClick={handleManageBilling} disabled={!!loading}>
+                          {loading === 'portal' ? 'Loading...' : 'Manage'}
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Permission Warning */}
+                {!canEdit && (
                   <Alert>
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      This is your personal team. You can customize the name and description.
+                      Only team owners and admins can manage billing
                     </AlertDescription>
                   </Alert>
                 )}
 
-                {canEdit && (
-                  <Button
-                    onClick={handleSaveTeam}
-                    disabled={updateTeam.isPending}
-                    className="w-full md:w-auto"
-                  >
-                    <Save className="size-4" />
-                    {updateTeam.isPending ? 'Saving...' : 'Save Changes'}
-                  </Button>
+                {/* Upsell for Free Plan */}
+                {tier === 'free' && canEdit && (
+                  <div className="rounded-lg border-2 border-primary/20 bg-primary/5 p-6">
+                    <div className="mb-4">
+                      <h3 className="text-lg font-semibold">Unlock Your Full Potential</h3>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Upgrade to Pro and remove all limits
+                      </p>
+                    </div>
+                    <div className="grid gap-3 text-sm">
+                      <div className="flex items-start gap-2">
+                        <ArrowUp className="mt-0.5 h-4 w-4 text-primary" />
+                        <span>
+                          <strong>Unlimited prompts</strong> - never worry about storage limits
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <ArrowUp className="mt-0.5 h-4 w-4 text-primary" />
+                        <span>
+                          <strong>Team collaboration</strong> - invite members and work together
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <ArrowUp className="mt-0.5 h-4 w-4 text-primary" />
+                        <span>
+                          <strong>Import & export</strong> - bulk manage your prompt library
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <ArrowUp className="mt-0.5 h-4 w-4 text-primary" />
+                        <span>
+                          <strong>Priority support</strong> - get help when you need it
+                        </span>
+                      </div>
+                    </div>
+                    <Button asChild className="mt-6 w-full" size="lg">
+                      <a href="/pricing">Upgrade to Pro - $5/month</a>
+                    </Button>
+                    <p className="mt-3 text-center text-xs text-muted-foreground">
+                      Cancel anytime. No long-term contracts.
+                    </p>
+                  </div>
+                )}
+
+                {/* Current Plan Features */}
+                {tier !== 'free' && (
+                  <div>
+                    <h4 className="mb-3 text-sm font-medium">What's Included</h4>
+                    <div className="grid gap-2 text-sm">
+                      {tier === 'pro' && (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <span className="text-green-600">✓</span>
+                            <span>Unlimited prompts</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-green-600">✓</span>
+                            <span>Team collaboration</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-green-600">✓</span>
+                            <span>Import & export tools</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-green-600">✓</span>
+                            <span>Priority support</span>
+                          </div>
+                        </>
+                      )}
+                      {tier === 'team' && (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <span className="text-green-600">✓</span>
+                            <span>Everything in Pro</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-green-600">✓</span>
+                            <span>Advanced team permissions</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-green-600">✓</span>
+                            <span>Dedicated account manager</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-green-600">✓</span>
+                            <span>SLA & guaranteed uptime</span>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 )}
               </CardContent>
             </Card>
 
-            {/* Team Details */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base font-medium">Team Details</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Team ID:</span>
-                  <span className="font-mono text-xs">{currentTeam.team_id}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Your Role:</span>
-                  <span className="font-medium capitalize">{currentTeam.role}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Team Type:</span>
-                  <span className="font-medium">
-                    {isPersonalTeam ? 'Personal Team' : 'Shared Team'}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Plan:</span>
-                  <span className="font-medium capitalize">{currentTeam.teams.tier}</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Separator className="my-8" />
-
-            {/* BILLING SECTION */}
-            <div className="space-y-4">
-              <div>
-                <h2 className="text-lg font-semibold">Billing & Subscription</h2>
-                <p className="text-sm text-muted-foreground">
-                  Manage your team's subscription and billing
-                </p>
-              </div>
-
-              {/* Permission warning for non-owners/admins */}
-              {!canEdit && (
-                <Card className="border-yellow-200 bg-yellow-50 dark:border-yellow-900 dark:bg-yellow-950">
-                  <CardContent className="pt-6">
-                    <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                      Only team owners and admins can manage team billing. Contact your team owner
-                      to upgrade or manage team subscriptions.
-                    </p>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Current Plan */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base font-medium">Current Plan</CardTitle>
-                  <CardDescription>Active subscription tier for this team</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Badge className={getTierBadgeColor(tier)}>
-                          {tier.charAt(0).toUpperCase() + tier.slice(1)}
-                        </Badge>
-                        {status && (
-                          <Badge className={getStatusBadgeColor(status)}>
-                            {status.charAt(0).toUpperCase() + status.slice(1)}
-                          </Badge>
-                        )}
-                      </div>
-                      {tier === 'free' && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          This team is currently on the free plan
-                        </p>
-                      )}
-                      {tier === 'pro' && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          $5/month • Unlimited prompts and collaboration
-                        </p>
-                      )}
-                      {tier === 'enterprise' && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          $27/month • Enterprise features and priority support
-                        </p>
-                      )}
-                      {teamPeriodEnd && (
-                        <p className="text-sm text-gray-500 dark:text-gray-500">
-                          Renews on {formatDate(teamPeriodEnd)}
-                        </p>
-                      )}
-                    </div>
-                    {tier === 'free' && canEdit && (
-                      <Button asChild>
-                        <a href="/pricing">Upgrade Plan</a>
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Billing Management */}
-              {hasActiveSubscription && canEdit && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-base font-medium">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
-                        <CreditCard className="size-4 text-muted-foreground" />
-                      </div>
-                      <span className="text-base font-medium">Billing Management</span>
-                    </CardTitle>
-                    <CardDescription>
-                      Update payment methods, view invoices, and manage your subscription
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button
-                      onClick={handleManageBilling}
-                      disabled={!!loading}
-                      className="w-full sm:w-auto"
-                    >
-                      {loading ? (
-                        <>
-                          <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
-                          Loading...
-                        </>
-                      ) : (
-                        <>
-                          Manage Billing
-                          <ExternalLink className="ml-2 h-4 w-4" />
-                        </>
-                      )}
-                    </Button>
-                    <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
-                      You'll be redirected to Stripe's secure billing portal where you can:
-                    </p>
-                    <ul className="mt-2 space-y-1 text-sm text-gray-500 dark:text-gray-400">
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-600">•</span>
-                        <span>Update payment methods</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-600">•</span>
-                        <span>View and download invoices</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-600">•</span>
-                        <span>Update billing information</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-600">•</span>
-                        <span>Cancel your subscription</span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Plan Features */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base font-medium">Plan Features</CardTitle>
-                  <CardDescription>What's included in this team's plan</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {tier === 'free' && (
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>25 prompts max storage</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-gray-400">✗</span>
-                        <span className="text-gray-500">Cannot run prompts</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Public sharing only</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Limited Prompt Lab access</span>
-                      </li>
-                    </ul>
-                  )}
-                  {tier === 'pro' && (
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Unlimited prompts and runs</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Full Prompt Lab access</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Shared libraries and collaboration</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Role-based access and permissions</span>
-                      </li>
-                    </ul>
-                  )}
-                  {tier === 'enterprise' && (
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Everything in Pro</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Run prompts on latest AI models</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Advanced security features</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500">✓</span>
-                        <span>Priority support</span>
-                      </li>
-                    </ul>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Need Help */}
-              <Card className="border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950">
-                <CardHeader>
-                  <CardTitle className="text-blue-900 dark:text-blue-100">Need Help?</CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm text-blue-800 dark:text-blue-200">
-                  <p className="mb-2">
-                    If you have questions about billing or need assistance with your subscription:
-                  </p>
-                  <ul className="space-y-1">
-                    <li>
-                      • Email:{' '}
-                      <a href="mailto:support@promptmanage.com" className="underline">
-                        support@promptmanage.com
-                      </a>
-                    </li>
-                    <li>
-                      • Visit our{' '}
-                      <a href="/support" className="underline">
-                        Support Center
-                      </a>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-
-            <Separator className="my-8" />
-
             {/* Danger Zone - Only show for non-personal teams and owners */}
             {!isPersonalTeam && isOwner && (
-              <Card className="border-red-200 dark:border-red-800">
+              <Card className="border-destructive/50">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base font-medium">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-input">
-                      <Trash2 className="size-4 text-muted-foreground" />
-                    </div>
-                    <span className="text-base font-medium">Danger Zone</span>
-                  </CardTitle>
+                  <CardTitle className="text-destructive">Danger Zone</CardTitle>
+                  <CardDescription>Irreversible actions for this team</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>Delete Team</Label>
+                    <div>
+                      <Label className="text-base">Delete Team</Label>
                       <p className="text-sm text-muted-foreground">
-                        Permanently delete this team and all associated prompts and data
+                        Permanently delete this team and all data
                       </p>
                     </div>
                     <Button
                       variant="destructive"
                       onClick={handleDeleteTeam}
                       disabled={deleteTeam.isPending}
-                      className="flex items-center gap-2"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="mr-2 h-4 w-4" />
                       {deleteTeam.isPending ? 'Deleting...' : 'Delete Team'}
                     </Button>
                   </div>

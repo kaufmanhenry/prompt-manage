@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/use-toast'
+import { useTeamContext } from '@/contexts/team-context'
 import { getModelsByCategory } from '@/lib/models'
 import type { Prompt, PublicPrompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
@@ -68,19 +69,22 @@ function PublicDirectoryContent() {
     },
   })
 
+  const { currentTeamId } = useTeamContext()
+
   // Fetch user's prompts for sidebar
   const { data: userPrompts = [], isLoading: isLoadingUserPrompts } = useQuery({
-    queryKey: ['prompts', session?.user?.id],
+    queryKey: ['prompts', session?.user?.id, currentTeamId],
     queryFn: async () => {
+      if (!currentTeamId) return []
       const { data, error } = await createClient()
         .from('prompts')
         .select('*')
-        .eq('user_id', session?.user?.id)
+        .eq('team_id', currentTeamId)
         .order('updated_at', { ascending: false })
       if (error) throw error
       return data as Prompt[]
     },
-    enabled: !!session?.user?.id,
+    enabled: !!session?.user?.id && !!currentTeamId,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
   })

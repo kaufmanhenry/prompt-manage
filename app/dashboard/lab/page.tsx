@@ -10,6 +10,7 @@ const Sidebar = dynamic(() => import('@/components/Sidebar').then((m) => m.Sideb
 })
 import SimplePromptLab from '@/components/SimplePromptLab'
 import { useToast } from '@/components/ui/use-toast'
+import { useTeamContext } from '@/contexts/team-context'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
@@ -18,6 +19,7 @@ export default function LabPage() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { toast } = useToast()
+  const { currentTeamId } = useTeamContext()
 
   const { data: session } = useQuery({
     queryKey: ['session'],
@@ -31,17 +33,18 @@ export default function LabPage() {
 
   // Fetch user's prompts for the sidebar
   const { data: prompts = [], isLoading } = useQuery({
-    queryKey: ['prompts'],
+    queryKey: ['prompts', currentTeamId],
     queryFn: async () => {
+      if (!currentTeamId) return []
       const { data, error } = await createClient()
         .from('prompts')
         .select('*')
-        .eq('user_id', session?.user?.id)
+        .eq('team_id', currentTeamId)
         .order('updated_at', { ascending: false })
       if (error) throw error
       return data as Prompt[]
     },
-    enabled: !!session?.user?.id,
+    enabled: !!session?.user?.id && !!currentTeamId,
   })
 
   const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null)
@@ -64,7 +67,6 @@ export default function LabPage() {
         .from('prompts')
         .select('*')
         .eq('id', selectedPromptId)
-        .eq('user_id', session.user.id)
         .single()
 
       if (error) throw error

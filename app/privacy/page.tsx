@@ -16,31 +16,31 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-background">
       {/* Hero */}
-      <div className="border-b">
-        <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+      <div className="border-b border-border">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 md:py-24">
           <Link
             href="/legal-center"
-            className="mb-6 inline-block text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+            className="mb-6 inline-block text-sm text-muted-foreground hover:text-foreground"
           >
             ← Legal Trust Center
           </Link>
           <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">Privacy Policy</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-lg text-muted-foreground">
             How we collect, use, and protect your information.
           </p>
-          <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
+          <p className="mt-2 text-sm text-muted-foreground">
             Last updated: October 30, 2025
           </p>
         </div>
       </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-4xl px-6 py-16">
+      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="space-y-12">
           <section>
-            <p className="text-gray-900 dark:text-gray-100">
+            <p className="text-foreground">
               This Privacy Policy describes how Prompt Manage, LLC (&quot;Prompt Manage&quot;,
               &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) collects, uses, discloses, and
               protects your information when you use our website, applications, API, and services
@@ -58,10 +58,10 @@ export default function PrivacyPage() {
             <div className="space-y-6">
               <div>
                 <h3 className="mb-3 text-base font-medium">Personal Information You Provide</h3>
-                <p className="mb-2 text-gray-900 dark:text-gray-100">
+                <p className="mb-2 text-foreground">
                   We collect information you provide directly to us when you:
                 </p>
-                <ul className="space-y-1 text-gray-900 dark:text-gray-100">
+                <ul className="space-y-1 text-foreground">
                   <li>• Create an account (name, email address, password)</li>
                   <li>• Subscribe to a paid plan (billing information handled by Stripe)</li>
                   <li>• Create, edit, or share prompts and content</li>
@@ -73,10 +73,10 @@ export default function PrivacyPage() {
 
               <div>
                 <h3 className="mb-3 text-base font-medium">Automatically Collected Information</h3>
-                <p className="mb-2 text-gray-900 dark:text-gray-100">
+                <p className="mb-2 text-foreground">
                   When you use our Platform, we automatically collect:
                 </p>
-                <ul className="space-y-1 text-gray-900 dark:text-gray-100">
+                <ul className="space-y-1 text-foreground">
                   <li>• IP address and general location (city/country level)</li>
                   <li>• Device information (browser type, operating system, device type)</li>
                   <li>• Usage data (pages visited, features used, time spent, click patterns)</li>
@@ -88,7 +88,7 @@ export default function PrivacyPage() {
 
               <div>
                 <h3 className="mb-3 text-base font-medium">User Content</h3>
-                <p className="text-gray-900 dark:text-gray-100">
+                <p className="text-foreground">
                   We store the prompts, descriptions, tags, and other content you create on the
                   Platform (&quot;User Content&quot;). You control whether this content is private
                   or public.
@@ -97,7 +97,7 @@ export default function PrivacyPage() {
 
               <div>
                 <h3 className="mb-3 text-base font-medium">Third-Party Information</h3>
-                <p className="text-gray-900 dark:text-gray-100">
+                <p className="text-foreground">
                   If you sign in using a third-party service (e.g., Google OAuth), we receive basic
                   profile information (name, email) from that service in accordance with your
                   privacy settings on that platform.
@@ -429,7 +429,7 @@ export default function PrivacyPage() {
 
           <section className="border-t pt-12">
             <h2 className="mb-4 text-2xl font-semibold">8. Third-Party Services and Links</h2>
-            <p className="text-gray-900 dark:text-gray-100">
+            <p className="text-foreground">
               The Platform may contain links to third-party websites, services, or applications. We
               are not responsible for the privacy practices of these third parties. We encourage you
               to review the privacy policies of any third-party services you access through our
@@ -439,7 +439,7 @@ export default function PrivacyPage() {
 
           <section className="border-t pt-12">
             <h2 className="mb-4 text-2xl font-semibold">9. Children's Privacy</h2>
-            <p className="text-gray-900 dark:text-gray-100">
+            <p className="text-foreground">
               Our Platform is not directed to individuals under the age of 18. We do not knowingly
               collect personal information from children under 18. If we become aware that we have
               collected personal information from a child under 18, we will take steps to delete
@@ -561,7 +561,7 @@ export default function PrivacyPage() {
 
           <section className="border-t pt-12">
             <h2 className="mb-4 text-2xl font-semibold">13. Do Not Track</h2>
-            <p className="text-gray-900 dark:text-gray-100">
+            <p className="text-foreground">
               Some browsers have a &quot;Do Not Track&quot; feature that lets you tell websites that
               you do not want your online activities tracked. We do not currently respond to Do Not
               Track signals.

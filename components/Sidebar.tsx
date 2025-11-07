@@ -35,7 +35,7 @@ interface SidebarProps {
   onNewPrompt?: () => void
   isLoading?: boolean
   session?: Session | null
-  currentPage?: 'home' | 'prompts' | 'lab' | 'public' | 'import-export'
+  currentPage?: 'home' | 'prompts' | 'public' | 'import-export'
 }
 
 export function Sidebar({

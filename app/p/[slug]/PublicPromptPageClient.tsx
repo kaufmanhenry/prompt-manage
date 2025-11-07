@@ -518,11 +518,6 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
                     {prompt.id && (
                       <CopyPromptButton promptId={prompt.id} promptName={prompt.name} size="lg" />
                     )}
-                    <Link href="/dashboard/lab">
-                      <Button size="lg" variant="outline">
-                        Try in Prompt Lab
-                      </Button>
-                    </Link>
                     <Link href="/p">
                       <Button size="lg" variant="ghost">
                         Explore More Prompts

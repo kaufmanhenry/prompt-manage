@@ -4,7 +4,6 @@ import Link from 'next/link'
 
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
-import InteractivePromptLab from '@/components/InteractivePromptLab'
 import RotatingAudience from '@/components/RotatingAudience'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -321,11 +320,6 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Right: Team Prompt Workspace (broader across personas) */}
-            <div className="relative">
-              <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-tr from-gray-200/50 via-gray-100/40 to-transparent blur-3xl dark:from-gray-700/20 dark:via-gray-800/10" />
-              <InteractivePromptLab />
-            </div>
           </section>
 
           {/* Features Section */}

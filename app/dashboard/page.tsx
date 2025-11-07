@@ -24,6 +24,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/use-toast'
+import { useTeamContext } from '@/contexts/team-context'
 import { usePaywall } from '@/hooks/usePaywall'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
@@ -35,6 +36,7 @@ export default function DashboardHomePage() {
   const { toast } = useToast()
   const [showCreateForm, setShowCreateForm] = useState(false)
   const { usage, subscription, canCreatePrompt, PaywallComponent } = usePaywall()
+  const { currentTeamId } = useTeamContext()
 
   // Handle checkout success/cancel redirects
   useEffect(() => {
@@ -79,15 +81,6 @@ export default function DashboardHomePage() {
     },
     enabled: !!session?.user?.id,
   })
-
-  const [currentTeamId, setCurrentTeamId] = useState<string | null>(null)
-
-  useEffect(() => {
-    const stored = localStorage.getItem('prompt-manage-current-team')
-    if (stored) {
-      setCurrentTeamId(stored)
-    }
-  }, [])
 
   const { data: prompts = [], isLoading } = useQuery({
     queryKey: ['prompts', session?.user?.id, currentTeamId],

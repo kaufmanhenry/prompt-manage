@@ -2,6 +2,7 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { CheckCircle2, Download, FileJson, FileText, Loader2, Upload, XCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
 import Paywall from '@/components/Paywall'
@@ -24,6 +25,7 @@ import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'
 
 export default function ImportExportPage() {
+  const router = useRouter()
   const [importFormat, setImportFormat] = useState<'csv' | 'json'>('csv')
   const [skipDuplicates, setSkipDuplicates] = useState(true)
   const [importing, setImporting] = useState(false)
@@ -301,7 +303,7 @@ export default function ImportExportPage() {
       <Sidebar
         prompts={prompts}
         selectedPromptId={null}
-        onSelectPrompt={() => {}}
+        onSelectPrompt={(id) => router.push(`/dashboard/prompts?prompt=${id}`)}
         session={session}
         currentPage="import-export"
       />

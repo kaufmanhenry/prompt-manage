@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test'
 
+// Skip these tests in CI as they require Supabase authentication and test data
 test.describe('Derivative Prompts Feature', () => {
+  test.skip(
+    ({ browserName: _browserName }) => process.env.CI === 'true',
+    'Skipping in CI - requires Supabase authentication',
+  )
+
   test.beforeEach(async ({ page }) => {
     // Navigate to the app
     await page.goto('http://localhost:3000')

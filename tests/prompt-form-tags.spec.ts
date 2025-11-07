@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test'
 
+// Skip these tests in CI as they require Supabase authentication
 test.describe('PromptForm Tags', () => {
+  test.skip(
+    ({ browserName: _browserName }) => process.env.CI === 'true',
+    'Skipping in CI - requires Supabase authentication',
+  )
+
   test.beforeEach(async ({ page }) => {
     // These tests assume an authenticated session exists or are skipped in CI
     await page.goto('/dashboard')

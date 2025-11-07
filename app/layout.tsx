@@ -47,13 +47,14 @@ export const metadata: Metadata = {
     siteName: 'Prompt Manage',
     title: 'Prompt Manage — AI Prompt Management for Teams',
     description:
-      'Professional prompt management platform for marketing teams, agencies, and enterprises. Organize, test, and collaborate on AI prompts.',
+      'Organize, test, and collaborate on AI prompts for ChatGPT, Claude & Gemini. The professional prompt management platform trusted by marketing teams and enterprises.',
     images: [
       {
-        url: 'https://promptmanage.com/og-image.svg',
+        url: 'https://promptmanage.com/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'Prompt Manage - AI Prompt Management Platform',
+        type: 'image/png',
       },
     ],
   },
@@ -63,8 +64,8 @@ export const metadata: Metadata = {
     creator: '@promptmanage',
     title: 'Prompt Manage — AI Prompt Management for Teams',
     description:
-      'Professional prompt management platform. Organize, test, and collaborate on AI prompts for ChatGPT, Claude, Gemini, and more.',
-    images: ['https://promptmanage.com/og-image.svg'],
+      'Organize, test, and collaborate on AI prompts for ChatGPT, Claude & Gemini. Professional prompt management for teams.',
+    images: ['https://promptmanage.com/opengraph-image'],
   },
   robots: {
     index: true,

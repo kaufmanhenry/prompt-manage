@@ -8,7 +8,6 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
-import { useTeamContext } from '@/contexts/team-context'
 import { useUserTeams } from '@/lib/hooks/use-teams'
 import { createClient } from '@/utils/supabase/client'
 
@@ -20,10 +19,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const queryClient = useQueryClient()
-  const { currentTeamId } = useTeamContext()
   const { data: teams } = useUserTeams()
-
-  const currentTeam = teams?.find((t) => t.team_id === currentTeamId)
 
   const handleSignOut = async () => {
     try {
@@ -59,18 +55,19 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
     },
   ]
 
-  const teamNavItems = [
+  // Helper to get team nav items for a specific team
+  const getTeamNavItems = (teamId: string) => [
     {
-      href: '/settings/team',
+      href: `/settings/team/${teamId}`,
       label: 'Team & Billing',
       icon: Settings,
-      active: pathname === '/settings/team',
+      active: pathname === `/settings/team/${teamId}`,
     },
     {
-      href: '/settings/team/members',
+      href: `/settings/team/${teamId}/members`,
       label: 'Members',
       icon: Users,
-      active: pathname === '/settings/team/members',
+      active: pathname === `/settings/team/${teamId}/members`,
     },
   ]
 
@@ -142,26 +139,45 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
           </div>
         </div>
 
-        {/* Team Settings */}
-        {currentTeam && (
+        {/* All Teams Settings */}
+        {teams && teams.length > 0 && (
           <div>
             <h3 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Team: {currentTeam.teams.name}
+              Teams
             </h3>
-            <div className="space-y-1">
-              {teamNavItems.map((item) => {
-                const Icon = item.icon
+            <div className="space-y-3">
+              {teams.map((team) => {
+                const teamNavItems = getTeamNavItems(team.team_id)
                 return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                      item.active ? 'tab-active' : 'tab-inactive'
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </Link>
+                  <div key={team.team_id} className="space-y-1">
+                    {/* Team Name */}
+                    <div className="px-3 py-1">
+                      <div className="text-sm font-medium">
+                        {team.teams.name}
+                        {team.is_personal && (
+                          <span className="ml-2 text-xs text-muted-foreground">(Personal)</span>
+                        )}
+                      </div>
+                    </div>
+                    {/* Team Nav Items */}
+                    <div className="space-y-1 pl-3">
+                      {teamNavItems.map((item) => {
+                        const Icon = item.icon
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                              item.active ? 'tab-active' : 'tab-inactive'
+                            }`}
+                          >
+                            <Icon className="h-4 w-4" />
+                            {item.label}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  </div>
                 )
               })}
             </div>

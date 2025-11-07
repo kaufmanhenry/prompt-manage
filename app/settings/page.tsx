@@ -213,10 +213,6 @@ export default function SettingsPage() {
     setTheme(newTheme)
   }
 
-  const handleEmailNotificationsChange = (checked: boolean) => {
-    setEmailNotifications(checked)
-  }
-
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!user) return
     const file = e.target.files?.[0]

@@ -2,7 +2,6 @@
 
 import type { Session } from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
-import { useQuery } from '@tanstack/react-query'
 import { GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
 import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import Image from 'next/image'

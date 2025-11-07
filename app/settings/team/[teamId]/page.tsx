@@ -1,58 +1,38 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import {
-  AlertCircle,
-  ArrowUp,
-  CreditCard,
-  ExternalLink,
-  Save,
-  Settings,
-  Trash2,
-  X,
-} from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { AlertCircle, ArrowUp, Save, Trash2 } from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 import { SettingsSidebar } from '@/components/SettingsSidebar'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { useTeamContext } from '@/contexts/team-context'
 import { useDeleteTeam, useUpdateTeam, useUserTeams } from '@/lib/hooks/use-teams'
-import { PRICING_CONFIG } from '@/lib/pricing'
 import { createClient } from '@/utils/supabase/client'
 
 export default function TeamSettingsPage() {
   const { toast } = useToast()
   const router = useRouter()
-  const { currentTeamId, setCurrentTeamId } = useTeamContext()
+  const params = useParams()
+  const teamId = params.teamId as string
+  const { setCurrentTeamId } = useTeamContext()
   const { data: teams } = useUserTeams()
-  const currentTeam = teams?.find((t) => t.team_id === currentTeamId)
+  const team = teams?.find((t) => t.team_id === teamId)
 
-  const [teamName, setTeamName] = useState(currentTeam?.teams.name || '')
-  const [teamDescription, setTeamDescription] = useState(currentTeam?.teams.description || '')
+  const [teamName, setTeamName] = useState('')
+  const [teamDescription, setTeamDescription] = useState('')
   const [loading, setLoading] = useState<string | null>(null)
 
-  const updateTeam = useUpdateTeam(currentTeamId || '')
+  const updateTeam = useUpdateTeam(teamId || '')
   const deleteTeam = useDeleteTeam()
 
   // Fetch user session
@@ -67,7 +47,7 @@ export default function TeamSettingsPage() {
   })
 
   // Fetch user subscription status
-  const { data: subscriptionStatus, refetch: refetchSubscription } = useQuery({
+  const { data: subscriptionStatus } = useQuery({
     queryKey: ['subscription-status'],
     queryFn: async () => {
       const response = await fetch('/api/subscription/status')
@@ -78,16 +58,16 @@ export default function TeamSettingsPage() {
     },
   })
 
-  // Update local state when team changes
-  useState(() => {
-    if (currentTeam) {
-      setTeamName(currentTeam.teams.name)
-      setTeamDescription(currentTeam.teams.description || '')
+  // Update local state when team loads or changes
+  useEffect(() => {
+    if (team) {
+      setTeamName(team.teams.name)
+      setTeamDescription(team.teams.description || '')
     }
-  })
+  }, [team])
 
   const handleSaveTeam = async () => {
-    if (!currentTeamId || !currentTeam) return
+    if (!teamId || !team) return
 
     if (!teamName.trim()) {
       toast({
@@ -119,10 +99,10 @@ export default function TeamSettingsPage() {
   }
 
   const handleDeleteTeam = async () => {
-    if (!currentTeamId || !currentTeam) return
+    if (!teamId || !team) return
 
     // Prevent deletion of personal team
-    if (currentTeam.is_personal) {
+    if (team.is_personal) {
       toast({
         title: 'Cannot Delete',
         description: 'You cannot delete your personal team',
@@ -133,14 +113,14 @@ export default function TeamSettingsPage() {
 
     if (
       !confirm(
-        `Are you sure you want to delete "${currentTeam.teams.name}"? This action cannot be undone and will delete all prompts and data associated with this team.`,
+        `Are you sure you want to delete "${team.teams.name}"? This action cannot be undone and will delete all prompts and data associated with this team.`,
       )
     ) {
       return
     }
 
     try {
-      await deleteTeam.mutateAsync(currentTeamId)
+      await deleteTeam.mutateAsync(teamId)
 
       toast({
         title: 'Team Deleted',
@@ -164,81 +144,8 @@ export default function TeamSettingsPage() {
     }
   }
 
-  const handleUpgrade = async (plan: 'team' | 'pro') => {
-    setLoading(`upgrade-${plan}`)
-    try {
-      const response = await fetch('/api/subscription/manage', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ action: 'upgrade', plan }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to upgrade subscription')
-      }
-
-      if (data.url) {
-        window.location.href = data.url
-        return
-      }
-
-      toast({
-        title: 'Success',
-        description: 'Subscription upgraded successfully',
-      })
-
-      void refetchSubscription()
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to upgrade subscription',
-        variant: 'destructive',
-      })
-    } finally {
-      setLoading(null)
-    }
-  }
-
-  const handleCancel = async () => {
-    setLoading('cancel')
-    try {
-      const response = await fetch('/api/subscription/manage', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ action: 'cancel' }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to cancel subscription')
-      }
-
-      toast({
-        title: 'Success',
-        description: 'Subscription will be canceled at the end of the billing period',
-      })
-
-      void refetchSubscription()
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to cancel subscription',
-        variant: 'destructive',
-      })
-    } finally {
-      setLoading(null)
-    }
-  }
-
   const handleManageBilling = async () => {
-    if (!currentTeamId) return
+    if (!teamId) return
 
     setLoading('portal')
     try {
@@ -247,7 +154,7 @@ export default function TeamSettingsPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ teamId: currentTeamId }),
+        body: JSON.stringify({ teamId }),
       })
 
       const data = await response.json()
@@ -267,18 +174,6 @@ export default function TeamSettingsPage() {
         variant: 'destructive',
       })
       setLoading(null)
-    }
-  }
-
-  const getTierBadgeColor = (tier: string) => {
-    switch (tier) {
-      case 'enterprise':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-200'
-      case 'pro':
-      case 'team':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200'
-      default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
     }
   }
 
@@ -303,7 +198,7 @@ export default function TeamSettingsPage() {
     })
   }
 
-  if (!currentTeamId || !currentTeam) {
+  if (!teamId || !team) {
     return (
       <div className="flex h-screen">
         <SettingsSidebar session={session} />
@@ -317,16 +212,13 @@ export default function TeamSettingsPage() {
     )
   }
 
-  const isPersonalTeam = currentTeam.is_personal
-  const isOwner = currentTeam.role === 'owner'
-  const canEdit = isOwner || currentTeam.role === 'admin'
-  const tier = currentTeam.teams.tier || 'free'
-  const status = currentTeam.teams.subscription_status
-  const teamPeriodEnd = currentTeam.teams.subscription_period_end
-  const hasActiveSubscription = currentTeam.teams.stripe_customer_id && tier !== 'free'
-  const currentPlan = subscriptionStatus?.subscription?.plan || 'free'
-  const subscriptionStatusValue = subscriptionStatus?.subscription?.status || 'active'
-  const periodEnd = subscriptionStatus?.subscription?.currentPeriodEnd
+  const isPersonalTeam = team.is_personal
+  const isOwner = team.role === 'owner'
+  const canEdit = isOwner || team.role === 'admin'
+  const tier = team.teams.tier || 'free'
+  const status = team.teams.subscription_status
+  const teamPeriodEnd = team.teams.subscription_period_end
+  const hasActiveSubscription = team.teams.stripe_customer_id && tier !== 'free'
   const statusMessage = subscriptionStatus?.statusMessage
 
   return (
@@ -338,7 +230,7 @@ export default function TeamSettingsPage() {
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Team & Billing</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Manage {currentTeam.teams.name} settings and subscription
+              Manage {team.teams.name} settings and subscription
             </p>
           </div>
 
@@ -377,7 +269,7 @@ export default function TeamSettingsPage() {
 
                   <div className="space-y-2">
                     <Label>Your Role</Label>
-                    <Input value={currentTeam.role} disabled className="capitalize" />
+                    <Input value={team.role} disabled className="capitalize" />
                   </div>
                 </div>
 
@@ -430,9 +322,9 @@ export default function TeamSettingsPage() {
                         $5/month • Unlimited prompts
                       </p>
                     )}
-                    {tier === 'team' && (
+                    {tier === 'enterprise' && (
                       <p className="text-sm text-muted-foreground">
-                        $27/month • Team collaboration
+                        Custom pricing • Enterprise features
                       </p>
                     )}
                     {teamPeriodEnd && (
@@ -536,7 +428,7 @@ export default function TeamSettingsPage() {
                           </div>
                         </>
                       )}
-                      {tier === 'team' && (
+                      {tier === 'enterprise' && (
                         <>
                           <div className="flex items-center gap-2">
                             <span className="text-green-600">✓</span>

@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { Info, Mail, RefreshCw, Trash2, UserPlus, Users } from 'lucide-react'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
 
 import { SettingsSidebar } from '@/components/SettingsSidebar'
@@ -20,7 +21,6 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/use-toast'
-import { useTeamContext } from '@/contexts/team-context'
 import {
   useCancelTeamInvitation,
   useInviteTeamMember,
@@ -34,19 +34,20 @@ import { createClient } from '@/utils/supabase/client'
 
 export default function TeamMembersPage() {
   const { toast } = useToast()
-  const { currentTeamId } = useTeamContext()
+  const params = useParams()
+  const teamId = params.teamId as string
   const { data: teams } = useUserTeams()
-  const currentTeam = teams?.find((t) => t.team_id === currentTeamId)
-  const { data: members, isLoading: membersLoading } = useTeamMembers(currentTeamId ?? undefined)
+  const team = teams?.find((t) => t.team_id === teamId)
+  const { data: members, isLoading: membersLoading } = useTeamMembers(teamId ?? undefined)
   const { data: invitations, isLoading: invitationsLoading } = useTeamInvitations(
-    currentTeamId ?? undefined,
+    teamId ?? undefined,
   )
 
   const [inviteEmail, setInviteEmail] = useState('')
   const [inviteRole, setInviteRole] = useState<TeamRole>('viewer')
-  const inviteMember = useInviteTeamMember(currentTeamId ?? '')
-  const cancelInvitation = useCancelTeamInvitation(currentTeamId ?? '')
-  const resendInvitation = useResendTeamInvitation(currentTeamId ?? '')
+  const inviteMember = useInviteTeamMember(teamId ?? '')
+  const cancelInvitation = useCancelTeamInvitation(teamId ?? '')
+  const resendInvitation = useResendTeamInvitation(teamId ?? '')
 
   // Fetch user session
   const { data: session } = useQuery({
@@ -62,7 +63,7 @@ export default function TeamMembersPage() {
   const handleInviteMember = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!currentTeamId || !inviteEmail) return
+    if (!teamId || !inviteEmail) return
 
     if (!inviteEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       toast({
@@ -123,7 +124,7 @@ export default function TeamMembersPage() {
     }
   }
 
-  if (!currentTeamId || !currentTeam) {
+  if (!teamId || !team) {
     return (
       <div className="flex h-screen">
         <SettingsSidebar session={session} />
@@ -137,8 +138,8 @@ export default function TeamMembersPage() {
     )
   }
 
-  const isPersonalTeam = currentTeam.is_personal
-  const canInvite = currentTeam.role === 'owner' || currentTeam.role === 'admin'
+  const isPersonalTeam = team.is_personal
+  const canInvite = team.role === 'owner' || team.role === 'admin'
 
   return (
     <div className="flex h-screen">
@@ -150,7 +151,7 @@ export default function TeamMembersPage() {
               Team Members
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Manage members and permissions for {currentTeam.teams.name}
+              Manage members and permissions for {team.teams.name}
             </p>
           </div>
 

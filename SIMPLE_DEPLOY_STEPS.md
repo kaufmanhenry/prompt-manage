@@ -5,7 +5,9 @@
 Go to: **Supabase Dashboard → SQL Editor**
 
 ### Migration 1 (check if needed)
+
 Run this query first to check:
+
 ```sql
 SELECT table_name FROM information_schema.tables
 WHERE table_schema = 'public' AND table_name IN ('teams', 'team_members', 'team_invitations');
@@ -17,7 +19,9 @@ If it returns **less than 3 rows**, copy/paste entire file:
 ---
 
 ### Migration 2 (check if needed)
+
 Run this query first to check:
+
 ```sql
 SELECT column_name FROM information_schema.columns
 WHERE table_name = 'prompts' AND column_name = 'team_id';
@@ -29,6 +33,7 @@ If it returns **0 rows**, copy/paste entire file:
 ---
 
 ### Migration 3 (REQUIRED - always run)
+
 Copy/paste entire file:
 📄 **MIGRATION_3_demo_requests.sql**
 

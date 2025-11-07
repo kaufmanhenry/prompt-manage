@@ -12,6 +12,7 @@ This guide covers deploying the complete Teams feature to production, including 
 ## Prerequisites
 
 Before deploying, ensure you have:
+
 - [x] Resend API account (for sending emails)
 - [x] Access to Supabase production dashboard
 - [x] Access to production environment variables
@@ -28,6 +29,7 @@ Run these migrations **in order** in your Supabase SQL Editor:
 **File**: `supabase/migrations/20250115000000_teams_core.sql`
 
 **Creates**:
+
 - `teams` table with billing tiers and seat limits
 - `team_members` table with role-based permissions
 - `team_invitations` table with token-based invites
@@ -36,6 +38,7 @@ Run these migrations **in order** in your Supabase SQL Editor:
 - RLS policies for security
 
 **To run**:
+
 ```sql
 -- Copy the entire contents of:
 -- supabase/migrations/20250115000000_teams_core.sql
@@ -43,6 +46,7 @@ Run these migrations **in order** in your Supabase SQL Editor:
 ```
 
 **Verification**:
+
 ```sql
 -- Check tables were created
 SELECT table_name FROM information_schema.tables
@@ -59,12 +63,14 @@ AND table_name IN ('teams', 'team_members', 'team_invitations');
 **File**: `supabase/migrations/20250120000000_integrate_teams.sql`
 
 **Creates**:
+
 - Adds `team_id` column to `prompts` table
 - Auto-creates personal team on user signup (trigger)
 - Updates RLS policies for team-based prompt access
 - Functions: `get_user_default_team()`, `get_user_teams()`
 
 **To run**:
+
 ```sql
 -- Copy the entire contents of:
 -- supabase/migrations/20250120000000_integrate_teams.sql
@@ -72,6 +78,7 @@ AND table_name IN ('teams', 'team_members', 'team_invitations');
 ```
 
 **Verification**:
+
 ```sql
 -- Check team_id column was added to prompts
 SELECT column_name, data_type
@@ -94,12 +101,14 @@ WHERE trigger_name = 'on_auth_user_created';
 **File**: `supabase/migrations/20250206000000_demo_requests.sql`
 
 **Creates**:
+
 - `demo_requests` table for tracking demo bookings
 - `demo_requests_dashboard` view for sales team
 - Indexes for performance
 - RLS policies for access control
 
 **To run**:
+
 ```sql
 -- Copy the entire contents of:
 -- supabase/migrations/20250206000000_demo_requests.sql
@@ -107,6 +116,7 @@ WHERE trigger_name = 'on_auth_user_created';
 ```
 
 **Verification**:
+
 ```sql
 -- Check demo_requests table was created
 SELECT table_name FROM information_schema.tables
@@ -146,6 +156,7 @@ NEXT_PUBLIC_SITE_URL=https://promptmanage.com
 After setting environment variables:
 
 1. **Test Resend API Key**:
+
    ```bash
    curl https://api.resend.com/emails \
      -H "Authorization: Bearer YOUR_RESEND_API_KEY" \
@@ -187,12 +198,14 @@ gh pr merge 5 --squash
 ### Step 3: Configure Environment Variables
 
 **For Vercel**:
+
 1. Go to project settings → Environment Variables
 2. Add all required variables (see above)
 3. Apply to Production environment
 4. Redeploy if needed
 
 **For Railway/Other**:
+
 - Add variables via platform-specific interface
 
 ### Step 4: Deploy Application
@@ -210,11 +223,13 @@ git push origin main
 Run these tests immediately after deployment:
 
 #### Test 1: Team Creation
+
 1. Create a new user account
 2. Verify personal team was auto-created
 3. Check Supabase `teams` and `team_members` tables
 
 #### Test 2: Invitation Flow
+
 1. Go to `/settings/team/members`
 2. Click "Invite Member"
 3. Enter email and select role
@@ -225,12 +240,14 @@ Run these tests immediately after deployment:
 8. **Check**: Member added to team
 
 #### Test 3: Seat Limit Enforcement
+
 1. Create Team plan subscription ($20/mo)
 2. Try to invite 6th member (limit is 5)
 3. **Check**: `SeatLimitModal` appears
 4. **Check**: Shows Team vs Pro comparison
 
 #### Test 4: Demo Booking
+
 1. When seat limit modal appears, click "Book a Demo"
 2. **Check**: Redirected to `/demo` page
 3. **Check**: Confirmation message shown
@@ -242,6 +259,7 @@ Run these tests immediately after deployment:
 ## Database Queries for Monitoring
 
 ### View All Teams
+
 ```sql
 SELECT
   id,
@@ -256,6 +274,7 @@ LIMIT 20;
 ```
 
 ### View Pending Invitations
+
 ```sql
 SELECT
   ti.id,
@@ -274,6 +293,7 @@ ORDER BY ti.created_at DESC;
 ```
 
 ### View Demo Requests
+
 ```sql
 SELECT * FROM demo_requests_dashboard
 WHERE status = 'pending'
@@ -281,6 +301,7 @@ ORDER BY created_at DESC;
 ```
 
 ### Check Seat Limits
+
 ```sql
 SELECT
   t.id,
@@ -305,6 +326,7 @@ ORDER BY t.created_at DESC;
 **Symptoms**: Invitations created but emails not received
 
 **Solutions**:
+
 1. Check `RESEND_API_KEY` is set correctly
 2. Verify domain in Resend dashboard
 3. Check Resend API logs: https://resend.com/logs
@@ -312,6 +334,7 @@ ORDER BY t.created_at DESC;
 5. Check spam folder
 
 **Debug Query**:
+
 ```sql
 -- Check recent invitations
 SELECT * FROM team_invitations
@@ -326,11 +349,13 @@ ORDER BY created_at DESC;
 **Symptoms**: Users can invite beyond seat limits
 
 **Solutions**:
+
 1. Verify `max_members` set correctly on teams table
 2. Check API route: `/api/teams/[teamId]/invitations/route.ts` line 68
 3. Review RLS policies on `team_invitations` table
 
 **Debug Query**:
+
 ```sql
 -- Check team seat configuration
 SELECT id, name, tier, max_members FROM teams;
@@ -343,11 +368,13 @@ SELECT id, name, tier, max_members FROM teams;
 **Symptoms**: Demo booking completes but no record in database
 
 **Solutions**:
+
 1. Check migration `20250206000000_demo_requests.sql` ran successfully
 2. Verify RLS policies allow inserts
 3. Check `SALES_EMAIL` environment variable set
 
 **Debug Query**:
+
 ```sql
 -- Check demo_requests table exists
 SELECT * FROM demo_requests ORDER BY created_at DESC LIMIT 5;
@@ -360,11 +387,13 @@ SELECT * FROM demo_requests ORDER BY created_at DESC LIMIT 5;
 **Symptoms**: New users don't have default team
 
 **Solutions**:
+
 1. Verify trigger `on_auth_user_created` exists
 2. Check function `create_personal_team()` exists
 3. Review function logs in Supabase
 
 **Debug Query**:
+
 ```sql
 -- Check trigger exists
 SELECT trigger_name, event_manipulation, event_object_table
@@ -384,6 +413,7 @@ WHERE id = 'USER_ID_HERE';
 If issues occur after deployment:
 
 ### Quick Rollback (Code Only)
+
 ```bash
 # Revert deployment to previous version
 vercel rollback
@@ -436,6 +466,7 @@ Teams feature is successfully deployed when:
 ## Support
 
 **Issues or Questions?**
+
 - Check GitHub PR: https://github.com/kaufmanhenry/prompt-manage/pull/5
 - Review `/docs/teams/FINAL_SUMMARY.md` for feature details
 - Contact: sales@promptmanage.com

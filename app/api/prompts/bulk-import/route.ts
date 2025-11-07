@@ -359,6 +359,27 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Get user's personal team ID
+    const { data: personalTeam, error: teamError } = await supabase
+      .from('team_members')
+      .select('team_id, teams!inner(is_verified)')
+      .eq('user_id', user.id)
+      .eq('is_active', true)
+      .limit(1)
+      .single()
+
+    if (teamError || !personalTeam) {
+      return NextResponse.json(
+        {
+          error: 'No team found',
+          details: 'Please contact support - your account is missing a personal team.',
+        },
+        { status: 500 },
+      )
+    }
+
+    const teamId = personalTeam.team_id
+
     // Prepare inserts
     const inserts = prompts
       .filter((p) => {
@@ -370,12 +391,13 @@ export async function POST(request: NextRequest) {
       })
       .map((p) => ({
         user_id: user.id,
+        team_id: teamId,
         name: p.name,
         prompt_text: p.prompt_text,
         description: p.description || null,
         model: p.model || 'gpt-4o',
         tags: p.tags || [],
-        is_public: p.is_public || false,
+        is_public: false, // Always import as private by default
       }))
 
     if (inserts.length === 0) {

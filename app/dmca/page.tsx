@@ -22,9 +22,7 @@ export default function DmcaPage() {
           <p className="text-lg text-muted-foreground">
             Copyright infringement notification and takedown procedures.
           </p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Last updated: October 30, 2025
-          </p>
+          <p className="mt-2 text-sm text-muted-foreground">Last updated: October 30, 2025</p>
         </div>
       </div>
 

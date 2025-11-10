@@ -21,7 +21,8 @@ export default async function Image() {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#0F172A',
-          backgroundImage: 'radial-gradient(circle at 25px 25px, #1E293B 2%, transparent 0%), radial-gradient(circle at 75px 75px, #1E293B 2%, transparent 0%)',
+          backgroundImage:
+            'radial-gradient(circle at 25px 25px, #1E293B 2%, transparent 0%), radial-gradient(circle at 75px 75px, #1E293B 2%, transparent 0%)',
           backgroundSize: '100px 100px',
         }}
       >
@@ -50,10 +51,31 @@ export default async function Image() {
                 gap: '8px',
               }}
             >
-              <div style={{ width: '48px', height: '48px', borderRadius: '12px', backgroundColor: '#3B82F6' }} />
+              <div
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '12px',
+                  backgroundColor: '#3B82F6',
+                }}
+              />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '12px', backgroundColor: '#3B82F6' }} />
-                <div style={{ width: '48px', height: '48px', borderRadius: '12px', backgroundColor: '#3B82F6' }} />
+                <div
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '12px',
+                    backgroundColor: '#3B82F6',
+                  }}
+                />
+                <div
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '12px',
+                    backgroundColor: '#3B82F6',
+                  }}
+                />
               </div>
             </div>
             <div
@@ -119,7 +141,9 @@ export default async function Image() {
               }}
             >
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', marginBottom: '8px' }}>
+                <div
+                  style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', marginBottom: '8px' }}
+                >
                   Marketing Copy
                 </div>
                 <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)' }}>
@@ -146,7 +170,9 @@ export default async function Image() {
               }}
             >
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', marginBottom: '8px' }}>
+                <div
+                  style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', marginBottom: '8px' }}
+                >
                   Code Review
                 </div>
                 <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)' }}>
@@ -173,7 +199,9 @@ export default async function Image() {
               }}
             >
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', marginBottom: '8px' }}>
+                <div
+                  style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', marginBottom: '8px' }}
+                >
                   Customer Support
                 </div>
                 <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)' }}>
@@ -190,6 +218,6 @@ export default async function Image() {
     ),
     {
       ...size,
-    }
+    },
   )
 }

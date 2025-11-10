@@ -139,9 +139,7 @@ export function DashboardPreview() {
 
           {/* Footer note */}
           <div className="border-t border-border/40 pt-3 text-center">
-            <p className="text-[11px] text-muted-foreground">
-              Click any prompt to view details
-            </p>
+            <p className="text-[11px] text-muted-foreground">Click any prompt to view details</p>
           </div>
         </div>
       </div>
@@ -161,7 +159,9 @@ export function DashboardPreview() {
                   </div>
                   <div>
                     <DialogTitle className="text-xl">{selectedPrompt.name}</DialogTitle>
-                    <p className="mt-1 text-sm text-muted-foreground">{selectedPrompt.description}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {selectedPrompt.description}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -176,7 +176,9 @@ export function DashboardPreview() {
                 </div>
                 <div className="rounded-lg border bg-card p-3">
                   <p className="text-xs text-muted-foreground">Views</p>
-                  <p className="mt-1 text-sm font-semibold">{selectedPrompt.views.toLocaleString()}</p>
+                  <p className="mt-1 text-sm font-semibold">
+                    {selectedPrompt.views.toLocaleString()}
+                  </p>
                 </div>
                 <div className="rounded-lg border bg-card p-3">
                   <p className="text-xs text-muted-foreground">Uses</p>
@@ -209,7 +211,9 @@ export function DashboardPreview() {
 
               {/* Footer info */}
               <div className="flex items-center justify-between rounded-lg border border-dashed bg-muted/20 px-4 py-3">
-                <span className="text-xs text-muted-foreground">Created {selectedPrompt.created}</span>
+                <span className="text-xs text-muted-foreground">
+                  Created {selectedPrompt.created}
+                </span>
                 <Badge variant="outline" className="text-[10px]">
                   Click to copy (demo)
                 </Badge>

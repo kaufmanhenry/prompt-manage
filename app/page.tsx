@@ -351,9 +351,7 @@ export default async function Home() {
                         <Folder className="h-5 w-5 text-muted-foreground" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold">
-                      Organize & Tag
-                    </h3>
+                    <h3 className="text-lg font-semibold">Organize & Tag</h3>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
                       Create libraries, add tags, and categorize prompts for easy discovery and
                       quick access.
@@ -369,9 +367,7 @@ export default async function Home() {
                         <Search className="h-5 w-5 text-muted-foreground" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold">
-                      Search & Filter
-                    </h3>
+                    <h3 className="text-lg font-semibold">Search & Filter</h3>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
                       Quickly find prompts by tag, keyword, category, or model. Instant access to
                       exactly what you need.
@@ -387,9 +383,7 @@ export default async function Home() {
                         <ShieldCheck className="h-5 w-5 text-muted-foreground" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold">
-                      Secure & Private
-                    </h3>
+                    <h3 className="text-lg font-semibold">Secure & Private</h3>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
                       Keep your prompts secure. Private collections with enhanced permissions coming
                       soon.
@@ -401,33 +395,25 @@ export default async function Home() {
               {/* Metrics */}
               <div className="mt-20 grid grid-cols-2 gap-6 border-t border-border pt-16 sm:grid-cols-4">
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
-                    100%
-                  </div>
+                  <div className="text-4xl font-semibold tracking-tight">100%</div>
                   <div className="mt-2 text-sm font-medium text-muted-foreground">
                     Secure Storage
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
-                    Tag & Filter
-                  </div>
+                  <div className="text-4xl font-semibold tracking-tight">Tag & Filter</div>
                   <div className="mt-2 text-sm font-medium text-muted-foreground">
                     Easy Discovery
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
-                    Collections
-                  </div>
+                  <div className="text-4xl font-semibold tracking-tight">Collections</div>
                   <div className="mt-2 text-sm font-medium text-muted-foreground">
                     Organize & Share
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
-                    1000s
-                  </div>
+                  <div className="text-4xl font-semibold tracking-tight">1000s</div>
                   <div className="mt-2 text-sm font-medium text-muted-foreground">
                     Prompts Organized
                   </div>
@@ -440,9 +426,7 @@ export default async function Home() {
           <section className="mt-24">
             <div className="mx-auto max-w-6xl">
               <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                  How it works
-                </h2>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">How it works</h2>
                 <p className="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-300">
                   Get started in minutes. Organize your prompts with tags, search with filters, and
                   maintain version control.

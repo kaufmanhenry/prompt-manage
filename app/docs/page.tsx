@@ -40,9 +40,7 @@ export default function DocsPage() {
           <p className="text-lg text-muted-foreground">
             Everything you need to know about using Prompt Manage effectively.
           </p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Last updated: October 16, 2025
-          </p>
+          <p className="mt-2 text-sm text-muted-foreground">Last updated: October 16, 2025</p>
         </div>
       </div>
 
@@ -70,90 +68,70 @@ export default function DocsPage() {
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <Share2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                How to Share Prompts Publicly
-              </span>
+              <span className="font-medium">How to Share Prompts Publicly</span>
             </Link>
             <Link
               href="#edit-profile"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <Settings className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                How to Edit Your Profile
-              </span>
+              <span className="font-medium">How to Edit Your Profile</span>
             </Link>
             <Link
               href="#change-password"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <Lock className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                How to Change Password
-              </span>
+              <span className="font-medium">How to Change Password</span>
             </Link>
             <Link
               href="#dark-mode"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <Palette className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                How to Turn on Dark Mode
-              </span>
+              <span className="font-medium">How to Turn on Dark Mode</span>
             </Link>
             <Link
               href="#delete-prompt"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <Trash2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                How to Delete a Prompt
-              </span>
+              <span className="font-medium">How to Delete a Prompt</span>
             </Link>
             <Link
               href="#browse-directory"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <Eye className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                Browse Public Prompts
-              </span>
+              <span className="font-medium">Browse Public Prompts</span>
             </Link>
             <Link
               href="/docs/account-management"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <User className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                Complete Account Management Guide
-              </span>
+              <span className="font-medium">Complete Account Management Guide</span>
             </Link>
             <Link
               href="/docs/collections"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <FolderOpen className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                Prompt Collections Guide
-              </span>
+              <span className="font-medium">Prompt Collections Guide</span>
             </Link>
             <Link
               href="/docs/best-practices"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <BookOpen className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                Best Practices Guide
-              </span>
+              <span className="font-medium">Best Practices Guide</span>
             </Link>
             <Link
               href="/docs/payments-subscriptions"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <CreditCard className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">
-                Payments & Subscriptions
-              </span>
+              <span className="font-medium">Payments & Subscriptions</span>
             </Link>
             <Link
               href="/docs/teams"
@@ -173,18 +151,13 @@ export default function DocsPage() {
                   <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
                     <User className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h2 className="text-2xl font-bold">
-                    How to Sign Up
-                  </h2>
+                  <h2 className="text-2xl font-bold">How to Sign Up</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <ol className="list-decimal space-y-3 pl-6">
                     <li>
-                      Click{' '}
-                      <strong className="text-foreground">
-                        "Sign in with Google"
-                      </strong>{' '}
-                      on the homepage or any page
+                      Click <strong className="text-foreground">"Sign in with Google"</strong> on
+                      the homepage or any page
                     </li>
                     <li>Authorize Prompt Manage to access your Google account</li>
                     <li>You'll be automatically redirected to your dashboard</li>
@@ -210,9 +183,7 @@ export default function DocsPage() {
                   <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
                     <Save className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h2 className="text-2xl font-bold">
-                    How to Save Prompts
-                  </h2>
+                  <h2 className="text-2xl font-bold">How to Save Prompts</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <p>There are two ways to save prompts to your library:</p>
@@ -224,36 +195,33 @@ export default function DocsPage() {
                     <ol className="list-decimal space-y-2 pl-6">
                       <li>Go to your Dashboard</li>
                       <li>
-                        Click the{' '}
-                        <strong className="text-foreground">"New Prompt"</strong>{' '}
-                        button
+                        Click the <strong className="text-foreground">"New Prompt"</strong> button
                       </li>
                       <li>Fill in the required fields:</li>
                       <ul className="ml-6 mt-2 list-disc space-y-1">
                         <li>
-                          <strong className="text-foreground">Name:</strong> A
-                          descriptive title for your prompt
+                          <strong className="text-foreground">Name:</strong> A descriptive title for
+                          your prompt
                         </li>
                         <li>
-                          <strong className="text-foreground">Description:</strong>{' '}
-                          What the prompt does (optional but recommended)
+                          <strong className="text-foreground">Description:</strong> What the prompt
+                          does (optional but recommended)
                         </li>
                         <li>
-                          <strong className="text-foreground">Prompt Text:</strong>{' '}
-                          The actual prompt content
+                          <strong className="text-foreground">Prompt Text:</strong> The actual
+                          prompt content
                         </li>
                         <li>
-                          <strong className="text-foreground">Model:</strong> Select
-                          which AI model to use (GPT-4o, Claude, Gemini, etc.)
+                          <strong className="text-foreground">Model:</strong> Select which AI model
+                          to use (GPT-4o, Claude, Gemini, etc.)
                         </li>
                         <li>
-                          <strong className="text-foreground">Tags:</strong> Add tags
-                          to organize your prompts
+                          <strong className="text-foreground">Tags:</strong> Add tags to organize
+                          your prompts
                         </li>
                       </ul>
                       <li>
-                        Click{' '}
-                        <strong className="text-foreground">"Save Prompt"</strong>
+                        Click <strong className="text-foreground">"Save Prompt"</strong>
                       </li>
                     </ol>
                   </div>
@@ -274,10 +242,7 @@ export default function DocsPage() {
                       </li>
                       <li>Find a prompt you like</li>
                       <li>
-                        Click the{' '}
-                        <strong className="text-foreground">
-                          "Copy to My Library"
-                        </strong>{' '}
+                        Click the <strong className="text-foreground">"Copy to My Library"</strong>{' '}
                         button
                       </li>
                       <li>The prompt is instantly saved to your dashboard</li>
@@ -302,9 +267,7 @@ export default function DocsPage() {
                   <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
                     <Share2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h2 className="text-2xl font-bold">
-                    How to Share Prompts Publicly
-                  </h2>
+                  <h2 className="text-2xl font-bold">How to Share Prompts Publicly</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
@@ -320,14 +283,11 @@ export default function DocsPage() {
                     </li>
                     <li>
                       Scroll down and toggle{' '}
-                      <strong className="text-foreground">
-                        "Make this prompt public"
-                      </strong>{' '}
-                      to <strong>ON</strong>
+                      <strong className="text-foreground">"Make this prompt public"</strong> to{' '}
+                      <strong>ON</strong>
                     </li>
                     <li>
-                      Click{' '}
-                      <strong className="text-foreground">"Save Changes"</strong>
+                      Click <strong className="text-foreground">"Save Changes"</strong>
                     </li>
                     <li>
                       Your prompt now has a public URL like{' '}
@@ -367,9 +327,7 @@ export default function DocsPage() {
                   <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
                     <Settings className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h2 className="text-2xl font-bold">
-                    How to Edit Your Profile
-                  </h2>
+                  <h2 className="text-2xl font-bold">How to Edit Your Profile</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <ol className="list-decimal space-y-3 pl-6">
@@ -383,21 +341,20 @@ export default function DocsPage() {
                     <li>Update any of the following:</li>
                     <ul className="ml-6 mt-2 list-disc space-y-1">
                       <li>
-                        <strong className="text-foreground">Display Name:</strong> The
-                        name shown on your public profile
+                        <strong className="text-foreground">Display Name:</strong> The name shown on
+                        your public profile
                       </li>
                       <li>
-                        <strong className="text-foreground">Bio:</strong> A short
-                        description about yourself (optional)
+                        <strong className="text-foreground">Bio:</strong> A short description about
+                        yourself (optional)
                       </li>
                       <li>
-                        <strong className="text-foreground">Profile Picture:</strong>{' '}
-                        Your Google account photo is used by default
+                        <strong className="text-foreground">Profile Picture:</strong> Your Google
+                        account photo is used by default
                       </li>
                     </ul>
                     <li>
-                      Click{' '}
-                      <strong className="text-foreground">"Save Changes"</strong>
+                      Click <strong className="text-foreground">"Save Changes"</strong>
                     </li>
                   </ol>
                   <div className="mt-4 rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
@@ -417,9 +374,7 @@ export default function DocsPage() {
                   <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
                     <Lock className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h2 className="text-2xl font-bold">
-                    How to Change Your Password
-                  </h2>
+                  <h2 className="text-2xl font-bold">How to Change Your Password</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
@@ -444,8 +399,7 @@ export default function DocsPage() {
                         </a>
                       </li>
                       <li>
-                        Click on{' '}
-                        <strong className="text-foreground">"Password"</strong>
+                        Click on <strong className="text-foreground">"Password"</strong>
                       </li>
                       <li>Follow Google's prompts to update your password</li>
                       <li>
@@ -472,9 +426,7 @@ export default function DocsPage() {
                   <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
                     <Palette className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h2 className="text-2xl font-bold">
-                    How to Turn on Dark Mode
-                  </h2>
+                  <h2 className="text-2xl font-bold">How to Turn on Dark Mode</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <p>Toggle between light and dark mode directly in Prompt Manage.</p>
@@ -488,8 +440,7 @@ export default function DocsPage() {
                       from the dropdown menu
                     </li>
                     <li>
-                      Look for the{' '}
-                      <strong className="text-foreground">"Dark Mode"</strong> toggle
+                      Look for the <strong className="text-foreground">"Dark Mode"</strong> toggle
                     </li>
                     <li>Click the toggle to switch between light and dark mode</li>
                     <li>
@@ -514,9 +465,7 @@ export default function DocsPage() {
                   <div className="rounded-lg bg-red-100 p-2 dark:bg-red-900/40">
                     <Trash2 className="h-6 w-6 text-red-600 dark:text-red-400" />
                   </div>
-                  <h2 className="text-2xl font-bold">
-                    How to Delete a Prompt
-                  </h2>
+                  <h2 className="text-2xl font-bold">How to Delete a Prompt</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <ol className="list-decimal space-y-3 pl-6">
@@ -549,9 +498,7 @@ export default function DocsPage() {
                   <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
                     <Eye className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h2 className="text-2xl font-bold">
-                    How to Browse Public Prompts
-                  </h2>
+                  <h2 className="text-2xl font-bold">How to Browse Public Prompts</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
@@ -571,29 +518,25 @@ export default function DocsPage() {
                     <li>Use the filters to narrow your search:</li>
                     <ul className="ml-6 mt-2 list-disc space-y-1">
                       <li>
-                        <strong className="text-foreground">Search:</strong> Find
-                        prompts by keyword
+                        <strong className="text-foreground">Search:</strong> Find prompts by keyword
                       </li>
                       <li>
-                        <strong className="text-foreground">Model:</strong> Filter by
-                        AI model (GPT-4o, Claude, Gemini, etc.)
+                        <strong className="text-foreground">Model:</strong> Filter by AI model
+                        (GPT-4o, Claude, Gemini, etc.)
                       </li>
                       <li>
-                        <strong className="text-foreground">Tags:</strong> Browse by
-                        category (marketing, coding, content, etc.)
+                        <strong className="text-foreground">Tags:</strong> Browse by category
+                        (marketing, coding, content, etc.)
                       </li>
                       <li>
-                        <strong className="text-foreground">Sort:</strong> View by
-                        most recent or most popular
+                        <strong className="text-foreground">Sort:</strong> View by most recent or
+                        most popular
                       </li>
                     </ul>
                     <li>Click on any prompt to view details</li>
                     <li>
-                      Click{' '}
-                      <strong className="text-foreground">
-                        "Copy to My Library"
-                      </strong>{' '}
-                      to save it (requires sign-in)
+                      Click <strong className="text-foreground">"Copy to My Library"</strong> to
+                      save it (requires sign-in)
                     </li>
                   </ol>
 
@@ -610,9 +553,7 @@ export default function DocsPage() {
 
           {/* Need More Help */}
           <div className="mt-16 rounded-lg border border-border bg-card p-8 text-center">
-            <h2 className="mb-4 text-2xl font-bold">
-              Need More Help?
-            </h2>
+            <h2 className="mb-4 text-2xl font-bold">Need More Help?</h2>
             <p className="mb-6 text-muted-foreground">
               Check out our best practices guide or explore the platform
             </p>

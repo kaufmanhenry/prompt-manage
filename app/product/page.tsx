@@ -191,9 +191,7 @@ export default function ProductPage() {
                   <span className="text-4xl font-bold">$0</span>
                   <span className="text-gray-500">/mo</span>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Perfect for getting started
-                </p>
+                <p className="text-sm text-muted-foreground">Perfect for getting started</p>
               </div>
               <ul className="mb-8 space-y-3">
                 <li className="flex items-start gap-2">

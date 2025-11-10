@@ -318,9 +318,7 @@ export default function TeamSettingsPage() {
                       <p className="text-sm text-muted-foreground">25 prompts limit</p>
                     )}
                     {tier === 'pro' && (
-                      <p className="text-sm text-muted-foreground">
-                        $5/month • Unlimited prompts
-                      </p>
+                      <p className="text-sm text-muted-foreground">$5/month • Unlimited prompts</p>
                     )}
                     {tier === 'enterprise' && (
                       <p className="text-sm text-muted-foreground">
@@ -341,7 +339,11 @@ export default function TeamSettingsPage() {
                         </Button>
                       )}
                       {hasActiveSubscription && (
-                        <Button variant="outline" onClick={handleManageBilling} disabled={!!loading}>
+                        <Button
+                          variant="outline"
+                          onClick={handleManageBilling}
+                          disabled={!!loading}
+                        >
                           {loading === 'portal' ? 'Loading...' : 'Manage'}
                         </Button>
                       )}

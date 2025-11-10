@@ -58,123 +58,113 @@ export function DashboardPreview() {
   }, [])
 
   return (
-    <div className="relative w-full overflow-hidden rounded-2xl border-2 border-border bg-gradient-to-br from-background via-background to-accent/10 p-6 shadow-2xl">
-      {/* Gradient overlay for depth */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
-
-      <div className="relative space-y-6">
+    <div className="relative w-full overflow-hidden rounded-xl border border-border bg-gradient-to-br from-background to-accent/5 p-4 shadow-lg">
+      <div className="relative space-y-4">
         {/* Header */}
-        <div className="border-b border-border pb-4">
-          <h3 className="text-xl font-bold">Your Prompt Library</h3>
-          <p className="text-sm text-muted-foreground">
+        <div className="border-b border-border pb-3">
+          <h3 className="text-base font-semibold">Your Prompt Library</h3>
+          <p className="text-xs text-muted-foreground">
             33 prompts organized and ready to use
           </p>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-2 md:grid-cols-3">
           <Card
-            className={`cursor-pointer border-l-4 border-l-primary transition-all duration-300 ${
-              hoveredCard === 1 ? 'scale-105 shadow-lg' : ''
+            className={`cursor-pointer border-l-2 border-l-primary transition-all duration-200 ${
+              hoveredCard === 1 ? 'shadow-md' : ''
             }`}
             onMouseEnter={() => setHoveredCard(1)}
             onMouseLeave={() => setHoveredCard(null)}
           >
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <FileText className="h-4 w-4" />
+            <CardHeader className="pb-1">
+              <CardTitle className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
+                <FileText className="h-3 w-3" />
                 Total Prompts
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">33</div>
-              <p className="mt-1 text-xs text-muted-foreground">28 public · 5 private</p>
+            <CardContent className="pb-3">
+              <div className="text-xl font-bold">33</div>
+              <p className="mt-0.5 text-[10px] text-muted-foreground">28 public · 5 private</p>
             </CardContent>
           </Card>
 
           <Card
-            className={`cursor-pointer transition-all duration-300 ${
-              hoveredCard === 2 ? 'scale-105 shadow-lg' : ''
+            className={`cursor-pointer transition-all duration-200 ${
+              hoveredCard === 2 ? 'shadow-md' : ''
             }`}
             onMouseEnter={() => setHoveredCard(2)}
             onMouseLeave={() => setHoveredCard(null)}
           >
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <TrendingUp className="h-4 w-4" />
+            <CardHeader className="pb-1">
+              <CardTitle className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
+                <TrendingUp className="h-3 w-3" />
                 This Week
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">8</div>
-              <p className="mt-1 text-xs text-muted-foreground">24.2% of total prompts</p>
+            <CardContent className="pb-3">
+              <div className="text-xl font-bold">8</div>
+              <p className="mt-0.5 text-[10px] text-muted-foreground">24.2% of total</p>
             </CardContent>
           </Card>
 
           <Card
-            className={`cursor-pointer transition-all duration-300 ${
-              hoveredCard === 3 ? 'scale-105 shadow-lg' : ''
+            className={`cursor-pointer transition-all duration-200 ${
+              hoveredCard === 3 ? 'shadow-md' : ''
             }`}
             onMouseEnter={() => setHoveredCard(3)}
             onMouseLeave={() => setHoveredCard(null)}
           >
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <Eye className="h-4 w-4" />
+            <CardHeader className="pb-1">
+              <CardTitle className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
+                <Eye className="h-3 w-3" />
                 Total Views
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">1,247</div>
-              <p className="mt-1 text-xs text-muted-foreground">Across all public prompts</p>
+            <CardContent className="pb-3">
+              <div className="text-xl font-bold">1,247</div>
+              <p className="mt-0.5 text-[10px] text-muted-foreground">All public prompts</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Recent Prompts Preview */}
         <Card className="overflow-hidden">
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="flex items-center gap-2 text-sm">
-                  <Clock className="h-4 w-4" />
-                  Recent Prompts
-                </CardTitle>
-                <CardDescription className="mt-1 text-xs">
-                  Your most recently updated
-                </CardDescription>
-              </div>
-            </div>
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-1.5 text-xs">
+              <Clock className="h-3 w-3" />
+              Recent Prompts
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
+          <CardContent className="pb-3">
+            <div className="space-y-1.5">
               {samplePrompts.map((prompt, index) => (
                 <div
                   key={prompt.id}
-                  className={`flex items-center gap-3 rounded-lg border p-3 transition-all duration-500 ${
+                  className={`flex items-center gap-2 rounded-md border p-2 transition-all duration-500 ${
                     activePromptIndex === index
-                      ? 'border-primary/50 bg-accent shadow-md'
+                      ? 'border-primary/30 bg-accent/50'
                       : 'border-transparent bg-card/50'
                   }`}
                 >
                   <div
-                    className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+                    className={`flex h-6 w-6 items-center justify-center rounded-md transition-colors ${
                       activePromptIndex === index
-                        ? 'bg-primary/20 text-primary'
+                        ? 'bg-primary/15 text-primary'
                         : 'bg-muted text-muted-foreground'
                     }`}
                   >
-                    <FileText className="h-4 w-4" />
+                    <FileText className="h-3 w-3" />
                   </div>
-                  <div className="flex-1 space-y-0.5">
+                  <div className="flex-1 space-y-0">
                     <p
-                      className={`text-sm font-semibold transition-colors ${
+                      className={`text-xs font-semibold transition-colors ${
                         activePromptIndex === index ? 'text-primary' : ''
                       }`}
                     >
                       {prompt.name}
                     </p>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
                       <span>{prompt.model}</span>
                       <span>·</span>
                       <span>{prompt.views} views</span>
@@ -187,27 +177,26 @@ export function DashboardPreview() {
         </Card>
 
         {/* Bottom Grid - Models and Tags */}
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-2 md:grid-cols-2">
           {/* Top Models */}
           <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-sm">
-                <BarChart3 className="h-4 w-4" />
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-1.5 text-xs">
+                <BarChart3 className="h-3 w-3" />
                 Top Models
               </CardTitle>
-              <CardDescription className="text-xs">Most used AI models</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
+            <CardContent className="pb-3">
+              <div className="space-y-2">
                 {sampleModels.map(({ model, count, percentage }) => (
-                  <div key={model} className="space-y-1.5">
-                    <div className="flex items-center justify-between text-xs">
+                  <div key={model} className="space-y-1">
+                    <div className="flex items-center justify-between text-[10px]">
                       <span className="font-medium">{model}</span>
                       <span className="text-muted-foreground">
                         {count} prompt{count === 1 ? '' : 's'}
                       </span>
                     </div>
-                    <Progress value={percentage} className="h-1.5" />
+                    <Progress value={percentage} className="h-1" />
                   </div>
                 ))}
               </div>
@@ -216,33 +205,29 @@ export function DashboardPreview() {
 
           {/* Popular Tags */}
           <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-sm">
-                <Sparkles className="h-4 w-4" />
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-1.5 text-xs">
+                <Sparkles className="h-3 w-3" />
                 Popular Tags
               </CardTitle>
-              <CardDescription className="text-xs">Most frequently used</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
+            <CardContent className="pb-3">
+              <div className="flex flex-wrap gap-1.5">
                 {sampleTags.map(({ tag, count }) => (
                   <Badge
                     key={tag}
                     variant={selectedTag === tag ? 'default' : 'secondary'}
-                    className="cursor-pointer transition-all hover:scale-105"
+                    className="cursor-pointer text-[10px] transition-colors"
                     onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
                   >
                     {tag}
-                    <span className="ml-1.5 text-xs opacity-70">({count})</span>
+                    <span className="ml-1 opacity-70">({count})</span>
                   </Badge>
                 ))}
               </div>
             </CardContent>
           </Card>
         </div>
-
-        {/* Subtle overlay gradient at bottom */}
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background via-background/80 to-transparent" />
       </div>
     </div>
   )

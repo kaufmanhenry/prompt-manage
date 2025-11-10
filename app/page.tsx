@@ -2,6 +2,7 @@ import { Folder, Search, ShieldCheck } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { DashboardPreview } from '@/components/DashboardPreview'
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import RotatingAudience from '@/components/RotatingAudience'
@@ -206,9 +207,9 @@ export default async function Home() {
       <div className="min-h-screen bg-background">
         <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
           {/* Hero Section - split layout */}
-          <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24">
+          <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24 lg:gap-16">
             {/* Left: Copy */}
-            <div className="text-left">
+            <div className="order-2 text-left md:order-1">
               <h1 className="mb-6 text-[clamp(1.75rem,5vw,3.1rem)] font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white md:text-[clamp(2rem,4.4vw,3.4rem)] xl:text-[clamp(2.125rem,3.6vw,3.5rem)]">
                 <span className="block">Prompt Management</span>
                 <span className="block">
@@ -321,6 +322,10 @@ export default async function Home() {
               </div>
             </div>
 
+            {/* Right: Interactive Dashboard Preview */}
+            <div className="order-1 md:order-2">
+              <DashboardPreview />
+            </div>
           </section>
 
           {/* Features Section */}
@@ -346,9 +351,7 @@ export default async function Home() {
                         <Folder className="h-5 w-5 text-muted-foreground" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold">
-                      Organize & Tag
-                    </h3>
+                    <h3 className="text-lg font-semibold">Organize & Tag</h3>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
                       Create libraries, add tags, and categorize prompts for easy discovery and
                       quick access.
@@ -364,9 +367,7 @@ export default async function Home() {
                         <Search className="h-5 w-5 text-muted-foreground" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold">
-                      Search & Filter
-                    </h3>
+                    <h3 className="text-lg font-semibold">Search & Filter</h3>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
                       Quickly find prompts by tag, keyword, category, or model. Instant access to
                       exactly what you need.
@@ -382,9 +383,7 @@ export default async function Home() {
                         <ShieldCheck className="h-5 w-5 text-muted-foreground" />
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold">
-                      Secure & Private
-                    </h3>
+                    <h3 className="text-lg font-semibold">Secure & Private</h3>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
                       Keep your prompts secure. Private collections with enhanced permissions coming
                       soon.
@@ -396,33 +395,25 @@ export default async function Home() {
               {/* Metrics */}
               <div className="mt-20 grid grid-cols-2 gap-6 border-t border-border pt-16 sm:grid-cols-4">
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
-                    100%
-                  </div>
+                  <div className="text-4xl font-semibold tracking-tight">100%</div>
                   <div className="mt-2 text-sm font-medium text-muted-foreground">
                     Secure Storage
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
-                    Tag & Filter
-                  </div>
+                  <div className="text-4xl font-semibold tracking-tight">Tag & Filter</div>
                   <div className="mt-2 text-sm font-medium text-muted-foreground">
                     Easy Discovery
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
-                    Collections
-                  </div>
+                  <div className="text-4xl font-semibold tracking-tight">Collections</div>
                   <div className="mt-2 text-sm font-medium text-muted-foreground">
                     Organize & Share
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-semibold tracking-tight">
-                    1000s
-                  </div>
+                  <div className="text-4xl font-semibold tracking-tight">1000s</div>
                   <div className="mt-2 text-sm font-medium text-muted-foreground">
                     Prompts Organized
                   </div>
@@ -435,9 +426,7 @@ export default async function Home() {
           <section className="mt-24">
             <div className="mx-auto max-w-6xl">
               <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                  How it works
-                </h2>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">How it works</h2>
                 <p className="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-300">
                   Get started in minutes. Organize your prompts with tags, search with filters, and
                   maintain version control.

@@ -187,11 +187,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
 
       {/* Sign Out Button */}
       <div className="shrink-0 border-t p-4">
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-2"
-          onClick={handleSignOut}
-        >
+        <Button variant="ghost" className="w-full justify-start gap-2" onClick={handleSignOut}>
           <LogOut className="h-4 w-4" />
           Sign Out
         </Button>

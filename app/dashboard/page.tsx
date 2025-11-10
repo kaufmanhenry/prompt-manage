@@ -404,7 +404,9 @@ export default function DashboardHomePage() {
                           </div>
                           <div className="flex-1 space-y-1">
                             <div className="flex items-center gap-2">
-                              <p className="font-semibold group-hover:text-primary">{prompt.name}</p>
+                              <p className="font-semibold group-hover:text-primary">
+                                {prompt.name}
+                              </p>
                               {prompt.is_public && (
                                 <Globe className="h-3.5 w-3.5 text-muted-foreground" />
                               )}
@@ -446,10 +448,7 @@ export default function DashboardHomePage() {
                                 {count} prompt{count === 1 ? '' : 's'}
                               </span>
                             </div>
-                            <Progress
-                              value={(count / stats.totalPrompts) * 100}
-                              className="h-2"
-                            />
+                            <Progress value={(count / stats.totalPrompts) * 100} className="h-2" />
                           </div>
                         ))}
                       </div>
@@ -483,7 +482,6 @@ export default function DashboardHomePage() {
                     </CardContent>
                   </Card>
                 )}
-
               </div>
             </>
           ) : (

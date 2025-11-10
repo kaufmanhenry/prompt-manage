@@ -366,10 +366,16 @@ export default async function TagPage({ params }: TagPageProps) {
                 </h2>
                 <div className="space-y-3 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    Browse our collection of <strong className="text-foreground">{prompts.length} {tag.toLowerCase()} prompts</strong> for ChatGPT, Claude, Gemini, and other AI models. Each prompt has been tested by the community and optimized for real-world use cases.
+                    Browse our collection of{' '}
+                    <strong className="text-foreground">
+                      {prompts.length} {tag.toLowerCase()} prompts
+                    </strong>{' '}
+                    for ChatGPT, Claude, Gemini, and other AI models. Each prompt has been tested by
+                    the community and optimized for real-world use cases.
                   </p>
                   <p>
-                    These templates help you generate high-quality content quickly. Simply copy a prompt, customize it for your needs, and get professional results in seconds.
+                    These templates help you generate high-quality content quickly. Simply copy a
+                    prompt, customize it for your needs, and get professional results in seconds.
                   </p>
                 </div>
               </div>
@@ -555,8 +561,18 @@ export default async function TagPage({ params }: TagPageProps) {
                     <summary className="flex cursor-pointer items-center justify-between p-4 font-semibold text-foreground">
                       <span>What makes a good {tag} prompt?</span>
                       <span className="transition-transform group-open:rotate-180">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <svg
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </span>
                     </summary>
@@ -572,8 +588,18 @@ export default async function TagPage({ params }: TagPageProps) {
                     <summary className="flex cursor-pointer items-center justify-between p-4 font-semibold text-foreground">
                       <span>Which AI model works best for {tag}?</span>
                       <span className="transition-transform group-open:rotate-180">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <svg
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </span>
                     </summary>
@@ -589,8 +615,18 @@ export default async function TagPage({ params }: TagPageProps) {
                     <summary className="flex cursor-pointer items-center justify-between p-4 font-semibold text-foreground">
                       <span>How can I customize these {tag} prompts?</span>
                       <span className="transition-transform group-open:rotate-180">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <svg
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </span>
                     </summary>
@@ -605,8 +641,18 @@ export default async function TagPage({ params }: TagPageProps) {
                     <summary className="flex cursor-pointer items-center justify-between p-4 font-semibold text-foreground">
                       <span>Are these {tag} prompts free to use?</span>
                       <span className="transition-transform group-open:rotate-180">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <svg
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </span>
                     </summary>
@@ -653,7 +699,8 @@ export default async function TagPage({ params }: TagPageProps) {
                     Start Using {tag} Prompts Today
                   </h3>
                   <p className="mb-6 text-base text-muted-foreground">
-                    Save your favorite prompts, organize them by project, and share your best work with the community. Join 60+ creators already using Prompt Manage.
+                    Save your favorite prompts, organize them by project, and share your best work
+                    with the community. Join 60+ creators already using Prompt Manage.
                   </p>
 
                   <div className="mb-6 flex flex-wrap justify-center gap-3">

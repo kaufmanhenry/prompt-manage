@@ -152,9 +152,8 @@ export default function AboutPage() {
               prompts across their org.&quot;
             </blockquote>
             <p className="mt-6 text-base text-muted-foreground">
-              —{' '}
-              <strong className="font-semibold">Mike Moloney</strong>,
-              Founder & CEO, Prompt Manage
+              — <strong className="font-semibold">Mike Moloney</strong>, Founder & CEO, Prompt
+              Manage
             </p>
           </div>
         </div>
@@ -164,9 +163,7 @@ export default function AboutPage() {
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
         <div className="mx-auto max-w-4xl">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Our Core Values
-            </h2>
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Our Core Values</h2>
             <p className="text-base text-muted-foreground">
               The principles that guide everything we build
             </p>
@@ -185,12 +182,8 @@ export default function AboutPage() {
                       <value.icon className="h-5 w-5 text-muted-foreground" />
                     </div>
                   </div>
-                  <h3 className="mb-3 text-lg font-semibold">
-                    {value.title}
-                  </h3>
-                  <p className="text-sm leading-6 text-muted-foreground">
-                    {value.description}
-                  </p>
+                  <h3 className="mb-3 text-lg font-semibold">{value.title}</h3>
+                  <p className="text-sm leading-6 text-muted-foreground">{value.description}</p>
                 </div>
               </div>
             ))}
@@ -214,18 +207,12 @@ export default function AboutPage() {
             <div className="mx-auto max-w-2xl rounded-lg border border-border bg-card p-8">
               <div className="space-y-6">
                 <div className="text-center">
-                  <p className="text-2xl font-semibold">
-                    Prompt Manage LLC
-                  </p>
-                  <p className="mt-2 text-base text-muted-foreground">
-                    Boston, Massachusetts
-                  </p>
+                  <p className="text-2xl font-semibold">Prompt Manage LLC</p>
+                  <p className="mt-2 text-base text-muted-foreground">Boston, Massachusetts</p>
                 </div>
 
                 <div className="border-t border-border pt-6">
-                  <h3 className="mb-4 text-center text-lg font-semibold">
-                    Leadership
-                  </h3>
+                  <h3 className="mb-4 text-center text-lg font-semibold">Leadership</h3>
                   <div className="grid gap-6 text-center sm:grid-cols-2">
                     <div>
                       {/* Photo will be added once uploaded */}
@@ -241,27 +228,21 @@ export default function AboutPage() {
                 </div>
 
                 <div className="border-t border-border pt-6">
-                  <h3 className="mb-4 text-center text-lg font-semibold">
-                    Get in Touch
-                  </h3>
+                  <h3 className="mb-4 text-center text-lg font-semibold">Get in Touch</h3>
                   <div className="space-y-4">
                     {contacts.map((contact) => (
                       <div
                         key={contact.email}
                         className="rounded-lg border border-border bg-muted p-4"
                       >
-                        <p className="mb-1 font-semibold">
-                          {contact.title}
-                        </p>
+                        <p className="mb-1 font-semibold">{contact.title}</p>
                         <a
                           href={`mailto:${contact.email}`}
                           className="text-emerald-600 hover:underline dark:text-emerald-400"
                         >
                           {contact.email}
                         </a>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {contact.description}
-                        </p>
+                        <p className="mt-1 text-sm text-muted-foreground">{contact.description}</p>
                       </div>
                     ))}
                   </div>
@@ -281,27 +262,21 @@ export default function AboutPage() {
 
           <div className="grid gap-8 sm:grid-cols-3">
             <div className="text-center">
-              <h3 className="mb-2 text-lg font-semibold">
-                GDPR Compliant
-              </h3>
+              <h3 className="mb-2 text-lg font-semibold">GDPR Compliant</h3>
               <p className="text-sm text-muted-foreground">
                 Full compliance with EU data protection regulations
               </p>
             </div>
 
             <div className="text-center">
-              <h3 className="mb-2 text-lg font-semibold">
-                CCPA Compliant
-              </h3>
+              <h3 className="mb-2 text-lg font-semibold">CCPA Compliant</h3>
               <p className="text-sm text-muted-foreground">
                 California privacy rights fully supported
               </p>
             </div>
 
             <div className="text-center">
-              <h3 className="mb-2 text-lg font-semibold">
-                Enterprise Infrastructure
-              </h3>
+              <h3 className="mb-2 text-lg font-semibold">Enterprise Infrastructure</h3>
               <p className="text-sm text-muted-foreground">
                 Built on certified platforms (Vercel, Supabase, Stripe)
               </p>

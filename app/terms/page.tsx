@@ -25,9 +25,7 @@ export default function TermsPage() {
           <p className="text-lg text-muted-foreground">
             Legal terms governing your use of Prompt Manage.
           </p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Last updated: October 30, 2025
-          </p>
+          <p className="mt-2 text-sm text-muted-foreground">Last updated: October 30, 2025</p>
         </div>
       </div>
 

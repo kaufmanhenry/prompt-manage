@@ -30,9 +30,7 @@ export default function PrivacyPage() {
           <p className="text-lg text-muted-foreground">
             How we collect, use, and protect your information.
           </p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Last updated: October 30, 2025
-          </p>
+          <p className="mt-2 text-sm text-muted-foreground">Last updated: October 30, 2025</p>
         </div>
       </div>
 

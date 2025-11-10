@@ -1,51 +1,40 @@
 'use client'
 
-import { BarChart3, Clock, Eye, FileText, Sparkles, TrendingUp } from 'lucide-react'
+import { FileText, Sparkles } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
 
 const samplePrompts = [
   {
     id: 1,
     name: 'Code Review Assistant',
     model: 'Claude 4 Sonnet',
-    views: 234,
     tags: ['coding', 'productivity'],
   },
   {
     id: 2,
     name: 'Content Marketing Strategy',
     model: 'GPT-4o',
-    views: 189,
     tags: ['marketing', 'content'],
   },
   {
     id: 3,
     name: 'Data Analysis Helper',
     model: 'Gemini 2.5 Pro',
-    views: 156,
     tags: ['analytics', 'data'],
+  },
+  {
+    id: 4,
+    name: 'Email Writer Pro',
+    model: 'Claude 4 Sonnet',
+    tags: ['writing', 'business'],
   },
 ]
 
-const sampleTags = [
-  { tag: 'marketing', count: 12 },
-  { tag: 'coding', count: 8 },
-  { tag: 'productivity', count: 7 },
-  { tag: 'content', count: 6 },
-]
-
-const sampleModels = [
-  { model: 'GPT-4o', count: 15, percentage: 45 },
-  { model: 'Claude 4 Sonnet', count: 12, percentage: 36 },
-  { model: 'Gemini 2.5 Pro', count: 6, percentage: 19 },
-]
+const allTags = ['marketing', 'coding', 'productivity', 'content', 'analytics', 'writing']
 
 export function DashboardPreview() {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [activePromptIndex, setActivePromptIndex] = useState(0)
 
@@ -57,176 +46,78 @@ export function DashboardPreview() {
     return () => clearInterval(interval)
   }, [])
 
+  const filteredPrompts = selectedTag
+    ? samplePrompts.filter((p) => p.tags.includes(selectedTag))
+    : samplePrompts
+
   return (
-    <div className="relative w-full overflow-hidden rounded-xl border border-border bg-gradient-to-br from-background to-accent/5 p-4 shadow-lg">
-      <div className="relative space-y-4">
-        {/* Header */}
-        <div className="border-b border-border pb-3">
-          <h3 className="text-base font-semibold">Your Prompt Library</h3>
-          <p className="text-xs text-muted-foreground">
-            33 prompts organized and ready to use
-          </p>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid gap-2 md:grid-cols-3">
-          <Card
-            className={`cursor-pointer border-l-2 border-l-primary transition-all duration-200 ${
-              hoveredCard === 1 ? 'shadow-md' : ''
-            }`}
-            onMouseEnter={() => setHoveredCard(1)}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <CardHeader className="pb-1">
-              <CardTitle className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
-                <FileText className="h-3 w-3" />
-                Total Prompts
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pb-3">
-              <div className="text-xl font-bold">33</div>
-              <p className="mt-0.5 text-[10px] text-muted-foreground">28 public · 5 private</p>
-            </CardContent>
-          </Card>
-
-          <Card
-            className={`cursor-pointer transition-all duration-200 ${
-              hoveredCard === 2 ? 'shadow-md' : ''
-            }`}
-            onMouseEnter={() => setHoveredCard(2)}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <CardHeader className="pb-1">
-              <CardTitle className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
-                <TrendingUp className="h-3 w-3" />
-                This Week
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pb-3">
-              <div className="text-xl font-bold">8</div>
-              <p className="mt-0.5 text-[10px] text-muted-foreground">24.2% of total</p>
-            </CardContent>
-          </Card>
-
-          <Card
-            className={`cursor-pointer transition-all duration-200 ${
-              hoveredCard === 3 ? 'shadow-md' : ''
-            }`}
-            onMouseEnter={() => setHoveredCard(3)}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
-            <CardHeader className="pb-1">
-              <CardTitle className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
-                <Eye className="h-3 w-3" />
-                Total Views
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pb-3">
-              <div className="text-xl font-bold">1,247</div>
-              <p className="mt-0.5 text-[10px] text-muted-foreground">All public prompts</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Recent Prompts Preview */}
-        <Card className="overflow-hidden">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-1.5 text-xs">
-              <Clock className="h-3 w-3" />
-              Recent Prompts
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pb-3">
-            <div className="space-y-1.5">
-              {samplePrompts.map((prompt, index) => (
-                <div
-                  key={prompt.id}
-                  className={`flex items-center gap-2 rounded-md border p-2 transition-all duration-500 ${
-                    activePromptIndex === index
-                      ? 'border-primary/30 bg-accent/50'
-                      : 'border-transparent bg-card/50'
-                  }`}
-                >
-                  <div
-                    className={`flex h-6 w-6 items-center justify-center rounded-md transition-colors ${
-                      activePromptIndex === index
-                        ? 'bg-primary/15 text-primary'
-                        : 'bg-muted text-muted-foreground'
-                    }`}
-                  >
-                    <FileText className="h-3 w-3" />
-                  </div>
-                  <div className="flex-1 space-y-0">
-                    <p
-                      className={`text-xs font-semibold transition-colors ${
-                        activePromptIndex === index ? 'text-primary' : ''
-                      }`}
-                    >
-                      {prompt.name}
-                    </p>
-                    <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
-                      <span>{prompt.model}</span>
-                      <span>·</span>
-                      <span>{prompt.views} views</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+    <div className="relative w-full overflow-hidden rounded-lg border border-border/50 bg-card/30 p-6 backdrop-blur-sm">
+      <div className="space-y-5">
+        {/* Header with live indicator */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+              <FileText className="h-4 w-4 text-primary" />
             </div>
-          </CardContent>
-        </Card>
+            <div>
+              <h3 className="text-sm font-semibold">Prompt Library</h3>
+              <p className="text-[10px] text-muted-foreground">33 organized prompts</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            <span className="text-[10px] text-muted-foreground">Live</span>
+          </div>
+        </div>
 
-        {/* Bottom Grid - Models and Tags */}
-        <div className="grid gap-2 md:grid-cols-2">
-          {/* Top Models */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-1.5 text-xs">
-                <BarChart3 className="h-3 w-3" />
-                Top Models
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pb-3">
-              <div className="space-y-2">
-                {sampleModels.map(({ model, count, percentage }) => (
-                  <div key={model} className="space-y-1">
-                    <div className="flex items-center justify-between text-[10px]">
-                      <span className="font-medium">{model}</span>
-                      <span className="text-muted-foreground">
-                        {count} prompt{count === 1 ? '' : 's'}
-                      </span>
-                    </div>
-                    <Progress value={percentage} className="h-1" />
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+        {/* Tags filter */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+          <Sparkles className="h-3 w-3 shrink-0 text-muted-foreground" />
+          {allTags.map((tag) => (
+            <Badge
+              key={tag}
+              variant={selectedTag === tag ? 'default' : 'outline'}
+              className="cursor-pointer text-[10px] transition-all hover:border-primary"
+              onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
+            >
+              {tag}
+            </Badge>
+          ))}
+        </div>
 
-          {/* Popular Tags */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-1.5 text-xs">
-                <Sparkles className="h-3 w-3" />
-                Popular Tags
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pb-3">
-              <div className="flex flex-wrap gap-1.5">
-                {sampleTags.map(({ tag, count }) => (
-                  <Badge
-                    key={tag}
-                    variant={selectedTag === tag ? 'default' : 'secondary'}
-                    className="cursor-pointer text-[10px] transition-colors"
-                    onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
-                  >
-                    {tag}
-                    <span className="ml-1 opacity-70">({count})</span>
-                  </Badge>
-                ))}
+        {/* Prompt list */}
+        <div className="space-y-2">
+          {filteredPrompts.slice(0, 4).map((prompt, index) => (
+            <div
+              key={prompt.id}
+              className={`group flex items-center gap-3 rounded-md border p-2.5 transition-all ${
+                activePromptIndex === index
+                  ? 'border-primary/40 bg-primary/5'
+                  : 'border-border/50 bg-background/50 hover:border-border'
+              }`}
+            >
+              <div
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md transition-colors ${
+                  activePromptIndex === index
+                    ? 'bg-primary/15 text-primary'
+                    : 'bg-muted text-muted-foreground group-hover:bg-muted/80'
+                }`}
+              >
+                <FileText className="h-3.5 w-3.5" />
               </div>
-            </CardContent>
-          </Card>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-xs font-medium">{prompt.name}</p>
+                <p className="text-[10px] text-muted-foreground">{prompt.model}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer note */}
+        <div className="border-t border-border/50 pt-3 text-center">
+          <p className="text-[10px] text-muted-foreground">
+            Tag, organize, and search across all your prompts
+          </p>
         </div>
       </div>
     </div>

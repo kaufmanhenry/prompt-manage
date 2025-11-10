@@ -2,6 +2,7 @@ import { Folder, Search, ShieldCheck } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { DashboardPreview } from '@/components/DashboardPreview'
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import RotatingAudience from '@/components/RotatingAudience'
@@ -206,9 +207,9 @@ export default async function Home() {
       <div className="min-h-screen bg-background">
         <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
           {/* Hero Section - split layout */}
-          <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24">
+          <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24 lg:gap-16">
             {/* Left: Copy */}
-            <div className="text-left">
+            <div className="order-2 text-left md:order-1">
               <h1 className="mb-6 text-[clamp(1.75rem,5vw,3.1rem)] font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white md:text-[clamp(2rem,4.4vw,3.4rem)] xl:text-[clamp(2.125rem,3.6vw,3.5rem)]">
                 <span className="block">Prompt Management</span>
                 <span className="block">
@@ -321,6 +322,10 @@ export default async function Home() {
               </div>
             </div>
 
+            {/* Right: Interactive Dashboard Preview */}
+            <div className="order-1 md:order-2">
+              <DashboardPreview />
+            </div>
           </section>
 
           {/* Features Section */}

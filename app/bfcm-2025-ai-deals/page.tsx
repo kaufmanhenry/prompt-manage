@@ -130,7 +130,8 @@ const verifiedDeals: Deal[] = [
     tool: 'Tabnine Pro',
     url: 'https://tabnine.com',
     dealHighlight: '$99/year (Reg. $144/year)',
-    benefit: 'Privacy-first AI code completion. Trained on your codebase. Works offline. SOC 2 Type 2.',
+    benefit:
+      'Privacy-first AI code completion. Trained on your codebase. Works offline. SOC 2 Type 2.',
     verified: true,
     dealPeriod: 'Nov 25 - Dec 2, 2025',
     discount: '31%',
@@ -189,7 +190,8 @@ const verifiedDeals: Deal[] = [
     tool: 'Zapier Enterprise',
     url: 'https://zapier.com',
     dealHighlight: '30% OFF Annual Enterprise + AI Features',
-    benefit: 'Automate 6,000+ app integrations. New AI-powered workflow builder and chatbot creator.',
+    benefit:
+      'Automate 6,000+ app integrations. New AI-powered workflow builder and chatbot creator.',
     verified: true,
     dealPeriod: 'Nov 15 - Dec 3, 2025',
     discount: '30%',
@@ -408,215 +410,212 @@ export default function BFCMDealsPage() {
       />
       <div className="min-h-screen bg-background">
         <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <section className="py-16 text-center md:py-24">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
-            <Sparkles className="h-3.5 w-3.5" />
-            Black Friday & Cyber Monday 2025
-          </div>
-          <h1 className="mb-6 text-[clamp(2rem,5vw,4rem)] font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white">
-            Best AI Tools Deals
-            <br />
-            <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-500 bg-clip-text text-transparent">
-              Save 40-90% This Week
-            </span>
-          </h1>
-          <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-gray-600 dark:text-gray-300 md:text-xl">
-            Verified Black Friday deals on AI writing tools, code assistants, design software, and
-            prompt management. Updated daily with real pricing, terms, and direct links.
-          </p>
-
-          {/* Stats Bar */}
-          <div className="mx-auto mb-10 grid max-w-3xl grid-cols-3 gap-6 rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">10</div>
-              <div className="text-xs text-gray-600 dark:text-gray-400">Verified Deals</div>
+          {/* Hero Section */}
+          <section className="py-16 text-center md:py-24">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+              <Sparkles className="h-3.5 w-3.5" />
+              Black Friday & Cyber Monday 2025
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
-                40-90%
+            <h1 className="mb-6 text-[clamp(2rem,5vw,4rem)] font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white">
+              Best AI Tools Deals
+              <br />
+              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-500 bg-clip-text text-transparent">
+                Save 40-90% This Week
+              </span>
+            </h1>
+            <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-gray-600 dark:text-gray-300 md:text-xl">
+              Verified Black Friday deals on AI writing tools, code assistants, design software, and
+              prompt management. Updated daily with real pricing, terms, and direct links.
+            </p>
+
+            {/* Stats Bar */}
+            <div className="mx-auto mb-10 grid max-w-3xl grid-cols-3 gap-6 rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">10</div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">Verified Deals</div>
               </div>
-              <div className="text-xs text-gray-600 dark:text-gray-400">Avg. Discount</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
-                Dec 3
-              </div>
-              <div className="text-xs text-gray-600 dark:text-gray-400">Most Deals End</div>
-            </div>
-          </div>
-
-          {/* CTAs */}
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/pricing">
-              <Button
-                size="lg"
-                className="bg-emerald-600 px-8 text-white hover:bg-emerald-700"
-              >
-                Get PM Pro — 30% OFF
-              </Button>
-            </Link>
-            <Link href="/?redirect=/dashboard">
-              <Button size="lg" variant="outline" className="px-8">
-                Sign Up Free
-              </Button>
-            </Link>
-          </div>
-        </section>
-
-        {/* Category Pills */}
-        <section className="mb-16">
-          <div className="mx-auto max-w-4xl">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {featuredCategories.map((cat) => (
-                <div
-                  key={cat.name}
-                  className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
-                >
-                  <cat.icon className="mb-2 h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-                  <div className="text-sm font-semibold text-gray-900 dark:text-white">
-                    {cat.name}
-                  </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {cat.count} • {cat.avgDiscount}
-                  </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
+                  40-90%
                 </div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">Avg. Discount</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
+                  Dec 3
+                </div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">Most Deals End</div>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link href="/pricing">
+                <Button size="lg" className="bg-emerald-600 px-8 text-white hover:bg-emerald-700">
+                  Get PM Pro — 30% OFF
+                </Button>
+              </Link>
+              <Link href="/?redirect=/dashboard">
+                <Button size="lg" variant="outline" className="px-8">
+                  Sign Up Free
+                </Button>
+              </Link>
+            </div>
+          </section>
+
+          {/* Category Pills */}
+          <section className="mb-16">
+            <div className="mx-auto max-w-4xl">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {featuredCategories.map((cat) => (
+                  <div
+                    key={cat.name}
+                    className="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
+                  >
+                    <cat.icon className="mb-2 h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                    <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                      {cat.name}
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {cat.count} • {cat.avgDiscount}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Featured Deals Grid */}
+          <section className="mb-16">
+            <div className="mb-8 text-center">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Verified Black Friday Deals
+              </h2>
+              <p className="mx-auto max-w-2xl text-base leading-relaxed text-gray-600 dark:text-gray-300">
+                Every deal below has been verified with actual pricing, terms, and dates. We update
+                this page daily as new deals are announced.
+              </p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {verifiedDeals.map((deal, idx) => (
+                <DealCard key={idx} deal={deal} />
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Featured Deals Grid */}
-        <section className="mb-16">
-          <div className="mb-8 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Verified Black Friday Deals
-            </h2>
-            <p className="mx-auto max-w-2xl text-base leading-relaxed text-gray-600 dark:text-gray-300">
-              Every deal below has been verified with actual pricing, terms, and dates. We update
-              this page daily as new deals are announced.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {verifiedDeals.map((deal, idx) => (
-              <DealCard key={idx} deal={deal} />
-            ))}
-          </div>
-        </section>
-
-        {/* PM Pro CTA Section */}
-        <section className="relative mb-24 overflow-hidden rounded-2xl border-2 border-emerald-500/50 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-12 dark:from-emerald-950 dark:via-gray-900 dark:to-teal-950">
-          <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
-          <div className="relative mx-auto max-w-3xl text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Don&apos;t Waste Your Black Friday Savings
-            </h2>
-            <p className="mb-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-              Without proper prompt versioning, cost tracking, and team collaboration, you&apos;ll
-              waste 30-40% of your AI tool savings on redundant API calls and shadow AI spend.
-            </p>
-            <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
-              <Badge variant="outline" className="px-3 py-1">
-                Version Control for Prompts
-              </Badge>
-              <Badge variant="outline" className="px-3 py-1">
-                Cost Tracking Across 20+ Models
-              </Badge>
-              <Badge variant="outline" className="px-3 py-1">
-                Team Collaboration
-              </Badge>
+          {/* PM Pro CTA Section */}
+          <section className="relative mb-24 overflow-hidden rounded-2xl border-2 border-emerald-500/50 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-12 dark:from-emerald-950 dark:via-gray-900 dark:to-teal-950">
+            <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
+            <div className="relative mx-auto max-w-3xl text-center">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Don&apos;t Waste Your Black Friday Savings
+              </h2>
+              <p className="mb-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+                Without proper prompt versioning, cost tracking, and team collaboration, you&apos;ll
+                waste 30-40% of your AI tool savings on redundant API calls and shadow AI spend.
+              </p>
+              <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
+                <Badge variant="outline" className="px-3 py-1">
+                  Version Control for Prompts
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1">
+                  Cost Tracking Across 20+ Models
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1">
+                  Team Collaboration
+                </Badge>
+              </div>
+              <Link href="/pricing">
+                <Button size="lg" className="bg-emerald-600 text-white hover:bg-emerald-700">
+                  Get Prompt Manage Pro — 30% OFF (Code: BFCM30)
+                </Button>
+              </Link>
             </div>
-            <Link href="/pricing">
-              <Button size="lg" className="bg-emerald-600 text-white hover:bg-emerald-700">
-                Get Prompt Manage Pro — 30% OFF (Code: BFCM30)
-              </Button>
-            </Link>
-          </div>
-        </section>
+          </section>
 
-        {/* Key Dates */}
-        <section className="mb-16">
-          <div className="mx-auto max-w-4xl rounded-xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-6 flex items-center gap-2 text-xl font-semibold text-gray-900 dark:text-white">
-              <Calendar className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              Important Dates
-            </h3>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <div>
-                <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Deals Start
+          {/* Key Dates */}
+          <section className="mb-16">
+            <div className="mx-auto max-w-4xl rounded-xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+              <h3 className="mb-6 flex items-center gap-2 text-xl font-semibold text-gray-900 dark:text-white">
+                <Calendar className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                Important Dates
+              </h3>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div>
+                  <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    Deals Start
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">Nov 15</div>
                 </div>
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">Nov 15</div>
-              </div>
-              <div>
-                <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Black Friday
+                <div>
+                  <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    Black Friday
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">Nov 28</div>
                 </div>
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">Nov 28</div>
-              </div>
-              <div>
-                <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Cyber Monday
+                <div>
+                  <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    Cyber Monday
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">Dec 1</div>
                 </div>
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">Dec 1</div>
-              </div>
-              <div>
-                <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Most End
+                <div>
+                  <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    Most End
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">Dec 3</div>
                 </div>
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">Dec 3</div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* FAQ */}
-        <section className="mb-16">
-          <div className="mx-auto max-w-3xl">
-            <h2 className="mb-8 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Frequently Asked Questions
-            </h2>
-            <div className="space-y-6">
-              <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  Are these deals verified?
-                </h3>
-                <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                  Yes. Every deal marked &quot;Verified&quot; includes actual pricing, terms, and
-                  dates based on official announcements or historical Black Friday patterns from
-                  these vendors.
-                </p>
-              </div>
-              <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  Do I need Prompt Manage to use these deals?
-                </h3>
-                <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                  No. Click any deal to go directly to the vendor. However, Prompt Manage helps you
-                  track costs and version prompts across all the tools you purchase.
-                </p>
-              </div>
-              <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-                  When do deals end?
-                </h3>
-                <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                  Most AI tool deals run Nov 15 - Dec 3, 2025. Check individual deal cards for
-                  specific end dates. Popular lifetime deals often sell out early.
-                </p>
+          {/* FAQ */}
+          <section className="mb-16">
+            <div className="mx-auto max-w-3xl">
+              <h2 className="mb-8 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Frequently Asked Questions
+              </h2>
+              <div className="space-y-6">
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                    Are these deals verified?
+                  </h3>
+                  <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                    Yes. Every deal marked &quot;Verified&quot; includes actual pricing, terms, and
+                    dates based on official announcements or historical Black Friday patterns from
+                    these vendors.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                    Do I need Prompt Manage to use these deals?
+                  </h3>
+                  <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                    No. Click any deal to go directly to the vendor. However, Prompt Manage helps
+                    you track costs and version prompts across all the tools you purchase.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                    When do deals end?
+                  </h3>
+                  <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                    Most AI tool deals run Nov 15 - Dec 3, 2025. Check individual deal cards for
+                    specific end dates. Popular lifetime deals often sell out early.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Footer */}
-        <div className="border-t border-gray-200 pb-12 pt-8 text-center text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
-          Last Updated: November 18, 2025 | Pricing and availability subject to change. Not
-          affiliated with listed vendors.
+          {/* Footer */}
+          <div className="border-t border-gray-200 pb-12 pt-8 text-center text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
+            Last Updated: November 18, 2025 | Pricing and availability subject to change. Not
+            affiliated with listed vendors.
+          </div>
         </div>
       </div>
-    </div>
     </>
   )
 }

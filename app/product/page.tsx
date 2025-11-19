@@ -27,7 +27,7 @@ export default function ProductPage() {
     <div className="min-h-screen bg-background">
       {/* Hero */}
       <div className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 md:py-32">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-32 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="mb-6 text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl">
               Your Complete CMS for AI Prompts

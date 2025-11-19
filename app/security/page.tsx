@@ -18,7 +18,7 @@ export default function SecurityPage() {
     <div className="min-h-screen bg-background">
       {/* Hero */}
       <div className="border-b border-border">
-        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 md:py-24">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
           <h1 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">
             Security & Privacy
           </h1>

@@ -147,7 +147,7 @@ export function DashboardPreview() {
       {/* Prompt Detail Modal */}
       {selectedPrompt && (
         <Dialog open={true} onOpenChange={() => setSelectedPrompt(null)}>
-          <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+          <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto">
             {/* Header with gradient background */}
             <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-br from-primary/5 via-primary/10 to-transparent" />
 
@@ -202,7 +202,7 @@ export function DashboardPreview() {
               <div className="space-y-2">
                 <p className="text-xs font-medium text-muted-foreground">Prompt Content</p>
                 <div className="relative rounded-xl border bg-gradient-to-br from-muted/30 to-muted/50 p-5 shadow-sm">
-                  <div className="absolute inset-0 rounded-xl bg-grid-pattern opacity-[0.02]" />
+                  <div className="bg-grid-pattern absolute inset-0 rounded-xl opacity-[0.02]" />
                   <p className="relative whitespace-pre-line text-sm leading-relaxed">
                     {selectedPrompt.content}
                   </p>

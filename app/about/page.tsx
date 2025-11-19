@@ -67,7 +67,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 md:py-28">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl">
               About Prompt Manage
@@ -81,7 +81,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story */}
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <h2 className="mb-8 text-3xl font-bold tracking-tight sm:text-4xl">
             Why We Built Prompt Manage
@@ -120,7 +120,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team Photo */}
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <div className="overflow-hidden rounded-lg border border-border bg-card">
             <div className="relative aspect-[4/3] w-full overflow-hidden">
@@ -144,7 +144,7 @@ export default function AboutPage() {
 
       {/* Founder Quote */}
       <section className="border-t border-border bg-muted/50">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <blockquote className="text-2xl font-medium italic leading-relaxed sm:text-3xl">
               &quot;We&apos;re building the CMS for your prompts. The first native prompt management
@@ -160,7 +160,7 @@ export default function AboutPage() {
       </section>
 
       {/* Core Values */}
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Our Core Values</h2>
@@ -254,7 +254,7 @@ export default function AboutPage() {
       </section>
 
       {/* Security & Compliance */}
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">
             Security & Compliance

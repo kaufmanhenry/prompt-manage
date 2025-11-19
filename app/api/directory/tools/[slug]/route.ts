@@ -1,7 +1,11 @@
 import { createServerSideClient } from '@/utils/supabase/server'
 
-export async function GET(request: Request, { params }: { params: { slug: string } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ slug: string }> },
+) {
   try {
+    const { slug } = await params
     const supabase = createServerSideClient()
 
     const { data: tool, error } = await supabase
@@ -46,7 +50,7 @@ export async function GET(request: Request, { params }: { params: { slug: string
         is_featured
       `,
       )
-      .eq('slug', params.slug)
+      .eq('slug', slug)
       .eq('status', 'approved')
       .single()
 
@@ -63,7 +67,9 @@ export async function GET(request: Request, { params }: { params: { slug: string
     // Format response
     const formattedTool = {
       ...tool,
-      category_name: tool.tool_categories?.name || 'Uncategorized',
+      category_name:
+        (tool.tool_categories as unknown as { name: string } | null)?.name ||
+        'Uncategorized',
       tool_categories: undefined,
     }
 

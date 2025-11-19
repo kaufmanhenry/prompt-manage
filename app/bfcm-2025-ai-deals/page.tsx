@@ -719,6 +719,45 @@ export default function BFCMDealsPage() {
             </div>
           </section>
 
+          {/* AI Tools Directory CTA Section */}
+          <section className="relative mb-24 overflow-hidden rounded-2xl border-2 border-blue-500/50 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-12 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
+            <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
+            <div className="relative mx-auto max-w-3xl text-center">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Discover More AI Tools & Get Paid
+              </h2>
+              <p className="mb-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+                Explore our new AI Tools Directory with 1000+ tools, join our affiliate program, and earn 25-30% commission on referrals. Tools like Suno, Pika, and Stable Diffusion are running promotions—help creators find them and earn passive income.
+              </p>
+              <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
+                <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
+                  🎵 Music Tools (Suno 30% commission)
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
+                  🎬 Video Tools (Pika 30% commission)
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
+                  🎨 Image Tools (Stable Diffusion 25% commission)
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <Link href="/directory">
+                  <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700">
+                    Browse AI Tools Directory
+                  </Button>
+                </Link>
+                <Link href="/directory/submit">
+                  <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30">
+                    Submit Your Tool
+                  </Button>
+                </Link>
+              </div>
+              <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                Earn 25-30% recurring commissions when you refer tools through our directory. Join our affiliate program for free.
+              </p>
+            </div>
+          </section>
+
           {/* PM Pro CTA Section */}
           <section className="relative mb-24 overflow-hidden rounded-2xl border-2 border-emerald-500/50 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-12 dark:from-emerald-950 dark:via-gray-900 dark:to-teal-950">
             <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />

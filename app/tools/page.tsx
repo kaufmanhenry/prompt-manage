@@ -316,6 +316,25 @@ export default async function ToolsPage() {
             <span className="text-gray-900 dark:text-gray-100">AI Tools</span>
           </nav>
 
+          {/* Black Friday Banner */}
+          <div className="mb-12 rounded-lg bg-gradient-to-r from-red-600 via-red-500 to-orange-500 p-6 text-white shadow-lg md:p-8">
+            <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+              <div>
+                <h2 className="mb-2 text-2xl font-bold md:text-3xl">
+                  🎉 Black Friday Deals Live!
+                </h2>
+                <p className="text-red-50">
+                  Save 40-90% on AI tools. Up to 75% off Stable Diffusion, 40% off Suno & more.
+                </p>
+              </div>
+              <Link href="/bfcm-2025-ai-deals">
+                <Button className="whitespace-nowrap bg-white text-red-600 hover:bg-gray-100">
+                  View All Deals
+                </Button>
+              </Link>
+            </div>
+          </div>
+
           {/* Hero Section */}
           <section className="mb-20 border-b border-gray-200 pb-16 dark:border-gray-800 md:pb-20">
             <div className="mx-auto max-w-3xl">

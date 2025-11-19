@@ -35,6 +35,7 @@ Created a new "Maximize Your Black Friday AI Tool Purchases" section with strate
 10. `/docs/best-practices` - Best Practices Guide
 
 **Additional links in other sections:**
+
 - Smart Buying Guide: Link to `/pricing` for PM Pro
 - FAQ: Link to `/pricing` for subscription tracking
 
@@ -45,7 +46,9 @@ Created a new "Maximize Your Black Friday AI Tool Purchases" section with strate
 ### 3. Added Value-Added Content Sections
 
 #### a) Smart Buying Guide Section
+
 A comprehensive guide with 5 key tips:
+
 1. Buy Annual, Not Monthly (30-60% savings explanation)
 2. Stack Lifetime Deals strategically
 3. Read Fine Print on API Credits (expiration warnings)
@@ -55,12 +58,14 @@ A comprehensive guide with 5 key tips:
 **SEO Value:** Targets long-tail keywords like "how to buy AI tools black friday", "AI tool buying guide"
 
 #### b) Quick Links Resource Section
+
 - Positioned strategically before deals grid
 - 10 high-value internal links
 - Clean card-based UI matching site design
 - Encourages exploration of free tools
 
 #### c) Enhanced FAQ Section
+
 - Added 4th FAQ about subscription tracking
 - Direct call-to-action for PM Pro
 - Internal link to pricing page
@@ -82,9 +87,11 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 ### Priority 1: Missing Features That Would Drive BFCM Conversions
 
 #### 1.1 Deal Tracking Feature
+
 **Problem:** Users buying 5-10 tools during BFCM have no way to track which deals they purchased, renewal dates, or total savings.
 
 **Solution:** Add a "My Black Friday Deals" tracker to the dashboard
+
 - Track purchase date, renewal date, savings amount
 - Reminders 30 days before renewal
 - "Total BFCM Savings" badge
@@ -93,9 +100,11 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 **Revenue Impact:** High - increases stickiness, justifies Pro upgrade
 
 #### 1.2 Cost Calculator Tool
+
 **Problem:** Users don't know their current AI spend or potential savings.
 
 **Solution:** Create `/calculator` page
+
 - Input: Current monthly spend on AI tools
 - Output: Annual cost, potential BFCM savings, PM Pro ROI
 - Embeddable widget for BFCM page
@@ -104,9 +113,11 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 **SEO Value:** High - targets "AI tool cost calculator" searches
 
 #### 1.3 Deal Alert Email Automation
+
 **Problem:** BFCM page says "subscribe for alerts" but there's no actual automation.
 
 **Solution:** Build email capture + automated deal alerts
+
 - Simple email capture form on BFCM page
 - Daily digest of new deals (Nov 20 - Dec 3)
 - Powered by existing email infrastructure
@@ -119,7 +130,9 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 ### Priority 2: SEO & Traffic Improvements
 
 #### 2.1 Add Model-Specific Deal Pages
+
 **Opportunity:** Create landing pages for:
+
 - `/bfcm-2025-ai-deals/chatgpt`
 - `/bfcm-2025-ai-deals/claude`
 - `/bfcm-2025-ai-deals/midjourney`
@@ -130,7 +143,9 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 **Implementation:** Use existing deal data, filter by tool category
 
 #### 2.2 Add Comparison Tables
+
 **Missing:** Side-by-side comparison of similar tools
+
 - AI Writing: Jasper vs Copy.ai vs Writesonic
 - Code Assistants: Cursor vs Tabnine vs Copilot
 - Video Gen: Runway vs Pika vs Fliki
@@ -142,7 +157,9 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 ### Priority 3: Conversion Optimization
 
 #### 3.1 Add "My Deals Cart" Feature
+
 **Concept:** Users can "favorite" deals they're interested in
+
 - Creates urgency (countdown timers)
 - Calculates total savings
 - Shares cart via unique URL
@@ -151,7 +168,9 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 **Engagement Impact:** Increases time on site, reduces decision fatigue
 
 #### 3.2 Social Proof Elements
+
 **Missing:**
+
 - "X people viewing this deal now"
 - "This deal ends in X hours"
 - User reviews/ratings of deals
@@ -163,9 +182,11 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 ### Priority 4: Technical Improvements
 
 #### 4.1 Deal Management System
+
 **Problem:** Deals are hardcoded in page.tsx - can't update without deployment
 
 **Solution:** Move deals to Supabase table
+
 - Admin panel to add/edit/archive deals
 - Automatic expiration based on `dealPeriod`
 - Version history
@@ -173,7 +194,9 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 **Developer Experience:** Much better - non-technical team can update deals
 
 #### 4.2 Deal API Endpoint
+
 **Create:** `/api/deals` endpoint
+
 - Filter by category, discount range, deal type
 - Powers future widgets, embeds, affiliate sites
 - JSON format for AI consumption (ChatGPT can read it)
@@ -185,19 +208,25 @@ Based on analyzing the codebase and BFCM page performance, here are critical imp
 ### Priority 5: Missing Pages That Should Exist
 
 #### 5.1 `/deals` - Permanent Deals Page
+
 BFCM is seasonal. Create year-round deals page:
+
 - Partner discounts for PM users
 - "Always-on" lifetime deals
 - Referral/affiliate program
 
 #### 5.2 `/ai-tools-cost-comparison`
+
 **SEO Gold:** Permanent comparison tool
+
 - Compare monthly costs across providers
 - ROI calculator for PM Pro
 - Shareable charts
 
 #### 5.3 `/prompt-marketplace`
+
 **Revenue Opportunity:** Let power users sell premium prompts
+
 - 70/30 revenue split
 - Quality control + curation
 - Gumroad-style simplicity
@@ -207,6 +236,7 @@ BFCM is seasonal. Create year-round deals page:
 ## 📊 Impact Summary
 
 ### BFCM Page Improvements Delivered:
+
 - ✅ 8 new indie hacker deals (80% more deals)
 - ✅ 12 internal links (10% more links than requested)
 - ✅ 3 new value-add content sections
@@ -214,11 +244,13 @@ BFCM is seasonal. Create year-round deals page:
 - ✅ Enhanced FAQ with PM Pro CTA
 
 ### Estimated Traffic Impact:
+
 - **Internal link distribution:** Should increase time on site by 15-25%
 - **SEO boost:** Indie hacker deal keywords will rank within 7-14 days
 - **Conversion lift:** Smart buying guide reduces decision friction
 
 ### Quick Wins for Next 48 Hours:
+
 1. **Add email capture form** to BFCM page (2 hours)
 2. **Create cost calculator widget** for hero section (3 hours)
 3. **Set up deal alert automation** (2 hours)
@@ -232,12 +264,14 @@ BFCM is seasonal. Create year-round deals page:
 **The #1 missing feature:** No way to track which tools users are actually using.
 
 **Solution:** "Connected Tools" dashboard
+
 - OAuth integration with OpenAI, Anthropic, etc.
 - Auto-import API usage data
 - Real-time cost tracking
 - "You've spent $X on Claude this month" alerts
 
 **Why it matters:**
+
 - Justifies PM Pro subscription
 - Creates network effects (team sees org-wide spend)
 - Positions PM as "Mint.com for AI tools"
@@ -257,6 +291,7 @@ BFCM is seasonal. Create year-round deals page:
 ---
 
 **Files Modified:**
+
 - `/app/bfcm-2025-ai-deals/page.tsx` - Added deals, links, content sections
 
 **Build Status:** ✅ Passing (tested with `npm run build`)

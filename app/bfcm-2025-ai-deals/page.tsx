@@ -227,8 +227,7 @@ const verifiedDeals: Deal[] = [
     tool: 'Fliki',
     url: 'https://fliki.ai/pricing',
     dealHighlight: '50% OFF Annual (Code: FLIKIBLACKFRIDAY50)',
-    benefit:
-      'AI video generator turning text into videos with 2,000+ voices in 75+ languages.',
+    benefit: 'AI video generator turning text into videos with 2,000+ voices in 75+ languages.',
     verified: true,
     dealPeriod: 'Nov 28 - Dec 2, 2025',
     discount: '50%',
@@ -260,8 +259,7 @@ const verifiedDeals: Deal[] = [
     tool: 'SEOengine.ai',
     url: 'https://seoengine.ai',
     dealHighlight: '35% OFF - $3.25/month (Code: BLACKFRIDAY)',
-    benefit:
-      '5 AI agents that find content gaps and write SEO-optimized content that ranks.',
+    benefit: '5 AI agents that find content gaps and write SEO-optimized content that ranks.',
     verified: true,
     dealPeriod: 'Nov 28 - Dec 3, 2025',
     discount: '35%',
@@ -829,8 +827,8 @@ export default function BFCMDealsPage() {
                   </h3>
                   <p className="pl-8 text-xs leading-relaxed text-gray-600 dark:text-gray-400">
                     &quot;Bonus credits&quot; often expire in 30-90 days. Factor this into ROI
-                    calculations. If you can&apos;t use $500 in credits before expiration,
-                    it&apos;s not really a deal.
+                    calculations. If you can&apos;t use $500 in credits before expiration, it&apos;s
+                    not really a deal.
                   </p>
                 </div>
                 <div className="rounded-lg bg-white p-4 dark:bg-gray-900">

@@ -1,16 +1,15 @@
 'use client'
 
-import { ArrowLeft, Upload } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useToast } from '@/components/ui/use-toast'
-import { Card } from '@/components/ui/card'
 import {
   Select,
   SelectContent,
@@ -18,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/utils/supabase/client'
 
 interface Category {
@@ -60,7 +60,6 @@ export default function SubmitToolPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [logoPreview, setLogoPreview] = useState<string | null>(null)
   const supabase = createClient()
 
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ToolFormData>({
@@ -95,16 +94,21 @@ export default function SubmitToolPage() {
       try {
         const response = await fetch('/api/directory/categories')
         const data = await response.json()
-        setCategories(data || [])
+        // Ensure data is an array
+        if (Array.isArray(data)) {
+          setCategories(data)
+        } else {
+          setCategories([])
+        }
       } catch (error) {
         console.error('Failed to fetch categories:', error)
+        setCategories([])
       }
     }
     fetchCategories()
   }, [])
 
   const pricingModel = watch('pricing_model')
-  const platforms = watch('platforms')
 
   const onSubmit = async (data: ToolFormData) => {
     try {
@@ -137,11 +141,12 @@ export default function SubmitToolPage() {
       })
 
       router.push(`/directory/${result.slug}`)
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Submission error:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit tool'
       toast({
         title: 'Error',
-        description: error.message || 'Failed to submit tool',
+        description: errorMessage,
         variant: 'destructive',
       })
     } finally {

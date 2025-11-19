@@ -74,10 +74,11 @@ export async function GET(
     }
 
     return Response.json(formattedTool)
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching tool:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tool'
     return Response.json(
-      { error: error.message },
+      { error: errorMessage },
       { status: 500 }
     )
   }

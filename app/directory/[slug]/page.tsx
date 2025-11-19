@@ -1,12 +1,12 @@
 'use client'
 
-import { Heart, ExternalLink, Share2, Star, TrendingUp } from 'lucide-react'
+import { ExternalLink, Heart, Share2, Star } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/utils/supabase/client'
@@ -118,7 +118,7 @@ export default function ToolDetailPage() {
           })
       }
       setIsFavorited(!isFavorited)
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to toggle favorite:', error)
     }
   }
@@ -237,7 +237,7 @@ export default function ToolDetailPage() {
         {/* Main Content */}
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Left Column */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="space-y-8 lg:col-span-2">
             {/* Description */}
             <div>
               <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
@@ -265,7 +265,7 @@ export default function ToolDetailPage() {
                       key={feature}
                       className="flex items-start gap-3 rounded-lg border border-gray-200 p-3 dark:border-gray-800"
                     >
-                      <div className="mt-1 h-2 w-2 rounded-full bg-emerald-600 flex-shrink-0" />
+                      <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-600" />
                       <span className="text-sm text-gray-700 dark:text-gray-300">{feature}</span>
                     </div>
                   ))}

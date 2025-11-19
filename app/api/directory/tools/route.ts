@@ -63,23 +63,31 @@ export async function GET(request: Request) {
     const { data: tools, error, count } = await query.limit(50)
 
     if (error) {
-      throw error
+      console.error('Supabase query error:', error)
+      return Response.json({
+        tools: [],
+        total: 0,
+      }, { status: 200 })
     }
 
     // Format the response
-    const formattedTools = tools?.map((tool: any) => ({
+    const formattedTools = tools?.map((tool: Record<string, unknown>) => ({
       ...tool,
-      category_name: tool.tool_categories?.name || 'Uncategorized',
+      category_name: (tool.tool_categories as Record<string, unknown>)?.name || 'Uncategorized',
       tool_categories: undefined, // Remove nested data
-    }))
+    })) || []
 
     return Response.json({
-      tools: formattedTools || [],
+      tools: formattedTools,
       total: count || 0,
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching tools:', error)
-    return Response.json({ error: error.message }, { status: 500 })
+    // Return empty state instead of error to prevent frontend crashes
+    return Response.json({
+      tools: [],
+      total: 0,
+    }, { status: 200 })
   }
 }
 
@@ -145,10 +153,11 @@ export async function POST(request: Request) {
     }
 
     return Response.json(tool, { status: 201 })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating tool:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create tool'
     return Response.json(
-      { error: error.message || 'Failed to create tool' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

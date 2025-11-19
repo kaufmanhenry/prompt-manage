@@ -3,12 +3,12 @@
 import { Plus, Search, Star, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense, useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import { FullPageLoading } from '@/components/ui/loading'
 import {
   Select,
@@ -71,9 +71,15 @@ export default function DirectoryPage() {
       try {
         const response = await fetch('/api/directory/categories')
         const data = await response.json()
-        setCategories(data || [])
+        // Ensure data is an array
+        if (Array.isArray(data)) {
+          setCategories(data)
+        } else {
+          setCategories([])
+        }
       } catch (error) {
         console.error('Failed to fetch categories:', error)
+        setCategories([])
       }
     }
     fetchCategories()
@@ -198,7 +204,7 @@ export default function DirectoryPage() {
               <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Sort By
               </label>
-              <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+              <Select value={sortBy} onValueChange={(value: 'newest' | 'popular' | 'highest_rated') => setSortBy(value)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

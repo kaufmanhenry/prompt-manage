@@ -11,12 +11,14 @@ export async function GET() {
       .order('position', { ascending: true })
 
     if (error) {
-      throw error
+      console.error('Supabase error:', error)
+      return Response.json([], { status: 200 })
     }
 
-    return Response.json(categories || [])
-  } catch (error: any) {
+    return Response.json(categories || [], { status: 200 })
+  } catch (error: unknown) {
     console.error('Error fetching categories:', error)
-    return Response.json({ error: error.message }, { status: 500 })
+    // Always return empty array instead of error object
+    return Response.json([], { status: 200 })
   }
 }

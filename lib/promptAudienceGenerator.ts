@@ -474,7 +474,7 @@ const TAG_AUDIENCE_MAP: Record<
   },
 
   // Industry-Specific
-  real estate: {
+  'real estate': {
     personas: ['Real Estate Agents', 'Property Managers'],
     description: 'Designed for real estate professionals marketing properties and serving clients',
   },

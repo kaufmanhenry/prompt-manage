@@ -41,7 +41,8 @@ const TAG_AUDIENCE_MAP: Record<
   },
   ui: {
     personas: ['UX/UI Designers', 'Frontend Developers'],
-    description: 'Built for UI designers and developers creating intuitive, user-friendly interfaces',
+    description:
+      'Built for UI designers and developers creating intuitive, user-friendly interfaces',
   },
   ux: {
     personas: ['UX/UI Designers', 'Product Managers'],
@@ -92,14 +93,14 @@ const TAG_AUDIENCE_MAP: Record<
   },
   'social media': {
     personas: ['Social Media Managers', 'Community Managers'],
-    description:
-      'Designed for social media professionals managing content and audience engagement',
+    description: 'Designed for social media professionals managing content and audience engagement',
   },
 
   // Business & Strategy
   business: {
     personas: ['Entrepreneurs', 'Business Owners'],
-    description: 'Perfect for entrepreneurs and executives developing business strategies and plans',
+    description:
+      'Perfect for entrepreneurs and executives developing business strategies and plans',
   },
   strategy: {
     personas: ['Strategists', 'Consultants'],
@@ -118,7 +119,8 @@ const TAG_AUDIENCE_MAP: Record<
   },
   email: {
     personas: ['Email Marketers', 'Sales Professionals'],
-    description: 'Perfect for professionals writing effective, high-converting email communications',
+    description:
+      'Perfect for professionals writing effective, high-converting email communications',
   },
 
   // Product & Project Management
@@ -164,7 +166,8 @@ const TAG_AUDIENCE_MAP: Record<
   // Creative Writing & Fiction
   romance: {
     personas: ['Romance Writers', 'Fiction Authors'],
-    description: 'Designed for romance authors crafting compelling love stories and character relationships',
+    description:
+      'Designed for romance authors crafting compelling love stories and character relationships',
   },
   erotica: {
     personas: ['Erotica Writers', 'Adult Fiction Authors'],
@@ -176,7 +179,8 @@ const TAG_AUDIENCE_MAP: Record<
   },
   'creative writing': {
     personas: ['Creative Writers', 'Authors'],
-    description: 'Ideal for creative writers exploring storytelling, poetry, and literary expression',
+    description:
+      'Ideal for creative writers exploring storytelling, poetry, and literary expression',
   },
   novel: {
     personas: ['Novelists', 'Book Authors'],
@@ -196,7 +200,8 @@ const TAG_AUDIENCE_MAP: Record<
   // Research & Academic
   research: {
     personas: ['Researchers', 'Academics'],
-    description: 'Designed for researchers conducting studies, analyzing data, and publishing findings',
+    description:
+      'Designed for researchers conducting studies, analyzing data, and publishing findings',
   },
   academic: {
     personas: ['Academics', 'Scholars'],
@@ -206,15 +211,18 @@ const TAG_AUDIENCE_MAP: Record<
   // Specialized Business
   legal: {
     personas: ['Legal Professionals', 'Lawyers'],
-    description: 'Built for legal professionals drafting documents, contracts, and legal communications',
+    description:
+      'Built for legal professionals drafting documents, contracts, and legal communications',
   },
   healthcare: {
     personas: ['Healthcare Professionals', 'Medical Writers'],
-    description: 'Perfect for healthcare professionals creating patient communications and medical content',
+    description:
+      'Perfect for healthcare professionals creating patient communications and medical content',
   },
   finance: {
     personas: ['Finance Professionals', 'Financial Analysts'],
-    description: 'Designed for finance professionals analyzing markets, creating reports, and forecasting',
+    description:
+      'Designed for finance professionals analyzing markets, creating reports, and forecasting',
   },
 
   // E-commerce & Retail
@@ -240,7 +248,8 @@ const TAG_AUDIENCE_MAP: Record<
   // Adult Content & Mature Writing
   sex: {
     personas: ['Adult Content Writers', 'Sex Educators'],
-    description: 'Designed for adult content creators and sex educators producing mature, educational content',
+    description:
+      'Designed for adult content creators and sex educators producing mature, educational content',
   },
   nsfw: {
     personas: ['Adult Content Creators', 'Mature Content Writers'],
@@ -258,7 +267,8 @@ const TAG_AUDIENCE_MAP: Record<
   },
   javascript: {
     personas: ['JavaScript Developers', 'Web Developers'],
-    description: 'Built for JavaScript developers creating web applications and interactive experiences',
+    description:
+      'Built for JavaScript developers creating web applications and interactive experiences',
   },
   typescript: {
     personas: ['TypeScript Developers', 'Frontend Engineers'],
@@ -568,7 +578,6 @@ const TAG_AUDIENCE_MAP: Record<
   },
 }
 
-
 /**
  * Generates accurate, tag-based audience description
  */
@@ -606,7 +615,8 @@ export function generateAudienceDescription(prompt: PromptContext): AudienceDesc
   const personas = Array.from(allPersonas).slice(0, 5)
 
   return {
-    primary: bestMatch?.description || `Perfect for professionals using ${prompt.name.toLowerCase()}`,
+    primary:
+      bestMatch?.description || `Perfect for professionals using ${prompt.name.toLowerCase()}`,
     secondary: bestMatch?.secondary,
     personas,
     keywords: tags.slice(0, 5),
@@ -656,7 +666,9 @@ function extractActionFromName(name: string): string {
   const nameLower = name.toLowerCase()
 
   // Extract verb and object
-  const match = nameLower.match(/^(create|generate|write|build|design|develop|analyze|optimize|improve)\s+(.+)/)
+  const match = nameLower.match(
+    /^(create|generate|write|build|design|develop|analyze|optimize|improve)\s+(.+)/,
+  )
   if (match) {
     const [, verb, object] = match
     return `${verb} ${object.split(' ').slice(0, 3).join(' ')}`

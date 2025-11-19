@@ -587,14 +587,25 @@ export default function BFCMDealsPage() {
               </p>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <Link
-                  href="/tools"
+                  href="/directory"
                   className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
                 >
                   <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
                     AI Tools Directory
                   </div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">
-                    Browse our complete guide to AI tools for video, audio, and image generation
+                    Explore 1000+ AI tools with community ratings and detailed comparisons
+                  </div>
+                </Link>
+                <Link
+                  href="/tools"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Prompt Collections
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Browse curated prompts for featured AI tools to master each platform
                   </div>
                 </Link>
                 <Link
@@ -716,6 +727,52 @@ export default function BFCMDealsPage() {
               {verifiedDeals.map((deal, idx) => (
                 <DealCard key={idx} deal={deal} />
               ))}
+            </div>
+          </section>
+
+          {/* AI Tools Directory CTA Section */}
+          <section className="relative mb-24 overflow-hidden rounded-2xl border-2 border-blue-500/50 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-12 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
+            <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
+            <div className="relative mx-auto max-w-3xl text-center">
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Discover More AI Tools for Free
+              </h2>
+              <p className="mb-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+                Explore our free AI Tools Directory with hundreds of tools organized by category.
+                Whether you're looking for music generation, video creation, image synthesis, or
+                code assistants, find the perfect tool for your needs.
+              </p>
+              <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
+                <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
+                  Music & Audio Tools
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
+                  Video & Animation Tools
+                </Badge>
+                <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
+                  Image & Visual Tools
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <Link href="/directory">
+                  <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700">
+                    Browse AI Tools Directory
+                  </Button>
+                </Link>
+                <Link href="/directory/submit">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+                  >
+                    Submit Your Tool
+                  </Button>
+                </Link>
+              </div>
+              <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                Completely free directory. Tool creators get exposure to thousands of potential
+                customers looking for their next AI solution.
+              </p>
             </div>
           </section>
 
@@ -918,8 +975,8 @@ export default function BFCMDealsPage() {
 
           {/* Footer */}
           <div className="border-t border-gray-200 pb-12 pt-8 text-center text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
-            Last Updated: November 18, 2025 | Pricing and availability subject to change. Not
-            affiliated with listed vendors.
+            Last Updated by the Prompt Manage Team on: November 19, 2025 | Pricing and availability
+            subject to change. Not affiliated with listed vendors.
           </div>
         </div>
       </div>

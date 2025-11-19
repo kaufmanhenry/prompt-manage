@@ -200,6 +200,15 @@ export function Footer() {
                     Support
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/bfcm-2025-ai-deals"
+                    className="text-gray-600 hover:underline dark:text-gray-300"
+                    aria-label="Black Friday and Cyber Monday AI deals"
+                  >
+                    Black Friday Deals
+                  </Link>
+                </li>
               </ul>
             </nav>
             <nav aria-label="Legal navigation">

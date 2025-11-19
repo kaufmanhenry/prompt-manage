@@ -197,6 +197,96 @@ const verifiedDeals: Deal[] = [
     discount: '30%',
     dealType: 'annual',
   },
+
+  // Indie Hacker Deals - VERIFIED
+  {
+    tool: 'BoltAI',
+    url: 'https://boltai.com',
+    dealHighlight: '49% OFF - Personal License $35 (Code: BFCM25)',
+    benefit:
+      'Native Mac app with instant access to 300+ AI models (ChatGPT, Claude, Gemini) in unified interface.',
+    verified: true,
+    dealPeriod: 'Nov 28 - Dec 3, 2025',
+    discount: '49%',
+    dealType: 'lifetime',
+    terms: 'Regular price $69. One-time payment for lifetime access.',
+  },
+  {
+    tool: 'TypingMind',
+    url: 'https://www.typingmind.com',
+    dealHighlight: '60% OFF Lifetime - $79 (Code: BLACKFRIDAY2025)',
+    benefit:
+      'Superior chat UI for ChatGPT, Claude, Gemini with search history, folders, and prompt library.',
+    verified: true,
+    dealPeriod: 'Nov 28 - Dec 1, 2025',
+    discount: '60%',
+    dealType: 'lifetime',
+    terms: 'Regular price $198. Lifetime premium license.',
+  },
+  {
+    tool: 'Fliki',
+    url: 'https://fliki.ai/pricing',
+    dealHighlight: '50% OFF Annual (Code: FLIKIBLACKFRIDAY50)',
+    benefit: 'AI video generator turning text into videos with 2,000+ voices in 75+ languages.',
+    verified: true,
+    dealPeriod: 'Nov 28 - Dec 2, 2025',
+    discount: '50%',
+    dealType: 'annual',
+  },
+  {
+    tool: 'Meku',
+    url: 'https://meku.dev/pricing',
+    dealHighlight: '30% OFF + Free FormBold Starter (Code: BLFCM2025)',
+    benefit:
+      'Converts text prompts into full React + Tailwind projects with Supabase integration for rapid app development.',
+    verified: true,
+    dealPeriod: 'Nov 18 - Dec 2, 2025',
+    discount: '30%',
+    dealType: 'annual',
+  },
+  {
+    tool: 'Coupler.io',
+    url: 'https://coupler.io/pricing',
+    dealHighlight: '25% OFF First Payment (Code: CPLBF25)',
+    benefit:
+      'Automates data import from 350+ apps with AI "Chat with Data" feature for instant insights.',
+    verified: true,
+    dealPeriod: 'Nov 1 - Dec 5, 2025',
+    discount: '25%',
+    dealType: 'annual',
+  },
+  {
+    tool: 'SEOengine.ai',
+    url: 'https://seoengine.ai',
+    dealHighlight: '35% OFF - $3.25/month (Code: BLACKFRIDAY)',
+    benefit: '5 AI agents that find content gaps and write SEO-optimized content that ranks.',
+    verified: true,
+    dealPeriod: 'Nov 28 - Dec 3, 2025',
+    discount: '35%',
+    dealType: 'annual',
+  },
+  {
+    tool: 'Audio Video to Text',
+    url: 'https://www.audiovideototext.com',
+    dealHighlight: '50% OFF - $25 (Was $50)',
+    benefit:
+      'Converts audio/video files to text in 98+ languages with high accuracy for creators and businesses.',
+    verified: true,
+    dealPeriod: 'Nov 28 - Dec 3, 2025',
+    discount: '50%',
+    dealType: 'lifetime',
+  },
+  {
+    tool: 'Forms.app',
+    url: 'https://forms.app',
+    dealHighlight: 'Up to 65% OFF First Year (Code: BF2025)',
+    benefit:
+      'AI-powered form and survey builder with automation capabilities for creators and businesses.',
+    verified: true,
+    dealPeriod: 'Nov 1 - Dec 12, 2025',
+    discount: '65%',
+    dealType: 'annual',
+  },
 ]
 
 const featuredCategories = [
@@ -222,9 +312,9 @@ const featuredCategories = [
     color: 'purple',
   },
   {
-    name: 'Productivity',
-    count: '2 deals',
-    avgDiscount: '20-30%',
+    name: 'Indie Hacker',
+    count: '8 deals',
+    avgDiscount: '25-65%',
     icon: ArrowRight,
     color: 'orange',
   },
@@ -431,12 +521,12 @@ export default function BFCMDealsPage() {
             {/* Stats Bar */}
             <div className="mx-auto mb-10 grid max-w-3xl grid-cols-3 gap-6 rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">10</div>
+                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">18</div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">Verified Deals</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
-                  40-90%
+                  25-90%
                 </div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">Avg. Discount</div>
               </div>
@@ -481,6 +571,131 @@ export default function BFCMDealsPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Quick Links Section */}
+          <section className="mb-16">
+            <div className="mx-auto max-w-4xl rounded-xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+              <h2 className="mb-6 text-xl font-semibold text-gray-900 dark:text-white">
+                Maximize Your Black Friday AI Tool Purchases
+              </h2>
+              <p className="mb-6 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                Before you start buying, explore our free resources to help you manage and optimize
+                your AI tool investments:
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <Link
+                  href="/tools"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    AI Tools Directory
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Browse our complete guide to AI tools for video, audio, and image generation
+                  </div>
+                </Link>
+                <Link
+                  href="/p"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Public Prompts Library
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Access 1000+ free prompts for ChatGPT, Claude, Midjourney, and more
+                  </div>
+                </Link>
+                <Link
+                  href="/optimizer"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Prompt Optimizer Tool
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Free tool to improve and optimize your AI prompts for better results
+                  </div>
+                </Link>
+                <Link
+                  href="/generator"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Prompt Generator
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Generate custom prompts for any AI model or use case
+                  </div>
+                </Link>
+                <Link
+                  href="/claude-prompt-creator"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Claude Prompt Creator
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Specialized tool for creating optimized prompts for Claude AI
+                  </div>
+                </Link>
+                <Link
+                  href="/cursor-prompt-creator"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Cursor Prompt Creator
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Create custom prompts for Cursor AI code editor
+                  </div>
+                </Link>
+                <Link
+                  href="/docs"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Documentation & Guides
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Learn best practices for prompt management and AI tools
+                  </div>
+                </Link>
+                <Link
+                  href="/categories"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Browse by Category
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Find prompts organized by category: marketing, coding, creative, and more
+                  </div>
+                </Link>
+                <Link
+                  href="/trending"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Trending Prompts
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    See what prompts are trending in the community right now
+                  </div>
+                </Link>
+                <Link
+                  href="/docs/best-practices"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Best Practices Guide
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Master prompt engineering with our comprehensive best practices
+                  </div>
+                </Link>
               </div>
             </div>
           </section>
@@ -570,6 +785,85 @@ export default function BFCMDealsPage() {
             </div>
           </section>
 
+          {/* Smart Buying Guide */}
+          <section className="mb-16">
+            <div className="mx-auto max-w-4xl rounded-xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50 p-8 dark:border-emerald-800 dark:from-emerald-950 dark:via-gray-900 dark:to-teal-950">
+              <h2 className="mb-6 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Smart Buying Guide: Don&apos;t Make These Mistakes
+              </h2>
+              <div className="space-y-4">
+                <div className="rounded-lg bg-white p-4 dark:bg-gray-900">
+                  <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white">
+                      1
+                    </span>
+                    Buy Annual, Not Monthly (Even If It Hurts)
+                  </h3>
+                  <p className="pl-8 text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+                    Black Friday discounts typically only apply to annual plans. Monthly plans
+                    almost never see price reductions. The upfront cost is higher, but you&apos;ll
+                    save 30-60% over 12 months.
+                  </p>
+                </div>
+                <div className="rounded-lg bg-white p-4 dark:bg-gray-900">
+                  <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white">
+                      2
+                    </span>
+                    Stack Lifetime Deals for Tools You&apos;ll Use Forever
+                  </h3>
+                  <p className="pl-8 text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+                    Lifetime deals (LTDs) eliminate recurring costs but may limit future updates.
+                    Best for: transcription tools, form builders, basic productivity apps. Avoid
+                    for: rapidly evolving AI models where you need cutting-edge features.
+                  </p>
+                </div>
+                <div className="rounded-lg bg-white p-4 dark:bg-gray-900">
+                  <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white">
+                      3
+                    </span>
+                    Read the Fine Print on API Credits
+                  </h3>
+                  <p className="pl-8 text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+                    &quot;Bonus credits&quot; often expire in 30-90 days. Factor this into ROI
+                    calculations. If you can&apos;t use $500 in credits before expiration, it&apos;s
+                    not really a deal.
+                  </p>
+                </div>
+                <div className="rounded-lg bg-white p-4 dark:bg-gray-900">
+                  <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white">
+                      4
+                    </span>
+                    Consolidate Your Tool Stack
+                  </h3>
+                  <p className="pl-8 text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+                    Don&apos;t buy 5 AI writing tools. Pick one and master it. Use{' '}
+                    <Link href="/pricing" className="text-emerald-600 hover:underline">
+                      Prompt Manage
+                    </Link>{' '}
+                    to centralize prompts across tools, track costs, and avoid redundant
+                    subscriptions.
+                  </p>
+                </div>
+                <div className="rounded-lg bg-white p-4 dark:bg-gray-900">
+                  <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white">
+                      5
+                    </span>
+                    Test First, Then Buy Big
+                  </h3>
+                  <p className="pl-8 text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+                    Most tools offer free trials. Test during Black Friday week, then upgrade before
+                    deals expire. Don&apos;t commit to annual plans for tools you&apos;ve never
+                    tried.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* FAQ */}
           <section className="mb-16">
             <div className="mx-auto max-w-3xl">
@@ -603,6 +897,19 @@ export default function BFCMDealsPage() {
                   <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                     Most AI tool deals run Nov 15 - Dec 3, 2025. Check individual deal cards for
                     specific end dates. Popular lifetime deals often sell out early.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                    How can I track all my AI tool subscriptions?
+                  </h3>
+                  <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                    Use{' '}
+                    <Link href="/pricing" className="text-emerald-600 hover:underline">
+                      Prompt Manage Pro
+                    </Link>{' '}
+                    to centralize all your AI tools, track costs across providers, and manage
+                    prompts in one place. Get 30% off with code BFCM30.
                   </p>
                 </div>
               </div>

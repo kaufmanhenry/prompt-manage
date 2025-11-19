@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS public.ai_tools (
   full_description TEXT,
 
   -- Publisher Information (nullable for system-seeded tools)
-  submitted_by UUID,
+  submitted_by UUID NULL,
   company_name TEXT,
   company_website TEXT,
   contact_email TEXT,
@@ -70,6 +70,20 @@ CREATE TABLE IF NOT EXISTS public.ai_tools (
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
+
+-- Ensure submitted_by column is nullable (in case it was created with NOT NULL)
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public'
+    AND table_name = 'ai_tools'
+    AND column_name = 'submitted_by'
+    AND is_nullable = 'NO'
+  ) THEN
+    ALTER TABLE public.ai_tools ALTER COLUMN submitted_by DROP NOT NULL;
+  END IF;
+END $$;
 
 -- Seed initial categories
 INSERT INTO public.tool_categories (name, slug, description, icon_emoji, position) VALUES

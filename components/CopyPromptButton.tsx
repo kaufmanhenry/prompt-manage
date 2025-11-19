@@ -45,8 +45,7 @@ export function CopyPromptButton({
   const handleCopy = async () => {
     // Check if user is authenticated
     if (!session) {
-      // Persist copy intent and initiate Google OAuth
-      const redirectAfterLogin = '/auth/copy-prompt'
+      // Persist copy intent
       localStorage.setItem(
         'pendingPromptCopy',
         JSON.stringify({
@@ -55,16 +54,9 @@ export function CopyPromptButton({
           redirectUrl: typeof window !== 'undefined' ? window.location.href : '',
         }),
       )
-      await createClient().auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${
-            process.env.NEXT_PUBLIC_SITE_URL ||
-            (typeof window !== 'undefined' ? window.location.origin : '')
-          }/auth/callback?redirect=${encodeURIComponent(redirectAfterLogin)}`,
-          queryParams: { access_type: 'offline', prompt: 'consent' },
-        },
-      })
+
+      // Redirect to sign-in page where they can choose Google or Email
+      window.location.href = '/dashboard'
       return
     }
 

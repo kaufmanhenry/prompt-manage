@@ -1,8 +1,9 @@
-import { TagIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight, TagIcon } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { createServerSideClient } from '@/utils/supabase/server'
 
@@ -48,7 +49,16 @@ interface TagWithCount {
   count: number
 }
 
-export default async function TagsDirectoryPage() {
+const TAGS_PER_PAGE = 24
+
+export default async function TagsDirectoryPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>
+}) {
+  const resolvedParams = await searchParams
+  const currentPage = Math.max(1, Number(resolvedParams.page) || 1)
+
   const supabase = createServerSideClient()
 
   // Get all public prompts with tags
@@ -70,6 +80,13 @@ export default async function TagsDirectoryPage() {
   const sortedTags: TagWithCount[] = Array.from(tagCounts.entries())
     .map(([tag, count]) => ({ tag, count }))
     .sort((a, b) => b.count - a.count)
+
+  // Pagination calculations
+  const totalTags = sortedTags.length
+  const totalPages = Math.ceil(totalTags / TAGS_PER_PAGE)
+  const startIndex = (currentPage - 1) * TAGS_PER_PAGE
+  const endIndex = startIndex + TAGS_PER_PAGE
+  const paginatedTags = sortedTags.slice(startIndex, endIndex)
 
   // Schema.org CollectionPage markup
   const collectionSchema = {
@@ -135,15 +152,20 @@ export default async function TagsDirectoryPage() {
           </div>
 
           {/* Stats */}
-          <div className="mb-6">
+          <div className="mb-6 flex items-center justify-between">
             <p className="text-sm font-medium text-muted-foreground">
-              {sortedTags.length} unique tags • {prompts?.length || 0} tagged prompts
+              {totalTags} unique tags • {prompts?.length || 0} tagged prompts
             </p>
+            {totalPages > 1 && (
+              <p className="text-sm text-muted-foreground">
+                Page {currentPage} of {totalPages}
+              </p>
+            )}
           </div>
 
           {/* Tags Grid */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {sortedTags.map(({ tag, count }) => (
+            {paginatedTags.map(({ tag, count }) => (
               <Link key={tag} href={`/p/tags/${encodeURIComponent(tag)}`}>
                 <Card className="group cursor-pointer p-4 transition-all hover:border-primary hover:shadow-md">
                   <div className="flex items-center justify-between">
@@ -167,9 +189,79 @@ export default async function TagsDirectoryPage() {
             ))}
           </div>
 
-          {sortedTags.length === 0 && (
+          {paginatedTags.length === 0 && (
             <div className="py-12 text-center">
               <p className="text-muted-foreground">No tags found. Start creating tagged prompts!</p>
+            </div>
+          )}
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                disabled={currentPage === 1}
+              >
+                <Link
+                  href={`/p/tags${currentPage > 2 ? `?page=${currentPage - 1}` : ''}`}
+                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  Previous
+                </Link>
+              </Button>
+
+              <div className="flex items-center gap-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                  // Show first page, last page, current page, and pages around current
+                  const showPage =
+                    page === 1 ||
+                    page === totalPages ||
+                    (page >= currentPage - 1 && page <= currentPage + 1)
+
+                  if (!showPage) {
+                    // Show ellipsis
+                    if (page === currentPage - 2 || page === currentPage + 2) {
+                      return (
+                        <span key={page} className="px-2 text-muted-foreground">
+                          ...
+                        </span>
+                      )
+                    }
+                    return null
+                  }
+
+                  return (
+                    <Button
+                      key={page}
+                      variant={page === currentPage ? 'default' : 'outline'}
+                      size="sm"
+                      asChild
+                    >
+                      <Link href={`/p/tags${page > 1 ? `?page=${page}` : ''}`}>
+                        {page}
+                      </Link>
+                    </Button>
+                  )
+                })}
+              </div>
+
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                disabled={currentPage === totalPages}
+              >
+                <Link
+                  href={`/p/tags?page=${currentPage + 1}`}
+                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                >
+                  Next
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
           )}
 

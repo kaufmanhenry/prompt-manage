@@ -1,6 +1,5 @@
 import { ArrowRight, Building2, CheckCircle, Shield, Users } from 'lucide-react'
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -123,14 +122,17 @@ export default function AboutPage() {
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <div className="overflow-hidden rounded-lg border border-border bg-card">
-            <div className="relative aspect-[4/3] w-full overflow-hidden">
-              <Image
-                src="/images/henry-mike-boston-lunch.jpg"
-                alt="Henry and Mike working on Prompt Manage in Boston"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 672px, 768px"
-              />
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-emerald-500/20 via-teal-500/20 to-sky-500/20">
+              {/* Gradient placeholder with team info */}
+              <div className="flex h-full items-center justify-center p-8">
+                <div className="text-center">
+                  <div className="mb-4 text-6xl">🚀</div>
+                  <h3 className="text-2xl font-bold">Building in Boston</h3>
+                  <p className="mt-2 text-muted-foreground">
+                    Mike &amp; Henry working on Prompt Manage
+                  </p>
+                </div>
+              </div>
             </div>
             <div className="border-t border-border bg-muted px-6 py-4 text-center">
               <p className="text-sm italic text-muted-foreground">

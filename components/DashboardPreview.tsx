@@ -214,9 +214,6 @@ export function DashboardPreview() {
                 <span className="text-xs text-muted-foreground">
                   Created {selectedPrompt.created}
                 </span>
-                <Badge variant="outline" className="text-[10px]">
-                  Click to copy (demo)
-                </Badge>
               </div>
             </div>
           </DialogContent>

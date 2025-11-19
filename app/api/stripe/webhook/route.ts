@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
         }
 
         const subscriptionObj = await stripe.subscriptions.retrieve(subscriptionId)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         const subscription = subscriptionObj as any
         const currentPeriodEnd = subscription.current_period_end
         const customerId: string | null =
@@ -100,7 +100,6 @@ export async function POST(request: NextRequest) {
       }
 
       case 'customer.subscription.updated': {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const subscription = event.data.object as any
         const customerId =
           typeof subscription.customer === 'string'
@@ -157,7 +156,6 @@ export async function POST(request: NextRequest) {
       }
 
       case 'customer.subscription.deleted': {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const subscription = event.data.object as any
         const customerId =
           typeof subscription.customer === 'string'
@@ -209,7 +207,6 @@ export async function POST(request: NextRequest) {
       }
 
       case 'invoice.payment_succeeded': {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const invoice = event.data.object as any
         const customerId =
           typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
@@ -225,7 +222,7 @@ export async function POST(request: NextRequest) {
 
         // Get subscription from Stripe to verify it's active
         const subscriptionObj = await stripe.subscriptions.retrieve(subscriptionId)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         const subscription = subscriptionObj as any
 
         // Get user from customer ID

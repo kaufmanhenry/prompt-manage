@@ -1,0 +1,673 @@
+'use client'
+
+import {
+  ArrowLeft,
+  Bot,
+  Calendar,
+  Facebook,
+  Linkedin,
+  Share2,
+  TrendingUp,
+  Twitter,
+  User,
+} from 'lucide-react'
+import Link from 'next/link'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
+import CopyButton from '@/components/CopyButton'
+import { CopyPromptButton } from '@/components/CopyPromptButton'
+import { DerivativePrompts } from '@/components/DerivativePrompts'
+import { RelatedPrompts } from '@/components/RelatedPrompts'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { FullPageLoading } from '@/components/ui/loading'
+import { useToast } from '@/components/ui/use-toast'
+import { generateAudienceDescription, generateCTA } from '@/lib/promptAudienceGenerator'
+import type { PublicPrompt } from '@/lib/schemas/prompt'
+import { createClient } from '@/utils/supabase/client'
+
+interface PublicPromptPageClientProps {
+  params: {
+    slug: string
+  }
+}
+
+export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) {
+  const [prompt, setPrompt] = useState<PublicPrompt | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const { toast } = useToast()
+  const [showShareDialog, setShowShareDialog] = useState(false)
+  const [creatorId, setCreatorId] = useState<string | null>(null)
+  const [creatorUsername, setCreatorUsername] = useState<string | null>(null)
+  const [publicCount, setPublicCount] = useState<number | null>(null)
+  const [isAgentGenerated, setIsAgentGenerated] = useState(false)
+
+  // Schema.org structured data for this prompt
+  const promptSchema = useMemo(() => {
+    if (!prompt) return null
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: prompt.name,
+      description: prompt.description || `AI prompt for ${prompt.model}`,
+      text: prompt.prompt_text,
+      datePublished: prompt.inserted_at,
+      dateModified: prompt.updated_at,
+      keywords: prompt.tags?.join(', '),
+      url: `/p/${prompt.slug}`,
+      creator: {
+        '@type': 'Person',
+        name: creatorId || 'Anonymous',
+      },
+      about: {
+        '@type': 'SoftwareApplication',
+        name: prompt.model,
+      },
+      isAccessibleForFree: true,
+    }
+  }, [prompt, creatorId])
+
+  const breadcrumbSchema = useMemo(() => {
+    if (!prompt) return null
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://promptmanage.com',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Public Prompt Directory',
+          item: '/p',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: prompt.model || 'All Prompts',
+          item: `/p${prompt.model ? `?model=${encodeURIComponent(prompt.model)}` : ''}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          name: prompt.name,
+          item: `/p/${prompt.slug}`,
+        },
+      ],
+    }
+  }, [prompt])
+
+  // AI-generated audience description (unique, SEO-optimized, human-sounding)
+  const audienceInfo = useMemo(() => {
+    if (!prompt) return null
+
+    return generateAudienceDescription({
+      name: prompt.name,
+      description: prompt.description,
+      tags: prompt.tags || [],
+      model: prompt.model,
+      promptText: prompt.prompt_text,
+    })
+  }, [prompt])
+
+  // Generate compelling CTA
+  const ctaInfo = useMemo(() => {
+    if (!prompt) return null
+
+    return generateCTA({
+      name: prompt.name,
+      description: prompt.description,
+      tags: prompt.tags || [],
+      model: prompt.model,
+      promptText: prompt.prompt_text,
+    })
+  }, [prompt])
+
+  const fetchPrompt = useCallback(async () => {
+    try {
+      const { data, error } = await createClient()
+        .from('prompts')
+        .select('*')
+        .eq('slug', params.slug)
+        .eq('is_public', true)
+        .single()
+
+      if (error) {
+        setError('Prompt not found')
+        return
+      }
+
+      // Transform data to match the new schema with fallbacks
+      const transformedPrompt = {
+        ...data,
+        description: data.description || null,
+        is_public: data.is_public || false,
+        slug: data.slug || null,
+        view_count: data.view_count || 0,
+        inserted_at: data.inserted_at || data.created_at || null,
+      }
+
+      setPrompt(transformedPrompt as PublicPrompt)
+      const userId = (data as { user_id?: string }).user_id ?? null
+      const agentId = (data as { agent_id?: string }).agent_id ?? null
+      setCreatorId(userId)
+      setIsAgentGenerated(!!agentId)
+
+      // Fetch creator username from user_profiles
+      if (userId) {
+        const { data: profile } = await createClient()
+          .from('user_profiles')
+          .select('username')
+          .eq('id', userId)
+          .single()
+        setCreatorUsername(profile?.username ?? null)
+      }
+
+      // Increment view count (only if the function exists)
+      try {
+        await createClient().rpc('increment_prompt_views', {
+          prompt_id: data.id,
+        })
+      } catch (viewError) {
+        console.error('View count increment error:', viewError)
+      }
+    } catch (error) {
+      console.error('Prompt fetch error:', error)
+      setError('Failed to load prompt')
+    } finally {
+      setLoading(false)
+    }
+  }, [params.slug])
+
+  useEffect(() => {
+    void fetchPrompt()
+  }, [params.slug, fetchPrompt])
+
+  // Fetch total public prompts count (for footer blurb)
+  useEffect(() => {
+    void (async () => {
+      try {
+        const { count } = await createClient()
+          .from('prompts')
+          .select('id', { count: 'exact', head: true })
+          .eq('is_public', true)
+        setPublicCount(count ?? null)
+      } catch {
+        // ignore count failure
+      }
+    })()
+  }, [])
+
+  const primaryCategory = useMemo(() => {
+    if (!prompt) return null
+    const tags = prompt.tags || []
+    if (tags.length > 0) return tags[0]
+    const name = (prompt.name || '').toLowerCase()
+    if (name.includes('blog') || name.includes('content')) return 'content'
+    if (name.includes('marketing')) return 'marketing'
+    if (name.includes('code') || name.includes('developer')) return 'coding'
+    if (name.includes('sales')) return 'sales'
+    if (name.includes('idea') || name.includes('business')) return 'business'
+    return null
+  }, [prompt])
+
+  const relatedTasks = useMemo(() => {
+    if (!prompt) return [] as string[]
+    const tags = (prompt.tags || []).filter((t) => t !== primaryCategory)
+    return tags.slice(0, 3)
+  }, [prompt, primaryCategory])
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      toast({
+        title: 'Link Copied!',
+        description: 'Public link copied to clipboard.',
+      })
+    } catch (error) {
+      console.error('Copy link error:', error)
+      toast({
+        title: 'Error',
+        description: 'Failed to copy link. Please try again.',
+        variant: 'destructive',
+      })
+    }
+  }
+
+  const handleShareToX = () => {
+    const url = encodeURIComponent(window.location.href)
+    const text = encodeURIComponent(prompt?.name || 'Check out this prompt!')
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
+  }
+
+  const handleShareToLinkedIn = () => {
+    const url = encodeURIComponent(window.location.href)
+    const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
+    window.open(
+      `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`,
+      '_blank',
+    )
+  }
+
+  const handleShareToFacebook = () => {
+    const url = encodeURIComponent(window.location.href)
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank')
+  }
+
+  const handleShareToReddit = () => {
+    const url = encodeURIComponent(window.location.href)
+    const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
+    window.open(`https://www.reddit.com/submit?url=${url}&title=${title}`, '_blank')
+  }
+
+  if (loading) {
+    return <FullPageLoading text="Loading prompt..." />
+  }
+
+  if (error || !prompt) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="text-center">
+          <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
+            Prompt Not Found
+          </h1>
+          <p className="mb-4 text-gray-600 dark:text-gray-400">
+            This prompt may have been deleted or is not publicly available.
+          </p>
+          <Link href="/p">
+            <Button>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Browse Public Prompts
+            </Button>
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      {promptSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(promptSchema) }}
+        />
+      )}
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
+      <div className="min-h-screen bg-background">
+        <div className="mx-auto max-w-4xl p-6">
+          {/* Header */}
+          <div className="mb-8">
+            <Link href="/p">
+              <Button variant="ghost" className="mb-4">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Directory
+              </Button>
+            </Link>
+
+            <div className="flex items-start justify-between gap-6">
+              <div className="flex-1">
+                <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  {prompt.name}
+                </h1>
+                {prompt.description && (
+                  <p className="mb-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                    {prompt.description}
+                  </p>
+                )}
+                {!prompt.description && audienceInfo && (
+                  <p className="mb-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                    {audienceInfo.primary}
+                  </p>
+                )}
+                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  {isAgentGenerated ? (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Bot className="h-3 w-3" />
+                      <span>Generated by AI Agent</span>
+                    </Badge>
+                  ) : (
+                    <div className="flex items-center gap-1 rounded-lg bg-input/70 px-3 py-1.5">
+                      <User className="h-4 w-4" />
+                      <span className="font-medium">Community Shared</span>
+                    </div>
+                  )}
+                  {prompt.updated_at && (
+                    <div className="flex items-center gap-1 rounded-lg bg-input/70 px-3 py-1.5">
+                      <Calendar className="h-4 w-4" />
+                      <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-1 rounded-lg bg-green-100 px-3 py-1.5 dark:bg-green-900">
+                    <TrendingUp className="h-4 w-4 text-green-700 dark:text-green-300" />
+                    <span className="font-medium text-green-900 dark:text-green-100">
+                      {prompt.view_count.toLocaleString()} views
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex shrink-0 items-start gap-2">
+                {prompt.id && <CopyPromptButton promptId={prompt.id} promptName={prompt.name} />}
+                <Button onClick={() => setShowShareDialog(true)} variant="outline">
+                  <Share2 className="mr-2 h-4 w-4" />
+                  Share
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Prompt Content */}
+          <div className="grid gap-6 lg:grid-cols-3">
+            <div className="min-w-0 lg:col-span-3">
+              <Card className="gap-2 space-y-0">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span>Prompt</span>
+                    <CopyButton text={prompt.prompt_text} />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="rounded-lg bg-accent p-4">
+                    <pre className="whitespace-pre-wrap break-words font-mono text-sm text-card-foreground">
+                      {prompt.prompt_text}
+                    </pre>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Who is this prompt for? (AI-generated, unique, SEO-optimized) */}
+            <div className="min-w-0 lg:col-span-3">
+              <Card className="gap-2 space-y-0 border-blue-200 bg-blue-50/50 dark:border-blue-900 dark:bg-blue-950/30">
+                <CardHeader>
+                  <CardTitle className="text-blue-900 dark:text-blue-100">
+                    Who is this prompt for?
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Primary description */}
+                  <p className="text-base leading-relaxed text-gray-900 dark:text-gray-100">
+                    {audienceInfo?.primary ||
+                      `Perfect for anyone looking to ${prompt.name.toLowerCase()} efficiently.`}
+                  </p>
+
+                  {/* Secondary context (credibility/trust) */}
+                  {audienceInfo?.secondary && (
+                    <p className="text-sm italic text-gray-600 dark:text-gray-400">
+                      {audienceInfo.secondary}
+                    </p>
+                  )}
+
+                  {/* Persona badges */}
+                  {audienceInfo && audienceInfo.personas.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {audienceInfo.personas.map((persona) => (
+                        <Badge
+                          key={persona}
+                          variant="secondary"
+                          className="bg-blue-100 dark:bg-blue-900"
+                        >
+                          {persona}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Model Info */}
+            {prompt.model && (
+              <Card className="gap-2 space-y-0">
+                <CardHeader>
+                  <CardTitle>Model</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Link
+                    href={`/prompts/${encodeURIComponent(prompt.model)}`}
+                    className="transition-opacity hover:opacity-80"
+                  >
+                    <Badge variant="secondary" className="cursor-pointer">
+                      {prompt.model}
+                    </Badge>
+                  </Link>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Tags */}
+            {prompt.tags && prompt.tags.length > 0 && (
+              <Card className="gap-2 space-y-0">
+                <CardHeader>
+                  <CardTitle>Tags</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {prompt.tags.map((tag) => (
+                      <Link
+                        key={tag}
+                        href={`/p/tags/${encodeURIComponent(tag)}`}
+                        className="transition-opacity hover:opacity-80"
+                      >
+                        <Badge variant="outline" className="cursor-pointer">
+                          {tag}
+                        </Badge>
+                      </Link>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Stats */}
+            <Card className="gap-2 space-y-0">
+              <CardHeader>
+                <CardTitle>Stats</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Views</span>
+                  <span className="font-medium">{prompt.view_count}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Created</span>
+                  <span className="font-medium">
+                    {prompt.inserted_at ? new Date(prompt.inserted_at).toLocaleDateString() : '—'}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Last Updated</span>
+                  <span className="font-medium">
+                    {prompt.updated_at ? new Date(prompt.updated_at).toLocaleDateString() : '—'}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Derivative Prompts */}
+            {prompt.id && <DerivativePrompts promptId={prompt.id} />}
+          </div>
+
+          {/* Call-to-Action Section (AI-generated, unique) */}
+          {ctaInfo && (
+            <div className="mt-12">
+              <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 dark:border-purple-900 dark:from-purple-950 dark:to-blue-950">
+                <CardContent className="p-8 text-center">
+                  <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
+                    {ctaInfo.text}
+                  </h3>
+                  {ctaInfo.emphasis && (
+                    <p className="mb-6 text-lg text-gray-700 dark:text-gray-300">
+                      {ctaInfo.emphasis}
+                    </p>
+                  )}
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {prompt.id && (
+                      <CopyPromptButton promptId={prompt.id} promptName={prompt.name} size="lg" />
+                    )}
+                    <Link href="/p">
+                      <Button size="lg" variant="ghost">
+                        Explore More Prompts
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Related Prompts */}
+          <div className="mt-12">
+            <RelatedPrompts currentPrompt={prompt} />
+          </div>
+
+          {/* Share Your Prompts CTA */}
+          <div className="mt-12 rounded-lg bg-gradient-to-r from-green-500/10 to-blue-500/10 p-6 text-center">
+            <div className="mb-4">
+              <span className="text-4xl">💡</span>
+            </div>
+            <h3 className="mb-3 text-xl font-semibold text-foreground">
+              Inspired by This Prompt? Share Your Own!
+            </h3>
+            <p className="mb-4 text-sm text-muted-foreground">
+              Have you created similar or improved prompts? Share them with our community and help
+              other creators discover new possibilities.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link href="/dashboard">
+                <Button size="sm" className="bg-primary hover:bg-primary/90">
+                  Share Your Prompts
+                </Button>
+              </Link>
+              <Link href="/tools">
+                <Button size="sm" variant="outline">
+                  Explore AI Tools
+                </Button>
+              </Link>
+            </div>
+            <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <TrendingUp className="h-3 w-3" />
+                <span>Join 60+ creators</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Share2 className="h-3 w-3" />
+                <span>Share & discover prompts</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Directory Footer Blurb */}
+          <div className="mt-8 text-sm text-muted-foreground">
+            <h3 className="mb-2 text-center text-base font-semibold text-foreground">
+              About the Prompt Manage Directory
+            </h3>
+            <p>
+              The{' '}
+              <Link href="/p" className="underline">
+                Public Prompt Directory
+              </Link>{' '}
+              from{' '}
+              <Link href="/" className="underline">
+                Prompt Manage
+              </Link>{' '}
+              features over <span className="font-semibold">{publicCount ?? 325}</span>{' '}
+              <span className="font-semibold">prompts</span> for{' '}
+              <Link href="/models" className="underline">
+                AI chatbots
+              </Link>
+              , including ChatGPT, Google Gemini, Claude, Grok, and more. This page highlights{' '}
+              <span className="font-medium">“{prompt.name}”</span>
+              {primaryCategory && <>, a {primaryCategory} prompt</>}
+              {relatedTasks.length > 0 && <> that helps with {relatedTasks.join(', ')} tasks</>}.
+              {primaryCategory && (
+                <>
+                  {' '}
+                  Explore more{' '}
+                  <Link
+                    href={`/p/tags/${encodeURIComponent(primaryCategory)}`}
+                    className="underline"
+                  >
+                    {primaryCategory}
+                  </Link>{' '}
+                  prompts
+                </>
+              )}{' '}
+              or browse the full directory to discover new ways to write, code, brainstorm, and
+              create with AI.
+              {creatorUsername && (
+                <>
+                  {' '}
+                  View the creator's profile at{' '}
+                  <Link href={`/u/${creatorUsername}`} className="underline">
+                    /u/{creatorUsername}
+                  </Link>
+                </>
+              )}
+              .{' '}
+              <Link href="/p" className="underline">
+                View all prompts
+              </Link>
+              .
+            </p>
+          </div>
+
+          {/* Share Modal */}
+          <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Share this Prompt</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Button onClick={handleCopyLink} className="flex w-full items-center gap-2">
+                  <Share2 className="h-4 w-4" /> Copy Link
+                </Button>
+                <Button
+                  onClick={handleShareToX}
+                  className="flex w-full items-center gap-2"
+                  variant="outline"
+                >
+                  <Twitter className="h-4 w-4 text-blue-500" /> Share to X
+                </Button>
+                <Button
+                  onClick={handleShareToLinkedIn}
+                  className="flex w-full items-center gap-2"
+                  variant="outline"
+                >
+                  <Linkedin className="h-4 w-4 text-blue-700" /> Share to LinkedIn
+                </Button>
+                <Button
+                  onClick={handleShareToFacebook}
+                  className="flex w-full items-center gap-2"
+                  variant="outline"
+                >
+                  <Facebook className="h-4 w-4 text-blue-600" /> Share to Facebook
+                </Button>
+                <Button
+                  onClick={handleShareToReddit}
+                  className="flex w-full items-center gap-2"
+                  variant="outline"
+                >
+                  <Share2 className="h-4 w-4 text-orange-500" /> Share to Reddit
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
+    </>
+  )
+}

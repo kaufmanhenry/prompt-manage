@@ -24,7 +24,7 @@ export interface AgentPrompt {
   quality_score: number | null
   status: 'draft' | 'review' | 'approved' | 'published' | 'rejected' | 'failed'
   error_message: string | null
-  metadata: Record<string, any> | null
+  metadata: Record<string, unknown> | null
   created_at: string
   updated_at: string
   prompts?: {

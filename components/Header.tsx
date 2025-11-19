@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { EmailSignInButton } from '@/components/EmailSignInButton'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -135,6 +136,7 @@ export function Header() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
+          <LanguageSwitcher />
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

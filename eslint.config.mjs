@@ -142,7 +142,7 @@ export default tseslint.config(
   },
   // Node script overrides
   {
-    files: ['test-openai-env.js', 'test-agent-system.js', 'test-agents.js'],
+    files: ['test-openai-env.js', 'test-agent-system.js', 'test-agents.js', 'scripts/*.js'],
     languageOptions: {
       globals: globals.node,
     },

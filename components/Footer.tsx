@@ -12,12 +12,12 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'Prompt Manage',
   url: 'https://promptmanage.com',
-  logo: 'https://promptmanage.com/logo.svg',
+  logo: '/logo.svg',
   sameAs: ['https://x.com/promptmanage', 'https://www.linkedin.com/company/prompt-manage/'],
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'Customer Service',
-    url: 'https://promptmanage.com/support',
+    url: '/support',
   },
 }
 

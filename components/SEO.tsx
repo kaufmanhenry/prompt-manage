@@ -23,7 +23,7 @@ export function SEO({
   title,
   description,
   url,
-  image = 'https://promptmanage.com/og-image.svg',
+  image = '/og-image.svg',
   type = 'website',
   publishedTime,
   modifiedTime,
@@ -32,7 +32,7 @@ export function SEO({
   organization = {
     name: 'Prompt Manage',
     url: 'https://promptmanage.com',
-    logo: 'https://promptmanage.com/logo.svg',
+    logo: '/logo.svg',
   },
 }: SEOProps) {
   const fullUrl = url.startsWith('http') ? url : `https://promptmanage.com${url}`

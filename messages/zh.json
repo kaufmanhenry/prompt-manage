@@ -1,0 +1,12 @@
+{
+  "HomePage": {
+    "title": "Prompt Manage — 团队 AI 提示词管理平台",
+    "description": "为 ChatGPT、Claude、Gemini 等组织、测试和协作 AI 提示词。"
+  },
+  "Navigation": {
+    "home": "首页",
+    "dashboard": "仪表盘",
+    "pricing": "价格",
+    "blog": "博客"
+  }
+}

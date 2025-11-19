@@ -738,7 +738,9 @@ export default function BFCMDealsPage() {
                 Discover More AI Tools for Free
               </h2>
               <p className="mb-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-                Explore our free AI Tools Directory with hundreds of tools organized by category. Whether you're looking for music generation, video creation, image synthesis, or code assistants, find the perfect tool for your needs.
+                Explore our free AI Tools Directory with hundreds of tools organized by category.
+                Whether you're looking for music generation, video creation, image synthesis, or
+                code assistants, find the perfect tool for your needs.
               </p>
               <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
                 <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
@@ -758,13 +760,18 @@ export default function BFCMDealsPage() {
                   </Button>
                 </Link>
                 <Link href="/directory/submit">
-                  <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+                  >
                     Submit Your Tool
                   </Button>
                 </Link>
               </div>
               <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                Completely free directory. Tool creators get exposure to thousands of potential customers looking for their next AI solution.
+                Completely free directory. Tool creators get exposure to thousands of potential
+                customers looking for their next AI solution.
               </p>
             </div>
           </section>
@@ -968,8 +975,8 @@ export default function BFCMDealsPage() {
 
           {/* Footer */}
           <div className="border-t border-gray-200 pb-12 pt-8 text-center text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
-            Last Updated by the Prompt Manage Team on: November 19, 2025 | Pricing and availability subject to change. Not
-            affiliated with listed vendors.
+            Last Updated by the Prompt Manage Team on: November 19, 2025 | Pricing and availability
+            subject to change. Not affiliated with listed vendors.
           </div>
         </div>
       </div>

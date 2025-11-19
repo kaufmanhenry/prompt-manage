@@ -53,7 +53,7 @@ export default function DirectoryPage() {
   const [debouncedSearch, setDebouncedSearch] = useState(search)
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all')
   const [sortBy, setSortBy] = useState<'newest' | 'popular' | 'highest_rated'>(
-    (searchParams.get('sort') as any) || 'newest'
+    (searchParams.get('sort') as any) || 'newest',
   )
   const [pricingFilter, setPricingFilter] = useState(searchParams.get('pricing') || 'all')
 
@@ -204,7 +204,10 @@ export default function DirectoryPage() {
               <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Sort By
               </label>
-              <Select value={sortBy} onValueChange={(value: 'newest' | 'popular' | 'highest_rated') => setSortBy(value)}>
+              <Select
+                value={sortBy}
+                onValueChange={(value: 'newest' | 'popular' | 'highest_rated') => setSortBy(value)}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -230,7 +233,10 @@ export default function DirectoryPage() {
               </p>
             </div>
             <Link href="/tools">
-              <Button variant="outline" className="whitespace-nowrap border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30">
+              <Button
+                variant="outline"
+                className="whitespace-nowrap border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+              >
                 View Prompt Collections
               </Button>
             </Link>
@@ -337,7 +343,8 @@ export default function DirectoryPage() {
                   Not finding what you need?
                 </h2>
                 <p className="mb-6 text-gray-600 dark:text-gray-300">
-                  Submit your own AI tool to the directory and get exposure to thousands of potential customers. It's free and takes just 5 minutes.
+                  Submit your own AI tool to the directory and get exposure to thousands of
+                  potential customers. It's free and takes just 5 minutes.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <Link href="/directory/submit">
@@ -346,7 +353,11 @@ export default function DirectoryPage() {
                     </Button>
                   </Link>
                   <Link href="/tools">
-                    <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+                    >
                       View Prompt Collections
                     </Button>
                   </Link>

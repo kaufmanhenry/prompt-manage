@@ -320,9 +320,7 @@ export default async function ToolsPage() {
           <div className="mb-12 rounded-lg bg-gradient-to-r from-red-600 via-red-500 to-orange-500 p-6 text-white shadow-lg md:p-8">
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
               <div>
-                <h2 className="mb-2 text-2xl font-bold md:text-3xl">
-                  🎉 Black Friday Deals Live!
-                </h2>
+                <h2 className="mb-2 text-2xl font-bold md:text-3xl">🎉 Black Friday Deals Live!</h2>
                 <p className="text-red-50">
                   Save 40-90% on AI tools. Up to 75% off Stable Diffusion, 40% off Suno & more.
                 </p>
@@ -371,7 +369,8 @@ export default async function ToolsPage() {
                 Looking for More AI Tools?
               </h2>
               <p className="mb-6 text-gray-600 dark:text-gray-300">
-                Explore our comprehensive AI Tools Directory with 1000+ tools, community ratings, and detailed comparisons. Find the perfect tool for your next project.
+                Explore our comprehensive AI Tools Directory with 1000+ tools, community ratings,
+                and detailed comparisons. Find the perfect tool for your next project.
               </p>
               <Link href="/directory">
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
@@ -783,27 +782,50 @@ export default async function ToolsPage() {
                   Discover More Tools by Category
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Browse our complete AI Tools Directory organized by category. Find ratings, comparisons, and discover new tools in your area of interest.
+                  Browse our complete AI Tools Directory organized by category. Find ratings,
+                  comparisons, and discover new tools in your area of interest.
                 </p>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {[
-                  { name: 'Content & Writing', slug: 'content-writing', description: 'AI writing, copywriting, and content creation tools' },
-                  { name: 'Image & Visual', slug: 'image-visual', description: 'Image generation and visual design tools' },
-                  { name: 'Video & Animation', slug: 'video-animation', description: 'Video generation and animation tools' },
-                  { name: 'Audio & Music', slug: 'audio-music', description: 'Music generation and audio production tools' },
-                  { name: 'Code & Development', slug: 'code-development', description: 'AI code assistants and development tools' },
-                  { name: 'Business & Productivity', slug: 'productivity-automation', description: 'Automation and productivity tools' },
+                  {
+                    name: 'Content & Writing',
+                    slug: 'content-writing',
+                    description: 'AI writing, copywriting, and content creation tools',
+                  },
+                  {
+                    name: 'Image & Visual',
+                    slug: 'image-visual',
+                    description: 'Image generation and visual design tools',
+                  },
+                  {
+                    name: 'Video & Animation',
+                    slug: 'video-animation',
+                    description: 'Video generation and animation tools',
+                  },
+                  {
+                    name: 'Audio & Music',
+                    slug: 'audio-music',
+                    description: 'Music generation and audio production tools',
+                  },
+                  {
+                    name: 'Code & Development',
+                    slug: 'code-development',
+                    description: 'AI code assistants and development tools',
+                  },
+                  {
+                    name: 'Business & Productivity',
+                    slug: 'productivity-automation',
+                    description: 'Automation and productivity tools',
+                  },
                 ].map((cat) => (
                   <Link key={cat.slug} href={`/directory?category=${cat.slug}`}>
                     <div className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
                       <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                         {cat.name}
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {cat.description}
-                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{cat.description}</p>
                       <p className="mt-4 inline-flex items-center text-sm font-medium text-emerald-600 dark:text-emerald-400">
                         Explore Tools →
                       </p>

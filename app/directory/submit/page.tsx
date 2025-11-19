@@ -62,17 +62,25 @@ export default function SubmitToolPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const supabase = createClient()
 
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<ToolFormData>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<ToolFormData>({
     defaultValues: {
       pricing_model: 'freemium',
       platforms: ['web'],
-    }
+    },
   })
 
   // Check authentication
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
       if (!session) {
         toast({
           title: 'Sign in required',
@@ -117,10 +125,26 @@ export default function SubmitToolPage() {
       // Convert comma-separated strings to arrays
       const submitData = {
         ...data,
-        key_features: data.key_features.split(',').map(f => f.trim()).filter(f => f),
-        use_cases: data.use_cases.split(',').map(u => u.trim()).filter(u => u),
-        integrations: data.integrations ? data.integrations.split(',').map(i => i.trim()).filter(i => i) : [],
-        ai_models_used: data.ai_models_used ? data.ai_models_used.split(',').map(m => m.trim()).filter(m => m) : [],
+        key_features: data.key_features
+          .split(',')
+          .map((f) => f.trim())
+          .filter((f) => f),
+        use_cases: data.use_cases
+          .split(',')
+          .map((u) => u.trim())
+          .filter((u) => u),
+        integrations: data.integrations
+          ? data.integrations
+              .split(',')
+              .map((i) => i.trim())
+              .filter((i) => i)
+          : [],
+        ai_models_used: data.ai_models_used
+          ? data.ai_models_used
+              .split(',')
+              .map((m) => m.trim())
+              .filter((m) => m)
+          : [],
       }
 
       const response = await fetch('/api/directory/tools', {
@@ -137,7 +161,8 @@ export default function SubmitToolPage() {
 
       toast({
         title: 'Success!',
-        description: 'Your tool has been submitted for review. We\'ll notify you once it\'s approved.',
+        description:
+          "Your tool has been submitted for review. We'll notify you once it's approved.",
       })
 
       router.push(`/directory/${result.slug}`)
@@ -280,12 +305,7 @@ export default function SubmitToolPage() {
 
                 <div>
                   <Label htmlFor="contact_email">Contact Email *</Label>
-                  <Input
-                    id="contact_email"
-                    type="email"
-                    readOnly
-                    {...register('contact_email')}
-                  />
+                  <Input id="contact_email" type="email" readOnly {...register('contact_email')} />
                 </div>
               </div>
             </div>
@@ -299,9 +319,7 @@ export default function SubmitToolPage() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="primary_category">Primary Category *</Label>
-                  <Select
-                    onValueChange={(value) => setValue('primary_category_id', value)}
-                  >
+                  <Select onValueChange={(value) => setValue('primary_category_id', value)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
@@ -482,7 +500,8 @@ export default function SubmitToolPage() {
         {/* Info Box */}
         <div className="mt-8 rounded-lg bg-blue-50 p-4 dark:bg-blue-950/20">
           <p className="text-sm text-blue-900 dark:text-blue-200">
-            <strong>Note:</strong> Your submission will be reviewed within 24-48 hours. You'll receive an email confirmation once it's approved.
+            <strong>Note:</strong> Your submission will be reviewed within 24-48 hours. You'll
+            receive an email confirmation once it's approved.
           </p>
         </div>
       </div>

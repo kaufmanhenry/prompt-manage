@@ -1,9 +1,6 @@
 import { createServerSideClient } from '@/utils/supabase/server'
 
-export async function GET(
-  request: Request,
-  { params }: { params: { slug: string } }
-) {
+export async function GET(request: Request, { params }: { params: { slug: string } }) {
   try {
     const supabase = createServerSideClient()
 
@@ -47,17 +44,14 @@ export async function GET(
         created_at,
         is_verified,
         is_featured
-      `
+      `,
       )
       .eq('slug', params.slug)
       .eq('status', 'approved')
       .single()
 
     if (error || !tool) {
-      return Response.json(
-        { error: 'Tool not found' },
-        { status: 404 }
-      )
+      return Response.json({ error: 'Tool not found' }, { status: 404 })
     }
 
     // Increment view count
@@ -77,9 +71,6 @@ export async function GET(
   } catch (error: unknown) {
     console.error('Error fetching tool:', error)
     const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tool'
-    return Response.json(
-      { error: errorMessage },
-      { status: 500 }
-    )
+    return Response.json({ error: errorMessage }, { status: 500 })
   }
 }

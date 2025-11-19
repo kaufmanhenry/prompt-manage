@@ -70,7 +70,9 @@ export default function ToolDetailPage() {
         setTool(data)
 
         // Check if favorited
-        const { data: { session } } = await supabase.auth.getSession()
+        const {
+          data: { session },
+        } = await supabase.auth.getSession()
         if (session) {
           const { data: favorite } = await supabase
             .from('tool_favorites')
@@ -92,7 +94,9 @@ export default function ToolDetailPage() {
   }, [slug, supabase])
 
   const handleFavorite = async () => {
-    const { data: { session } } = await supabase.auth.getSession()
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
     if (!session) {
       toast({
         title: 'Sign in required',
@@ -110,12 +114,10 @@ export default function ToolDetailPage() {
           .eq('tool_id', tool!.id)
           .eq('user_id', session.user.id)
       } else {
-        await supabase
-          .from('tool_favorites')
-          .insert({
-            tool_id: tool!.id,
-            user_id: session.user.id,
-          })
+        await supabase.from('tool_favorites').insert({
+          tool_id: tool!.id,
+          user_id: session.user.id,
+        })
       }
       setIsFavorited(!isFavorited)
     } catch (error: unknown) {
@@ -156,11 +158,7 @@ export default function ToolDetailPage() {
       {/* Banner */}
       {tool.banner_image_url && (
         <div className="h-64 w-full overflow-hidden bg-gradient-to-r from-emerald-600 to-emerald-700 sm:h-80">
-          <img
-            src={tool.banner_image_url}
-            alt={tool.name}
-            className="h-full w-full object-cover"
-          />
+          <img src={tool.banner_image_url} alt={tool.name} className="h-full w-full object-cover" />
         </div>
       )}
 
@@ -177,17 +175,11 @@ export default function ToolDetailPage() {
             )}
             <div>
               <div className="mb-2 flex items-center gap-2">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                  {tool.name}
-                </h1>
-                {tool.is_verified && (
-                  <Badge className="bg-emerald-600">Verified</Badge>
-                )}
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{tool.name}</h1>
+                {tool.is_verified && <Badge className="bg-emerald-600">Verified</Badge>}
               </div>
               <p className="text-gray-600 dark:text-gray-400">{tool.company_name}</p>
-              <p className="mb-4 text-sm text-gray-500 dark:text-gray-500">
-                {tool.category_name}
-              </p>
+              <p className="mb-4 text-sm text-gray-500 dark:text-gray-500">{tool.category_name}</p>
 
               {/* Action Buttons */}
               <div className="flex gap-2">
@@ -240,16 +232,10 @@ export default function ToolDetailPage() {
           <div className="space-y-8 lg:col-span-2">
             {/* Description */}
             <div>
-              <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
-                About
-              </h2>
-              <p className="mb-4 text-gray-600 dark:text-gray-400">
-                {tool.description}
-              </p>
+              <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">About</h2>
+              <p className="mb-4 text-gray-600 dark:text-gray-400">{tool.description}</p>
               {tool.full_description && (
-                <p className="text-gray-600 dark:text-gray-400">
-                  {tool.full_description}
-                </p>
+                <p className="text-gray-600 dark:text-gray-400">{tool.full_description}</p>
               )}
             </div>
 

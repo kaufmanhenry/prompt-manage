@@ -31,18 +31,14 @@ export async function GET(request: Request) {
         upvote_count,
         key_features
       `,
-        { count: 'exact' }
+        { count: 'exact' },
       )
       .eq('status', 'approved')
       .order(
-        sort === 'popular'
-          ? 'upvote_count'
-          : sort === 'highest_rated'
-            ? 'rating'
-            : 'created_at',
+        sort === 'popular' ? 'upvote_count' : sort === 'highest_rated' ? 'rating' : 'created_at',
         {
           ascending: sort === 'popular' || sort === 'highest_rated' ? false : false,
-        }
+        },
       )
 
     // Apply search filter
@@ -64,18 +60,22 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error('Supabase query error:', error)
-      return Response.json({
-        tools: [],
-        total: 0,
-      }, { status: 200 })
+      return Response.json(
+        {
+          tools: [],
+          total: 0,
+        },
+        { status: 200 },
+      )
     }
 
     // Format the response
-    const formattedTools = tools?.map((tool: Record<string, unknown>) => ({
-      ...tool,
-      category_name: (tool.tool_categories as Record<string, unknown>)?.name || 'Uncategorized',
-      tool_categories: undefined, // Remove nested data
-    })) || []
+    const formattedTools =
+      tools?.map((tool: Record<string, unknown>) => ({
+        ...tool,
+        category_name: (tool.tool_categories as Record<string, unknown>)?.name || 'Uncategorized',
+        tool_categories: undefined, // Remove nested data
+      })) || []
 
     return Response.json({
       tools: formattedTools,
@@ -84,10 +84,13 @@ export async function GET(request: Request) {
   } catch (error: unknown) {
     console.error('Error fetching tools:', error)
     // Return empty state instead of error to prevent frontend crashes
-    return Response.json({
-      tools: [],
-      total: 0,
-    }, { status: 200 })
+    return Response.json(
+      {
+        tools: [],
+        total: 0,
+      },
+      { status: 200 },
+    )
   }
 }
 
@@ -101,10 +104,7 @@ export async function POST(request: Request) {
     } = await supabase.auth.getSession()
 
     if (!session) {
-      return Response.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
+      return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await request.json()
@@ -121,10 +121,7 @@ export async function POST(request: Request) {
 
     for (const field of requiredFields) {
       if (!body[field]) {
-        return Response.json(
-          { error: `Missing required field: ${field}` },
-          { status: 400 }
-        )
+        return Response.json({ error: `Missing required field: ${field}` }, { status: 400 })
       }
     }
 
@@ -156,9 +153,6 @@ export async function POST(request: Request) {
   } catch (error: unknown) {
     console.error('Error creating tool:', error)
     const errorMessage = error instanceof Error ? error.message : 'Failed to create tool'
-    return Response.json(
-      { error: errorMessage },
-      { status: 500 }
-    )
+    return Response.json({ error: errorMessage }, { status: 500 })
   }
 }

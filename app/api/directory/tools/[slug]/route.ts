@@ -1,9 +1,6 @@
 import { createServerSideClient } from '@/utils/supabase/server'
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
     const { slug } = await params
     const supabase = createServerSideClient()
@@ -68,8 +65,7 @@ export async function GET(
     const formattedTool = {
       ...tool,
       category_name:
-        (tool.tool_categories as unknown as { name: string } | null)?.name ||
-        'Uncategorized',
+        (tool.tool_categories as unknown as { name: string } | null)?.name || 'Uncategorized',
       tool_categories: undefined,
     }
 

@@ -13,10 +13,12 @@
 }
 
 .pm-gradient-text {
-  background-image: linear-gradient(90deg,
-      rgb(var(--pm-emerald)) 0%,
-      rgb(var(--pm-teal)) 40%,
-      rgb(var(--pm-sky)) 100%);
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--pm-emerald)) 0%,
+    rgb(var(--pm-teal)) 40%,
+    rgb(var(--pm-sky)) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -152,10 +154,12 @@
     --shadow-4: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.1);
 
     /* Accent gradient for brand-forward elements */
-    --gradient-accent: conic-gradient(from 180deg at 50% 50%,
-        hsl(var(--brand-500)) 0deg,
-        hsl(var(--accent-teal-500)) 140deg,
-        hsl(var(--accent-violet-500)) 320deg);
+    --gradient-accent: conic-gradient(
+      from 180deg at 50% 50%,
+      hsl(var(--brand-500)) 0deg,
+      hsl(var(--accent-teal-500)) 140deg,
+      hsl(var(--accent-violet-500)) 320deg
+    );
 
     /* Type scale */
     --font-size-xs: 0.75rem;
@@ -242,7 +246,6 @@
 }
 
 @layer utilities {
-
   /* Interaction utilities built on tokens */
   .elevate-1 {
     box-shadow: var(--shadow-1);
@@ -594,7 +597,6 @@
 
   /* Print styles */
   @media print {
-
     .blog-sidebar,
     .social-share,
     .reading-progress {

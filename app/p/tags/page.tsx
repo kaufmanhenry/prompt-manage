@@ -198,12 +198,7 @@ export default async function TagsDirectoryPage({
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="mt-8 flex items-center justify-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                asChild
-                disabled={currentPage === 1}
-              >
+              <Button variant="outline" size="sm" asChild disabled={currentPage === 1}>
                 <Link
                   href={`/p/tags${currentPage > 2 ? `?page=${currentPage - 1}` : ''}`}
                   className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
@@ -240,20 +235,13 @@ export default async function TagsDirectoryPage({
                       size="sm"
                       asChild
                     >
-                      <Link href={`/p/tags${page > 1 ? `?page=${page}` : ''}`}>
-                        {page}
-                      </Link>
+                      <Link href={`/p/tags${page > 1 ? `?page=${page}` : ''}`}>{page}</Link>
                     </Button>
                   )
                 })}
               </div>
 
-              <Button
-                variant="outline"
-                size="sm"
-                asChild
-                disabled={currentPage === totalPages}
-              >
+              <Button variant="outline" size="sm" asChild disabled={currentPage === totalPages}>
                 <Link
                   href={`/p/tags?page=${currentPage + 1}`}
                   className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}

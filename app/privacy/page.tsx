@@ -19,7 +19,7 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-background">
       {/* Hero */}
       <div className="border-b border-border">
-        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 md:py-24">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
           <Link
             href="/legal-center"
             className="mb-6 inline-block text-sm text-muted-foreground hover:text-foreground"

@@ -173,7 +173,7 @@ export default function DirectoryPage() {
                   <SelectItem value="all">All Categories</SelectItem>
                   {categories.map((cat) => (
                     <SelectItem key={cat.id} value={cat.id}>
-                      {cat.icon_emoji} {cat.name}
+                      {cat.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -218,6 +218,25 @@ export default function DirectoryPage() {
           </div>
         </div>
 
+        {/* Prompts Promotion Banner */}
+        <div className="mb-8 rounded-lg border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 p-6 dark:border-emerald-900 dark:from-emerald-950 dark:to-teal-950">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div>
+              <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                Want to master these tools?
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Browse our curated prompt collections with ready-to-use examples for every tool.
+              </p>
+            </div>
+            <Link href="/tools">
+              <Button variant="outline" className="whitespace-nowrap border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30">
+                View Prompt Collections
+              </Button>
+            </Link>
+          </div>
+        </div>
+
         {/* Results Count */}
         <div className="mb-6 flex items-center justify-between">
           <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -238,15 +257,15 @@ export default function DirectoryPage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {tools.map((tool) => (
               <Link key={tool.id} href={`/directory/${tool.slug}`}>
-                <Card className="group h-full cursor-pointer overflow-hidden transition-all hover:shadow-lg">
-                  <div className="p-6">
+                <Card className="group h-full cursor-pointer overflow-hidden transition-all hover:shadow-lg hover:border-emerald-200 dark:hover:border-emerald-900">
+                  <div className="flex h-full flex-col p-6">
                     {/* Logo & Category */}
                     <div className="mb-4 flex items-start justify-between">
                       {tool.logo_url && (
                         <img
                           src={tool.logo_url}
                           alt={tool.name}
-                          className="h-12 w-12 rounded-lg object-cover"
+                          className="h-14 w-14 rounded-lg object-cover"
                         />
                       )}
                       <Badge variant="secondary" className="ml-2">
@@ -255,17 +274,17 @@ export default function DirectoryPage() {
                     </div>
 
                     {/* Tool Info */}
-                    <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                    <h3 className="mb-2 text-lg font-bold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                       {tool.name}
                     </h3>
-                    <p className="mb-4 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
+                    <p className="mb-4 flex-grow text-sm text-gray-600 dark:text-gray-400">
                       {tool.description}
                     </p>
 
                     {/* Features */}
                     {tool.key_features && tool.key_features.length > 0 && (
-                      <div className="mb-4 flex flex-wrap gap-1">
-                        {tool.key_features.slice(0, 2).map((feature) => (
+                      <div className="mb-4 flex flex-wrap gap-2">
+                        {tool.key_features.slice(0, 3).map((feature) => (
                           <Badge key={feature} variant="outline" className="text-xs">
                             {feature}
                           </Badge>
@@ -276,7 +295,7 @@ export default function DirectoryPage() {
                     {/* Pricing & Stats */}
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-800">
                       <div className="mb-3 flex items-center justify-between">
-                        <span className="inline-block rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+                        <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
                           {tool.pricing_model === 'free'
                             ? 'Free'
                             : tool.pricing_model === 'freemium'
@@ -288,16 +307,16 @@ export default function DirectoryPage() {
                       </div>
 
                       {/* Engagement Stats */}
-                      <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
+                      <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
                         {tool.rating && (
                           <div className="flex items-center gap-1">
-                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                            <span className="font-medium">{tool.rating.toFixed(1)}</span>
-                            <span>({tool.review_count})</span>
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                            <span className="font-semibold">{tool.rating.toFixed(1)}</span>
+                            <span className="text-gray-500">({tool.review_count})</span>
                           </div>
                         )}
                         <div className="flex items-center gap-1">
-                          <TrendingUp className="h-3 w-3" />
+                          <TrendingUp className="h-4 w-4" />
                           <span>{tool.upvote_count} upvotes</span>
                         </div>
                       </div>
@@ -308,6 +327,34 @@ export default function DirectoryPage() {
             ))}
           </div>
         )}
+
+        {/* Footer CTA Section */}
+        <div className="mt-20 border-t border-gray-200 pt-16 dark:border-gray-800">
+          <div className="mx-auto max-w-4xl">
+            <div className="rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50 p-8 dark:border-blue-900 dark:from-blue-950 dark:to-cyan-950">
+              <div className="text-center">
+                <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+                  Not finding what you need?
+                </h2>
+                <p className="mb-6 text-gray-600 dark:text-gray-300">
+                  Submit your own AI tool to the directory and get exposure to thousands of potential customers. It's free and takes just 5 minutes.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <Link href="/directory/submit">
+                    <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+                      Submit Your Tool
+                    </Button>
+                  </Link>
+                  <Link href="/tools">
+                    <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30">
+                      View Prompt Collections
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

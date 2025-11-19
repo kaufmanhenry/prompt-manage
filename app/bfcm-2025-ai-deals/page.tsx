@@ -587,14 +587,25 @@ export default function BFCMDealsPage() {
               </p>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <Link
-                  href="/tools"
+                  href="/directory"
                   className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
                 >
                   <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
                     AI Tools Directory
                   </div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">
-                    Browse our complete guide to AI tools for video, audio, and image generation
+                    Explore 1000+ AI tools with community ratings and detailed comparisons
+                  </div>
+                </Link>
+                <Link
+                  href="/tools"
+                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
+                >
+                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    Prompt Collections
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    Browse curated prompts for featured AI tools to master each platform
                   </div>
                 </Link>
                 <Link
@@ -724,20 +735,20 @@ export default function BFCMDealsPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-transparent" />
             <div className="relative mx-auto max-w-3xl text-center">
               <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Discover More AI Tools & Get Paid
+                Discover More AI Tools for Free
               </h2>
               <p className="mb-6 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-                Explore our new AI Tools Directory with 1000+ tools, join our affiliate program, and earn 25-30% commission on referrals. Tools like Suno, Pika, and Stable Diffusion are running promotions—help creators find them and earn passive income.
+                Explore our free AI Tools Directory with hundreds of tools organized by category. Whether you're looking for music generation, video creation, image synthesis, or code assistants, find the perfect tool for your needs.
               </p>
               <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
                 <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
-                  🎵 Music Tools (Suno 30% commission)
+                  Music & Audio Tools
                 </Badge>
                 <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
-                  🎬 Video Tools (Pika 30% commission)
+                  Video & Animation Tools
                 </Badge>
                 <Badge variant="outline" className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30">
-                  🎨 Image Tools (Stable Diffusion 25% commission)
+                  Image & Visual Tools
                 </Badge>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-4">
@@ -753,7 +764,7 @@ export default function BFCMDealsPage() {
                 </Link>
               </div>
               <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                Earn 25-30% recurring commissions when you refer tools through our directory. Join our affiliate program for free.
+                Completely free directory. Tool creators get exposure to thousands of potential customers looking for their next AI solution.
               </p>
             </div>
           </section>
@@ -957,7 +968,7 @@ export default function BFCMDealsPage() {
 
           {/* Footer */}
           <div className="border-t border-gray-200 pb-12 pt-8 text-center text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
-            Last Updated: November 18, 2025 | Pricing and availability subject to change. Not
+            Last Updated by the Prompt Manage Team on: November 19, 2025 | Pricing and availability subject to change. Not
             affiliated with listed vendors.
           </div>
         </div>

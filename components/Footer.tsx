@@ -3,9 +3,8 @@
 import { ArrowRight, Rocket, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 
-import { Link } from '@/i18n/routing'
-
 import { Button } from '@/components/ui/button'
+import { Link } from '@/i18n/routing'
 
 // Organization schema for SEO
 const organizationSchema = {

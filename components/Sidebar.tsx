@@ -16,8 +16,6 @@ import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { Link, useRouter } from '@/i18n/routing'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -27,6 +25,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Link, useRouter } from '@/i18n/routing'
 import { logger } from '@/lib/logger'
 import type { Prompt } from '@/lib/schemas/prompt'
 import { createClient } from '@/utils/supabase/client'

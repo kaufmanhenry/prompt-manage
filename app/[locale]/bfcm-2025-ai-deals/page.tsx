@@ -356,6 +356,7 @@ const DealCard = ({ deal }: { deal: Deal }) => (
         <div className="flex items-center gap-3">
           {/* Company Logo */}
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white p-2 dark:border-gray-700 dark:bg-gray-800">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={deal.logo}
               alt={`${deal.tool} logo`}

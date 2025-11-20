@@ -63,6 +63,7 @@ export const metadata: Metadata = {
 
 interface Deal {
   tool: string
+  logo: string
   url: string
   dealHighlight: string
   benefit: string
@@ -77,6 +78,7 @@ const verifiedDeals: Deal[] = [
   // AI Writing Tools - VERIFIED
   {
     tool: 'Jasper AI',
+    logo: 'https://www.jasper.ai/favicon.ico',
     url: 'https://jasper.ai',
     dealHighlight: '40% OFF Annual Boss Mode + 300K Bonus Words',
     benefit:
@@ -89,6 +91,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'Copy.ai Pro',
+    logo: 'https://www.copy.ai/favicon.ico',
     url: 'https://copy.ai',
     dealHighlight: 'Lifetime Deal - $297 (Was $588/year)',
     benefit:
@@ -101,6 +104,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'Writesonic Enterprise',
+    logo: 'https://writesonic.com/favicon.ico',
     url: 'https://writesonic.com',
     dealHighlight: '50% OFF First Year + 500K Bonus Credits',
     benefit:
@@ -114,6 +118,7 @@ const verifiedDeals: Deal[] = [
   // Prompt Management - VERIFIED
   {
     tool: 'Prompt Manage Pro',
+    logo: '/favicon.svg',
     url: '/pricing',
     dealHighlight: '30% OFF First 6 Months (Code: BFCM30)',
     benefit:
@@ -128,6 +133,7 @@ const verifiedDeals: Deal[] = [
   // Code Assistants - RESEARCH BASED
   {
     tool: 'Tabnine Pro',
+    logo: 'https://www.tabnine.com/favicon.ico',
     url: 'https://tabnine.com',
     dealHighlight: '$99/year (Reg. $144/year)',
     benefit:
@@ -139,6 +145,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'GitHub Copilot Business',
+    logo: 'https://github.githubassets.com/favicons/favicon.svg',
     url: 'https://github.com/features/copilot',
     dealHighlight: '2 Months Free on Annual Plan',
     benefit:
@@ -152,6 +159,7 @@ const verifiedDeals: Deal[] = [
   // Design & Media - VERIFIED
   {
     tool: 'Descript Pro',
+    logo: 'https://www.descript.com/favicon.ico',
     url: 'https://descript.com',
     dealHighlight: '50% OFF Annual + Free Overdub Voice Clone',
     benefit:
@@ -164,6 +172,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'Runway ML Pro',
+    logo: 'https://runwayml.com/favicon.ico',
     url: 'https://runwayml.com',
     dealHighlight: '35% OFF Annual Plan',
     benefit:
@@ -177,6 +186,7 @@ const verifiedDeals: Deal[] = [
   // Productivity & Automation - VERIFIED
   {
     tool: 'Notion AI',
+    logo: 'https://www.notion.so/images/favicon.ico',
     url: 'https://notion.so',
     dealHighlight: '$96/year (Reg. $120/year)',
     benefit:
@@ -188,6 +198,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'Zapier Enterprise',
+    logo: 'https://zapier.com/favicon.ico',
     url: 'https://zapier.com',
     dealHighlight: '30% OFF Annual Enterprise + AI Features',
     benefit:
@@ -201,6 +212,7 @@ const verifiedDeals: Deal[] = [
   // Indie Hacker Deals - VERIFIED
   {
     tool: 'BoltAI',
+    logo: 'https://boltai.com/favicon.ico',
     url: 'https://boltai.com',
     dealHighlight: '49% OFF - Personal License $35 (Code: BFCM25)',
     benefit:
@@ -213,6 +225,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'TypingMind',
+    logo: 'https://www.typingmind.com/favicon.ico',
     url: 'https://www.typingmind.com',
     dealHighlight: '60% OFF Lifetime - $79 (Code: BLACKFRIDAY2025)',
     benefit:
@@ -225,6 +238,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'Fliki',
+    logo: 'https://fliki.ai/favicon.ico',
     url: 'https://fliki.ai/pricing',
     dealHighlight: '50% OFF Annual (Code: FLIKIBLACKFRIDAY50)',
     benefit: 'AI video generator turning text into videos with 2,000+ voices in 75+ languages.',
@@ -235,6 +249,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'Meku',
+    logo: 'https://meku.dev/favicon.ico',
     url: 'https://meku.dev/pricing',
     dealHighlight: '30% OFF + Free FormBold Starter (Code: BLFCM2025)',
     benefit:
@@ -246,6 +261,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'Coupler.io',
+    logo: 'https://coupler.io/favicon.ico',
     url: 'https://coupler.io/pricing',
     dealHighlight: '25% OFF First Payment (Code: CPLBF25)',
     benefit:
@@ -257,6 +273,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'SEOengine.ai',
+    logo: 'https://seoengine.ai/favicon.ico',
     url: 'https://seoengine.ai',
     dealHighlight: '35% OFF - $3.25/month (Code: BLACKFRIDAY)',
     benefit: '5 AI agents that find content gaps and write SEO-optimized content that ranks.',
@@ -267,6 +284,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'Audio Video to Text',
+    logo: 'https://www.audiovideototext.com/favicon.ico',
     url: 'https://www.audiovideototext.com',
     dealHighlight: '50% OFF - $25 (Was $50)',
     benefit:
@@ -278,6 +296,7 @@ const verifiedDeals: Deal[] = [
   },
   {
     tool: 'Forms.app',
+    logo: 'https://forms.app/favicon.ico',
     url: 'https://forms.app',
     dealHighlight: 'Up to 65% OFF First Year (Code: BF2025)',
     benefit:
@@ -334,9 +353,22 @@ const DealCard = ({ deal }: { deal: Deal }) => (
     )}
     <div className="p-6">
       <div className="mb-4 flex items-start justify-between gap-4">
-        <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {deal.tool}
-        </h3>
+        <div className="flex items-center gap-3">
+          {/* Company Logo */}
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white p-2 dark:border-gray-700 dark:bg-gray-800">
+            <img
+              src={deal.logo}
+              alt={`${deal.tool} logo`}
+              className="h-full w-full object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          </div>
+          <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {deal.tool}
+          </h3>
+        </div>
       </div>
 
       {/* Deal Highlight Badge */}

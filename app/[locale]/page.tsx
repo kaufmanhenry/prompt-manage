@@ -211,43 +211,22 @@ export default async function Home() {
             {/* Left: Copy */}
             <div className="order-2 text-left md:order-1">
               <h1 className="mb-6 text-[clamp(1.75rem,5vw,3.1rem)] font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white md:text-[clamp(2rem,4.4vw,3.4rem)] xl:text-[clamp(2.125rem,3.6vw,3.5rem)]">
-                <span className="block">Prompt Management</span>
-                <span className="block">
-                  for{' '}
-                  <RotatingAudience
-                    className="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-500 bg-clip-text text-transparent"
-                    intervalMs={3000}
-                    items={[
-                      'Marketing Teams',
-                      'Creative Studios',
-                      'Advertising Agencies',
-                      'Editorial Teams',
-                      'Customer Support',
-                    ]}
-                  />
-                </span>
+                Stop Losing Your Best Prompts
               </h1>
               <p className="mb-3 max-w-xl text-lg leading-7 text-muted-foreground md:text-xl">
-                Create, store, and safely share AI prompts with your team. Build your secure prompt
-                library with our{' '}
+                Create, store, and safely share your prompts, all in one place. Build your secure
+                prompt library with our{' '}
                 <Link
                   href="/p"
                   className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
                 >
                   public prompt directory
                 </Link>{' '}
-                with 300+ ready-to-use templates.
+                featuring 400+ ready-to-use templates you can copy to your account!
               </p>
               <p className="mb-6 max-w-xl text-lg leading-7 text-muted-foreground md:text-xl">
-                Tag, sort, and filter prompts to organize your workspace. Private collections coming
-                soon. Works with{' '}
-                <Link
-                  href="/models"
-                  className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
-                >
-                  20+ AI models
-                </Link>{' '}
-                including ChatGPT, Claude, Gemini, and more.
+                Tag, sort, and filter prompts to organize your workspace. Then share prompts with
+                your team. Prompt Manage is the CMS for your prompts.
               </p>
               <div className="mb-8 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full bg-muted px-3 py-1 text-sm">

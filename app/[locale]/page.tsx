@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { DashboardPreview } from '@/components/DashboardPreview'
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
-import RotatingAudience from '@/components/RotatingAudience'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/utils/supabase/server'
@@ -255,24 +254,31 @@ export default async function Home() {
                   </Link>
                 </div>
               ) : (
-                <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-                  <GoogleSignInButton
-                    redirectPath="/dashboard"
-                    size="lg"
-                    className="px-7 py-6 text-base"
-                  >
-                    Sign in with Google
-                  </GoogleSignInButton>
-                  <EmailSignInButton
-                    redirectPath="/dashboard"
-                    variant="ghost"
-                    size="sm"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    or sign in with email
-                  </EmailSignInButton>
-                  <Link href="/p" className="sm:ml-auto">
-                    <Button variant="outline" size="lg" className="px-7 py-6 text-base">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <GoogleSignInButton
+                      redirectPath="/dashboard"
+                      size="lg"
+                      className="h-12 px-6 text-base font-medium"
+                    >
+                      Sign in with Google
+                    </GoogleSignInButton>
+                    <EmailSignInButton
+                      redirectPath="/dashboard"
+                      variant="outline"
+                      size="lg"
+                      className="h-12 px-6 text-base font-medium"
+                    >
+                      Sign in with Email
+                    </EmailSignInButton>
+                  </div>
+                  <div className="hidden h-8 w-px bg-border sm:block" />
+                  <Link href="/p">
+                    <Button
+                      variant="secondary"
+                      size="lg"
+                      className="h-12 px-6 text-base font-medium"
+                    >
                       <Search className="mr-2 h-5 w-5" /> Browse Templates
                     </Button>
                   </Link>

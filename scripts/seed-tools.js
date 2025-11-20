@@ -46,7 +46,7 @@ async function seed() {
     console.log('Seeding categories...')
     for (const cat of categories) {
       // Check if exists
-      const { data, error } = await supabase
+      const { data, error: _error } = await supabase
         .from('tool_categories')
         .select('id')
         .eq('slug', cat.slug)

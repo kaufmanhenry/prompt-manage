@@ -1,8 +1,7 @@
 'use client'
 
 import { Plus, Search, Star, TrendingUp } from 'lucide-react'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -17,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Link, useRouter } from '@/i18n/routing'
 
 interface AITool {
   id: string

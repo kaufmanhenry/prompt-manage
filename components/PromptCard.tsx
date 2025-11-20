@@ -1,6 +1,5 @@
 'use client'
 
-import { Calendar, Copy, Eye, MessageSquare, Share2, ThumbsUp, User } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { Link } from '@/i18n/routing'

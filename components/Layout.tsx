@@ -1,9 +1,8 @@
 'use client'
 
-import { usePathname } from '@/i18n/routing'
-
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+import { usePathname } from '@/i18n/routing'
 
 interface LayoutProps {
   children: React.ReactNode

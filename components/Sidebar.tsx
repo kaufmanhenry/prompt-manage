@@ -2,26 +2,21 @@
 
 import type { Session } from '@supabase/supabase-js'
 import { useQueryClient } from '@tanstack/react-query'
-import { GlobeIcon, Home, LogOut, Plus, Settings } from 'lucide-react'
-import { FilterIcon, Tag as TagIcon, XIcon } from 'lucide-react'
 import {
-  BarChart3,
-  BookOpen,
-  Code2,
-  CreditCard,
-  Database,
-  FileText,
-  LayoutDashboard,
-  Library,
-  MessageSquare,
-  Users,
-  Wand2,
+  FilterIcon,
+  GlobeIcon,
+  Home,
+  LogOut,
+  Plus,
+  Settings,
+  Tag as TagIcon,
+  XIcon,
 } from 'lucide-react'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { Link, usePathname, useRouter } from '@/i18n/routing'
+import { Link, useRouter } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {

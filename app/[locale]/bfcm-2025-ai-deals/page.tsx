@@ -1,9 +1,9 @@
 import { ArrowRight, Calendar, ExternalLink, Sparkles, TrendingUp, Zap } from 'lucide-react'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Link } from '@/i18n/routing'
 
 export const metadata: Metadata = {
   title: 'Black Friday & Cyber Monday 2025 AI Deals — Best AI Tools Discounts',

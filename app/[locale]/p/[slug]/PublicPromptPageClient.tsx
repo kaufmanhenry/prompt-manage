@@ -312,7 +312,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
           <div className="mb-10 space-y-6">
             <Link
               href="/p"
-              className="flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="flex items-center text-sm font-medium text-slate-700 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Directory
@@ -324,17 +324,17 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
                   {prompt.name}
                 </h1>
                 {prompt.description && (
-                  <p className="text-xl leading-relaxed text-muted-foreground">
+                  <p className="text-xl leading-relaxed text-slate-700 dark:text-slate-300">
                     {prompt.description}
                   </p>
                 )}
                 {!prompt.description && audienceInfo && (
-                  <p className="text-xl leading-relaxed text-muted-foreground">
+                  <p className="text-xl leading-relaxed text-slate-700 dark:text-slate-300">
                     {audienceInfo.primary}
                   </p>
                 )}
 
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-medium text-slate-600 dark:text-slate-400">
                   <div className="flex items-center gap-1.5">
                     {isAgentGenerated ? (
                       <>
@@ -348,14 +348,14 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
                       </>
                     )}
                   </div>
-                  <span className="text-muted-foreground/30">•</span>
+                  <span className="text-slate-400 dark:text-slate-600">•</span>
                   {prompt.updated_at && (
                     <>
                       <div className="flex items-center gap-1.5">
                         <Calendar className="h-4 w-4" />
                         <span>{new Date(prompt.updated_at).toLocaleDateString()}</span>
                       </div>
-                      <span className="text-muted-foreground/30">•</span>
+                      <span className="text-slate-400 dark:text-slate-600">•</span>
                     </>
                   )}
                   <div className="flex items-center gap-1.5">
@@ -375,28 +375,41 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
             </div>
           </div>
 
+          {/* Instructional Header */}
+          <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-950">
+            <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+              📋 <strong>How to use:</strong> Copy the prompt below, paste it into your AI tool
+              (ChatGPT, Claude, etc.), and customize any variables in square brackets.
+            </p>
+          </div>
+
           {/* Prompt Content */}
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="min-w-0 lg:col-span-3">
-              <Card className="overflow-hidden border-muted bg-muted/10 shadow-sm">
-                <CardHeader className="border-b bg-muted/20 px-6 py-4">
+              <Card className="overflow-hidden border-slate-300 bg-white shadow-md dark:border-slate-700 dark:bg-slate-900">
+                <CardHeader className="border-b border-slate-200 bg-slate-50 px-6 py-4 dark:border-slate-800 dark:bg-slate-800">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="flex h-3 w-3 gap-1.5">
-                        <div className="h-3 w-3 rounded-full bg-red-400/20" />
-                        <div className="h-3 w-3 rounded-full bg-yellow-400/20" />
-                        <div className="h-3 w-3 rounded-full bg-green-400/20" />
+                    <div className="flex items-center gap-3">
+                      <div className="flex gap-1.5">
+                        <div className="h-3 w-3 rounded-full bg-red-500" />
+                        <div className="h-3 w-3 rounded-full bg-yellow-500" />
+                        <div className="h-3 w-3 rounded-full bg-green-500" />
                       </div>
-                      <span className="ml-2 text-sm font-medium text-muted-foreground">
+                      <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                         Prompt Template
                       </span>
                     </div>
-                    <CopyButton text={prompt.prompt_text} />
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                        Click to copy →
+                      </span>
+                      <CopyButton text={prompt.prompt_text} />
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent className="p-0">
                   <div className="relative">
-                    <pre className="max-h-[600px] overflow-auto whitespace-pre-wrap break-words p-6 font-mono text-sm leading-relaxed text-foreground">
+                    <pre className="max-h-[600px] overflow-auto whitespace-pre-wrap break-words bg-white p-6 font-mono text-sm leading-relaxed text-slate-900 dark:bg-slate-900 dark:text-slate-100">
                       {prompt.prompt_text}
                     </pre>
                   </div>

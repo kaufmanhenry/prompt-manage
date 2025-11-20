@@ -50,7 +50,7 @@ const USE_CASES = [
   {
     role: 'Content Creators',
     icon: '✍️',
-    color: 'bg-purple-50 dark:bg-purple-950',
+    color: 'bg-slate-50 dark:bg-slate-950',
     description: 'Streamline content production with AI-powered workflows',
     useCases: [
       {
@@ -162,7 +162,7 @@ const USE_CASES = [
   {
     role: 'Customer Support Teams',
     icon: '💬',
-    color: 'bg-pink-50 dark:bg-pink-950',
+    color: 'bg-slate-50 dark:bg-slate-950',
     description: 'Deliver faster, more consistent customer support',
     useCases: [
       {
@@ -390,16 +390,17 @@ export default function UseCasesClient() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 py-16 text-white">
+      <section className="bg-slate-900 py-16 dark:bg-slate-950">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ready to 10x Your Productivity?</h2>
-          <p className="mx-auto mb-8 max-w-2xl text-xl">
-            Join thousands of professionals using AI to work smarter, not harder. Start managing
-            your prompts today.
+          <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
+            Ready to Streamline Your Workflow?
+          </h2>
+          <p className="mx-auto mb-8 max-w-2xl text-xl text-slate-300">
+            Join professionals who organize and manage their AI prompts efficiently. Start today.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/dashboard">
-              <Button size="lg" variant="secondary">
+              <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100">
                 Get Started Free
               </Button>
             </Link>
@@ -407,7 +408,7 @@ export default function UseCasesClient() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white bg-transparent text-white hover:bg-white hover:text-blue-600"
+                className="border-white text-white hover:bg-white hover:text-slate-900"
               >
                 View Pricing
               </Button>

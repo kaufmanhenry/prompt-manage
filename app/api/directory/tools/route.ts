@@ -146,12 +146,22 @@ export async function POST(request: Request) {
       .single()
 
     if (error) {
+      console.error('Supabase insert error:', {
+        error,
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+      })
       throw error
     }
 
     return Response.json(tool, { status: 201 })
   } catch (error: unknown) {
-    console.error('Error creating tool:', error)
+    console.error('Error creating tool - Full details:', error)
+    if (error && typeof error === 'object' && 'code' in error) {
+      console.error('Database error code:', (error as { code: string }).code)
+    }
     const errorMessage = error instanceof Error ? error.message : 'Failed to create tool'
     return Response.json({ error: errorMessage }, { status: 500 })
   }

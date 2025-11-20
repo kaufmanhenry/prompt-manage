@@ -1,6 +1,15 @@
 # Prompt Manage
 
-A modern, type-safe prompt-catalogue SaaS built with Next.js 14, Supabase, and shadcn/ui.
+Visit https://promptmanage.com to try today!
+
+We're building the CMS for your prompts. The first native prompt management tool for teams, large and small, who need a better way to safely and securely share AI prompts across their org.
+
+---
+## Resources for Prompt Manage Users
+
+Docs: https://promptmanage.com/docs
+
+Get Help: https://promptmanage.com/support
 
 ## 📚 Documentation
 

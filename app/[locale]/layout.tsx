@@ -91,6 +91,31 @@ export const metadata: Metadata = {
     shortcut: '/favicon.svg',
     apple: '/favicon.svg',
   },
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en': '/en',
+      'zh': '/zh',
+      'es': '/es',
+      'ar': '/ar',
+      'pt': '/pt',
+      'id': '/id',
+      'fr': '/fr',
+      'ja': '/ja',
+      'ru': '/ru',
+      'de': '/de',
+      'ko': '/ko',
+      'tr': '/tr',
+      'it': '/it',
+      'vi': '/vi',
+      'th': '/th',
+      'pl': '/pl',
+      'nl': '/nl',
+      'hi': '/hi',
+      'bn': '/bn',
+      'fa': '/fa',
+    },
+  },
 }
 
 export default async function RootLayout({

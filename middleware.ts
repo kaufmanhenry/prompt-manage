@@ -114,6 +114,6 @@ export const config = {
      * - public folder
      * - api routes (optional, but usually we don't localize API)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|logo.svg|favicon.svg|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|logo.svg|favicon.svg|auth/callback|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

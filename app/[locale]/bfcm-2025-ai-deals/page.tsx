@@ -354,17 +354,6 @@ const DealCard = ({ deal }: { deal: Deal }) => (
     <div className="p-6">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
-          {/* Company Logo */}
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white p-2 dark:border-gray-700 dark:bg-gray-800">
-            <img
-              src={deal.logo}
-              alt={`${deal.tool} logo`}
-              className="h-full w-full object-contain"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-              }}
-            />
-          </div>
           <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             {deal.tool}
           </h3>

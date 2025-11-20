@@ -387,7 +387,9 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
                         <div className="h-3 w-3 rounded-full bg-yellow-400/20" />
                         <div className="h-3 w-3 rounded-full bg-green-400/20" />
                       </div>
-                      <span className="ml-2 text-sm font-medium text-muted-foreground">Prompt Template</span>
+                      <span className="ml-2 text-sm font-medium text-muted-foreground">
+                        Prompt Template
+                      </span>
                     </div>
                     <CopyButton text={prompt.prompt_text} />
                   </div>
@@ -406,9 +408,7 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
             <div className="min-w-0 lg:col-span-3">
               <Card className="border-muted bg-card shadow-sm">
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-lg font-semibold">
-                    Who is this prompt for?
-                  </CardTitle>
+                  <CardTitle className="text-lg font-semibold">Who is this prompt for?</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-base leading-relaxed text-muted-foreground">

@@ -171,16 +171,18 @@ export function Sidebar({
       <div className="shrink-0 space-y-1 px-4 pt-4">
         <Link
           href="/dashboard"
-          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${currentPage === 'home' ? 'tab-active' : 'tab-inactive'
-            }`}
+          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+            currentPage === 'home' ? 'tab-active' : 'tab-inactive'
+          }`}
         >
           <Home className="h-4 w-4" />
           Home
         </Link>
         <Link
           href="/dashboard/public"
-          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${currentPage === 'public' ? 'tab-active' : 'tab-inactive'
-            }`}
+          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+            currentPage === 'public' ? 'tab-active' : 'tab-inactive'
+          }`}
         >
           <GlobeIcon className="h-4 w-4" />
           Public Directory
@@ -336,8 +338,9 @@ export function Sidebar({
             filteredPrompts.map((prompt) => (
               <button
                 key={prompt.id}
-                className={`flex h-auto w-full flex-col items-start gap-1 rounded-lg px-3 py-2 text-left transition-colors ${prompt.id === selectedPromptId ? 'tab-active' : 'tab-inactive'
-                  }`}
+                className={`flex h-auto w-full flex-col items-start gap-1 rounded-lg px-3 py-2 text-left transition-colors ${
+                  prompt.id === selectedPromptId ? 'tab-active' : 'tab-inactive'
+                }`}
                 onClick={() => onSelectPrompt(prompt.id as string)}
               >
                 <div className="flex w-full min-w-0 items-center justify-between gap-2">

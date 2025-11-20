@@ -4,28 +4,28 @@ Prompt Manage supports 20 languages to serve a global audience. The application 
 
 ## Supported Languages
 
-| Code | Language | Native Name |
-|------|----------|-------------|
-| `en` | English | English |
-| `zh` | Chinese | 中文 |
-| `es` | Spanish | Español |
-| `ar` | Arabic | العربية |
-| `pt` | Portuguese | Português |
+| Code | Language   | Native Name      |
+| ---- | ---------- | ---------------- |
+| `en` | English    | English          |
+| `zh` | Chinese    | 中文             |
+| `es` | Spanish    | Español          |
+| `ar` | Arabic     | العربية          |
+| `pt` | Portuguese | Português        |
 | `id` | Indonesian | Bahasa Indonesia |
-| `fr` | French | Français |
-| `ja` | Japanese | 日本語 |
-| `ru` | Russian | Русский |
-| `de` | German | Deutsch |
-| `ko` | Korean | 한국어 |
-| `tr` | Turkish | Türkçe |
-| `it` | Italian | Italiano |
-| `vi` | Vietnamese | Tiếng Việt |
-| `th` | Thai | ไทย |
-| `pl` | Polish | Polski |
-| `nl` | Dutch | Nederlands |
-| `hi` | Hindi | हिन्दी |
-| `bn` | Bengali | বাংলা |
-| `fa` | Persian | فارسی |
+| `fr` | French     | Français         |
+| `ja` | Japanese   | 日本語           |
+| `ru` | Russian    | Русский          |
+| `de` | German     | Deutsch          |
+| `ko` | Korean     | 한국어           |
+| `tr` | Turkish    | Türkçe           |
+| `it` | Italian    | Italiano         |
+| `vi` | Vietnamese | Tiếng Việt       |
+| `th` | Thai       | ไทย              |
+| `pl` | Polish     | Polski           |
+| `nl` | Dutch      | Nederlands       |
+| `hi` | Hindi      | हिन्दी           |
+| `bn` | Bengali    | বাংলা            |
+| `fa` | Persian    | فارسی            |
 
 ## How it Works
 

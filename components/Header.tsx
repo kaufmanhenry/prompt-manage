@@ -3,8 +3,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { BookOpen, Globe, HelpCircle, LogOut, Settings } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
@@ -16,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Link, usePathname, useRouter } from '@/i18n/routing'
 import { logger } from '@/lib/logger'
 import { createClient } from '@/utils/supabase/client'
 
@@ -39,10 +39,9 @@ export function Header() {
 
   const handleSignIn = async () => {
     const redirectParam = searchParams.get('redirect') || '/dashboard'
-    const callbackUrl = `${
-      process.env.NEXT_PUBLIC_SITE_URL ||
+    const callbackUrl = `${process.env.NEXT_PUBLIC_SITE_URL ||
       (typeof window !== 'undefined' ? window.location.origin : '')
-    }/auth/callback?redirect=${encodeURIComponent(redirectParam)}`
+      }/auth/callback?redirect=${encodeURIComponent(redirectParam)}`
 
     await createClient().auth.signInWithOAuth({
       provider: 'google',
@@ -89,46 +88,42 @@ export function Header() {
           <nav className="hidden items-center gap-1 md:flex">
             <Link
               href="/p"
-              className={`text-sm ${
-                (pathname === '/p' || pathname.startsWith('/p/')) &&
-                !pathname.startsWith('/pricing') &&
-                !pathname.startsWith('/product') &&
-                !pathname.startsWith('/prompts')
+              className={`text-sm ${(pathname === '/p' || pathname.startsWith('/p/')) &&
+                  !pathname.startsWith('/pricing') &&
+                  !pathname.startsWith('/product') &&
+                  !pathname.startsWith('/prompts')
                   ? 'bg-foreground/5 text-foreground'
                   : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
+                } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <Globe className="h-4 w-4" />
               <span>Prompts</span>
             </Link>
             <Link
               href="/docs"
-              className={`text-sm ${
-                pathname === '/docs' || pathname.startsWith('/docs/')
+              className={`text-sm ${pathname === '/docs' || pathname.startsWith('/docs/')
                   ? 'bg-foreground/5 text-foreground'
                   : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
+                } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <BookOpen className="h-4 w-4" />
               <span>Docs</span>
             </Link>
             <Link
               href="/pricing"
-              className={`text-sm ${
-                pathname === '/pricing' || pathname.startsWith('/pricing/')
+              className={`text-sm ${pathname === '/pricing' || pathname.startsWith('/pricing/')
                   ? 'bg-foreground/5 text-foreground'
                   : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
+                } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <span>Pricing</span>
             </Link>
             <Link
               href="/support"
-              className={`text-sm ${
-                pathname === '/support' || pathname.startsWith('/support/')
+              className={`text-sm ${pathname === '/support' || pathname.startsWith('/support/')
                   ? 'bg-foreground/5 text-foreground'
                   : 'text-foreground/60'
-              } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
+                } flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-colors hover:bg-foreground/5 hover:text-foreground`}
             >
               <HelpCircle className="h-4 w-4" />
               <span>Support</span>
@@ -169,29 +164,29 @@ export function Header() {
                   'mikemoloney.business@gmail.com',
                   'hkaufman19@gmail.com',
                 ].includes(session.user.email?.toLowerCase() || '') && (
-                  <>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard/admin" className="flex items-center text-purple-600">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="mr-2 h-4 w-4"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
-                          />
-                        </svg>
-                        Admin Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                  </>
-                )}
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/dashboard/admin" className="flex items-center text-purple-600">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="mr-2 h-4 w-4"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+                            />
+                          </svg>
+                          Admin Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut} className="flex items-center">
                   <LogOut className="mr-2 h-4 w-4" />

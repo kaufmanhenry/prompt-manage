@@ -1,0 +1,12 @@
+{
+  "HomePage": {
+    "title": "Prompt Manage — AI Prompt Management for Teams",
+    "description": "Organize, test, and collaborate on AI prompts for ChatGPT, Claude, Gemini, and more."
+  },
+  "Navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "pricing": "Pricing",
+    "blog": "Blog"
+  }
+}

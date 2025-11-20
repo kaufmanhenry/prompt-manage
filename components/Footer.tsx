@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowRight, Rocket, Sparkles } from 'lucide-react'
-import Link from 'next/link'
+import { ArrowRight, Rocket, Sparkles, Github, Twitter } from 'lucide-react'
+import { Link } from '@/i18n/routing'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'

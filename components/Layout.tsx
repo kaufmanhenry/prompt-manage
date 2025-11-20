@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname } from '@/i18n/routing'
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
@@ -11,8 +11,9 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   const pathname = usePathname()
-  const isDashboard = pathname?.startsWith('/dashboard')
-  const isSettings = pathname?.startsWith('/settings')
+  // Handle localized paths (e.g. /en/dashboard, /zh/dashboard)
+  const isDashboard = pathname?.includes('/dashboard')
+  const isSettings = pathname?.includes('/settings')
   const hideHeaderFooter = isDashboard || isSettings
 
   return (

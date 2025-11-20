@@ -208,7 +208,7 @@ export default async function Home() {
           {/* Hero Section - split layout */}
           <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24 lg:gap-16">
             {/* Left: Copy */}
-            <div className="order-2 text-left md:order-1">
+            <div className="order-1 text-left md:order-1">
               <h1 className="mb-6 text-[clamp(1.75rem,5vw,3.1rem)] font-extrabold leading-[1.05] tracking-tight text-gray-900 dark:text-white md:text-[clamp(2rem,4.4vw,3.4rem)] xl:text-[clamp(2.125rem,3.6vw,3.5rem)]">
                 Stop Losing Your Best Prompts
               </h1>
@@ -308,7 +308,7 @@ export default async function Home() {
             </div>
 
             {/* Right: Interactive Dashboard Preview */}
-            <div className="order-1 md:order-2">
+            <div className="order-2 md:order-2">
               <DashboardPreview />
             </div>
           </section>

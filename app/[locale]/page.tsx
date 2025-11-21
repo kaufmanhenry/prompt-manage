@@ -72,7 +72,7 @@ export default async function Home() {
     const supabase = await createClient()
     const result = await supabase.auth.getSession()
     session = result.data.session
-  } catch (error) {
+  } catch (_) {
     // Supabase not configured (e.g., in CI/test environment)
     // Continue without session check
     console.warn('Supabase not configured, skipping session check')

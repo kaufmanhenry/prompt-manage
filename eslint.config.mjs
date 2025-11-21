@@ -25,6 +25,7 @@ export default tseslint.config(
       'coverage/**',
       '.vercel/**',
       'playwright-report/**',
+      '.conductor/**',
     ],
   },
   // Base JS/React rules (no TS type-checking here)

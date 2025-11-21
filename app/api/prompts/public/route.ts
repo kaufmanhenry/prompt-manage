@@ -13,6 +13,24 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '21')
 
+    // Check if Supabase is configured
+    if (
+      !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    ) {
+      return NextResponse.json(
+        {
+          error: 'Database not configured',
+          prompts: [],
+          totalCount: 0,
+          page,
+          limit,
+          totalPages: 0,
+        },
+        { status: 503 },
+      )
+    }
+
     const supabase = await createClient()
 
     // Build query - only select needed fields for performance

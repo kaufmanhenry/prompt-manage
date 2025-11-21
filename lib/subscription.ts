@@ -130,8 +130,25 @@ export function canUserCreatePrompt(
     return true
   }
 
-  // Block access if subscription is past_due or unpaid
-  if (subscription && (subscription.status === 'past_due' || subscription.status === 'unpaid')) {
+  // Grace period for past_due subscriptions (7 days)
+  if (subscription && subscription.status === 'past_due') {
+    const currentPeriodEnd = new Date(subscription.currentPeriodEnd)
+    const gracePeriodEnd = new Date(currentPeriodEnd.getTime() + 7 * 24 * 60 * 60 * 1000) // 7 days
+    const now = new Date()
+
+    // Allow access during grace period
+    if (now <= gracePeriodEnd) {
+      // Still check limits as if active
+      const plan = PRICING_CONFIG[subscription.plan]
+      if (plan.limits.promptsPerMonth === -1) return true
+      return usage.promptsThisMonth < plan.limits.promptsPerMonth
+    }
+    // After grace period, block access
+    return false
+  }
+
+  // Block access immediately if unpaid (no grace period)
+  if (subscription && subscription.status === 'unpaid') {
     return false
   }
 
@@ -198,8 +215,17 @@ export function getSubscriptionStatusMessage(subscription: UserSubscription | nu
   if (!subscription) return null
 
   switch (subscription.status) {
-    case 'past_due':
-      return 'Your payment failed. Please update your payment method to continue using premium features.'
+    case 'past_due': {
+      const currentPeriodEnd = new Date(subscription.currentPeriodEnd)
+      const gracePeriodEnd = new Date(currentPeriodEnd.getTime() + 7 * 24 * 60 * 60 * 1000) // 7 days
+      const now = new Date()
+      const daysRemaining = Math.ceil((gracePeriodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+
+      if (now <= gracePeriodEnd && daysRemaining > 0) {
+        return `Your payment failed. You have ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} of grace period remaining. Please update your payment method.`
+      }
+      return 'Your payment failed and grace period has expired. Please update your payment method to restore access.'
+    }
     case 'unpaid':
       return 'Payment required. Please update your billing information to restore access.'
     case 'canceled':
@@ -229,8 +255,31 @@ export function canUserRunPrompt(
     return { allowed: true, remaining: 999, limit: 1000 }
   }
 
-  // Block access if subscription is past_due or unpaid
-  if (subscription && (subscription.status === 'past_due' || subscription.status === 'unpaid')) {
+  // Grace period for past_due subscriptions (7 days)
+  if (subscription && subscription.status === 'past_due') {
+    const currentPeriodEnd = new Date(subscription.currentPeriodEnd)
+    const gracePeriodEnd = new Date(currentPeriodEnd.getTime() + 7 * 24 * 60 * 60 * 1000) // 7 days
+    const now = new Date()
+
+    // Allow access during grace period
+    if (now <= gracePeriodEnd) {
+      const plan = PRICING_CONFIG[subscription.plan]
+      const monthlyLimit = plan.limits.promptRunsPerMonth
+
+      if (monthlyLimit === -1) {
+        return { allowed: true, remaining: 999, limit: -1 }
+      }
+
+      const remaining = monthlyLimit - usage.promptRunsThisMonth
+      const allowed = remaining > 0
+      return { allowed, remaining, limit: monthlyLimit }
+    }
+    // After grace period, block access
+    return { allowed: false, remaining: 0, limit: 0 }
+  }
+
+  // Block access immediately if unpaid (no grace period)
+  if (subscription && subscription.status === 'unpaid') {
     return { allowed: false, remaining: 0, limit: 0 }
   }
 
@@ -249,4 +298,80 @@ export function canUserRunPrompt(
   const allowed = remaining > 0
 
   return { allowed, remaining, limit: monthlyLimit }
+}
+
+/**
+ * Get the team owner's user ID
+ */
+export async function getTeamOwnerId(teamId: string): Promise<string | null> {
+  const supabase = await createClient()
+
+  const { data: owner } = await supabase
+    .from('team_members')
+    .select('user_id')
+    .eq('team_id', teamId)
+    .eq('role', 'owner')
+    .eq('is_active', true)
+    .single()
+
+  return owner?.user_id ?? null
+}
+
+/**
+ * Check if a team can add more members based on the owner's subscription plan
+ */
+export async function canAddTeamMember(
+  teamId: string,
+): Promise<{ allowed: boolean; reason?: string; currentCount: number; maxAllowed: number }> {
+  const supabase = await createClient()
+
+  // Count current active team members
+  const { count: currentCount } = await supabase
+    .from('team_members')
+    .select('*', { count: 'exact', head: true })
+    .eq('team_id', teamId)
+    .eq('is_active', true)
+
+  const memberCount = currentCount ?? 0
+
+  // Get team owner's subscription
+  const ownerId = await getTeamOwnerId(teamId)
+  if (!ownerId) {
+    return {
+      allowed: false,
+      reason: 'Team owner not found',
+      currentCount: memberCount,
+      maxAllowed: 0,
+    }
+  }
+
+  const subscription = await getUserSubscription(ownerId)
+
+  // Free plan doesn't support teams
+  if (!subscription || subscription.status !== 'active' || subscription.plan === 'free') {
+    return {
+      allowed: false,
+      reason: 'Team features require a Team or Pro subscription',
+      currentCount: memberCount,
+      maxAllowed: 0,
+    }
+  }
+
+  const plan = PRICING_CONFIG[subscription.plan]
+  const maxMembers = plan.limits.teamMembers ?? 0
+
+  if (memberCount >= maxMembers) {
+    return {
+      allowed: false,
+      reason: `Your ${plan.name} plan supports up to ${maxMembers} team members. Upgrade to add more.`,
+      currentCount: memberCount,
+      maxAllowed: maxMembers,
+    }
+  }
+
+  return {
+    allowed: true,
+    currentCount: memberCount,
+    maxAllowed: maxMembers,
+  }
 }

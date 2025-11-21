@@ -255,7 +255,12 @@ export default function AgentDashboardPage() {
 
           {/* Main Content */}
           {selectedAgent && (
-            <Tabs value={selectedTab} onValueChange={(v) => setSelectedTab(v as any)}>
+            <Tabs
+              value={selectedTab}
+              onValueChange={(v) =>
+                setSelectedTab(v as 'overview' | 'prompts' | 'keywords' | 'settings')
+              }
+            >
               <TabsList>
                 <TabsTrigger value="overview">
                   <Activity className="mr-2 h-4 w-4" />
@@ -662,7 +667,12 @@ function AgentSettings({ agent }: { agent: Agent | undefined }) {
           <label className="text-sm font-medium">Mode</label>
           <select
             value={settings.mode}
-            onChange={(e) => setSettings({ ...settings, mode: e.target.value as any })}
+            onChange={(e) =>
+              setSettings({
+                ...settings,
+                mode: e.target.value as 'autonomous' | 'review',
+              })
+            }
             className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
           >
             <option value="review">Review Mode (Manual Approval)</option>

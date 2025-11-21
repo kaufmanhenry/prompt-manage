@@ -9,12 +9,12 @@ test.describe('Prompt Editing UI Components', () => {
     await page.waitForLoadState('networkidle')
 
     // Check if we're on the login page (which is expected if not authenticated)
-    const hasSignInButton = await page
-      .getByRole('button', { name: 'Sign in with Google' })
-      .isVisible()
+    // Use .first() to handle the case where there are multiple Sign in buttons on the page
+    const signInButton = page.getByRole('button', { name: 'Sign in with Google' }).first()
+    const hasSignInButton = await signInButton.isVisible()
 
     if (hasSignInButton) {
-      await expect(page.getByRole('button', { name: 'Sign in with Google' })).toBeVisible()
+      await expect(signInButton).toBeVisible()
       return
     }
 

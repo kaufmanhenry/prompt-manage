@@ -90,7 +90,7 @@ export default function ToolDetailPage() {
       }
     }
 
-    fetchTool()
+    void fetchTool()
   }, [slug, supabase])
 
   const handleFavorite = async () => {
@@ -127,16 +127,17 @@ export default function ToolDetailPage() {
 
   const handleShare = () => {
     if (navigator.share) {
-      navigator.share({
+      void navigator.share({
         title: tool?.name,
         text: tool?.description,
         url: window.location.href,
       })
     } else {
-      navigator.clipboard.writeText(window.location.href)
-      toast({
-        title: 'Link copied',
-        description: 'Tool URL copied to clipboard',
+      void navigator.clipboard.writeText(window.location.href).then(() => {
+        toast({
+          title: 'Link copied',
+          description: 'Tool URL copied to clipboard',
+        })
       })
     }
   }

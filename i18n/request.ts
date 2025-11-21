@@ -8,7 +8,32 @@ export default getRequestConfig(
     let locale = await requestLocale
 
     // Ensure that a valid locale is used
-    if (!locale || !routing.locales.includes(locale as any)) {
+    if (
+      !locale ||
+      !routing.locales.includes(
+        locale as
+          | 'en'
+          | 'zh'
+          | 'es'
+          | 'ar'
+          | 'pt'
+          | 'id'
+          | 'fr'
+          | 'ja'
+          | 'ru'
+          | 'de'
+          | 'ko'
+          | 'tr'
+          | 'it'
+          | 'vi'
+          | 'th'
+          | 'pl'
+          | 'nl'
+          | 'hi'
+          | 'bn'
+          | 'fa',
+      )
+    ) {
       locale = routing.defaultLocale
     }
 

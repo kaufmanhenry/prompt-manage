@@ -51,14 +51,13 @@ export async function POST(request: NextRequest) {
           break
         }
 
-        const subscriptionObj = await stripe.subscriptions.retrieve(subscriptionId)
-
-        const subscription = subscriptionObj as any
-        const currentPeriodEnd = subscription.current_period_end
+        const subscriptionData = await stripe.subscriptions.retrieve(subscriptionId)
+        // @ts-expect-error - Stripe SDK types are inconsistent between versions
+        const currentPeriodEnd = subscriptionData.current_period_end
         const customerId: string | null =
-          typeof subscription.customer === 'string'
-            ? subscription.customer
-            : (subscription.customer as { id: string } | null)?.id || null
+          typeof subscriptionData.customer === 'string'
+            ? subscriptionData.customer
+            : (subscriptionData.customer as { id: string } | null)?.id || null
 
         if (!customerId || typeof customerId !== 'string') {
           if (process.env.NODE_ENV === 'development') {
@@ -72,7 +71,7 @@ export async function POST(request: NextRequest) {
           {
             user_id: userId,
             plan: plan as 'team' | 'pro',
-            status: subscription.status as 'active' | 'canceled' | 'past_due' | 'unpaid',
+            status: subscriptionData.status as 'active' | 'canceled' | 'past_due' | 'unpaid',
             current_period_end: new Date(currentPeriodEnd * 1000).toISOString(),
             stripe_customer_id: customerId,
             stripe_subscription_id: subscriptionId,
@@ -100,7 +99,7 @@ export async function POST(request: NextRequest) {
       }
 
       case 'customer.subscription.updated': {
-        const subscription = event.data.object as any
+        const subscription = event.data.object
         const customerId =
           typeof subscription.customer === 'string'
             ? subscription.customer
@@ -113,6 +112,7 @@ export async function POST(request: NextRequest) {
           break
         }
 
+        // @ts-expect-error - Stripe SDK types are inconsistent between versions
         const currentPeriodEnd = subscription.current_period_end
 
         // Get user from customer ID
@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
       }
 
       case 'customer.subscription.deleted': {
-        const subscription = event.data.object as any
+        const subscription = event.data.object
         const customerId =
           typeof subscription.customer === 'string'
             ? subscription.customer
@@ -207,11 +207,19 @@ export async function POST(request: NextRequest) {
       }
 
       case 'invoice.payment_succeeded': {
-        const invoice = event.data.object as any
+        const invoice = event.data.object
         const customerId =
           typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id
+        // @ts-expect-error - Stripe SDK types don't include subscription on Invoice in some versions
+        const subscriptionField = invoice.subscription
         const subscriptionId =
-          typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id
+          typeof subscriptionField === 'string'
+            ? subscriptionField
+            : subscriptionField &&
+                typeof subscriptionField === 'object' &&
+                'id' in subscriptionField
+              ? (subscriptionField as { id: string }).id
+              : null
 
         if (!customerId || !subscriptionId) {
           if (process.env.NODE_ENV === 'development') {
@@ -221,9 +229,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Get subscription from Stripe to verify it's active
-        const subscriptionObj = await stripe.subscriptions.retrieve(subscriptionId)
-
-        const subscription = subscriptionObj as any
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId)
 
         // Get user from customer ID
         const { data: userSub } = await supabase
@@ -233,6 +239,7 @@ export async function POST(request: NextRequest) {
           .single()
 
         if (userSub) {
+          // @ts-expect-error - Stripe SDK types are inconsistent between versions
           const currentPeriodEnd = subscription.current_period_end
 
           const { error: updateError } = await supabase

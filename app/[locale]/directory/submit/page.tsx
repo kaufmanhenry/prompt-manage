@@ -93,7 +93,7 @@ export default function SubmitToolPage() {
         setValue('contact_email', session.user.email || '')
       }
     }
-    checkAuth()
+    void checkAuth()
   }, [supabase, router, toast, setValue])
 
   // Fetch categories
@@ -113,7 +113,7 @@ export default function SubmitToolPage() {
         setCategories([])
       }
     }
-    fetchCategories()
+    void fetchCategories()
   }, [])
 
   const pricingModel = watch('pricing_model')

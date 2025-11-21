@@ -5,5 +5,8 @@ test('signin button visible in header', async ({ page }: { page: Page }) => {
 
   await page.waitForLoadState('networkidle')
 
-  await expect(page.getByRole('button', { name: 'Sign in with Google' })).toBeVisible()
+  // Target specifically the button in the header (banner role)
+  await expect(
+    page.getByRole('banner').getByRole('button', { name: 'Sign in with Google' }),
+  ).toBeVisible()
 })

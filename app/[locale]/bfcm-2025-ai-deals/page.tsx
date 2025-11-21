@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Link } from '@/i18n/routing'
 
 export const metadata: Metadata = {
-  title: 'Black Friday & Cyber Monday 2025 AI Deals — Best AI Tools Discounts',
+  title: 'Black Friday Deals on AI Tools (2025) - Prompt Manage',
   description:
     'Discover verified Black Friday & Cyber Monday 2025 AI deals. Save 40-90% on AI writing tools, code assistants, LLM APIs, and prompt management software. Updated daily.',
   keywords:

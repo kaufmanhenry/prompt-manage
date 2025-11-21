@@ -90,24 +90,39 @@ function PublicDirectoryContent() {
       const result = await response.json()
 
       if (result.error) {
+        // Handle specific error cases
+        if (response.status === 503) {
+          console.warn('Database not configured - this is expected in development without .env.local')
+          setPrompts([])
+          setTotalCount(0)
+          return // Don't show error toast for known configuration issue
+        }
         throw new Error(result.error)
       }
 
       setPrompts(result.prompts || [])
       setTotalCount(result.totalCount || 0)
 
-      // Fetch available tags separately (cached)
-      const { data: tagData } = await createClient()
-        .from('prompts')
-        .select('tags')
-        .eq('is_public', true)
-        .limit(1000) // Limit for performance
+      // Fetch available tags separately (cached) - skip if no Supabase
+      if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        try {
+          const { data: tagData } = await createClient()
+            .from('prompts')
+            .select('tags')
+            .eq('is_public', true)
+            .limit(1000) // Limit for performance
 
-      const tags = new Set<string>()
-      tagData?.forEach((prompt) => {
-        prompt.tags?.forEach((tag: string) => tags.add(tag))
-      })
-      setAvailableTags(Array.from(tags))
+          const tags = new Set<string>()
+          tagData?.forEach((prompt) => {
+            prompt.tags?.forEach((tag: string) => tags.add(tag))
+          })
+          setAvailableTags(Array.from(tags))
+        } catch (error) {
+          // Silently fail if Supabase not configured
+          console.warn('Could not fetch tags:', error)
+          setAvailableTags([])
+        }
+      }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Error fetching public prompts:', error)

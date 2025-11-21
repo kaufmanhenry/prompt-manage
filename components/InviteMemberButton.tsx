@@ -149,7 +149,7 @@ export function InviteMemberButton({
 
             <div>
               <Label htmlFor="role">Role</Label>
-              <Select value={role} onValueChange={(v: any) => setRole(v)}>
+              <Select value={role} onValueChange={(v: 'viewer' | 'editor' | 'admin') => setRole(v)}>
                 <SelectTrigger id="role">
                   <SelectValue />
                 </SelectTrigger>

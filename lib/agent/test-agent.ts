@@ -12,7 +12,7 @@ export interface AgentPrompt {
   quality_score: number | null
   status: 'draft' | 'review' | 'approved' | 'published' | 'rejected' | 'failed'
   error_message: string | null
-  metadata: Record<string, any> | null
+  metadata: Record<string, unknown> | null
   created_at: string
   updated_at: string
 }
@@ -21,7 +21,7 @@ interface TestResult {
   test: string
   status: 'pass' | 'fail' | 'warning'
   message: string
-  details?: any
+  details?: unknown
 }
 
 interface QualityMetrics {
@@ -197,10 +197,20 @@ export function evaluatePromptQuality(prompt: AgentPrompt): QualityMetrics {
 
   try {
     // Parse prompt from raw_output
-    let promptData: any = {}
+    interface ParsedPromptData {
+      name?: string
+      description?: string
+      prompt_text?: string
+      tags?: string[]
+      metadata?: {
+        use_cases?: unknown[]
+        example_output?: unknown
+      }
+    }
+    let promptData: ParsedPromptData = {}
     try {
       if (prompt.raw_output) {
-        promptData = JSON.parse(prompt.raw_output)
+        promptData = JSON.parse(prompt.raw_output) as ParsedPromptData
       }
     } catch {
       // If parsing fails, use raw data
@@ -225,7 +235,7 @@ export function evaluatePromptQuality(prompt: AgentPrompt): QualityMetrics {
     const hasUseCases =
       !!promptData.metadata?.use_cases && Array.isArray(promptData.metadata.use_cases)
     const hasExampleOutput = !!promptData.metadata?.example_output
-    const isSpecific = promptData.prompt_text && promptData.prompt_text.length > 200
+    const isSpecific = !!(promptData.prompt_text && promptData.prompt_text.length > 200)
 
     metrics.usefulness = [
       hasUseCases ? 33 : 0,
@@ -244,15 +254,17 @@ export function evaluatePromptQuality(prompt: AgentPrompt): QualityMetrics {
     )
 
     // SEO Optimization: Check for keywords, tags, descriptions
-    const keywordInTitle =
+    const keywordInTitle = !!(
       promptData.name &&
       prompt.keyword &&
       promptData.name.toLowerCase().includes(prompt.keyword.toLowerCase())
-    const keywordInDescription =
+    )
+    const keywordInDescription = !!(
       promptData.description &&
       prompt.keyword &&
       promptData.description.toLowerCase().includes(prompt.keyword.toLowerCase())
-    const hasMultipleTags = hasTags && promptData.tags.length >= 3
+    )
+    const hasMultipleTags = !!(hasTags && promptData.tags && promptData.tags.length >= 3)
 
     metrics.seoOptimization = [
       keywordInTitle ? 33 : 0,

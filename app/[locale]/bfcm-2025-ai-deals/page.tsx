@@ -339,73 +339,103 @@ const featuredCategories = [
   },
 ]
 
-const DealCard = ({ deal }: { deal: Deal }) => (
-  <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all duration-300 hover:border-emerald-300 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700">
-    {deal.verified && (
-      <div className="absolute right-4 top-4 z-10">
-        <Badge
-          variant="outline"
-          className="border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
-        >
-          Verified
-        </Badge>
-      </div>
-    )}
-    <div className="p-6">
-      <div className="mb-4 flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {deal.tool}
-          </h3>
-        </div>
-      </div>
+const DealCard = ({ deal }: { deal: Deal }) => {
+  // Add UTM parameters to track clicks from the deals page
+  const getDealUrl = () => {
+    // Check if it's an absolute URL (starts with http:// or https://)
+    if (deal.url.startsWith('http://') || deal.url.startsWith('https://')) {
+      try {
+        const url = new URL(deal.url)
+        url.searchParams.set('utm_source', 'promptmanage')
+        url.searchParams.set('utm_medium', 'bfcm_deals_page')
+        url.searchParams.set('utm_campaign', 'bfcm_2025')
+        url.searchParams.set('utm_content', deal.tool.toLowerCase().replace(/\s+/g, '_'))
+        return url.toString()
+      } catch {
+        // If URL parsing fails, return original
+        return deal.url
+      }
+    } else {
+      // For relative URLs, append UTM parameters as query string
+      const separator = deal.url.includes('?') ? '&' : '?'
+      const utmParams = new URLSearchParams({
+        utm_source: 'promptmanage',
+        utm_medium: 'bfcm_deals_page',
+        utm_campaign: 'bfcm_2025',
+        utm_content: deal.tool.toLowerCase().replace(/\s+/g, '_'),
+      })
+      return `${deal.url}${separator}${utmParams.toString()}`
+    }
+  }
 
-      {/* Deal Highlight Badge */}
-      <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-50 to-teal-50 px-4 py-2 dark:from-emerald-950 dark:to-teal-950">
-        <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-        <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-          {deal.dealHighlight}
-        </span>
-      </div>
-
-      {/* Benefit */}
-      <p className="mb-4 min-h-[3rem] text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-        {deal.benefit}
-      </p>
-
-      {/* Deal Period */}
-      <div className="mb-3 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-        <Calendar className="h-3.5 w-3.5" />
-        <span>{deal.dealPeriod}</span>
-      </div>
-
-      {/* Discount Badge */}
-      <div className="mb-4 inline-block">
-        <span className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-bold text-white">
-          Save {deal.discount}
-        </span>
-      </div>
-
-      {/* Terms if available */}
-      {deal.terms && (
-        <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-950">
-          <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">{deal.terms}</p>
+  return (
+    <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all duration-300 hover:border-emerald-300 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700">
+      {deal.verified && (
+        <div className="absolute right-4 top-4 z-10">
+          <Badge
+            variant="outline"
+            className="border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+          >
+            Verified
+          </Badge>
         </div>
       )}
+      <div className="p-6">
+        <div className="mb-4 flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+              {deal.tool}
+            </h3>
+          </div>
+        </div>
 
-      {/* CTA Button */}
-      <a
-        href={deal.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group/btn flex w-full items-center justify-center gap-2 rounded-lg bg-gray-900 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
-      >
-        View Deal
-        <ExternalLink className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
-      </a>
+        {/* Deal Highlight Badge */}
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-50 to-teal-50 px-4 py-2 dark:from-emerald-950 dark:to-teal-950">
+          <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+          <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+            {deal.dealHighlight}
+          </span>
+        </div>
+
+        {/* Benefit */}
+        <p className="mb-4 min-h-[3rem] text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+          {deal.benefit}
+        </p>
+
+        {/* Deal Period */}
+        <div className="mb-3 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+          <Calendar className="h-3.5 w-3.5" />
+          <span>{deal.dealPeriod}</span>
+        </div>
+
+        {/* Discount Badge */}
+        <div className="mb-4 inline-block">
+          <span className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-bold text-white">
+            Save {deal.discount}
+          </span>
+        </div>
+
+        {/* Terms if available */}
+        {deal.terms && (
+          <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-950">
+            <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">{deal.terms}</p>
+          </div>
+        )}
+
+        {/* CTA Button */}
+        <a
+          href={getDealUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group/btn flex w-full items-center justify-center gap-2 rounded-lg bg-gray-900 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+        >
+          View Deal
+          <ExternalLink className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
+        </a>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default function BFCMDealsPage() {
   // Schema.org structured data for SEO and LLMs

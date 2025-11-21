@@ -11,9 +11,6 @@ const nextConfig: NextConfig = {
   // Re-enable React Strict Mode for better performance and development
   reactStrictMode: true,
 
-  // Performance optimizations
-  swcMinify: true, // Use SWC for faster minification
-
   // Optimize package imports for better tree-shaking
   experimental: {
     optimizePackageImports: [

@@ -66,10 +66,17 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
-  const supabase = await createClient()
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  // Check for session if Supabase is configured
+  let session = null
+  try {
+    const supabase = await createClient()
+    const result = await supabase.auth.getSession()
+    session = result.data.session
+  } catch (error) {
+    // Supabase not configured (e.g., in CI/test environment)
+    // Continue without session check
+    console.warn('Supabase not configured, skipping session check')
+  }
 
   // Redirect logged-in users to dashboard
   if (session) {

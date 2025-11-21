@@ -135,15 +135,15 @@ export default function SubmitToolPage() {
           .filter((u) => u),
         integrations: data.integrations
           ? data.integrations
-            .split(',')
-            .map((i) => i.trim())
-            .filter((i) => i)
+              .split(',')
+              .map((i) => i.trim())
+              .filter((i) => i)
           : [],
         ai_models_used: data.ai_models_used
           ? data.ai_models_used
-            .split(',')
-            .map((m) => m.trim())
-            .filter((m) => m)
+              .split(',')
+              .map((m) => m.trim())
+              .filter((m) => m)
           : [],
       }
 

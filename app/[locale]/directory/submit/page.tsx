@@ -93,7 +93,7 @@ export default function SubmitToolPage() {
         setValue('contact_email', session.user.email || '')
       }
     }
-    checkAuth()
+    void checkAuth()
   }, [supabase, router, toast, setValue])
 
   // Fetch categories
@@ -113,7 +113,7 @@ export default function SubmitToolPage() {
         setCategories([])
       }
     }
-    fetchCategories()
+    void fetchCategories()
   }, [])
 
   const pricingModel = watch('pricing_model')
@@ -135,15 +135,15 @@ export default function SubmitToolPage() {
           .filter((u) => u),
         integrations: data.integrations
           ? data.integrations
-              .split(',')
-              .map((i) => i.trim())
-              .filter((i) => i)
+            .split(',')
+            .map((i) => i.trim())
+            .filter((i) => i)
           : [],
         ai_models_used: data.ai_models_used
           ? data.ai_models_used
-              .split(',')
-              .map((m) => m.trim())
-              .filter((m) => m)
+            .split(',')
+            .map((m) => m.trim())
+            .filter((m) => m)
           : [],
       }
 

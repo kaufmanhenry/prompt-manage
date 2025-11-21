@@ -90,7 +90,7 @@ export default function ToolDetailPage() {
       }
     }
 
-    fetchTool()
+    void fetchTool()
   }, [slug, supabase])
 
   const handleFavorite = async () => {
@@ -125,19 +125,27 @@ export default function ToolDetailPage() {
     }
   }
 
-  const handleShare = () => {
+  const handleShare = async () => {
     if (navigator.share) {
-      navigator.share({
-        title: tool?.name,
-        text: tool?.description,
-        url: window.location.href,
-      })
+      try {
+        await navigator.share({
+          title: tool?.name,
+          text: tool?.description,
+          url: window.location.href,
+        })
+      } catch (err) {
+        console.error('Error sharing:', err)
+      }
     } else {
-      navigator.clipboard.writeText(window.location.href)
-      toast({
-        title: 'Link copied',
-        description: 'Tool URL copied to clipboard',
-      })
+      try {
+        await navigator.clipboard.writeText(window.location.href)
+        toast({
+          title: 'Link copied',
+          description: 'Tool URL copied to clipboard',
+        })
+      } catch (err) {
+        console.error('Error copying to clipboard:', err)
+      }
     }
   }
 

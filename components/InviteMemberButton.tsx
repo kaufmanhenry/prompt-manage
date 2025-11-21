@@ -43,6 +43,8 @@ export function InviteMemberButton({
   const [email, setEmail] = useState('')
   const [role, setRole] = useState<'viewer' | 'editor' | 'admin'>('editor')
   const [loading, setLoading] = useState(false)
+  // New state to hold the generated invitation ID for copyable link
+  const [invitationId, setInvitationId] = useState<string | null>(null)
 
   // Seat limit modal state
   const [showSeatLimitModal, setShowSeatLimitModal] = useState(false)
@@ -94,10 +96,21 @@ export function InviteMemberButton({
         description: `An invitation has been sent to ${email}`,
       })
 
+      // Store invitation ID for copy link (assuming API returns `invitationId`)
+      const invitationId = data.invitationId as string | undefined
+      if (invitationId) {
+        // Show copy link UI below the dialog
+        setInvitationId(invitationId)
+      }
+
       // Reset form
       setEmail('')
       setRole('editor')
-      setOpen(false)
+      // Only close the dialog if no invitationId is available (i.e., direct invite without link)
+      // If invitationId is available, we keep the dialog open to show the copy link option.
+      if (!invitationId) {
+        setOpen(false)
+      }
 
       // Callback
       onInviteSent?.()
@@ -173,6 +186,26 @@ export function InviteMemberButton({
                 {loading ? 'Sending...' : 'Send Invitation'}
               </Button>
             </div>
+            {invitationId && (
+              <div className="mt-4 flex flex-col items-end space-y-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const link = `${process.env.NEXT_PUBLIC_BASE_URL}/invite/${invitationId}`
+                    void navigator.clipboard.writeText(link)
+                    toast({
+                      title: 'Link copied',
+                      description: 'Invitation link copied to clipboard.',
+                    })
+                  }}
+                >
+                  Copy Invite Link
+                </Button>
+                <span className="max-w-full truncate text-sm text-muted-foreground">
+                  {`${process.env.NEXT_PUBLIC_BASE_URL}/invite/${invitationId}`}
+                </span>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>

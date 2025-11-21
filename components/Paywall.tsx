@@ -41,12 +41,28 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
         body: JSON.stringify({ plan }),
       })
 
-      const { url } = await response.json()
-      if (url) {
-        window.location.href = url
+      const data = await response.json()
+
+      if (!response.ok) {
+        // Handle error responses
+        const errorMessage = data.error || 'Failed to create checkout session'
+        logger.error('Checkout session error:', errorMessage)
+
+        // Show user-friendly error message
+        if (errorMessage.includes('price ID')) {
+          alert('Payment system is not fully configured. Please contact support or try again later.')
+        } else {
+          alert(`Error: ${errorMessage}`)
+        }
+        return
+      }
+
+      if (data.url) {
+        window.location.href = data.url
       }
     } catch (error) {
       logger.error('Error creating checkout session:', error)
+      alert('An unexpected error occurred. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -112,13 +128,12 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
             return (
               <div
                 key={planKey}
-                className={`group relative flex flex-col rounded-lg border border-border/50 bg-card p-6 transition-all duration-200 ${
-                  isCurrentPlan
+                className={`group relative flex flex-col rounded-lg border border-border/50 bg-card p-6 transition-all duration-200 ${isCurrentPlan
                     ? 'border-border/80 bg-foreground/5'
                     : isRecommended
                       ? 'border-emerald-500/30 hover:border-emerald-500/50'
                       : 'hover:border-border/80'
-                }`}
+                  }`}
               >
                 {isRecommended && !isCurrentPlan && (
                   <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">

@@ -22,6 +22,7 @@ interface PublicPrompt {
   tags: string[] | null
   slug: string
   view_count?: number | null
+  team_name?: string | null
 }
 
 export function PromptCard({ slug }: PromptCardProps) {
@@ -35,7 +36,7 @@ export function PromptCard({ slug }: PromptCardProps) {
         const supabase = createClient()
         const { data } = await supabase
           .from('prompts')
-          .select('id, name, description, prompt_text, model, tags, slug, view_count')
+          .select('id, name, description, prompt_text, model, tags, slug, view_count, team_name')
           .eq('slug', slug)
           .eq('is_public', true)
           .single()
@@ -72,6 +73,11 @@ export function PromptCard({ slug }: PromptCardProps) {
             <p className="mt-1 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
               {prompt.description}
             </p>
+          )}
+          {prompt.team_name && (
+            <Badge variant="outline" className="mt-1 text-xs">
+              Team: {prompt.team_name}
+            </Badge>
           )}
         </div>
         <div className="ml-4 flex items-center gap-2">

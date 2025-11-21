@@ -76,11 +76,13 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create checkout session
     const planConfig = PRICING_CONFIG[plan as PlanType]
     const priceId = planConfig.stripePriceId || null
 
     if (!priceId || priceId === '') {
+      console.error(
+        `Missing Stripe Price ID for plan: ${plan}. Please set environment variable: STRIPE_PRICE_${plan.toUpperCase()}_MONTHLY_ID`,
+      )
       return NextResponse.json(
         {
           error:

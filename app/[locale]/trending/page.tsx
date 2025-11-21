@@ -191,7 +191,7 @@ export default async function TrendingPage() {
           </nav>
 
           {/* Black Friday Banner */}
-          <BlackFridayBanner />
+          <BlackFridayBanner source="trending" />
 
           {/* Header */}
           <div className="mb-8">

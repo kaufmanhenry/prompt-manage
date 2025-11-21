@@ -196,7 +196,7 @@ function PublicDirectoryContent() {
       <div className="mx-auto max-w-7xl px-4 sm:p-6">
         {/* Black Friday Banner */}
         {/* Black Friday Banner */}
-        <BlackFridayBanner />
+        <BlackFridayBanner source="public_prompts" />
 
         {/* Header */}
         <div className="mb-8">
@@ -420,11 +420,10 @@ function PublicDirectoryContent() {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`rounded-md px-3 py-2 text-sm font-medium ${
-                          pageNum === page
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${pageNum === page
                             ? 'bg-primary text-primary-foreground'
                             : 'text-muted-foreground hover:text-foreground'
-                        }`}
+                          }`}
                       >
                         {pageNum}
                       </button>

@@ -21,12 +21,15 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient()
     const {
-      data: { session },
-    } = await supabase.auth.getSession()
+      data: { user },
+    } = await supabase.auth.getUser()
 
-    if (!session?.user) {
+    if (!user) {
+      console.log('Checkout session unauthorized: No user found')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    console.log('Creating checkout session for user:', user.id)
 
     // Get or create Stripe customer
     let customer
@@ -34,7 +37,7 @@ export async function POST(request: NextRequest) {
     const { data: existingSubscription } = await supabase
       .from('user_subscriptions')
       .select('stripe_customer_id')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .single()
 
     const stripe = getStripe()
@@ -44,12 +47,12 @@ export async function POST(request: NextRequest) {
       customerId = customer.id
     } else {
       // Normalize email to prevent injection
-      const normalizedEmail = session.user.email?.trim().toLowerCase() || undefined
+      const normalizedEmail = user.email?.trim().toLowerCase() || undefined
 
       customer = await stripe.customers.create({
         email: normalizedEmail,
         metadata: {
-          userId: session.user.id,
+          userId: user.id,
         },
       })
       customerId = customer.id
@@ -58,7 +61,7 @@ export async function POST(request: NextRequest) {
       const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000
       const { error: upsertError } = await supabase.from('user_subscriptions').upsert(
         {
-          user_id: session.user.id,
+          user_id: user.id,
           plan: 'free',
           status: 'active',
           current_period_end: new Date(Date.now() + ONE_YEAR_MS).toISOString(),
@@ -106,12 +109,12 @@ export async function POST(request: NextRequest) {
       success_url: `${baseUrl}/dashboard?checkout=success`,
       cancel_url: `${baseUrl}/pricing?checkout=canceled`,
       metadata: {
-        userId: session.user.id,
+        userId: user.id,
         plan,
       },
       subscription_data: {
         metadata: {
-          userId: session.user.id,
+          userId: user.id,
           plan,
         },
       },

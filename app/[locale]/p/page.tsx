@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 
 import CopyButton from '@/components/CopyButton'
+import { BlackFridayBanner } from '@/components/BlackFridayBanner'
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Badge } from '@/components/ui/badge'
@@ -177,23 +178,8 @@ function PublicDirectoryContent() {
     <div className="min-h-screen overflow-x-hidden bg-background">
       <div className="mx-auto max-w-7xl px-4 sm:p-6">
         {/* Black Friday Banner */}
-        <div className="mb-8 rounded-lg bg-gradient-to-r from-red-600 via-red-500 to-orange-500 p-4 text-white shadow-lg md:p-6">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <div>
-              <h2 className="mb-1 text-xl font-bold md:text-2xl">
-                🎉 Black Friday Deals on AI Tools!
-              </h2>
-              <p className="text-red-50">
-                Save up to 90% on premium AI tools. Suno 40% off, Stable Diffusion 75% off & more.
-              </p>
-            </div>
-            <Link href="/bfcm-2025-ai-deals" className="whitespace-nowrap">
-              <button className="rounded-lg bg-white px-4 py-2 font-semibold text-red-600 transition-colors hover:bg-gray-100">
-                View Deals →
-              </button>
-            </Link>
-          </div>
-        </div>
+        {/* Black Friday Banner */}
+        <BlackFridayBanner />
 
         {/* Header */}
         <div className="mb-8">
@@ -417,11 +403,10 @@ function PublicDirectoryContent() {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`rounded-md px-3 py-2 text-sm font-medium ${
-                          pageNum === page
-                            ? 'bg-primary text-primary-foreground'
-                            : 'text-muted-foreground hover:text-foreground'
-                        }`}
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${pageNum === page
+                          ? 'bg-primary text-primary-foreground'
+                          : 'text-muted-foreground hover:text-foreground'
+                          }`}
                       >
                         {pageNum}
                       </button>

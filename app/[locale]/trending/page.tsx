@@ -2,6 +2,7 @@ import { Clock, Flame, TrendingUp } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { BlackFridayBanner } from '@/components/BlackFridayBanner'
 import CopyButton from '@/components/CopyButton'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
@@ -188,6 +189,9 @@ export default async function TrendingPage() {
             <span>/</span>
             <span className="text-foreground">Trending</span>
           </nav>
+
+          {/* Black Friday Banner */}
+          <BlackFridayBanner />
 
           {/* Header */}
           <div className="mb-8">

@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         description,
         logo_url,
         primary_category_id,
-        tool_categories(name),
+        tool_categories!ai_tools_primary_category_id_fkey(name),
         pricing_model,
         rating,
         review_count,

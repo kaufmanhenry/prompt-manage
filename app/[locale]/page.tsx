@@ -72,7 +72,7 @@ export default async function Home() {
     const supabase = await createClient()
     const result = await supabase.auth.getSession()
     session = result.data.session
-  } catch (_) {
+  } catch {
     // Supabase not configured (e.g., in CI/test environment)
     // Continue without session check
     console.warn('Supabase not configured, skipping session check')
@@ -251,7 +251,10 @@ export default async function Home() {
               {session ? (
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                   <Link href="/dashboard" className="w-full sm:w-auto">
-                    <Button size="lg" className="w-full px-6 py-5 text-sm sm:px-7 sm:py-6 sm:text-base">
+                    <Button
+                      size="lg"
+                      className="w-full px-6 py-5 text-sm sm:px-7 sm:py-6 sm:text-base"
+                    >
                       Open your Library
                     </Button>
                   </Link>

@@ -219,7 +219,9 @@ export function getSubscriptionStatusMessage(subscription: UserSubscription | nu
       const currentPeriodEnd = new Date(subscription.currentPeriodEnd)
       const gracePeriodEnd = new Date(currentPeriodEnd.getTime() + 7 * 24 * 60 * 60 * 1000) // 7 days
       const now = new Date()
-      const daysRemaining = Math.ceil((gracePeriodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+      const daysRemaining = Math.ceil(
+        (gracePeriodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+      )
 
       if (now <= gracePeriodEnd && daysRemaining > 0) {
         return `Your payment failed. You have ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} of grace period remaining. Please update your payment method.`

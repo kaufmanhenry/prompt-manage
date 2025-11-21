@@ -6,8 +6,8 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 
-import CopyButton from '@/components/CopyButton'
 import { BlackFridayBanner } from '@/components/BlackFridayBanner'
+import CopyButton from '@/components/CopyButton'
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Badge } from '@/components/ui/badge'
@@ -93,7 +93,9 @@ function PublicDirectoryContent() {
       if (result.error) {
         // Handle specific error cases
         if (response.status === 503) {
-          console.warn('Database not configured - this is expected in development without .env.local')
+          console.warn(
+            'Database not configured - this is expected in development without .env.local',
+          )
           setPrompts([])
           setTotalCount(0)
           return // Don't show error toast for known configuration issue
@@ -418,10 +420,11 @@ function PublicDirectoryContent() {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`rounded-md px-3 py-2 text-sm font-medium ${pageNum === page
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground'
-                          }`}
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${
+                          pageNum === page
+                            ? 'bg-primary text-primary-foreground'
+                            : 'text-muted-foreground hover:text-foreground'
+                        }`}
                       >
                         {pageNum}
                       </button>

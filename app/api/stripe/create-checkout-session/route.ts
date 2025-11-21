@@ -25,11 +25,8 @@ export async function POST(request: NextRequest) {
     } = await supabase.auth.getUser()
 
     if (!user) {
-      console.log('Checkout session unauthorized: No user found')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-
-    console.log('Creating checkout session for user:', user.id)
 
     // Get or create Stripe customer
     let customer

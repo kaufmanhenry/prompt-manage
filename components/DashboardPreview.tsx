@@ -91,7 +91,7 @@ export function DashboardPreview() {
           </div>
 
           {/* Tags filter */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
+          <div className="scrollbar-hide flex items-center gap-1.5 overflow-x-auto pb-1">
             <Sparkles className="h-3 w-3 shrink-0 text-muted-foreground md:h-3.5 md:w-3.5" />
             {allTags.map((tag) => (
               <Badge
@@ -164,7 +164,9 @@ export function DashboardPreview() {
                     <FileText className="h-5 w-5 text-primary md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <DialogTitle className="text-base md:text-xl">{selectedPrompt.name}</DialogTitle>
+                    <DialogTitle className="text-base md:text-xl">
+                      {selectedPrompt.name}
+                    </DialogTitle>
                     <p className="mt-1 text-xs text-muted-foreground md:text-sm">
                       {selectedPrompt.description}
                     </p>

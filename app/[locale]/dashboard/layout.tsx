@@ -9,7 +9,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     const supabase = await createClient()
     const result = await supabase.auth.getSession()
     session = result.data.session
-  } catch (_) {
+  } catch {
     // Supabase not configured (e.g., in CI/test environment)
     // Redirect to home
     console.warn('Supabase not configured, redirecting to home')

@@ -24,6 +24,7 @@ The paywall system is now **fully functional and production-ready**. All critica
 ### ✅ Fully Implemented Features
 
 #### 1. **Server-Side Validation** (CRITICAL)
+
 - **Location:** All API routes enforce subscription checks
 - **Files:**
   - `/app/api/prompts/bulk-export/route.ts:23` - Export validation
@@ -34,6 +35,7 @@ The paywall system is now **fully functional and production-ready**. All critica
 - **Security:** Fail-closed error handling prevents bypass
 
 #### 2. **Grace Period for Payment Failures** (NEW - 2025-01-21)
+
 - **Duration:** 7 days from period end
 - **Applies to:** `past_due` subscriptions only (NOT `unpaid`)
 - **Implementation:**
@@ -44,6 +46,7 @@ The paywall system is now **fully functional and production-ready**. All critica
 - **Status:** ✅ Implemented and tested
 
 #### 3. **Team Member Limits** (NEW - 2025-01-21)
+
 - **Team Plan:** Up to 5 members
 - **Pro Plan:** Up to 25 members
 - **Free Plan:** No team features
@@ -54,6 +57,7 @@ The paywall system is now **fully functional and production-ready**. All critica
 - **Status:** ✅ Implemented, ready for API integration
 
 #### 4. **Usage Tracking**
+
 - **Metrics Tracked:**
   - Total prompts stored (for free users)
   - Prompts created this month (for paid users)
@@ -63,6 +67,7 @@ The paywall system is now **fully functional and production-ready**. All critica
 - **Status:** ✅ Working correctly
 
 #### 5. **Feature Gating**
+
 - **Import/Export:** Requires Team or Pro plan
 - **Private Sharing:** Available on all plans
 - **Team Features:** Requires Team or Pro plan
@@ -74,6 +79,7 @@ The paywall system is now **fully functional and production-ready**. All critica
 - **Status:** ✅ Fully implemented with server-side validation
 
 #### 6. **Usage Indicators** (NEW - 2025-01-21)
+
 - **Component:** `components/UsageIndicator.tsx`
 - **Features:**
   - Visual progress bars with color-coded warnings
@@ -82,21 +88,19 @@ The paywall system is now **fully functional and production-ready**. All critica
   - Warning levels: normal (green), 80% (amber), 90% (orange), 100% (red)
 - **Usage:**
   ```tsx
-  <UsageIndicator
-    plan="free"
-    promptsUsed={20}
-    promptRunsUsed={8}
-  />
+  <UsageIndicator plan="free" promptsUsed={20} promptRunsUsed={8} />
   ```
 - **Status:** ✅ Component created, ready for dashboard integration
 
 #### 7. **Admin Bypass**
+
 - **Implementation:** `lib/subscription.ts:128-131` and throughout
 - **Behavior:** Admin emails automatically get PRO-level access
 - **Config:** Admin emails defined in `lib/admin.ts`
 - **Status:** ✅ Working correctly
 
 #### 8. **Subscription Status Messages**
+
 - **past_due (with grace period):** "Your payment failed. You have X days of grace period remaining."
 - **past_due (expired):** "Your payment failed and grace period has expired."
 - **unpaid:** "Payment required. Please update your billing information."
@@ -105,6 +109,7 @@ The paywall system is now **fully functional and production-ready**. All critica
 - **Status:** ✅ Enhanced with grace period countdown
 
 #### 9. **Error Handling**
+
 - **Strategy:** Fail-closed (deny access on errors)
 - **Client-side:** `hooks/usePaywall.tsx:131` - Sets `canCreatePrompt(false)` on error
 - **Server-side:** All API routes return 403/401 on validation failure
@@ -117,6 +122,7 @@ The paywall system is now **fully functional and production-ready**. All critica
 **Source of Truth:** `lib/pricing.ts`
 
 ### Free Plan
+
 - **Price:** $0/month
 - **Limits:**
   - 25 prompts stored (total, not monthly)
@@ -126,6 +132,7 @@ The paywall system is now **fully functional and production-ready**. All critica
   - No team features
 
 ### Team Plan
+
 - **Price:** $20/month
 - **Limits:**
   - Unlimited prompts stored
@@ -135,6 +142,7 @@ The paywall system is now **fully functional and production-ready**. All critica
   - Advanced sharing
 
 ### Pro Plan
+
 - **Price:** $99/month
 - **Limits:**
   - Unlimited prompts stored
@@ -148,7 +156,9 @@ The paywall system is now **fully functional and production-ready**. All critica
 ## API Endpoints
 
 ### 1. `/api/subscription/status` (GET)
+
 **Returns:**
+
 ```json
 {
   "subscription": {
@@ -171,26 +181,31 @@ The paywall system is now **fully functional and production-ready**. All critica
 ```
 
 ### 2. `/api/prompts/bulk-export` (POST)
+
 - **Validation:** Checks `canUserExport()` before allowing export
 - **Response:** 403 if user doesn't have export permission
 - **Formats:** CSV, JSON
 
 ### 3. `/api/prompts/bulk-import` (POST)
+
 - **Validation:** Checks `canUserImport()` before allowing import
 - **Response:** 403 if user doesn't have import permission
 
 ### 4. `/api/prompt/run` (POST)
+
 - **Validation:** Checks `canUserRunPrompt()` before execution
 - **Rate Limiting:** Monthly limit based on subscription plan
 - **Response:** 429 if monthly limit exceeded
 - **Logging:** All runs logged to `prompt_run_history` table
 
 ### 5. `/api/stripe/create-checkout-session` (POST)
+
 - **Creates:** Stripe checkout session for upgrades
 - **Plans:** Team ($20/mo), Pro ($99/mo)
 - **Returns:** Checkout URL for redirect
 
 ### 6. `/api/subscription/manage` (POST)
+
 - **Actions:** `upgrade`, `downgrade`, `cancel`
 - **Proration:** Automatic for upgrades
 - **Cancel:** At period end by default
@@ -200,6 +215,7 @@ The paywall system is now **fully functional and production-ready**. All critica
 ## Database Schema
 
 ### `user_subscriptions` Table
+
 ```sql
 CREATE TABLE user_subscriptions (
   id UUID PRIMARY KEY,
@@ -215,10 +231,12 @@ CREATE TABLE user_subscriptions (
 ```
 
 ### `prompt_run_history` Table
+
 - Tracks all prompt executions
 - Includes: prompt_id, user_id, model, tokens_used, execution_time_ms, status
 
 ### Triggers
+
 - **Auto-create subscription:** New users automatically get free plan
 
 ---
@@ -226,6 +244,7 @@ CREATE TABLE user_subscriptions (
 ## Key Components
 
 ### 1. `usePaywall` Hook
+
 - **Location:** `hooks/usePaywall.tsx`
 - **Purpose:** Client-side paywall state management
 - **Features:**
@@ -235,6 +254,7 @@ CREATE TABLE user_subscriptions (
   - Usage warnings at 80%/90% thresholds
 
 ### 2. `Paywall` Component
+
 - **Location:** `components/Paywall.tsx`
 - **Features:**
   - Plan comparison cards
@@ -244,6 +264,7 @@ CREATE TABLE user_subscriptions (
   - Warning indicators for approaching limits
 
 ### 3. `UsageIndicator` Component (NEW - 2025-01-21)
+
 - **Location:** `components/UsageIndicator.tsx`
 - **Features:**
   - Progress bars for prompts and runs
@@ -252,6 +273,7 @@ CREATE TABLE user_subscriptions (
   - Works with all plan types
 
 ### 4. Subscription Utilities
+
 - **Location:** `lib/subscription.ts`
 - **Functions:**
   - `getUserSubscription()` - Fetch user's subscription
@@ -330,16 +352,19 @@ CREATE TABLE user_subscriptions (
 ## Next Steps (Optional Enhancements)
 
 ### High Priority (Nice to Have)
+
 1. **Integrate UsageIndicator into Dashboard** - Add to `/app/[locale]/dashboard/page.tsx`
 2. **Update Team Invitation API** - Use `canAddTeamMember()` in `/api/teams/[teamId]/invitations/route.ts`
 3. **Add Email Notifications** - Send emails for payment failures and limit warnings
 
 ### Medium Priority
+
 4. **Usage Dashboard Page** - Create `/app/[locale]/dashboard/usage/page.tsx`
 5. **Billing History Page** - Show past invoices and receipts
 6. **Proration Preview** - Show cost before upgrade/downgrade
 
 ### Low Priority
+
 7. **Audit Logging** - Track all subscription changes
 8. **Advanced Analytics** - Usage trends and insights for Pro plan
 9. **Webhook Retry Logic** - Dead letter queue for failed webhooks
@@ -349,10 +374,12 @@ CREATE TABLE user_subscriptions (
 ## File Changes Summary
 
 ### Modified Files (2025-01-21)
+
 1. `lib/subscription.ts` - Added grace period logic, team member enforcement, enhanced messages
 2. `components/ui/progress.tsx` - Added `indicatorClassName` prop support
 
 ### New Files (2025-01-21)
+
 3. `components/UsageIndicator.tsx` - Reusable usage progress component
 
 ---
@@ -398,12 +425,14 @@ Before deploying to production:
 ## Support Documentation
 
 ### For Users
+
 - Grace period FAQ: When payment fails, users have 7 days to update payment method
 - How to upgrade: Visit `/pricing` and select a plan
 - How to cancel: Visit `/settings/billing` and manage subscription
 - Export/Import: Requires Team or Pro subscription
 
 ### For Admins
+
 - Admin emails get automatic PRO access
 - Admin emails configured in `lib/admin.ts`
 - Use admin dashboard at `/dashboard/admin` for user management

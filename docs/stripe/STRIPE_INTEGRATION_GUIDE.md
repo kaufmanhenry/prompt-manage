@@ -11,7 +11,7 @@
 ### ✅ Ready
 
 - Database schema (teams table has Stripe fields)
-- Pricing structure defined ($5 Team, $27 Enterprise)
+- Pricing structure defined ($20 Team, $99 Pro)
 - Documentation exists (docs/teams/BILLING.md)
 
 ### ❌ Not Implemented
@@ -55,9 +55,9 @@ STRIPE_PRODUCT_TEAM_ID=prod_...
 STRIPE_PRICE_TEAM_MONTHLY_ID=price_...
 STRIPE_PRICE_TEAM_YEARLY_ID=price_...
 
-STRIPE_PRODUCT_ENTERPRISE_ID=prod_...
-STRIPE_PRICE_ENTERPRISE_MONTHLY_ID=price_...
-STRIPE_PRICE_ENTERPRISE_YEARLY_ID=price_...
+STRIPE_PRODUCT_PRO_ID=prod_...
+STRIPE_PRICE_PRO_MONTHLY_ID=price_...
+STRIPE_PRICE_PRO_YEARLY_ID=price_...
 
 # Base URL for redirects
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
@@ -79,15 +79,15 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 2. Click "Create product"
 3. Create two products:
    - **Product 1:** "Prompt Manage Team"
-     - Price: $5/month
+     - Price: $20/month
      - Recurring: Monthly
      - Copy Product ID → `STRIPE_PRODUCT_TEAM_ID`
      - Copy Price ID → `STRIPE_PRICE_TEAM_MONTHLY_ID`
-   - **Product 2:** "Prompt Manage Enterprise"
-     - Price: $27/month
+   - **Product 2:** "Prompt Manage Pro"
+     - Price: $99/month
      - Recurring: Monthly
-     - Copy Product ID → `STRIPE_PRODUCT_ENTERPRISE_ID`
-     - Copy Price ID → `STRIPE_PRICE_ENTERPRISE_MONTHLY_ID`
+     - Copy Product ID → `STRIPE_PRODUCT_PRO_ID`
+     - Copy Price ID → `STRIPE_PRICE_PRO_MONTHLY_ID`
 
 **Option B: Via API (for automation)**
 
@@ -459,14 +459,16 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
    - Cannot run prompts
    - Public sharing only
 
-2. **Team**: $5/user/month
+2. **Team**: $20/month
    - Unlimited prompts and runs
    - Full Prompt Lab access
+   - Up to 5 team members
    - Shared libraries
    - Role-based access
 
-3. **Enterprise**: $27/user/month
+3. **Pro**: $99/month
    - Everything in Team
+   - Up to 25 team members
    - Advanced security
    - Priority support
    - SSO (future)

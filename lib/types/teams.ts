@@ -2,7 +2,7 @@
 // Corresponds to database schema from teams_core.sql
 
 export type TeamRole = 'owner' | 'admin' | 'editor' | 'viewer'
-export type TeamTier = 'free' | 'pro' | 'enterprise'
+export type TeamTier = 'free' | 'team' | 'pro' | 'enterprise'
 export type InvitationStatus = 'pending' | 'accepted' | 'rejected' | 'expired'
 
 export interface Team {

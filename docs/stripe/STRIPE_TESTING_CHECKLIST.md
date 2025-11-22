@@ -60,20 +60,20 @@
 
 ---
 
-## 🧪 **Test 2: Enterprise Plan Subscription**
+## 🧪 **Test 2: Pro Plan Subscription**
 
 ### Steps
 
 1. [ ] Use a different test user or clear previous subscription
 2. [ ] Go to `http://localhost:3000/pricing`
-3. [ ] Click **"Subscribe to Enterprise"**
+3. [ ] Click **"Subscribe to Pro"**
 4. [ ] Complete checkout with test card
 5. [ ] Verify redirect
 
 ### Verification
 
-- [ ] Check `subscription_tier` = `'enterprise'` in database
-- [ ] Verify $27.00 subscription in Stripe Dashboard
+- [ ] Check `subscription_tier` = `'pro'` in database
+- [ ] Verify $99.00 subscription in Stripe Dashboard
 
 ---
 

@@ -75,7 +75,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
     <aside className="flex w-80 shrink-0 flex-col border-r bg-white/50 backdrop-blur-sm dark:bg-gray-800/50">
       {/* Header */}
       <div className="shrink-0 border-b p-4">
-        <div className="mb-2 flex items-center gap-2">
+        <Link href="/dashboard" className="mb-2 flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80">
           <Image
             src="/logo.svg"
             alt="Prompt Manage"
@@ -84,7 +84,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
             className="h-6 w-6 dark:invert"
           />
           <h1 className="text-lg font-semibold">Prompt Manage</h1>
-        </div>
+        </Link>
         <p className="text-xs text-muted-foreground">Settings</p>
       </div>
 

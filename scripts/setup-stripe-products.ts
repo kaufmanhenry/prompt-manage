@@ -33,7 +33,7 @@ async function setupStripeProducts() {
     // Create Team monthly price
     const teamMonthlyPrice = await stripe.prices.create({
       product: teamProduct.id,
-      unit_amount: 500, // $5.00
+      unit_amount: 2000, // $20.00
       currency: 'usd',
       recurring: {
         interval: 'month',
@@ -49,35 +49,35 @@ async function setupStripeProducts() {
     console.log(`   Price ID: ${teamMonthlyPrice.id}`)
     console.log(`   Amount: $${teamMonthlyPrice.unit_amount! / 100}/month\n`)
 
-    // Create Enterprise product
-    console.log('Creating Enterprise product...')
-    const enterpriseProduct = await stripe.products.create({
-      name: 'Prompt Manage Enterprise',
+    // Create Pro product
+    console.log('Creating Pro product...')
+    const proProduct = await stripe.products.create({
+      name: 'Prompt Manage Pro',
       description:
-        'Enterprise plan with advanced features, priority support, and enterprise-grade security',
+        'Pro plan with advanced features, priority support, and enterprise-grade security',
       metadata: {
-        tier: 'enterprise',
+        tier: 'pro',
       },
     })
 
-    // Create Enterprise monthly price
-    const enterpriseMonthlyPrice = await stripe.prices.create({
-      product: enterpriseProduct.id,
-      unit_amount: 2700, // $27.00
+    // Create Pro monthly price
+    const proMonthlyPrice = await stripe.prices.create({
+      product: proProduct.id,
+      unit_amount: 9900, // $99.00
       currency: 'usd',
       recurring: {
         interval: 'month',
       },
       metadata: {
-        tier: 'enterprise',
+        tier: 'pro',
         interval: 'month',
       },
     })
 
-    console.log('✅ Enterprise product created')
-    console.log(`   Product ID: ${enterpriseProduct.id}`)
-    console.log(`   Price ID: ${enterpriseMonthlyPrice.id}`)
-    console.log(`   Amount: $${enterpriseMonthlyPrice.unit_amount! / 100}/month\n`)
+    console.log('✅ Pro product created')
+    console.log(`   Product ID: ${proProduct.id}`)
+    console.log(`   Price ID: ${proMonthlyPrice.id}`)
+    console.log(`   Amount: $${proMonthlyPrice.unit_amount! / 100}/month\n`)
 
     // Update .env.local file
     const envPath = path.join(process.cwd(), '.env.local')
@@ -92,12 +92,12 @@ async function setupStripeProducts() {
       `STRIPE_PRICE_TEAM_MONTHLY_ID=${teamMonthlyPrice.id}`,
     )
     envContent = envContent.replace(
-      /STRIPE_PRODUCT_ENTERPRISE_ID=.*/,
-      `STRIPE_PRODUCT_ENTERPRISE_ID=${enterpriseProduct.id}`,
+      /STRIPE_PRODUCT_PRO_ID=.*/,
+      `STRIPE_PRODUCT_PRO_ID=${proProduct.id}`,
     )
     envContent = envContent.replace(
-      /STRIPE_PRICE_ENTERPRISE_MONTHLY_ID=.*/,
-      `STRIPE_PRICE_ENTERPRISE_MONTHLY_ID=${enterpriseMonthlyPrice.id}`,
+      /STRIPE_PRICE_PRO_MONTHLY_ID=.*/,
+      `STRIPE_PRICE_PRO_MONTHLY_ID=${proMonthlyPrice.id}`,
     )
 
     fs.writeFileSync(envPath, envContent)
@@ -116,8 +116,8 @@ async function setupStripeProducts() {
     console.log('📋 Summary:')
     console.log(`Team Product ID: ${teamProduct.id}`)
     console.log(`Team Price ID: ${teamMonthlyPrice.id}`)
-    console.log(`Enterprise Product ID: ${enterpriseProduct.id}`)
-    console.log(`Enterprise Price ID: ${enterpriseMonthlyPrice.id}`)
+    console.log(`Pro Product ID: ${proProduct.id}`)
+    console.log(`Pro Price ID: ${proMonthlyPrice.id}`)
   } catch (error) {
     console.error('❌ Error setting up Stripe products:', error)
     process.exit(1)

@@ -317,8 +317,11 @@ export default function TeamSettingsPage() {
                     {tier === 'free' && (
                       <p className="text-sm text-muted-foreground">25 prompts limit</p>
                     )}
+                    {tier === 'team' && (
+                      <p className="text-sm text-muted-foreground">$20/month • Unlimited prompts</p>
+                    )}
                     {tier === 'pro' && (
-                      <p className="text-sm text-muted-foreground">$5/month • Unlimited prompts</p>
+                      <p className="text-sm text-muted-foreground">$99/month • Unlimited prompts</p>
                     )}
                     {tier === 'enterprise' && (
                       <p className="text-sm text-muted-foreground">
@@ -367,7 +370,7 @@ export default function TeamSettingsPage() {
                     <div className="mb-4">
                       <h3 className="text-lg font-semibold">Unlock Your Full Potential</h3>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        Upgrade to Pro and remove all limits
+                        Upgrade to Team and remove all limits
                       </p>
                     </div>
                     <div className="grid gap-3 text-sm">
@@ -397,7 +400,7 @@ export default function TeamSettingsPage() {
                       </div>
                     </div>
                     <Button asChild className="mt-6 w-full" size="lg">
-                      <a href="/pricing">Upgrade to Pro - $5/month</a>
+                      <a href="/pricing">Upgrade to Team - $20/month</a>
                     </Button>
                     <p className="mt-3 text-center text-xs text-muted-foreground">
                       Cancel anytime. No long-term contracts.

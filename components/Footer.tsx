@@ -166,11 +166,11 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/tools"
+                    href="/directory"
                     className="text-gray-600 hover:underline dark:text-gray-300"
-                    aria-label="Browse AI tools and resources"
+                    aria-label="Browse AI tools directory"
                   >
-                    AI Tools
+                    AI Tools Directory
                   </Link>
                 </li>
                 <li>

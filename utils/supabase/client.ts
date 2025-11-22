@@ -27,7 +27,6 @@ export const createClient = () => {
         detectSessionInUrl: true,
         persistSession: true,
         storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-        storageKey: 'sb-auth-token',
       },
     },
   )

@@ -308,7 +308,11 @@ export default async function Home() {
                   'Llama 4 Series',
                   'Mistral Large',
                 ].map((m) => (
-                  <Badge key={m} variant="outline" className="whitespace-nowrap px-2 py-0.5 text-[10px] sm:py-1 sm:text-xs">
+                  <Badge
+                    key={m}
+                    variant="outline"
+                    className="whitespace-nowrap px-2 py-0.5 text-[10px] sm:py-1 sm:text-xs"
+                  >
                     {m}
                   </Badge>
                 ))}
@@ -350,7 +354,9 @@ export default async function Home() {
                         <Folder className="h-4 w-4 text-muted-foreground md:h-5 md:w-5" />
                       </div>
                     </div>
-                    <h3 className="text-sm font-semibold sm:text-base md:text-lg">Organize & Tag</h3>
+                    <h3 className="text-sm font-semibold sm:text-base md:text-lg">
+                      Organize & Tag
+                    </h3>
                     <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground sm:mt-2 sm:text-sm md:mt-3">
                       Create libraries, add tags, and categorize prompts for easy discovery and
                       quick access.
@@ -366,7 +372,9 @@ export default async function Home() {
                         <Search className="h-4 w-4 text-muted-foreground md:h-5 md:w-5" />
                       </div>
                     </div>
-                    <h3 className="text-sm font-semibold sm:text-base md:text-lg">Search & Filter</h3>
+                    <h3 className="text-sm font-semibold sm:text-base md:text-lg">
+                      Search & Filter
+                    </h3>
                     <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground sm:mt-2 sm:text-sm md:mt-3">
                       Quickly find prompts by tag, keyword, category, or model. Instant access to
                       exactly what you need.
@@ -382,7 +390,9 @@ export default async function Home() {
                         <ShieldCheck className="h-4 w-4 text-muted-foreground md:h-5 md:w-5" />
                       </div>
                     </div>
-                    <h3 className="text-sm font-semibold sm:text-base md:text-lg">Secure & Private</h3>
+                    <h3 className="text-sm font-semibold sm:text-base md:text-lg">
+                      Secure & Private
+                    </h3>
                     <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground sm:mt-2 sm:text-sm md:mt-3">
                       Keep your prompts secure. Private collections with enhanced permissions coming
                       soon.
@@ -484,7 +494,10 @@ export default async function Home() {
 
               <div className="mt-6 text-center sm:mt-8 md:mt-12">
                 <Link href="/pricing" className="inline-block w-full sm:w-auto">
-                  <Button size="lg" className="w-full px-6 py-4 text-sm sm:w-auto sm:px-8 sm:py-5 sm:text-base">
+                  <Button
+                    size="lg"
+                    className="w-full px-6 py-4 text-sm sm:w-auto sm:px-8 sm:py-5 sm:text-base"
+                  >
                     See Pricing
                   </Button>
                 </Link>

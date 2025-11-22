@@ -75,7 +75,10 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
     <aside className="flex w-80 shrink-0 flex-col border-r bg-white/50 backdrop-blur-sm dark:bg-gray-800/50">
       {/* Header */}
       <div className="shrink-0 border-b p-4">
-        <Link href="/dashboard" className="mb-2 flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80">
+        <Link
+          href="/dashboard"
+          className="mb-2 flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80"
+        >
           <Image
             src="/logo.svg"
             alt="Prompt Manage"

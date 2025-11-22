@@ -49,8 +49,8 @@ export default function ImportExportGuidePage() {
                   Premium Feature
                 </h3>
                 <p className="mt-1 text-sm text-amber-800 dark:text-amber-300">
-                  Import and Export features require a Team ($20/mo) or Pro ($99/mo) plan. Free
-                  plan users can upgrade to access these powerful bulk management tools.
+                  Import and Export features require a Team ($20/mo) or Pro ($99/mo) plan. Free plan
+                  users can upgrade to access these powerful bulk management tools.
                 </p>
                 <Link href="/pricing" className="mt-2 inline-block">
                   <Button variant="outline" size="sm" className="mt-2">
@@ -117,8 +117,8 @@ export default function ImportExportGuidePage() {
                   <h3 className="mb-2 font-semibold text-foreground">Required Columns</h3>
                   <ul className="list-disc space-y-1 pl-6 text-sm">
                     <li>
-                      <code className="rounded bg-muted px-2 py-0.5">name</code> - The prompt's title
-                      (also accepts: title, prompt_name)
+                      <code className="rounded bg-muted px-2 py-0.5">name</code> - The prompt's
+                      title (also accepts: title, prompt_name)
                     </li>
                     <li>
                       <code className="rounded bg-muted px-2 py-0.5">prompt_text</code> - The actual
@@ -143,8 +143,8 @@ export default function ImportExportGuidePage() {
                       space-separated tags
                     </li>
                     <li>
-                      <code className="rounded bg-muted px-2 py-0.5">is_public</code> - Boolean (true/false, 1/0, yes/no)
-                      - Always set to false on import for security
+                      <code className="rounded bg-muted px-2 py-0.5">is_public</code> - Boolean
+                      (true/false, 1/0, yes/no) - Always set to false on import for security
                     </li>
                   </ul>
                 </div>
@@ -153,7 +153,7 @@ export default function ImportExportGuidePage() {
                   <h3 className="mb-2 font-semibold text-foreground">Example CSV</h3>
                   <div className="overflow-x-auto rounded-lg bg-muted p-4">
                     <pre className="text-xs">
-{`name,prompt_text,description,model,tags
+                      {`name,prompt_text,description,model,tags
 "Email Subject Line","Write 5 compelling email subject lines","Marketing helper",gpt-4o,"marketing email"
 "Blog Outline","Create a detailed blog post outline","Content creation",claude-3-5-sonnet,"writing blogging"
 "Code Review","Review this code for bugs and improvements","Development helper",gpt-4o,"coding development"`}
@@ -167,7 +167,9 @@ export default function ImportExportGuidePage() {
                   </h4>
                   <ul className="list-disc space-y-1 pl-6 text-sm text-blue-900 dark:text-blue-200">
                     <li>Use double quotes around fields that contain commas or newlines</li>
-                    <li>Escape quotes inside fields by doubling them: <code>"He said ""Hello"""</code></li>
+                    <li>
+                      Escape quotes inside fields by doubling them: <code>"He said ""Hello"""</code>
+                    </li>
                     <li>Column names are case-insensitive</li>
                     <li>UTF-8 encoding is supported for international characters</li>
                     <li>Maximum file size: 10MB</li>
@@ -204,7 +206,7 @@ export default function ImportExportGuidePage() {
                   <h3 className="mb-2 font-semibold text-foreground">Example JSON</h3>
                   <div className="overflow-x-auto rounded-lg bg-muted p-4">
                     <pre className="text-xs">
-{`[
+                      {`[
   {
     "name": "Email Subject Line",
     "prompt_text": "Write 5 compelling email subject lines",
@@ -230,13 +232,28 @@ export default function ImportExportGuidePage() {
                 <div>
                   <h3 className="mb-2 font-semibold text-foreground">Field Details</h3>
                   <ul className="list-disc space-y-1 pl-6 text-sm">
-                    <li><strong>name</strong> (string, required) - Max 120 characters</li>
-                    <li><strong>prompt_text</strong> (string, required) - Max 100,000 characters</li>
-                    <li><strong>description</strong> (string, optional)</li>
-                    <li><strong>model</strong> (string, optional) - Defaults to "gpt-4o"</li>
-                    <li><strong>tags</strong> (array or string, optional) - Array format recommended</li>
-                    <li><strong>is_public</strong> (boolean, optional) - Always set to false on import</li>
-                    <li><strong>inserted_at/updated_at</strong> (string, export only) - ISO 8601 timestamps</li>
+                    <li>
+                      <strong>name</strong> (string, required) - Max 120 characters
+                    </li>
+                    <li>
+                      <strong>prompt_text</strong> (string, required) - Max 100,000 characters
+                    </li>
+                    <li>
+                      <strong>description</strong> (string, optional)
+                    </li>
+                    <li>
+                      <strong>model</strong> (string, optional) - Defaults to "gpt-4o"
+                    </li>
+                    <li>
+                      <strong>tags</strong> (array or string, optional) - Array format recommended
+                    </li>
+                    <li>
+                      <strong>is_public</strong> (boolean, optional) - Always set to false on import
+                    </li>
+                    <li>
+                      <strong>inserted_at/updated_at</strong> (string, export only) - ISO 8601
+                      timestamps
+                    </li>
                   </ul>
                 </div>
 
@@ -246,7 +263,9 @@ export default function ImportExportGuidePage() {
                   </h4>
                   <ul className="list-disc space-y-1 pl-6 text-sm text-purple-900 dark:text-purple-200">
                     <li>Use proper JSON formatting with valid syntax</li>
-                    <li>Tags can be an array <code>["tag1", "tag2"]</code> or comma-separated string</li>
+                    <li>
+                      Tags can be an array <code>["tag1", "tag2"]</code> or comma-separated string
+                    </li>
                     <li>Timestamps are included in exports but optional for imports</li>
                     <li>Single object or array of objects both accepted</li>
                   </ul>
@@ -266,10 +285,13 @@ export default function ImportExportGuidePage() {
                     Skip Duplicates
                   </h3>
                   <p className="mb-2 text-sm text-muted-foreground">
-                    Enable this option to automatically skip prompts that already exist in your library.
+                    Enable this option to automatically skip prompts that already exist in your
+                    library.
                   </p>
                   <ul className="list-disc space-y-1 pl-6 text-sm text-muted-foreground">
-                    <li>Duplicates are detected by matching: name + prompt_text (case-insensitive)</li>
+                    <li>
+                      Duplicates are detected by matching: name + prompt_text (case-insensitive)
+                    </li>
                     <li>Checked by default to prevent accidental duplicates</li>
                     <li>Skipped prompts are counted and reported in the results</li>
                     <li>Uncheck to allow importing duplicate prompts</li>
@@ -282,14 +304,22 @@ export default function ImportExportGuidePage() {
                     Batch Processing
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Large files are processed in batches of 100 prompts for optimal performance. You'll
-                    receive a summary showing:
+                    Large files are processed in batches of 100 prompts for optimal performance.
+                    You'll receive a summary showing:
                   </p>
                   <ul className="list-disc space-y-1 pl-6 text-sm text-muted-foreground">
-                    <li><strong>Imported:</strong> Number of successfully imported prompts</li>
-                    <li><strong>Skipped:</strong> Number of duplicate prompts skipped</li>
-                    <li><strong>Errors:</strong> Number of invalid rows (missing required fields)</li>
-                    <li><strong>Total:</strong> Total rows processed</li>
+                    <li>
+                      <strong>Imported:</strong> Number of successfully imported prompts
+                    </li>
+                    <li>
+                      <strong>Skipped:</strong> Number of duplicate prompts skipped
+                    </li>
+                    <li>
+                      <strong>Errors:</strong> Number of invalid rows (missing required fields)
+                    </li>
+                    <li>
+                      <strong>Total:</strong> Total rows processed
+                    </li>
                   </ul>
                 </div>
 
@@ -303,8 +333,12 @@ export default function ImportExportGuidePage() {
                     security. This prevents accidental public exposure of imported content.
                   </p>
                   <ul className="mt-2 list-disc space-y-1 pl-6 text-sm text-muted-foreground">
-                    <li>The <code>is_public</code> field is always set to <code>false</code> on import</li>
-                    <li>User-provided <code>is_public</code> values are ignored</li>
+                    <li>
+                      The <code>is_public</code> field is always set to <code>false</code> on import
+                    </li>
+                    <li>
+                      User-provided <code>is_public</code> values are ignored
+                    </li>
                     <li>You can manually make prompts public after import if desired</li>
                   </ul>
                 </div>
@@ -341,8 +375,8 @@ export default function ImportExportGuidePage() {
                 <div className="rounded-lg border border-border bg-background p-4">
                   <h3 className="mb-2 font-semibold text-foreground">Share with Team</h3>
                   <p className="text-sm text-muted-foreground">
-                    Export your best prompts and share the file with team members. They can import and
-                    customize for their needs.
+                    Export your best prompts and share the file with team members. They can import
+                    and customize for their needs.
                   </p>
                 </div>
               </div>
@@ -360,12 +394,8 @@ export default function ImportExportGuidePage() {
               </div>
               <div className="space-y-6 text-muted-foreground">
                 <div>
-                  <h3 className="mb-2 font-semibold text-foreground">
-                    "File too large" error
-                  </h3>
-                  <p className="text-sm">
-                    Maximum file size is 10MB. If your file exceeds this:
-                  </p>
+                  <h3 className="mb-2 font-semibold text-foreground">"File too large" error</h3>
+                  <p className="text-sm">Maximum file size is 10MB. If your file exceeds this:</p>
                   <ul className="mt-1 list-disc space-y-1 pl-6 text-sm">
                     <li>Split into multiple smaller files</li>
                     <li>Remove unnecessary columns from CSV</li>
@@ -381,8 +411,14 @@ export default function ImportExportGuidePage() {
                     Your CSV is missing required columns. Make sure your CSV has headers named:
                   </p>
                   <ul className="mt-1 list-disc space-y-1 pl-6 text-sm">
-                    <li><code className="rounded bg-muted px-2 py-0.5">name</code> (or title, prompt_name)</li>
-                    <li><code className="rounded bg-muted px-2 py-0.5">prompt_text</code> (or prompt, content, text)</li>
+                    <li>
+                      <code className="rounded bg-muted px-2 py-0.5">name</code> (or title,
+                      prompt_name)
+                    </li>
+                    <li>
+                      <code className="rounded bg-muted px-2 py-0.5">prompt_text</code> (or prompt,
+                      content, text)
+                    </li>
                   </ul>
                 </div>
 
@@ -400,12 +436,8 @@ export default function ImportExportGuidePage() {
                 </div>
 
                 <div>
-                  <h3 className="mb-2 font-semibold text-foreground">
-                    "Invalid file type"
-                  </h3>
-                  <p className="text-sm">
-                    File must be .csv or .json format. Make sure:
-                  </p>
+                  <h3 className="mb-2 font-semibold text-foreground">"Invalid file type"</h3>
+                  <p className="text-sm">File must be .csv or .json format. Make sure:</p>
                   <ul className="mt-1 list-disc space-y-1 pl-6 text-sm">
                     <li>File extension is correct (.csv or .json)</li>
                     <li>File is saved in the proper format from your editor</li>
@@ -417,14 +449,15 @@ export default function ImportExportGuidePage() {
                   <h3 className="mb-2 font-semibold text-foreground">
                     "Export/Import feature requires a paid subscription"
                   </h3>
-                  <p className="text-sm">
-                    This is a premium feature. Upgrade to Team or Pro plan:
-                  </p>
+                  <p className="text-sm">This is a premium feature. Upgrade to Team or Pro plan:</p>
                   <ul className="mt-1 list-disc space-y-1 pl-6 text-sm">
                     <li>Team Plan: $20/month - Perfect for small teams</li>
                     <li>Pro Plan: $99/month - Advanced features and unlimited prompts</li>
                     <li>
-                      <Link href="/pricing" className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400">
+                      <Link
+                        href="/pricing"
+                        className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
+                      >
                         View pricing plans
                       </Link>
                     </li>
@@ -453,7 +486,8 @@ export default function ImportExportGuidePage() {
                   <div>
                     <h3 className="font-semibold text-foreground">Field Limits</h3>
                     <p className="text-sm text-muted-foreground">
-                      Name: 120 characters max | Prompt text: 100,000 characters max (auto-truncated if exceeded)
+                      Name: 120 characters max | Prompt text: 100,000 characters max (auto-truncated
+                      if exceeded)
                     </p>
                   </div>
                 </div>
@@ -471,7 +505,8 @@ export default function ImportExportGuidePage() {
                   <div>
                     <h3 className="font-semibold text-foreground">Team Isolation</h3>
                     <p className="text-sm text-muted-foreground">
-                      Imports go to your current team. Exports include only prompts from your current team.
+                      Imports go to your current team. Exports include only prompts from your
+                      current team.
                     </p>
                   </div>
                 </div>

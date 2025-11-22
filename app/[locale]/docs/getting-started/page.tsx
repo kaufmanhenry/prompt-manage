@@ -25,7 +25,8 @@ export const metadata: Metadata = {
 const gettingStartedSteps = [
   {
     title: 'Create Your Account',
-    description: 'Sign in with Google or Email to get started instantly with zero setup time. Both methods are password-free and secure.',
+    description:
+      'Sign in with Google or Email to get started instantly with zero setup time. Both methods are password-free and secure.',
     icon: Sparkles,
     links: [
       { href: '/docs/authentication', text: 'Authentication Guide' },

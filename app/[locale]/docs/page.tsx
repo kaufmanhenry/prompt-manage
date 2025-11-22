@@ -213,9 +213,7 @@ export default function DocsPage() {
                         the homepage or any page
                       </li>
                       <li>Enter your email address</li>
-                      <li>
-                        Check your email for a verification code (it arrives within seconds)
-                      </li>
+                      <li>Check your email for a verification code (it arrives within seconds)</li>
                       <li>Enter the verification code on the sign-in page</li>
                       <li>You'll be automatically redirected to your dashboard</li>
                       <li>Your account is created on your first sign-in</li>

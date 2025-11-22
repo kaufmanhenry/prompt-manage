@@ -5,6 +5,7 @@ This comprehensive guide covers everything you need to know about managing your 
 > **📘 User-Facing Documentation Available**
 >
 > This is the developer/technical documentation for account management. For user-friendly guides:
+>
 > - **[Complete Authentication Guide](/docs/authentication)** - Detailed sign-in guide for end users with troubleshooting
 > - **[Main Documentation](/docs)** - Quick-start guides and how-tos
 > - **[Getting Started](/docs/getting-started)** - Onboarding flow for new users

@@ -8,8 +8,8 @@ export default function ChangePasswordHelp() {
           Account Security & Password-Free Sign-In
         </h1>
         <p className="mb-6 text-gray-700 dark:text-gray-300">
-          Prompt Manage uses password-free authentication for enhanced security. How you manage
-          your account security depends on your sign-in method:
+          Prompt Manage uses password-free authentication for enhanced security. How you manage your
+          account security depends on your sign-in method:
         </p>
 
         <h2 className="mb-4 mt-8 text-2xl font-semibold text-gray-900 dark:text-white">
@@ -36,7 +36,8 @@ export default function ChangePasswordHelp() {
           </li>
           <li>Follow Google&rsquo;s prompts to update your password</li>
           <li>
-            Your new password will automatically apply to Prompt Manage and all other Google services
+            Your new password will automatically apply to Prompt Manage and all other Google
+            services
           </li>
         </ol>
 
@@ -76,8 +77,8 @@ export default function ChangePasswordHelp() {
         </h2>
         <ul className="mb-6 list-disc space-y-2 pl-6 text-gray-700 dark:text-gray-300">
           <li>
-            <strong>Enable 2-factor authentication:</strong> On your Google account or email provider
-            for maximum security
+            <strong>Enable 2-factor authentication:</strong> On your Google account or email
+            provider for maximum security
           </li>
           <li>
             <strong>Keep recovery options updated:</strong> Ensure your account recovery email and
@@ -96,8 +97,8 @@ export default function ChangePasswordHelp() {
         <div className="mb-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
           <p className="text-sm text-blue-900 dark:text-blue-200">
             <strong>Want to switch sign-in methods?</strong> You can add multiple sign-in methods to
-            your account. Just sign in using a different method (Google or Email) with the same email
-            address, and they&rsquo;ll be linked automatically.
+            your account. Just sign in using a different method (Google or Email) with the same
+            email address, and they&rsquo;ll be linked automatically.
           </p>
         </div>
 
@@ -106,12 +107,10 @@ export default function ChangePasswordHelp() {
         </h2>
         <p className="mb-4 text-gray-700 dark:text-gray-300">
           For comprehensive authentication guidance, see our{' '}
-          <Link
-            href="/docs/authentication"
-            className="text-blue-600 underline dark:text-blue-400"
-          >
+          <Link href="/docs/authentication" className="text-blue-600 underline dark:text-blue-400">
             Complete Authentication Guide
-          </Link>.
+          </Link>
+          .
         </p>
         <p className="text-gray-700 dark:text-gray-300">
           If you&rsquo;re having trouble accessing your account,{' '}

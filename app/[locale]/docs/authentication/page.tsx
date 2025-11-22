@@ -29,8 +29,7 @@ export default function AuthenticationGuidePage() {
             Authentication Guide
           </h1>
           <p className="text-lg text-muted-foreground">
-            Everything you need to know about signing in to Prompt Manage securely and
-            effortlessly.
+            Everything you need to know about signing in to Prompt Manage securely and effortlessly.
           </p>
           <p className="mt-2 text-sm text-muted-foreground">Last updated: November 22, 2025</p>
         </div>
@@ -124,20 +123,18 @@ export default function AuthenticationGuidePage() {
                   <h3 className="mb-2 font-semibold text-foreground">How it works:</h3>
                   <ol className="list-decimal space-y-3 pl-6">
                     <li>
-                      Click <strong className="text-foreground">"Sign in with Google"</strong> on any
-                      page
+                      Click <strong className="text-foreground">"Sign in with Google"</strong> on
+                      any page
                     </li>
-                    <li>
-                      Select your Google account (or sign in to Google if you're not already)
-                    </li>
+                    <li>Select your Google account (or sign in to Google if you're not already)</li>
                     <li>
                       Authorize Prompt Manage to access your basic profile information (name, email,
                       profile picture)
                     </li>
                     <li>You'll be instantly redirected to your dashboard</li>
                     <li>
-                      On your first sign-in, your account is created automatically - no forms to fill
-                      out!
+                      On your first sign-in, your account is created automatically - no forms to
+                      fill out!
                     </li>
                   </ol>
                 </div>
@@ -159,8 +156,8 @@ export default function AuthenticationGuidePage() {
                     </li>
                   </ul>
                   <p className="mt-2 text-sm text-blue-900 dark:text-blue-200">
-                    We <strong>never</strong> access your Gmail, Drive, Calendar, or any other Google
-                    services.
+                    We <strong>never</strong> access your Gmail, Drive, Calendar, or any other
+                    Google services.
                   </p>
                 </div>
 
@@ -354,9 +351,7 @@ export default function AuthenticationGuidePage() {
               </div>
               <div className="space-y-6 text-muted-foreground">
                 <div>
-                  <h3 className="mb-2 font-semibold text-foreground">
-                    Google Sign-In Issues
-                  </h3>
+                  <h3 className="mb-2 font-semibold text-foreground">Google Sign-In Issues</h3>
                   <div className="space-y-4">
                     <div>
                       <h4 className="mb-1 font-medium text-foreground">
@@ -376,16 +371,17 @@ export default function AuthenticationGuidePage() {
                       <ul className="list-disc space-y-1 pl-6 text-sm">
                         <li>Sign out of Google completely and sign in again</li>
                         <li>Check if you're using the correct Google account</li>
-                        <li>Try revoking Prompt Manage's access in Google Account settings, then sign in again</li>
+                        <li>
+                          Try revoking Prompt Manage's access in Google Account settings, then sign
+                          in again
+                        </li>
                       </ul>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="mb-2 font-semibold text-foreground">
-                    Email Magic Link Issues
-                  </h3>
+                  <h3 className="mb-2 font-semibold text-foreground">Email Magic Link Issues</h3>
                   <div className="space-y-4">
                     <div>
                       <h4 className="mb-1 font-medium text-foreground">
@@ -397,15 +393,16 @@ export default function AuthenticationGuidePage() {
                           verification emails
                         </li>
                         <li>
-                          <strong>Whitelist our domain:</strong> Add noreply@promptmanage.com to your
-                          contacts
+                          <strong>Whitelist our domain:</strong> Add noreply@promptmanage.com to
+                          your contacts
                         </li>
                         <li>
                           <strong>Wait a few minutes:</strong> Emails can be delayed during high
                           traffic
                         </li>
                         <li>
-                          <strong>Check your email address:</strong> Make sure you typed it correctly
+                          <strong>Check your email address:</strong> Make sure you typed it
+                          correctly
                         </li>
                         <li>
                           <strong>Corporate/university email:</strong> Some organizations block
@@ -414,10 +411,14 @@ export default function AuthenticationGuidePage() {
                       </ul>
                     </div>
                     <div>
-                      <h4 className="mb-1 font-medium text-foreground">"Code expired or invalid"</h4>
+                      <h4 className="mb-1 font-medium text-foreground">
+                        "Code expired or invalid"
+                      </h4>
                       <ul className="list-disc space-y-1 pl-6 text-sm">
                         <li>Codes expire after 60 minutes - request a new one</li>
-                        <li>Each code can only be used once - get a fresh code if you made a mistake</li>
+                        <li>
+                          Each code can only be used once - get a fresh code if you made a mistake
+                        </li>
                         <li>Make sure you're entering the most recent code from your email</li>
                         <li>Check for typos - codes are case-sensitive</li>
                       </ul>
@@ -445,8 +446,13 @@ export default function AuthenticationGuidePage() {
                         "Account not found" or "Can't access my account"
                       </h4>
                       <ul className="list-disc space-y-1 pl-6 text-sm">
-                        <li>Make sure you're using the same email address you originally signed up with</li>
-                        <li>Try the other sign-in method (Google if you used Email, or vice versa)</li>
+                        <li>
+                          Make sure you're using the same email address you originally signed up
+                          with
+                        </li>
+                        <li>
+                          Try the other sign-in method (Google if you used Email, or vice versa)
+                        </li>
                         <li>Check if you have multiple Google accounts and try each one</li>
                       </ul>
                     </div>
@@ -457,7 +463,8 @@ export default function AuthenticationGuidePage() {
                       <ul className="list-disc space-y-1 pl-6 text-sm">
                         <li>Go to Settings → Account → Delete Account</li>
                         <li>This permanently deletes all your prompts and data</li>
-                        <li>See our{' '}
+                        <li>
+                          See our{' '}
                           <Link
                             href="/docs/account-management"
                             className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
@@ -487,7 +494,9 @@ export default function AuthenticationGuidePage() {
                 <p>Keep your Prompt Manage account secure with these recommendations:</p>
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="rounded-lg border border-border bg-background p-4">
-                    <h3 className="mb-2 font-semibold text-foreground">For Google Sign-In Users:</h3>
+                    <h3 className="mb-2 font-semibold text-foreground">
+                      For Google Sign-In Users:
+                    </h3>
                     <ul className="list-disc space-y-1 pl-6 text-sm">
                       <li>Enable 2-factor authentication on your Google account</li>
                       <li>Use a strong, unique password for Google</li>
@@ -496,7 +505,9 @@ export default function AuthenticationGuidePage() {
                     </ul>
                   </div>
                   <div className="rounded-lg border border-border bg-background p-4">
-                    <h3 className="mb-2 font-semibold text-foreground">For Email Magic Link Users:</h3>
+                    <h3 className="mb-2 font-semibold text-foreground">
+                      For Email Magic Link Users:
+                    </h3>
                     <ul className="list-disc space-y-1 pl-6 text-sm">
                       <li>Enable 2-factor authentication on your email provider</li>
                       <li>Use a strong, unique password for your email account</li>

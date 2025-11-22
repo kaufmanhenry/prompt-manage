@@ -1,12 +1,12 @@
 import { Folder, Search, ShieldCheck } from 'lucide-react'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 
 import { DashboardPreview } from '@/components/DashboardPreview'
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Link } from '@/i18n/routing'
 import { createClient } from '@/utils/supabase/server'
 
 export const metadata: Metadata = {

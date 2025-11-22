@@ -8,6 +8,8 @@ export async function GET(request: Request) {
     const category = searchParams.get('category')
     const pricing = searchParams.get('pricing')
     const sort = searchParams.get('sort') || 'newest'
+    const page = parseInt(searchParams.get('page') || '1', 10)
+    const limit = parseInt(searchParams.get('limit') || '20', 10)
 
     const supabase = createServerSideClient()
 
@@ -56,7 +58,12 @@ export async function GET(request: Request) {
       query = query.eq('pricing_model', pricing)
     }
 
-    const { data: tools, error, count } = await query.limit(50)
+    // Apply pagination
+    const from = (page - 1) * limit
+    const to = from + limit - 1
+    query = query.range(from, to)
+
+    const { data: tools, error, count } = await query
 
     if (error) {
       console.error('Supabase query error:', error)
@@ -176,39 +183,64 @@ export async function PUT(request: Request) {
       data: { session },
     } = await supabase.auth.getSession()
 
+    console.log('[PUT /api/directory/tools] Session:', session ? 'exists' : 'null')
+    console.log('[PUT /api/directory/tools] User email:', session?.user?.email)
+
     if (!session) {
+      console.error('[PUT /api/directory/tools] No session found')
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     // Check admin status
     const { isAdmin } = await import('@/utils/admin')
-    if (!isAdmin(session.user.email)) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+    const adminStatus = isAdmin(session.user.email)
+    console.log('[PUT /api/directory/tools] Admin status:', adminStatus)
+
+    if (!adminStatus) {
+      console.error('[PUT /api/directory/tools] User is not admin:', session.user.email)
+      return Response.json({ error: 'Unauthorized - Admin access required' }, { status: 401 })
     }
 
     const body = await request.json()
+    console.log('[PUT /api/directory/tools] Request body keys:', Object.keys(body))
+    console.log('[PUT /api/directory/tools] Tool ID:', body.id)
+
     const { id, ...updates } = body
 
     if (!id) {
+      console.error('[PUT /api/directory/tools] Missing tool ID')
       return Response.json({ error: 'Missing tool ID' }, { status: 400 })
     }
+
+    // Remove any undefined or null values
+    const cleanUpdates = Object.fromEntries(
+      Object.entries(updates).filter(([_, v]) => v !== undefined && v !== null),
+    )
+
+    console.log('[PUT /api/directory/tools] Clean updates keys:', Object.keys(cleanUpdates))
 
     // Update the tool
     const { data: tool, error } = await supabase
       .from('ai_tools')
-      .update(updates)
+      .update(cleanUpdates)
       .eq('id', id)
       .select()
       .single()
 
     if (error) {
-      console.error('Supabase update error:', error)
+      console.error('[PUT /api/directory/tools] Supabase update error:', {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+      })
       throw error
     }
 
+    console.log('[PUT /api/directory/tools] Update successful, tool:', tool?.name)
     return Response.json(tool)
   } catch (error: unknown) {
-    console.error('Error updating tool:', error)
+    console.error('[PUT /api/directory/tools] Error updating tool:', error)
     const errorMessage = error instanceof Error ? error.message : 'Failed to update tool'
     return Response.json({ error: errorMessage }, { status: 500 })
   }

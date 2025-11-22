@@ -1,1 +1,1 @@
-npm run check-all
+npm run pre-commit

@@ -57,6 +57,9 @@ export default function DirectoryPage() {
     (searchParams.get('sort') as any) || 'newest',
   )
   const [pricingFilter, setPricingFilter] = useState(searchParams.get('pricing') || 'all')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalTools, setTotalTools] = useState(0)
+  const TOOLS_PER_PAGE = 20
 
   // Debounce search
   useEffect(() => {
@@ -96,10 +99,13 @@ export default function DirectoryPage() {
         if (selectedCategory !== 'all') params.set('category', selectedCategory)
         if (pricingFilter !== 'all') params.set('pricing', pricingFilter)
         params.set('sort', sortBy)
+        params.set('page', currentPage.toString())
+        params.set('limit', TOOLS_PER_PAGE.toString())
 
         const response = await fetch(`/api/directory/tools?${params.toString()}`)
         const data = await response.json()
         setTools(data.tools || [])
+        setTotalTools(data.total || 0)
       } catch (error) {
         console.error('Failed to fetch tools:', error)
       } finally {
@@ -107,6 +113,11 @@ export default function DirectoryPage() {
       }
     }
     void fetchTools()
+  }, [debouncedSearch, selectedCategory, sortBy, pricingFilter, currentPage, TOOLS_PER_PAGE])
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1)
   }, [debouncedSearch, selectedCategory, sortBy, pricingFilter])
 
   // Update URL params
@@ -116,10 +127,13 @@ export default function DirectoryPage() {
     if (selectedCategory !== 'all') params.set('category', selectedCategory)
     if (sortBy !== 'newest') params.set('sort', sortBy)
     if (pricingFilter !== 'all') params.set('pricing', pricingFilter)
+    if (currentPage > 1) params.set('page', currentPage.toString())
 
     const queryString = params.toString()
     router.push(queryString ? `/directory?${queryString}` : '/directory')
-  }, [search, selectedCategory, sortBy, pricingFilter, router])
+  }, [search, selectedCategory, sortBy, pricingFilter, currentPage, router])
+
+  const totalPages = Math.ceil(totalTools / TOOLS_PER_PAGE)
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
@@ -332,6 +346,83 @@ export default function DirectoryPage() {
                 </Card>
               </Link>
             ))}
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {!loading && tools.length > 0 && totalPages > 1 && (
+          <div className="mt-12 flex items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </Button>
+
+            <div className="flex items-center gap-1">
+              {/* First page */}
+              {currentPage > 3 && (
+                <>
+                  <Button
+                    variant={currentPage === 1 ? 'default' : 'outline'}
+                    onClick={() => setCurrentPage(1)}
+                    className="h-10 w-10"
+                  >
+                    1
+                  </Button>
+                  {currentPage > 4 && <span className="px-2">...</span>}
+                </>
+              )}
+
+              {/* Pages around current */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((page) => {
+                  return (
+                    page === currentPage ||
+                    page === currentPage - 1 ||
+                    page === currentPage + 1 ||
+                    page === currentPage - 2 ||
+                    page === currentPage + 2
+                  )
+                })
+                .map((page) => (
+                  <Button
+                    key={page}
+                    variant={currentPage === page ? 'default' : 'outline'}
+                    onClick={() => setCurrentPage(page)}
+                    className="h-10 w-10"
+                  >
+                    {page}
+                  </Button>
+                ))}
+
+              {/* Last page */}
+              {currentPage < totalPages - 2 && (
+                <>
+                  {currentPage < totalPages - 3 && <span className="px-2">...</span>}
+                  <Button
+                    variant={currentPage === totalPages ? 'default' : 'outline'}
+                    onClick={() => setCurrentPage(totalPages)}
+                    className="h-10 w-10"
+                  >
+                    {totalPages}
+                  </Button>
+                </>
+              )}
+            </div>
+
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+
+            <span className="ml-4 text-sm text-gray-600 dark:text-gray-400">
+              Page {currentPage} of {totalPages} ({totalTools} tools)
+            </span>
           </div>
         )}
 

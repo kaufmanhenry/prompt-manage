@@ -17,7 +17,8 @@
     "stripe:setup": "tsx scripts/setup-stripe-products.ts",
     "fix-dev": "node scripts/fix-dev-errors.js",
     "pre-commit": "lint-staged",
-    "check-all": "npm run lint && npm run format:check && npm run type-check"
+    "check-all": "npm run lint && npm run format:check && npm run type-check",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -78,6 +79,7 @@
     "eslint-plugin-tailwindcss": "3.18.2",
     "eslint-plugin-unused-imports": "4.2.0",
     "globals": "16.5.0",
+    "husky": "9.1.7",
     "lint-staged": "16.2.4",
     "postcss": "^8.4.35",
     "postcss-import": "^16.0.1",

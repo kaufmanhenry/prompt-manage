@@ -159,9 +159,7 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
                 </Button>
                 {isAdmin && (
                   <Link href={`/directory/${tool.slug}/edit`}>
-                    <Button variant="outline">
-                      Edit Tool
-                    </Button>
+                    <Button variant="outline">Edit Tool</Button>
                   </Link>
                 )}
               </div>

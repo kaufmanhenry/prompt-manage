@@ -37,8 +37,10 @@ Welcome to the Prompt Manage documentation! This directory contains comprehensiv
 
 ### 📊 Feature Documentation
 
+- **[AI Tools Directory](./features/ai-tools-directory.md)** - Submit and manage AI tools in the directory
 - **[Related Prompts](./features/related-prompts.md)** - Related prompts feature implementation
-- **[Prompt Editing](./features/prompt-editing.md)** - Prompt editing functionality
+- **[Prompt Editing](./features/prompt-editing.md)** - Prompt editing functionality (technical)
+- **[Editing Prompts Guide](./getting-started/editing-prompts.md)** - User guide for editing prompts
 - **[Prompt Collections](./features/prompt-collections.md)** - Organize, store, and manage prompts in collections
 - **[Search & Filtering](./features/search-filtering.md)** - Search and filtering capabilities
 

@@ -74,7 +74,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 items-center justify-between px-4">
+      <div className="mx-auto flex h-16 max-w-[90rem] items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-6">
           <Link
             href="/dashboard"

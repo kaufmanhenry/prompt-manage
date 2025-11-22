@@ -210,16 +210,16 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
       />
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen overflow-x-hidden bg-background">
+        <div className="mx-auto w-full max-w-[90rem] px-4 sm:px-6 lg:px-8">
           {/* Hero Section - split layout */}
-          <section className="grid items-center gap-8 py-8 md:grid-cols-2 md:gap-10 md:py-24 lg:gap-16">
+          <section className="grid w-full items-center gap-8 py-8 md:grid-cols-2 md:gap-10 md:py-24 lg:gap-16">
             {/* Left: Copy */}
-            <div className="order-1 text-left md:order-1">
-              <h1 className="mb-4 text-2xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-4xl md:mb-6 md:text-5xl lg:text-[3.5rem]">
+            <div className="order-1 w-full text-left md:order-1">
+              <h1 className="mb-4 break-words text-2xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-4xl md:mb-6 md:text-5xl lg:text-[3.5rem]">
                 Stop Losing Your Best Prompts
               </h1>
-              <p className="mb-3 text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg lg:text-xl">
+              <p className="mb-3 break-words text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg lg:text-xl">
                 Create, store, and safely share your prompts, all in one place. Build your secure
                 prompt library with our{' '}
                 <Link
@@ -230,7 +230,7 @@ export default async function Home() {
                 </Link>{' '}
                 featuring 400+ ready-to-use templates you can copy to your account!
               </p>
-              <p className="mb-4 text-sm leading-relaxed text-muted-foreground sm:text-base md:mb-6 md:text-lg lg:text-xl">
+              <p className="mb-4 break-words text-sm leading-relaxed text-muted-foreground sm:text-base md:mb-6 md:text-lg lg:text-xl">
                 Tag, sort, and filter prompts to organize your workspace. Then share prompts with
                 your team. Prompt Manage is the CMS for your prompts.
               </p>
@@ -298,8 +298,8 @@ export default async function Home() {
                   </Link>
                 </div>
               )}
-              <div className="mt-4 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                <span className="text-xs text-muted-foreground">Popular models:</span>
+              <div className="mt-4 flex w-full flex-wrap items-center gap-1.5 sm:gap-2">
+                <span className="shrink-0 text-xs text-muted-foreground">Popular models:</span>
                 {[
                   'gpt-4',
                   'gpt-4o',
@@ -311,14 +311,14 @@ export default async function Home() {
                   <Badge
                     key={m}
                     variant="outline"
-                    className="whitespace-nowrap px-2 py-0.5 text-[10px] sm:py-1 sm:text-xs"
+                    className="shrink-0 whitespace-nowrap px-2 py-0.5 text-[10px] sm:py-1 sm:text-xs"
                   >
                     {m}
                   </Badge>
                 ))}
                 <Link
                   href="/models"
-                  className="ml-0.5 whitespace-nowrap text-xs text-emerald-700 hover:underline dark:text-emerald-300 sm:ml-1"
+                  className="ml-0.5 shrink-0 whitespace-nowrap text-xs text-emerald-700 hover:underline dark:text-emerald-300 sm:ml-1"
                 >
                   Models →
                 </Link>
@@ -326,7 +326,7 @@ export default async function Home() {
             </div>
 
             {/* Right: Interactive Dashboard Preview */}
-            <div className="order-2 md:order-2">
+            <div className="order-2 w-full md:order-2">
               <DashboardPreview />
             </div>
           </section>

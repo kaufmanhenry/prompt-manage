@@ -179,12 +179,6 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
                 </p>
               </div>
             )}
-            <div className="rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-900">
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                {tool.upvote_count}
-              </div>
-              <p className="text-xs text-gray-600 dark:text-gray-400">Upvotes</p>
-            </div>
           </div>
         </div>
 

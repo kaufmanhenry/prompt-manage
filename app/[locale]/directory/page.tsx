@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus, Search, Star, TrendingUp } from 'lucide-react'
+import { Plus, Search, Star } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -336,10 +336,6 @@ export default function DirectoryPage() {
                             <span className="text-gray-500">({tool.review_count})</span>
                           </div>
                         )}
-                        <div className="flex items-center gap-1">
-                          <TrendingUp className="h-4 w-4" />
-                          <span>{tool.upvote_count} upvotes</span>
-                        </div>
                       </div>
                     </div>
                   </div>

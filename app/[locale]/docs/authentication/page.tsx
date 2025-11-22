@@ -1,4 +1,4 @@
-import { CheckCircle2, Mail, Shield, AlertCircle, Key, ArrowRight } from 'lucide-react'
+import { AlertCircle, ArrowRight, CheckCircle2, Key, Mail, Shield } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 

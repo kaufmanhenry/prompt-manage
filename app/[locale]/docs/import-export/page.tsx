@@ -1,4 +1,4 @@
-import { AlertCircle, CheckCircle2, FileUp, FileDown, Download, Upload } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Download, FileDown, FileUp, Upload } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -15,9 +15,7 @@ export const metadata: Metadata = {
     'backup prompts',
     'migrate prompts',
     'bulk editing',
-   '
-
-CSV format',
+    'CSV format',
     'JSON format',
   ],
 }
@@ -304,7 +302,7 @@ export default function ImportExportGuidePage() {
                     All imported prompts are automatically set to <strong>private</strong> for your
                     security. This prevents accidental public exposure of imported content.
                   </p>
-                  <ul className="list-disc mt-2 space-y-1 pl-6 text-sm text-muted-foreground">
+                  <ul className="mt-2 list-disc space-y-1 pl-6 text-sm text-muted-foreground">
                     <li>The <code>is_public</code> field is always set to <code>false</code> on import</li>
                     <li>User-provided <code>is_public</code> values are ignored</li>
                     <li>You can manually make prompts public after import if desired</li>

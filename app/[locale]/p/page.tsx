@@ -420,10 +420,11 @@ function PublicDirectoryContent() {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`rounded-md px-3 py-2 text-sm font-medium ${pageNum === page
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${
+                          pageNum === page
                             ? 'bg-primary text-primary-foreground'
                             : 'text-muted-foreground hover:text-foreground'
-                          }`}
+                        }`}
                       >
                         {pageNum}
                       </button>

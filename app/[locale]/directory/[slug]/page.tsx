@@ -1,13 +1,14 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-import ToolDetail, { AITool } from '@/components/directory/ToolDetail'
+import type { AITool } from '@/components/directory/ToolDetail'
+import ToolDetail from '@/components/directory/ToolDetail'
 import { createClient } from '@/utils/supabase/server'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 async function getTool(slug: string) {
@@ -16,10 +17,12 @@ async function getTool(slug: string) {
   // Fetch tool
   const { data: tool, error } = await supabase
     .from('ai_tools')
-    .select(`
+    .select(
+      `
       *,
       category:primary_category_id(name)
-    `)
+    `,
+    )
     .eq('slug', slug)
     .single()
 
@@ -56,7 +59,8 @@ async function getFavoriteStatus(toolId: string) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const tool = await getTool(params.slug)
+  const { slug } = await params
+  const tool = await getTool(slug)
 
   if (!tool) {
     return {
@@ -70,20 +74,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `${tool.name} - AI Tool Review & Features`,
       description: tool.description,
-      images: tool.banner_image_url ? [tool.banner_image_url] : tool.logo_url ? [tool.logo_url] : [],
+      images: tool.banner_image_url
+        ? [tool.banner_image_url]
+        : tool.logo_url
+          ? [tool.logo_url]
+          : [],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: `${tool.name} - AI Tool Review & Features`,
       description: tool.description,
-      images: tool.banner_image_url ? [tool.banner_image_url] : tool.logo_url ? [tool.logo_url] : [],
+      images: tool.banner_image_url
+        ? [tool.banner_image_url]
+        : tool.logo_url
+          ? [tool.logo_url]
+          : [],
     },
   }
 }
 
 export default async function ToolDetailPage({ params }: PageProps) {
-  const tool = await getTool(params.slug)
+  const { slug } = await params
+  const tool = await getTool(slug)
 
   if (!tool) {
     notFound()
@@ -103,11 +116,13 @@ export default async function ToolDetailPage({ params }: PageProps) {
       price: tool.monthly_price || '0',
       priceCurrency: 'USD',
     },
-    aggregateRating: tool.rating ? {
-      '@type': 'AggregateRating',
-      ratingValue: tool.rating,
-      reviewCount: tool.review_count,
-    } : undefined,
+    aggregateRating: tool.rating
+      ? {
+        '@type': 'AggregateRating',
+        ratingValue: tool.rating,
+        reviewCount: tool.review_count,
+      }
+      : undefined,
   }
 
   return (

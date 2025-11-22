@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { isAdminEmail } from '@/lib/admin'
+import { isAdminEmail } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/client'
 
 const DEFAULT_KEYWORDS = [

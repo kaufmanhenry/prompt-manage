@@ -7,8 +7,8 @@ import { Sidebar } from '@/components/Sidebar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { isAdminEmail } from '@/lib/admin'
 import { generateTestReport } from '@/lib/agent/test-agent'
+import { isAdminEmail } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/client'
 
 export default function AgentTestPage() {

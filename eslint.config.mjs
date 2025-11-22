@@ -7,8 +7,10 @@
  */
 import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
+import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import importPlugin from 'eslint-plugin-import'
 import unusedImports from 'eslint-plugin-unused-imports'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import tailwindcss from 'eslint-plugin-tailwindcss'
@@ -36,15 +38,20 @@ export default tseslint.config(
       ecmaVersion: 2023,
       sourceType: 'module',
     },
-    settings: { react: { version: 'detect' } },
+    settings: {
+      react: { version: 'detect' },
+    },
     plugins: {
+      react,
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
+      import: importPlugin,
       'unused-imports': unusedImports,
       'simple-import-sort': simpleImportSort,
       tailwindcss,
     },
     rules: {
+      // Unused vars
       'no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
@@ -56,12 +63,21 @@ export default tseslint.config(
           ignoreRestSiblings: true,
         },
       ],
+      // Import sorting
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
+      'import/first': 'error',
+      'import/newline-after-import': 'error',
+      'import/no-duplicates': 'off', // Disabled due to resolver issues
+      // React
+      'react/react-in-jsx-scope': 'off', // Not needed in Next.js
+      'react/prop-types': 'off', // Using TypeScript
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      // A11y
       'jsx-a11y/alt-text': 'warn',
       'jsx-a11y/anchor-is-valid': 'warn',
+      // Tailwind
       'tailwindcss/classnames-order': 'warn',
       'tailwindcss/no-custom-classname': 'off',
     },
@@ -78,16 +94,20 @@ export default tseslint.config(
         sourceType: 'module',
       },
     },
-    settings: { react: { version: 'detect' } },
+    settings: {
+      react: { version: 'detect' },
+    },
     plugins: {
+      react,
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
+      import: importPlugin,
       'unused-imports': unusedImports,
       'simple-import-sort': simpleImportSort,
       tailwindcss,
     },
     rules: {
-      // General
+      // Unused vars
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
@@ -100,10 +120,17 @@ export default tseslint.config(
           ignoreRestSiblings: true,
         },
       ],
+
+      // Import sorting and hygiene
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
+      'import/first': 'error',
+      'import/newline-after-import': 'error',
+      'import/no-duplicates': 'off', // Disabled due to resolver issues
 
-      // React Hooks
+      // React
+      'react/react-in-jsx-scope': 'off', // Not needed in Next.js
+      'react/prop-types': 'off', // Using TypeScript
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
 

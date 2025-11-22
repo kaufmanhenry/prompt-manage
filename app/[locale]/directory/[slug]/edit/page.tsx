@@ -33,6 +33,8 @@ interface ToolFormData {
   website_url: string
   description: string
   full_description?: string
+  logo_url?: string
+  banner_image_url?: string
   company_name?: string
   company_website?: string
   contact_email: string
@@ -44,6 +46,7 @@ interface ToolFormData {
   annual_price?: number
   has_free_trial?: boolean
   trial_duration_days?: number
+  pricing_details_url?: string
   key_features: string
   use_cases: string
   integrations?: string
@@ -53,6 +56,9 @@ interface ToolFormData {
   is_open_source?: boolean
   github_url?: string
   founded_year?: number
+  status?: 'pending' | 'approved' | 'rejected'
+  is_featured?: boolean
+  is_verified?: boolean
 }
 
 export default function EditToolPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -148,6 +154,8 @@ export default function EditToolPage({ params }: { params: Promise<{ slug: strin
       const submitData = {
         ...data,
         id: toolId, // Ensure ID is included (override form data if present)
+        secondary_category_id:
+          data.secondary_category_id === 'none' ? null : data.secondary_category_id,
         key_features:
           typeof data.key_features === 'string'
             ? data.key_features
@@ -285,6 +293,22 @@ export default function EditToolPage({ params }: { params: Promise<{ slug: strin
                     {...register('full_description')}
                   />
                 </div>
+
+                <div>
+                  <Label htmlFor="logo_url">Logo URL</Label>
+                  <Input id="logo_url" type="url" {...register('logo_url')} />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Square image recommended (e.g., 200x200px)
+                  </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="banner_image_url">Banner Image URL</Label>
+                  <Input id="banner_image_url" type="url" {...register('banner_image_url')} />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Wide image recommended (e.g., 1200x630px)
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -324,6 +348,26 @@ export default function EditToolPage({ params }: { params: Promise<{ slug: strin
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent className="max-h-[400px]">
+                      {categories.map((cat) => (
+                        <SelectItem key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="secondary_category">Secondary Category</Label>
+                  <Select
+                    onValueChange={(value) => setValue('secondary_category_id', value)}
+                    defaultValue={watch('secondary_category_id') || 'none'}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category (optional)" />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-[400px]">
+                      <SelectItem value="none">None</SelectItem>
                       {categories.map((cat) => (
                         <SelectItem key={cat.id} value={cat.id}>
                           {cat.name}
@@ -413,6 +457,12 @@ export default function EditToolPage({ params }: { params: Promise<{ slug: strin
                     />
                   </div>
                 )}
+
+                <div>
+                  <Label htmlFor="pricing_details_url">Pricing Details URL</Label>
+                  <Input id="pricing_details_url" type="url" {...register('pricing_details_url')} />
+                  <p className="mt-1 text-xs text-gray-500">Link to detailed pricing page</p>
+                </div>
               </div>
             </div>
 
@@ -444,6 +494,63 @@ export default function EditToolPage({ params }: { params: Promise<{ slug: strin
                 <div>
                   <Label htmlFor="github_url">GitHub URL</Label>
                   <Input id="github_url" type="url" {...register('github_url')} />
+                </div>
+              </div>
+            </div>
+
+            {/* Admin Controls */}
+            <div className="rounded-lg border-2 border-emerald-200 bg-emerald-50/50 p-6 dark:border-emerald-900 dark:bg-emerald-950/30">
+              <h2 className="mb-6 text-lg font-semibold text-gray-900 dark:text-white">
+                Admin Controls
+              </h2>
+
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="status">Approval Status *</Label>
+                  <Select
+                    value={watch('status') || 'pending'}
+                    onValueChange={(value: 'pending' | 'approved' | 'rejected') =>
+                      setValue('status', value)
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="pending">Pending Review</SelectItem>
+                      <SelectItem value="approved">Approved</SelectItem>
+                      <SelectItem value="rejected">Rejected</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="mt-1 text-xs text-gray-600">
+                    Only approved tools are visible in the public directory
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="is_featured"
+                      className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                      {...register('is_featured')}
+                    />
+                    <Label htmlFor="is_featured" className="cursor-pointer font-normal">
+                      Featured Tool
+                    </Label>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="is_verified"
+                      className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                      {...register('is_verified')}
+                    />
+                    <Label htmlFor="is_verified" className="cursor-pointer font-normal">
+                      Verified Tool
+                    </Label>
+                  </div>
                 </div>
               </div>
             </div>

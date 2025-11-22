@@ -1,9 +1,9 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { isAdminEmail } from '@/lib/admin'
 import { PRICING_CONFIG } from '@/lib/pricing'
 import { getUserSubscription, getUserUsage } from '@/lib/subscription'
+import { isAdminEmail } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/server'
 
 export async function GET(_request: NextRequest) {

@@ -219,8 +219,12 @@ export async function PUT(request: Request) {
 
     console.log('[PUT /api/directory/tools] Clean updates keys:', Object.keys(cleanUpdates))
 
-    // Update the tool
-    const { data: tool, error } = await supabase
+    // Use admin client to bypass RLS for admin users
+    const { createAdminClient } = await import('@/utils/supabase/server')
+    const adminClient = createAdminClient()
+
+    // Update the tool using admin client
+    const { data: tool, error } = await adminClient
       .from('ai_tools')
       .update(cleanUpdates)
       .eq('id', id)

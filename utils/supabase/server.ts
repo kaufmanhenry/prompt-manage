@@ -32,6 +32,11 @@ export const createClient = async () => {
         }
       },
     },
+    auth: {
+      flowType: 'pkce',
+      detectSessionInUrl: true,
+      persistSession: true,
+    },
   })
 }
 

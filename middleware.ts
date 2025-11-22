@@ -66,6 +66,11 @@ export async function middleware(request: NextRequest) {
         })
       },
     },
+    auth: {
+      flowType: 'pkce',
+      detectSessionInUrl: true,
+      persistSession: true,
+    },
   })
 
   const {

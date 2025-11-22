@@ -157,15 +157,6 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/use-cases"
-                    className="text-gray-600 hover:underline dark:text-gray-300"
-                    aria-label="AI prompt use cases and examples"
-                  >
-                    Use Cases
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     href="/directory"
                     className="text-gray-600 hover:underline dark:text-gray-300"
                     aria-label="Browse AI tools directory"
@@ -175,11 +166,29 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
+                    href="/bfcm-2025-ai-deals"
+                    className="text-gray-600 hover:underline dark:text-gray-300"
+                    aria-label="Black Friday and Cyber Monday AI deals"
+                  >
+                    Black Friday Deals
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/models"
                     className="text-gray-600 hover:underline dark:text-gray-300"
                     aria-label="Supported AI models and prompts"
                   >
                     Models
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/use-cases"
+                    className="text-gray-600 hover:underline dark:text-gray-300"
+                    aria-label="AI prompt use cases and examples"
+                  >
+                    Use Cases
                   </Link>
                 </li>
                 <li>
@@ -198,15 +207,6 @@ export function Footer() {
                     aria-label="Get help and support"
                   >
                     Support
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/bfcm-2025-ai-deals"
-                    className="text-gray-600 hover:underline dark:text-gray-300"
-                    aria-label="Black Friday and Cyber Monday AI deals"
-                  >
-                    Black Friday Deals
                   </Link>
                 </li>
               </ul>

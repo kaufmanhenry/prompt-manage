@@ -166,3 +166,50 @@ export async function POST(request: Request) {
     return Response.json({ error: errorMessage }, { status: 500 })
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const supabase = await createClient()
+
+    // Check authentication
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    if (!session) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Check admin status
+    const { isAdmin } = await import('@/utils/admin')
+    if (!isAdmin(session.user.email)) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await request.json()
+    const { id, ...updates } = body
+
+    if (!id) {
+      return Response.json({ error: 'Missing tool ID' }, { status: 400 })
+    }
+
+    // Update the tool
+    const { data: tool, error } = await supabase
+      .from('ai_tools')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Supabase update error:', error)
+      throw error
+    }
+
+    return Response.json(tool)
+  } catch (error: unknown) {
+    console.error('Error updating tool:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to update tool'
+    return Response.json({ error: errorMessage }, { status: 500 })
+  }
+}

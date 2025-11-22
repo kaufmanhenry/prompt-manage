@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 
 import type { AITool } from '@/components/directory/ToolDetail'
 import ToolDetail from '@/components/directory/ToolDetail'
+import { isAdmin } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/server'
 
 interface PageProps {
@@ -102,7 +103,12 @@ export default async function ToolDetailPage({ params }: PageProps) {
     notFound()
   }
 
+  const supabase = await createClient()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
   const isFavorited = await getFavoriteStatus(tool.id)
+  const userIsAdmin = isAdmin(session?.user?.email)
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -118,10 +124,10 @@ export default async function ToolDetailPage({ params }: PageProps) {
     },
     aggregateRating: tool.rating
       ? {
-          '@type': 'AggregateRating',
-          ratingValue: tool.rating,
-          reviewCount: tool.review_count,
-        }
+        '@type': 'AggregateRating',
+        ratingValue: tool.rating,
+        reviewCount: tool.review_count,
+      }
       : undefined,
   }
 
@@ -131,7 +137,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ToolDetail tool={tool} initialIsFavorited={isFavorited} />
+      <ToolDetail tool={tool} initialIsFavorited={isFavorited} isAdmin={userIsAdmin} />
     </>
   )
 }

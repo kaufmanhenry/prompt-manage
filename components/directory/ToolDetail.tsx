@@ -52,9 +52,10 @@ export interface AITool {
 interface ToolDetailProps {
   tool: AITool
   initialIsFavorited: boolean
+  isAdmin?: boolean
 }
 
-export default function ToolDetail({ tool, initialIsFavorited }: ToolDetailProps) {
+export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDetailProps) {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited)
   const { toast } = useToast()
   const supabase = createClient()
@@ -122,24 +123,13 @@ export default function ToolDetail({ tool, initialIsFavorited }: ToolDetailProps
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
-      {/* Banner */}
-      {tool.banner_image_url && (
-        <div className="h-64 w-full overflow-hidden bg-gradient-to-r from-emerald-600 to-emerald-700 sm:h-80">
-          <img src={tool.banner_image_url} alt={tool.name} className="h-full w-full object-cover" />
-        </div>
-      )}
+      {/* ... existing banner ... */}
 
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex gap-6">
-            {tool.logo_url && (
-              <img
-                src={tool.logo_url}
-                alt={tool.name}
-                className="h-24 w-24 rounded-lg object-cover shadow-md"
-              />
-            )}
+            {/* ... existing logo ... */}
             <div>
               <div className="mb-2 flex items-center gap-2">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{tool.name}</h1>
@@ -167,6 +157,13 @@ export default function ToolDetail({ tool, initialIsFavorited }: ToolDetailProps
                 <Button variant="outline" size="icon" onClick={handleShare}>
                   <Share2 className="h-4 w-4" />
                 </Button>
+                {isAdmin && (
+                  <Link href={`/directory/${tool.slug}/edit`}>
+                    <Button variant="outline">
+                      Edit Tool
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

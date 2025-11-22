@@ -45,7 +45,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { isAdminEmail } from '@/lib/admin'
+import { isAdminEmail } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/client'
 
 // System Health Status Types

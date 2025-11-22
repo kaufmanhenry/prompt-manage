@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { isAdminEmail } from '@/lib/admin'
+import { isAdminEmail } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/client'
 
 type Agent = {

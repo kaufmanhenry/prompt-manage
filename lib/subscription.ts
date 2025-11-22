@@ -1,6 +1,6 @@
-import { isAdminEmail } from '@/lib/admin'
 import type { PlanType } from '@/lib/pricing'
 import { PRICING_CONFIG } from '@/lib/pricing'
+import { isAdminEmail } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/server'
 
 export interface UserSubscription {

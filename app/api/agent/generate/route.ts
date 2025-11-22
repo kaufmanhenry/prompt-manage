@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
-import { isAdminEmail } from '@/lib/admin'
 import { generateAgentPrompt } from '@/lib/agent/generator'
+import { isAdminEmail } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: Request) {

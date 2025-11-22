@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { isAdminEmail } from '@/lib/admin'
+import { isAdminEmail } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/server'
 
 // GET: Get agent details

@@ -39,6 +39,7 @@ async function seed() {
       { name: 'Design', slug: 'design', icon_emoji: '✏️' },
       { name: 'Code', slug: 'code', icon_emoji: '💻' },
       { name: 'Business', slug: 'business', icon_emoji: '💼' },
+      { name: 'Marketing & Sales', slug: 'marketing-sales', icon_emoji: 'MARKETING' },
     ]
 
     const categoryIds = {}
@@ -132,6 +133,33 @@ async function seed() {
         status: 'approved',
         key_features: ['Conversation', 'Writing', 'Coding', 'Analysis'],
         logo_url: null,
+      },
+      {
+        name: 'Postel',
+        slug: 'postel',
+        website_url: 'https://postel.app?atp=mjmolo',
+        description:
+          'Create X content so good it gets you clients. Analyzes thousands of viral posts to create content that performs while keeping your voice.',
+        primary_category_id: categoryIds['marketing-sales'],
+        pricing_model: 'freemium',
+        status: 'approved',
+        is_verified: true,
+        key_features: [
+          'Viral Content Creation',
+          'Voice Matching',
+          'Content Scheduling',
+          'Post Ideation',
+          'X/Twitter Optimization',
+        ],
+        use_cases: [
+          'Social Media Marketing',
+          'Content Creation',
+          'Personal Branding',
+          'Client Acquisition',
+          'Twitter/X Growth',
+        ],
+        platforms: ['web'],
+        logo_url: '/logos/postel-logo.png',
       },
     ]
 

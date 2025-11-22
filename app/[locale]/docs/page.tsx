@@ -2,12 +2,14 @@ import {
   BookOpen,
   CreditCard,
   Eye,
+  FileUp,
   FolderOpen,
   Lock,
   Palette,
   Save,
   Settings,
   Share2,
+  Sparkles,
   Trash2,
   User,
   Users,
@@ -20,13 +22,16 @@ import { Button } from '@/components/ui/button'
 export const metadata: Metadata = {
   title: 'Documentation - Prompt Manage',
   description:
-    'Learn how to use Prompt Manage. Complete guides for signing up, saving prompts, sharing publicly, editing your profile, and more.',
+    'Learn how to use Prompt Manage. Complete guides for signing up with Google or Email, saving prompts, sharing publicly, editing your profile, and more.',
   keywords: [
     'prompt manage documentation',
     'how to use prompt manage',
     'save AI prompts',
     'share prompts',
     'prompt management guide',
+    'email authentication',
+    'magic link sign in',
+    'password-free login',
   ],
 }
 
@@ -40,7 +45,7 @@ export default function DocsPage() {
           <p className="text-lg text-muted-foreground">
             Everything you need to know about using Prompt Manage effectively.
           </p>
-          <p className="mt-2 text-sm text-muted-foreground">Last updated: October 16, 2025</p>
+          <p className="mt-2 text-sm text-muted-foreground">Last updated: November 22, 2025</p>
         </div>
       </div>
 
@@ -106,6 +111,13 @@ export default function DocsPage() {
               <span className="font-medium">Browse Public Prompts</span>
             </Link>
             <Link
+              href="/docs/authentication"
+              className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
+            >
+              <Lock className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium">Complete Authentication Guide</span>
+            </Link>
+            <Link
               href="/docs/account-management"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
@@ -113,11 +125,25 @@ export default function DocsPage() {
               <span className="font-medium">Complete Account Management Guide</span>
             </Link>
             <Link
-              href="/docs/collections"
+              href="/docs/import-export"
+              className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
+            >
+              <FileUp className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium">Import & Export Guide</span>
+            </Link>
+            <Link
+              href="/docs/tools-directory"
               className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
             >
               <FolderOpen className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium">Prompt Collections Guide</span>
+              <span className="font-medium">AI Tools Directory</span>
+            </Link>
+            <Link
+              href="/docs/free-tools"
+              className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition-all hover:border-emerald-300 hover:shadow-md"
+            >
+              <Sparkles className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              <span className="font-medium">Free Tools Guide</span>
             </Link>
             <Link
               href="/docs/best-practices"
@@ -154,22 +180,58 @@ export default function DocsPage() {
                   <h2 className="text-2xl font-bold">How to Sign Up</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
-                  <ol className="list-decimal space-y-3 pl-6">
-                    <li>
-                      Click <strong className="text-foreground">"Sign in with Google"</strong> on
-                      the homepage or any page
-                    </li>
-                    <li>Authorize Prompt Manage to access your Google account</li>
-                    <li>You'll be automatically redirected to your dashboard</li>
-                    <li>
-                      Your account is now created! You can start saving and organizing prompts
-                      immediately
-                    </li>
-                  </ol>
+                  <p>
+                    Prompt Manage offers two secure, password-free sign-up methods. Choose the one
+                    that works best for you:
+                  </p>
+
+                  <div>
+                    <h3 className="mb-2 font-semibold text-foreground">
+                      Option 1: Sign in with Google
+                    </h3>
+                    <ol className="list-decimal space-y-2 pl-6">
+                      <li>
+                        Click <strong className="text-foreground">"Sign in with Google"</strong> on
+                        the homepage or any page
+                      </li>
+                      <li>Authorize Prompt Manage to access your Google account</li>
+                      <li>You'll be automatically redirected to your dashboard</li>
+                      <li>
+                        Your account is now created! You can start saving and organizing prompts
+                        immediately
+                      </li>
+                    </ol>
+                  </div>
+
+                  <div>
+                    <h3 className="mb-2 font-semibold text-foreground">
+                      Option 2: Sign in with Email (Magic Link)
+                    </h3>
+                    <ol className="list-decimal space-y-2 pl-6">
+                      <li>
+                        Click <strong className="text-foreground">"Sign in with Email"</strong> on
+                        the homepage or any page
+                      </li>
+                      <li>Enter your email address</li>
+                      <li>Check your email for a verification code (it arrives within seconds)</li>
+                      <li>Enter the verification code on the sign-in page</li>
+                      <li>You'll be automatically redirected to your dashboard</li>
+                      <li>Your account is created on your first sign-in</li>
+                    </ol>
+                  </div>
+
                   <div className="mt-4 rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
                     <p className="text-sm text-emerald-900 dark:text-emerald-200">
-                      <strong>Note:</strong> We use Google Sign-In for secure, password-free
-                      authentication. Your account is created automatically on first sign-in.
+                      <strong>Note:</strong> Both methods provide secure, password-free
+                      authentication. No passwords to remember or manage! Your account is created
+                      automatically on first sign-in.
+                    </p>
+                  </div>
+
+                  <div className="mt-4 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+                    <p className="text-sm text-blue-900 dark:text-blue-200">
+                      <strong>Pro Tip:</strong> Email sign-in codes expire after 60 minutes for
+                      security. If your code expires, simply request a new one.
                     </p>
                   </div>
                 </div>
@@ -374,18 +436,22 @@ export default function DocsPage() {
                   <div className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-900/40">
                     <Lock className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h2 className="text-2xl font-bold">How to Change Your Password</h2>
+                  <h2 className="text-2xl font-bold">Account Security & Password-Free Sign-In</h2>
                 </div>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    Since Prompt Manage uses Google Sign-In, you don't manage a password directly
-                    with us. Instead, your account security is managed through Google.
+                    Prompt Manage uses password-free authentication for enhanced security. The way
+                    you manage your account security depends on how you signed up:
                   </p>
 
                   <div>
                     <h3 className="mb-2 font-semibold text-foreground">
-                      To change your Google account password:
+                      If you signed up with Google:
                     </h3>
+                    <p className="mb-2">
+                      Your account security is managed through Google. You don't have a separate
+                      password for Prompt Manage.
+                    </p>
                     <ol className="list-decimal space-y-2 pl-6">
                       <li>
                         Go to{' '}
@@ -399,7 +465,8 @@ export default function DocsPage() {
                         </a>
                       </li>
                       <li>
-                        Click on <strong className="text-foreground">"Password"</strong>
+                        Click on <strong className="text-foreground">"Password"</strong> to change
+                        your Google password
                       </li>
                       <li>Follow Google's prompts to update your password</li>
                       <li>
@@ -409,10 +476,47 @@ export default function DocsPage() {
                     </ol>
                   </div>
 
+                  <div>
+                    <h3 className="mb-2 font-semibold text-foreground">
+                      If you signed up with Email (Magic Link):
+                    </h3>
+                    <p className="mb-2">
+                      You don't have a password at all! Instead, you receive a fresh verification
+                      code every time you sign in.
+                    </p>
+                    <ul className="list-disc space-y-2 pl-6">
+                      <li>
+                        <strong className="text-foreground">No password to change:</strong> Email
+                        sign-in uses one-time codes sent to your inbox
+                      </li>
+                      <li>
+                        <strong className="text-foreground">Each code is unique:</strong> Codes
+                        expire after 60 minutes and can only be used once
+                      </li>
+                      <li>
+                        <strong className="text-foreground">More secure:</strong> Since there's no
+                        password to steal or forget, your account is protected by your email
+                        provider's security
+                      </li>
+                      <li>
+                        <strong className="text-foreground">To secure your account:</strong> Enable
+                        2-factor authentication on your email provider (Gmail, Outlook, etc.)
+                      </li>
+                    </ul>
+                  </div>
+
                   <div className="mt-4 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
                     <p className="text-sm text-blue-900 dark:text-blue-200">
-                      <strong>Security Tip:</strong> Enable 2-factor authentication on your Google
-                      account for extra security across all services, including Prompt Manage.
+                      <strong>Security Tip:</strong> Whether you use Google or Email sign-in, enable
+                      2-factor authentication on your email account for maximum security.
+                    </p>
+                  </div>
+
+                  <div className="mt-4 rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
+                    <p className="text-sm text-emerald-900 dark:text-emerald-200">
+                      <strong>Want to switch?</strong> You can add multiple sign-in methods to your
+                      account. Just sign in using a different method (Google or Email) with the same
+                      email address, and they'll be linked automatically.
                     </p>
                   </div>
                 </div>

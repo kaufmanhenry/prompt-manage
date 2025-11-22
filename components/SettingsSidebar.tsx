@@ -77,7 +77,7 @@ export function SettingsSidebar({ session }: SettingsSidebarProps) {
       <div className="shrink-0 border-b p-4">
         <Link
           href="/dashboard"
-          className="mb-2 flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-80"
+          className="mb-2 flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-80"
         >
           <Image
             src="/logo.svg"

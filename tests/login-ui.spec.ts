@@ -18,7 +18,8 @@ test('login buttons are visible and correctly styled', async ({ page }: { page: 
   try {
     await expect(googleBtn).toBeVisible({ timeout: 5000 })
     // Verify it has key styling classes (using regex to be more resilient to class changes)
-    await expect(googleBtn).toHaveClass(/h-12/) // Height
+    // Note: Height is now responsive (sm:h-11) for mobile-first design
+    await expect(googleBtn).toHaveClass(/sm:h-11/) // Responsive height
     await expect(googleBtn).toHaveClass(/bg-primary/) // Primary background
     await expect(googleBtn).toHaveClass(/rounded/) // Rounded corners
   } catch (e) {
@@ -30,7 +31,7 @@ test('login buttons are visible and correctly styled', async ({ page }: { page: 
   // Check Email Sign In button in hero
   const emailBtn = heroContainer.getByRole('button', { name: 'Sign in with Email' })
   await expect(emailBtn).toBeVisible()
-  await expect(emailBtn).toHaveClass(/h-12/)
+  await expect(emailBtn).toHaveClass(/sm:h-11/)
 
   // Check Browse Templates button in hero
   const browseBtn = heroContainer.getByRole('button', { name: 'Browse Templates' })

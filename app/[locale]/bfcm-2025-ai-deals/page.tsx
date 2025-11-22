@@ -306,6 +306,19 @@ const verifiedDeals: Deal[] = [
     discount: '65%',
     dealType: 'annual',
   },
+  {
+    tool: 'Postel',
+    logo: '/logos/postel-logo.png',
+    url: 'https://postel.app?atp=mjmolo',
+    dealHighlight: 'Black Friday Deal - Special Discount',
+    benefit:
+      'Create X content so good it gets you clients. Analyzes thousands of viral posts to create high-performing content that matches your voice.',
+    verified: true,
+    dealPeriod: 'Nov 28 - Dec 3, 2025',
+    discount: 'Special Offer',
+    dealType: 'annual',
+    terms: 'Turn raw thoughts into viral posts. No low-effort AI content.',
+  },
 ]
 
 const featuredCategories = [
@@ -332,7 +345,7 @@ const featuredCategories = [
   },
   {
     name: 'Indie Hacker',
-    count: '8 deals',
+    count: '9 deals',
     avgDiscount: '25-65%',
     icon: ArrowRight,
     color: 'orange',
@@ -572,7 +585,7 @@ export default function BFCMDealsPage() {
             {/* Stats Bar */}
             <div className="mx-auto mb-10 grid max-w-3xl grid-cols-3 gap-6 rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
               <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">18</div>
+                <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">19</div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">Verified Deals</div>
               </div>
               <div className="text-center">

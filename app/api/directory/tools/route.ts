@@ -140,14 +140,23 @@ export async function POST(request: Request) {
       .replace(/[^\w-]/g, '')
       .substring(0, 50)
 
+    // Check if user is admin
+    const { isAdmin } = await import('@/utils/admin')
+    const isAdminUser = isAdmin(session.user.email)
+
+    // Use admin client if user is admin (allows setting admin-only fields)
+    const dbClient = isAdminUser
+      ? (await import('@/utils/supabase/server')).createAdminClient()
+      : supabase
+
     // Insert the tool
-    const { data: tool, error } = await supabase
+    const { data: tool, error } = await dbClient
       .from('ai_tools')
       .insert({
         ...body,
         slug,
         submitted_by: session.user.id,
-        status: 'pending', // Default to pending for moderation
+        status: isAdminUser && body.status ? body.status : 'pending', // Admins can set status
       })
       .select()
       .single()

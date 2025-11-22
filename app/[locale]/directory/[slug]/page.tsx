@@ -118,10 +118,10 @@ export default async function ToolDetailPage({ params }: PageProps) {
     },
     aggregateRating: tool.rating
       ? {
-        '@type': 'AggregateRating',
-        ratingValue: tool.rating,
-        reviewCount: tool.review_count,
-      }
+          '@type': 'AggregateRating',
+          ratingValue: tool.rating,
+          reviewCount: tool.review_count,
+        }
       : undefined,
   }
 

@@ -479,7 +479,9 @@ export default function SubmitToolPage() {
                     placeholder="https://example.com/logo.png"
                     {...register('logo_url')}
                   />
-                  <p className="mt-1 text-xs text-gray-500">Direct link to your tool's logo image</p>
+                  <p className="mt-1 text-xs text-gray-500">
+                    Direct link to your tool's logo image
+                  </p>
                 </div>
 
                 <div>

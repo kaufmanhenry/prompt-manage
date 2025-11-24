@@ -272,7 +272,8 @@ export default async function SunoPromptsPage() {
                   Looking for more AI tools?
                 </h3>
                 <p className="text-xs text-gray-600 dark:text-gray-400">
-                  Explore our comprehensive AI Tools Directory with reviews, features, and comparisons
+                  Explore our comprehensive AI Tools Directory with reviews, features, and
+                  comparisons
                 </p>
               </div>
               <Link href="/directory">

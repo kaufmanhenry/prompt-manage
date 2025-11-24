@@ -81,14 +81,6 @@ export function Sidebar({
         }
         return [tagFromUrl]
       })
-    } else {
-      // Clear tag filters if no tag in URL
-      setTagFilters((current) => {
-        if (current.length === 0) {
-          return current
-        }
-        return []
-      })
     }
   }, [searchParams])
 

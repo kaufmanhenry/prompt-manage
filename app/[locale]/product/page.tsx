@@ -5,13 +5,13 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Product — Prompt Manage',
   description:
-    'The complete CMS for AI prompts. Store unlimited prompts, share with your team, organize with collections, and scale your AI workflows. Built for teams and enterprises.',
+    'The complete CMS for AI prompts. Store unlimited prompts, share with your team, and scale your AI workflows. Built for teams and enterprises.',
   keywords: [
     'prompt management',
     'AI prompts',
     'team collaboration',
     'unlimited prompts',
-    'prompt collections',
+
     'bulk import export',
     'prompt CMS',
   ],
@@ -33,8 +33,8 @@ export default function ProductPage() {
               Your Complete CMS for AI Prompts
             </h1>
             <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
-              Store unlimited prompts, share with your team, and organize everything with
-              collections. Built for teams and enterprises who need real prompt management.
+              Store unlimited prompts, share with your team, and organize everything with Built for
+              teams and enterprises who need real prompt management.
             </p>
             <p className="mb-10 text-lg text-muted-foreground">
               Stop managing prompts in spreadsheets and Notion. Get a dedicated platform designed
@@ -95,8 +95,7 @@ export default function ProductPage() {
               <h3 className="mb-2 text-xl font-semibold">Share with Your Team</h3>
               <p className="mb-4 text-muted-foreground">
                 <strong>Team plan:</strong> Up to 5 team members. <strong>Pro plan:</strong> Up to
-                25 members. Share prompts, collections, and collaborate in real-time with role-based
-                permissions.
+                25 members. Share prompts and collaborate in real-time with role-based permissions.
               </p>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span className="font-medium">Included in:</span>
@@ -104,15 +103,14 @@ export default function ProductPage() {
               </div>
             </div>
 
-            {/* Collections */}
             <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30">
                 <Database className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
-              <h3 className="mb-2 text-xl font-semibold">Organize with Collections</h3>
+              <h3 className="mb-2 text-xl font-semibold">Organize Prompts</h3>
               <p className="mb-4 text-muted-foreground">
-                Group prompts by project, use case, or AI model. Create private collections for your
-                team or public collections to showcase your work. All plans include collections.
+                Group prompts by project, use case, or AI model. Create private groups for your team
+                or public groups to showcase your work. All plans include organization features.
               </p>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span className="font-medium">Available on:</span>
@@ -212,7 +210,7 @@ export default function ProductPage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                  <span className="text-sm">Collections</span>
+                  <span className="text-sm">Organization</span>
                 </li>
               </ul>
               <Link
@@ -255,7 +253,7 @@ export default function ProductPage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-                  <span className="text-sm">Team collections</span>
+                  <span className="text-sm">Team organization</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
@@ -359,8 +357,8 @@ export default function ProductPage() {
             <div className="rounded-xl border border-border bg-card p-8">
               <h3 className="mb-3 text-xl font-semibold">Product Teams</h3>
               <p className="mb-4 text-muted-foreground">
-                A/B test prompt variations, track performance, and share winning prompts in
-                collections. Scale from experiments to production.
+                A/B test prompt variations, track performance, and share winning prompts in Scale
+                from experiments to production.
               </p>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span>Best for:</span>

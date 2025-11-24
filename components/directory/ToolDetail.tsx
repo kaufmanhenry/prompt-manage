@@ -199,7 +199,7 @@ export default function ToolDetail({
 
       for (const pattern of patterns) {
         const match = url.match(pattern)
-        if (match && match[1]) {
+        if (match?.[1]) {
           return `https://www.youtube.com/embed/${match[1]}`
         }
       }

@@ -76,19 +76,22 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const planConfig = PRICING_CONFIG[plan as PlanType]
-    const priceId = planConfig.stripePriceId || null
-
-    if (!priceId || priceId === '') {
-      console.error(
-        `Missing Stripe Price ID for plan: ${plan}. Please set environment variable: STRIPE_PRICE_${plan.toUpperCase()}_MONTHLY_ID`,
-      )
+    // Get Stripe Price ID from server-side config
+    let priceId: string
+    try {
+      // Import server-side pricing config
+      const { getStripePriceId } = await import('@/lib/pricing-server')
+      priceId = getStripePriceId(plan as Exclude<PlanType, 'free'>)
+    } catch (error) {
+      console.error(`Error getting Stripe Price ID for plan: ${plan}`, error)
       return NextResponse.json(
         {
           error:
-            'Plan does not have a price ID configured. Please add Stripe price IDs to environment variables.',
+            error instanceof Error
+              ? error.message
+              : 'Plan does not have a price ID configured. Please contact support.',
         },
-        { status: 400 },
+        { status: 500 },
       )
     }
 

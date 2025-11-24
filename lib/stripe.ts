@@ -42,14 +42,12 @@ export const STRIPE_CONFIG = {
     team: {
       name: PRICING_CONFIG.team.name,
       price: PRICING_CONFIG.team.price,
-      priceId: PRICING_CONFIG.team.stripePriceId,
       features: PRICING_CONFIG.team.features,
       limits: PRICING_CONFIG.team.limits,
     },
     pro: {
       name: PRICING_CONFIG.pro.name,
       price: PRICING_CONFIG.pro.price,
-      priceId: PRICING_CONFIG.pro.stripePriceId,
       features: PRICING_CONFIG.pro.features,
       limits: PRICING_CONFIG.pro.limits,
     },

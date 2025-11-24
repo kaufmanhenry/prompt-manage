@@ -27,7 +27,6 @@ export interface PlanFeatures {
     canExport: boolean
     teamMembers?: number
   }
-  stripePriceId?: string
 }
 
 export const PRICING_CONFIG: Record<PlanType, PlanFeatures> = {
@@ -72,7 +71,6 @@ export const PRICING_CONFIG: Record<PlanType, PlanFeatures> = {
       canExport: true,
       teamMembers: 5,
     },
-    stripePriceId: process.env.STRIPE_PRICE_TEAM_MONTHLY_ID || '',
   },
   pro: {
     name: 'Pro',
@@ -95,7 +93,6 @@ export const PRICING_CONFIG: Record<PlanType, PlanFeatures> = {
       canExport: true,
       teamMembers: 25,
     },
-    stripePriceId: process.env.STRIPE_PRICE_PRO_MONTHLY_ID || '',
   },
 }
 

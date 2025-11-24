@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     try {
       // Import server-side pricing config
       const { getStripePriceId } = await import('@/lib/pricing-server')
-      priceId = getStripePriceId(plan as Exclude<PlanType, 'free'>)
+      priceId = getStripePriceId(plan as PlanType)
     } catch (error) {
       console.error(`Error getting Stripe Price ID for plan: ${plan}`, error)
       return NextResponse.json(

@@ -83,7 +83,7 @@ async function getRelatedTools(tool: AITool) {
     .limit(6)
 
   return (
-    relatedTools?.map((t) => ({
+    relatedTools?.map((t: any) => ({
       ...t,
       category_name: t.category?.name || 'Uncategorized',
     })) || []

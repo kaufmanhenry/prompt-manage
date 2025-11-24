@@ -13,10 +13,19 @@ export async function GET(request: Request) {
 
     const supabase = createServerSideClient()
 
-    let query = supabase
-      .from('ai_tools')
-      .select(
-        `
+    // Check if user is admin
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    let isAdminUser = false
+    if (session?.user?.email) {
+      const { isAdmin } = await import('@/utils/admin')
+      isAdminUser = isAdmin(session.user.email)
+    }
+
+    let query = supabase.from('ai_tools').select(
+      `
         id,
         name,
         slug,
@@ -31,17 +40,23 @@ export async function GET(request: Request) {
         favorite_count,
         view_count,
         upvote_count,
-        key_features
+        key_features,
+        status
       `,
-        { count: 'exact' },
-      )
-      .eq('status', 'approved')
-      .order(
-        sort === 'popular' ? 'upvote_count' : sort === 'highest_rated' ? 'rating' : 'created_at',
-        {
-          ascending: sort === 'popular' || sort === 'highest_rated' ? false : false,
-        },
-      )
+      { count: 'exact' },
+    )
+
+    // Filter by status - show all for admins, only approved for others
+    if (!isAdminUser) {
+      query = query.eq('status', 'approved')
+    }
+
+    query = query.order(
+      sort === 'popular' ? 'upvote_count' : sort === 'highest_rated' ? 'rating' : 'created_at',
+      {
+        ascending: sort === 'popular' || sort === 'highest_rated' ? false : false,
+      },
+    )
 
     // Apply search filter
     if (search) {

@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
@@ -67,12 +68,19 @@ export default async function CreatorProfilePage({ params }: Props) {
   return (
     <div className="mx-auto max-w-6xl p-6">
       <div className="mb-8 flex items-center gap-4">
-        {/* Avatar */}
-        <div className="h-16 w-16 overflow-hidden rounded-full bg-gray-200">
-          {profile.avatar_url ? (
-            <img src={profile.avatar_url} alt="avatar" className="h-full w-full object-cover" />
-          ) : null}
-        </div>
+        {profile.avatar_url ? (
+          <div className="relative h-16 w-16 overflow-hidden rounded-full bg-gray-200">
+            <Image
+              src={profile.avatar_url}
+              alt="avatar"
+              fill
+              className="object-cover"
+              unoptimized
+            />
+          </div>
+        ) : (
+          <div className="h-16 w-16 overflow-hidden rounded-full bg-gray-200" />
+        )}
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-bold">
             {profile.display_name || profile.username}

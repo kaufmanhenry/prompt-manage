@@ -73,12 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     // Tools and utilities
-    {
-      url: `${baseUrl}/generator`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    },
+
     // Legal pages - lower priority
     {
       url: `${baseUrl}/terms`,

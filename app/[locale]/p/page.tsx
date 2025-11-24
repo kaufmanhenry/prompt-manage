@@ -390,6 +390,10 @@ function PublicDirectoryContent() {
                       {/* Stats */}
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <span>{prompt.view_count || 0} views</span>
+                        {prompt.copy_count !== undefined && prompt.copy_count > 0 && (
+                          <span>• {prompt.copy_count} {prompt.copy_count === 1 ? 'copy' : 'copies'}</span>
+                        )}
+                        <span>•</span>
                         <span>
                           {prompt.inserted_at
                             ? new Date(prompt.inserted_at).toLocaleDateString()

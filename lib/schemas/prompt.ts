@@ -87,7 +87,9 @@ export type PublicPrompt = Pick<
   | 'view_count'
   | 'inserted_at'
   | 'updated_at'
->
+> & {
+  copy_count?: number
+}
 
 // Schema for copying a public prompt
 export const copyPromptSchema = z.object({

@@ -31,6 +31,7 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient()
 
     // Build query - only select needed fields for performance
+    // Note: We'll calculate copy_count via subquery
     let query = supabase
       .from('prompts')
       .select(
@@ -81,6 +82,24 @@ export async function GET(request: NextRequest) {
       )
     }
 
+    // Fetch copy counts for all prompts in this batch
+    const promptIds = (data || []).map((p) => p.id)
+    const { data: copyCounts } = await supabase
+      .from('prompts')
+      .select('parent_prompt_id')
+      .in('parent_prompt_id', promptIds)
+
+    // Count copies per prompt
+    const copyCountMap = new Map<string, number>()
+    copyCounts?.forEach((copy) => {
+      if (copy.parent_prompt_id) {
+        copyCountMap.set(
+          copy.parent_prompt_id,
+          (copyCountMap.get(copy.parent_prompt_id) || 0) + 1,
+        )
+      }
+    })
+
     // Transform data to ensure all required fields exist
     const transformedData = (data || []).map((prompt) => ({
       ...prompt,
@@ -89,6 +108,7 @@ export async function GET(request: NextRequest) {
       is_public: true, // All results are public
       slug: prompt.slug || prompt.id, // Fallback to ID if no slug
       view_count: prompt.view_count || 0,
+      copy_count: copyCountMap.get(prompt.id) || 0, // Add copy count
       inserted_at: prompt.inserted_at || prompt.updated_at || null,
     }))
 

@@ -20,6 +20,7 @@ export interface AITool {
   full_description: string
   logo_url: string | null
   banner_image_url: string | null
+  video_url: string | null
   company_name: string
   company_website: string | null
   contact_email: string
@@ -185,6 +186,37 @@ export default function ToolDetail({
     }
   }
 
+  // Extract YouTube video ID from URL
+  const getYouTubeEmbedUrl = (url: string): string | null => {
+    if (!url) return null
+
+    try {
+      // Handle various YouTube URL formats
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+        /youtube\.com\/watch\?.*?v=([a-zA-Z0-9_-]{11})/,
+      ]
+
+      for (const pattern of patterns) {
+        const match = url.match(pattern)
+        if (match && match[1]) {
+          return `https://www.youtube.com/embed/${match[1]}`
+        }
+      }
+
+      // If already an embed URL, return as is
+      if (url.includes('youtube.com/embed/')) {
+        return url
+      }
+
+      return null
+    } catch {
+      return null
+    }
+  }
+
+  const videoEmbedUrl = tool.video_url ? getYouTubeEmbedUrl(tool.video_url) : null
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       {/* Banner Image */}
@@ -288,6 +320,24 @@ export default function ToolDetail({
                 <p className="text-gray-600 dark:text-gray-400">{tool.full_description}</p>
               )}
             </div>
+
+            {/* Video Demo/Tutorial */}
+            {videoEmbedUrl && (
+              <div>
+                <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
+                  Video Demo
+                </h2>
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900">
+                  <iframe
+                    src={videoEmbedUrl}
+                    title={`${tool.name} video demo`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 h-full w-full"
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Key Features */}
             {tool.key_features && tool.key_features.length > 0 && (

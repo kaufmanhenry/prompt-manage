@@ -64,21 +64,32 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
   const { toast } = useToast()
   const supabase = createClient()
 
-  // Track page view
+  // Increment view count on mount (with deduplication)
   useEffect(() => {
-    const trackView = async () => {
-      try {
-        await supabase
-          .from('ai_tools')
-          .update({ view_count: (tool.view_count || 0) + 1 })
-          .eq('id', tool.id)
-      } catch (error) {
-        console.error('Failed to track view:', error)
+    const incrementView = async () => {
+      if (!tool?.id) return
+
+      // Check if already viewed in this session
+      const viewedKey = `tool_viewed_${tool.id}`
+      const hasViewed = sessionStorage.getItem(viewedKey)
+
+      if (!hasViewed) {
+        try {
+          // Use RPC function for atomic increment
+          await supabase.rpc('increment_tool_views', { tool_id: tool.id })
+
+          // Mark as viewed in this session
+          sessionStorage.setItem(viewedKey, 'true')
+        } catch (error) {
+          console.error('View count error:', error)
+        }
       }
     }
 
-    void trackView()
-  }, [tool.id, tool.view_count, supabase])
+    // Delay 2 seconds to ensure it's not a bounce
+    const timer = setTimeout(incrementView, 2000)
+    return () => clearTimeout(timer)
+  }, [tool?.id, supabase])
 
   const handleFavorite = async () => {
     const {

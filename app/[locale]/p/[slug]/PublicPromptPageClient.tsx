@@ -174,13 +174,19 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
         setCreatorUsername(profile?.username ?? null)
       }
 
-      // Increment view count (only if the function exists)
-      try {
-        await createClient().rpc('increment_prompt_views', {
-          prompt_id: data.id,
-        })
-      } catch (viewError) {
-        console.error('View count increment error:', viewError)
+      // Increment view count (with deduplication)
+      const viewedKey = `prompt_viewed_${data.id}`
+      const hasViewed = sessionStorage.getItem(viewedKey)
+
+      if (!hasViewed) {
+        try {
+          await createClient().rpc('increment_prompt_views', {
+            prompt_id: data.id,
+          })
+          sessionStorage.setItem(viewedKey, 'true')
+        } catch (viewError) {
+          console.error('View count increment error:', viewError)
+        }
       }
     } catch (error) {
       console.error('Prompt fetch error:', error)

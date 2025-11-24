@@ -216,7 +216,7 @@ export default async function Home() {
           <section className="grid w-full items-center gap-8 py-8 md:grid-cols-2 md:gap-10 md:py-24 lg:gap-16">
             {/* Left: Copy */}
             <div className="order-1 w-full text-left md:order-1">
-              <h1 className="mb-4 break-words text-2xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-4xl md:mb-6 md:text-5xl lg:text-[3.5rem]">
+              <h1 className="mb-4 break-words text-2xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl xl:text-[3.5rem]">
                 Stop Losing Your Best Prompts
               </h1>
               <p className="mb-3 break-words text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg lg:text-xl">
@@ -298,7 +298,7 @@ export default async function Home() {
                   </Link>
                 </div>
               )}
-              <div className="mt-4 flex w-full flex-wrap items-center gap-1.5 sm:gap-2">
+              <div className="mt-4 flex w-full flex-wrap items-center gap-2 sm:gap-2.5">
                 <span className="shrink-0 text-xs text-muted-foreground">Popular models:</span>
                 {[
                   'gpt-4',

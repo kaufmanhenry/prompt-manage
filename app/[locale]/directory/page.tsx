@@ -1,9 +1,29 @@
+import dynamic from 'next/dynamic'
+
 import { DirectoryContent } from '@/components/directory/DirectoryContent'
 import { DirectoryHero } from '@/components/directory/DirectoryHero'
-import { FeaturedTools } from '@/components/directory/FeaturedTools'
-import { NewArrivals } from '@/components/directory/NewArrivals'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/i18n/routing'
+
+// Lazy load below-fold components
+const FeaturedTools = dynamic(
+  () =>
+    import('@/components/directory/FeaturedTools').then((mod) => ({ default: mod.FeaturedTools })),
+  {
+    loading: () => (
+      <div className="mb-16 h-64 animate-pulse rounded-lg bg-gray-100 dark:bg-gray-800" />
+    ),
+  },
+)
+
+const NewArrivals = dynamic(
+  () => import('@/components/directory/NewArrivals').then((mod) => ({ default: mod.NewArrivals })),
+  {
+    loading: () => (
+      <div className="mb-16 h-64 animate-pulse rounded-lg bg-gray-100 dark:bg-gray-800" />
+    ),
+  },
+)
 
 interface PageProps {
   searchParams: Promise<{
@@ -57,13 +77,13 @@ export default async function DirectoryPage({ searchParams }: PageProps) {
                       Submit Your Tool
                     </Button>
                   </Link>
-                  <Link href="/tools">
+                  <Link href="/p">
                     <Button
                       size="lg"
                       variant="outline"
                       className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30"
                     >
-                      View Prompt Collections
+                      Browse Prompts
                     </Button>
                   </Link>
                 </div>

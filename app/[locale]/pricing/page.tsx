@@ -51,7 +51,7 @@ export default function PricingPage() {
             <Sparkles className="h-3.5 w-3.5" />
             Simple, transparent pricing
           </div>
-          <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
+          <h1 className="mb-6 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
             Choose your plan
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground md:text-xl">

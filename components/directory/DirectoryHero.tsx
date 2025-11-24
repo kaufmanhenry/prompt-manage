@@ -31,7 +31,7 @@ export function DirectoryHero() {
             Submit a Tool
           </Button>
         </Link>
-        <Link href="/tools">
+        <Link href="/p">
           <Button size="lg" variant="outline">
             Browse Prompts
           </Button>

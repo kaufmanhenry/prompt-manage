@@ -43,7 +43,7 @@ export async function NewArrivals() {
                         alt={tool.name}
                         fill
                         className="rounded-lg object-cover"
-                        unoptimized
+                        sizes="48px"
                       />
                     </div>
                   ) : (

@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { getStripe } from '@/lib/stripe'
-import { STRIPE_CONFIG } from '@/lib/stripe'
 import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: NextRequest) {
@@ -39,12 +38,9 @@ export async function POST(request: NextRequest) {
 
         // If user already has a subscription, update it
         if (subscription?.stripe_subscription_id) {
-          const planConfig = STRIPE_CONFIG.plans[plan as 'team' | 'pro']
-          const newPriceId = planConfig.priceId
-
-          if (!newPriceId) {
-            return NextResponse.json({ error: 'Plan price not configured' }, { status: 400 })
-          }
+          // Get Price ID from server-side config
+          const { getStripePriceId } = await import('@/lib/pricing-server')
+          const newPriceId = getStripePriceId(plan as 'team' | 'pro')
 
           // Update subscription in Stripe
           await stripe.subscriptions.update(subscription.stripe_subscription_id, {
@@ -74,12 +70,8 @@ export async function POST(request: NextRequest) {
           process.env.NEXT_PUBLIC_APP_URL ||
           'http://localhost:3000'
 
-        const planConfig = STRIPE_CONFIG.plans[plan as 'team' | 'pro']
-        const priceId = planConfig.priceId
-
-        if (!priceId) {
-          return NextResponse.json({ error: 'Plan price not configured' }, { status: 400 })
-        }
+        const { getStripePriceId } = await import('@/lib/pricing-server')
+        const priceId = getStripePriceId(plan as 'team' | 'pro')
 
         // Get or create customer
         let customerId = subscription?.stripe_customer_id

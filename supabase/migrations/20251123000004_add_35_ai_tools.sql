@@ -1,6 +1,14 @@
 -- Add 35 comprehensive AI tools across all major categories
 -- Complete migration with images, videos, and full metadata
 
+-- Ensure columns exist first
+ALTER TABLE public.ai_tools ADD COLUMN IF NOT EXISTS banner_image_url TEXT;
+ALTER TABLE public.ai_tools ADD COLUMN IF NOT EXISTS video_url TEXT;
+ALTER TABLE public.ai_tools ADD COLUMN IF NOT EXISTS integrations TEXT[] DEFAULT '{}';
+ALTER TABLE public.ai_tools ADD COLUMN IF NOT EXISTS pricing_details_url TEXT;
+ALTER TABLE public.ai_tools ADD COLUMN IF NOT EXISTS github_url TEXT;
+ALTER TABLE public.ai_tools ADD COLUMN IF NOT EXISTS click_count INTEGER DEFAULT 0;
+
 INSERT INTO public.ai_tools (name, slug, website_url, description, full_description, company_name, company_website, contact_email, primary_category_id, logo_url, banner_image_url, video_url, pricing_model, pricing_tier, monthly_price, annual_price, has_free_trial, trial_duration_days, key_features, use_cases, platforms, ai_models_used, api_available, founded_year, is_open_source, status, is_featured, is_verified, rating, review_count, favorite_count, view_count)
 SELECT * FROM (VALUES
   -- AI Code Editors & Development

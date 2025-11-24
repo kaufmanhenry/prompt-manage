@@ -2,7 +2,7 @@
 
 import { ExternalLink, Heart, Share2, Star } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -60,6 +60,22 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
   const { toast } = useToast()
   const supabase = createClient()
 
+  // Track page view
+  useEffect(() => {
+    const trackView = async () => {
+      try {
+        await supabase
+          .from('ai_tools')
+          .update({ view_count: (tool.view_count || 0) + 1 })
+          .eq('id', tool.id)
+      } catch (error) {
+        console.error('Failed to track view:', error)
+      }
+    }
+
+    void trackView()
+  }, [tool.id, tool.view_count, supabase])
+
   const handleFavorite = async () => {
     const {
       data: { session },
@@ -80,11 +96,23 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
           .delete()
           .eq('tool_id', tool.id)
           .eq('user_id', session.user.id)
+
+        // Decrement favorite count
+        await supabase
+          .from('ai_tools')
+          .update({ favorite_count: Math.max(0, (tool.favorite_count || 0) - 1) })
+          .eq('id', tool.id)
       } else {
         await supabase.from('tool_favorites').insert({
           tool_id: tool.id,
           user_id: session.user.id,
         })
+
+        // Increment favorite count
+        await supabase
+          .from('ai_tools')
+          .update({ favorite_count: (tool.favorite_count || 0) + 1 })
+          .eq('id', tool.id)
       }
       setIsFavorited(!isFavorited)
     } catch (error: unknown) {
@@ -94,6 +122,23 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
         description: 'Failed to update favorite status',
         variant: 'destructive',
       })
+    }
+  }
+
+  const handleWebsiteClick = async () => {
+    try {
+      // Track click
+      await supabase.from('tool_clicks').insert({
+        tool_id: tool.id,
+      })
+
+      // Increment click count
+      await supabase
+        .from('ai_tools')
+        .update({ click_count: (tool.view_count || 0) + 1 })
+        .eq('id', tool.id)
+    } catch (err) {
+      console.error('Error tracking click:', err)
     }
   }
 
@@ -123,13 +168,31 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
-      {/* ... existing banner ... */}
+      {/* Banner Image */}
+      {tool.banner_image_url && (
+        <div className="relative h-48 w-full overflow-hidden bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950 sm:h-64">
+          <img
+            src={tool.banner_image_url}
+            alt={`${tool.name} banner`}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      )}
 
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex gap-6">
-            {/* ... existing logo ... */}
+            {/* Logo */}
+            {tool.logo_url && (
+              <div className="flex-shrink-0">
+                <img
+                  src={tool.logo_url}
+                  alt={`${tool.name} logo`}
+                  className="h-20 w-20 rounded-xl object-cover shadow-md sm:h-24 sm:w-24"
+                />
+              </div>
+            )}
             <div>
               <div className="mb-2 flex items-center gap-2">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{tool.name}</h1>
@@ -140,7 +203,7 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
 
               {/* Action Buttons */}
               <div className="flex gap-2">
-                <Link href={tool.website_url} target="_blank">
+                <Link href={tool.website_url} target="_blank" onClick={handleWebsiteClick}>
                   <Button className="bg-emerald-600 hover:bg-emerald-700">
                     <ExternalLink className="mr-2 h-4 w-4" />
                     Visit Website

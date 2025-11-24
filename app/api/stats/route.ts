@@ -46,14 +46,24 @@ export async function GET() {
       .select('*', { count: 'exact', head: true })
       .gte('inserted_at', today.toISOString())
 
-    // Get users active today (users who created prompts today)
-    const { data: activeUsersData } = await supabase
+    // Get users active today (users who created prompts or ran prompts today)
+    const { data: activePromptsData } = await supabase
       .from('prompts')
       .select('user_id')
       .gte('inserted_at', today.toISOString())
       .not('user_id', 'is', null)
 
-    const activeUsersToday = new Set(activeUsersData?.map((p) => p.user_id)).size
+    const { data: activeRunsData } = await supabase
+      .from('prompt_run_history')
+      .select('user_id')
+      .gte('created_at', today.toISOString())
+      .not('user_id', 'is', null)
+
+    const activeUserIds = new Set([
+      ...(activePromptsData?.map((p) => p.user_id) || []),
+      ...(activeRunsData?.map((r) => r.user_id) || []),
+    ])
+    const activeUsersToday = activeUserIds.size
 
     // Get prompt runs in last hour
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000)
@@ -118,23 +128,49 @@ export async function GET() {
         ? Math.round(((promptsThisMonth - promptsLastMonth) / promptsLastMonth) * 100 * 10) / 10
         : 0
 
+    // Get users active this month (real data)
+    const { data: usersThisMonthData } = await supabase
+      .from('prompts')
+      .select('user_id')
+      .gte('inserted_at', thisMonth.toISOString())
+      .not('user_id', 'is', null)
+
+    const usersThisMonth = new Set(usersThisMonthData?.map((p) => p.user_id)).size
+
+    // Get runs this month (real data)
+    const { count: runsThisMonth } = await supabase
+      .from('prompt_run_history')
+      .select('*', { count: 'exact', head: true })
+      .gte('created_at', thisMonth.toISOString())
+
+    // Get total copies (real data from parent_prompt_id)
+    const { count: totalCopies } = await supabase
+      .from('prompts')
+      .select('*', { count: 'exact', head: true })
+      .not('parent_prompt_id', 'is', null)
+
+    // Get total likes (real data from prompt_likes table)
+    const { count: totalLikes } = await supabase
+      .from('prompt_likes')
+      .select('*', { count: 'exact', head: true })
+
+    // Get total shares (real data from prompt_shares table)
+    const { count: totalShares } = await supabase
+      .from('prompt_shares')
+      .select('*', { count: 'exact', head: true })
+
     // Get average rating (placeholder - would need a ratings table)
     const averageRating = 4.8 // This would come from a ratings table
 
-    // Get total likes (placeholder - would need a likes table)
-    const totalLikes = Math.floor((totalPrompts || 0) * 4.5) // Estimate based on prompts
+    // Get total saves (same as copies for now - both represent users copying prompts)
+    const totalSaves = totalCopies || 0
 
-    // Get total shares (placeholder - would need a shares table)
-    const totalShares = Math.floor((totalPrompts || 0) * 2.2) // Estimate based on prompts
-
-    // Get total saves (placeholder - would need a saves table)
-    const totalSaves = Math.floor((totalPrompts || 0) * 3.0) // Estimate based on prompts
-
-    // Get total remixes (placeholder - would need a remixes table)
-    const totalRemixes = Math.floor((totalPrompts || 0) * 0.8) // Estimate based on prompts
-
-    // Get total copies (placeholder - would need a copies table)
-    const totalCopies = Math.floor((totalPrompts || 0) * 5.8) // Estimate based on prompts
+    // Get total remixes (prompts that were copied and then made public)
+    const { count: totalRemixes } = await supabase
+      .from('prompts')
+      .select('*', { count: 'exact', head: true })
+      .not('parent_prompt_id', 'is', null)
+      .eq('is_public', true)
 
     // Get daily prompts data from June 1st, 2025
     const juneFirst = new Date('2025-06-01')
@@ -238,13 +274,13 @@ export async function GET() {
       dailyPrompts,
       growthMetrics: {
         promptsThisMonth: promptsThisMonth || 0,
-        usersThisMonth: Math.floor((userCount || 0) * 0.15), // Estimate
-        runsThisMonth: Math.floor((totalRuns || 0) * 0.16), // Estimate
+        usersThisMonth: usersThisMonth,
+        runsThisMonth: runsThisMonth || 0,
         growthRate,
       },
       realTimeStats: {
         promptsCreatedToday: promptsToday || 0,
-        usersActiveNow: Math.floor(activeUsersToday * 0.1), // Estimate
+        usersActiveNow: activeUsersToday, // Real count of users active today
         runsInLastHour: runsLastHour || 0,
         newSignupsToday: newSignupsToday,
       },

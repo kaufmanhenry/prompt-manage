@@ -5,6 +5,7 @@ import {
   Bot,
   Calendar,
   Facebook,
+  Heart,
   Linkedin,
   Share2,
   TrendingUp,
@@ -44,6 +45,9 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
   const [creatorUsername, setCreatorUsername] = useState<string | null>(null)
   const [publicCount, setPublicCount] = useState<number | null>(null)
   const [isAgentGenerated, setIsAgentGenerated] = useState(false)
+  const [isLiked, setIsLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(0)
+  const supabase = createClient()
 
   // Schema.org structured data for this prompt
   const promptSchema = useMemo(() => {
@@ -190,6 +194,40 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
     void fetchPrompt()
   }, [params.slug, fetchPrompt])
 
+  // Fetch like status and count
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      if (!prompt?.id) return
+
+      try {
+        // Get like count
+        const { count } = await supabase
+          .from('prompt_likes')
+          .select('*', { count: 'exact', head: true })
+          .eq('prompt_id', prompt.id)
+        setLikeCount(count || 0)
+
+        // Check if current user has liked
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+        if (user) {
+          const { data } = await supabase
+            .from('prompt_likes')
+            .select('id')
+            .eq('prompt_id', prompt.id)
+            .eq('user_id', user.id)
+            .single()
+          setIsLiked(!!data)
+        }
+      } catch (err) {
+        console.error('Error fetching like status:', err)
+      }
+    }
+
+    void fetchLikeStatus()
+  }, [prompt?.id, supabase])
+
   // Fetch total public prompts count (for footer blurb)
   useEffect(() => {
     void (async () => {
@@ -224,9 +262,76 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
     return tags.slice(0, 3)
   }, [prompt, primaryCategory])
 
+  const trackShare = async (platform: string) => {
+    if (!prompt?.id) return
+    try {
+      await fetch('/api/analytics/share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt_id: prompt.id, platform }),
+      })
+    } catch (err) {
+      console.error('Failed to track share:', err)
+    }
+  }
+
+  const handleLike = async () => {
+    if (!prompt?.id) return
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      toast({
+        title: 'Sign in required',
+        description: 'Please sign in to like prompts',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    try {
+      if (isLiked) {
+        // Unlike
+        await supabase
+          .from('prompt_likes')
+          .delete()
+          .eq('prompt_id', prompt.id)
+          .eq('user_id', user.id)
+        setIsLiked(false)
+        setLikeCount((prev) => Math.max(0, prev - 1))
+        toast({
+          title: 'Removed like',
+          description: 'You unliked this prompt',
+        })
+      } else {
+        // Like
+        await supabase.from('prompt_likes').insert({
+          prompt_id: prompt.id,
+          user_id: user.id,
+        })
+        setIsLiked(true)
+        setLikeCount((prev) => prev + 1)
+        toast({
+          title: 'Liked!',
+          description: 'Added to your liked prompts',
+        })
+      }
+    } catch (err) {
+      console.error('Error toggling like:', err)
+      toast({
+        title: 'Error',
+        description: 'Failed to update like status',
+        variant: 'destructive',
+      })
+    }
+  }
+
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href)
+      await trackShare('copy_link')
       toast({
         title: 'Link Copied!',
         description: 'Public link copied to clipboard.',
@@ -241,29 +346,33 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
     }
   }
 
-  const handleShareToX = () => {
+  const handleShareToX = async () => {
     const url = encodeURIComponent(window.location.href)
     const text = encodeURIComponent(prompt?.name || 'Check out this prompt!')
+    await trackShare('twitter')
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
   }
 
-  const handleShareToLinkedIn = () => {
+  const handleShareToLinkedIn = async () => {
     const url = encodeURIComponent(window.location.href)
     const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
+    await trackShare('linkedin')
     window.open(
       `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`,
       '_blank',
     )
   }
 
-  const handleShareToFacebook = () => {
+  const handleShareToFacebook = async () => {
     const url = encodeURIComponent(window.location.href)
+    await trackShare('facebook')
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank')
   }
 
-  const handleShareToReddit = () => {
+  const handleShareToReddit = async () => {
     const url = encodeURIComponent(window.location.href)
     const title = encodeURIComponent(prompt?.name || 'Prompt on Prompt Manage')
+    await trackShare('reddit')
     window.open(`https://www.reddit.com/submit?url=${url}&title=${title}`, '_blank')
   }
 
@@ -367,6 +476,15 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
 
               <div className="flex shrink-0 items-start gap-2">
                 {prompt.id && <CopyPromptButton promptId={prompt.id} promptName={prompt.name} />}
+                <Button
+                  onClick={handleLike}
+                  variant="outline"
+                  className={isLiked ? 'bg-red-50 text-red-600 dark:bg-red-950/30' : ''}
+                >
+                  <Heart className={`mr-2 h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
+                  {likeCount > 0 && <span className="mr-1">{likeCount}</span>}
+                  {isLiked ? 'Liked' : 'Like'}
+                </Button>
                 <Button onClick={() => setShowShareDialog(true)} variant="outline">
                   <Share2 className="mr-2 h-4 w-4" />
                   Share

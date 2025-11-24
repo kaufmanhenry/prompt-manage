@@ -32,6 +32,9 @@ interface ToolFormData {
   website_url: string
   description: string
   full_description?: string
+  logo_url?: string
+  banner_image_url?: string
+  video_url?: string
   company_name?: string
   company_website?: string
   contact_email: string
@@ -466,6 +469,45 @@ export default function SubmitToolPage() {
                     className="min-h-[80px] w-full rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-950"
                     {...register('integrations')}
                   />
+                </div>
+
+                <div>
+                  <Label htmlFor="logo_url">Logo URL</Label>
+                  <Input
+                    id="logo_url"
+                    type="url"
+                    placeholder="https://example.com/logo.png"
+                    {...register('logo_url')}
+                  />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Direct link to your tool's logo image
+                  </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="banner_image_url">Banner Image URL</Label>
+                  <Input
+                    id="banner_image_url"
+                    type="url"
+                    placeholder="https://example.com/banner.jpg"
+                    {...register('banner_image_url')}
+                  />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Hero image for your tool page (recommended: 1200x630px)
+                  </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="video_url">Video Demo/Tutorial URL</Label>
+                  <Input
+                    id="video_url"
+                    type="url"
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    {...register('video_url')}
+                  />
+                  <p className="mt-1 text-xs text-gray-500">
+                    YouTube video URL showcasing your tool (demo, tutorial, or promotional video)
+                  </p>
                 </div>
 
                 <div>

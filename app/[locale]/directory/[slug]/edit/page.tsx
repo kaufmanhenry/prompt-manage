@@ -35,6 +35,7 @@ interface ToolFormData {
   full_description?: string
   logo_url?: string
   banner_image_url?: string
+  video_url?: string
   company_name?: string
   company_website?: string
   contact_email: string
@@ -307,6 +308,14 @@ export default function EditToolPage({ params }: { params: Promise<{ slug: strin
                   <Input id="banner_image_url" type="url" {...register('banner_image_url')} />
                   <p className="mt-1 text-xs text-gray-500">
                     Wide image recommended (e.g., 1200x630px)
+                  </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="video_url">Video Demo/Tutorial URL</Label>
+                  <Input id="video_url" type="url" {...register('video_url')} />
+                  <p className="mt-1 text-xs text-gray-500">
+                    YouTube video URL showcasing your tool (e.g., demo, tutorial, or promo video)
                   </p>
                 </div>
               </div>

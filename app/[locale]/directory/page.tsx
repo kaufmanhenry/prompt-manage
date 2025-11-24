@@ -1,6 +1,7 @@
 'use client'
 
 import { Plus, Search, Star } from 'lucide-react'
+import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -59,7 +60,7 @@ export default function DirectoryPage() {
   const [pricingFilter, setPricingFilter] = useState(searchParams.get('pricing') || 'all')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalTools, setTotalTools] = useState(0)
-  const TOOLS_PER_PAGE = 20
+  const TOOLS_PER_PAGE = 21
 
   // Debounce search
   useEffect(() => {
@@ -261,7 +262,9 @@ export default function DirectoryPage() {
         {/* Results Count */}
         <div className="mb-6 flex items-center justify-between">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            {loading ? 'Loading...' : `${tools.length} tool${tools.length !== 1 ? 's' : ''} found`}
+            {loading
+              ? 'Loading...'
+              : `Showing ${tools.length} of ${totalTools} AI tool${totalTools !== 1 ? 's' : ''}`}
           </p>
         </div>
 
@@ -282,12 +285,29 @@ export default function DirectoryPage() {
                   <div className="flex h-full flex-col p-6">
                     {/* Logo & Category */}
                     <div className="mb-4 flex items-start justify-between">
-                      {tool.logo_url && (
-                        <img
-                          src={tool.logo_url}
-                          alt={tool.name}
-                          className="h-14 w-14 rounded-lg object-cover"
-                        />
+                      {tool.logo_url ? (
+                        <div className="relative h-14 w-14 flex-shrink-0">
+                          <Image
+                            src={tool.logo_url}
+                            alt={tool.name}
+                            fill
+                            className="rounded-lg object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement
+                              target.style.display = 'none'
+                              if (target.parentElement) {
+                                target.parentElement.innerHTML = `<div class="flex h-14 w-14 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900"><span class="text-xl font-bold text-emerald-700 dark:text-emerald-300">${tool.name.charAt(0)}</span></div>`
+                              }
+                            }}
+                            unoptimized
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900">
+                          <span className="text-xl font-bold text-emerald-700 dark:text-emerald-300">
+                            {tool.name.charAt(0)}
+                          </span>
+                        </div>
                       )}
                       <Badge variant="secondary" className="ml-2">
                         {tool.category_name}

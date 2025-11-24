@@ -59,6 +59,37 @@ async function getFavoriteStatus(toolId: string) {
   return !!favorite
 }
 
+async function getRelatedTools(tool: AITool) {
+  const supabase = await createClient()
+
+  // Get tools in the same category
+  const { data: relatedTools } = await supabase
+    .from('ai_tools')
+    .select(
+      `
+      id,
+      name,
+      slug,
+      description,
+      logo_url,
+      rating,
+      category:primary_category_id(name)
+    `,
+    )
+    .eq('primary_category_id', tool.primary_category_id)
+    .neq('id', tool.id)
+    .eq('status', 'approved')
+    .order('view_count', { ascending: false })
+    .limit(6)
+
+  return (
+    relatedTools?.map((t: any) => ({
+      ...t,
+      category_name: t.category?.name || 'Uncategorized',
+    })) || []
+  )
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const tool = await getTool(slug)
@@ -109,6 +140,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
   } = await supabase.auth.getSession()
   const isFavorited = await getFavoriteStatus(tool.id)
   const userIsAdmin = isAdmin(session?.user?.email)
+  const relatedTools = await getRelatedTools(tool)
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -137,7 +169,12 @@ export default async function ToolDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ToolDetail tool={tool} initialIsFavorited={isFavorited} isAdmin={userIsAdmin} />
+      <ToolDetail
+        tool={tool}
+        initialIsFavorited={isFavorited}
+        isAdmin={userIsAdmin}
+        relatedTools={relatedTools}
+      />
     </>
   )
 }

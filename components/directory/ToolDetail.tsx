@@ -1,6 +1,7 @@
 'use client'
 
 import { ExternalLink, Heart, Share2, Star } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -19,6 +20,7 @@ export interface AITool {
   full_description: string
   logo_url: string | null
   banner_image_url: string | null
+  video_url: string | null
   company_name: string
   company_website: string | null
   contact_email: string
@@ -49,14 +51,32 @@ export interface AITool {
   is_featured: boolean
 }
 
+interface RelatedTool {
+  id: string
+  name: string
+  slug: string
+  description: string
+  logo_url: string | null
+  rating: number | null
+  category_name: string
+}
+
 interface ToolDetailProps {
   tool: AITool
   initialIsFavorited: boolean
   isAdmin?: boolean
+  relatedTools?: RelatedTool[]
 }
 
-export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDetailProps) {
+export default function ToolDetail({
+  tool,
+  initialIsFavorited,
+  isAdmin,
+  relatedTools = [],
+}: ToolDetailProps) {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited)
+  const [logoError, setLogoError] = useState(false)
+  const [bannerError, setBannerError] = useState(false)
   const { toast } = useToast()
   const supabase = createClient()
 
@@ -166,15 +186,49 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
     }
   }
 
+  // Extract YouTube video ID from URL
+  const getYouTubeEmbedUrl = (url: string): string | null => {
+    if (!url) return null
+
+    try {
+      // Handle various YouTube URL formats
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+        /youtube\.com\/watch\?.*?v=([a-zA-Z0-9_-]{11})/,
+      ]
+
+      for (const pattern of patterns) {
+        const match = url.match(pattern)
+        if (match?.[1]) {
+          return `https://www.youtube.com/embed/${match[1]}`
+        }
+      }
+
+      // If already an embed URL, return as is
+      if (url.includes('youtube.com/embed/')) {
+        return url
+      }
+
+      return null
+    } catch {
+      return null
+    }
+  }
+
+  const videoEmbedUrl = tool.video_url ? getYouTubeEmbedUrl(tool.video_url) : null
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       {/* Banner Image */}
-      {tool.banner_image_url && (
+      {tool.banner_image_url && !bannerError && (
         <div className="relative h-48 w-full overflow-hidden bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950 sm:h-64">
-          <img
+          <Image
             src={tool.banner_image_url}
             alt={`${tool.name} banner`}
-            className="h-full w-full object-cover"
+            fill
+            className="object-cover"
+            onError={() => setBannerError(true)}
+            unoptimized
           />
         </div>
       )}
@@ -184,13 +238,22 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex gap-6">
             {/* Logo */}
-            {tool.logo_url && (
-              <div className="flex-shrink-0">
-                <img
+            {tool.logo_url && !logoError ? (
+              <div className="relative h-20 w-20 flex-shrink-0 sm:h-24 sm:w-24">
+                <Image
                   src={tool.logo_url}
                   alt={`${tool.name} logo`}
-                  className="h-20 w-20 rounded-xl object-cover shadow-md sm:h-24 sm:w-24"
+                  fill
+                  className="rounded-xl object-cover shadow-md"
+                  onError={() => setLogoError(true)}
+                  unoptimized
                 />
+              </div>
+            ) : (
+              <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 shadow-md dark:from-emerald-900 dark:to-teal-900 sm:h-24 sm:w-24">
+                <span className="text-3xl font-bold text-emerald-700 dark:text-emerald-300 sm:text-4xl">
+                  {tool.name.charAt(0)}
+                </span>
               </div>
             )}
             <div>
@@ -257,6 +320,24 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
                 <p className="text-gray-600 dark:text-gray-400">{tool.full_description}</p>
               )}
             </div>
+
+            {/* Video Demo/Tutorial */}
+            {videoEmbedUrl && (
+              <div>
+                <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
+                  Video Demo
+                </h2>
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900">
+                  <iframe
+                    src={videoEmbedUrl}
+                    title={`${tool.name} video demo`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 h-full w-full"
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Key Features */}
             {tool.key_features && tool.key_features.length > 0 && (
@@ -446,8 +527,103 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
                 Share
               </Button>
             </Card>
+
+            {/* Quick Links */}
+            <Card className="p-6">
+              <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">Explore More</h3>
+              <div className="space-y-2">
+                <Link
+                  href="/directory"
+                  className="block rounded-lg p-2 text-sm text-emerald-600 transition-colors hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
+                >
+                  Browse All AI Tools →
+                </Link>
+                <Link
+                  href={`/directory?category=${tool.primary_category_id}`}
+                  className="block rounded-lg p-2 text-sm text-emerald-600 transition-colors hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
+                >
+                  View {tool.category_name} Tools →
+                </Link>
+                <Link
+                  href="/tools"
+                  className="block rounded-lg p-2 text-sm text-emerald-600 transition-colors hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
+                >
+                  View Prompt Collections →
+                </Link>
+                <Link
+                  href="/directory/submit"
+                  className="block rounded-lg p-2 text-sm text-emerald-600 transition-colors hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
+                >
+                  Submit Your Tool →
+                </Link>
+              </div>
+            </Card>
           </div>
         </div>
+
+        {/* Related Tools Section */}
+        {relatedTools.length > 0 && (
+          <div className="mx-auto mt-12 max-w-4xl border-t px-4 pt-12 sm:px-6 lg:px-8">
+            <div className="mb-8">
+              <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
+                Related {tool.category_name} Tools
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400">
+                Explore other tools in the {tool.category_name} category
+              </p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedTools.map((relatedTool) => (
+                <Link key={relatedTool.id} href={`/directory/${relatedTool.slug}`}>
+                  <Card className="group h-full cursor-pointer overflow-hidden transition-all hover:border-emerald-200 hover:shadow-lg dark:hover:border-emerald-900">
+                    <div className="flex h-full flex-col p-6">
+                      <div className="mb-4 flex items-start gap-4">
+                        {relatedTool.logo_url ? (
+                          <div className="relative h-12 w-12 flex-shrink-0">
+                            <Image
+                              src={relatedTool.logo_url}
+                              alt={relatedTool.name}
+                              fill
+                              className="rounded-lg object-cover"
+                              unoptimized
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900">
+                            <span className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
+                              {relatedTool.name.charAt(0)}
+                            </span>
+                          </div>
+                        )}
+                        <div className="flex-1">
+                          <h3 className="mb-1 text-lg font-bold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                            {relatedTool.name}
+                          </h3>
+                          {relatedTool.rating && (
+                            <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+                              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                              {relatedTool.rating.toFixed(1)}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <p className="line-clamp-3 text-sm text-gray-600 dark:text-gray-400">
+                        {relatedTool.description}
+                      </p>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+            <div className="mt-8 text-center">
+              <Link href={`/directory?category=${tool.primary_category_id}`}>
+                <Button variant="outline" size="lg">
+                  View All {tool.category_name} Tools →
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

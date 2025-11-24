@@ -115,6 +115,26 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'forms.app',
       },
+      {
+        protocol: 'https',
+        hostname: '**.wenderapp.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.google.com',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
     ],
   },
 

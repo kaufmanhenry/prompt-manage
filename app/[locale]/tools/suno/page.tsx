@@ -257,12 +257,36 @@ export default async function SunoPromptsPage() {
               Home
             </Link>
             <span>/</span>
-            <Link href="/p" className="hover:text-foreground">
-              AI Tools
+            <Link href="/tools" className="hover:text-foreground">
+              Prompt Collections
             </Link>
             <span>/</span>
             <span className="text-foreground">{sunoData.name}</span>
           </nav>
+
+          {/* Directory Link Banner */}
+          <div className="mb-6 rounded-lg border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 p-4 dark:border-emerald-900 dark:from-emerald-950 dark:to-teal-950">
+            <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+              <div>
+                <h3 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
+                  Looking for more AI tools?
+                </h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  Explore our comprehensive AI Tools Directory with reviews, features, and
+                  comparisons
+                </p>
+              </div>
+              <Link href="/directory">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="whitespace-nowrap border-emerald-600 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                >
+                  Browse Directory →
+                </Button>
+              </Link>
+            </div>
+          </div>
 
           {/* Hero Section */}
           <div className="mb-12">
@@ -275,9 +299,19 @@ export default async function SunoPromptsPage() {
                   <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-4xl">
                     {sunoData.name} Prompts
                   </h1>
-                  <Badge variant="default" className="text-sm">
-                    Music Generation
-                  </Badge>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge variant="default" className="text-sm">
+                      Music Generation
+                    </Badge>
+                    <Link href={`${sunoData.companyUrl}`} target="_blank" rel="noopener noreferrer">
+                      <Badge
+                        variant="outline"
+                        className="cursor-pointer text-sm hover:bg-primary hover:text-primary-foreground"
+                      >
+                        Visit {sunoData.name} →
+                      </Badge>
+                    </Link>
+                  </div>
                 </div>
                 <p className="mb-4 text-base text-muted-foreground sm:text-xl">
                   {sunoData.description}
@@ -809,9 +843,21 @@ export default async function SunoPromptsPage() {
               {/* Related tools section */}
               <div className="mb-8">
                 <h3 className="mb-4 text-2xl font-semibold text-foreground">
-                  Explore Other AI Audio Tools
+                  Explore Other AI Audio & Music Tools
                 </h3>
                 <div className="grid gap-4 md:grid-cols-3">
+                  <Link
+                    href="/tools/udio"
+                    className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-primary hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+                  >
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="text-lg">🎶</span>
+                      <h4 className="font-semibold text-foreground">Udio Prompts</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Advanced AI music creation prompts
+                    </p>
+                  </Link>
                   <Link
                     href="/tools/ai-audio"
                     className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-primary hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
@@ -825,14 +871,37 @@ export default async function SunoPromptsPage() {
                     </p>
                   </Link>
                   <Link
-                    href="/tools/google-veo"
+                    href="/directory"
                     className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-primary hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
                   >
                     <div className="mb-2 flex items-center gap-2">
-                      <span className="text-lg">🎬</span>
-                      <h4 className="font-semibold text-foreground">Google Veo Prompts</h4>
+                      <span className="text-lg">📚</span>
+                      <h4 className="font-semibold text-foreground">AI Tools Directory</h4>
                     </div>
-                    <p className="text-sm text-muted-foreground">AI video generation prompts</p>
+                    <p className="text-sm text-muted-foreground">
+                      Discover all AI tools and services
+                    </p>
+                  </Link>
+                </div>
+              </div>
+
+              {/* More Tools in Category */}
+              <div className="mb-8">
+                <h3 className="mb-4 text-2xl font-semibold text-foreground">
+                  More AI Tools & Resources
+                </h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <Link
+                    href="/tools/midjourney"
+                    className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-primary hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+                  >
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="text-lg">🎨</span>
+                      <h4 className="font-semibold text-foreground">Midjourney Prompts</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      AI image generation prompts for artistic creations
+                    </p>
                   </Link>
                   <Link
                     href="/tools/runway"
@@ -843,7 +912,31 @@ export default async function SunoPromptsPage() {
                       <h4 className="font-semibold text-foreground">Runway Prompts</h4>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      Creative video generation prompts
+                      Creative AI video generation prompts
+                    </p>
+                  </Link>
+                  <Link
+                    href="/tools/google-veo"
+                    className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-primary hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+                  >
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="text-lg">🎬</span>
+                      <h4 className="font-semibold text-foreground">Google Veo Prompts</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      AI video generation with Google's latest model
+                    </p>
+                  </Link>
+                  <Link
+                    href="/tools"
+                    className="rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-primary hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
+                  >
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="text-lg">✨</span>
+                      <h4 className="font-semibold text-foreground">All Prompt Collections</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Browse all AI tool prompt collections
                     </p>
                   </Link>
                 </div>

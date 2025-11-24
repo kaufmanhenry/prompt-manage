@@ -45,7 +45,9 @@ export async function GET(request: Request) {
 
     // Apply search filter
     if (search) {
-      query = query.textSearch('search', search)
+      query = query.or(
+        `name.ilike.%${search}%,description.ilike.%${search}%,key_features.cs.{${search}}`,
+      )
     }
 
     // Apply category filter

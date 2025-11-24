@@ -4,6 +4,8 @@ export const modelCategorySchema = z.enum(['LLM', 'Music', 'Video', 'Image', 'Vo
 
 export const modelSchema = z.enum([
   // LLM Models - OpenAI
+  'o3',
+  'o1',
   'gpt-5',
   'gpt-4o',
   'gpt-4o-mini',
@@ -11,11 +13,13 @@ export const modelSchema = z.enum([
   'gpt-3.5-turbo',
   // LLM Models - Anthropic
   'claude-4-opus',
+  'claude-sonnet-4.5',
   'claude-4-sonnet',
   'claude-3.5-sonnet',
   'claude-3-haiku',
   'claude-3-sonnet',
   // LLM Models - Google
+  'gemini-3-pro',
   'gemini-2-5-pro',
   'gemini-1-5-pro',
   'gemma-3-27b',
@@ -29,6 +33,7 @@ export const modelSchema = z.enum([
   'mistral-small',
   // LLM Models - xAI
   'grok-4',
+  'grok-3-beta',
   // LLM Models - Alibaba/Qwen
   'qwen2.5-72b-instruct',
   // LLM Models - Cohere

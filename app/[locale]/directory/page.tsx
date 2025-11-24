@@ -60,7 +60,7 @@ export default function DirectoryPage() {
   const [pricingFilter, setPricingFilter] = useState(searchParams.get('pricing') || 'all')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalTools, setTotalTools] = useState(0)
-  const TOOLS_PER_PAGE = 20
+  const TOOLS_PER_PAGE = 21
 
   // Debounce search
   useEffect(() => {
@@ -262,7 +262,9 @@ export default function DirectoryPage() {
         {/* Results Count */}
         <div className="mb-6 flex items-center justify-between">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            {loading ? 'Loading...' : `${tools.length} tool${tools.length !== 1 ? 's' : ''} found`}
+            {loading
+              ? 'Loading...'
+              : `Showing ${tools.length} of ${totalTools} AI tool${totalTools !== 1 ? 's' : ''}`}
           </p>
         </div>
 

@@ -2,6 +2,7 @@
 
 import type { User as AuthUser } from '@supabase/supabase-js'
 import { Globe, MapPin, Save, Trash2, Upload, User } from 'lucide-react'
+import Image from 'next/image'
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -319,15 +320,19 @@ export default function SettingsPage() {
                   <Label>Profile Image</Label>
                   <div className="flex items-center gap-3">
                     {avatarUrl ? (
-                      <img
-                        src={
-                          avatarUrl.startsWith('http')
-                            ? avatarUrl
-                            : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl.replace(/^avatars\//, '')}`
-                        }
-                        alt="Avatar"
-                        className="h-10 w-10 rounded-full object-cover"
-                      />
+                      <div className="relative h-10 w-10 flex-shrink-0">
+                        <Image
+                          src={
+                            avatarUrl.startsWith('http')
+                              ? avatarUrl
+                              : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl.replace(/^avatars\//, '')}`
+                          }
+                          alt="Avatar"
+                          fill
+                          className="rounded-full object-cover"
+                          unoptimized
+                        />
+                      </div>
                     ) : (
                       <div className="h-10 w-10 rounded-full bg-muted" />
                     )}

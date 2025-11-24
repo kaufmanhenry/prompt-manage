@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
+import { RelatedTools } from '@/components/directory/RelatedTools'
+import { ToolContext } from '@/components/directory/ToolContext'
 import type { AITool } from '@/components/directory/ToolDetail'
 import ToolDetail from '@/components/directory/ToolDetail'
 import { isAdmin } from '@/utils/admin'
@@ -59,37 +61,6 @@ async function getFavoriteStatus(toolId: string) {
   return !!favorite
 }
 
-async function getRelatedTools(tool: AITool) {
-  const supabase = await createClient()
-
-  // Get tools in the same category
-  const { data: relatedTools } = await supabase
-    .from('ai_tools')
-    .select(
-      `
-      id,
-      name,
-      slug,
-      description,
-      logo_url,
-      rating,
-      category:primary_category_id(name)
-    `,
-    )
-    .eq('primary_category_id', tool.primary_category_id)
-    .neq('id', tool.id)
-    .eq('status', 'approved')
-    .order('view_count', { ascending: false })
-    .limit(6)
-
-  return (
-    relatedTools?.map((t: any) => ({
-      ...t,
-      category_name: t.category?.name || 'Uncategorized',
-    })) || []
-  )
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const tool = await getTool(slug)
@@ -140,7 +111,6 @@ export default async function ToolDetailPage({ params }: PageProps) {
   } = await supabase.auth.getSession()
   const isFavorited = await getFavoriteStatus(tool.id)
   const userIsAdmin = isAdmin(session?.user?.email)
-  const relatedTools = await getRelatedTools(tool)
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -161,6 +131,14 @@ export default async function ToolDetailPage({ params }: PageProps) {
           reviewCount: tool.review_count,
         }
       : undefined,
+    featureList: tool.key_features,
+    applicationSubCategory: tool.category_name,
+    screenshot: tool.banner_image_url || tool.logo_url,
+    author: {
+      '@type': 'Organization',
+      name: tool.company_name,
+      url: tool.company_website,
+    },
   }
 
   return (
@@ -169,12 +147,17 @@ export default async function ToolDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ToolDetail
-        tool={tool}
-        initialIsFavorited={isFavorited}
-        isAdmin={userIsAdmin}
-        relatedTools={relatedTools}
-      />
+      <ToolDetail tool={tool} initialIsFavorited={isFavorited} isAdmin={userIsAdmin} />
+
+      <div className="mx-auto max-w-4xl px-4 pb-12 sm:px-6 lg:px-8">
+        <ToolContext
+          toolName={tool.name}
+          description={tool.description}
+          keyFeatures={tool.key_features}
+        />
+
+        <RelatedTools categoryId={tool.primary_category_id} currentToolId={tool.id} />
+      </div>
     </>
   )
 }

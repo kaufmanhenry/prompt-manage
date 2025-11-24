@@ -179,23 +179,21 @@ const aiTools: AITool[] = [
 ]
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = `AI Tools & Prompt Collections | Prompt Manage`
-  const description = `Discover AI tools and prompt collections for Google Veo, Suno, Runway, Opus, and more. Find curated prompts for video generation, music creation, image generation, and audio production.`
+  const title = `Creative AI Prompt Collections | Prompt Manage`
+  const description = `Discover curated prompt collections for Google Veo, Suno, Runway, Opus, and more. Find ready-to-use prompts for video generation, music creation, image generation, and audio production.`
 
   return {
     title,
     description,
     keywords: [
-      'AI tools',
       'AI prompts',
-      'Google Veo',
-      'Suno',
-      'Runway',
-      'Opus',
-      'AI video generation',
-      'AI music generation',
-      'AI image generation',
       'prompt collections',
+      'Google Veo prompts',
+      'Suno prompts',
+      'Runway prompts',
+      'AI video prompts',
+      'AI music prompts',
+      'AI image prompts',
     ],
     openGraph: {
       title,
@@ -207,7 +205,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: '/og-image.svg',
           width: 1200,
           height: 630,
-          alt: 'AI Tools & Prompt Collections',
+          alt: 'Creative AI Prompt Collections',
         },
       ],
     },
@@ -274,7 +272,7 @@ export default async function ToolsPage() {
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'AI Tools',
+        name: 'Prompt Collections',
         item: '/tools',
       },
     ],
@@ -283,16 +281,10 @@ export default async function ToolsPage() {
   const collectionSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'AI Tools & Prompt Collections',
-    description: 'Collection of AI tools and curated prompt collections',
+    name: 'Creative AI Prompt Collections',
+    description: 'Curated prompt collections for AI tools',
     url: '/tools',
     numberOfItems: toolStats.length,
-    about: {
-      '@type': 'SoftwareApplication',
-      name: 'AI Tools',
-      applicationCategory: 'AI Tools',
-      operatingSystem: 'Web',
-    },
   }
 
   return (
@@ -313,7 +305,7 @@ export default async function ToolsPage() {
               Home
             </Link>
             <span>/</span>
-            <span className="text-gray-900 dark:text-gray-100">AI Tools</span>
+            <span className="text-gray-900 dark:text-gray-100">Prompt Collections</span>
           </nav>
 
           {/* Black Friday Banner */}
@@ -337,7 +329,7 @@ export default async function ToolsPage() {
           <section className="mb-20 border-b border-gray-200 pb-16 dark:border-gray-800 md:pb-20">
             <div className="mx-auto max-w-3xl">
               <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white md:text-5xl">
-                AI Tools & Prompt Collections
+                Creative AI Prompt Collections
               </h1>
               <p className="mb-8 text-lg leading-7 text-gray-600 dark:text-gray-400 md:text-xl">
                 Discover curated prompt collections for the most popular AI tools. Find ready-to-use

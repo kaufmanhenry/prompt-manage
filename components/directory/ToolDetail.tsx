@@ -51,29 +51,13 @@ export interface AITool {
   is_featured: boolean
 }
 
-interface RelatedTool {
-  id: string
-  name: string
-  slug: string
-  description: string
-  logo_url: string | null
-  rating: number | null
-  category_name: string
-}
-
 interface ToolDetailProps {
   tool: AITool
   initialIsFavorited: boolean
   isAdmin?: boolean
-  relatedTools?: RelatedTool[]
 }
 
-export default function ToolDetail({
-  tool,
-  initialIsFavorited,
-  isAdmin,
-  relatedTools = [],
-}: ToolDetailProps) {
+export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDetailProps) {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited)
   const [logoError, setLogoError] = useState(false)
   const [bannerError, setBannerError] = useState(false)
@@ -338,27 +322,6 @@ export default function ToolDetail({
                 </div>
               </div>
             )}
-
-            {/* Key Features */}
-            {tool.key_features && tool.key_features.length > 0 && (
-              <div>
-                <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
-                  Key Features
-                </h2>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {tool.key_features.map((feature) => (
-                    <div
-                      key={feature}
-                      className="flex items-start gap-3 rounded-lg border border-gray-200 p-3 dark:border-gray-800"
-                    >
-                      <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-600" />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Use Cases */}
             {tool.use_cases && tool.use_cases.length > 0 && (
               <div>
@@ -560,70 +523,6 @@ export default function ToolDetail({
             </Card>
           </div>
         </div>
-
-        {/* Related Tools Section */}
-        {relatedTools.length > 0 && (
-          <div className="mx-auto mt-12 max-w-4xl border-t px-4 pt-12 sm:px-6 lg:px-8">
-            <div className="mb-8">
-              <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
-                Related {tool.category_name} Tools
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400">
-                Explore other tools in the {tool.category_name} category
-              </p>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {relatedTools.map((relatedTool) => (
-                <Link key={relatedTool.id} href={`/directory/${relatedTool.slug}`}>
-                  <Card className="group h-full cursor-pointer overflow-hidden transition-all hover:border-emerald-200 hover:shadow-lg dark:hover:border-emerald-900">
-                    <div className="flex h-full flex-col p-6">
-                      <div className="mb-4 flex items-start gap-4">
-                        {relatedTool.logo_url ? (
-                          <div className="relative h-12 w-12 flex-shrink-0">
-                            <Image
-                              src={relatedTool.logo_url}
-                              alt={relatedTool.name}
-                              fill
-                              className="rounded-lg object-cover"
-                              unoptimized
-                            />
-                          </div>
-                        ) : (
-                          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900">
-                            <span className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
-                              {relatedTool.name.charAt(0)}
-                            </span>
-                          </div>
-                        )}
-                        <div className="flex-1">
-                          <h3 className="mb-1 text-lg font-bold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                            {relatedTool.name}
-                          </h3>
-                          {relatedTool.rating && (
-                            <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
-                              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                              {relatedTool.rating.toFixed(1)}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <p className="line-clamp-3 text-sm text-gray-600 dark:text-gray-400">
-                        {relatedTool.description}
-                      </p>
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-            <div className="mt-8 text-center">
-              <Link href={`/directory?category=${tool.primary_category_id}`}>
-                <Button variant="outline" size="lg">
-                  View All {tool.category_name} Tools →
-                </Button>
-              </Link>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )

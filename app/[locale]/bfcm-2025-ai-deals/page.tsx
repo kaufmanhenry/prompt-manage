@@ -683,50 +683,7 @@ export default function BFCMDealsPage() {
                     Access 1000+ free prompts for ChatGPT, Claude, Midjourney, and more
                   </div>
                 </Link>
-                <Link
-                  href="/optimizer"
-                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
-                >
-                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
-                    Prompt Optimizer Tool
-                  </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
-                    Free tool to improve and optimize your AI prompts for better results
-                  </div>
-                </Link>
-                <Link
-                  href="/generator"
-                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
-                >
-                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
-                    Prompt Generator
-                  </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
-                    Generate custom prompts for any AI model or use case
-                  </div>
-                </Link>
-                <Link
-                  href="/claude-prompt-creator"
-                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
-                >
-                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
-                    Claude Prompt Creator
-                  </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
-                    Specialized tool for creating optimized prompts for Claude AI
-                  </div>
-                </Link>
-                <Link
-                  href="/cursor-prompt-creator"
-                  className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"
-                >
-                  <div className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
-                    Cursor Prompt Creator
-                  </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
-                    Create custom prompts for Cursor AI code editor
-                  </div>
-                </Link>
+
                 <Link
                   href="/docs"
                   className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-emerald-300 hover:bg-emerald-50 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-emerald-700 dark:hover:bg-emerald-950"

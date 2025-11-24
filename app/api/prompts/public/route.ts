@@ -93,10 +93,7 @@ export async function GET(request: NextRequest) {
     const copyCountMap = new Map<string, number>()
     copyCounts?.forEach((copy) => {
       if (copy.parent_prompt_id) {
-        copyCountMap.set(
-          copy.parent_prompt_id,
-          (copyCountMap.get(copy.parent_prompt_id) || 0) + 1,
-        )
+        copyCountMap.set(copy.parent_prompt_id, (copyCountMap.get(copy.parent_prompt_id) || 0) + 1)
       }
     })
 

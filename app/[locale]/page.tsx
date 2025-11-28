@@ -1,29 +1,11 @@
-// prettier-ignore
-import {
-  CheckCircle2,
-  DollarSign,
-  Folder,
-  Lock,
-  Search,
-  ShieldCheck,
-  Star,
-  Users,
-  Zap,
-} from 'lucide-react'
-// prettier-ignore
+import { CheckCircle2, DollarSign, Folder, Lock, Search, ShieldCheck, Star, Users, Zap } from 'lucide-react'
 import type { Metadata } from 'next'
 
-// prettier-ignore
-import { DashboardPreview } from '@/components/DashboardPreview'
-// prettier-ignore
-import { GoogleSignInButton } from '@/components/GoogleSignInButton'
-// prettier-ignore
 import { Badge } from '@/components/ui/badge'
-// prettier-ignore
 import { Button } from '@/components/ui/button'
-// prettier-ignore
+import { DashboardPreview } from '@/components/DashboardPreview'
+import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Link } from '@/i18n/routing'
-// prettier-ignore
 import { createClient } from '@/utils/supabase/server'
 
 export const metadata: Metadata = {

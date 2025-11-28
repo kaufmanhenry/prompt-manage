@@ -1,18 +1,64 @@
 'use client'
 import { Check, ShieldCheck, Sparkles, Users } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { formatPrice, getAllPlans, PRICING_CONFIG } from '@/lib/pricing'
+import { createClient } from '@/utils/supabase/client'
 
 export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
   const { toast } = useToast()
+  const router = useRouter()
+
+  // Check authentication status on mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = createClient()
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      setIsAuthenticated(!!session)
+
+      // If user just logged in and there's a pending checkout, trigger it
+      if (session && typeof window !== 'undefined') {
+        const pendingPlan = sessionStorage.getItem('pendingCheckoutPlan')
+        if (pendingPlan && (pendingPlan === 'team' || pendingPlan === 'pro')) {
+          sessionStorage.removeItem('pendingCheckoutPlan')
+          // Small delay to ensure the component is fully mounted
+          setTimeout(() => {
+            void handleSubscribe(pendingPlan as 'team' | 'pro')
+          }, 500)
+        }
+      }
+    }
+    void checkAuth()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleSubscribe = async (tier: 'team' | 'pro') => {
     setLoading(tier)
+
+    // Check if user is authenticated
+    if (isAuthenticated === false) {
+      // Store the intended plan in session storage to complete checkout after login
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('pendingCheckoutPlan', tier)
+      }
+
+      // Redirect to sign in with return URL
+      toast({
+        title: 'Sign in required',
+        description: 'Please sign in to subscribe to a plan',
+      })
+      router.push(`/?redirect=/pricing&checkout=${tier}`)
+      return
+    }
+
     try {
       const response = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
@@ -23,6 +69,15 @@ export default function PricingPage() {
       const data = await response.json()
 
       if (!response.ok) {
+        // Handle unauthorized specifically
+        if (response.status === 401) {
+          toast({
+            title: 'Sign in required',
+            description: 'Please sign in to subscribe to a plan',
+          })
+          router.push(`/?redirect=/pricing&checkout=${tier}`)
+          return
+        }
         throw new Error(data.error || 'Failed to create checkout session')
       }
 

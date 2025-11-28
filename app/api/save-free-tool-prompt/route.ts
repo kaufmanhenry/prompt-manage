@@ -1,7 +1,12 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { canUserCreatePrompt, getUserSubscription, getUserUsage } from '@/lib/subscription'
+import {
+  canUserCreatePrompt,
+  getSubscriptionStatusMessage,
+  getUserSubscription,
+  getUserUsage,
+} from '@/lib/subscription'
 import { createClient } from '@/utils/supabase/server'
 
 export async function POST(request: NextRequest) {
@@ -32,15 +37,16 @@ export async function POST(request: NextRequest) {
     ])
 
     if (!canUserCreatePrompt(subscription, usage, user.email)) {
+      // Use centralized status message for subscription issues
+      const statusMessage = getSubscriptionStatusMessage(subscription)
+      const details =
+        statusMessage ||
+        'You have reached your prompt limit. Please upgrade to continue creating prompts.'
+
       return NextResponse.json(
         {
           error: 'Prompt limit reached',
-          details:
-            subscription?.status === 'past_due' || subscription?.status === 'unpaid'
-              ? 'Your payment failed. Please update your payment method to continue using premium features.'
-              : subscription?.status === 'canceled'
-                ? 'Your subscription was canceled. Resubscribe to continue using premium features.'
-                : 'You have reached your prompt limit. Please upgrade to continue creating prompts.',
+          details,
         },
         { status: 403 },
       )

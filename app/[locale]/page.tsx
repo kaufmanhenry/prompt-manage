@@ -1,3 +1,4 @@
+// prettier-ignore
 import {
   CheckCircle2,
   DollarSign,
@@ -9,13 +10,20 @@ import {
   Users,
   Zap,
 } from 'lucide-react'
+// prettier-ignore
 import type { Metadata } from 'next'
 
+// prettier-ignore
 import { DashboardPreview } from '@/components/DashboardPreview'
+// prettier-ignore
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
+// prettier-ignore
 import { Badge } from '@/components/ui/badge'
+// prettier-ignore
 import { Button } from '@/components/ui/button'
+// prettier-ignore
 import { Link } from '@/i18n/routing'
+// prettier-ignore
 import { createClient } from '@/utils/supabase/server'
 
 export const metadata: Metadata = {

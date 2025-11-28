@@ -10,30 +10,24 @@ test('login buttons are visible and correctly styled', async ({ page }: { page: 
 
   // Scope to the hero section by finding the main heading and going up to its container
   const heroContainer = page
-    .getByRole('heading', { name: 'Stop Losing Your Best Prompts' })
+    .getByRole('heading', { name: /Secure.*Affordable.*Prompt Management/i })
     .locator('xpath=..')
 
-  // Check Google Sign In button in hero
-  const googleBtn = heroContainer.getByRole('button', { name: 'Sign in with Google' })
+  // Check Google Sign In button in hero (now labeled "Start Free - No Credit Card")
+  const googleBtn = heroContainer.getByRole('button', { name: /Start Free.*No Credit Card/i })
   try {
     await expect(googleBtn).toBeVisible({ timeout: 5000 })
     // Verify it has key styling classes (using regex to be more resilient to class changes)
-    // Note: Height is now responsive (sm:h-11) for mobile-first design
-    await expect(googleBtn).toHaveClass(/sm:h-11/) // Responsive height
-    await expect(googleBtn).toHaveClass(/bg-primary/) // Primary background
-    await expect(googleBtn).toHaveClass(/rounded/) // Rounded corners
+    // Note: Height is now responsive (sm:h-12) for mobile-first design
+    await expect(googleBtn).toHaveClass(/sm:h-12/) // Responsive height
+    await expect(googleBtn).toHaveClass(/shadow/) // Shadow styling
   } catch (e) {
     console.log('Google button not found or style mismatch. Page content:')
     console.log(await page.content())
     throw e
   }
 
-  // Check Email Sign In button in hero
-  const emailBtn = heroContainer.getByRole('button', { name: 'Sign in with Email' })
-  await expect(emailBtn).toBeVisible()
-  await expect(emailBtn).toHaveClass(/sm:h-11/)
-
-  // Check Browse Templates button in hero
-  const browseBtn = heroContainer.getByRole('button', { name: 'Browse Templates' })
-  await expect(browseBtn).toBeVisible()
+  // Check View Pricing button in hero (replaces old "Browse Templates")
+  const pricingBtn = heroContainer.getByRole('link', { name: 'View Pricing' })
+  await expect(pricingBtn).toBeVisible()
 })

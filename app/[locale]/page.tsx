@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import {
   CheckCircle2,
   DollarSign,
@@ -10,6 +9,7 @@ import {
   Users,
   Zap,
 } from 'lucide-react'
+import type { Metadata } from 'next'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

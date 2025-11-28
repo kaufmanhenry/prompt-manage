@@ -349,6 +349,16 @@ export function DirectoryContent() {
                           <span className="text-gray-500">({tool.review_count})</span>
                         </div>
                       )}
+                      {tool.view_count > 0 && (
+                        <div className="flex items-center gap-1">
+                          <span>{tool.view_count.toLocaleString()} views</span>
+                        </div>
+                      )}
+                      {tool.favorite_count > 0 && (
+                        <div className="flex items-center gap-1">
+                          <span>{tool.favorite_count.toLocaleString()} favorites</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

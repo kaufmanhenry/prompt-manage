@@ -42,4 +42,4 @@ async function approveTool() {
   console.log('Approved tool:', JSON.stringify(data, null, 2))
 }
 
-approveTool()
+void approveTool()

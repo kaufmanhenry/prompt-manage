@@ -42,6 +42,7 @@ export interface AITool {
   review_count: number
   favorite_count: number
   view_count: number
+  click_count: number
   upvote_count: number
   is_open_source: boolean
   github_url: string | null
@@ -147,10 +148,10 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
         tool_id: tool.id,
       })
 
-      // Increment click count
+      // Increment click count (FIXED: was using view_count instead of click_count)
       await supabase
         .from('ai_tools')
-        .update({ click_count: (tool.view_count || 0) + 1 })
+        .update({ click_count: (tool.click_count || 0) + 1 })
         .eq('id', tool.id)
     } catch (err) {
       console.error('Error tracking click:', err)

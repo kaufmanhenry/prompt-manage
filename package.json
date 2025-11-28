@@ -2,6 +2,9 @@
   "name": "prompt-manage",
   "version": "0.1.0",
   "private": true,
+  "resolutions": {
+    "js-yaml": "4.1.1"
+  },
   "scripts": {
     "dev": "next dev",
     "dev:clean": "rm -rf .next && next dev",

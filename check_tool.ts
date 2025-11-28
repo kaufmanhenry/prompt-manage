@@ -41,4 +41,4 @@ async function checkTool() {
   console.log('Found tools:', JSON.stringify(tools, null, 2))
 }
 
-checkTool()
+void checkTool()

@@ -38,7 +38,18 @@ async function findDuplicates() {
     return
   }
 
-  const nameMap = new Map<string, any[]>()
+  interface Tool {
+    id: number
+    name: string
+    slug: string
+    created_at: string
+    status: string
+    upvote_count: number
+    review_count: number
+    description: string
+  }
+
+  const nameMap = new Map<string, Tool[]>()
 
   tools.forEach((tool) => {
     // Normalize name: lowercase, remove spaces and special chars
@@ -69,4 +80,4 @@ async function findDuplicates() {
   }
 }
 
-findDuplicates()
+void findDuplicates()

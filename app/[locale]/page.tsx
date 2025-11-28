@@ -1,4 +1,14 @@
-import { CheckCircle2, DollarSign, Folder, Lock, Search, ShieldCheck, Star, Users, Zap } from 'lucide-react'
+import {
+  CheckCircle2,
+  DollarSign,
+  Folder,
+  Lock,
+  Search,
+  ShieldCheck,
+  Star,
+  Users,
+  Zap,
+} from 'lucide-react'
 import type { Metadata } from 'next'
 
 import { Badge } from '@/components/ui/badge'
@@ -499,7 +509,8 @@ export default async function Home() {
                   Everything You Need to Scale Your AI Operations
                 </h2>
                 <p className="mt-4 text-base leading-relaxed text-gray-700 dark:text-gray-300 sm:text-lg md:mt-6 md:text-xl">
-                  Stop wasting hours searching for prompts. Prompt Manage helps you find and organize your team's best prompts while keeping your competitive advantage secure.
+                  Stop wasting hours searching for prompts. Prompt Manage helps you find and
+                  organize your team's best prompts while keeping your competitive advantage secure.
                 </p>
               </div>
 
@@ -511,9 +522,7 @@ export default async function Home() {
                     <div className="mb-4 inline-flex items-center justify-center rounded-xl bg-emerald-500/10 p-3">
                       <Zap className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <h3 className="mb-2 text-lg font-bold md:text-xl">
-                      Find Prompts in Seconds
-                    </h3>
+                    <h3 className="mb-2 text-lg font-bold md:text-xl">Find Prompts in Seconds</h3>
                     <p className="mb-4 text-sm leading-relaxed text-muted-foreground md:text-base">
                       Powerful search and filtering cut search time from 10 minutes to 10 seconds.
                       Tag by model, use case, or team.
@@ -532,9 +541,7 @@ export default async function Home() {
                     <div className="mb-4 inline-flex items-center justify-center rounded-xl bg-emerald-500/10 p-3">
                       <Lock className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <h3 className="mb-2 text-lg font-bold md:text-xl">
-                      Military-Grade Security
-                    </h3>
+                    <h3 className="mb-2 text-lg font-bold md:text-xl">Military-Grade Security</h3>
                     <p className="mb-4 text-sm leading-relaxed text-muted-foreground md:text-base">
                       AES-256 encryption, SOC 2 compliance, and zero-knowledge architecture. Your
                       prompts never leave your control.
@@ -566,7 +573,6 @@ export default async function Home() {
                   </div>
                 </div>
               </div>
-
             </div>
           </section>
 
@@ -820,9 +826,7 @@ export default async function Home() {
                     </div>
                   </div>
                 </div>
-
               </div>
-
             </div>
           </section>
 
@@ -861,7 +865,9 @@ export default async function Home() {
                   </span>
                 </summary>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  While some competitors charge $99-$500/month for basic features, Prompt Manage offers unlimited prompts starting at just $20/month. Our free plan gives you 25 prompts forever—no credit card required.
+                  While some competitors charge $99-$500/month for basic features, Prompt Manage
+                  offers unlimited prompts starting at just $20/month. Our free plan gives you 25
+                  prompts forever—no credit card required.
                 </p>
               </details>
 

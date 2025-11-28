@@ -1,20 +1,17 @@
+import type { Metadata } from 'next'
 import {
-  Folder,
-  Search,
-  ShieldCheck,
-  Lock,
-  Zap,
-  Users,
-  TrendingUp,
-  Clock,
-  Star,
   CheckCircle2,
   DollarSign,
+  Folder,
+  Lock,
+  Search,
+  ShieldCheck,
+  Star,
+  Users,
+  Zap,
 } from 'lucide-react'
-import type { Metadata } from 'next'
 
 import { DashboardPreview } from '@/components/DashboardPreview'
-import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

@@ -27,11 +27,11 @@ export default function PricingPage() {
       // If user just logged in and there's a pending checkout, trigger it
       if (session && typeof window !== 'undefined') {
         const pendingPlan = sessionStorage.getItem('pendingCheckoutPlan')
-        if (pendingPlan && (pendingPlan === 'team' || pendingPlan === 'pro')) {
+        if (pendingPlan === 'team' || pendingPlan === 'pro') {
           sessionStorage.removeItem('pendingCheckoutPlan')
           // Small delay to ensure the component is fully mounted
           setTimeout(() => {
-            void handleSubscribe(pendingPlan as 'team' | 'pro')
+            void handleSubscribe(pendingPlan)
           }, 500)
         }
       }

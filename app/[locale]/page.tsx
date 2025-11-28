@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import {
   CheckCircle2,
   DollarSign,
@@ -9,12 +10,11 @@ import {
   Users,
   Zap,
 } from 'lucide-react'
-import type { Metadata } from 'next'
 
-import { DashboardPreview } from '@/components/DashboardPreview'
-import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { DashboardPreview } from '@/components/DashboardPreview'
+import { GoogleSignInButton } from '@/components/GoogleSignInButton'
 import { Link } from '@/i18n/routing'
 import { createClient } from '@/utils/supabase/server'
 

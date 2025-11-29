@@ -65,7 +65,10 @@ export async function POST(request: NextRequest) {
     const stripe = getStripe()
 
     if (existingSubscription?.stripe_customer_id) {
-      console.log('[Checkout] Found existing Stripe customer:', existingSubscription.stripe_customer_id)
+      console.log(
+        '[Checkout] Found existing Stripe customer:',
+        existingSubscription.stripe_customer_id,
+      )
       try {
         customer = await stripe.customers.retrieve(existingSubscription.stripe_customer_id)
         customerId = customer.id

@@ -19,11 +19,11 @@ import { Link } from '@/i18n/routing'
 import { createClient } from '@/utils/supabase/server'
 
 export const metadata: Metadata = {
-  title: 'Prompt Manage — Enterprise-Grade Prompt Management for Teams | Save 10+ Hours/Week',
+  title: 'Prompt Manage — Organize & Share Your Team's AI Prompts | Start Free',
   description:
-    'The most secure and cost-effective prompt management platform for teams. Bank-level encryption, SOC 2 ready, unlimited storage. Trusted by teams who value privacy. Start free.',
+    'The affordable prompt management platform for marketing teams. Organize, find, and share prompts in seconds. Unlimited storage from $20/mo. 400+ free templates. Start free today.',
   keywords:
-    'secure prompt management, team prompt library, AI prompt security, enterprise prompt management, ChatGPT prompts, Claude prompts, private prompt storage, encrypted prompts, team collaboration',
+    'prompt management, team prompt library, AI prompts for marketing, ChatGPT prompts, Claude prompts, prompt organization, team collaboration, prompt templates',
   authors: [{ name: 'Prompt Manage' }],
   creator: 'Prompt Manage',
   publisher: 'Prompt Manage',
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Prompt Manage — Enterprise-Grade Prompt Management for Teams',
+    title: 'Prompt Manage — Organize & Share Your Team's AI Prompts',
     description:
-      'The most secure and cost-effective prompt management platform. Bank-level encryption, SOC 2 ready, unlimited storage. Trusted by teams who value privacy.',
+      'Affordable prompt management for marketing teams. Organize, find, and share prompts in seconds. Unlimited storage from $20/mo. Start free today.',
     url: 'https://promptmanage.com',
     siteName: 'Prompt Manage',
     images: [
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Prompt Manage — Enterprise-Grade Prompt Management for Teams',
+    title: 'Prompt Manage — Organize & Share Your Team's AI Prompts',
     description:
-      'The most secure and cost-effective prompt management platform. Bank-level encryption, SOC 2 ready, unlimited storage. Trusted by teams who value privacy.',
+      'Affordable prompt management for marketing teams. Organize, find, and share prompts in seconds. Unlimited storage from $20/mo. Start free today.',
     images: ['/og-image.svg'],
     creator: '@promptmanage',
   },
@@ -137,20 +137,17 @@ export default async function Home() {
       },
     ],
     description:
-      'Enterprise-grade prompt management platform with bank-level AES-256 encryption, SOC 2 compliance, and zero data mining. Save 10+ hours per week managing AI prompts for teams.',
+      'Affordable prompt management platform for marketing teams. Organize, find, and share prompts in seconds. Save hours per week with powerful search and team collaboration.',
     featureList: [
-      'AES-256 Encryption at rest and in transit',
-      'SOC 2 Type II Compliant infrastructure',
-      'Zero-knowledge architecture - we never access your prompts',
       'Unlimited prompt storage on paid plans',
       'Advanced search and filtering by tag, model, category',
-      'Team collaboration with role-based access control',
+      'Team collaboration with role-based access',
       'Version control and prompt history',
       'Multi-model support: ChatGPT, Claude, Gemini, Llama, Mistral, and 20+ models',
       'Import/Export functionality',
-      'Public prompt directory with 400+ templates',
-      '99.9% uptime SLA',
-      'GDPR and CCPA compliant',
+      'Public prompt directory with 400+ free templates',
+      'Secure and private data storage',
+      'Fast setup in under 60 seconds',
     ],
     url: 'https://promptmanage.com',
     screenshot: '/og-image.svg',
@@ -162,7 +159,7 @@ export default async function Home() {
     datePublished: '2024-01-01',
     softwareVersion: '2.0',
     keywords:
-      'prompt management, AI security, team collaboration, ChatGPT prompts, Claude prompts, encrypted prompt storage, SOC 2 compliance, zero-knowledge encryption, prompt library',
+      'prompt management, team collaboration, ChatGPT prompts, Claude prompts, prompt library, marketing prompts, AI prompt organization, prompt templates',
   }
 
   const faqSchema = {
@@ -259,9 +256,9 @@ export default async function Home() {
     url: 'https://promptmanage.com',
     logo: 'https://promptmanage.com/logo.svg',
     description:
-      'Enterprise-grade prompt management platform trusted by teams who value security and privacy. Save 10+ hours per week with AES-256 encryption, SOC 2 compliance, and zero data mining.',
+      'Affordable prompt management platform for marketing teams. Organize, find, and share prompts in seconds. Save hours per week with powerful search and team collaboration.',
     foundingDate: '2024',
-    slogan: 'The Most Secure & Cost-Effective Prompt Manager for Teams',
+    slogan: 'Organize & Share Your Team's Best AI Prompts',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Support',
@@ -324,9 +321,9 @@ export default async function Home() {
             {/* Left: Copy */}
             <div className="order-1 w-full text-left md:order-1">
               {/* Trust Badge */}
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-                <Lock className="h-3.5 w-3.5" />
-                <span>Bank-Level Security • SOC 2 Ready • Zero-Knowledge Encryption</span>
+              <div className="mb-4 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 md:justify-start">
+                <Lock className="h-3.5 w-3.5 shrink-0" />
+                <span className="break-words">Secure & Trusted by Teams</span>
               </div>
 
               <h1 className="mb-4 break-words text-2xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl xl:text-[3.5rem]">
@@ -335,15 +332,14 @@ export default async function Home() {
               <p className="mb-3 break-words text-base leading-relaxed text-gray-700 dark:text-gray-300 sm:text-lg md:text-xl lg:text-2xl">
                 Stop losing valuable prompts in scattered docs and Slack threads.{' '}
                 <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                  Organize your team's prompts
+                  Organize, find, and share your team's best prompts
                 </span>{' '}
-                with enterprise-grade security that keeps your IP safe.
+                in seconds.
               </p>
               <p className="mb-4 break-words text-sm leading-relaxed text-muted-foreground sm:text-base md:mb-6 md:text-lg">
-                Unlike expensive alternatives, Prompt Manage gives you{' '}
-                <span className="font-semibold">unlimited storage</span>,{' '}
-                <span className="font-semibold">AES-256 encryption</span>, and{' '}
-                <span className="font-semibold">team collaboration</span> starting at just $20/mo.
+                Affordable pricing from $20/mo with{' '}
+                <span className="font-semibold">unlimited storage</span> and{' '}
+                <span className="font-semibold">team collaboration</span>.
                 Plus, access our{' '}
                 <Link
                   href="/p"
@@ -355,22 +351,22 @@ export default async function Home() {
               </p>
 
               {/* Value Props */}
-              <div className="mb-5 grid grid-cols-2 gap-2 md:mb-7 md:gap-3">
+              <div className="mb-5 grid grid-cols-1 gap-2 sm:grid-cols-2 md:mb-7 md:gap-3">
                 <div className="flex items-center gap-2 rounded-lg bg-muted p-2.5 text-xs sm:text-sm">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                  <span className="font-medium">Competitive pricing from $20/mo</span>
+                  <span className="break-words font-medium">From $20/mo</span>
                 </div>
                 <div className="flex items-center gap-2 rounded-lg bg-muted p-2.5 text-xs sm:text-sm">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                  <span className="font-medium">Quick setup with Google/Email</span>
+                  <span className="break-words font-medium">Setup in 60 seconds</span>
                 </div>
                 <div className="flex items-center gap-2 rounded-lg bg-muted p-2.5 text-xs sm:text-sm">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                  <span className="font-medium">Enterprise-grade encryption</span>
+                  <span className="break-words font-medium">Secure & private</span>
                 </div>
                 <div className="flex items-center gap-2 rounded-lg bg-muted p-2.5 text-xs sm:text-sm">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                  <span className="font-medium">Cancel anytime, no questions</span>
+                  <span className="break-words font-medium">Cancel anytime</span>
                 </div>
               </div>
               {/* CTAs */}
@@ -456,45 +452,45 @@ export default async function Home() {
 
           {/* Trust Signals & Security */}
           <section className="border-y border-border/50 bg-gradient-to-r from-muted/30 via-muted/10 to-muted/30 py-8 md:py-12">
-            <div className="mx-auto max-w-6xl">
-              <h2 className="mb-6 text-center text-sm font-semibold uppercase tracking-wide text-muted-foreground md:mb-8">
-                Why Teams Trust Prompt Manage
+            <div className="mx-auto max-w-6xl px-2">
+              <h2 className="mb-6 break-words text-center text-sm font-semibold uppercase tracking-wide text-muted-foreground md:mb-8">
+                Why Teams Choose Prompt Manage
               </h2>
               <div className="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
                 <div className="flex flex-col items-center rounded-lg border border-border/50 bg-background p-4 text-center">
                   <div className="mb-2 rounded-full bg-emerald-500/10 p-3">
-                    <Lock className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                    <Zap className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="mb-1 text-sm font-bold">AES-256 Encryption</h3>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
-                    Bank-level encryption at rest and in transit. Your prompts are never exposed.
+                  <h3 className="mb-1 break-words text-sm font-bold">Find Prompts Fast</h3>
+                  <p className="break-words text-xs leading-relaxed text-muted-foreground">
+                    Powerful search and filters help you find the right prompt in seconds.
                   </p>
                 </div>
                 <div className="flex flex-col items-center rounded-lg border border-border/50 bg-background p-4 text-center">
                   <div className="mb-2 rounded-full bg-emerald-500/10 p-3">
-                    <ShieldCheck className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                    <Lock className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="mb-1 text-sm font-bold">SOC 2 Compliant</h3>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
-                    Enterprise-ready security controls. GDPR and CCPA compliant infrastructure.
+                  <h3 className="mb-1 break-words text-sm font-bold">Secure & Private</h3>
+                  <p className="break-words text-xs leading-relaxed text-muted-foreground">
+                    Your prompts are encrypted and private. We never train AI on your data.
                   </p>
                 </div>
                 <div className="flex flex-col items-center rounded-lg border border-border/50 bg-background p-4 text-center">
                   <div className="mb-2 rounded-full bg-emerald-500/10 p-3">
                     <DollarSign className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="mb-1 text-sm font-bold">Affordable Pricing</h3>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
-                    Premium features at competitive prices. No hidden fees or surprise charges.
+                  <h3 className="mb-1 break-words text-sm font-bold">Affordable Pricing</h3>
+                  <p className="break-words text-xs leading-relaxed text-muted-foreground">
+                    Premium features starting at $20/mo. No hidden fees or surprise charges.
                   </p>
                 </div>
                 <div className="flex flex-col items-center rounded-lg border border-border/50 bg-background p-4 text-center">
                   <div className="mb-2 rounded-full bg-emerald-500/10 p-3">
-                    <Star className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                    <Users className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="mb-1 text-sm font-bold">Zero Data Mining</h3>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
-                    We never train AI on your prompts. Your intellectual property stays yours.
+                  <h3 className="mb-1 break-words text-sm font-bold">Team Ready</h3>
+                  <p className="break-words text-xs leading-relaxed text-muted-foreground">
+                    Share prompts with your team and onboard new members in minutes.
                   </p>
                 </div>
               </div>
@@ -502,15 +498,15 @@ export default async function Home() {
           </section>
 
           {/* Features Section with ROI */}
-          <section className="mt-16 md:mt-32">
+          <section className="mt-16 px-4 md:mt-32">
             <div className="mx-auto max-w-6xl">
               <div className="mx-auto max-w-3xl text-center">
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl">
-                  Everything You Need to Scale Your AI Operations
+                <h2 className="break-words text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl">
+                  Everything You Need to Manage Team Prompts
                 </h2>
-                <p className="mt-4 text-base leading-relaxed text-gray-700 dark:text-gray-300 sm:text-lg md:mt-6 md:text-xl">
-                  Stop wasting hours searching for prompts. Prompt Manage helps you find and
-                  organize your team's best prompts while keeping your competitive advantage secure.
+                <p className="mt-4 break-words text-base leading-relaxed text-gray-700 dark:text-gray-300 sm:text-lg md:mt-6 md:text-xl">
+                  Stop wasting hours searching for prompts. Find, organize, and share your team's
+                  best prompts in seconds.
                 </p>
               </div>
 
@@ -539,16 +535,18 @@ export default async function Home() {
                   <div className="absolute right-0 top-0 h-20 w-20 bg-gradient-to-br from-emerald-500/10 to-transparent blur-2xl" />
                   <div className="relative">
                     <div className="mb-4 inline-flex items-center justify-center rounded-xl bg-emerald-500/10 p-3">
-                      <Lock className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                      <Folder className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <h3 className="mb-2 text-lg font-bold md:text-xl">Military-Grade Security</h3>
-                    <p className="mb-4 text-sm leading-relaxed text-muted-foreground md:text-base">
-                      AES-256 encryption, SOC 2 compliance, and zero-knowledge architecture. Your
-                      prompts never leave your control.
+                    <h3 className="mb-2 break-words text-lg font-bold md:text-xl">
+                      Organize Everything
+                    </h3>
+                    <p className="mb-4 break-words text-sm leading-relaxed text-muted-foreground md:text-base">
+                      Tag, categorize, and create collections. Keep your prompts organized by
+                      project, team, or use case.
                     </p>
                     <div className="rounded-lg bg-muted/50 p-3">
-                      <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                        Protect your intellectual property
+                      <div className="break-words text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                        Never lose a great prompt again
                       </div>
                     </div>
                   </div>
@@ -577,75 +575,75 @@ export default async function Home() {
           </section>
 
           {/* Comparison/Differentiation Section */}
-          <section className="mt-16 md:mt-32">
+          <section className="mt-16 px-4 md:mt-32">
             <div className="mx-auto max-w-5xl rounded-2xl border-2 border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-transparent p-8 md:p-12">
               <div className="text-center">
-                <h2 className="mb-4 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-                  Why Choose Prompt Manage Over Alternatives?
+                <h2 className="mb-4 break-words text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
+                  Why Choose Prompt Manage?
                 </h2>
-                <p className="mb-8 text-base text-muted-foreground md:text-lg">
-                  We built Prompt Manage because existing solutions are either too expensive, too
-                  complicated, or don&apos;t take security seriously.
+                <p className="mb-8 break-words text-base text-muted-foreground md:text-lg">
+                  We built Prompt Manage to be affordable, simple, and focused on what marketing
+                  teams actually need.
                 </p>
               </div>
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="rounded-lg border border-border bg-background p-6">
                   <div className="mb-3 flex items-center gap-2">
-                    <div className="rounded-full bg-red-500/10 p-1">
+                    <div className="shrink-0 rounded-full bg-red-500/10 p-1">
                       <div className="h-3 w-3 rounded-full bg-red-500" />
                     </div>
-                    <h3 className="font-bold text-muted-foreground">Other Solutions</h3>
+                    <h3 className="break-words font-bold text-muted-foreground">Other Solutions</h3>
                   </div>
                   <ul className="space-y-2 text-sm text-muted-foreground">
                     <li className="flex gap-2">
-                      <span className="text-red-500">✗</span>
-                      <span>$99-$500/month for basic features</span>
+                      <span className="shrink-0 text-red-500">✗</span>
+                      <span className="break-words">$99-$500/month</span>
                     </li>
                     <li className="flex gap-2">
-                      <span className="text-red-500">✗</span>
-                      <span>Train AI models on your prompts</span>
+                      <span className="shrink-0 text-red-500">✗</span>
+                      <span className="break-words">May train AI on your data</span>
                     </li>
                     <li className="flex gap-2">
-                      <span className="text-red-500">✗</span>
-                      <span>Limited storage quotas</span>
+                      <span className="shrink-0 text-red-500">✗</span>
+                      <span className="break-words">Limited storage</span>
                     </li>
                     <li className="flex gap-2">
-                      <span className="text-red-500">✗</span>
-                      <span>Complex setup requiring IT support</span>
+                      <span className="shrink-0 text-red-500">✗</span>
+                      <span className="break-words">Complex setup</span>
                     </li>
                     <li className="flex gap-2">
-                      <span className="text-red-500">✗</span>
-                      <span>Lock you into annual contracts</span>
+                      <span className="shrink-0 text-red-500">✗</span>
+                      <span className="break-words">Annual contracts</span>
                     </li>
                   </ul>
                 </div>
                 <div className="rounded-lg border-2 border-emerald-500/50 bg-emerald-500/5 p-6">
                   <div className="mb-3 flex items-center gap-2">
-                    <div className="rounded-full bg-emerald-500/10 p-1">
+                    <div className="shrink-0 rounded-full bg-emerald-500/10 p-1">
                       <div className="h-3 w-3 rounded-full bg-emerald-500" />
                     </div>
-                    <h3 className="font-bold">Prompt Manage</h3>
+                    <h3 className="break-words font-bold">Prompt Manage</h3>
                   </div>
                   <ul className="space-y-2 text-sm">
                     <li className="flex gap-2">
-                      <span className="text-emerald-500">✓</span>
-                      <span className="font-medium">$0-$99/month with unlimited storage</span>
+                      <span className="shrink-0 text-emerald-500">✓</span>
+                      <span className="break-words font-medium">From $20/month</span>
                     </li>
                     <li className="flex gap-2">
-                      <span className="text-emerald-500">✓</span>
-                      <span className="font-medium">Zero data mining guarantee</span>
+                      <span className="shrink-0 text-emerald-500">✓</span>
+                      <span className="break-words font-medium">Your data stays private</span>
                     </li>
                     <li className="flex gap-2">
-                      <span className="text-emerald-500">✓</span>
-                      <span className="font-medium">Truly unlimited prompts on paid plans</span>
+                      <span className="shrink-0 text-emerald-500">✓</span>
+                      <span className="break-words font-medium">Unlimited prompts</span>
                     </li>
                     <li className="flex gap-2">
-                      <span className="text-emerald-500">✓</span>
-                      <span className="font-medium">Start in 60 seconds, no setup needed</span>
+                      <span className="shrink-0 text-emerald-500">✓</span>
+                      <span className="break-words font-medium">60 second setup</span>
                     </li>
                     <li className="flex gap-2">
-                      <span className="text-emerald-500">✓</span>
-                      <span className="font-medium">Cancel anytime, keep your data</span>
+                      <span className="shrink-0 text-emerald-500">✓</span>
+                      <span className="break-words font-medium">Cancel anytime</span>
                     </li>
                   </ul>
                 </div>
@@ -661,14 +659,14 @@ export default async function Home() {
           </section>
 
           {/* How it works */}
-          <section className="mt-12 md:mt-24">
+          <section className="mt-12 px-4 md:mt-24">
             <div className="mx-auto max-w-6xl">
               <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-xl font-bold tracking-tight sm:text-2xl md:text-3xl lg:text-4xl">
+                <h2 className="break-words text-xl font-bold tracking-tight sm:text-2xl md:text-3xl lg:text-4xl">
                   Get Started in 3 Simple Steps
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base md:mt-4 md:text-lg">
-                  No complex setup. No IT required. Start securing your prompts in under 60 seconds.
+                <p className="mt-2 break-words text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base md:mt-4 md:text-lg">
+                  No complex setup. Start organizing your prompts in under 60 seconds.
                 </p>
               </div>
 
@@ -699,19 +697,19 @@ export default async function Home() {
                       className="relative overflow-hidden rounded-xl border-2 border-border bg-white p-6 dark:border-gray-800 dark:bg-gray-900 sm:p-8"
                     >
                       <div className="mb-3 flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/10">
                           <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
                             {i + 1}
                           </span>
                         </div>
-                        <div className="rounded-lg bg-emerald-500/10 p-2">
+                        <div className="shrink-0 rounded-lg bg-emerald-500/10 p-2">
                           <s.icon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                         </div>
                       </div>
-                      <h3 className="mb-2 text-lg font-bold text-gray-900 dark:text-white">
+                      <h3 className="mb-2 break-words text-lg font-bold text-gray-900 dark:text-white">
                         {s.title}
                       </h3>
-                      <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                      <p className="break-words text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                         {s.desc}
                       </p>
                     </div>
@@ -748,14 +746,14 @@ export default async function Home() {
           </section>
 
           {/* Final CTA Banner */}
-          <section className="mt-16 md:mt-32">
+          <section className="mt-16 px-4 md:mt-32">
             <div className="mx-auto max-w-5xl rounded-2xl border-2 border-emerald-500/50 bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-transparent p-8 text-center md:p-12">
-              <h2 className="mb-4 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-                Stop Compromising on Security or Price
+              <h2 className="mb-4 break-words text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
+                Start Organizing Your Team's Prompts Today
               </h2>
-              <p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                Join the teams who switched to Prompt Manage and saved thousands while getting
-                enterprise-grade security. Start your free account today.
+              <p className="mx-auto mb-8 max-w-2xl break-words text-base leading-relaxed text-muted-foreground md:text-lg">
+                Join marketing teams who save hours every week with better prompt organization.
+                Start free, upgrade anytime.
               </p>
               <div className="flex flex-col items-center gap-4">
                 <GoogleSignInButton
@@ -792,8 +790,8 @@ export default async function Home() {
           <section className="relative mt-12 md:mt-24">
             <div className="absolute inset-0 -z-10 bg-gradient-to-b from-gray-50 via-transparent to-gray-50 dark:from-gray-950 dark:via-transparent dark:to-gray-950" />
             <div className="mx-auto max-w-6xl px-4">
-              <h2 className="mb-8 text-center text-2xl font-bold tracking-tight sm:text-3xl md:mb-12 md:text-4xl">
-                Trusted by Teams Who Take Security Seriously
+              <h2 className="mb-8 break-words text-center text-2xl font-bold tracking-tight sm:text-3xl md:mb-12 md:text-4xl">
+                Trusted by Marketing Teams
               </h2>
               <div className="mx-auto max-w-2xl">
                 {/* Real Testimonial */}
@@ -803,16 +801,18 @@ export default async function Home() {
                       <Star key={i} className="h-4 w-4 fill-emerald-500 text-emerald-500" />
                     ))}
                   </div>
-                  <blockquote className="mb-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+                  <blockquote className="mb-4 break-words text-sm leading-relaxed text-gray-700 dark:text-gray-300 sm:text-base">
                     &quot;Prompt Manage turned our scattered prompt docs into a well-organized
                     library. We went from spending 2 hours a day searching for prompts to finding
                     what we need in seconds.&quot;
                   </blockquote>
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-emerald-500/10" />
-                    <div>
-                      <div className="text-xs font-semibold">Michael Moloney</div>
-                      <div className="text-xs text-muted-foreground">
+                    <div className="h-10 w-10 shrink-0 rounded-full bg-emerald-500/10" />
+                    <div className="min-w-0">
+                      <div className="break-words text-xs font-semibold sm:text-sm">
+                        Michael Moloney
+                      </div>
+                      <div className="break-words text-xs text-muted-foreground">
                         Co-Founder,{' '}
                         <a
                           href="https://moloneycreativeagency.com/"
@@ -831,113 +831,102 @@ export default async function Home() {
           </section>
 
           {/* FAQ Section - Human & LLM Optimized */}
-          <section className="mx-auto mt-12 max-w-4xl md:mt-24">
+          <section className="mx-auto mt-12 max-w-4xl px-4 md:mt-24">
             <div className="text-center">
-              <h2 className="mb-3 text-2xl font-bold tracking-tight sm:text-3xl md:mb-4 md:text-4xl">
+              <h2 className="mb-3 break-words text-2xl font-bold tracking-tight sm:text-3xl md:mb-4 md:text-4xl">
                 Frequently Asked Questions
               </h2>
-              <p className="mb-8 text-base text-muted-foreground md:mb-12 md:text-lg">
-                Everything you need to know about the most secure prompt management platform
+              <p className="mb-8 break-words text-base text-muted-foreground md:mb-12 md:text-lg">
+                Everything you need to know about Prompt Manage
               </p>
             </div>
             <div className="space-y-4">
               <details className="group rounded-xl border border-border bg-background p-6 transition-all hover:border-emerald-500/50">
                 <summary className="flex cursor-pointer items-center justify-between font-semibold text-gray-900 dark:text-white">
-                  <span>Why is Prompt Manage more secure than alternatives?</span>
-                  <span className="ml-4 text-emerald-600 transition-transform group-open:rotate-45">
+                  <span className="break-words">Is my data secure and private?</span>
+                  <span className="ml-4 shrink-0 text-emerald-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  Prompt Manage uses military-grade AES-256 encryption at rest and in transit, SOC 2
-                  Type II compliance, and zero-knowledge architecture. Unlike competitors, your
-                  prompts are encrypted before they reach our servers, so we physically cannot
-                  access your data. We&apos;re GDPR and CCPA compliant, maintain 99.9% uptime SLA,
-                  and guarantee zero data mining—we never train AI on your prompts.
+                <p className="mt-4 break-words text-sm leading-relaxed text-muted-foreground">
+                  Yes. Your prompts are encrypted and stored securely. We never access your data,
+                  train AI models on it, or share it with third parties. Your prompts stay private
+                  and are only accessible to you and your team.
                 </p>
               </details>
 
               <details className="group rounded-xl border border-border bg-background p-6 transition-all hover:border-emerald-500/50">
                 <summary className="flex cursor-pointer items-center justify-between font-semibold text-gray-900 dark:text-white">
-                  <span>How much money will I save switching to Prompt Manage?</span>
-                  <span className="ml-4 text-emerald-600 transition-transform group-open:rotate-45">
+                  <span className="break-words">How much does Prompt Manage cost?</span>
+                  <span className="ml-4 shrink-0 text-emerald-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  While some competitors charge $99-$500/month for basic features, Prompt Manage
-                  offers unlimited prompts starting at just $20/month. Our free plan gives you 25
-                  prompts forever—no credit card required.
+                <p className="mt-4 break-words text-sm leading-relaxed text-muted-foreground">
+                  We offer a free forever plan with 25 prompts. Paid plans start at $20/month with
+                  unlimited prompts and team features. No hidden fees, cancel anytime.
                 </p>
               </details>
 
               <details className="group rounded-xl border border-border bg-background p-6 transition-all hover:border-emerald-500/50">
                 <summary className="flex cursor-pointer items-center justify-between font-semibold text-gray-900 dark:text-white">
-                  <span>Can I try Prompt Manage before committing?</span>
-                  <span className="ml-4 text-emerald-600 transition-transform group-open:rotate-45">
+                  <span className="break-words">Can I try it free?</span>
+                  <span className="ml-4 shrink-0 text-emerald-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  Absolutely! Our free forever plan lets you store 25 prompts, use our advanced
-                  search and tagging, and access 400+ free templates from our public directory. No
-                  credit card required, no time limit. When you&apos;re ready to scale, upgrade to
-                  Team ($20/mo) or Pro ($99/mo) and cancel anytime with no fees or lock-ins.
+                <p className="mt-4 break-words text-sm leading-relaxed text-muted-foreground">
+                  Yes! Sign up for free and get 25 prompts, advanced search, tagging, and access to
+                  400+ free templates. No credit card required. Upgrade anytime to unlock unlimited
+                  prompts and team features.
                 </p>
               </details>
 
               <details className="group rounded-xl border border-border bg-background p-6 transition-all hover:border-emerald-500/50">
                 <summary className="flex cursor-pointer items-center justify-between font-semibold text-gray-900 dark:text-white">
-                  <span>What AI models work with Prompt Manage?</span>
-                  <span className="ml-4 text-emerald-600 transition-transform group-open:rotate-45">
+                  <span className="break-words">What AI models are supported?</span>
+                  <span className="ml-4 shrink-0 text-emerald-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  All of them! Prompt Manage supports 20+ AI models including GPT-5, GPT-4o, Claude
-                  4 Opus, Claude 4 Sonnet, Claude 3.5 Sonnet, Gemini 2.5 Pro, Llama 4, DeepSeek R1,
-                  Mistral Large, Grok 4, and more. We add new models as they launch, so your prompt
-                  library works with any AI tool you use now or in the future.
+                <p className="mt-4 break-words text-sm leading-relaxed text-muted-foreground">
+                  All major AI models including ChatGPT, Claude, Gemini, Llama, Mistral, and 20+
+                  more. We add new models as they launch so your prompt library works with any AI
+                  tool.
                 </p>
               </details>
 
               <details className="group rounded-xl border border-border bg-background p-6 transition-all hover:border-emerald-500/50">
                 <summary className="flex cursor-pointer items-center justify-between font-semibold text-gray-900 dark:text-white">
-                  <span>How do teams use Prompt Manage to collaborate?</span>
-                  <span className="ml-4 text-emerald-600 transition-transform group-open:rotate-45">
+                  <span className="break-words">How does team collaboration work?</span>
+                  <span className="ml-4 shrink-0 text-emerald-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  Teams create shared prompt libraries with role-based access control. You can
-                  invite members, organize prompts by project or use case, track version history,
-                  and maintain a single source of truth for your best prompts. New team members can
-                  be onboarded in minutes instead of weeks, and everyone always has access to your
-                  latest, most effective prompts.
+                <p className="mt-4 break-words text-sm leading-relaxed text-muted-foreground">
+                  Create shared prompt libraries, invite team members, set permissions, and organize
+                  prompts by project. Track version history and onboard new members in minutes.
                 </p>
               </details>
 
               <details className="group rounded-xl border border-border bg-background p-6 transition-all hover:border-emerald-500/50">
                 <summary className="flex cursor-pointer items-center justify-between font-semibold text-gray-900 dark:text-white">
-                  <span>Will you train AI on my prompts like other companies do?</span>
-                  <span className="ml-4 text-emerald-600 transition-transform group-open:rotate-45">
+                  <span className="break-words">Will you use my prompts to train AI?</span>
+                  <span className="ml-4 shrink-0 text-emerald-600 transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  Never. This is our zero data mining guarantee. Your prompts are your intellectual
-                  property and competitive advantage. We use zero-knowledge encryption, meaning we
-                  physically cannot access your prompts. We never train AI on your data, never sell
-                  it, never share it with third parties, and never use it for any purpose other than
-                  securely storing it for you.
+                <p className="mt-4 break-words text-sm leading-relaxed text-muted-foreground">
+                  Never. Your prompts are your intellectual property. We never train AI on your
+                  data, sell it, or share it with third parties. Your data stays private and secure.
                 </p>
               </details>
             </div>
           </section>
 
           {/* Learn More / Internal Links Section */}
-          <section className="mx-auto mt-12 max-w-5xl border-t pb-10 pt-8 sm:mt-16 sm:pb-12 sm:pt-10 md:mt-32 md:pb-16 md:pt-12">
-            <h2 className="mb-4 text-center text-lg font-bold text-gray-900 dark:text-white sm:mb-6 sm:text-xl md:mb-8 md:text-2xl">
+          <section className="mx-auto mt-12 max-w-5xl border-t px-4 pb-10 pt-8 sm:mt-16 sm:pb-12 sm:pt-10 md:mt-32 md:pb-16 md:pt-12">
+            <h2 className="mb-4 break-words text-center text-lg font-bold text-gray-900 dark:text-white sm:mb-6 sm:text-xl md:mb-8 md:text-2xl">
               Explore Prompt Manage
             </h2>
             <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 md:gap-6 lg:grid-cols-3">
@@ -945,10 +934,10 @@ export default async function Home() {
                 href="/p"
                 className="group rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700 sm:p-5 md:rounded-xl md:p-6"
               >
-                <h3 className="mb-1 text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
+                <h3 className="mb-1 break-words text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
                   Public Prompt Directory →
                 </h3>
-                <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
+                <p className="break-words text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
                   Browse 300+ community-shared AI prompts for ChatGPT, Claude, Gemini, and more.
                   Free to use and copy.
                 </p>
@@ -957,10 +946,10 @@ export default async function Home() {
                 href="/trending"
                 className="group rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700 sm:p-5 md:rounded-xl md:p-6"
               >
-                <h3 className="mb-1 text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
+                <h3 className="mb-1 break-words text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
                   Trending Prompts →
                 </h3>
-                <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
+                <p className="break-words text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
                   Discover the most popular and recently added AI prompt templates used by thousands
                   of creators.
                 </p>
@@ -969,10 +958,10 @@ export default async function Home() {
                 href="/categories"
                 className="group rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700 sm:p-5 md:rounded-xl md:p-6"
               >
-                <h3 className="mb-1 text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
+                <h3 className="mb-1 break-words text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
                   Browse by Category →
                 </h3>
-                <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
+                <p className="break-words text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
                   Find prompts organized by use case: coding, marketing, writing, design, business,
                   and more.
                 </p>
@@ -983,10 +972,10 @@ export default async function Home() {
                 href="/p/tags"
                 className="group rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700 sm:p-5 md:rounded-xl md:p-6"
               >
-                <h3 className="mb-1 text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
+                <h3 className="mb-1 break-words text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
                   Browse by Tag →
                 </h3>
-                <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
+                <p className="break-words text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
                   Explore prompts by specific tags and keywords to find exactly what you need.
                 </p>
               </Link>
@@ -994,10 +983,10 @@ export default async function Home() {
                 href="/models"
                 className="group rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700 sm:p-5 md:rounded-xl md:p-6"
               >
-                <h3 className="mb-1 text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
+                <h3 className="mb-1 break-words text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
                   Supported AI Models →
                 </h3>
-                <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
+                <p className="break-words text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
                   See the complete list of 20+ AI models we support, including GPT-5, Claude 4,
                   Gemini 2.5 Pro, and more.
                 </p>
@@ -1006,10 +995,10 @@ export default async function Home() {
                 href="/docs/best-practices"
                 className="group rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700 sm:p-5 md:rounded-xl md:p-6"
               >
-                <h3 className="mb-1 text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
+                <h3 className="mb-1 break-words text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
                   Prompt Best Practices →
                 </h3>
-                <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
+                <p className="break-words text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
                   Learn expert tips for writing effective prompts, organizing your library, and
                   scaling team workflows.
                 </p>
@@ -1020,10 +1009,10 @@ export default async function Home() {
                 href="/docs"
                 className="group rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700 sm:p-5 md:rounded-xl md:p-6"
               >
-                <h3 className="mb-1 text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
+                <h3 className="mb-1 break-words text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
                   Documentation →
                 </h3>
-                <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
+                <p className="break-words text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
                   Complete guides on how to use Prompt Manage, from creating your first prompt to
                   advanced team collaboration.
                 </p>
@@ -1032,10 +1021,10 @@ export default async function Home() {
                 href="/about"
                 className="group rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-emerald-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-emerald-700 sm:p-5 md:rounded-xl md:p-6"
               >
-                <h3 className="mb-1 text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
+                <h3 className="mb-1 break-words text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400 sm:mb-1.5 sm:text-base md:mb-2">
                   About Prompt Manage →
                 </h3>
-                <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
+                <p className="break-words text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:text-sm">
                   Learn about our mission to help teams organize, test, and collaborate on AI
                   prompts at scale.
                 </p>

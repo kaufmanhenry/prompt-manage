@@ -4,7 +4,6 @@ import {
   Folder,
   Lock,
   Search,
-  ShieldCheck,
   Star,
   Users,
   Zap,

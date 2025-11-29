@@ -19,7 +19,7 @@ import { Link } from '@/i18n/routing'
 import { createClient } from '@/utils/supabase/server'
 
 export const metadata: Metadata = {
-  title: 'Prompt Manage — Organize & Share Your Team's AI Prompts | Start Free',
+  title: 'Prompt Manage — Organize & Share Your Team\'s AI Prompts | Start Free',
   description:
     'The affordable prompt management platform for marketing teams. Organize, find, and share prompts in seconds. Unlimited storage from $20/mo. 400+ free templates. Start free today.',
   keywords:
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Prompt Manage — Organize & Share Your Team's AI Prompts',
+    title: 'Prompt Manage — Organize & Share Your Team\'s AI Prompts',
     description:
       'Affordable prompt management for marketing teams. Organize, find, and share prompts in seconds. Unlimited storage from $20/mo. Start free today.',
     url: 'https://promptmanage.com',
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Prompt Manage — Organize & Share Your Team's AI Prompts',
+    title: 'Prompt Manage — Organize & Share Your Team\'s AI Prompts',
     description:
       'Affordable prompt management for marketing teams. Organize, find, and share prompts in seconds. Unlimited storage from $20/mo. Start free today.',
     images: ['/og-image.svg'],
@@ -258,7 +258,7 @@ export default async function Home() {
     description:
       'Affordable prompt management platform for marketing teams. Organize, find, and share prompts in seconds. Save hours per week with powerful search and team collaboration.',
     foundingDate: '2024',
-    slogan: 'Organize & Share Your Team's Best AI Prompts',
+    slogan: 'Organize & Share Your Team\'s Best AI Prompts',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Support',
@@ -332,7 +332,7 @@ export default async function Home() {
               <p className="mb-3 break-words text-base leading-relaxed text-gray-700 dark:text-gray-300 sm:text-lg md:text-xl lg:text-2xl">
                 Stop losing valuable prompts in scattered docs and Slack threads.{' '}
                 <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                  Organize, find, and share your team's best prompts
+                  Organize, find, and share your team\'s best prompts
                 </span>{' '}
                 in seconds.
               </p>
@@ -505,7 +505,7 @@ export default async function Home() {
                   Everything You Need to Manage Team Prompts
                 </h2>
                 <p className="mt-4 break-words text-base leading-relaxed text-gray-700 dark:text-gray-300 sm:text-lg md:mt-6 md:text-xl">
-                  Stop wasting hours searching for prompts. Find, organize, and share your team's
+                  Stop wasting hours searching for prompts. Find, organize, and share your team\'s
                   best prompts in seconds.
                 </p>
               </div>
@@ -749,7 +749,7 @@ export default async function Home() {
           <section className="mt-16 px-4 md:mt-32">
             <div className="mx-auto max-w-5xl rounded-2xl border-2 border-emerald-500/50 bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-transparent p-8 text-center md:p-12">
               <h2 className="mb-4 break-words text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-                Start Organizing Your Team's Prompts Today
+                Start Organizing Your Team\'s Prompts Today
               </h2>
               <p className="mx-auto mb-8 max-w-2xl break-words text-base leading-relaxed text-muted-foreground md:text-lg">
                 Join marketing teams who save hours every week with better prompt organization.

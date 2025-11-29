@@ -18,7 +18,7 @@ import { Link } from '@/i18n/routing'
 import { createClient } from '@/utils/supabase/server'
 
 export const metadata: Metadata = {
-  title: "Prompt Manage — Organize & Share Your Team's AI Prompts | Start Free",
+  title: 'Prompt Manage — Organize & Share Your Team\'s AI Prompts | Start Free',
   description:
     'The affordable prompt management platform for marketing teams. Organize, find, and share prompts in seconds. Unlimited storage from $20/mo. 400+ free templates. Start free today.',
   keywords:
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Prompt Manage — Organize & Share Your Team's AI Prompts",
+    title: 'Prompt Manage — Organize & Share Your Team\'s AI Prompts',
     description:
       'Affordable prompt management for marketing teams. Organize, find, and share prompts in seconds. Unlimited storage from $20/mo. Start free today.',
     url: 'https://promptmanage.com',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Prompt Manage — Organize & Share Your Team's AI Prompts",
+    title: 'Prompt Manage — Organize & Share Your Team\'s AI Prompts',
     description:
       'Affordable prompt management for marketing teams. Organize, find, and share prompts in seconds. Unlimited storage from $20/mo. Start free today.',
     images: ['/og-image.svg'],
@@ -257,7 +257,7 @@ export default async function Home() {
     description:
       'Affordable prompt management platform for marketing teams. Organize, find, and share prompts in seconds. Save hours per week with powerful search and team collaboration.',
     foundingDate: '2024',
-    slogan: "Organize & Share Your Team's Best AI Prompts",
+    slogan: 'Organize & Share Your Team\'s Best AI Prompts',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Support',

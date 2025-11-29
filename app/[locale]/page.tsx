@@ -171,7 +171,7 @@ export default async function Home() {
         name: 'What is Prompt Manage and why do teams need it?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Prompt Manage is a secure and affordable prompt management platform for teams. It provides AES-256 encryption, SOC 2 compliance, and zero-knowledge architecture to protect your AI prompts. Organize prompts with advanced search, version control, and team collaboration features. Unlike some competitors, we never train AI models on your data and offer unlimited storage starting at just $20/month.',
+          text: 'Prompt Manage is a secure and affordable prompt management platform for teams. Organize prompts with advanced search, version control, and team collaboration features. Unlike some competitors, we never train AI models on your data and offer unlimited storage starting at just $20/month.',
         },
       },
       {
@@ -179,7 +179,7 @@ export default async function Home() {
         name: 'How secure is Prompt Manage compared to other solutions?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Prompt Manage uses military-grade AES-256 encryption at rest and in transit, SOC 2 Type II compliance, and zero-knowledge architecture. Your prompts are encrypted before they reach our servers, meaning we physically cannot access your data. We are GDPR and CCPA compliant, maintain 99.9% uptime SLA, and guarantee zero data mining - we never train AI models on your prompts, unlike many competitors.',
+          text: 'Prompt Manage uses industry-standard encryption to keep your prompts secure and private. Your data is encrypted before it reaches our servers, meaning we cannot access it. We are GDPR and CCPA compliant, maintain 99.9% uptime SLA, and guarantee zero data mining - we never train AI models on your prompts, unlike many competitors.',
         },
       },
       {
@@ -292,7 +292,7 @@ export default async function Home() {
       worstRating: '1',
     },
     reviewBody:
-      'Prompt Manage turned our scattered prompt docs into a well-organized library. We went from spending 2 hours a day searching for prompts to finding what we need in seconds. The AES-256 encryption gives us peace of mind that our competitive advantage is protected.',
+      'Prompt Manage turned our scattered prompt docs into a well-organized library. We went from spending 2 hours a day searching for prompts to finding what we need in seconds. The security features give us peace of mind that our competitive advantage is protected.',
     datePublished: '2024-12-15',
   }
 
@@ -775,7 +775,7 @@ export default async function Home() {
                   </span>
                   <span className="flex items-center gap-1">
                     <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-                    AES-256 encryption
+                    Secure & encrypted
                   </span>
                   <span className="flex items-center gap-1">
                     <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
@@ -918,7 +918,8 @@ export default async function Home() {
                 </summary>
                 <p className="mt-4 break-words text-sm leading-relaxed text-muted-foreground">
                   Never. Your prompts are your intellectual property. We never train AI on your
-                  data, sell it, or share it with third parties. Your data stays private and secure.
+                  data, sell it, or share it with third parties. Your data stays private and
+                  secure.
                 </p>
               </details>
             </div>

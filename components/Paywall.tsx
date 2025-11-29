@@ -48,11 +48,21 @@ export function Paywall({ isOpen, onClose, currentPlan = 'free', usage, feature 
         const errorMessage = data.error || 'Failed to create checkout session'
         logger.error('Checkout session error:', errorMessage)
 
+        // Handle unauthorized (should be logged in but session expired)
+        if (response.status === 401) {
+          alert('Your session has expired. Please sign in again.')
+          window.location.href = '/?redirect=/pricing'
+          return
+        }
+
         // Show user-friendly error message
         if (errorMessage.includes('price ID')) {
           alert(
             'Payment system is not fully configured. Please contact support or try again later.',
           )
+        } else if (errorMessage.includes('Unauthorized')) {
+          alert('Please sign in to subscribe to a plan.')
+          window.location.href = '/?redirect=/pricing'
         } else {
           alert(`Error: ${errorMessage}`)
         }

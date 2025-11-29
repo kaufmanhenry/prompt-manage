@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { PRICING_CONFIG } from '@/lib/pricing'
-import { getUserSubscription, getUserUsage } from '@/lib/subscription'
+import { getSubscriptionStatusMessage, getUserSubscription, getUserUsage } from '@/lib/subscription'
 import { isAdminEmail } from '@/utils/admin'
 import { createClient } from '@/utils/supabase/server'
 
@@ -67,15 +67,7 @@ export async function GET(_request: NextRequest) {
               PRICING_CONFIG[subscription.plan].limits.canShare === true
             : true, // Free users can share publicly
       },
-      statusMessage: subscription
-        ? subscription.status === 'past_due'
-          ? 'Your payment failed. Please update your payment method to continue using premium features.'
-          : subscription.status === 'unpaid'
-            ? 'Payment required. Please update your billing information to restore access.'
-            : subscription.status === 'canceled'
-              ? 'Your subscription was canceled. Resubscribe to continue using premium features.'
-              : null
-        : null,
+      statusMessage: subscription ? getSubscriptionStatusMessage(subscription) : null,
     })
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {

@@ -7,6 +7,7 @@ This webhook endpoint (`/api/webhooks/stripe`) has been **DEPRECATED** and shoul
 This webhook was designed for team-level billing but the codebase now uses **user-level billing** with the `user_subscriptions` table.
 
 ### Problems with this endpoint:
+
 1. Expects `teamId` metadata - checkout sends `userId` ❌
 2. Updates `teams` table - app uses `user_subscriptions` table ❌
 3. Uses different field names (`tier` vs `plan`) ❌
@@ -15,6 +16,7 @@ This webhook was designed for team-level billing but the codebase now uses **use
 ## Use This Instead
 
 **Correct webhook endpoint:** `/api/stripe/webhook`
+
 - File: `app/api/stripe/webhook/route.ts`
 - Updates: `user_subscriptions` table
 - Metadata: `userId` and `plan`

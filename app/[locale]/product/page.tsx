@@ -11,7 +11,6 @@ export const metadata: Metadata = {
     'AI prompts',
     'team collaboration',
     'unlimited prompts',
-
     'bulk import export',
     'prompt CMS',
   ],
@@ -19,6 +18,20 @@ export const metadata: Metadata = {
     title: 'Product — Prompt Manage',
     description: 'The complete CMS for AI prompts. Built for teams and enterprises.',
     type: 'website',
+    images: [
+      {
+        url: 'https://promptmanage.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Prompt Manage Product - Complete CMS for AI prompts',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Product — Prompt Manage',
+    description: 'The complete CMS for AI prompts. Built for teams and enterprises.',
+    images: ['https://promptmanage.com/og-image.png'],
   },
 }
 

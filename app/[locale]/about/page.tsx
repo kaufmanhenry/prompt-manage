@@ -13,6 +13,20 @@ export const metadata: Metadata = {
     title: 'About Us — Prompt Manage',
     description: 'Making AI prompt management secure, collaborative, and reliable.',
     type: 'website',
+    images: [
+      {
+        url: 'https://promptmanage.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'About Prompt Manage - Enterprise-grade prompt management for teams',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About Us — Prompt Manage',
+    description: 'Making AI prompt management secure, collaborative, and reliable for teams.',
+    images: ['https://promptmanage.com/og-image.png'],
   },
 }
 

@@ -19,11 +19,11 @@
 export async function POST() {
   return new Response(
     JSON.stringify({
-      error: 'This webhook endpoint is deprecated. Use /api/stripe/webhook instead.'
+      error: 'This webhook endpoint is deprecated. Use /api/stripe/webhook instead.',
     }),
     {
       status: 410, // Gone
-      headers: { 'Content-Type': 'application/json' }
-    }
+      headers: { 'Content-Type': 'application/json' },
+    },
   )
 }

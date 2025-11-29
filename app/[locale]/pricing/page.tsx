@@ -78,19 +78,47 @@ export default function PricingPage() {
           router.push(`/?redirect=/pricing&checkout=${tier}`)
           return
         }
+
+        // Handle server configuration errors
+        if (response.status === 500) {
+          const errorDescription =
+            data.error || data.details || 'An error occurred while setting up your subscription'
+
+          toast({
+            title: 'Checkout Error',
+            description: errorDescription,
+            variant: 'destructive',
+          })
+
+          // Log detailed error for debugging
+          console.error('[Pricing] Checkout failed with 500:', {
+            error: data.error,
+            details: data.details,
+            plan: tier,
+          })
+          setLoading(null)
+          return
+        }
+
+        // Handle other errors
         throw new Error(data.error || 'Failed to create checkout session')
       }
 
       if (data.url) {
         window.location.href = data.url
+      } else {
+        throw new Error('No checkout URL received from server')
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error('Checkout error:', error)
       }
       toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to start checkout',
+        title: 'Checkout Failed',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'Unable to start checkout. Please try again or contact support.',
         variant: 'destructive',
       })
       setLoading(null)

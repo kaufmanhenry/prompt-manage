@@ -19,6 +19,7 @@ import CopyButton from '@/components/CopyButton'
 import { CopyPromptButton } from '@/components/CopyPromptButton'
 import { DerivativePrompts } from '@/components/DerivativePrompts'
 import { RelatedPrompts } from '@/components/RelatedPrompts'
+import { UpvoteButton } from '@/components/social/UpvoteButton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -482,6 +483,15 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
 
               <div className="flex shrink-0 items-start gap-2">
                 {prompt.id && <CopyPromptButton promptId={prompt.id} promptName={prompt.name} />}
+                <div onClick={(e) => e.preventDefault()}>
+                  {prompt.id && (
+                    <UpvoteButton
+                      itemId={prompt.id}
+                      itemType="prompt"
+                      initialUpvoteCount={prompt.upvote_count || 0}
+                    />
+                  )}
+                </div>
                 <Button
                   onClick={handleLike}
                   variant="outline"
@@ -628,6 +638,10 @@ export function PublicPromptPageClient({ params }: PublicPromptPageClientProps) 
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600 dark:text-gray-400">Views</span>
                   <span className="font-medium">{prompt.view_count}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-400">Upvotes</span>
+                  <span className="font-medium">{prompt.upvote_count || 0}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600 dark:text-gray-400">Created</span>

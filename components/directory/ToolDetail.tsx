@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
+import { ToolUpvoteButton } from '@/components/social/ToolUpvoteButton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -55,10 +56,16 @@ export interface AITool {
 interface ToolDetailProps {
   tool: AITool
   initialIsFavorited: boolean
+  initialIsUpvoted?: boolean
   isAdmin?: boolean
 }
 
-export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDetailProps) {
+export default function ToolDetail({
+  tool,
+  initialIsFavorited,
+  initialIsUpvoted = false,
+  isAdmin,
+}: ToolDetailProps) {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited)
   const [logoError, setLogoError] = useState(false)
   const [bannerError, setBannerError] = useState(false)
@@ -268,6 +275,13 @@ export default function ToolDetail({ tool, initialIsFavorited, isAdmin }: ToolDe
                     Visit Website
                   </Button>
                 </Link>
+
+                <ToolUpvoteButton
+                  toolId={tool.id}
+                  initialUpvoteCount={tool.upvote_count || 0}
+                  initialIsUpvoted={initialIsUpvoted}
+                />
+
                 <Button
                   variant="outline"
                   size="icon"

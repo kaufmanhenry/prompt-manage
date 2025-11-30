@@ -89,6 +89,7 @@ export type PublicPrompt = Pick<
   | 'updated_at'
 > & {
   copy_count?: number
+  upvote_count?: number
 }
 
 // Schema for copying a public prompt

@@ -1,182 +1,188 @@
-import { Check } from 'lucide-react'
+import { Calendar, Github, Globe, Link as LinkIcon, MapPin, Twitter } from 'lucide-react'
 import type { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
-import { Badge } from '@/components/ui/badge'
-import { Card } from '@/components/ui/card'
-import { createServerSideClient } from '@/utils/supabase/server'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { formatDate } from '@/lib/utils'
+import { createClient } from '@/utils/supabase/server'
 
-type Props = { params: Promise<{ username: string }> }
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const resolvedParams = await params
-  const supabase = createServerSideClient()
-  const { data: profile } = await supabase
-    .from('user_profiles')
-    .select('display_name, bio_markdown, username, avatar_url')
-    .eq('username', resolvedParams.username)
-    .single()
-
-  const title = profile?.display_name
-    ? `${profile.display_name} – Prompt Manage`
-    : `Creator – Prompt Manage`
-  const description = profile?.bio_markdown || 'Creator profile on Prompt Manage.'
-  const url = `/u/${resolvedParams.username}`
-
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: {
-      title,
-      description,
-      url,
-      images: profile?.avatar_url ? [{ url: profile.avatar_url }] : undefined,
-    },
-    twitter: { card: 'summary', title, description },
-  }
+interface ProfilePageProps {
+  params: Promise<{
+    username: string
+    locale: string
+  }>
 }
 
-export default async function CreatorProfilePage({ params }: Props) {
-  const resolvedParams = await params
-  const supabase = createServerSideClient()
-
+export async function generateMetadata({ params }: ProfilePageProps): Promise<Metadata> {
+  const { username } = await params
+  const supabase = await createClient()
   const { data: profile } = await supabase
     .from('user_profiles')
-    .select(
-      'id, display_name, username, is_verified, avatar_url, bio_markdown, twitter_url, linkedin_url, instagram_url, youtube_url, website_url, profile_views, featured_prompt_ids, featured_collection_ids',
-    )
-    .eq('username', resolvedParams.username)
+    .select('display_name, bio')
+    .eq('username', username)
     .single()
 
   if (!profile) {
-    return (
-      <div className="mx-auto max-w-4xl p-6">
-        <h1 className="text-2xl font-semibold">Profile not found</h1>
-        <p className="text-muted-foreground">This creator does not exist.</p>
-      </div>
-    )
+    return {
+      title: 'User Not Found',
+    }
   }
 
-  // Increment profile views (best-effort)
-  void supabase
+  return {
+    title: `${profile.display_name} (@${username}) - Prompt Manage`,
+    description: profile.bio || `Check out ${profile.display_name}'s profile on Prompt Manage.`,
+  }
+}
+
+export default async function ProfilePage({ params }: ProfilePageProps) {
+  const { username } = await params
+  const supabase = await createClient()
+
+  // Fetch profile with social links
+  const { data: profile, error } = await supabase
     .from('user_profiles')
-    .update({ profile_views: (profile.profile_views || 0) + 1 })
-    .eq('id', profile.id)
+    .select(
+      `
+      *,
+      followers:user_follows!following_id(count),
+      following:user_follows!follower_id(count)
+    `,
+    )
+    .eq('username', username)
+    .single()
+
+  if (error || !profile) {
+    notFound()
+  }
+
+  // Fetch recent activity (e.g., submitted tools or public prompts)
+  // For now, we'll just fetch submitted tools
+  const { data: tools } = await supabase
+    .from('ai_tools')
+    .select('*')
+    .eq('submitted_by', profile.id)
+    .eq('status', 'approved')
+    .order('created_at', { ascending: false })
+    .limit(5)
 
   return (
-    <div className="mx-auto max-w-6xl p-6">
-      <div className="mb-8 flex items-center gap-4">
-        {profile.avatar_url ? (
-          <div className="relative h-16 w-16 overflow-hidden rounded-full bg-gray-200">
-            <Image
-              src={profile.avatar_url}
-              alt="avatar"
-              fill
-              className="object-cover"
-              unoptimized
-            />
-          </div>
-        ) : (
-          <div className="h-16 w-16 overflow-hidden rounded-full bg-gray-200" />
-        )}
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold">
-            {profile.display_name || profile.username}
-            {profile.is_verified && (
-              <Badge className="inline-flex items-center gap-1 bg-emerald-600">
-                <Check className="h-3 w-3" /> Verified
-              </Badge>
+    <div className="container max-w-4xl py-10">
+      <div className="grid gap-8 md:grid-cols-[300px_1fr]">
+        {/* Sidebar / Profile Info */}
+        <aside className="space-y-6">
+          <div className="flex flex-col items-center text-center">
+            <Avatar className="h-32 w-32 border-4 border-background shadow-xl">
+              <AvatarImage src={profile.avatar_url} />
+              <AvatarFallback className="text-4xl">
+                {profile.display_name?.[0]?.toUpperCase() || 'U'}
+              </AvatarFallback>
+            </Avatar>
+            <h1 className="mt-4 text-2xl font-bold">{profile.display_name}</h1>
+            <p className="text-muted-foreground">@{profile.username}</p>
+
+            {profile.bio && (
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{profile.bio}</p>
             )}
-          </h1>
-          <p className="text-sm text-muted-foreground">@{profile.username}</p>
-        </div>
-      </div>
-
-      {/* Socials */}
-      <div className="mb-8 flex flex-wrap gap-3 text-sm">
-        {profile.website_url && (
-          <Link className="text-foreground underline" href={profile.website_url}>
-            Website
-          </Link>
-        )}
-        {profile.twitter_url && (
-          <Link className="text-foreground underline" href={profile.twitter_url}>
-            X
-          </Link>
-        )}
-        {profile.linkedin_url && (
-          <Link className="text-foreground underline" href={profile.linkedin_url}>
-            LinkedIn
-          </Link>
-        )}
-        {profile.instagram_url && (
-          <Link className="text-foreground underline" href={profile.instagram_url}>
-            Instagram
-          </Link>
-        )}
-        {profile.youtube_url && (
-          <Link className="text-foreground underline" href={profile.youtube_url}>
-            YouTube
-          </Link>
-        )}
-      </div>
-
-      {/* Bio */}
-      {profile.bio_markdown && (
-        <Card className="mb-8 p-6">
-          <div className="prose dark:prose-invert max-w-none">
-            <p>{profile.bio_markdown}</p>
           </div>
-        </Card>
-      )}
 
-      {/* Stats */}
-      <div className="mb-8 grid gap-4 sm:grid-cols-3">
-        <Card className="p-4 text-center">
-          <div className="text-2xl font-semibold">{profile.profile_views || 0}</div>
-          <div className="text-xs text-muted-foreground">Profile Views</div>
-        </Card>
-        <Card className="p-4 text-center">
-          <div className="text-2xl font-semibold">–</div>
-          <div className="text-xs text-muted-foreground">Prompts Published</div>
-        </Card>
-        <Card className="p-4 text-center">
-          <div className="text-2xl font-semibold">–</div>
-          <div className="text-xs text-muted-foreground">Collections</div>
-        </Card>
-      </div>
+          <div className="space-y-3 text-sm">
+            {profile.location && (
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <MapPin className="h-4 w-4" />
+                <span>{profile.location}</span>
+              </div>
+            )}
+            {profile.website && (
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <LinkIcon className="h-4 w-4" />
+                <a
+                  href={profile.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary hover:underline"
+                >
+                  {new URL(profile.website).hostname}
+                </a>
+              </div>
+            )}
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Calendar className="h-4 w-4" />
+              <span>Joined {formatDate(profile.created_at)}</span>
+            </div>
+          </div>
 
-      {/* Featured sections (placeholders if empty) */}
-      <div className="mb-10">
-        <h2 className="mb-3 text-xl font-semibold">Featured Prompts</h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {(profile.featured_prompt_ids || []).length === 0 ? (
-            <Card className="p-6 text-sm text-muted-foreground">No featured prompts yet.</Card>
-          ) : (
-            (profile.featured_prompt_ids || []).map((id: string) => (
-              <Card key={id} className="p-6 text-sm text-muted-foreground">
-                Prompt {id}
-              </Card>
-            ))
-          )}
-        </div>
-      </div>
+          <div className="flex justify-center gap-2">
+            {profile.twitter_url && (
+              <Button variant="ghost" size="icon" asChild>
+                <a href={profile.twitter_url} target="_blank" rel="noopener noreferrer">
+                  <Twitter className="h-4 w-4" />
+                </a>
+              </Button>
+            )}
+            {profile.github_url && (
+              <Button variant="ghost" size="icon" asChild>
+                <a href={profile.github_url} target="_blank" rel="noopener noreferrer">
+                  <Github className="h-4 w-4" />
+                </a>
+              </Button>
+            )}
+            {profile.website && (
+              <Button variant="ghost" size="icon" asChild>
+                <a href={profile.website} target="_blank" rel="noopener noreferrer">
+                  <Globe className="h-4 w-4" />
+                </a>
+              </Button>
+            )}
+          </div>
 
-      <div className="mb-10">
-        <h2 className="mb-3 text-xl font-semibold">Featured Collections</h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {(profile.featured_collection_ids || []).length === 0 ? (
-            <Card className="p-6 text-sm text-muted-foreground">No featured collections yet.</Card>
-          ) : (
-            (profile.featured_collection_ids || []).map((id: string) => (
-              <Card key={id} className="p-6 text-sm text-muted-foreground">
-                Collection {id}
-              </Card>
-            ))
-          )}
-        </div>
+          <div className="flex justify-center gap-8 border-t pt-6">
+            <div className="text-center">
+              <div className="text-xl font-bold">{profile.followers?.[0]?.count || 0}</div>
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">
+                Followers
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-xl font-bold">{profile.following?.[0]?.count || 0}</div>
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">
+                Following
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="space-y-8">
+          <section>
+            <h2 className="mb-4 text-xl font-semibold">Submitted Tools</h2>
+            {tools && tools.length > 0 ? (
+              <div className="grid gap-4">
+                {tools.map((tool) => (
+                  <Card key={tool.id}>
+                    <CardHeader>
+                      <CardTitle className="text-lg">
+                        <a href={`/tool/${tool.slug}`} className="hover:underline">
+                          {tool.name}
+                        </a>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="line-clamp-2 text-sm text-muted-foreground">
+                        {tool.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">
+                No tools submitted yet.
+              </div>
+            )}
+          </section>
+        </main>
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+import { ToolUpvoteButton } from '@/components/social/ToolUpvoteButton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -34,6 +35,7 @@ interface Tool {
   favorite_count: number
   view_count: number
   key_features: string[] | null
+  upvote_count: number
 }
 
 interface Category {
@@ -99,6 +101,7 @@ export function DirectoryContent() {
           review_count,
           favorite_count,
           view_count,
+          upvote_count,
           key_features,
           primary_category_id,
           category:primary_category_id(name)
@@ -359,6 +362,12 @@ export function DirectoryContent() {
                           <span>{tool.favorite_count.toLocaleString()} favorites</span>
                         </div>
                       )}
+                      <div onClick={(e) => e.preventDefault()}>
+                        <ToolUpvoteButton
+                          toolId={tool.id}
+                          initialUpvoteCount={tool.upvote_count || 0}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

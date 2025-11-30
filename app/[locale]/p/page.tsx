@@ -10,6 +10,7 @@ import { BlackFridayBanner } from '@/components/BlackFridayBanner'
 import CopyButton from '@/components/CopyButton'
 import { EmailSignInButton } from '@/components/EmailSignInButton'
 import { GoogleSignInButton } from '@/components/GoogleSignInButton'
+import { UpvoteButton } from '@/components/social/UpvoteButton'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -388,19 +389,22 @@ function PublicDirectoryContent() {
                       </div>
 
                       {/* Stats */}
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
                         <span>{prompt.view_count || 0} views</span>
                         {prompt.copy_count !== undefined && prompt.copy_count > 0 && (
                           <span>
                             • {prompt.copy_count} {prompt.copy_count === 1 ? 'copy' : 'copies'}
                           </span>
                         )}
-                        <span>•</span>
-                        <span>
-                          {prompt.inserted_at
-                            ? new Date(prompt.inserted_at).toLocaleDateString()
-                            : 'Recently'}
-                        </span>
+                        <div onClick={(e) => e.preventDefault()}>
+                          {prompt.id && (
+                            <UpvoteButton
+                              itemId={prompt.id}
+                              itemType="prompt"
+                              initialUpvoteCount={prompt.upvote_count || 0}
+                            />
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

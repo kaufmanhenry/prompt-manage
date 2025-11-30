@@ -5,7 +5,7 @@ import { RelatedTools } from '@/components/directory/RelatedTools'
 import { ToolContext } from '@/components/directory/ToolContext'
 import type { AITool } from '@/components/directory/ToolDetail'
 import ToolDetail from '@/components/directory/ToolDetail'
-import { isAdmin } from '@/utils/admin'
+import { CommentSection } from '@/components/social/CommentSection'
 import { createClient } from '@/utils/supabase/server'
 
 interface PageProps {
@@ -43,7 +43,7 @@ async function getTool(slug: string) {
   return transformedTool
 }
 
-async function getFavoriteStatus(toolId: string) {
+async function _getFavoriteStatus(toolId: string) {
   const supabase = await createClient()
   const {
     data: { session },
@@ -109,8 +109,27 @@ export default async function ToolDetailPage({ params }: PageProps) {
   const {
     data: { session },
   } = await supabase.auth.getSession()
-  const isFavorited = await getFavoriteStatus(tool.id)
-  const userIsAdmin = isAdmin(session?.user?.email)
+  const { data: upvoteData } = await supabase
+    .from('tool_upvotes')
+    .select('tool_id')
+    .eq('tool_id', tool.id)
+    .eq('user_id', session?.user?.id || '')
+    .single()
+
+  const isUpvoted = !!upvoteData
+
+  // Get favorite status
+  const { data: favoriteData } = await supabase
+    .from('tool_favorites')
+    .select('id')
+    .eq('tool_id', tool.id)
+    .eq('user_id', session?.user?.id || '')
+    .single()
+
+  const isFavorited = !!favoriteData
+
+  // Check if user is admin
+  const userIsAdmin = session?.user?.email === 'mikemoloney.business@gmail.com'
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -147,14 +166,23 @@ export default async function ToolDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ToolDetail tool={tool} initialIsFavorited={isFavorited} isAdmin={userIsAdmin} />
+      <ToolDetail
+        tool={tool}
+        initialIsFavorited={isFavorited}
+        isAdmin={userIsAdmin}
+        initialIsUpvoted={isUpvoted}
+      />
 
-      <div className="mx-auto max-w-4xl px-4 pb-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl space-y-12 px-4 pb-12 sm:px-6 lg:px-8">
         <ToolContext
           toolName={tool.name}
           description={tool.description}
           keyFeatures={tool.key_features}
         />
+
+        <div className="border-t pt-12">
+          <CommentSection toolId={tool.id} />
+        </div>
 
         <RelatedTools categoryId={tool.primary_category_id} currentToolId={tool.id} />
       </div>

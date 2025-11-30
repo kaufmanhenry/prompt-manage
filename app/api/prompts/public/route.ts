@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('prompts')
       .select(
-        'id, name, slug, description, prompt_text, model, tags, view_count, inserted_at, updated_at',
+        'id, name, slug, description, prompt_text, model, tags, view_count, upvote_count, inserted_at, updated_at',
         {
           count: 'exact',
         },
@@ -105,6 +105,7 @@ export async function GET(request: NextRequest) {
       is_public: true, // All results are public
       slug: prompt.slug || prompt.id, // Fallback to ID if no slug
       view_count: prompt.view_count || 0,
+      upvote_count: prompt.upvote_count || 0,
       copy_count: copyCountMap.get(prompt.id) || 0, // Add copy count
       inserted_at: prompt.inserted_at || prompt.updated_at || null,
     }))

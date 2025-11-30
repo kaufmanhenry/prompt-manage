@@ -75,7 +75,6 @@ async function createUserProfileIfNeeded(
               }
             }
           } else {
-            logger.error('Error creating user profile:', insertError)
             return {
               success: false,
               error: `Database error saving new user: ${insertError.message}. Code: ${insertError.code || 'unknown'}. Details: ${JSON.stringify(insertError)}`,
@@ -85,10 +84,32 @@ async function createUserProfileIfNeeded(
 
         return { success: true }
       } catch (error) {
-        logger.error('Unexpected error during profile creation:', error)
-        return {
-          success: false,
-          error: `Unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        // If the first attempt failed (likely due to missing columns), try a minimal insert
+        // This ensures the user is at least created, even if we lose some metadata
+        logger.warn('Initial profile creation failed, trying minimal fallback:', error)
+
+        try {
+          const { error: fallbackError } = await supabase.from('user_profiles').insert({
+            id: userId,
+            display_name: displayName,
+            // Intentionally omitting full_name and other new columns
+          })
+
+          if (fallbackError) {
+            logger.error('Fallback profile creation failed:', fallbackError)
+            return {
+              success: false,
+              error: `Failed to create user profile: ${fallbackError.message}`,
+            }
+          }
+
+          return { success: true }
+        } catch (fallbackErr) {
+          logger.error('Critical error in profile creation fallback:', fallbackErr)
+          return {
+            success: false,
+            error: `Critical error creating profile: ${fallbackErr instanceof Error ? fallbackErr.message : 'Unknown error'}`,
+          }
         }
       }
     }

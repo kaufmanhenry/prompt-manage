@@ -97,7 +97,7 @@ export function EmailSignInButton({
       </Button>
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Sign in with Email</DialogTitle>
             <DialogDescription>

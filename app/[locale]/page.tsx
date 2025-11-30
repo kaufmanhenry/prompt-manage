@@ -1,13 +1,4 @@
-import {
-  CheckCircle2,
-  DollarSign,
-  Folder,
-  Lock,
-  Search,
-  Star,
-  Users,
-  Zap,
-} from 'lucide-react'
+import { CheckCircle2, DollarSign, Folder, Lock, Search, Star, Users, Zap } from 'lucide-react'
 import type { Metadata } from 'next'
 
 import { DashboardPreview } from '@/components/DashboardPreview'
@@ -338,8 +329,7 @@ export default async function Home() {
               <p className="mb-4 break-words text-sm leading-relaxed text-muted-foreground sm:text-base md:mb-6 md:text-lg">
                 Affordable pricing from $20/mo with{' '}
                 <span className="font-semibold">unlimited storage</span> and{' '}
-                <span className="font-semibold">team collaboration</span>.
-                Plus, access our{' '}
+                <span className="font-semibold">team collaboration</span>. Plus, access our{' '}
                 <Link
                   href="/p"
                   className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
@@ -917,8 +907,7 @@ export default async function Home() {
                 </summary>
                 <p className="mt-4 break-words text-sm leading-relaxed text-muted-foreground">
                   Never. Your prompts are your intellectual property. We never train AI on your
-                  data, sell it, or share it with third parties. Your data stays private and
-                  secure.
+                  data, sell it, or share it with third parties. Your data stays private and secure.
                 </p>
               </details>
             </div>

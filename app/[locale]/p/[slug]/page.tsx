@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     prompt.description ||
     `${prompt.name} - AI prompt for ${prompt.model}. ${prompt.prompt_text.substring(0, 120)}...`
 
-  const title = `${prompt.name} | ${prompt.model} Prompt`
+  const title = `${prompt.name} - ${prompt.model} Prompt | Prompt Manage`
 
   return {
     title,

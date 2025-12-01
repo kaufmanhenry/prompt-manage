@@ -12,6 +12,7 @@ import {
   Sparkles,
   TrendingUp,
   Upload,
+  User,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -229,6 +230,12 @@ export default function DashboardHomePage() {
               </p>
             </div>
             <div className="flex items-center gap-2">
+              <Button variant="outline" size="lg" className="gap-2" asChild>
+                <Link href="/dashboard/profile">
+                  <User className="h-4 w-4" />
+                  Edit Profile
+                </Link>
+              </Button>
               {subscription?.plan !== 'free' && (
                 <Button
                   variant="outline"

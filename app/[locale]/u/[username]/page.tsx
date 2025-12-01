@@ -67,6 +67,57 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     .order('created_at', { ascending: false })
     .limit(5)
 
+  // Fetch upvoted prompts
+  const { data: upvotedPromptsData } = await supabase
+    .from('prompt_upvotes')
+    .select(
+      `
+      created_at,
+      prompts:prompt_id (
+        id,
+        name,
+        slug,
+        description,
+        model,
+        view_count,
+        upvote_count
+      )
+    `,
+    )
+    .eq('user_id', profile.id)
+    .order('created_at', { ascending: false })
+    .limit(6)
+
+  const upvotedPrompts =
+    upvotedPromptsData
+      ?.map((item) => (Array.isArray(item.prompts) ? item.prompts[0] : item.prompts))
+      .filter((p) => p?.slug) || []
+
+  // Fetch upvoted tools
+  const { data: upvotedToolsData } = await supabase
+    .from('tool_upvotes')
+    .select(
+      `
+      created_at,
+      ai_tools:tool_id (
+        id,
+        name,
+        slug,
+        description,
+        logo_url,
+        upvote_count
+      )
+    `,
+    )
+    .eq('user_id', profile.id)
+    .order('created_at', { ascending: false })
+    .limit(6)
+
+  const upvotedTools =
+    upvotedToolsData
+      ?.map((item) => (Array.isArray(item.ai_tools) ? item.ai_tools[0] : item.ai_tools))
+      .filter((t) => t?.slug) || []
+
   return (
     <div className="container max-w-4xl py-10">
       <div className="grid gap-8 md:grid-cols-[300px_1fr]">
@@ -182,6 +233,69 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
               </div>
             )}
           </section>
+
+          {/* Upvoted Prompts */}
+          {upvotedPrompts.length > 0 && (
+            <section>
+              <h2 className="mb-4 text-xl font-semibold">Upvoted Prompts</h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                {upvotedPrompts.map((prompt) => (
+                  <Card key={prompt.id}>
+                    <CardHeader>
+                      <CardTitle className="text-lg">
+                        <a href={`/p/${prompt.slug}`} className="hover:underline">
+                          {prompt.name}
+                        </a>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {prompt.description && (
+                        <p className="line-clamp-2 text-sm text-muted-foreground">
+                          {prompt.description}
+                        </p>
+                      )}
+                      <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+                        {prompt.model && <span>{prompt.model}</span>}
+                        {prompt.view_count > 0 && (
+                          <>
+                            <span>•</span>
+                            <span>{prompt.view_count} views</span>
+                          </>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Upvoted Tools */}
+          {upvotedTools.length > 0 && (
+            <section>
+              <h2 className="mb-4 text-xl font-semibold">Upvoted Tools</h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                {upvotedTools.map((tool) => (
+                  <Card key={tool.id}>
+                    <CardHeader>
+                      <CardTitle className="text-lg">
+                        <a href={`/directory/${tool.slug}`} className="hover:underline">
+                          {tool.name}
+                        </a>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {tool.description && (
+                        <p className="line-clamp-2 text-sm text-muted-foreground">
+                          {tool.description}
+                        </p>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          )}
         </main>
       </div>
     </div>
